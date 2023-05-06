@@ -14,6 +14,7 @@
 - Simplified httpd config
 - Simplified spring security config
 - Fixed login/logout messages
+- Fixed authentication of logged in user on servlets not managed by spring
 
 #### v8.12
 

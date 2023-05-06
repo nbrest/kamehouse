@@ -13,10 +13,10 @@ import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -36,6 +36,7 @@ public class DragonBallUserServletTest {
 
   private MockHttpServletRequest request = new MockHttpServletRequest();
   private MockHttpServletResponse response = new MockHttpServletResponse();
+  DragonBallUserServlet dragonBallUserServlet;
 
   private void initTestData() {
     testUtils = new DragonBallUserTestUtils();
@@ -48,18 +49,19 @@ public class DragonBallUserServletTest {
   public void init() {
     initTestData();
     MockitoAnnotations.openMocks(this);
+    dragonBallUserServlet = Mockito.spy(new DragonBallUserServlet());
+    doNothing().when(dragonBallUserServlet).authorize(any(),any());
   }
 
   /**
    * Tests the method to get a DragonBallUser from the system through a servlet.
    */
   @Test
-  public void doGetTest() throws ServletException {
+  public void doGetTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     List<DragonBallUser> dragonBallUsers = new ArrayList<>();
     dragonBallUsers.add(dragonBallUser);
     when(dragonBallUserServiceMock.readAll()).thenReturn(dragonBallUsers);
-    DragonBallUserServlet dragonBallUserServlet = new DragonBallUserServlet();
 
     dragonBallUserServlet.doGet(request, response);
 
@@ -70,11 +72,10 @@ public class DragonBallUserServletTest {
    * Tests the method to add a DragonBallUser from the system through the servlet.
    */
   @Test
-  public void doPostTest() throws ServletException {
+  public void doPostTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     setDragonBallUserRequestParameters();
     when(dragonBallUserServiceMock.create(any())).thenReturn(dragonBallUser.getId());
-    DragonBallUserServlet dragonBallUserServlet = new DragonBallUserServlet();
 
     dragonBallUserServlet.doPost(request, response);
 
@@ -85,12 +86,11 @@ public class DragonBallUserServletTest {
    * Tests the method to edit a DragonBallUser from the system through the servlet.
    */
   @Test
-  public void doPutTest() throws ServletException {
+  public void doPutTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     setIdRequestParameter();
     setDragonBallUserRequestParameters();
     doNothing().when(dragonBallUserServiceMock).update(any());
-    DragonBallUserServlet dragonBallUserServlet = new DragonBallUserServlet();
 
     dragonBallUserServlet.doPut(request, response);
 
@@ -101,11 +101,10 @@ public class DragonBallUserServletTest {
    * Tests the method to delete a DragonBallUser from the system through the servlet.
    */
   @Test
-  public void doDeleteTest() throws ServletException {
+  public void doDeleteTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     setIdRequestParameter();
     when(dragonBallUserServiceMock.delete(dragonBallUser.getId())).thenReturn(dragonBallUser);
-    DragonBallUserServlet dragonBallUserServlet = new DragonBallUserServlet();
 
     dragonBallUserServlet.doDelete(request, response);
 
