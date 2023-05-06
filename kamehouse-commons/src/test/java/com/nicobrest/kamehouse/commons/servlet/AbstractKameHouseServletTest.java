@@ -266,7 +266,7 @@ public class AbstractKameHouseServletTest {
    */
   @Test
   public void authorizeNoSessionUnauthorizedTest() {
-    doCallRealMethod().when(sampleKameHouseServlet).getSession(any(), any());
+    doReturn(null).when(sessionRepository).findById(any());
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
         KameHouseForbiddenException.class,
@@ -280,7 +280,7 @@ public class AbstractKameHouseServletTest {
    */
   @Test
   public void authorizeNoSecurityContextUnauthorizedTest() {
-    doCallRealMethod().when(sampleKameHouseServlet).getSecurityContext(any());
+    doReturn(null).when(session).getAttribute(any());
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
         KameHouseForbiddenException.class,
@@ -294,7 +294,7 @@ public class AbstractKameHouseServletTest {
    */
   @Test
   public void authorizeNoAuthenticationUnauthorizedTest() {
-    doCallRealMethod().when(sampleKameHouseServlet).getAuthentication(any());
+    doReturn(null).when(securityContext).getAuthentication();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
         KameHouseForbiddenException.class,
