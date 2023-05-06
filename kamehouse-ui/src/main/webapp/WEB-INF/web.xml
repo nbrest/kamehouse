@@ -19,12 +19,25 @@
 	<!-- Servlet mappings for static files -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>/css/*</url-pattern>
-		<url-pattern>/html-snippets/*</url-pattern>
-		<url-pattern>/js/*</url-pattern>
-		<url-pattern>/img/*</url-pattern>
-		<url-pattern>/lib/*</url-pattern>
+    <!-- Pages -->
+		<url-pattern>/</url-pattern>
+    <url-pattern>/index.html</url-pattern>
+    <url-pattern>/about.html</url-pattern>
+    <url-pattern>/contact-us.html</url-pattern>
+    <url-pattern>/downloads.html</url-pattern>
+    <url-pattern>/login.html</url-pattern>
+    <url-pattern>/vlc-player.html</url-pattern>
+    <url-pattern>/admin/*</url-pattern>
 		<url-pattern>/error/*</url-pattern>
+    <url-pattern>/tennisworld/*</url-pattern>
+    <url-pattern>/test-module/*</url-pattern>
+    <!-- css, html snippets, img, js, lib -->
+    <url-pattern>/css/*</url-pattern>
+		<url-pattern>/html-snippets/*</url-pattern>
+		<url-pattern>/img/*</url-pattern>
+		<url-pattern>/js/*</url-pattern>
+		<url-pattern>/kamehouse/*</url-pattern>
+		<url-pattern>/lib/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- Error page definitions -->

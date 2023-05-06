@@ -9,6 +9,9 @@
 
 - Updated groot menu styles on mobile app and settings page
 - Moved loading varela round fonts locally for offline connections
+- Fixed loading static content directly from tomcat
+- Moved jsps to load from /jsp
+- Simplified httpd config
 
 #### v8.12
 

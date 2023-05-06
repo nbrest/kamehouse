@@ -49,26 +49,11 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
             .build();
   }
 
-  /** Tests urls handled by include-static-html. */
-  @Test
-  public void includeStaticUrlsTest() {
-    testIncludeStaticHtml("", "/index.html");
-    testIncludeStaticHtml("/", "/index.html");
-    testIncludeStaticHtml("/about", "/about.html");
-    testIncludeStaticHtml("/admin", "/admin/index.html");
-    testIncludeStaticHtml("/contact-us", "/contact-us.html");
-    testIncludeStaticHtml("/downloads", "/downloads.html");
-    testIncludeStaticHtml("/login", "/login.html");
-    testIncludeStaticHtml("/tennisworld/", "/tennisworld/index.html");
-    testIncludeStaticHtml("/test-module/", "/test-module/index.html");
-    testIncludeStaticHtml("/vlc-player", "/vlc-player.html");
-  }
-
   /** Tests jsp test module urls. */
   @Test
   public void testModuleUrlsTest() throws Exception {
-    testTestModuleJsp("/test-module/jsp/", "/test-module/jsp/index");
-    testTestModuleJsp("/test-module/jsp/trunks", "/test-module/jsp/trunks");
+    testTestModuleJsp("/jsp/test-module/", "/jsp/test-module/index");
+    testTestModuleJsp("/jsp/test-module/trunks", "/jsp/test-module/trunks");
   }
 
   /** Tests logout. */
@@ -77,21 +62,7 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
     MockHttpServletResponse response = doGet("/logout");
 
     verifyResponseStatus(response, HttpStatus.FOUND);
-    assertEquals("/login?logout", response.getRedirectedUrl());
-  }
-
-  /**
-   * Tests include-static-html functionality to load static html based on the specified source url.
-   */
-  private void testIncludeStaticHtml(String sourceUrl, String expectedHtml) {
-    HttpServletRequestWrapper request =
-        Mockito.spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
-    when(request.getServletPath()).thenReturn(sourceUrl);
-
-    ModelAndView returnedModelAndView = viewResolverController.includeStaticHtml(request, response);
-
-    assertEquals("/include-static-html", returnedModelAndView.getViewName());
-    assertEquals(expectedHtml, returnedModelAndView.getModel().get("staticHtmlToLoad"));
+    assertEquals("/login.html?logout", response.getRedirectedUrl());
   }
 
   /** Tests test module jsp view generated from the source url. */

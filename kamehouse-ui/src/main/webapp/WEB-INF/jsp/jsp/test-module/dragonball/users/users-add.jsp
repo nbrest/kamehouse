@@ -12,7 +12,7 @@
 <script src="/cordova.js"></script>
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/kamehouse/js/kamehouse.js"></script>
-<script src="/kame-house/js/test-module/jsp/dragonball/users/dragonball-user-service-jsp.js"></script>
+<script src="/kame-house/js/jsp/test-module/dragonball/users/dragonball-user-service-jsp.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-header.css" />

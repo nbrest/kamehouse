@@ -19,8 +19,8 @@ public class SampleController {
   @GetMapping(path = "/dragonball/model-and-view")
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
-    String message = "dragonball ModelAndView message attribute";
-    ModelAndView mv = new ModelAndView("/test-module/jsp/dragonball/model-and-view");
+    String message = "mada mada dane";
+    ModelAndView mv = new ModelAndView("/jsp/test-module/dragonball/model-and-view");
     mv.addObject("message", message);
     mv.addObject("name", name);
     return mv;
