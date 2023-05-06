@@ -15,6 +15,7 @@
 - Simplified spring security config
 - Fixed login/logout messages
 - Fixed authentication of logged in user on servlets not managed by spring
+- Moved all static pages to load from httpd
 
 #### v8.12
 
