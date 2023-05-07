@@ -15,7 +15,7 @@
   <link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
   <script src="/cordova.js"></script>
   <script src="/kame-house/lib/js/jquery.js"></script>
-  <script src="/kame-house/kamehouse/js/kamehouse.js"></script>
+  <script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data"></script>
   <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-groot.js"></script>
   <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />

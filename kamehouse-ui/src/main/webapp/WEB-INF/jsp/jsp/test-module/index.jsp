@@ -13,7 +13,7 @@
 <link rel="icon" type="img/ico" href="${pageContext.request.contextPath}/img/favicon.ico" />
 <script src="/cordova.js"></script>
 <script src="/kame-house/lib/js/jquery.js"></script>
-<script src="/kame-house/kamehouse/js/kamehouse.js"></script>
+<script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data"></script>
 <script src="/kame-house/js/jsp/test-module/index.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
