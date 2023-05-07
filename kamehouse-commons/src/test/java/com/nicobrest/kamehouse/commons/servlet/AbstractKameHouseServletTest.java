@@ -16,6 +16,8 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -74,6 +76,8 @@ public class AbstractKameHouseServletTest {
     doReturn(session).when(sessionRepository).findById(any());
     doReturn(securityContext).when(session).getAttribute(any());
     doReturn(authentication).when(securityContext).getAuthentication();
+    doReturn(Instant.now()).when(session).getLastAccessedTime();
+    doReturn(Duration.ofDays(30)).when(session).getMaxInactiveInterval();
   }
 
   /**
@@ -267,6 +271,21 @@ public class AbstractKameHouseServletTest {
   @Test
   public void authorizeNoSessionUnauthorizedTest() {
     doReturn(null).when(sessionRepository).findById(any());
+    request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
+    assertThrows(
+        KameHouseForbiddenException.class,
+        () -> {
+          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+        });
+  }
+
+  /**
+   * Tests a sample authorize() session expired unauthorized.
+   */
+  @Test
+  public void authorizeSessionExpiredUnauthorizedTest() {
+    doReturn(Instant.now().minus(Duration.ofDays(30))).when(session).getLastAccessedTime();
+    doReturn(Duration.ofMinutes(1)).when(session).getMaxInactiveInterval();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
         KameHouseForbiddenException.class,

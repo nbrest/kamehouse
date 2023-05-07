@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -179,6 +181,13 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
   private List<String> getCurrentUserRoles(HttpServletRequest request, String sessionId) {
     SessionRepository sessionRepository = getSessionRepository(request);
     Session session = getSession(sessionRepository, sessionId);
+    Instant lastAccess = session.getLastAccessedTime();
+    Duration maxInactive = session.getMaxInactiveInterval();
+    Instant expiryTime = lastAccess.plus(maxInactive);
+    if (expiryTime.isBefore(Instant.now())) {
+      logger.trace("Session expired");
+      throw new KameHouseForbiddenException(UNAUTHORIZED);
+    }
     SecurityContext securityContext = getSecurityContext(session);
     Authentication authentication = getAuthentication(securityContext);
 
