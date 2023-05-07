@@ -1526,9 +1526,10 @@ function KameHouseCoreFunctions() {
       return;
     }
     const loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
+    const mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
     const roles = kameHouse.session.roles;
     if (isEmpty(roles)) {
-      kameHouse.util.mobile.windowLocation(loginUrl, "/kame-house-mobile/settings.html");
+      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
       return;
     }
     let isAuthorized = false;
@@ -1543,7 +1544,7 @@ function KameHouseCoreFunctions() {
       kameHouse.util.dom.removeClass($("body"), "hidden-kh");
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {
-      kameHouse.util.mobile.windowLocation(loginUrl, "/kame-house-mobile/settings.html");
+      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
       return;
     }
   }
