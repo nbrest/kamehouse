@@ -18,7 +18,7 @@
 - Moved all static pages to load from httpd
 - Fixed unexpected cordova error on server manager groot pages
 - Updated kamehouse-shell web interface through groot
-- Added splashscreen and role validation in the ui
+- Added splashscreen and role validation to pages in the ui
 
 #### v8.12
 
