@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,16 +35,23 @@ public class SessionStatusServiceTest {
 
   private SessionStatusTestUtils testUtils = new SessionStatusTestUtils();
   private SessionStatus sessionStatus;
+  private UsernamePasswordAuthenticationToken authentication;
 
-  @InjectMocks private SessionStatusService sessionStatusService;
+  @InjectMocks
+  private SessionStatusService sessionStatusService;
 
-  @Mock private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
+  @Mock
+  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
   /**
    * Tests setup.
    */
   @BeforeEach
   public void init() {
+    GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_KAMISAMA");
+    authentication = new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser",
+        List.of(authority));
+    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     testUtils.initTestData();
     sessionStatus = testUtils.getSingleTestData();
 
@@ -49,12 +59,11 @@ public class SessionStatusServiceTest {
     Mockito.reset(kameHouseUserAuthenticationService);
   }
 
-  /** Tests getting the current session information. */
+  /**
+   * Tests getting the current session information.
+   */
   @Test
   public void getSessionStatusTest() {
-    UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
-    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
@@ -67,12 +76,11 @@ public class SessionStatusServiceTest {
     testUtils.assertEqualsAllAttributes(sessionStatus, returnedSessionStatus);
   }
 
-  /** Tests getting the current session information. */
+  /**
+   * Tests getting the current session information.
+   */
   @Test
   public void getSessionStatusNullHttpSessionTest() {
-    UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
-    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
@@ -84,12 +92,11 @@ public class SessionStatusServiceTest {
     testUtils.assertEqualsAllAttributes(sessionStatus, returnedSessionStatus);
   }
 
-  /** Tests getting the current session with user not found. */
+  /**
+   * Tests getting the current session with user not found.
+   */
   @Test
   public void getSessionStatusUserNotFoundTest() {
-    UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser");
-    authentication.setDetails(new WebAuthenticationDetails(new MockHttpServletRequest()));
     SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))

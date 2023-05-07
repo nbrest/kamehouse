@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.ui.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -18,6 +20,7 @@ public class SessionStatus {
   private String sessionId;
   private String buildVersion;
   private String buildDate;
+  private List<String> roles;
 
   public String getUsername() {
     return username;
@@ -73,6 +76,16 @@ public class SessionStatus {
 
   public void setBuildDate(String buildDate) {
     this.buildDate = buildDate;
+  }
+
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public List<String> getRoles() {
+    return roles;
+  }
+
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setRoles(List<String> roles) {
+    this.roles = roles;
   }
 
   @Override

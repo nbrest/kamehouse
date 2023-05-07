@@ -962,6 +962,21 @@ hr {
 }
 /** Select dark theme. End.*/
 
+/** rotate infinitely for -X seconds */
+.rotate-4 {
+  animation: rotation-full 4s infinite linear;
+}
+
+@keyframes rotation-full {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
 .status-message-box {
   padding: 10px;
   margin: auto;
@@ -1062,6 +1077,39 @@ hr {
     transform: rotate(360deg);
   }
 }
+
+.splashscreen-kh {
+  margin: auto;
+  text-align: center;
+  background-color: #121212;
+  color: #bdbdbd;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+}
+
+.splashscreen-text-kh {
+  padding-top: 200px;
+  padding-bottom: 60px;
+  font-size: 40px;
+  font-weight: bold;
+  font-style: italic;
+  font-family: 'varela_roundregular';
+}
+
+@media (max-width : 900px) {
+  .splashscreen-text-kh {
+    padding-top: 70px;
+    font-size: 30px;
+  }
+}
+
+.splashscreen-img-kh {
+  width: 120px;
+  height: 120px;
+}
+
 /** ---------------------------------------------------------- */
 .table-kh {
   border-collapse: collapse;

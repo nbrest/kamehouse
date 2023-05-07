@@ -24,6 +24,14 @@
   <div class="default-layout main-body">
     <form action="/kame-house/login" method="post" class="form-horizontal login-form">
 
+      <div id="login-alert-group-unauthorized" class="hidden-kh">
+        <div class="login-alert-group">
+          <img class="login-icon"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
+            alt="alert-unauthorized" />
+          <div class="login-alert-error">User is not authorized to access the page. Login with an authorized user.</div>
+        </div>
+      </div>
       <div id="login-alert-group-error" class="hidden-kh">
         <div class="login-alert-group">
           <img class="login-icon"
