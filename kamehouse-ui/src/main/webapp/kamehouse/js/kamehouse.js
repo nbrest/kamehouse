@@ -1525,17 +1525,11 @@ function KameHouseCoreFunctions() {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
       return;
     }
-    const currentPage = window.location.href;
-    let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
-    let roles = kameHouse.session.roles;
-    const isGrootPage = currentPage.includes("/kame-house-groot/");
-    if (isGrootPage) {
-      loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
-      roles = kameHouse.extension.groot.session.roles;
-    }
-
+    const loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
+    const roles = kameHouse.session.roles;
     if (isEmpty(roles)) {
       kameHouse.util.mobile.windowLocation(loginUrl, "/kame-house-mobile/settings.html");
+      return;
     }
     let isAuthorized = false;
     roles.forEach((userRole) => {
@@ -1550,6 +1544,7 @@ function KameHouseCoreFunctions() {
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {
       kameHouse.util.mobile.windowLocation(loginUrl, "/kame-house-mobile/settings.html");
+      return;
     }
   }
 
@@ -1568,7 +1563,7 @@ function KameHouseCoreFunctions() {
     const text = kameHouse.util.dom.getDiv({
       id: "kamehouse-splashscreen-text",
       class: "splashscreen-text-kh"
-    }, "Loading KameHouse ..."); 
+    }, "Loading KameHouse"); 
     kameHouse.util.dom.append(kameHouseSplashScreen, text);
     
     const btn = kameHouse.util.dom.getImgBtn({
@@ -1601,6 +1596,7 @@ function KameHouseCoreFunctions() {
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.error("Error retrieving current session information.");
+        kameHouse.session = {};
         kameHouse.util.module.setModuleLoaded("session");
         completeAuthorizeUser();
       }
