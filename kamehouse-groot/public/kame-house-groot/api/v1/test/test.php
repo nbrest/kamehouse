@@ -32,6 +32,9 @@
   
     // Functions in examples.php
     isLinuxHostExample();
+
+    // print phpinfo. ***** DON'T LEAVE THIS UNCOMMENTED *****
+    //phpinfo();
   }
 
   function init() {
