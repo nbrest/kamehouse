@@ -16,6 +16,7 @@
 - Fixed login/logout messages
 - Fixed authentication of logged in user on servlets not managed by spring
 - Moved all static pages to load from httpd
+- Fixed unexpected cordova error on server manager groot pages
 
 #### v8.12
 
