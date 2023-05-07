@@ -17,7 +17,7 @@
 - Fixed authentication of logged in user on servlets not managed by spring
 - Moved all static pages to load from httpd
 - Fixed unexpected cordova error on server manager groot pages
-- Updated kamehouse-shell web interface
+- Updated kamehouse-shell web interface through groot
 
 #### v8.12
 
