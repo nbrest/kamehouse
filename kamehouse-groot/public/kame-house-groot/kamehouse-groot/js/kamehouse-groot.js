@@ -37,22 +37,63 @@ function GrootHeader() {
   function renderGrootMenu() {
     kameHouse.util.dom.load($("#groot-menu-wrapper"), "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
       updateGRootMenuActiveTab();
-      loadSessionStatus();
+      loadSession();
     });
   }
   
-  /** Load session status */
-  function loadSessionStatus() {
+  /** Load session */
+  function loadSession() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     kameHouse.http.get(SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGroot");
+        completeAuthorizeUser();
       },
-      (responseBody, responseCode, responseDescription, responseHeaders) =>  kameHouse.logger.error("Error retrieving current groot session information."));
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.extension.groot.session = {};
+        kameHouse.logger.error("Error retrieving current groot session information.")
+        kameHouse.util.module.setModuleLoaded("kameHouseGroot");
+        completeAuthorizeUser();
+      }
+    );
   }
 
+  /**
+   * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
+   * Call this function after the groot session is loaded.
+   */
+  function completeAuthorizeUser() {
+    const authorizedRoles = kameHouse.core.getStringKameHouseData("authorized-roles");
+    if (kameHouse.core.isEmpty(authorizedRoles)) {
+      kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
+      return;
+    }
+    const loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
+    const mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
+    const roles = kameHouse.extension.groot.session.roles;
+    if (kameHouse.core.isEmpty(roles)) {
+      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
+      return;
+    }
+    let isAuthorized = false;
+    roles.forEach((userRole) => {
+      if (authorizedRoles.includes(userRole)) {
+        isAuthorized = true;
+      }
+    });
+
+    if (isAuthorized) {
+      kameHouse.logger.info("User is authorized to access this page");
+      kameHouse.util.dom.removeClass($("body"), "hidden-kh");
+      kameHouse.util.dom.remove('kamehouse-splashscreen');  
+    } else {
+      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
+      return;
+    }
+  }
+  
   /**
    * Update groot session status.
    */

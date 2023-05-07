@@ -29,13 +29,16 @@
       }
     }
     $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
+    $roles = getRoles($user);
 
-    $sessionStatus = [ 'server' => gethostname(),
-     'username' => $user,
-     'isLinuxHost' => isLinuxHost(),
-     'isLinuxDockerHost' => $isLinuxDockerHost,
-     'isDockerContainer' => $isDockerContainer,
-     'dockerControlHost' => $dockerControlHost,
+    $sessionStatus = [ 
+      'server' => gethostname(),
+      'username' => $user,
+      'isLinuxHost' => isLinuxHost(),
+      'isLinuxDockerHost' => $isLinuxDockerHost,
+      'isDockerContainer' => $isDockerContainer,
+      'dockerControlHost' => $dockerControlHost,
+      'roles' => $roles,
     ];
   
     setJsonResponseBody($sessionStatus);

@@ -20,8 +20,8 @@ function unlockSession() {
  * Check if the user is logged in.
  */
 function isLoggedIn() {
-  if (isset($_SESSION['logged-in'])) {
-    return true; 
+  if (isset($_SESSION['logged-in']) && isset($_SESSION['username'])) {
+    return true;
   } else {
     return false;
   }
@@ -54,43 +54,79 @@ function getPasswordFromAuthorizationHeader() {
 }
 
 /**
- * Checks if the specified login credentials are valid executing a shell script to validate the user
- * with the .htpasswd file.
+ * Checks if the specified login credentials are valid for a kamehouse user.
  */
 function isAuthorizedUser($username, $password) {
   if(!isValidInputForShell($username)) {
-    logToErrorFile("Username '" . $username . "' has invalid characters for shell");
+    logToErrorFile("Username '" . $username . "' has invalid characters for db access");
     return false;
   }
 
   if(!isValidInputForShell($password)) {
-    logToErrorFile("Password for username '" . $username . "' has invalid characters for shell");
+    logToErrorFile("Password for username '" . $username . "' has invalid characters for for db access");
     return false;
   }
 
   $isAuthorizedUser = false;
-  $scriptArgs = "-u " . $username . " -p " . $password;
-
-  logToErrorFile("Started executing script kamehouse/kamehouse-groot-login.sh");
-  if (isLinuxHost()) {
-    /**
-     * This requires to give permission to www-data to execute. Check API execute.php for more details.
-     */
-    $shellUsername = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-    $shellCommandOutput = shell_exec("sudo -u " . $shellUsername . " /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'");
-  } else {
-    $shellCommandOutput = shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'\"");
+  
+  $dbConfig = json_decode(getDatabaseConfig());
+  $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
+  if ($dbConnection->connect_error) {
+    logToErrorFile("Database connection failed: " . $dbConnection->connect_error);
+    return false;
   }
-  logToErrorFile("Finished executing script kamehouse/kamehouse-groot-login.sh");
-  $shellCommandOutput = explode("\n", $shellCommandOutput);
 
-  foreach ($shellCommandOutput as $shellCommandOutputLine) {
-    if (startsWith($shellCommandOutputLine, 'loginStatus=SUCCESS')) {
-      $isAuthorizedUser = true;
+  $sql = "SELECT password FROM kamehouse_user where username = '$username'";
+  $result = $dbConnection->query($sql);
+  if ($result->num_rows == 1) {
+    while($row = $result->fetch_assoc()) {
+      if (password_verify($password, $row["password"])) {
+        $isAuthorizedUser = true;
+      }
     }
   }
-  
+  $dbConnection->close();
+
   return $isAuthorizedUser;
+}
+
+/**
+ * Get the kamehouse roles for the specified user.
+ */
+function getRoles($username) {
+  if(!isValidInputForShell($username)) {
+    logToErrorFile("Username '" . $username . "' has invalid characters for db access");
+    return [];
+  }
+
+  $roles = [];
+  
+  $dbConfig = json_decode(getDatabaseConfig());
+  $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
+  if ($dbConnection->connect_error) {
+    logToErrorFile("Database connection failed: " . $dbConnection->connect_error);
+    return false;
+  }
+
+  $sql = "SELECT name FROM kamehouse_role where kamehouse_user_id = (select id from kamehouse_user where username = '$username')";
+  $result = $dbConnection->query($sql);
+  if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+      array_push($roles, $row["name"]);
+    }
+  }
+  $dbConnection->close();
+
+  return $roles;
+}
+
+function getDatabaseConfig() {
+  return '{ 
+    "server" : "localhost",
+    "username" : "kameHouseUser",
+    "password" : "kameHousePwd",
+    "database" : "kameHouse"
+  }';
 }
 
 /**
@@ -132,5 +168,47 @@ function endSession($username) {
   } catch(Exception $e) {
     // session already open throws an exception, ignore it
   }
+}
+
+
+/**
+ * Checks if the specified login credentials are valid executing a shell script to validate the user
+ * with the .htpasswd file.
+ * @deprecated. Moved to mysql auth.
+ */
+function authorizeUserDeprecated() {
+  if(!isValidInputForShell($username)) {
+    logToErrorFile("Username '" . $username . "' has invalid characters for shell");
+    return false;
+  }
+
+  if(!isValidInputForShell($password)) {
+    logToErrorFile("Password for username '" . $username . "' has invalid characters for shell");
+    return false;
+  }
+
+  $isAuthorizedUser = false;
+  $scriptArgs = "-u " . $username . " -p " . $password;
+
+  logToErrorFile("Started executing script kamehouse/kamehouse-groot-login.sh");
+  if (isLinuxHost()) {
+    /**
+     * This requires to give permission to www-data to execute. Check API execute.php for more details.
+     */
+    $shellUsername = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+    $shellCommandOutput = shell_exec("sudo -u " . $shellUsername . " /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'");
+  } else {
+    $shellCommandOutput = shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'\"");
+  }
+  logToErrorFile("Finished executing script kamehouse/kamehouse-groot-login.sh");
+  $shellCommandOutput = explode("\n", $shellCommandOutput);
+
+  foreach ($shellCommandOutput as $shellCommandOutputLine) {
+    if (startsWith($shellCommandOutputLine, 'loginStatus=SUCCESS')) {
+      $isAuthorizedUser = true;
+    }
+  }
+  
+  return $isAuthorizedUser;
 }
 ?> 

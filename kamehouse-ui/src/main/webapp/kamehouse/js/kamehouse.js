@@ -1520,6 +1520,10 @@ function KameHouseCoreFunctions() {
    * Call this function after the session is loaded.
    */
   function completeAuthorizeUser() {
+    if (window.location.href.includes("/kame-house-groot/")) {
+      kameHouse.logger.trace("Complete authorize user is handled in groot");
+      return;
+    }
     const authorizedRoles = getStringKameHouseData("authorized-roles");
     if (isEmpty(authorizedRoles)) {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");

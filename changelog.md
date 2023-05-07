@@ -19,6 +19,7 @@
 - Fixed unexpected cordova error on server manager groot pages
 - Updated kamehouse-shell web interface through groot
 - Added splashscreen and role validation to pages in the ui
+- Moved groot login to php mysql and added role validation to groot pages
 
 #### v8.12
 

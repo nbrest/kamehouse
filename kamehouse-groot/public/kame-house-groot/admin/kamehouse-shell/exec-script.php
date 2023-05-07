@@ -1,28 +1,26 @@
 <?php require_once("../../api/v1/auth/authorize-page.php") ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <meta name="author" content="nbrest">
-  <meta name="description" content="kame-house application">
-  <meta name="keywords" content="kame-house nicobrest nbrest">
-  <meta name="mobile-web-app-capable" content="yes">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="description" content="kame-house application">
+<meta name="keywords" content="kame-house nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
 
-  <title>GRoot - exec-script</title>
+<title>GRoot - KameHouse Shell Exec Script</title>
 
-  <link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
-  <script src="/cordova.js"></script>
-  <script src="/kame-house/lib/js/jquery.js"></script>
-  <script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data"></script>
-  <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-groot.js"></script>
-  <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
-  <link rel="stylesheet" href="/kame-house-groot/kamehouse-groot/css/kamehouse-groot.css" />
-  <link rel="stylesheet" href="/kame-house-groot/css/admin/kamehouse-shell.css" />
+<link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
+<script src="/cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data" data-authorized-roles="ROLE_KAMISAMA"></script>
+<script src="/kame-house-groot/kamehouse-groot/js/kamehouse-groot.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house-groot/kamehouse-groot/css/kamehouse-groot.css" />
+<link rel="stylesheet" href="/kame-house-groot/css/admin/kamehouse-shell.css" />
 </head>
-
 <body>
   <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-fuji">
