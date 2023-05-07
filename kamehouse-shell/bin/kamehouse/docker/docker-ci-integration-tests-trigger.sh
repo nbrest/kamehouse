@@ -163,7 +163,7 @@ executeIntegrationTestsLoop() {
 }
 
 executeIntegrationTests() {
-  local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php?script=${SCRIPT}"
+  local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
   log.info "Executing request to ${COL_PURPLE}${URL}"
   local CURL_RESPONSE=`curl --max-time 1800 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
   log.trace "CURL_RESPONSE ${CURL_RESPONSE}"

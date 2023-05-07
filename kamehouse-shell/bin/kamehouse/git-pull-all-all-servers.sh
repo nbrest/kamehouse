@@ -69,7 +69,7 @@ executeScriptInServer() {
     BASIC_AUTH=${GROOT_API_BASIC_AUTH}
   fi
 
-  local URL="${PROTOCOL}://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php?script=${SCRIPT}"
+  local URL="${PROTOCOL}://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
   log.info "Executing request: ${COL_BLUE}${URL}"
   RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
   log.trace "curl response: ${RESPONSE}"
