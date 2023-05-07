@@ -1,7 +1,7 @@
 /**
- * Manager to load and execute scripts.
+ * UI Manager to load and execute kamehouse shell scripts.
  */
-function KameHouseShell() {
+function KameHouseShellLoader() {
 
   this.load = load;
   this.filterKameHouseShellRows = filterKameHouseShellRows;
@@ -63,8 +63,8 @@ function KameHouseShell() {
 
   /** Get session status from the backend */
   function getKameHouseShell(successCallback, errorCallback) {
-    const MY_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php';
-    kameHouse.http.get(MY_SCRIPTS_API, null, null,
+    const KAMEHOUSE_SHELL_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
+    kameHouse.http.get(KAMEHOUSE_SHELL_SCRIPTS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => successCallback(responseBody, responseCode, responseDescription, responseHeaders),
       (responseBody, responseCode, responseDescription, responseHeaders) => errorCallback(responseBody, responseCode, responseDescription, responseHeaders));
   }
@@ -94,5 +94,5 @@ function KameHouseShell() {
 }
 
 $(document).ready(() => {
-  kameHouse.addExtension("kameHouseShell", new KameHouseShell());
+  kameHouse.addExtension("kameHouseShellLoader", new KameHouseShellLoader());
 });

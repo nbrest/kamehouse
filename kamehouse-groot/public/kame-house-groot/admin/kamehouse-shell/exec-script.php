@@ -82,10 +82,10 @@
 
     <img id="btn-execute-script"
       class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh"
-      onclick="kameHouse.extension.scriptExecutor.executeFromUrlParams()" src="/kame-house/img/mplayer/play.png"
+      onclick="kameHouse.extension.execScriptLoader.executeFromUrlParams()" src="/kame-house/img/mplayer/play.png"
       alt="Execute Script" title="Execute Script" />
     <img id="btn-download-script-output" class="img-btn-kh hidden-kh"
-      onclick="kameHouse.extension.scriptExecutor.downloadBashScriptOutput()"
+      onclick="kameHouse.extension.execScriptLoader.downloadBashScriptOutput()"
       src="/kame-house/img/other/download-blue.png" alt="Download Output"
       title="Download Output" />
     <img class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh fl-r-d-kh"
@@ -95,7 +95,7 @@
 
   </div>
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-sticky-back-to-top.js"></script>
-  <script src="/kame-house-groot/js/admin/kamehouse-shell/script-executor.js"></script>
+  <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-shell.js"></script>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/exec-script.js"></script>
 </body>
 

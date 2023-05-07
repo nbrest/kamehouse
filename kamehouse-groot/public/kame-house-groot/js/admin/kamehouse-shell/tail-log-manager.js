@@ -6,7 +6,7 @@ function TailLogManager() {
   this.load = load;
   this.tailLog = tailLog;
 
-  const EXEC_SCRIPT_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/exec-script.php';
+  const KAMEHOUSE_SHELL_EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
 
   function load() {
     kameHouse.logger.info("Initialized tailLogManager");
@@ -25,7 +25,7 @@ function TailLogManager() {
         args: "-l " + logLevel,
         executeOnDockerHost: executeOnDockerHost
       };
-      kameHouse.http.get(EXEC_SCRIPT_API, kameHouse.http.getUrlEncodedHeaders(), params,
+      kameHouse.http.get(KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
     } else {

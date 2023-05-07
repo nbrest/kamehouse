@@ -51,7 +51,7 @@
         <td>
           <input class="table-kh-filter-input"
             type="text" placeholder="Search..."
-            onkeyup="kameHouse.extension.kameHouseShell.filterKameHouseShellRows(this.value)" />
+            onkeyup="kameHouse.extension.kameHouseShellLoader.filterKameHouseShellRows(this.value)" />
         </td>
         <td class="txt-r-d-kh txt-r-m-kh">
           <img class="img-btn-kh img-btn-s-kh btn-kamehouse-shell-controls"

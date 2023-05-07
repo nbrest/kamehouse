@@ -418,7 +418,7 @@
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-modal.js"></script>
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-debugger.js"></script>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/tail-log-manager.js"></script>
-  <script src="/kame-house-groot/js/admin/kamehouse-shell/script-executor.js"></script>
+  <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-shell.js"></script>
   <script src="/kame-house-groot/js/admin/server-manager/server-manager-index.js"></script>
 </body>
 </html>

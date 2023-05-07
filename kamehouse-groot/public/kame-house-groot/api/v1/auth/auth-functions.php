@@ -74,7 +74,7 @@ function isAuthorizedUser($username, $password) {
   logToErrorFile("Started executing script kamehouse/kamehouse-groot-login.sh");
   if (isLinuxHost()) {
     /**
-     * This requires to give permission to www-data to execute. Check API exec-script.php for more details.
+     * This requires to give permission to www-data to execute. Check API execute.php for more details.
      */
     $shellUsername = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
     $shellCommandOutput = shell_exec("sudo -u " . $shellUsername . " /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'");

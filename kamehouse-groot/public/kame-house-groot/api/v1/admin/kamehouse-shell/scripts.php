@@ -1,6 +1,6 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php (GET)
+ * Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php (GET)
  * 
  * Gets the list of scripts as csv from the server.
  * 
