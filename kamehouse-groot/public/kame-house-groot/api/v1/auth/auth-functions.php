@@ -28,6 +28,34 @@ function isLoggedIn() {
 }
 
 /**
+ * Check if the user is an admin of kamehouse.
+ */
+function isAdminUser() {
+  if (!isLoggedIn()) {
+    return false;
+  }
+  return hasAdminRole($_SESSION['username']);
+}
+
+/**
+ * Checks if an user has admin roles.
+ */
+function hasAdminRole($user) {
+  $hasAdminRole = false;
+  $roles = getRoles($user);
+  if (!isset($roles) || count($roles) <= 0) {
+    return false;
+  }
+  $arrLength = count($roles);
+  for($i = 0; $i < $arrLength; $i++) {
+    if ($roles[$i] == "ROLE_KAMISAMA") {
+      $hasAdminRole = true; 
+    }
+  }
+  return $hasAdminRole;
+}
+
+/**
  * Checks if the authorization header is set in the request.
  */
 function isAuthorizationHeaderSet() {
