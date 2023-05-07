@@ -24,11 +24,11 @@ function ScriptExecutor() {
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
-    execute(scriptName, args, executeOnDockerHost);
+    execute(scriptName, args, executeOnDockerHost, false, () => {}, () => {});
   }
 
   /** Execute the specified script*/
-  function execute(scriptName, args, executeOnDockerHost, callback, skipUpdateView) {
+  function execute(scriptName, args, executeOnDockerHost, skipUpdateView, successCallback, errorCallback) {
     if (!kameHouse.core.isEmpty(scriptName)) {
       const params = {
         script: scriptName,
@@ -48,8 +48,8 @@ function ScriptExecutor() {
         kameHouse.logger.trace("Skipping view update");
       }
       kameHouse.http.get(EXEC_SCRIPT_API, kameHouse.http.getUrlEncodedHeaders(), params,
-        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback, skipUpdateView),
-        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback, skipUpdateView));
+        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback, skipUpdateView),
+        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, skipUpdateView));
     } else {
       kameHouse.logger.error("No script specified to execute");
     }

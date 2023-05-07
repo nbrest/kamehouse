@@ -879,8 +879,8 @@ function KameHouseMobileUtils() {
   function addCordovaErrorHandler() {
     kameHouse.logger.info("Adding cordova error handler");
     window.addEventListener("cordovacallbackerror", (event) => {
-      kameHouse.logger.error("Unexpected cordova error: " + event);
-      alert("Unexpected cordova error: " + event);
+      kameHouse.logger.error("Unexpected cordova error: " + JSON.stringify(event));
+      alert("Unexpected cordova error: " + JSON.stringify(event));
     });  
   }
 

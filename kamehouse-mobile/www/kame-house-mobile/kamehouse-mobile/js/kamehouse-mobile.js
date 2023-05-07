@@ -190,7 +190,7 @@ function KameHouseMobileCore() {
      const responseDescription = null;
      const responseHeaders = response.headers;
      kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, null);
-     errorCallback(JSON.stringify(responseBody), responseCode, responseDescription, responseHeaders);
+     errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }  
 
   function isJsonResponse(headers) {
