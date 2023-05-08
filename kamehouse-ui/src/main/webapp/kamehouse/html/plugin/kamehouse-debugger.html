@@ -6,6 +6,7 @@
     <div id="debug-mode-custom-wrapper"></div>
     <div id="debugger-http-client"></div>
     <br>
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Console Log</h5>
     <table class="table-kh table-borderless-kh bg-none-kh">
       <caption class="hidden-kh">Log Level</caption>
       <tbody>
@@ -14,7 +15,7 @@
       </tr>
       <tr><td class="txt-l-d-kh txt-l-m-kh">
         <div>
-          <span class="bold-kh txt-l-d-kh txt-l-m-kh">Console Log Level</span>
+          <span class="bold-kh txt-l-d-kh txt-l-m-kh">Log Level</span>
           <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh"
             id="debug-mode-log-level-dropdown" onchange="kameHouse.plugin.debugger.setConsoleLogLevel()">
             <option value="0">ERROR</option>
@@ -25,17 +26,16 @@
           </select>
         </div>
       </td></tr>
-      <tr><td><h6 class="h5-kh txt-l-d-kh txt-l-m-kh">Console Log</h6></td></tr>
     </table>
     <table class="table-kh table-borderless-kh bg-none-kh">
-      <caption class="hidden-kh">Log Level Console Log</caption>
+      <caption class="hidden-kh">Console Output</caption>
       <tbody>
         <tr class="hidden-kh">
-          <th scope="row" class="hidden-kh">Log Level Console Log</th>
+          <th scope="row" class="hidden-kh">Console Output</th>
         </tr>
-      <tr><td>
-        <ul id="debug-mode-console-log-entries"></ul>
-      </td></tr>
+        <tr><td>
+          <ul id="debug-mode-console-log-entries"></ul>
+        </td></tr>
       </tbody>
     </table>
   </div>
