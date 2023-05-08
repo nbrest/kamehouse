@@ -51,7 +51,7 @@ function BasicKamehouseModal() {
   this.setErrorMessage = modalUtils.setErrorMessage;
   this.reset = modalUtils.reset;
 
-  const SITE_UNDER_CONSTRUCTION = "The site is still under construction and this functionality has not been implemented yet.";
+  const SITE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet. Let's face it, this will probably never get done";
 
   /** Open site under construction modal */
   function openSiteUnderConstruction() { modalUtils.open(SITE_UNDER_CONSTRUCTION); }
