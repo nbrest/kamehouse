@@ -20,6 +20,15 @@
 - Updated kamehouse-shell web interface through groot
 - Added splashscreen and role validation to pages in the ui
 - Moved groot login to php mysql and added role validation to groot pages and apis
+- Added banners to about and contact us pages
+- Added loading data from backend message
+- Updated info log entry color
+- Moved groot module to groot session and improved server manager load page to load before the groot session is complete
+- Updated mobile settings tab styles
+- Updated kamehouse modal styles and text
+- Updated footer layout and default text
+- Updated crud manager to show a message when no data is received from backend
+- Fixed bugs
 
 #### v8.12
 

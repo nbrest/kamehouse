@@ -359,9 +359,16 @@ function CrudManager() {
     kameHouse.logger.trace("reloadView");
     const crudTbody = $('#' + tbodyId);
     kameHouse.util.dom.empty(crudTbody);
-    kameHouse.util.dom.append(crudTbody, getCrudTableHeader());
-    for (const entity of entities) {
-      kameHouse.util.dom.append(crudTbody, getEntityTr(entity));
+    if (entities.length == 0 || entities.length == null || entities.length == undefined) {
+      kameHouse.logger.info("No data received from the backend");
+      const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
+      kameHouse.util.dom.append(crudTbody, noDataTd);
+    } else {
+      kameHouse.util.dom.append(crudTbody, getCrudTableHeader());
+      kameHouse.logger.info("Received " + entities.length + " entities from the backend");
+      for (const entity of entities) {
+        kameHouse.util.dom.append(crudTbody, getEntityTr(entity));
+      }
     }
     filterRows();
     reloadForm(addInputFieldsId);
