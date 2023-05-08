@@ -68,7 +68,9 @@
       <tr class="hidden-kh">
         <th scope="row">All KameHouse Shell</th>
       </tr>
-      <tbody id="all-kamehouse-shell-table-body"></tbody>
+      <tbody id="all-kamehouse-shell-table-body">
+        <tr><td>Loading scripts from backend...</td></tr>
+      </tbody>
     </table>
   </div>
   </div>
