@@ -74,7 +74,6 @@
     </table>
   </div>
   </div>
-  <script src="/kame-house/kamehouse/js/plugin/kamehouse-modal.js"></script>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/kamehouse-shell-index.js"></script>
 </body>
 </html>

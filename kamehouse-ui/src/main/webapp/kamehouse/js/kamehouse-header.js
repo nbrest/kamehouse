@@ -33,6 +33,7 @@ function KameHouseHeader() {
     if (debugModeDiv) {
       kameHouse.plugin.debugger.toggleDebugMode();
     } else {
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("No debug mode in this page", 1000);
       kameHouse.logger.info("No debug mode in this page");
     }
   }

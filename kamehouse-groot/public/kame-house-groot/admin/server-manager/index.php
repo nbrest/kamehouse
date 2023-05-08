@@ -415,7 +415,6 @@
   </div>
   <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/admin/module-status-manager.js"></script>
-  <script src="/kame-house/kamehouse/js/plugin/kamehouse-modal.js"></script>
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-debugger.js"></script>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/tail-log-manager.js"></script>
   <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-shell.js"></script>

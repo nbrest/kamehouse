@@ -39,6 +39,7 @@
 - Added colors to debug mode console
 - Updated debugger console output styles
 - Moved toggle debugger to header
+- Loaded kamehouse modal on all pages
 - Fixed bugs
 
 #### v8.12
