@@ -861,8 +861,8 @@ function KameHouseMobileUtils() {
     disableMobileOnlyElements();
     loadGlobalMobile();
     setMobileEventListeners(
-      () => {kameHouse.logger.debug("mobile app sent to background");}, 
-      () => {kameHouse.logger.debug("mobile app sent to foreground");}
+      () => {kameHouse.logger.debug("KameHouse sent to background");}, 
+      () => {kameHouse.logger.debug("KameHouse sent to foreground");}
     );
   }
 
@@ -1507,11 +1507,11 @@ function KameHouseCoreFunctions() {
   function initAuthorizeUser() {
     const authorizedRoles = getStringKameHouseData("authorized-roles");
     if (isEmpty(authorizedRoles)) {
-      kameHouse.logger.info("Page doesn't require authorization");
+      kameHouse.logger.debug("Page doesn't require authorization");
       return;
     }
     pageRequiresAuthorization = true;
-    kameHouse.logger.info("Page requires roles: " + authorizedRoles);
+    kameHouse.logger.debug("Page requires roles: " + authorizedRoles);
     openKameHouseSplashScreen();
   }
 
@@ -1544,7 +1544,7 @@ function KameHouseCoreFunctions() {
     });
 
     if (isAuthorized) {
-      kameHouse.logger.info("User is authorized to access this page");
+      kameHouse.logger.debug("User is authorized to access this page");
       kameHouse.util.dom.removeClass($("body"), "hidden-kh");
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {
