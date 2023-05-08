@@ -31,23 +31,27 @@
   </div>  
   </div>
   <div id="groot-menu-wrapper"></div>
-  <div class="tabs-kh bg-lighter-0-kh">
-    <div class="default-layout">
-      <button id="tab-git-link" class="tab-kh-link"
-        onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</button>
-
-      <button id="tab-deployment-link" class="tab-kh-link"
-        onclick="kameHouse.util.tab.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</button>
-
-      <button id="tab-media-link" class="tab-kh-link"
-        onclick="kameHouse.util.tab.openTab('tab-media', 'kh-groot-server-manager')">Media</button>
-
-      <button id="tab-power-link" class="tab-kh-link"
-        onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</button>
-
-      <button id="tab-tail-log-link" class="tab-kh-link"
-        onclick="kameHouse.util.tab.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</button>
-    </div>
+  <div class="server-manager-tabs">
+  <div class="default-layout">
+    <table class="table-kh server-manager-tabs-table">
+      <caption class="hidden-kh">Server Manager Tabs</caption>
+      <thead class="hidden-kh"><tr><th>Header</th></tr></thead>
+      <tbody>
+        <tr>
+          <td id="tab-git-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</td>  
+          <td  id="tab-deployment-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</td>  
+          <td id="tab-media-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-media', 'kh-groot-server-manager')">Media</td>  
+          <td id="tab-power-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>  
+          <td id="tab-tail-log-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   </div>
 
     <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">

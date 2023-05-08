@@ -103,3 +103,55 @@
 .non-tomcat-modules-table-deployment {
   min-width: 120px;
 }
+
+.server-manager-tabs {
+  background-color: #0e1214;
+  border-bottom: #272727 3px solid;
+}
+
+@media (max-width : 900px) {
+  .server-manager-tabs {
+    border-bottom: none;
+  }
+}
+
+.server-manager-tabs-table {
+  background-color: #0e1214;
+  border: none;
+}
+
+.server-manager-tabs-table tr {
+  border: none;
+}
+
+.server-manager-tabs-table tr td {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #c0c0c0;
+  text-align: center;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: none;
+}
+
+@media (max-width : 900px) {
+  .server-manager-tabs-table tr td {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.server-manager-tabs-table tr td:hover {
+  background-color: black;
+  color: #eeeded;
+}
+
+.server-manager-tabs-table tr td.active {
+  background-color: #500000;
+  color: #dfdfdf;
+}

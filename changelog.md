@@ -33,6 +33,7 @@
 - Loaded sticky back to top on all pages
 - Updated debug mode layout
 - Reordered kamehouse main menu
+- Updated groot server manager tabs to use full witdh
 - Fixed bugs
 
 #### v8.12
