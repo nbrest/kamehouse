@@ -60,6 +60,7 @@ function KameHouse() {
     this.core.loadSession();
     this.core.loadHeader();
     this.core.loadFooter();
+    this.core.loadStickyBackToTop();
     this.util.cursor.loadSpinningWheelMobile();
     //kameHouse.util.test.testLogLevel();
     //kameHouse.util.test.testSleep();
@@ -1494,6 +1495,7 @@ function KameHouseCoreFunctions() {
   this.loadSession = loadSession;
   this.loadHeader= loadHeader;
   this.loadFooter= loadFooter;
+  this.loadStickyBackToTop = loadStickyBackToTop;
   this.scrollToTopOfDiv = scrollToTopOfDiv;
   this.scrollToTop = scrollToTop;
   this.scrollToBottom = scrollToBottom;
@@ -1637,7 +1639,16 @@ function KameHouseCoreFunctions() {
       kameHouse.logger.info("Skip footer kamehouse data set to true");
     }
   }  
-  
+
+  /**
+   * Load sticky back to top.
+   */
+  function loadStickyBackToTop() {
+    kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-sticky-back-to-top.js", () => {
+      kameHouse.logger.info("Loaded sticky-back-to-top.js");
+    });
+  }
+
   /**
    * Returns the boolean value of data-xx attributes defined in the script tag of kamehouse.js
    * The script tag id must be set to id="kamehouse-data"
