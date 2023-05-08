@@ -182,12 +182,12 @@ a:active {
   text-align: center;
   text-decoration: none;
   padding: 8px;
-  width: 100px;
+  width: 33%;
 }
 
 @media (max-width : 900px) {
   .groot-menu button {
-    width: 70px;
+    width: 33%;
     padding-bottom: 8px;
     padding-top: 8px;
   }
@@ -213,6 +213,10 @@ a:active {
     width: 30px;
     height: 30px; 
   }
+}
+
+#groot-menu-links {
+  width: 50%;
 }
 
 .groot-nav-wrapper {

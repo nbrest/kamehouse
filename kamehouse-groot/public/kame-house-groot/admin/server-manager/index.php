@@ -38,10 +38,10 @@
       <thead class="hidden-kh"><tr><th>Header</th></tr></thead>
       <tbody>
         <tr>
-          <td id="tab-git-link" class="tab-kh-link"
-            onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</td>  
           <td  id="tab-deployment-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</td>  
+          <td id="tab-git-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</td>     
           <td id="tab-media-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-media', 'kh-groot-server-manager')">Media</td>  
           <td id="tab-power-link" class="tab-kh-link"
@@ -53,23 +53,6 @@
     </table>
   </div>
   </div>
-
-    <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
-
-      <br>
-      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Git</h4>
-      <br>
-      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
-        <span class="bold-kh">Pull latest changes in all my git repos: </span>
-        <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.gitManager.pullAll()" 
-          src="/kame-house/img/other/git-pull-request-blue.png" alt="Git Pull All" title="Git Pull All"/>
-        <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.gitManager.pullAllAllServers()" 
-          src="/kame-house/img/other/cloud-up-down-blue.png" alt="Git Pull All - All Servers" title="Git Pull All - All Servers"/>
-        <br><br>
-      </div>
-      <p class="p-15-m-kh">You can also trigger a git pull in all servers using the cloud button</p>
-
-    </div> <!-- tab-git -->
 
     <div id="tab-deployment" class="default-layout tab-content-kh p-7-d-kh">
 
@@ -266,7 +249,7 @@
           </td>
         </tr>        
       </table>
-      
+
       <pre class="console-output tomcat-process-console-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
       <span class="bold-kh">Tomcat Process: </span>
       <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.restartTomcat()" 
@@ -275,6 +258,23 @@
       <br><br>
 
     </div> <!-- tab-deployment -->
+
+    <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
+
+      <br>
+      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Git</h4>
+      <br>
+      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
+        <span class="bold-kh">Pull latest changes in all my git repos: </span>
+        <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.gitManager.pullAll()" 
+          src="/kame-house/img/other/git-pull-request-blue.png" alt="Git Pull All" title="Git Pull All"/>
+        <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.gitManager.pullAllAllServers()" 
+          src="/kame-house/img/other/cloud-up-down-blue.png" alt="Git Pull All - All Servers" title="Git Pull All - All Servers"/>
+        <br><br>
+      </div>
+      <p class="p-15-m-kh">You can also trigger a git pull in all servers using the cloud button</p>
+
+    </div> <!-- tab-git -->
 
     <div id="tab-media" class="default-layout tab-content-kh p-7-d-kh w-50-pc-kh w-100-pc-m-kh">
 
