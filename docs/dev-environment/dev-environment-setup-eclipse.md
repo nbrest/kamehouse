@@ -97,31 +97,31 @@
 
   ### `tomcat-status.sh`
     - Run > External Tools > External Tools Configurations > Program > New Configuration:
-    - name: tomcat-status.sh
+    - name: tomcat-status-dev.sh
     - Main tab:
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-status.sh -p 9980'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-status-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory: 
-        - arguments: -c '~/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-status.sh -p 9980'
+        - arguments: -c '~/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-status-dev.sh'
     - Common tab:
       - display in favorites menu > External tools: check
 
   ### `tomcat-stop.sh`
     - Run > External Tools > External Tools Configurations > Program > New Configuration:
-    - name: tomcat-stop.sh
+    - name: tomcat-stop-dev.sh
     - Main tab:
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh -p 9980'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-stop-dev.sh'"
       - Linux
         - location: /bin/bash
         - working directory:
-        - arguments: -c '~/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh -p 9980'
+        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-stop-dev.sh'
     - Common tab:
       - display in favorites menu > External tools: check
 
@@ -137,10 +137,10 @@
 - external tools > `deploy-kamehouse-dev-tomcat.sh`
 
 ## Stop tomcat eclipse:
-- external tools > `tomcat-stop.sh`
+- external tools > `tomcat-stop-dev.sh`
 
 ## Check the status of tomcat eclipse:
-- external tools > `tomcat-status.sh`
+- external tools > `tomcat-status-dev.sh`
 
 ## Debug tomcat from eclipse:
 - debug > `debug-tomcat-kamehouse`
