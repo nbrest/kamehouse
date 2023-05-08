@@ -39,7 +39,7 @@
   margin: inherit;
 }
 
-.table-db-users-angular {
+.table-db-users-angular tbody {
   background: #171717;
   color: #8b8b8b;
 }

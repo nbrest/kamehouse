@@ -1100,7 +1100,6 @@ hr {
 /** ---------------------------------------------------------- */
 .table-kh {
   border-collapse: collapse;
-  background-color: #240000;
   color: #8b8b8b;
   text-align: center;
   width: 100%;
@@ -1123,6 +1122,7 @@ hr {
 }
 
 .table-kh tbody {
+  background-color: #240000;
   display: table;
   width: 100%;
 }

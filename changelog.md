@@ -35,6 +35,7 @@
 - Reordered kamehouse main menu
 - Updated groot server manager tabs to use full witdh
 - Updated groot menu to use more width for icons on desktop
+- Added margin to module status table
 - Fixed bugs
 
 #### v8.12
