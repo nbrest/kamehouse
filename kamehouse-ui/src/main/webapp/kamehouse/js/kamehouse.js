@@ -1858,29 +1858,58 @@ function KameHouseCoreFunctions() {
       return;
     }
     const logLevelUpperCase = logLevel.toUpperCase();
-    const logEntry = kameHouse.util.time.getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
+    const timestamp = kameHouse.util.time.getTimestamp();
+    const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
+    const logEntryForDebugMode = buildLogEntryForDebug(timestamp, logLevelUpperCase, message);
     if (logLevelUpperCase == "ERROR") {
       console.error(logEntry);
-      logToDebugMode(logEntry);
+      logToDebugMode(logEntryForDebugMode);
     }
     if (logLevelUpperCase == "WARN" && logLevelNumber >= 1) {
       console.warn(logEntry);
-      logToDebugMode(logEntry);
+      logToDebugMode(logEntryForDebugMode);
     }
     if (logLevelUpperCase == "INFO" && logLevelNumber >= 2) {
       console.info(logEntry);
-      logToDebugMode(logEntry);
+      logToDebugMode(logEntryForDebugMode);
     }
     if (logLevelUpperCase == "DEBUG" && logLevelNumber >= 3) {
       // Use debug to log behavior, such as executing x method, selected x playlist, etc.
       console.debug(logEntry);
-      logToDebugMode(logEntry);
+      logToDebugMode(logEntryForDebugMode);
     }
     if (logLevelUpperCase == "TRACE" && logLevelNumber >= 4) {
       // Use trace to log content such as responses from api calls. But use debug or info kameHouse.logger. trace prints a useless stack trace in the console that doesn't help.
       console.info(logEntry);
-      logToDebugMode(logEntry);
+      logToDebugMode(logEntryForDebugMode);
     }
+  }
+
+  function buildLogEntryForDebug(timestamp, logLevel, message) {
+    return "<span style='color:#00b2b2'>" + timestamp + "</span> <span style='color:#3996ff'>-</span> [" + getLogLevelColored(logLevel) + "] <span style=color:#3996ff> - </span>" + escapeHtml(message);
+  }
+
+  function getLogLevelColored(logLevel) {
+    if (logLevel == "ERROR") {
+      return "<span style='color:red'>" + logLevel + "</span>";
+    }
+    if (logLevel == "WARN") {
+      return "<span style='color:yellow'>" + logLevel + "</span>";
+    }
+    if (logLevel == "INFO") {
+      return "<span style='color:#3996ff'>" + logLevel + "</span>";
+    }
+    if (logLevel == "DEBUG") {
+      return "<span style='color:green'>" + logLevel + "</span>";
+    }
+    if (logLevel == "TRACE") {
+      return "<span style='color:#00b2b2'>" + logLevel + "</span>";
+    }
+    return logLevel;
+  }
+
+  function escapeHtml(html) {
+    return html.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
   }
 
   /** Log an error message */
@@ -1930,7 +1959,7 @@ function KameHouseCoreFunctions() {
   
   function getLogEntryListItem(logEntry) {
     const li = kameHouse.util.dom.getLi({}, null);
-    kameHouse.util.dom.setText(li, logEntry);
+    kameHouse.util.dom.setHtml(li, logEntry);
     return li;
   }
 
@@ -2147,7 +2176,7 @@ function KameHouseCoreFunctions() {
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
      const responseHeaders = getResponseHeaders(jqXhr);
-     kameHouse.logger.logApiError(responseBody, responseBody, responseDescription, responseHeaders, null);
+     kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, null);
      errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
