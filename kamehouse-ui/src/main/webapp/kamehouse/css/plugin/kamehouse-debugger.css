@@ -23,11 +23,19 @@
   opacity: 1;
 }
 
+.debug-mode-console-table {
+  border: 3px solid #1e1e1e;
+  background-color: #000000;
+}
+
+.debug-mode-console-table tr td {
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+
 #debug-mode-console-log-entries {
   text-align: left;
   background-color: #000000;
-  border: 3px solid #343434;
-  padding: 3px;
   height: 480px;
   overflow: scroll;
   min-width: 100%;

@@ -37,6 +37,7 @@
 - Updated groot menu to use more width for icons on desktop
 - Added margin to module status table
 - Added colors to debug mode console
+- Updated debugger console output styles
 - Fixed bugs
 
 #### v8.12
