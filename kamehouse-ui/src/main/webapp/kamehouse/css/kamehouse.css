@@ -128,20 +128,12 @@
   background: none !important;
 }
 
-.bg-darker-1-kh {
-  background: #060606;
-}
-
 .bg-default-kh {
-  background: #11161a;
+  background: #000000;
 }
 
-.bg-lighter-1-kh {
-  background: #171e22;
-}
-
-.bg-lighter-2-kh {
-  background: #242f35;
+.bg-lighter-0-kh {
+  background: #060606;
 }
 
 body {
@@ -150,7 +142,7 @@ body {
   line-height: 1.5;
   padding: 0;
   margin: 0;
-  background: #11161a;
+  background: #000000;
   color: #c0c0c0;
   word-wrap: break-word;
 }
@@ -198,7 +190,7 @@ body {
 } 
 
 .collapsible-kh-btn {
-  background-color: #12191d;
+  background-color: #0e1417;
   color: #c0c0c0;
   padding: 5px;
   width: 100%;
@@ -563,10 +555,6 @@ html.wait, html.wait * {
 /** .kh-mobile-only : use for tagging elements that should be rendered in the native mobile app and hidden on the webapp*/
 /** .kh-mobile-hidden : use for tagging elements that should be hidden in the native mobile but are rendered on the webapp*/
 
-.landing-p-body {
-  background: #11161a;
-}
-
 .landing-p-link {
   cursor: pointer;
   outline: none;
@@ -864,11 +852,11 @@ hr {
 /** Select dark theme. Begin.*/
 .select-kh-dark {
   border-radius: 0;
-  border: 1px solid #131a1f;
+  border: 1px solid #292929;
   position: relative;
   display: inline-block;
   color: #686868;
-  background: #171e22;
+  background: #0b0e11;
   padding: 8px;
 }
 
@@ -984,7 +972,7 @@ hr {
   border: 3px solid #2a2a2a;
   border-radius: 0px;
   border-collapse: initial;
-  background-color: #171e22;
+  background-color: #0c1012;
   color: #686868;
   width: 70%;
   text-align: center;

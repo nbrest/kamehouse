@@ -37,7 +37,7 @@
   <br>
   <p class="p-15-m-kh">Lists the scripts from kamehouse-shell that can be executed in this server</p>
   <div class="default-layout p-7-d-kh p-7-m-kh"></div>
-  <div class="default-layout bg-darker-1-kh border-gray-dark-kh">
+  <div class="default-layout bg-lighter-0-kh border-gray-dark-kh">
     <table id="all-kamehouse-shell-table-controls" class="all-kamehouse-shell-table-controls-table">
       <caption class="hidden-kh">All KameHouse Shell Controls</caption>
       <colgroup>

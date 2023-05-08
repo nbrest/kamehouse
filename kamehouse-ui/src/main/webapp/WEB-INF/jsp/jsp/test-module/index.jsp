@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
 </head>
-<body class="landing-p-body">
+<body>
   <div class="main-body">
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-ancient-era-warriors">

@@ -51,10 +51,10 @@ function BasicKamehouseModal() {
   this.setErrorMessage = modalUtils.setErrorMessage;
   this.reset = modalUtils.reset;
 
-  const SITE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet. Let's face it, this will probably never get done";
+  const KAMEHOUSE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet. Let's face it, this is low priority and will probably never get done";
 
   /** Open site under construction modal */
-  function openSiteUnderConstruction() { modalUtils.open(SITE_UNDER_CONSTRUCTION); }
+  function openSiteUnderConstruction() { modalUtils.open(KAMEHOUSE_UNDER_CONSTRUCTION); }
 
   /** Open api call error message auto closeable modal */
   function openApiError(responseBody, responseCode, responseDescription, responseHeaders) {

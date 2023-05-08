@@ -31,7 +31,7 @@
   </div>  
   </div>
   <div id="groot-menu-wrapper"></div>
-  <div class="tabs-kh bg-lighter-1-kh">
+  <div class="tabs-kh bg-lighter-0-kh">
     <div class="default-layout">
       <button id="tab-git-link" class="tab-kh-link"
         onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</button>
