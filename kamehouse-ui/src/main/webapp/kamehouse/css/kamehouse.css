@@ -249,6 +249,11 @@ body {
 }
 /** console-output end ----------------------------*/
 
+.debug-mode-toggler {
+  cursor: pointer;
+  user-select: none;
+}
+
 .default-layout {
   width: 80%;
   margin: auto;

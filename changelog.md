@@ -38,6 +38,7 @@
 - Added margin to module status table
 - Added colors to debug mode console
 - Updated debugger console output styles
+- Moved toggle debugger to header
 - Fixed bugs
 
 #### v8.12

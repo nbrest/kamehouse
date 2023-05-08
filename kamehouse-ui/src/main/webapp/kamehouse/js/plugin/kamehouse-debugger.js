@@ -46,7 +46,7 @@ function KameHouseDebugger() {
    * Toggle debug mode. 
    */
   function toggleDebugMode() {
-    kameHouse.logger.debug("Toggled debug mode");
+    kameHouse.logger.info("Toggled debug mode");
     const debugModeDiv = document.getElementById("debug-mode");
     kameHouse.util.dom.classListToggle(debugModeDiv, "hidden-kh");
   }
@@ -69,7 +69,6 @@ function KameHouseDebugger() {
    * Render debug mode div and it's button.
    */
   function renderDebugMode() {
-    kameHouse.util.dom.load($("#debug-mode-button-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-debugger-button.html");
     kameHouse.util.dom.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       displayRequestData(null, null, null, null);

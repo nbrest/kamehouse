@@ -57,9 +57,6 @@
       </div>
     </form>
     <br><br>
-    <div class="default-layout txt-c-d-kh txt-c-m-kh">
-      <span id="debug-mode-button-wrapper" class="debug-mode-btn-hidden"></span>
-    </div>
   </div>
   <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/kamehouse/js/plugin/kamehouse-debugger.js"></script>

@@ -7,6 +7,7 @@ function KameHouseHeader() {
 
   this.load = load;
   this.toggleHeaderNav = toggleHeaderNav;
+  this.toggleDebugMode = toggleDebugMode;
   
   /** Load the header */
   function load() {
@@ -25,6 +26,15 @@ function KameHouseHeader() {
         kameHouse.logger.info("Finished loading header");
       });
     });
+  }
+
+  function toggleDebugMode() {
+    const debugModeDiv = document.getElementById("debug-mode");
+    if (debugModeDiv) {
+      kameHouse.plugin.debugger.toggleDebugMode();
+    } else {
+      kameHouse.logger.info("No debug mode in this page");
+    }
   }
 
   /**

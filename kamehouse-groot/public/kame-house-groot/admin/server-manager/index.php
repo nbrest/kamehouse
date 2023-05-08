@@ -412,9 +412,6 @@
       </button>
     </div>
     <br>
-    <div class="default-layout txt-c-d-kh txt-c-m-kh">
-      <span id="debug-mode-button-wrapper" class="debug-mode-btn-hidden"></span>
-    </div>
   </div>
   <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/admin/module-status-manager.js"></script>

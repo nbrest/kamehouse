@@ -1,26 +1,17 @@
 .debug-mode-btn {
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
 @media (max-width : 900px) {
   .debug-mode-btn {
-    margin-left: 25px;
-    margin-right: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
-}
-
-/* Add this class to debug-mode-button-wrapper span to hide the debug mode button but still allow it to be clickable */
-.debug-mode-btn-hidden {
-  opacity: 0;
-}
-
-.debug-mode-btn-hidden:hover {
-  opacity: 1;
 }
 
 .debug-mode-console-table {
