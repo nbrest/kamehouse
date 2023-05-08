@@ -32,6 +32,7 @@
 - Removed newsletter from most pages
 - Loaded sticky back to top on all pages
 - Updated debug mode layout
+- Reordered kamehouse main menu
 - Fixed bugs
 
 #### v8.12
