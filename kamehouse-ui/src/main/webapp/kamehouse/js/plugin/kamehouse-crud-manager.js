@@ -363,6 +363,7 @@ function CrudManager() {
       kameHouse.logger.info("No data received from the backend");
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
       kameHouse.util.dom.append(crudTbody, noDataTd);
+      filterRows();
     } else {
       kameHouse.util.dom.append(crudTbody, getCrudTableHeader());
       kameHouse.logger.info("Received " + entities.length + " entities from the backend");
@@ -370,7 +371,6 @@ function CrudManager() {
         kameHouse.util.dom.append(crudTbody, getEntityTr(entity));
       }
     }
-    filterRows();
     reloadForm(addInputFieldsId);
     reloadForm(editInputFieldsId);
     sortTable();
