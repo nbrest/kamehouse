@@ -79,22 +79,27 @@ function Scheduler() {
   function updateJobsTable(webapp) {
     const $jobsData = $("#jobs-data-" + webapp);
     kameHouse.util.dom.empty($jobsData);
-    jobs.forEach((jobEntry) => {
-      const tableIdKey = webapp + jobEntry.key.name;
-      kameHouse.util.dom.append($jobsData, getTableFromTemplate(tableIdKey));
-      kameHouse.util.dom.append($jobsData, kameHouse.util.dom.getBr());
-
-      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
-      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
-      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
-      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
-      kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), formatSchedule(jobEntry.schedules));
-
-      kameHouse.util.dom.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
-        kameHouse.logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
-        cancelJobExecution(jobEntry.key, webapp);
+    if (jobs.length == 0 || jobs.length == null || jobs.length == undefined) {
+      const noJobsTd = kameHouse.util.dom.getTrTd("No jobs configured for " + webapp);
+      kameHouse.util.dom.append($jobsData, noJobsTd);
+    } else {
+      jobs.forEach((jobEntry) => {
+        const tableIdKey = webapp + jobEntry.key.name;
+        kameHouse.util.dom.append($jobsData, getTableFromTemplate(tableIdKey));
+        kameHouse.util.dom.append($jobsData, kameHouse.util.dom.getBr());
+  
+        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
+        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
+        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
+        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
+        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), formatSchedule(jobEntry.schedules));
+  
+        kameHouse.util.dom.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
+          kameHouse.logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
+          cancelJobExecution(jobEntry.key, webapp);
+        });
       });
-    });
+    }
   }
 
   /**
