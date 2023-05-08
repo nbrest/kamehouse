@@ -105,13 +105,13 @@
 }
 
 .server-manager-tabs {
-  background-color: #0e1214;
+  background-color: #060809;
   border-bottom: #272727 3px solid;
 }
 
 @media (max-width : 900px) {
   .server-manager-tabs {
-    border-bottom: none;
+    border-bottom: #272727 2px solid;;
   }
 }
 
@@ -120,7 +120,7 @@
 }
 
 .server-manager-tabs-table tbody {
-  background-color: #0e1214;
+  background-color: #060809;
 }
 
 .server-manager-tabs-table tr {
