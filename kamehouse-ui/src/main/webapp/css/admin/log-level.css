@@ -19,10 +19,13 @@
 }
 
 .request-logger-config-table {
-  background-color: #12181a;
   border:1px solid #414141;
   width: 40%;
   margin: auto;
+}
+
+.request-logger-config-table tbody {
+  background-color: #12181a;
 }
 
 .request-logger-config-table td {

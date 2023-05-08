@@ -21,6 +21,10 @@
   border: none;
 }
 
+.kh-webapp-tabs-table tbody {
+  background-color: #0e1214;
+}
+
 .kh-webapp-tabs-table tr {
   border: none;
 }

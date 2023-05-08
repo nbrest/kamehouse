@@ -19,6 +19,9 @@
   width:90%;
   margin:auto;
   color: #494848;
+}
+
+.mobile-build-version-table tbody {
   background-color: #000000;
 }
 

@@ -116,8 +116,11 @@
 }
 
 .server-manager-tabs-table {
-  background-color: #0e1214;
   border: none;
+}
+
+.server-manager-tabs-table tbody {
+  background-color: #0e1214;
 }
 
 .server-manager-tabs-table tr {
