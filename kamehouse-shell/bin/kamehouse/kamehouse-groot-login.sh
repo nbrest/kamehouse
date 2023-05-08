@@ -21,6 +21,9 @@ HTPASSWD_CMD=${HOME}/programs/apache-httpd/bin/htpasswd.exe
 HTPASSWD_FILE=${HOME}/programs/apache-httpd/www/kamehouse-webserver/.htpasswd
 
 mainProcess() {
+  log.info "This script is deprecated. Login to groot is now through mysql"
+  exit
+  
   log.debug "Attempting login for user ${COL_PURPLE}${USERNAME_ARG}"
   
   if ${IS_LINUX_HOST}; then

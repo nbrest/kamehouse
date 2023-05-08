@@ -24,13 +24,18 @@
   - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
   - Edit `httpd.conf` and check that it points correctly to the php installation. Replace `nbrest` with your username
   ```sh
-  LoadModule php7_module "C:/Users/nbrest/programs/php/php7apache2_4.dll"
-  PHPiniDir "C:/Users/nbrest/programs/php"
+  LoadModule php7_module "C:/Users/[USERNAME]/programs/php/php7apache2_4.dll"
+  PHPiniDir "C:/Users/[USERNAME]/programs/php"
   ```
   - Update `${HOME}/programs/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in SRVROOT
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
+
+- Enable mysql extension on php. Update `php.ini`:
+  - Set with full path `extension_dir = "C:/Users/[USERNAME]/programs/php/ext"`
+  - Uncomment: `extension=mysqli`
+  - Uncomment: `extension=pdo_mysql`
 
 #### For media server only:
 - Create link for streaming media-drive files through http
@@ -38,14 +43,6 @@
 mklink /D "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver\kame-house-streaming\media-server\media-drive" "N:\"
 ```
 - Then on the other servers in httpd config proxy /kame-house-streaming/media-server to media-server
-
-#### Install .httpasswd file
-
-- This is needed for [Groot](/kamehouse-groot/README.md) and [Shell](/kamehouse-shell/README.md)
-- Create a new one or copy the sample one from `docker/apache2` folder
-```sh
-cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/www/kamehouse-webserver/
-```
 
 #### Run httpd through a startup script, not as a system service
 
@@ -63,6 +60,11 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 
 - Install apache httpd from the package manager
 - Install php from the package manager
+- Install php mysql: 
+```
+sudo apt-get install php-mysql libapache2-mod-php
+```
+
 - Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
   ```sh
   # config apache
@@ -78,12 +80,4 @@ cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd ${HOME}/programs/apache-httpd/
 ```sh
   sudo mkdir -p /var/www/kamehouse-webserver
   sudo chown ${USER}:users -R /var/www/kamehouse-webserver
-```
-
-#### Install .httpasswd file
-
-- This is needed for [Groot](/kamehouse-groot/README.md) and [Shell](/kamehouse-shell/README.md)
-- Create a new one or copy the sample one from `docker/apache2` folder
-```sh
-cp ${HOME}/git/kamehouse/docker/apache2/.htpasswd /var/www/kamehouse-webserver/
 ```

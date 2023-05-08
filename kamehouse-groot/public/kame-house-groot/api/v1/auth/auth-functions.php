@@ -198,7 +198,6 @@ function endSession($username) {
   }
 }
 
-
 /**
  * Checks if the specified login credentials are valid executing a shell script to validate the user
  * with the .htpasswd file.

@@ -100,8 +100,6 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/hom
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.pkcs12 ; \
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.crt"
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/apache2/.htpasswd /home/${KAMEHOUSE_USERNAME}/home-synced/httpd
-RUN ln -s /home/${KAMEHOUSE_USERNAME}/home-synced/httpd/.htpasswd /var/www/html/.htpasswd
 
 # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
 RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse"

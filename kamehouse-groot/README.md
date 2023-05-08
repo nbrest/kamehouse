@@ -7,7 +7,7 @@
 
 This module is an app built with js/php to:
 
-* Manage tomcat, replacing tomcat's /manager app. start/stop/deploy/undeploy all modules in local and all servers
+* Manage tomcat, replacing tomcat's `/manager` app. `start/stop/deploy/undeploy` all modules in local and all servers
 * Start and stop tomcat
 * Git pull from all my repos, both in local and all servers
 * Re generate media playlists in media server when adding new media files
@@ -21,19 +21,9 @@ The few APIs of GRoot are built with PHP so the apache httpd server needs to hav
 To install copy [public/kame-house-groot](public/kame-house-groot) to the apache httpd serving directory. 
 Also copy [public/index.html](public/index.html) to the root of the web server directory to redirect to `/kame-house` from `/`
 
-# Edit users:
+# Login:
 
-- KameHouse GRoot runs in apache httpd. The users are authenticated using a .htpassword file as the source located at the root of the webserver
-
-- To add users:
-```sh
-htpasswd -b ${PATH_TO_HTPASSWD_FILE}/.htpasswd user pass
-```
-
-- To remove users:
-```sh
-htpasswd -D ${PATH_TO_HTPASSWD_FILE}/.htpasswd user
-```
+- KameHouse GRoot runs in apache httpd. The users are authenticated using php mysql extension to query the kamehouse users in the databse directly from php, so even if tomcat is down you can still login to groot to restart tomcat.
 
 # Install:
 

@@ -36,7 +36,6 @@ mainProcess() {
     reinitSsh
     reinitKameHouseFolder
     reinitHomeSynced
-    reinitHttpd
     reinitMysql
   fi
 }
@@ -133,17 +132,6 @@ reinitHomeSynced() {
     ;;
   *) ;;
   esac
-}
-
-reinitHttpd() {
-  log.info "Setup httpd"
-  if [ "${DATA_SOURCE}" == "docker-init" ]; then
-    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /var/www/html/.htpasswd /home/${DOCKER_USERNAME}/home-synced/httpd/\""
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /var/www/html/.htpasswd /home/${DOCKER_USERNAME}/home-synced/httpd/"
-  else
-    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/httpd"
-    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/httpd/.htpasswd ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/httpd
-  fi
 }
 
 reinitMysql() {
