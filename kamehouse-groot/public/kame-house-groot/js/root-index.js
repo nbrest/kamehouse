@@ -5,7 +5,7 @@ function GrootHome() {
 
   function load() {
     kameHouse.util.banner.setRandomTennisBanner();
-    kameHouse.util.module.waitForModules(["kameHouseGroot"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       updateBanner();
     });
   }

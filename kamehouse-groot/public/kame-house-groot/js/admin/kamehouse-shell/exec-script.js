@@ -5,8 +5,8 @@ function ExecScriptLoader() {
 
   function load() {
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseGroot"], () => {
-      setScriptNameAndArgsFromUrlParams();
+    setScriptNameAndArgsFromUrlParams();
+    kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       handleSessionStatus();
     });
   }

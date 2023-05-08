@@ -10,7 +10,6 @@ function TailLogManager() {
 
   function load() {
     kameHouse.logger.info("Initialized tailLogManager");
-    kameHouse.util.module.setModuleLoaded("tailLogManager");
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */

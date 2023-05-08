@@ -48,13 +48,13 @@ function GrootHeader() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
-        kameHouse.util.module.setModuleLoaded("kameHouseGroot");
+        kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         completeAuthorizeUser();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.extension.groot.session = {};
         kameHouse.logger.error("Error retrieving current groot session information.")
-        kameHouse.util.module.setModuleLoaded("kameHouseGroot");
+        kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         completeAuthorizeUser();
       }
     );
@@ -85,7 +85,7 @@ function GrootHeader() {
     });
 
     if (isAuthorized) {
-      kameHouse.logger.info("User is authorized to access this page");
+      kameHouse.logger.debug("User is authorized to access this page");
       kameHouse.util.dom.removeClass($("body"), "hidden-kh");
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {

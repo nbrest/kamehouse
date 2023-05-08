@@ -25,10 +25,9 @@ function ServerManager() {
   function load() {
     kameHouse.logger.info("Loading ServerManager");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["tailLogManager", "kameHouseShell", "kameHouseGroot"], () => {
+    loadStateFromCookies();
+    kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       handleSessionStatus();
-      loadStateFromCookies();
-      kameHouse.util.module.setModuleLoaded("serverManager");
     });
   }
 
@@ -117,9 +116,6 @@ function ServerManager() {
     isDockerContainer = sessionStatus.isDockerContainer;
     dockerControlHost = sessionStatus.dockerControlHost;
     updateServerName(sessionStatus);
-    kameHouse.util.module.waitForModules(["deploymentManager"], () => {
-      kameHouse.extension.deploymentManager.getTomcatProcessStatus();
-    });
   }
   
   /** Update server name */
@@ -245,10 +241,10 @@ function DeploymentManager() {
 
   function load() {
     kameHouse.logger.info("Loading DeploymentManager");
-    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseGroot"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseGrootSession"], () => {
       getTomcatModulesStatus();
       getNonTomcatModulesStatus();
-      kameHouse.util.module.setModuleLoaded("deploymentManager");
+      getTomcatProcessStatus();
     });
   }
 

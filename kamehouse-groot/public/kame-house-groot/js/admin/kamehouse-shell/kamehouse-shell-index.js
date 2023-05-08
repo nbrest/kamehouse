@@ -10,10 +10,10 @@ function KameHouseShellLoader() {
 
   function load() {
     kameHouse.util.banner.setRandomDragonBallBanner();
-    kameHouse.util.module.waitForModules(["kameHouseGroot"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       handleSessionStatus();
-      getKameHouseShell(populateKameHouseShellTable, () => { kameHouse.logger.error("Error getting scripts csv"); });
     });
+    getKameHouseShell(populateKameHouseShellTable, () => { kameHouse.logger.error("Error getting scripts csv"); });
   }
 
   /** Populates all kamehouse-shell table */
