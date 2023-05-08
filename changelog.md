@@ -29,6 +29,7 @@
 - Updated footer layout and default text
 - Updated crud manager to show a message when no data is received from backend
 - Made all backgrounds and styles darker
+- Removed newsletter from most pages
 - Fixed bugs
 
 #### v8.12
