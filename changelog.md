@@ -30,6 +30,7 @@
 - Updated crud manager to show a message when no data is received from backend
 - Made all backgrounds and styles darker
 - Removed newsletter from most pages
+- Load sticky back to top on all pages
 - Fixed bugs
 
 #### v8.12
