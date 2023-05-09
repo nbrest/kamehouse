@@ -47,14 +47,15 @@ function GrootHeader() {
     const config = kameHouse.http.getConfig();
     kameHouse.http.get(config, SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.info("GRoot session: " + JSON.stringify(responseBody));
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         completeAuthorizeUser();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.extension.groot.session = {};
         kameHouse.logger.error("Error retrieving current groot session information.")
+        kameHouse.extension.groot.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         completeAuthorizeUser();
       }

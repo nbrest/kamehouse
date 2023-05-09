@@ -1624,7 +1624,7 @@ function KameHouseCoreFunctions() {
     }
     kameHouse.http.get(config, SESSION_STATUS_URL, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
+        kameHouse.logger.info("KameHouse session: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("session");
         completeAuthorizeUser();
