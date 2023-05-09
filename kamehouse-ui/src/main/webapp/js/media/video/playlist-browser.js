@@ -64,7 +64,9 @@ function PlaylistBrowser() {
     resetPlaylistDropdown();
     resetPlaylistCategoryDropdown();
 
-    kameHouse.plugin.debugger.http.get(mediaVideoAllPlaylistsUrl, null, null, 
+    const config = kameHouse.http.getConfig();
+    config.sendBasicAuthMobile = false;
+    kameHouse.plugin.debugger.http.get(config, mediaVideoAllPlaylistsUrl, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         videoPlaylists = responseBody;
         videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
@@ -122,7 +124,9 @@ function PlaylistBrowser() {
     const requestParam = {
       "path" : playlistFilename
     };
-    kameHouse.plugin.debugger.http.get(mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
+    const config = kameHouse.http.getConfig();
+    config.sendBasicAuthMobile = false;
+    kameHouse.plugin.debugger.http.get(config, mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         currentPlaylist = responseBody;
         populatePlaylistBrowserTable();

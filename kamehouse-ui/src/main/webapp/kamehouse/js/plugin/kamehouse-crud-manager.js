@@ -188,7 +188,8 @@ function CrudManager() {
   function read(id) {
     kameHouse.logger.info("read");
     const getUrl = url + "/" + id;
-    kameHouse.plugin.debugger.http.get(getUrl, null, null,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, getUrl, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders);
       },
@@ -203,7 +204,8 @@ function CrudManager() {
    */
   function readAll() {
     kameHouse.logger.info("readAll");
-    kameHouse.plugin.debugger.http.get(url, null, null,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, url, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         entities = responseBody;
         reloadView();
@@ -225,7 +227,8 @@ function CrudManager() {
       return;
     }
     const entity = getEntityFromForm(addInputFieldsId);
-    kameHouse.plugin.debugger.http.post(url, kameHouse.http.getApplicationJsonHeaders(), entity,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, url, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
         readAll();
@@ -249,7 +252,8 @@ function CrudManager() {
     }
     const entity = getEntityFromForm(editInputFieldsId);
     const updateUrl = url + "/" + entity.id;
-    kameHouse.plugin.debugger.http.put(updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
         readAll();
@@ -273,7 +277,8 @@ function CrudManager() {
       return;
     }
     const deleteUrl = url + "/" + id;
-    kameHouse.plugin.debugger.http.delete(deleteUrl, null, null,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, deleteUrl, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
         kameHouse.plugin.modal.basicModal.close();
@@ -363,13 +368,13 @@ function CrudManager() {
       kameHouse.logger.info("No data received from the backend");
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
       kameHouse.util.dom.append(crudTbody, noDataTd);
-      filterRows();
     } else {
       kameHouse.util.dom.append(crudTbody, getCrudTableHeader());
       kameHouse.logger.info("Received " + entities.length + " entities from the backend");
       for (const entity of entities) {
         kameHouse.util.dom.append(crudTbody, getEntityTr(entity));
       }
+      filterRows();
     }
     reloadForm(addInputFieldsId);
     reloadForm(editInputFieldsId);

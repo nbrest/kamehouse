@@ -62,7 +62,8 @@ function BackendLogLevelUtils() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null,
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
@@ -70,7 +71,8 @@ function BackendLogLevelUtils() {
   /** Reset all log levels */
   function resetLogLevels(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), null, null,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, getApiUrl(webapp), null, null,
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
@@ -79,7 +81,8 @@ function BackendLogLevelUtils() {
   function setKamehouseLogLevel(webapp) {
     const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + logLevel, null, null, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, getApiUrl(webapp) + logLevel, null, null, 
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
@@ -87,7 +90,8 @@ function BackendLogLevelUtils() {
   /** Set Kamehouse log levels to DEBUG */
   function setKamehouseLogLevelToDebug(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/debug", null, null, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, getApiUrl(webapp) + "/debug", null, null, 
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
@@ -95,7 +99,8 @@ function BackendLogLevelUtils() {
   /** Set Kamehouse log levels to TRACE */
   function setKamehouseLogLevelToTrace(webapp) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.put(getApiUrl(webapp) + "/trace", null, null, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, getApiUrl(webapp) + "/trace", null, null, 
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
@@ -190,7 +195,8 @@ function BackendLogLevelUtils() {
     const url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet;
     const params = {};
     params[urlParamName] = propertyValue;
-    kameHouse.plugin.debugger.http.put(url,kameHouse.http.getUrlEncodedHeaders(), params, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, url,kameHouse.http.getUrlEncodedHeaders(), params, 
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders); });
   }

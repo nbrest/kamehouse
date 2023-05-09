@@ -35,7 +35,7 @@ function SystemCommandManager() {
       if (!kameHouse.core.isEmpty(systemCommandOutput.standardOutput) && 
           systemCommandOutput.standardOutput.length > 0) {
         systemCommandOutput.standardOutput.forEach((standardOutputLine) => {
-          kameHouse.util.dom.append(systemCommandOutputDiv, standardOutputLine);
+          kameHouse.util.dom.append(systemCommandOutputDiv, kameHouse.core.convertBashColorsToHtml(standardOutputLine));
           kameHouse.util.dom.append(systemCommandOutputDiv, kameHouse.util.dom.getBr());
         });
       }

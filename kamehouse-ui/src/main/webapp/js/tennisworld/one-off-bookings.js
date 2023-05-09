@@ -20,7 +20,8 @@ function BookingService() {
     kameHouse.logger.info("Executing booking request...");
     kameHouse.plugin.modal.loadingWheelModal.open("Executing booking request...");
     const bookingRequest = getFormData();
-    kameHouse.plugin.debugger.http.post(BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Booking request completed successfully");
         kameHouse.plugin.modal.loadingWheelModal.close();

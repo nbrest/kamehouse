@@ -185,6 +185,13 @@
         </div>
       </div>
       <br><br>
+            
+      <button class="collapsible-kh collapsible-kh-btn">System State Command Output</button>
+      <div class="collapsible-kh-content">
+        <pre class="console-output system-state-command-output"><div id="system-command-output">No command executed yet...</div></pre>
+      </div>
+      <br><br><br>
+
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Apache Httpd Status</h6>
       <table class="table-kh table-borderless-kh">
       <caption class="hidden-kh">Apache Httpd</caption>
@@ -197,6 +204,7 @@
       </td></tr>
       </tbody>
       </table>
+      <br>
       <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
         onclick="kameHouse.extension.serverManager.restartHttpd(true)"
         src="/kame-house/img/mplayer/resume.png" alt="Restart httpd" title="Restart httpd" />
@@ -204,12 +212,6 @@
         onclick="kameHouse.extension.serverManager.getHttpdStatus(true)"
         src="/kame-house/img/other/sync-btn-info.png" 
         alt="Refresh httpd Status" title="Refresh httpd Status" />
-      <br><br><br>
-      
-      <button class="collapsible-kh collapsible-kh-btn">System State Command Output</button>
-      <div class="collapsible-kh-content">
-        <pre class="console-output system-state-command-output"><div id="system-command-output">No command executed yet...</div></pre>
-      </div>
       <br>
     </div>
     </div>

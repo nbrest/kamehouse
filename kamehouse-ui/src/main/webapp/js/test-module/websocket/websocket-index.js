@@ -55,9 +55,20 @@ function TestWebSocket() {
    * Connect the websocket.
    */
   function connectWebSocket() {
+    kameHouse.plugin.modal.loadingWheelModal.open("Connecting websocket...");
     websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
-    setConnected(true);
-    kameHouse.logger.debug("Connected WebSocket");
+    setTimeout(() => {
+      if (websocket.isConnected()) {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        setConnected(true);
+        kameHouse.logger.debug("Connected WebSocket");
+      } else {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        setConnected(false);
+        kameHouse.logger.error("Error connecting websocket");
+        kameHouse.plugin.modal.basicModal.open("Error connecting websocket");
+      }
+    }, 4000);
   }
 
   /**

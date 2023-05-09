@@ -127,14 +127,24 @@ function KameHouseHeader() {
    * Get login button.
    */
   function getLoginButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/login-left-red.png",
-      className: "header-login-status-btn",
-      alt: "Login KameHouse",
-      onClick: () => {
-        kameHouse.util.mobile.windowLocation("/kame-house/login.html", "/kame-house-mobile/settings.html");
+    return kameHouse.util.mobile.exec(
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/pc/login-left-red.png",
+          className: "header-login-status-btn",
+          alt: "Login KameHouse",
+          onClick: () => window.location="/kame-house/login.html"
+        });
+      },
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/dbz/kamesenin-logo.png",
+          className: "header-login-status-btn",
+          alt: "KameHouse",
+          onClick: () => {return;}
+        });
       }
-    });
+    );
   }
 
   /**
@@ -174,6 +184,7 @@ function KameHouseHeader() {
    * update the session status.
    */
   function updateSessionStatus() {
+    kameHouse.logger.info("Updating header with session status");
     updateLoginStatus();
     kameHouse.util.banner.updateServerName();
   }  

@@ -22,7 +22,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$q', function($q) {
    */
   function fetchAllDragonBallUsers() {
     const deferred = $q.defer();
-    kameHouse.http.get(REST_SERVICE_URI, null, null, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.http.get(config, REST_SERVICE_URI, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => deferred.resolve(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => deferred.reject(responseBody)
     );
@@ -34,7 +35,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$q', function($q) {
    */
   function createDragonBallUser(dragonBallUser) {
     const deferred = $q.defer();
-    kameHouse.http.post(REST_SERVICE_URI, kameHouse.http.getApplicationJsonHeaders(), dragonBallUser, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.http.post(config, REST_SERVICE_URI, kameHouse.http.getApplicationJsonHeaders(), dragonBallUser, 
           (responseBody, responseCode, responseDescription, responseHeaders) => deferred.resolve(responseBody),
           (responseBody, responseCode, responseDescription, responseHeaders) => deferred.reject(responseBody)
         );
@@ -46,7 +48,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$q', function($q) {
    */
   function updateDragonBallUser(dragonBallUser, id) {
     const deferred = $q.defer();
-    kameHouse.http.put(REST_SERVICE_URI + id, kameHouse.http.getApplicationJsonHeaders(), dragonBallUser, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.http.put(config, REST_SERVICE_URI + id, kameHouse.http.getApplicationJsonHeaders(), dragonBallUser, 
           (responseBody, responseCode, responseDescription, responseHeaders) => deferred.resolve(responseBody),
           (responseBody, responseCode, responseDescription, responseHeaders) => deferred.reject(responseBody)
         );
@@ -58,7 +61,8 @@ angular.module('myApp').service('dragonBallUserService', [ '$q', function($q) {
    */
   function deleteDragonBallUser(id) {
     const deferred = $q.defer();
-    kameHouse.http.delete(REST_SERVICE_URI + id, null, null, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.http.delete(config, REST_SERVICE_URI + id, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => deferred.resolve(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => deferred.reject(responseBody)
     );

@@ -85,7 +85,8 @@ function KameHouseMobileCore() {
       username : credentials.username,
       password : credentials.password
     }
-    kameHouse.plugin.debugger.http.post(LOGIN_URL, kameHouse.http.getUrlEncodedHeaders(), loginData,
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, LOGIN_URL, kameHouse.http.getUrlEncodedHeaders(), loginData,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         if (responseBody.includes("KameHouse - Login")) {
@@ -112,7 +113,7 @@ function KameHouseMobileCore() {
   /** 
    * Http request to be sent from the mobile app.
    */
-  function mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
+  function mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     let requestUrl = getBackendServer() + url;   
     const options = {
       method: httpMethod,
@@ -122,7 +123,9 @@ function KameHouseMobileCore() {
     if (!kameHouse.core.isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
-    setMobileBasicAuthHeader();
+    if (config.sendBasicAuthMobile) {
+      setMobileBasicAuthHeader();
+    }
     setDataSerializer(requestHeaders, httpMethod);
     if (kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
       if (httpMethod == GET || httpMethod == PUT || httpMethod == DELETE) {
@@ -406,7 +409,7 @@ function KameHouseMobileConfigManager() {
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
-  const mobileConfigFileSize = 5*1024*1024; //50 mb
+  const mobileConfigFileSize = 1*1024*1024; //1 mb
 
   let isCurrentlyPersistingConfig = false;
   let serversDefaultConfig = null;
@@ -655,6 +658,7 @@ function KameHouseMobileConfigManager() {
       kameHouse.util.dom.setValue(backendServerInput, backendServerDropdown.value);
       updateMobileConfigFromView();
     }    
+    setServerInput("backend");
   }
 
   /**
@@ -662,22 +666,7 @@ function KameHouseMobileConfigManager() {
    */
   function refreshSettingsView() {
     kameHouse.logger.info("Refreshing settings tab view values");
-
-    // servers
     setServerInput("backend");
-
-    // Backend dropdown
-    const backendServerInputValue = document.getElementById("backend-server-input").value;
-    const backendServerDropdown = document.getElementById("backend-server-dropdown");
-    if (backendServerInputValue != "") {
-      backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
-    }
-    for (let i = 0; i < backendServerDropdown.options.length; ++i) {
-      if (backendServerDropdown.options[i].value === backendServerInputValue) {
-        backendServerDropdown.options[i].selected = true;
-      }
-    }
-
     setBackendCredentialsInput();
   }
 
@@ -700,6 +689,22 @@ function KameHouseMobileConfigManager() {
     const server = servers.find(server => server.name === serverName);
     const serverInput = document.getElementById(serverName + "-server-input");
     kameHouse.util.dom.setValue(serverInput, server.url);
+
+    const backendServerInput = document.getElementById(serverName + "-server-input");
+    const backendServerDropdown = document.getElementById(serverName + "-server-dropdown");
+    if (backendServerInput.value != "") {
+      backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
+    }
+    for (let i = 0; i < backendServerDropdown.options.length; ++i) {
+      if (backendServerDropdown.options[i].value === backendServerInput.value) {
+        backendServerDropdown.options[i].selected = true;
+        if (backendServerDropdown.options[i].textContent == "custom server") {
+          backendServerInput.readOnly = false;
+        } else {
+          backendServerInput.readOnly = true;
+        }
+      }
+    }
   }
 
   /**

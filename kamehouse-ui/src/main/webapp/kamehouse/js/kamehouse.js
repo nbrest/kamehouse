@@ -93,6 +93,7 @@ function KameHouse() {
 function KameHouseBannerUtils() {
 
   this.setRandomSanctuaryBanner = setRandomSanctuaryBanner;
+  this.setRandomCaptainTsubasaBanner = setRandomCaptainTsubasaBanner;
   this.setRandomDragonBallBanner = setRandomDragonBallBanner;
   this.setRandomPrinceOfTennisBanner = setRandomPrinceOfTennisBanner;
   this.setRandomSaintSeiyaBanner = setRandomSaintSeiyaBanner;
@@ -133,6 +134,12 @@ function KameHouseBannerUtils() {
     const bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
     setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
     preloadBannerImages('saint-seiya', bannerClasses);
+  }
+
+  /** Set random captain tsubasa banner */
+  function setRandomCaptainTsubasaBanner(bannerRotateWaitMs) {
+    setRandomBannerWrapper(CAPTAIN_TSUBASA_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
   }
 
   /** Set random dragonball banner */
@@ -1492,6 +1499,7 @@ function KameHouseCoreFunctions() {
   this.isEmpty = isEmpty;
   this.isFunction = isFunction;
   this.initAuthorizeUser = initAuthorizeUser;
+  
   this.completeAuthorizeUser = completeAuthorizeUser;
   this.loadSession = loadSession;
   this.loadHeader= loadHeader;
@@ -1504,17 +1512,29 @@ function KameHouseCoreFunctions() {
   this.sleep = sleep;
   this.getBooleanKameHouseData = getBooleanKameHouseData;
   this.getStringKameHouseData = getStringKameHouseData;
+  this.convertBashColorsToHtml = convertBashColorsToHtml;
+  this.pageRequiresAuthorization = pageRequiresAuthorization;
+  
+  /**
+   * Returns true if the page requires authorization.
+   */
+  function pageRequiresAuthorization() {
+    const authorizedRoles = getStringKameHouseData("authorized-roles");
+    if (isEmpty(authorizedRoles)) {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Check if the page requires authorization and sets a splashscreen when it does.
    */
   function initAuthorizeUser() {
-    const authorizedRoles = getStringKameHouseData("authorized-roles");
-    if (isEmpty(authorizedRoles)) {
+    if (!pageRequiresAuthorization()) {
       kameHouse.logger.debug("Page doesn't require authorization");
       return;
     }
-    pageRequiresAuthorization = true;
+    const authorizedRoles = getStringKameHouseData("authorized-roles");
     kameHouse.logger.debug("Page requires roles: " + authorizedRoles);
     openKameHouseSplashScreen();
   }
@@ -1528,8 +1548,7 @@ function KameHouseCoreFunctions() {
       kameHouse.logger.trace("Complete authorize user is handled in groot");
       return;
     }
-    const authorizedRoles = getStringKameHouseData("authorized-roles");
-    if (isEmpty(authorizedRoles)) {
+    if (!pageRequiresAuthorization()) {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
       return;
     }
@@ -1540,6 +1559,7 @@ function KameHouseCoreFunctions() {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
       return;
     }
+    const authorizedRoles = getStringKameHouseData("authorized-roles");
     let isAuthorized = false;
     roles.forEach((userRole) => {
       if (authorizedRoles.includes(userRole)) {
@@ -1596,7 +1616,11 @@ function KameHouseCoreFunctions() {
   function loadSession() {
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
-    kameHouse.http.get(SESSION_STATUS_URL, null, null,
+    const config = kameHouse.http.getConfig();
+    if(!pageRequiresAuthorization()) {
+      config.sendBasicAuthMobile = false;
+    }
+    kameHouse.http.get(config, SESSION_STATUS_URL, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.trace("Session Status: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
@@ -1679,13 +1703,58 @@ function KameHouseCoreFunctions() {
    * Returns the boolean value of data-xx attributes defined in the script tag of kamehouse.js
    * The script tag id must be set to id="kamehouse-data"
    */
-    function getStringKameHouseData(dataAttributeName) {
-      const kameHouseData = document.getElementById('kamehouse-data');
-      if (!isEmpty(kameHouseData)) {
-        return kameHouseData.getAttribute("data-" + dataAttributeName);
-      }
-      return null;
+  function getStringKameHouseData(dataAttributeName) {
+    const kameHouseData = document.getElementById('kamehouse-data');
+    if (!isEmpty(kameHouseData)) {
+      return kameHouseData.getAttribute("data-" + dataAttributeName);
     }
+    return null;
+  }
+
+  /** 
+   * Replaces bash colors in the input string for the equivalent css styled color.
+   * When updating color mappings here, also update them on groot global.php
+   */
+  function convertBashColorsToHtml(bashOutput) {
+    const colorMappings = {
+      '\\[0;30m' : '<span style="color:black">',  
+      '\\[1;30m' : '<span style="color:black">',
+      '\\[0;31m' : '<span style="color:red">', 
+      '\\[1;31m' : '<span style="color:red">', 
+      '\\[0;32m' : '<span style="color:green">', 
+      '\\[00;32m' : '<span style="color:green">',   
+      '\\[1;32m' : '<span style="color:green">',   
+      '\\[0;33m' : '<span style="color:yellow">',
+      '\\[1;33m' : '<span style="color:yellow">',
+      '\\[0;34m' : '<span style="color:#3996ff">',
+      '\\[1;34m' : '<span style="color:#3996ff">',
+      '\\[0;35m' : '<span style="color:purple">',
+      '\\[1;35m' : '<span style="color:purple">',
+      '\\[0;36m' : '<span style="color:cyan">',
+      '\\[1;36m' : '<span style="color:cyan">',
+      '\\[36m' : '<span style="color:cyan">',
+      '\\[0;37m' : '<span style="color:white">',
+      '\\[1;37m' : '<span style="color:white">',
+      '\\[0;39m' : '<span style="color:gray">',
+      '\\[1;39m' : '<span style="color:gray">',
+      '\\[1;32;49m' : '<span style="color:lightgreen">',  
+      '\\[0m' : '</span>',
+      '\\[00m' : '</span>',
+      '\\[1m' : '</span>',
+      '\\[0;1m' : '</span>',
+      '\\[m'   : '</span>'
+    };
+    let htmlOutput = bashOutput;
+    
+    Object.entries(colorMappings).forEach(([bashColor, htmlColor]) => {
+      const regex = new RegExp(bashColor,"g");
+      htmlOutput = htmlOutput.replace(regex, htmlColor)
+    });
+    // Remove the special character added in my bash color mappings
+    htmlOutput = htmlOutput.replace(/""/g, "");
+
+    return htmlOutput;
+  }
 
   /** 
    * @deprecated(use kameHouse.core.isEmpty())
@@ -1992,10 +2061,11 @@ function KameHouseCoreFunctions() {
   /**
    * Log an http request.
    */
-  function logHttpRequest(httpMethod, url, requestHeaders, requestBody) {
+  function logHttpRequest(httpMethod, config, url, requestHeaders, requestBody) {
     debug("http request: [ " 
     + "'method' : '" + httpMethod + "', "
     + "'url' : '" + url + "', "
+    + "'config' : '" + JSON.stringify(config) + "', "
     + "'headers' : '" + JSON.stringify(requestHeaders) + "', "
     + "'body' : '" + JSON.stringify(requestBody) + "' ]");
   }
@@ -2030,6 +2100,7 @@ function KameHouseCoreFunctions() {
   this.urlEncodeParams = urlEncodeParams;
   this.urlEncode = urlEncode;
   this.isUrlEncodedRequest = isUrlEncodedRequest;
+  this.getConfig = getConfig;
 
   const GET = "GET";
   const POST = "POST";
@@ -2039,37 +2110,37 @@ function KameHouseCoreFunctions() {
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function get(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(GET, url, requestHeaders, requestBody, successCallback, errorCallback);
+  function get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    httpRequest(GET, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function put(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(PUT, url, requestHeaders, requestBody, successCallback, errorCallback);
+  function put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    httpRequest(PUT, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function post(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(POST, url, requestHeaders, requestBody, successCallback, errorCallback);
+  function post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    httpRequest(POST, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function deleteHttp(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(DELETE, url, requestHeaders, requestBody, successCallback, errorCallback);
+  function deleteHttp(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    httpRequest(DELETE, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http request with the specified http method. 
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
-  function httpRequest(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    kameHouse.logger.logHttpRequest(httpMethod, url, requestHeaders, requestBody);
+  function httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
     kameHouse.util.mobile.exec(
       () => {
         if (kameHouse.core.isEmpty(requestBody)) {
@@ -2104,10 +2175,20 @@ function KameHouseCoreFunctions() {
       },
       () => {
         kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-          kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, url, requestHeaders, requestBody, successCallback, errorCallback);
+          kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
         });
       },
     );
+  }
+
+  /**
+   * Get the config object to pass to http request methods.
+   */
+  function getConfig() {
+    return {
+      timeout : null,
+      sendBasicAuthMobile : true
+    }
   }
 
   function getResponseHeaders(xhr) {

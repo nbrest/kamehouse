@@ -117,13 +117,14 @@ function KameHouseDebugger() {
   /**
    * Display debugger http client request data.
    */
-  function displayRequestData(url, requestType, requestHeaders, requestBody) {
+  function displayRequestData(method, config, url, requestHeaders, requestBody) {
     emptyDebuggerHttpClientDiv();
     kameHouse.util.dom.setInnerHtml(document.getElementById("debugger-http-client"), debuggerHttpClientDivTemplate);
     const requestTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-method-val'), method);
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-url-val'), url);
-    kameHouse.util.dom.setHtml($('#debugger-http-client-req-type-val'), requestType);
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-config-val'), JSON.stringify(config));
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-headers-val'), JSON.stringify(requestHeaders));
     kameHouse.util.dom.setText($('#debugger-http-client-req-body-val'), JSON.stringify(requestBody, null, 2));
     kameHouse.util.dom.setHtml($('#debugger-http-client-res-code-val'), null);
@@ -165,10 +166,10 @@ function DebuggerHttpClient() {
    * and perform the specified success or error functions 
    * data is any extra data I want to pass to the success and error functions
    */
-  function get(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(url, GET, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(url, GET, requestHeaders, requestBody);
-    kameHouse.http.get(url, requestHeaders, requestBody,
+  function get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(GET, config, url,requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(GET, config, url, requestHeaders, requestBody);
+    kameHouse.http.get(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
@@ -178,10 +179,10 @@ function DebuggerHttpClient() {
    * Execute a PUT request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function put(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(url, PUT, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(url, PUT, requestHeaders, requestBody);
-    kameHouse.http.put(url, requestHeaders, requestBody,
+  function put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(PUT, config, url, requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(PUT, config, url, requestHeaders, requestBody);
+    kameHouse.http.put(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
     );
@@ -191,10 +192,10 @@ function DebuggerHttpClient() {
    * Execute a POST request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function post(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(url, POST, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(url, POST, requestHeaders, requestBody);
-    kameHouse.http.post(url, requestHeaders, requestBody,
+  function post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(POST, config, url, requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(POST, config, url, requestHeaders, requestBody);
+    kameHouse.http.post(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
@@ -204,10 +205,10 @@ function DebuggerHttpClient() {
    * Execute a DELETE request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function httpDelete(url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(url, DELETE, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(url, DELETE, requestHeaders, requestBody);
-    kameHouse.http.delete(url, requestHeaders, requestBody,
+  function httpDelete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = createRequestDataForLog(DELETE, config, url, requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(DELETE, config, url, requestHeaders, requestBody);
+    kameHouse.http.delete(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
@@ -216,10 +217,11 @@ function DebuggerHttpClient() {
   /**
    * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
    */
-  function createRequestDataForLog(url, method, requestHeaders, requestBody) {
+  function createRequestDataForLog(method, config, url, requestHeaders, requestBody) {
     const requestData = {};
-    requestData.url = url;
     requestData.method = method;
+    requestData.url = url;
+    requestData.config = config,
     requestData.headers = requestHeaders;
     requestData.requestBody = requestBody;
     requestData.timestamp = kameHouse.util.time.getTimestamp();

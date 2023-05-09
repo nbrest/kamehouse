@@ -40,6 +40,15 @@
 - Updated debugger console output styles
 - Moved toggle debugger to header
 - Loaded kamehouse modal on all pages
+- Added config object to http client framework to allow configuring timeouts and sending basic auth on mobile
+- Made all servers read only in settings tab except custom server
+- Removed booking requests view
+- Split banners css into multiple files
+- Added bash colors to html in kamehouse.js to fix output in server management page
+- Fixed crud filter bar buttons layout in mobile
+- Reduced mobile config file size
+- Updated groot banner text with session details
+- Fixed showing test websocket connected when connection fails
 - Fixed bugs
 
 #### v8.12

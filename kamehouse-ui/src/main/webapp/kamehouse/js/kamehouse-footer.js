@@ -45,9 +45,10 @@ function KameHouseFooter() {
   }
 
   /**
-   * Wait for the header and footer to be loaded and then update the session status.
+   * Wait for the footer to be loaded and then update the session status.
    */
   function updateSessionStatus() {
+    kameHouse.logger.info("Updating footer with session status");
     updateFooterWithSessionInfo();
     kameHouse.util.banner.updateServerName();
   }

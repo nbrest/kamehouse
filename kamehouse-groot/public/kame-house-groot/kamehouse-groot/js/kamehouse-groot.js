@@ -44,7 +44,8 @@ function GrootHeader() {
   /** Load session */
   function loadSession() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
-    kameHouse.http.get(SESSION_STATUS_API, null, null,
+    const config = kameHouse.http.getConfig();
+    kameHouse.http.get(config, SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
@@ -65,8 +66,7 @@ function GrootHeader() {
    * Call this function after the groot session is loaded.
    */
   function completeAuthorizeUser() {
-    const authorizedRoles = kameHouse.core.getStringKameHouseData("authorized-roles");
-    if (kameHouse.core.isEmpty(authorizedRoles)) {
+    if (!kameHouse.core.pageRequiresAuthorization()) {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
       return;
     }
@@ -77,6 +77,7 @@ function GrootHeader() {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
       return;
     }
+    const authorizedRoles = kameHouse.core.getStringKameHouseData("authorized-roles");
     let isAuthorized = false;
     roles.forEach((userRole) => {
       if (authorizedRoles.includes(userRole)) {
@@ -135,14 +136,24 @@ function GrootHeader() {
   }
   
   function getLoginButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/login-left-gray-dark.png",
-      className: "groot-header-login-status-btn",
-      alt: "Login GRoot",
-      onClick: () => {
-        kameHouse.util.mobile.windowLocation("/kame-house-groot/login.html", "/kame-house-mobile/settings.html");
+    return kameHouse.util.mobile.exec(
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/pc/login-left-gray-dark.png",
+          className: "groot-header-login-status-btn",
+          alt: "Login GRoot",
+          onClick: () => window.location="/kame-house-groot/login.html"
+        });
+      },
+      () => {
+        return kameHouse.util.dom.getImgBtn({
+          src: "/kame-house/img/dbz/dragonball-7-star-dark-gray.png",
+          className: "groot-header-login-status-btn",
+          alt: "GRoot",
+          onClick: () => {return;}
+        });
       }
-    });
+    );
   }
 
   function getLogoutButton() {

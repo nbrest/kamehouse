@@ -38,13 +38,15 @@ function TestScheduler() {
       "delay" : delay
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.post(TEST_MODULE_API_URL + SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, processSuccessSampleJob, processErrorSampleJob);
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, processSuccessSampleJob, processErrorSampleJob);
   }
 
   /** Cancel a SampleJob command */
   function cancelSampleJob() {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    kameHouse.plugin.debugger.http.delete(TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJob, processErrorSampleJob);
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJob, processErrorSampleJob);
   }
 
   /** Get the SampleJob command status */
@@ -52,7 +54,9 @@ function TestScheduler() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJobStatus, processErrorSampleJobStatus);
+    const config = kameHouse.http.getConfig();
+    config.sendBasicAuthMobile = false;
+    kameHouse.plugin.debugger.http.get(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJobStatus, processErrorSampleJobStatus);
   }
 
   /** Process the success response of a SampleJob command (set/cancel) */

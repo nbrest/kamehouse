@@ -138,17 +138,13 @@ a:active {
   width: 28px;
   height: 28px;
   cursor: pointer;
-  transform: scale(0.9);
 }
 
 @media (max-width : 900px) {
   .groot-header-login-status-btn {
     margin-top: 5px;
     margin-bottom: 7px;
-    margin-right: 3px;
-    width: 22px;
-    height: 22px;
-    transform: scale(1);
+    margin-right: 5px;
   }
 }
 

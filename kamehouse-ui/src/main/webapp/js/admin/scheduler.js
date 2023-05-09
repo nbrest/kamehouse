@@ -58,7 +58,8 @@ function Scheduler() {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
-    kameHouse.plugin.debugger.http.get(getApiUrl(webapp), null, null, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null, 
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }
@@ -70,7 +71,8 @@ function Scheduler() {
       "name" : jobKey.name,
       "group" : jobKey.group
     };
-    kameHouse.plugin.debugger.http.delete(getApiUrl(webapp), kameHouse.http.getUrlEncodedHeaders(), params, 
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, getApiUrl(webapp), kameHouse.http.getUrlEncodedHeaders(), params, 
     (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
     (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
   }

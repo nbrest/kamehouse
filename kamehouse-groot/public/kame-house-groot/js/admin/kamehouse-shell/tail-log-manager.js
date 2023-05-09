@@ -24,7 +24,8 @@ function TailLogManager() {
         args: "-l " + logLevel,
         executeOnDockerHost: executeOnDockerHost
       };
-      kameHouse.http.get(KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
+      const config = kameHouse.http.getConfig();
+      kameHouse.http.get(config, KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
     } else {
