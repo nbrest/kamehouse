@@ -48,5 +48,6 @@
       to test it with parameters
     </div>
   </div>
+  <span id="debug-mode-wrapper"></span>
 </body>
 </html>

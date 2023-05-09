@@ -49,6 +49,7 @@
 - Reduced mobile config file size
 - Updated groot banner text with session details
 - Fixed showing test websocket connected when connection fails
+- Loaded kamehouse debugger on all pages
 - Fixed bugs
 
 #### v8.12

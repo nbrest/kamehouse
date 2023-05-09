@@ -37,5 +37,6 @@
       onclick="window.location.href='dragonball/model-and-view'">  
   </div>
   </div>
+  <span id="debug-mode-wrapper"></span>
 </body>
 </html>

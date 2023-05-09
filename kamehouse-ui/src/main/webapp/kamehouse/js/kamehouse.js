@@ -62,6 +62,7 @@ function KameHouse() {
     this.core.loadFooter();
     this.core.loadStickyBackToTop();
     this.core.loadKameHouseModal();
+    this.core.loadKameHouseDebugger();
     this.util.cursor.loadSpinningWheelMobile();
     //kameHouse.util.test.testLogLevel();
     //kameHouse.util.test.testSleep();
@@ -1506,6 +1507,7 @@ function KameHouseCoreFunctions() {
   this.loadFooter= loadFooter;
   this.loadStickyBackToTop = loadStickyBackToTop;
   this.loadKameHouseModal = loadKameHouseModal;
+  this.loadKameHouseDebugger = loadKameHouseDebugger;
   this.scrollToTopOfDiv = scrollToTopOfDiv;
   this.scrollToTop = scrollToTop;
   this.scrollToBottom = scrollToBottom;
@@ -1681,6 +1683,15 @@ function KameHouseCoreFunctions() {
   function loadKameHouseModal() {
     kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-modal.js", () => {
       kameHouse.logger.info("Loaded kamehouse-modal.js");
+    });
+  }
+
+  /**
+   * Load kamehouse debugger.
+   */
+  function loadKameHouseDebugger() {
+    kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-debugger.js", () => {
+      kameHouse.logger.info("Loaded kamehouse-debugger.js");
     });
   }
 

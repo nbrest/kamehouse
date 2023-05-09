@@ -92,6 +92,7 @@
       alt="Back To Top" title="Back To Top" />
 
   </div>
+  <span id="debug-mode-wrapper"></span>
   <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-shell.js"></script>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/exec-script.js"></script>
 </body>

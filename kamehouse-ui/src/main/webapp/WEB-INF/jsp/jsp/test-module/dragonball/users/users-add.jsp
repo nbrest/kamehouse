@@ -54,6 +54,5 @@
     <br><br>
   </div>
   <span id="debug-mode-wrapper"></span>
-  <script src="/kame-house/kamehouse/js/plugin/kamehouse-debugger.js"></script>
 </body>
 </html>

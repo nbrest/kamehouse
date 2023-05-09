@@ -55,7 +55,7 @@ mainProcess() {
   echo "</pre>" >> ${KAMEHOUSE_APK_HTML}
 
   echo '</div>' >> ${KAMEHOUSE_APK_HTML}
-
+  echo '<span id="debug-mode-wrapper"></span>' >> ${KAMEHOUSE_APK_HTML}
   echo "</body></html>" >> ${KAMEHOUSE_APK_HTML}
 }
 

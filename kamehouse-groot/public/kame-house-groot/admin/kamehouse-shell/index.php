@@ -74,6 +74,7 @@
     </table>
   </div>
   </div>
+  <span id="debug-mode-wrapper"></span>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/kamehouse-shell-index.js"></script>
 </body>
 </html>
