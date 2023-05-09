@@ -10,7 +10,10 @@
  * @author nbrest
  */
 
-/** Replaces bash colors in the input string for the equivalent css styled color */
+/** 
+ * Replaces bash colors in the input string for the equivalent css styled color.
+ * When updating color mappings here, also update them on kamehouse.js
+ */
 function convertBashColorsToHtml($bashOutput) {
   $colorMappings = array(
     '[0;30m' => '<span style="color:black">',  

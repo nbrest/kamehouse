@@ -25,7 +25,7 @@
   <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-fuji">
       <div class="default-layout banner-text">
-        <h1>Execute Script</h1>
+        <h1>Execute</h1>
         <div id="banner-server-name"></div>
         <br>
         <div id="banner-script-status">not running</div>

@@ -1,3 +1,3 @@
 $(document).ready(() => {
-  kameHouse.util.banner.setRandomAllBanner();
+  kameHouse.util.banner.setRandomCaptainTsubasaBanner();
 });

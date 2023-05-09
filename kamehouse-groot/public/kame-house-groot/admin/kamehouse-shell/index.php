@@ -25,7 +25,7 @@
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
     <div class="default-layout banner-text">
-      <h1>KameHouse Shell</h1>
+      <h1>Shell</h1>
       <div id="banner-server-name"></div>
     </div>
   </div>  
