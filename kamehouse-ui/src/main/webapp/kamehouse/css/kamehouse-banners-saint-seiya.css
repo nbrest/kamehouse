@@ -1,0 +1,345 @@
+/**
+  * banners saint seiya
+  */
+  .banner-ancient-era-warriors {
+    background: url(/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ancient-era-warriors {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ancient-era-warriors {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-aries-knights {
+    background: url(/kame-house/img/banners/saint-seiya/banner-aries-knights.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-aries-knights {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-aries-knights {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-athena {
+    background: url(/kame-house/img/banners/saint-seiya/banner-athena.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-athena {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-athena {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-athena-saints {
+    background: url(/kame-house/img/banners/saint-seiya/banner-athena-saints.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-athena-saints {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-athena-saints {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-camus {
+    background: url(/kame-house/img/banners/saint-seiya/banner-camus.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-camus {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-camus {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-dohko {
+    background: url(/kame-house/img/banners/saint-seiya/banner-dohko.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-dohko {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-dohko {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-fuego-12-casas {
+    background: url(/kame-house/img/banners/saint-seiya/banner-fuego-12-casas.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-fuego-12-casas {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-fuego-12-casas {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-hades {
+    background: url(/kame-house/img/banners/saint-seiya/banner-hades.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-hades {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-hades {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-hyoga {
+    background: url(/kame-house/img/banners/saint-seiya/banner-hyoga.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-hyoga {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-hyoga {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-ikki {
+    background: url(/kame-house/img/banners/saint-seiya/banner-ikki.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ikki {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ikki {
+      background-position-x: -210px;
+    }
+  }
+  
+  .banner-ikki2 {
+    background: url(/kame-house/img/banners/saint-seiya/banner-ikki2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ikki2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ikki2 {
+      background-position-x: -90px;
+    }
+  }
+  
+  .banner-pegasus-ryu-sei-ken {
+    background: url(/kame-house/img/banners/saint-seiya/banner-pegasus-ryu-sei-ken.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-pegasus-ryu-sei-ken {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-pegasus-ryu-sei-ken {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-sanctuary {
+    background: url(/kame-house/img/banners/saint-seiya/banner-sanctuary.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-sanctuary {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-sanctuary {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-seiya {
+    background: url(/kame-house/img/banners/saint-seiya/banner-seiya.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-seiya {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-seiya {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-shaka {
+    background: url(/kame-house/img/banners/saint-seiya/banner-shaka.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-shaka {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-shaka {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-shion {
+    background: url(/kame-house/img/banners/saint-seiya/banner-shion.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-shion {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-shion {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-shiryu {
+    background: url(/kame-house/img/banners/saint-seiya/banner-shiryu.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-shiryu {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-shiryu {
+      background-position-x: -60px;
+    }
+  }
+  
+  .banner-shun {
+    background: url(/kame-house/img/banners/saint-seiya/banner-shun.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-shun {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-shun {
+      background-position-x: 0;
+    }
+  }
+  

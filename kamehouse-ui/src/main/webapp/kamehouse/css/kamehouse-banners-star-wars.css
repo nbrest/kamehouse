@@ -1,0 +1,288 @@
+/**
+  * banners star wars
+  */
+  .banner-anakin {
+    background: url(/kame-house/img/banners/star-wars/banner-anakin.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-anakin {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-anakin {
+      background-position-x: -90px;
+    }
+  }
+  
+  .banner-anakin2 {
+    background: url(/kame-house/img/banners/star-wars/banner-anakin2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-anakin2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-anakin2 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-anakin3 {
+    background: url(/kame-house/img/banners/star-wars/banner-anakin3.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-anakin3 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-anakin3 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-anakin4 {
+    background: url(/kame-house/img/banners/star-wars/banner-anakin4.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-anakin4 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-anakin4 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-anakin5 {
+    background: url(/kame-house/img/banners/star-wars/banner-anakin5.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-anakin5 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-anakin5 {
+      background-position-x: -220px;
+    }
+  }
+  
+  .banner-luke-vader {
+    background: url(/kame-house/img/banners/star-wars/banner-luke-vader.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-luke-vader {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-luke-vader {
+      background-position-x: -90px;
+    }
+  }
+  
+  .banner-luke-vader2 {
+    background: url(/kame-house/img/banners/star-wars/banner-luke-vader2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-luke-vader2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-luke-vader2 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-luke-vader3 {
+    background: url(/kame-house/img/banners/star-wars/banner-luke-vader3.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-luke-vader3 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-luke-vader3 {
+      background-position-x: -170px;
+    }
+  }
+  
+  .banner-star-wars-ep3 {
+    background: url(/kame-house/img/banners/star-wars/banner-star-wars-ep3.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-star-wars-ep3 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-star-wars-ep3 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-star-wars-poster {
+    background: url(/kame-house/img/banners/star-wars/banner-star-wars-poster.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-star-wars-poster {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-star-wars-poster {
+      background-position-x: -220px;
+    }
+  }
+  
+  .banner-star-wars-trilogy {
+    background: url(/kame-house/img/banners/star-wars/banner-star-wars-trilogy.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-star-wars-trilogy {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-star-wars-trilogy {
+      background-position-x: 0;
+    }
+  }
+  
+  .banner-vader {
+    background: url(/kame-house/img/banners/star-wars/banner-vader.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-vader {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-vader {
+      background-position-x: 0;
+    }
+  }
+  
+  .banner-vader2 {
+    background: url(/kame-house/img/banners/star-wars/banner-vader2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-vader2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-vader2 {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-yoda {
+    background: url(/kame-house/img/banners/star-wars/banner-yoda.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-yoda {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-yoda {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-yoda2 {
+    background: url(/kame-house/img/banners/star-wars/banner-yoda2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-yoda2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-yoda2 {
+      background-position-x: -130px;
+    }
+  }
+  

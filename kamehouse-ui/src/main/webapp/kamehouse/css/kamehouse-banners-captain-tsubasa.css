@@ -1,0 +1,249 @@
+/**
+  * banners captain tsubasa
+  */
+.banner-beni3 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-beni3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-beni3 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-beni3 {
+    background-position-x: -90px;
+  }
+}
+
+.banner-benji-steve {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji-steve.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji-steve {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji-steve {
+    background-position-x: -90px;
+  }
+}
+
+.banner-benji {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji {
+    background-position-x: -90px;
+  }
+}
+
+.banner-benji2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji2 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji2 {
+    background-position-x: -40px;
+  }
+}
+
+.banner-benji3 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji3 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji3 {
+    background-position-x: -90px;
+  }
+}
+
+.banner-benji4 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-benji4 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-benji4 {
+    background-position-x: -40px;
+  }
+}
+
+.banner-niupi {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-niupi.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-niupi {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-niupi {
+    background-position-x: -130px;
+  }
+}
+
+.banner-niupi2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-niupi2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-niupi2 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-niupi2 {
+    background-position-x: -130px;
+  }
+}
+
+.banner-oliver-benji {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver-benji.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver-benji {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver-benji {
+    background-position-x: 0;
+  }
+}
+
+.banner-oliver-benji2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver-benji2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver-benji2 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver-benji2 {
+    background-position-x: -40px;
+  }
+}
+
+.banner-oliver-steve {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver-steve.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver-steve {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver-steve {
+    background-position-x: -30px;
+  }
+}
+
+.banner-oliver {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver {
+    background-position-x: -40px;
+  }
+}
+
+.banner-oliver2 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-oliver2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-oliver2 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-oliver2 {
+    background-position-x: -130px;
+  }
+}

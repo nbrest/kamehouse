@@ -1,0 +1,41 @@
+/**
+  * banners game of thrones
+  */
+  .banner-jon-snow2 {
+    background: url(/kame-house/img/banners/game-of-thrones/banner-jon-snow2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-jon-snow2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-jon-snow2 {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-winter-is-coming {
+    background: url(/kame-house/img/banners/game-of-thrones/banner-winter-is-coming.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-winter-is-coming {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-winter-is-coming {
+      background-position-x: -100px;
+    }
+  }
+  

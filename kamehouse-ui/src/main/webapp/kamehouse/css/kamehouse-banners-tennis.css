@@ -1,0 +1,60 @@
+/**
+  * banners tennis
+  */
+  .banner-australian-open {
+    background: url(/kame-house/img/banners/tennis/banner-australian-open.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-australian-open {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-australian-open {
+      background-position-x: 0;
+    }
+  }
+  
+  .banner-roland-garros {
+    background: url(/kame-house/img/banners/tennis/banner-roland-garros.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-roland-garros {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-roland-garros {
+      background-position-x: 0;
+    }
+  }
+  
+  .banner-wimbledon {
+    background: url(/kame-house/img/banners/tennis/banner-wimbledon.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-wimbledon {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-wimbledon {
+      background-position-x: 0;
+    }
+  }
+  

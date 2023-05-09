@@ -1,0 +1,308 @@
+
+/**
+  * banners marvel
+  */
+  .banner-avengers-assemble {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-assemble.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-assemble {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-assemble {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-cap {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap {
+      background-position-x: -200px;
+    }
+  }
+  
+  .banner-avengers-cap-mjolnir {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-mjolnir.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-mjolnir {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-mjolnir {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-cap-mjolnir2 {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-mjolnir2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-mjolnir2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-mjolnir2 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-cap-mjolnir3 {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-mjolnir3.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-mjolnir3 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-mjolnir3 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-cap-mjolnir4 {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-mjolnir4.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-mjolnir4 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-mjolnir4 {
+      background-position-x: -200px;
+    }
+  }
+  
+  .banner-avengers-cap-mjolnir5 {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-mjolnir5.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-mjolnir5 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-mjolnir5 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-cap-mjolnir6 {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-mjolnir6.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-mjolnir6 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-mjolnir6 {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-avengers-cap-uniform {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-cap-uniform.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-cap-uniform {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-cap-uniform {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-endgame {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-endgame.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-endgame {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-endgame {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-infinity {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-infinity.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-infinity {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-infinity {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-ironman {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-ironman.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-ironman {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-ironman {
+      background-position-x: 0;
+    }
+  }
+  
+  .banner-avengers-portals {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-portals.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-portals {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-portals {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-avengers-trinity {
+    background: url(/kame-house/img/banners/marvel/banner-avengers-trinity.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers-trinity {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers-trinity {
+      background-position-x: -100px;
+    }
+  }
+  
+  .banner-avengers {
+    background: url(/kame-house/img/banners/marvel/banner-avengers.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-avengers {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-avengers {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-spiderman {
+    background: url(/kame-house/img/banners/marvel/banner-spiderman.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-spiderman {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-spiderman {
+      background-position-x: 0;
+    }
+  }
+  

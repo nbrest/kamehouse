@@ -1,0 +1,231 @@
+/**
+  * banners prince of tennis
+  */
+  .banner-fuji {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-fuji.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-fuji {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-fuji {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-pot-pijamas {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-pot-pijamas.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-pot-pijamas {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-pot-pijamas {
+      background-position-x: 0;
+    }
+  }
+  
+  .banner-rikkaidai {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-rikkaidai.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-rikkaidai {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-rikkaidai {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-ryoma-chibi {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-chibi.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ryoma-chibi {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ryoma-chibi {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-ryoma-chibi2 {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-chibi2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ryoma-chibi2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ryoma-chibi2 {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-ryoma-drive {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-drive.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ryoma-drive {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ryoma-drive {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-ryoma-ss {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-ryoma-ss.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-ryoma-ss {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-ryoma-ss {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-seigaku {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-seigaku.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-seigaku {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-seigaku {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-tezuka {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-tezuka.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-tezuka {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-tezuka {
+      background-position-x: -90px;
+    }
+  }
+  
+  .banner-yukimura {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-yukimura {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-yukimura {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-yukimura2 {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-yukimura2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-yukimura2 {
+      background-position-x: -40px;
+    }
+  }
+  
+  .banner-yukimura-sanada {
+    background: url(/kame-house/img/banners/prince-of-tennis/banner-yukimura-sanada.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-yukimura-sanada {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-yukimura-sanada {
+      background-position-x: -40px;
+    }
+  }
+  

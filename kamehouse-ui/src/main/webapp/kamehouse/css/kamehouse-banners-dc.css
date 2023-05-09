@@ -1,0 +1,174 @@
+/**
+  * banners dc
+  */
+  .banner-batman-animated {
+    background: url(/kame-house/img/banners/dc/banner-batman-animated.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-batman-animated {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-batman-animated {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-batman {
+    background: url(/kame-house/img/banners/dc/banner-batman.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-batman {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-batman {
+      background-position-x: -190px;
+    }
+  }
+  
+  .banner-joker {
+    background: url(/kame-house/img/banners/dc/banner-joker.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-joker {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-joker {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-joker2 {
+    background: url(/kame-house/img/banners/dc/banner-joker2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-joker2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-joker2 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-superman-logo {
+    background: url(/kame-house/img/banners/dc/banner-superman-logo.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-superman-logo {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-superman-logo {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-superman-space {
+    background: url(/kame-house/img/banners/dc/banner-superman-space.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-superman-space {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-superman-space {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-superman {
+    background: url(/kame-house/img/banners/dc/banner-superman.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-superman {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-superman {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-superman2 {
+    background: url(/kame-house/img/banners/dc/banner-superman2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-superman2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-superman2 {
+      background-position-x: -130px;
+    }
+  }
+  
+  .banner-superman3 {
+    background: url(/kame-house/img/banners/dc/banner-superman3.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-superman3 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-superman3 {
+      background-position-x: -90px;
+    }
+  }
+  
