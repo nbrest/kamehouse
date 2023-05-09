@@ -1,12 +1,15 @@
+.crud-searchbar {
+  padding: 10px; 
+}
+
 .control-buttons-td {
-  max-width: 25px;
   padding: 10px;
   text-align: right;
 }
 
 @media (max-width : 900px) {
   .control-buttons-td {
-    max-width: 80px;
+    min-width: 90px;
   } 
 }
 
@@ -20,13 +23,12 @@
 }
 
 .num-rows-dropdown-td {
-  max-width: 30px;
   padding: 10px;
   text-align: right;
 }
 
 @media (max-width : 900px) {
   .num-rows-dropdown-td {
-    max-width: 90px;
+    min-width: 90px;
   } 
 }
