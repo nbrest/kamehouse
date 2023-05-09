@@ -2197,7 +2197,6 @@ function KameHouseCoreFunctions() {
    */
   function getConfig() {
     return {
-      timeout : null,
       sendBasicAuthMobile : true
     }
   }

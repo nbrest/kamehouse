@@ -125,6 +125,8 @@ function KameHouseMobileCore() {
     }
     if (config.sendBasicAuthMobile) {
       setMobileBasicAuthHeader();
+    } else {
+      unsetMobileBasicAuthHeader();
     }
     setDataSerializer(requestHeaders, httpMethod);
     if (kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
@@ -216,6 +218,11 @@ function KameHouseMobileCore() {
       kameHouse.logger.debug("Setting basicAuth header for mobile http request");
       cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
     }
+  }
+
+  function unsetMobileBasicAuthHeader() {
+    kameHouse.logger.debug("Unsetting basicAuth header for mobile http request");
+    cordova.plugin.http.setHeader('Authorization', null);
   }
 
   function setDataSerializer(headers, httpMethod) {
