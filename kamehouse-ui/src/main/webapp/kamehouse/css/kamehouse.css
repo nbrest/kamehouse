@@ -1087,7 +1087,7 @@ hr {
   font-size: 40px;
   font-weight: bold;
   font-style: italic;
-  font-family: 'varela_roundregular', 'Arial';
+  font-family: 'varela_roundregular', Arial, Helvetica, sans-serif;
 }
 
 @media (max-width : 900px) {
