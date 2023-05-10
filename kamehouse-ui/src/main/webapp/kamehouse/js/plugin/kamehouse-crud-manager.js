@@ -14,11 +14,12 @@ function CrudManager() {
 
   this.clearForm = clearForm;
   this.filterRows = filterRows;
-  this.refreshView = refreshView;
+  this.refreshView = refreshView; 
 
-  const tbodyId = "crud-manager-tbody";
-  const addInputFieldsId = "crud-add-input-fields";
-  const editInputFieldsId = "crud-edit-input-fields";
+  const TBODY_ID = "crud-manager-tbody";
+  const ADD_INPUT_FIELDS_ID = "crud-add-input-fields";
+  const EDIT_INPUT_FIELDS_ID = "crud-edit-input-fields";
+  const DEFAULT_BANNER = "banner-goku-ssj4-earth";
 
   let entityName = "Set EntityName";
   let url = "/kame-house-module/api/v1/override-url";
@@ -35,7 +36,7 @@ function CrudManager() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
     kameHouse.util.dom.load($("#crud-manager-body-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
-      kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+      kameHouse.util.banner.setRandomAllBanner();
     });
   }
 
@@ -76,6 +77,7 @@ function CrudManager() {
    * - sortType (select)
    */
   function init(config) {
+    replaceBanner(config);
     setEntityName(config.entityName);
     setUrl(config.url);
     setColumns(config.columns);
@@ -89,6 +91,15 @@ function CrudManager() {
     readAll();
   }
 
+  /**
+   * Replace default banner
+   */
+  function replaceBanner(config) {
+    if (!kameHouse.core.isEmpty(config.banner)) {
+      kameHouse.util.dom.removeClass($("#banner"), DEFAULT_BANNER);
+      kameHouse.util.dom.addClass($("#banner"), config.banner);
+    }
+  }
   /**
    * Updates the view with the entity name.
    */
@@ -226,7 +237,7 @@ function CrudManager() {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
-    const entity = getEntityFromForm(addInputFieldsId);
+    const entity = getEntityFromForm(ADD_INPUT_FIELDS_ID);
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, url, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
@@ -250,7 +261,7 @@ function CrudManager() {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
-    const entity = getEntityFromForm(editInputFieldsId);
+    const entity = getEntityFromForm(EDIT_INPUT_FIELDS_ID);
     const updateUrl = url + "/" + entity.id;
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
@@ -299,7 +310,7 @@ function CrudManager() {
    */
   function setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders) { 
     kameHouse.logger.debug("readCallback: override this with setReadCallback when required");
-    reloadForm(editInputFieldsId);
+    reloadForm(EDIT_INPUT_FIELDS_ID);
     updateEditFormFieldValues(responseBody, columns, null);
   }
 
@@ -316,7 +327,7 @@ function CrudManager() {
         updateEditFormFieldValues(entity[name], column.columns, parentNodeChain + name);
         continue;
       }
-      const inputFieldId = editInputFieldsId + "-" + parentNodeChain + name;
+      const inputFieldId = EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
       const inputField = $(document.getElementById(inputFieldId));
       kameHouse.util.dom.setVal(inputField, entity[name]); 
 
@@ -362,7 +373,7 @@ function CrudManager() {
    */
   function reloadView() {
     kameHouse.logger.trace("reloadView");
-    const crudTbody = $('#' + tbodyId);
+    const crudTbody = $('#' + TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
     if (entities.length == 0 || entities.length == null || entities.length == undefined) {
       kameHouse.logger.info("No data received from the backend");
@@ -376,8 +387,8 @@ function CrudManager() {
       }
       filterRows();
     }
-    reloadForm(addInputFieldsId);
-    reloadForm(editInputFieldsId);
+    reloadForm(ADD_INPUT_FIELDS_ID);
+    reloadForm(EDIT_INPUT_FIELDS_ID);
     sortTable();
   }
 
@@ -394,7 +405,7 @@ function CrudManager() {
    * Display error getting entities.
    */
   function displayErrorGettingEntities() {
-    const crudTbody = $('#' + tbodyId);
+    const crudTbody = $('#' + TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
     kameHouse.util.dom.append(crudTbody, kameHouse.util.dom.getTrTd("Error getting data from the backend"));
   }
@@ -622,7 +633,7 @@ function CrudManager() {
       }
       let currentColumnIndex = columnIndex + addedObjectColumnIndexes;
       const td = kameHouse.util.dom.getTd({
-        id: tbodyId + "-col-" + currentColumnIndex,
+        id: TBODY_ID + "-col-" + currentColumnIndex,
         class: "clickable",
         alt: "Sort by " + parentNodeChain + name,
         title: "Sort by " + parentNodeChain + name
