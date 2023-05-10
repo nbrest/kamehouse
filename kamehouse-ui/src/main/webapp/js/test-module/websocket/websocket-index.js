@@ -11,19 +11,18 @@ function TestWebSocket() {
 
   function load() {
     kameHouse.logger.info("Started initializing TestWebSocket");
-    kameHouse.util.banner.setRandomSaintSeiyaBanner();
+    kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.loadKameHouseWebSocket();
+    kameHouse.logger.setLogLevel(4);
+    $("form").on('submit', (e) => e.preventDefault());
+    kameHouse.util.dom.setClick($("#connect"), null, () => connectWebSocket());
+    kameHouse.util.dom.setClick($("#disconnect"), null, () => disconnectWebSocket());
+    kameHouse.util.dom.setClick($("#send"), null, () => sendWebSocketRequest());
     kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
-      kameHouse.logger.setLogLevel(4);
       websocket = new KameHouseWebSocket();
       websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
       websocket.setTopicUrl('/topic/test-module/websocket-out');
       websocket.setPollUrl("/app/test-module/websocket-in");
-      
-      $("form").on('submit', (e) => e.preventDefault());
-      kameHouse.util.dom.setClick($("#connect"), null, () => connectWebSocket());
-      kameHouse.util.dom.setClick($("#disconnect"), null, () => disconnectWebSocket());
-      kameHouse.util.dom.setClick($("#send"), null, () => sendWebSocketRequest());
     });
   }
 

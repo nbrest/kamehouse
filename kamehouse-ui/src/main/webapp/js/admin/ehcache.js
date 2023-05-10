@@ -25,10 +25,12 @@ function EhCacheManager() {
 
   function load() {
     kameHouse.logger.info("Started initializing ehcache");
-    kameHouse.util.banner.setRandomPrinceOfTennisBanner();
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
       kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-ehcache');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
+    });
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
       init();
     });
   }

@@ -15,9 +15,11 @@ function Scheduler() {
   function load() {
     kameHouse.logger.info("Started initializing scheduler");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+    kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
       kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-scheduler');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
+    });
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
       init();
     });
   }

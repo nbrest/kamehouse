@@ -11,10 +11,12 @@ function KameHouseMobileSettings() {
   function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app settings page");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseMobile", "kameHouseDebugger", "mobileTabsManager"], () => {
+    handleUrlParams();
+    kameHouse.util.module.waitForModules([ "mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
+    });
+    kameHouse.util.module.waitForModules(["kameHouseMobile", "mobileTabsManager"], () => {
       kameHouse.extension.mobile.core.setMobileBuildVersion();
-      handleUrlParams();
     });
   }
 

@@ -53,12 +53,16 @@ function VlcPlayer(hostname) {
 
   /** Load VlcPlayer */
   function load() {
+    kameHouse.logger.info("Started initializing VLC Player");
     kameHouse.util.module.loadKameHouseWebSocket();
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebSocket"], () => {
-      kameHouse.logger.info("Started initializing VLC Player");
-      loadStateFromCookies();
-      playlist.init();
+    loadStateFromCookies();
+    playlist.init();
+    kameHouse.util.mobile.setMobileEventListeners(stopVlcPlayerLoops, restartVlcPlayerLoops);
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
       loadStateFromApi();
+    });
+    kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebSocket"], () => {
       synchronizer = new VlcPlayerSynchronizer(this);
       synchronizer.syncVlcPlayerHttpLoop();
       kameHouse.util.mobile.exec(
@@ -70,8 +74,6 @@ function VlcPlayer(hostname) {
           });
         }
       );
-      kameHouse.util.mobile.setMobileEventListeners(stopVlcPlayerLoops, restartVlcPlayerLoops);
-      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
       kameHouse.util.module.setModuleLoaded("vlcPlayer");
     });
   }
@@ -857,26 +859,29 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     const PERIODIC_STATUS_WAIT_MS = 20000;
     setTimeout(async () => {
       while (true) {
-        kameHouse.logger.trace("---------------------------------------------");
-        kameHouse.logger.trace("Sync loops status:");
-        kameHouse.logger.trace("---------------------------------------------");
+        const separator = "---------------------------------------------";
+        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
+        const loopsStatus = "Sync loops status:";
+        kameHouse.logger.trace(loopsStatus, kameHouse.logger.getYellowText(loopsStatus));
+        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
         kameHouse.logger.trace("isRunningSyncVlcRcStatusLoop: " + isRunningSyncVlcRcStatusLoop);
         kameHouse.logger.trace("isRunningSyncPlaylistLoop: " + isRunningSyncPlaylistLoop);
         kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + isRunningKeepAliveWebSocketLoop);
         kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + isRunningSyncVlcPlayerHttpLoop);
-        kameHouse.logger.trace("-------------------------");
+        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
         kameHouse.logger.trace("vlcRcStatusLoopCount: " + vlcRcStatusLoopCount);
         kameHouse.logger.trace("vlcPlaylistLoopCount: " + vlcPlaylistLoopCount);
         kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + keepAliveWebSocketLoopCount);
         kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + syncVlcPlayerHttpLoopCount);
-        kameHouse.logger.trace("---------------------------------------------");
+        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
         await kameHouse.core.sleep(PERIODIC_STATUS_WAIT_MS);
       }
     }, 0);
   }
 
   function stopVlcPlayerLoops() {
-    kameHouse.logger.info("KameHouse sent to background. Stopping sync loops and disconnecting websockets");
+    const message = "KameHouse sent to background. Stopping sync loops and disconnecting websockets";
+    kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
     isRunningSyncVlcRcStatusLoop = false;
     isRunningSyncPlaylistLoop = false;
     isRunningKeepAliveWebSocketLoop = false;
@@ -886,7 +891,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   }
 
   function restartVlcPlayerLoops() {
-    kameHouse.logger.info("KameHouse sent to foreground. Restarting sync loops and reconnecting websockets");
+    const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
+    kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
     vlcRcStatusWebSocket.disconnect();
     playlistWebSocket.disconnect(); 
     const RESTART_LOOPS_WAIT_MS = 1000;
