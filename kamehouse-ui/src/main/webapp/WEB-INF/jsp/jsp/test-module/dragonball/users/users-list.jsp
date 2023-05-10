@@ -22,6 +22,13 @@
 </head>
 <body> 
   <div class="main-body">
+  <div class="banner-wrapper">
+    <div id="banner" class="fade-in-out-15s banner-hades">
+      <div class="default-layout banner-text">
+        <h1>Dragonball Users JSP</h1>
+      </div>
+    </div>
+  </div>
   <div class="default-layout p-15-m-kh">
     <br>
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>

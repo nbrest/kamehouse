@@ -10,7 +10,7 @@ function BookingService() {
 
   function load() {
     kameHouse.logger.info("Loading BookingService");
-    kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+    kameHouse.util.banner.setRandomAllBanner();
   }
 
   /**
@@ -118,6 +118,7 @@ function BookingService() {
    * Update the view with the booking response.
    */
   function updateBookingResponseTable(bookingResponse, responseCode) {
+      kameHouse.util.dom.removeClass($('#brt'), "hidden-kh");
       kameHouse.util.dom.setHtml($('#brt-response-code'), responseCode);
       kameHouse.util.dom.setHtml($('#brt-response-id'), bookingResponse.id);
       kameHouse.util.dom.setHtml($('#brt-status'), bookingResponse.status);

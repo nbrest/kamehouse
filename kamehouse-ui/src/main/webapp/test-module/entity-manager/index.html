@@ -11,22 +11,24 @@
 <script src="/cordova.js"></script>
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data" data-authorized-roles="ROLE_SAIYAJIN"></script>
+<script src="/kame-house/js/test-module/entity-manager/entity-manager-index.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
 </head>
 <body>
   <div class="banner-wrapper">
-  <div id="banner" class="banner-wimbledon">
+  <div id="banner" class="fade-in-out-15s banner-holanda-messi-corriendo">
     <div class="default-layout banner-text">
       <h1>Entity Manager</h1>
-      <p>Perform CRUD operations on KameHouse entities</p>
     </div>
   </div>
   </div>
-  <div class="default-layout landing-p-links">
-    <br>
-    <input type="button" value="DragonBall User" class="landing-p-link"
-      onclick="window.location.href='/kame-house/test-module/entity-manager/dragonball-user.html'">
+  <div class="default-layout">
+    <p class="p-15-d-kh">Perform CRUD operations on KameHouse entities</p>
+    <div class="default-layout landing-p-links">
+      <input type="button" value="DragonBall User" class="landing-p-link"
+        onclick="window.location.href='/kame-house/test-module/entity-manager/dragonball-user.html'">
+    </div>
   </div>
   <span id="debug-mode-wrapper"></span>
 </body>

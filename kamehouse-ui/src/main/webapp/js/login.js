@@ -1,5 +1,6 @@
 /** Set alert messages */
 $(document).ready(() => {
+  kameHouse.util.banner.setRandomAllBanner();
   const urlParams = new URLSearchParams(window.location.search);
   const unauthorizedPageAccess = urlParams.get('unauthorizedPageAccess');
   const error = urlParams.get('error');

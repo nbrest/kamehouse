@@ -907,6 +907,7 @@ function KameHouseMobileConfigManager() {
     this.sendRequest = sendRequest;
     this.useBasicAuth = useBasicAuth;
     this.setDataSerializer = setDataSerializer;
+    this.setHeader = setHeader;
 
     function setServerTrustMode(trustMode, successCallback) {
       kameHouse.logger.info("Called setServerTrustMode on cordova mock with " + trustMode);
@@ -928,6 +929,10 @@ function KameHouseMobileConfigManager() {
 
     function setDataSerializer(serializationType) {
       kameHouse.logger.info("Called setDataSerializer on cordova mock with " + serializationType);
+    }
+
+    function setHeader(key, value) {
+      kameHouse.logger.info("Called setHeader on cordova mock with " + key + ":" + value);
     }
   }
 

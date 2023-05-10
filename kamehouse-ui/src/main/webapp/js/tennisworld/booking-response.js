@@ -2,6 +2,7 @@ const config = {
   readOnly: true,
   entityName: "Booking Response",
   url: "/kame-house-tennisworld/api/v1/tennis-world/booking-responses",
+  banner: "banner-rikkaidai",
   defaultSorting: {
     columnNumber: 11, //creationDate
     sortType: "timestamp",

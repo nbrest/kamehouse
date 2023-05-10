@@ -3,6 +3,7 @@ $(document).ready(() => {
     kameHouse.plugin.crudManager.init({
       entityName: "Vlc Player",
       url: "/kame-house-vlcrc/api/v1/vlc-rc/players",
+      banner: "banner-pegasus-ryu-sei-ken",
       columns: [
         { 
           name: "id",

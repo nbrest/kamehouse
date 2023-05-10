@@ -16,8 +16,8 @@ function KameHouseMobileTabsManager() {
     kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-settings-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("mobileTabsManager");
     });
-    kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-      kameHouse.util.dom.load($("#tab-backend"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-backend.html", () => {
+    kameHouse.util.dom.load($("#tab-backend"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-backend.html", () => {
+      kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
         kameHouse.extension.mobile.configManager.refreshSettingsView();
       });
     });

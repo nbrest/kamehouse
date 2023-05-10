@@ -3,6 +3,7 @@ $(document).ready(() => {
     kameHouse.plugin.crudManager.init({
       entityName: "KameHouse User",
       url: "/kame-house-admin/api/v1/admin/kamehouse/users",
+      banner: "banner-gohan-ssj2-3",
       columns: [
         { 
           name: "id",

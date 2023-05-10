@@ -9,7 +9,7 @@ function KameHouseShellLoader() {
   const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script";
 
   function load() {
-    kameHouse.util.banner.setRandomDragonBallBanner();
+    kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       handleSessionStatus();
     });

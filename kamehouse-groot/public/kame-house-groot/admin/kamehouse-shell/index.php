@@ -23,7 +23,7 @@
 </head>
 <body>
   <div class="banner-wrapper">
-  <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
+  <div id="banner" class="fade-in-out-15s banner-shiryu">
     <div class="default-layout banner-text">
       <h1>Shell</h1>
       <div id="banner-server-name"></div>

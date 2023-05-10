@@ -7,7 +7,7 @@ function ScheduledBookingService() {
 
   function load() {
     kameHouse.logger.info("Loading ScheduledBookingService");
-    kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+    kameHouse.util.banner.setRandomAllBanner();
   }
 
   /**

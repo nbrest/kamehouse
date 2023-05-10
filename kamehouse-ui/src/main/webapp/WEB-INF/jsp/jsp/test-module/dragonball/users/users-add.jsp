@@ -13,13 +13,22 @@
 <script src="/kame-house/lib/js/jquery.js"></script>
 <script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data" data-authorized-roles="ROLE_SAIYAJIN"></script>
 <script src="/kame-house/js/jsp/test-module/dragonball/users/dragonball-user-service-jsp.js"></script>
+<script src="/kame-house/js/jsp/test-module/dragonball/users/dragonball-users-add.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-header.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-footer.css" />
 </head>
 <body> 
-  <div class="default-layout main-body p-15-m-kh">
+  <div class="main-body">
+  <div class="banner-wrapper">
+    <div id="banner" class="fade-in-out-15s banner-gohan-ssj2-4">
+      <div class="default-layout banner-text">
+        <h1>Add Dragonball User JSP</h1>
+      </div>
+    </div>
+  </div>
+  <div class="default-layout p-15-m-kh">
     <br>
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Add DragonBall User</h3>
     <br>
@@ -51,8 +60,9 @@
           src="/kame-house/img/other/list-bullet-gray-dark.png" alt="List Users" title="List Users"/>
       </div>
     </form>
-    <br><br>
+    <br>
   </div>
   <span id="debug-mode-wrapper"></span>
+  </div>
 </body>
 </html>

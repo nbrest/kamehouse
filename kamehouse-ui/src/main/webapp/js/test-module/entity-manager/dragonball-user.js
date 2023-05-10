@@ -4,6 +4,7 @@ $(document).ready(() => {
       readOnly: true,
       entityName: "DragonBall User",
       url: "/kame-house-testmodule/api/v1/test-module/dragonball/users",
+      banner: "banner-goku-ssj1",
       columns: [
         { 
           name: "id",

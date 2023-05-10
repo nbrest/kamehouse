@@ -22,7 +22,15 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-footer.css" />
 </head>
 <body> 
-  <div class="default-layout main-body p-15-m-kh">
+  <div class="main-body">
+    <div class="banner-wrapper">
+      <div id="banner" class="fade-in-out-15s banner-gohan-ssj2-2">
+        <div class="default-layout banner-text">
+          <h1>Edit Dragonball User JSP</h1>
+        </div>
+      </div>
+    </div>
+  <div class="default-layout p-15-m-kh">
     <br>
     <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Edit DragonBall User</h3>
     <br>
@@ -59,5 +67,6 @@
     <br><br>
   </div>
   <span id="debug-mode-wrapper"></span>
+  </div>
 </body>
 </html>

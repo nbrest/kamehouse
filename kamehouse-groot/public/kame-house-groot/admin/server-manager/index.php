@@ -23,7 +23,7 @@
 </head>
 <body>
   <div class="banner-wrapper">
-  <div id="banner" class="fade-in-out-15s banner-goku-ssj4-earth">
+  <div id="banner" class="fade-in-out-15s banner-dbz-messi-maradona">
     <div class="default-layout banner-text">
       <h1>Server Manager</h1>
       <div id="banner-server-name"></div>
@@ -334,7 +334,7 @@
           <img id="toggle-tail-log-img"
             class="img-btn-kh m-10-d-r-kh" 
             onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()" 
-            src="/kame-house/img/mplayer/play-green.png"
+            src="/kame-house/img/mplayer/play-gray.png"
             alt="Start Tail Log" title="Start Tail Log"/>
           <div id="tail-log-num-lines">
             <span class="bold-kh p-15-d-kh">Number of lines: </span>

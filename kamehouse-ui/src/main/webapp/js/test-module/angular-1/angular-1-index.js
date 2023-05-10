@@ -1,3 +1,3 @@
 $(document).ready(() => {
-  kameHouse.util.banner.setRandomSaintSeiyaBanner();
+  kameHouse.util.banner.setRandomAllBanner();
 });

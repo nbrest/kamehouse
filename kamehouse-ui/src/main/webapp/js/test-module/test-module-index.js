@@ -1,3 +1,3 @@
 $(document).ready(() => {
-  kameHouse.util.banner.setRandomDragonBallBanner();
+  kameHouse.util.banner.setRandomAllBanner();
 });

@@ -23,7 +23,7 @@
 </head>
 <body>
   <div class="banner-wrapper">
-    <div id="banner" class="fade-in-out-15s banner-fuji">
+    <div id="banner" class="fade-in-out-15s banner-ikki">
       <div class="default-layout banner-text">
         <h1>Execute</h1>
         <div id="banner-server-name"></div>
@@ -73,7 +73,9 @@
         <tr class="hidden-kh">
           <th scope="row">Script Output</th>
         </tr>
-        <tbody id="script-output-table-body">No script executed yet...</tbody>
+        <tbody id="script-output-table-body">
+          <tr><td>No script executed yet...</td></tr>
+        </tbody>
       </table></pre>
     
     <div class="p-15-d-kh p-15-m-kh"></div>

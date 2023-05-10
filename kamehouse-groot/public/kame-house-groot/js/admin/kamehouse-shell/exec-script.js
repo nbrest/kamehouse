@@ -17,7 +17,9 @@ function ExecScriptLoader() {
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
-    kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, successCallback, errorCallback);
+    kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
+      kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, successCallback, errorCallback);
+    }); 
   }
 
   function successCallback() {

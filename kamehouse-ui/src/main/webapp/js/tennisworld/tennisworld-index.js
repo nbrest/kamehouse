@@ -1,3 +1,3 @@
 $(document).ready(() => {
-  kameHouse.util.banner.setRandomPrinceOfTennisBanner();
+  kameHouse.util.banner.setRandomAllBanner();
 });

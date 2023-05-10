@@ -19,7 +19,7 @@
 <body>
   <div class="main-body">
     <div class="banner-wrapper">
-      <div id="banner" class="fade-in-out-15s banner-ancient-era-warriors">
+      <div id="banner" class="fade-in-out-15s banner-camus">
         <div class="default-layout banner-text">
           <h1>Dragonball ModelAndView JSP</h1>
         </div>

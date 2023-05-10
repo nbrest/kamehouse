@@ -50,6 +50,18 @@
 - Updated groot banner text with session details
 - Fixed showing test websocket connected when connection fails
 - Loaded kamehouse debugger on all pages
+- Moved text away from banners to main body
+- Removed long texts from banners
+- Moved kamehouse-shell.js to execute through debugger
+- Updated initial banners
+- Hid one off booking response until the booking executes
+- Changed tail log button
+- Updated ui readme with icon colors
+- Improved waitForModule calls to wait only for required modules on page load
+- Allowed crud manager to replace default banner in the config
+- Updated default banners for several pages
+- Added colors to debug mode log entries
+- Added world cup 2022 (ARGENTINA CAMPEON!!) banners
 - Fixed bugs
 
 #### v8.12
