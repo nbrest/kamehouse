@@ -62,6 +62,7 @@
 - Updated default banners for several pages
 - Added colors to debug mode log entries
 - Added world cup 2022 (ARGENTINA CAMPEON!!) banners
+- Updated homepage banner animation
 - Fixed bugs
 
 #### v8.12
