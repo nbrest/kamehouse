@@ -99,6 +99,7 @@ function KameHouseBannerUtils() {
   this.setRandomPrinceOfTennisBanner = setRandomPrinceOfTennisBanner;
   this.setRandomSaintSeiyaBanner = setRandomSaintSeiyaBanner;
   this.setRandomTennisBanner = setRandomTennisBanner;
+  this.setRandomWorldCupBanner = setRandomWorldCupBanner;
   this.setRandomAllBanner = setRandomAllBanner;
   this.updateServerName = updateServerName;
 
@@ -109,11 +110,11 @@ function KameHouseBannerUtils() {
   const DRAGONBALL_BANNERS = ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-trunks-mountains"];
   const GAME_OF_THRONES_BANNERS = ["banner-jon-snow2", "banner-winter-is-coming"];
   const MARVEL_BANNERS = ["banner-avengers", "banner-avengers-assemble", "banner-avengers-cap", "banner-avengers-cap-mjolnir", "banner-avengers-cap-mjolnir2", "banner-avengers-cap-mjolnir3", "banner-avengers-cap-mjolnir4", "banner-avengers-cap-mjolnir5", "banner-avengers-cap-mjolnir6", "banner-avengers-cap-uniform", "banner-avengers-endgame", "banner-avengers-infinity", "banner-avengers-ironman", "banner-avengers-portals", "banner-avengers-trinity", "banner-spiderman"];
-  const MATRIX_BANNERS = ["banner-matrix"];
   const PRINCE_OF_TENNIS_BANNERS = ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"];
   const SAINT_SEIYA_BANNERS = ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"];
   const STAR_WARS_BANNERS = ["banner-anakin", "banner-anakin2", "banner-anakin3", "banner-anakin4", "banner-anakin5", "banner-luke-vader", "banner-luke-vader2", "banner-luke-vader3", "banner-star-wars-ep3", "banner-star-wars-poster", "banner-star-wars-trilogy", "banner-vader", "banner-vader2", "banner-yoda", "banner-yoda2"];
   const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
+  const WORLD_CUP_2022_BANNERS = [ "banner-arabia-flags", "banner-australia-messi-gol", "banner-dbz-messi-maradona", "banner-francia-flags", "banner-francia-messi-festejando-mbappe", "banner-holanda-messi-corriendo", "banner-messi-campeones-arrodillado", "banner-mexico-flags", "banner-mexico-messi-gol", "banner-mexico-messi-gol2", "banner-world-cup-champions"];
 
   const ALL_BANNERS = [];
   // When adding new arrays here, also add them to preloadedBannerImages in setRandomAllBanner().
@@ -122,16 +123,17 @@ function KameHouseBannerUtils() {
   ALL_BANNERS.push.apply(ALL_BANNERS, DRAGONBALL_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, GAME_OF_THRONES_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, MARVEL_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, MATRIX_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, PRINCE_OF_TENNIS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, SAINT_SEIYA_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, STAR_WARS_BANNERS);
   ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
+  ALL_BANNERS.push.apply(ALL_BANNERS, WORLD_CUP_2022_BANNERS);
 
   const preloadedBannerImages = [];
 
   /** Set random saint seiya sanctuary banner */
   function setRandomSanctuaryBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random sanctuary banners");
     const bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
     setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
     preloadBannerImages('saint-seiya', bannerClasses);
@@ -139,47 +141,60 @@ function KameHouseBannerUtils() {
 
   /** Set random captain tsubasa banner */
   function setRandomCaptainTsubasaBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random captain tsubasa banners");
     setRandomBannerWrapper(CAPTAIN_TSUBASA_BANNERS, true, bannerRotateWaitMs);
     preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
   }
 
   /** Set random dragonball banner */
   function setRandomDragonBallBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random dragonball banners");
     setRandomBannerWrapper(DRAGONBALL_BANNERS, true, bannerRotateWaitMs);
     preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
   }
 
   /** Set random prince of tennis banner */
   function setRandomPrinceOfTennisBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random prince of tennis banners");
     setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true, bannerRotateWaitMs);
     preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
   }
 
   /** Set random saint seiya banner */
   function setRandomSaintSeiyaBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random saint seiya banners");
     setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true, bannerRotateWaitMs);
     preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
   }
 
   /** Set random tennis banner */
   function setRandomTennisBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random tennis banners");
     setRandomBannerWrapper(TENNIS_BANNERS, true, bannerRotateWaitMs);
     preloadBannerImages('tennis', TENNIS_BANNERS);
   }
 
+  /** Set random world cup 2022 ARGENTINA CAMPEON!!! banner */
+  function setRandomWorldCupBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random world cup banners");
+    setRandomBannerWrapper(WORLD_CUP_2022_BANNERS, true, bannerRotateWaitMs);
+    preloadBannerImages('world-cup-2022', WORLD_CUP_2022_BANNERS);
+  }
+
   /** Set random banner from all banners */
   function setRandomAllBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random all banners");
     setRandomBannerWrapper(ALL_BANNERS, true, bannerRotateWaitMs);
     preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
     preloadBannerImages('dc', DC_BANNERS);
     preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
     preloadBannerImages('game-of-thrones', GAME_OF_THRONES_BANNERS);
     preloadBannerImages('marvel', MARVEL_BANNERS);
-    preloadBannerImages('matrix', MATRIX_BANNERS);
     preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
     preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
     preloadBannerImages('star-wars', STAR_WARS_BANNERS);
     preloadBannerImages('tennis', TENNIS_BANNERS);
+    preloadBannerImages('world-cup-2022', WORLD_CUP_2022_BANNERS);
   }
 
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
@@ -197,6 +212,7 @@ function KameHouseBannerUtils() {
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     const bannerDivClasses = $('#banner').attr('class');
     if (kameHouse.core.isEmpty(bannerDivClasses)) {
+      kameHouse.logger.trace("No banner classes to update. Returning...");
       return;
     }
     const currentClassList = bannerDivClasses.split(/\s+/);
@@ -871,8 +887,14 @@ function KameHouseMobileUtils() {
     disableMobileOnlyElements();
     loadGlobalMobile();
     setMobileEventListeners(
-      () => {kameHouse.logger.debug("KameHouse sent to background");}, 
-      () => {kameHouse.logger.debug("KameHouse sent to foreground");}
+      () => {
+        const message = "KameHouse sent to background";
+        kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message));
+      }, 
+      () => {
+        const message = "KameHouse sent to foreground";
+        kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message));
+      }
     );
   }
 
@@ -1034,7 +1056,9 @@ function KameHouseModuleUtils() {
 
   /** Marks the specified module as loaded */
   function setModuleLoaded(moduleName) {
-    kameHouse.logger.debug("setModuleLoaded: " + moduleName);
+    const message = "setModuleLoaded: " + moduleName;
+    const messageColored = "setModuleLoaded: " + kameHouse.logger.getGreenText(moduleName);
+    kameHouse.logger.debug(message, messageColored);
     modules[moduleName] = true;
   }
 
@@ -1872,6 +1896,11 @@ function KameHouseCoreFunctions() {
   this.logApiError = logApiError;
   this.logHttpRequest = logHttpRequest;
   this.logHttpResponse = logHttpResponse;
+  this.getRedText = getRedText;
+  this.getYellowText = getYellowText;
+  this.getBlueText = getBlueText;
+  this.getGreenText = getGreenText;
+  this.getCyanText = getCyanText;
 
   /**
    * Log levels:
@@ -1939,7 +1968,7 @@ function KameHouseCoreFunctions() {
   }
 
   /** Log a specified message with the specified logging level. */
-  function log(logLevel, message) {
+  function log(logLevel, message, coloredMessage) {
     if (kameHouse.core.isEmpty(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;
@@ -1951,7 +1980,7 @@ function KameHouseCoreFunctions() {
     const logLevelUpperCase = logLevel.toUpperCase();
     const timestamp = kameHouse.util.time.getTimestamp();
     const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
-    const logEntryForDebugMode = buildLogEntryForDebug(timestamp, logLevelUpperCase, message);
+    const logEntryForDebugMode = buildLogEntryForDebug(timestamp, logLevelUpperCase, message, coloredMessage);
     if (logLevelUpperCase == "ERROR") {
       console.error(logEntry);
       logToDebugMode(logEntryForDebugMode);
@@ -1976,27 +2005,75 @@ function KameHouseCoreFunctions() {
     }
   }
 
-  function buildLogEntryForDebug(timestamp, logLevel, message) {
-    return "<span style='color:#00b2b2'>" + timestamp + "</span> <span style='color:#3996ff'>-</span> [" + getLogLevelColored(logLevel) + "] <span style=color:#3996ff> - </span>" + escapeHtml(message);
+  function buildLogEntryForDebug(timestamp, logLevel, message, coloredMessage) {
+    const logLineTemplate = getCyanText(timestamp) + getBlueText(" - ") + "[" + getLogLevelColored(logLevel) + "] " + getBlueText(" - ");
+    if (!kameHouse.core.isEmpty(coloredMessage)) {
+      return logLineTemplate + coloredMessage;
+    }
+    return logLineTemplate + escapeHtml(message);
   }
 
   function getLogLevelColored(logLevel) {
     if (logLevel == "ERROR") {
-      return "<span style='color:red'>" + logLevel + "</span>";
+      return getRedText(logLevel);
     }
     if (logLevel == "WARN") {
-      return "<span style='color:yellow'>" + logLevel + "</span>";
+      return getYellowText(logLevel);
     }
     if (logLevel == "INFO") {
-      return "<span style='color:#3996ff'>" + logLevel + "</span>";
+      return getBlueText(logLevel);
     }
     if (logLevel == "DEBUG") {
-      return "<span style='color:green'>" + logLevel + "</span>";
+      return getGreenText(logLevel);
     }
     if (logLevel == "TRACE") {
-      return "<span style='color:#00b2b2'>" + logLevel + "</span>";
+      return getCyanText(logLevel);
     }
     return logLevel;
+  }
+  
+  function getRedText(text) {
+    return getSpanRed() + text + getSpanEnd();
+  }
+
+  function getYellowText(text) {
+    return getSpanYellow() + text + getSpanEnd();
+  }
+
+  function getBlueText(text) {
+    return getSpanBlue() + text + getSpanEnd();
+  }
+
+  function getGreenText(text) {
+    return getSpanGreen() + text + getSpanEnd();
+  }
+
+  function getCyanText(text) {
+    return getSpanCyan() + text + getSpanEnd();
+  }
+
+  function getSpanEnd() {
+    return "</span>";
+  }
+
+  function getSpanRed() {
+    return "<span style='color:red'>";
+  }
+
+  function getSpanYellow() {
+    return "<span style='color:yellow'>";
+  }
+
+  function getSpanBlue() {
+    return "<span style='color:#3996ff'>";
+  }
+
+  function getSpanGreen() {
+    return "<span style='color:green'>";
+  }
+
+  function getSpanCyan() {
+    return "<span style='color:#00b2b2'>";
   }
 
   function escapeHtml(html) {
@@ -2004,19 +2081,19 @@ function KameHouseCoreFunctions() {
   }
 
   /** Log an error message */
-  function error(message) { log("ERROR", message); }
+  function error(message, coloredMessage) { log("ERROR", message, coloredMessage); }
 
   /** Log a warn message */
-  function warn(message) { log("WARN", message); }
+  function warn(message, coloredMessage) { log("WARN", message, coloredMessage); }
 
   /** Log an info message */
-  function info(message) { log("INFO", message); }
+  function info(message, coloredMessage) { log("INFO", message, coloredMessage); }
 
   /** Log a debug message */
-  function debug(message) { log("DEBUG", message); }
+  function debug(message, coloredMessage) { log("DEBUG", message, coloredMessage); }
 
   /** Log a trace message */
-  function trace(message) { log("TRACE", message); }
+  function trace(message, coloredMessage) { log("TRACE", message, coloredMessage); }
 
   /**
    * Log the entry into the debug mode console log table.

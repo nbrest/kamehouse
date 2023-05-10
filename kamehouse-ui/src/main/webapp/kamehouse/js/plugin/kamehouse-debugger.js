@@ -47,7 +47,8 @@ function KameHouseDebugger() {
    */
   function toggleDebugMode() {
     kameHouse.plugin.modal.basicModal.openAutoCloseable("Toggled debug mode!", 1000);
-    kameHouse.logger.info("Toggled debug mode");
+    const message = "Toggled debug mode";
+    kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     const debugModeDiv = document.getElementById("debug-mode");
     kameHouse.util.dom.classListToggle(debugModeDiv, "hidden-kh");
   }
