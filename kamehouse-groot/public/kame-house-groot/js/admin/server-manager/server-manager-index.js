@@ -241,7 +241,7 @@ function DeploymentManager() {
 
   function load() {
     kameHouse.logger.info("Loading DeploymentManager");
-    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseGrootSession"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseDebugger", "kameHouseGrootSession"], () => {
       getTomcatModulesStatus();
       getNonTomcatModulesStatus();
       getTomcatProcessStatus();
