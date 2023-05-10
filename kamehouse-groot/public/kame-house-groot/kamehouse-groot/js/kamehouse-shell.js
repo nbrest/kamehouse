@@ -30,7 +30,7 @@ function KameHouseShell() {
       setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
       kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost);
       const config = kameHouse.http.getConfig();
-      kameHouse.http.get(config, EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
+      kameHouse.plugin.debugger.http.get(config, EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback));
     } else {
