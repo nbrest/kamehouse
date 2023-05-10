@@ -257,12 +257,14 @@ function KameHouseBannerUtils() {
   
   /** Preload banner images */
   function preloadBannerImages(bannerPath, bannerArray) {
-    bannerArray.forEach((bannerName) => {
-      const img = kameHouse.util.dom.getImgBtn({
-        src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
+    setTimeout(() => {
+      bannerArray.forEach((bannerName) => {
+        const img = kameHouse.util.dom.getImgBtn({
+          src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
+        });
+        preloadedBannerImages.push(img);
       });
-      preloadedBannerImages.push(img);
-    });
+    }, 7000);
   }
 }
 
