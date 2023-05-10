@@ -1,0 +1,212 @@
+/**
+  * banners world cup 2022 ARGENTINA CAMPEON DEL MUNDO!!!
+  */
+  .banner-arabia-flags {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-arabia-flags.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-arabia-flags {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-arabia-flags {
+      background-position-x: -250px;
+    }
+  }
+
+  .banner-australia-messi-gol {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-australia-messi-gol.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-australia-messi-gol {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-australia-messi-gol {
+      background-position-x: -130px;
+    }
+  }
+
+  .banner-dbz-messi-maradona {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-dbz-messi-maradona.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-dbz-messi-maradona {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-dbz-messi-maradona {
+      background-position-x: -130px;
+    }
+  }
+
+  .banner-francia-flags {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-francia-flags.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-francia-flags {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-francia-flags {
+      background-position-x: 0px;
+    }
+  }  
+  
+  .banner-francia-messi-festejando-mbappe {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-francia-messi-festejando-mbappe.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-francia-messi-festejando-mbappe {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-francia-messi-festejando-mbappe {
+      background-position-x: -130px;
+    }
+  }  
+  
+  .banner-holanda-messi-corriendo {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-holanda-messi-corriendo.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-holanda-messi-corriendo {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-holanda-messi-corriendo {
+      background-position-x: -300px;
+    }
+  }  
+
+  .banner-messi-campeones-arrodillado {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-messi-campeones-arrodillado.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-messi-campeones-arrodillado {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-messi-campeones-arrodillado {
+      background-position-x: 0px;
+    }
+  }  
+
+  .banner-mexico-flags {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-mexico-flags.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-mexico-flags {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-mexico-flags {
+      background-position-x: -130px;
+    }
+  }  
+
+  .banner-mexico-messi-gol {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-mexico-messi-gol.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-mexico-messi-gol {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-mexico-messi-gol {
+      background-position-x: -130px;
+    }
+  }  
+
+  .banner-mexico-messi-gol2 {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-mexico-messi-gol2.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-mexico-messi-gol2 {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-mexico-messi-gol2 {
+      background-position-x: -130px;
+    }
+  }  
+
+  .banner-world-cup-champions {
+    background: url(/kame-house/img/banners/world-cup-2022/banner-world-cup-champions.jpg) 0 0;
+    background-size: cover !important;
+    background-repeat: round !important;
+  }
+  
+  @media (max-width : 900px) {
+    .banner-world-cup-champions {
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+    }
+  }
+  
+  @media (max-width : 499px) {
+    .banner-world-cup-champions {
+      background-position-x: -130px;
+    }
+  }  
+
