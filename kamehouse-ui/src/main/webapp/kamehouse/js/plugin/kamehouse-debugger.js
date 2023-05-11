@@ -223,7 +223,7 @@ function DebuggerHttpClient() {
     const requestData = {};
     requestData.method = method;
     requestData.url = url;
-    requestData.config = config,
+    requestData.config = config;
     requestData.headers = requestHeaders;
     requestData.requestBody = requestBody;
     requestData.timestamp = kameHouse.util.time.getTimestamp();

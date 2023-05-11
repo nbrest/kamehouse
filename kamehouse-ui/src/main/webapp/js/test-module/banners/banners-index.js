@@ -9,7 +9,6 @@ function TestBannerRenderer() {
   this.reloadBanners = reloadBanners;
 
   const TBODY_ID = "banners-table-body";
-  let selectedBanners = [];
 
   function load() {
     kameHouse.logger.info("Loading TestBannerRenderer");
@@ -42,8 +41,8 @@ function TestBannerRenderer() {
     kameHouse.logger.info("Reloading banners");
     const bannersTbody = $('#' + TBODY_ID);
     kameHouse.util.dom.empty(bannersTbody);
-    bannerCategory = getSelectedBannerCategory();
-    selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
+    const bannerCategory = getSelectedBannerCategory();
+    const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
     for (const bannerName of selectedBanners) {
       kameHouse.util.dom.append(bannersTbody, getBannerImage(bannerCategory, bannerName));
     }
