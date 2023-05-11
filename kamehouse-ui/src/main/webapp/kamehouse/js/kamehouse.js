@@ -102,34 +102,82 @@ function KameHouseBannerUtils() {
   this.setRandomWorldCupBanner = setRandomWorldCupBanner;
   this.setRandomAllBanner = setRandomAllBanner;
   this.updateServerName = updateServerName;
+  this.getBannerCategories = getBannerCategories;
+  this.getBanners = getBanners;
 
   const DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
+  const PRELOAD_BANNERS_WAIT_MS = 25000;
 
-  const CAPTAIN_TSUBASA_BANNERS = ["banner-beni3", "banner-benji-steve", "banner-benji", "banner-benji2", "banner-benji3", "banner-benji4", "banner-niupi", "banner-niupi2", "banner-oliver-benji", "banner-oliver-benji2", "banner-oliver-steve", "banner-oliver", "banner-oliver2"];
-  const DC_BANNERS = ["banner-batman-animated", "banner-batman", "banner-joker", "banner-joker2", "banner-superman-logo", "banner-superman-space", "banner-superman", "banner-superman2", "banner-superman3"];
-  const DRAGONBALL_BANNERS = ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-trunks-mountains"];
-  const GAME_OF_THRONES_BANNERS = ["banner-jon-snow2", "banner-winter-is-coming"];
-  const MARVEL_BANNERS = ["banner-avengers", "banner-avengers-assemble", "banner-avengers-cap", "banner-avengers-cap-mjolnir", "banner-avengers-cap-mjolnir2", "banner-avengers-cap-mjolnir3", "banner-avengers-cap-mjolnir4", "banner-avengers-cap-mjolnir5", "banner-avengers-cap-mjolnir6", "banner-avengers-cap-uniform", "banner-avengers-endgame", "banner-avengers-infinity", "banner-avengers-ironman", "banner-avengers-portals", "banner-avengers-trinity", "banner-spiderman"];
-  const PRINCE_OF_TENNIS_BANNERS = ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"];
-  const SAINT_SEIYA_BANNERS = ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"];
-  const STAR_WARS_BANNERS = ["banner-anakin", "banner-anakin2", "banner-anakin3", "banner-anakin4", "banner-anakin5", "banner-luke-vader", "banner-luke-vader2", "banner-luke-vader3", "banner-star-wars-ep3", "banner-star-wars-poster", "banner-star-wars-trilogy", "banner-vader", "banner-vader2", "banner-yoda", "banner-yoda2"];
-  const TENNIS_BANNERS = ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"];
-  const WORLD_CUP_2022_BANNERS = [ "banner-arabia-flags", "banner-australia-messi-gol", "banner-dbz-messi-maradona", "banner-francia-flags", "banner-francia-messi-festejando-mbappe", "banner-holanda-messi-corriendo", "banner-messi-campeones-arrodillado", "banner-mexico-flags", "banner-mexico-messi-gol", "banner-mexico-messi-gol2", "banner-world-cup-champions"];
-
-  const ALL_BANNERS = [];
-  // When adding new arrays here, also add them to preloadedBannerImages in setRandomAllBanner().
-  ALL_BANNERS.push.apply(ALL_BANNERS, CAPTAIN_TSUBASA_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, DC_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, DRAGONBALL_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, GAME_OF_THRONES_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, MARVEL_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, PRINCE_OF_TENNIS_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, SAINT_SEIYA_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, STAR_WARS_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, TENNIS_BANNERS);
-  ALL_BANNERS.push.apply(ALL_BANNERS, WORLD_CUP_2022_BANNERS);
+  const BANNERS_LIST = [
+    {
+      category: "captain-tsubasa",
+      banners: ["banner-beni3", "banner-benji-steve", "banner-benji", "banner-benji2", "banner-benji3", "banner-benji4", "banner-niupi", "banner-niupi2", "banner-oliver-benji", "banner-oliver-benji2", "banner-oliver-steve", "banner-oliver", "banner-oliver2"]
+    },
+    {
+      category: "dc",
+      banners: ["banner-batman-animated", "banner-batman", "banner-joker", "banner-joker2", "banner-superman-logo", "banner-superman-space", "banner-superman", "banner-superman2", "banner-superman3"]
+    },
+    {
+      category: "dragonball",
+      banners: ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-trunks-mountains"]
+    },
+    {
+      category: "game-of-thrones",
+      banners: ["banner-jon-snow2", "banner-winter-is-coming"]
+    },
+    {
+      category: "marvel",
+      banners: ["banner-avengers", "banner-avengers-assemble", "banner-avengers-cap", "banner-avengers-cap-mjolnir", "banner-avengers-cap-mjolnir2", "banner-avengers-cap-mjolnir3", "banner-avengers-cap-mjolnir4", "banner-avengers-cap-mjolnir5", "banner-avengers-cap-mjolnir6", "banner-avengers-cap-uniform", "banner-avengers-endgame", "banner-avengers-infinity", "banner-avengers-ironman", "banner-avengers-portals", "banner-avengers-trinity", "banner-spiderman"]
+    },
+    {
+      category: "prince-of-tennis",
+      banners: ["banner-fuji", "banner-pot-pijamas", "banner-rikkaidai", "banner-ryoma-chibi", "banner-ryoma-chibi2", "banner-ryoma-drive", "banner-ryoma-ss", "banner-seigaku", "banner-tezuka", "banner-yukimura", "banner-yukimura2", "banner-yukimura-sanada"]
+    },
+    {
+      category: "saint-seiya",
+      banners: ["banner-ancient-era-warriors", "banner-aries-knights", "banner-athena", "banner-athena-saints", "banner-camus", "banner-dohko", "banner-fuego-12-casas", "banner-hades", "banner-hyoga", "banner-ikki", "banner-ikki2", "banner-pegasus-ryu-sei-ken", "banner-sanctuary", "banner-seiya", "banner-shaka", "banner-shion", "banner-shiryu", "banner-shun"]
+    },
+    {
+      category: "star-wars",
+      banners: ["banner-anakin", "banner-anakin2", "banner-anakin3", "banner-anakin4", "banner-anakin5", "banner-luke-vader", "banner-luke-vader2", "banner-luke-vader3", "banner-star-wars-ep3", "banner-star-wars-poster", "banner-star-wars-trilogy", "banner-vader", "banner-vader2", "banner-yoda", "banner-yoda2"]
+    },
+    {
+      category: "tennis",
+      banners: ["banner-australian-open", "banner-roland-garros", "banner-wimbledon"]
+    },
+    {
+      category: "world-cup-2022",
+      banners: [ "banner-arabia-flags", "banner-australia-messi-gol", "banner-dbz-messi-maradona", "banner-francia-flags", "banner-francia-messi-festejando-mbappe", "banner-holanda-messi-corriendo", "banner-messi-campeones-arrodillado", "banner-mexico-flags", "banner-mexico-messi-gol", "banner-mexico-messi-gol2", "banner-world-cup-champions"]
+    }
+  ];
 
   const preloadedBannerImages = [];
+
+  function getBannerCategories() {
+    const allCategories = [];
+    BANNERS_LIST.forEach((banner) => {
+      allCategories.push(banner.category);
+    });
+    return allCategories;
+  }
+
+  function getBanners(bannerCategory) {
+    let selectedBanners = [];
+    BANNERS_LIST.forEach((banner) => {
+      if (bannerCategory === banner.category) {
+        selectedBanners = banner.banners;
+      }
+    });
+    return selectedBanners;
+  }
+
+  function getAllBanners() {
+    const allBanners = [];
+    BANNERS_LIST.forEach((banner) => {
+      allBanners.push.apply(allBanners, banner.banners);
+    });
+    return allBanners;
+  }
 
   /** Set random saint seiya sanctuary banner */
   function setRandomSanctuaryBanner(bannerRotateWaitMs) {
@@ -141,60 +189,47 @@ function KameHouseBannerUtils() {
 
   /** Set random captain tsubasa banner */
   function setRandomCaptainTsubasaBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random captain tsubasa banners");
-    setRandomBannerWrapper(CAPTAIN_TSUBASA_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
+    setRandomBannerFromCategory('captain-tsubasa', bannerRotateWaitMs);
   }
 
   /** Set random dragonball banner */
   function setRandomDragonBallBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random dragonball banners");
-    setRandomBannerWrapper(DRAGONBALL_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
+    setRandomBannerFromCategory('dragonball', bannerRotateWaitMs);
   }
 
   /** Set random prince of tennis banner */
   function setRandomPrinceOfTennisBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random prince of tennis banners");
-    setRandomBannerWrapper(PRINCE_OF_TENNIS_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
+    setRandomBannerFromCategory('prince-of-tennis', bannerRotateWaitMs);
   }
 
   /** Set random saint seiya banner */
   function setRandomSaintSeiyaBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random saint seiya banners");
-    setRandomBannerWrapper(SAINT_SEIYA_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
+    setRandomBannerFromCategory('saint-seiya', bannerRotateWaitMs);
   }
 
   /** Set random tennis banner */
   function setRandomTennisBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random tennis banners");
-    setRandomBannerWrapper(TENNIS_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('tennis', TENNIS_BANNERS);
+    setRandomBannerFromCategory('tennis', bannerRotateWaitMs);
   }
 
   /** Set random world cup 2022 ARGENTINA CAMPEON!!! banner */
   function setRandomWorldCupBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random world cup banners");
-    setRandomBannerWrapper(WORLD_CUP_2022_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('world-cup-2022', WORLD_CUP_2022_BANNERS);
+    setRandomBannerFromCategory('world-cup-2022', bannerRotateWaitMs);
+  }
+
+  function setRandomBannerFromCategory(bannerCategory, bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random " + bannerCategory + " banners");
+    setRandomBannerWrapper(getBanners(bannerCategory), true, bannerRotateWaitMs);
+    preloadBannerImages(bannerCategory, getBanners(bannerCategory));
   }
 
   /** Set random banner from all banners */
   function setRandomAllBanner(bannerRotateWaitMs) {
     kameHouse.logger.info("Set random all banners");
-    setRandomBannerWrapper(ALL_BANNERS, true, bannerRotateWaitMs);
-    preloadBannerImages('captain-tsubasa', CAPTAIN_TSUBASA_BANNERS);
-    preloadBannerImages('dc', DC_BANNERS);
-    preloadBannerImages('dragonball', DRAGONBALL_BANNERS);
-    preloadBannerImages('game-of-thrones', GAME_OF_THRONES_BANNERS);
-    preloadBannerImages('marvel', MARVEL_BANNERS);
-    preloadBannerImages('prince-of-tennis', PRINCE_OF_TENNIS_BANNERS);
-    preloadBannerImages('saint-seiya', SAINT_SEIYA_BANNERS);
-    preloadBannerImages('star-wars', STAR_WARS_BANNERS);
-    preloadBannerImages('tennis', TENNIS_BANNERS);
-    preloadBannerImages('world-cup-2022', WORLD_CUP_2022_BANNERS);
+    setRandomBannerWrapper(getAllBanners(), true, bannerRotateWaitMs);
+    getBannerCategories().forEach((bannerCategory) => {
+      preloadBannerImages(bannerCategory, getBanners(bannerCategory));
+    });
   }
 
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
@@ -256,15 +291,16 @@ function KameHouseBannerUtils() {
   }
   
   /** Preload banner images */
-  function preloadBannerImages(bannerPath, bannerArray) {
+  function preloadBannerImages(banerCategory, bannerArray) {
     setTimeout(() => {
+      kameHouse.logger.trace("Preloading " + banerCategory + " banners");
       bannerArray.forEach((bannerName) => {
         const img = kameHouse.util.dom.getImgBtn({
-          src: '/kame-house/img/banners/' + bannerPath + '/' + bannerName + '.jpg'
+          src: '/kame-house/img/banners/' + banerCategory + '/' + bannerName + '.jpg'
         });
         preloadedBannerImages.push(img);
       });
-    }, 7000);
+    }, PRELOAD_BANNERS_WAIT_MS);
   }
 }
 
@@ -1058,9 +1094,9 @@ function KameHouseModuleUtils() {
 
   /** Marks the specified module as loaded */
   function setModuleLoaded(moduleName) {
-    const message = "setModuleLoaded: " + moduleName;
-    const messageColored = "setModuleLoaded: " + kameHouse.logger.getGreenText(moduleName);
-    kameHouse.logger.debug(message, messageColored);
+    const message = "Module loaded: " + moduleName;
+    const messageColored = "Module loaded: " + kameHouse.logger.getGreenText(moduleName);
+    kameHouse.logger.info(message, messageColored);
     modules[moduleName] = true;
   }
 
@@ -1347,7 +1383,8 @@ function KameHouseTableUtils() {
       }
       if (numSortingCycles > MAX_SORTING_CYCLES) {
         sorting = false;
-        kameHouse.logger.error("Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting");
+        const message = "Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       }
       numSortingCycles++;
     }
@@ -1453,11 +1490,11 @@ function KameHouseTestUtils() {
   /** Test the different log levels. */
   function testLogLevel() {
     console.log("kameHouse.logger.getLogLevel(): " + kameHouse.logger.getLogLevel());
-    kameHouse.logger.error("This is an ERROR message");
-    kameHouse.logger.warn("This is a WARN message");
-    kameHouse.logger.info("This is an INFO message");
-    kameHouse.logger.debug("This is a DEBUG message");
-    kameHouse.logger.trace("This is a TRACE message");
+    kameHouse.logger.error("This is an ERROR message", kameHouse.logger.getRedText("This is an ERROR message"));
+    kameHouse.logger.warn("This is a WARN message", kameHouse.logger.getYellowText("This is a WARN message"));
+    kameHouse.logger.info("This is an INFO message", kameHouse.logger.getBlueText("This is an INFO message"));
+    kameHouse.logger.debug("This is a DEBUG message", kameHouse.logger.getGreenText("This is a DEBUG message"));
+    kameHouse.logger.trace("This is a TRACE message", kameHouse.logger.getCyanText("This is a TRACE message"));
   }
 
   async function testSleep() {
@@ -1652,13 +1689,14 @@ function KameHouseCoreFunctions() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("KameHouse session: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
-        kameHouse.util.module.setModuleLoaded("session");
+        kameHouse.util.module.setModuleLoaded("kameHouseSession");
         completeAuthorizeUser();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error retrieving current session information.");
+        const message = "Error retrieving current session information.";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = {};
-        kameHouse.util.module.setModuleLoaded("session");
+        kameHouse.util.module.setModuleLoaded("kameHouseSession");
         completeAuthorizeUser();
       }
     );
@@ -2101,7 +2139,7 @@ function KameHouseCoreFunctions() {
    * Log the entry into the debug mode console log table.
    */
   function logToDebugMode(logEntry) {
-    const DEBUG_MODE_LOG_SIZE = 40;
+    const DEBUG_MODE_LOG_SIZE = 80;
     const debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
     if (!kameHouse.core.isEmpty(debugModeConsoleLog)) {
       // Remove first log N entries

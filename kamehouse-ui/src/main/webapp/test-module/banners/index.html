@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Banners</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data"></script>
+<script src="/kame-house/js/test-module/banners/banners-index.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house/css/test-module/test-module.css" />
+</head>
+<body>
+  <div class="main-body">
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-gohan-shen-long">
+    <div class="default-layout banner-text">
+      <h1>KameHouse Banners</h1>
+    </div>
+  </div>
+  </div>
+  <br>
+  <div class="default-layout">
+    <select class="select-kh-dark banner-category-dropdown" id="banner-category-dropdown" name="banner-category" 
+            onchange="kameHouse.extension.testBannerRenderer.reloadBanners()"></select>
+    <br><br>
+    <table id="banners-table" class="table-kh banner-table">
+      <caption class="hidden-kh">Banners</caption>
+      <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>
+      <tbody id="banners-table-body">
+        <tr><td>No banner category selected yet...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+  <span id="debug-mode-wrapper"></span>
+</body>
+</html>
