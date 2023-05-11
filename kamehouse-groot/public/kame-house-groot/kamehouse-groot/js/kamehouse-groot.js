@@ -45,6 +45,7 @@ function GrootHeader() {
   function loadSession() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     const config = kameHouse.http.getConfig();
+    config.timeout = 15;
     if(!kameHouse.core.pageRequiresAuthorization()) {
       config.sendBasicAuthMobile = false;
     }
@@ -54,14 +55,15 @@ function GrootHeader() {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
-        completeAuthorizeUser();
+        completeAuthorizeUser(responseCode);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current groot session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.extension.groot.session = {};
+        updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
-        completeAuthorizeUser();
+        completeAuthorizeUser(responseCode);
       }
     );
   }
@@ -70,13 +72,16 @@ function GrootHeader() {
    * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
    * Call this function after the groot session is loaded.
    */
-  function completeAuthorizeUser() {
+  function completeAuthorizeUser(responseCode) {
     if (!kameHouse.core.pageRequiresAuthorization()) {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
       return;
     }
     const loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
-    const mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
+    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
+    if (responseCode == "-4") {
+      mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
+    }
     const roles = kameHouse.extension.groot.session.roles;
     if (kameHouse.core.isEmpty(roles)) {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);

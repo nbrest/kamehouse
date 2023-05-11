@@ -1128,14 +1128,18 @@ function KameHouseModuleUtils() {
     message = "Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
     kameHouse.logger.trace(message);
 
+    const WAIT_FOR_MODULES_MS = 20;
     let areAllModulesLoaded = false;
-    const WAIT_FOR_MODULES_MS = 15;
+    let loopCount = 0;
     let waitForModulesMs = WAIT_FOR_MODULES_MS;
     while (!areAllModulesLoaded) {
       waitForModulesMs = WAIT_FOR_MODULES_MS;
-      message = "Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
-      kameHouse.logger.trace(message);
-
+      if (loopCount >= 150) {
+        message = "Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
+        kameHouse.logger.trace(message);
+        loopCount = 0;
+      }
+      
       let isAnyModuleStillLoading = false;
       moduleNames.forEach((moduleName) => {
         if (!modules[moduleName]) {
@@ -1145,6 +1149,7 @@ function KameHouseModuleUtils() {
       if (!isAnyModuleStillLoading) {
         areAllModulesLoaded = true;
       }
+      loopCount++;
       // SLEEP IS IN MS!!
       await kameHouse.core.sleep(waitForModulesMs);
     }
@@ -1564,7 +1569,6 @@ function KameHouseCoreFunctions() {
   this.isFunction = isFunction;
   this.initAuthorizeUser = initAuthorizeUser;
   
-  this.completeAuthorizeUser = completeAuthorizeUser;
   this.loadSession = loadSession;
   this.loadHeader= loadHeader;
   this.loadFooter= loadFooter;
@@ -1608,7 +1612,7 @@ function KameHouseCoreFunctions() {
    * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
    * Call this function after the session is loaded.
    */
-  function completeAuthorizeUser() {
+  function completeAuthorizeUser(responseCode) {
     if (window.location.href.includes("/kame-house-groot/")) {
       kameHouse.logger.trace("Complete authorize user is handled in groot");
       return;
@@ -1618,7 +1622,10 @@ function KameHouseCoreFunctions() {
       return;
     }
     const loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
-    const mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
+    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
+    if (responseCode == "-4") {
+      mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
+    }
     const roles = kameHouse.session.roles;
     if (isEmpty(roles)) {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
@@ -1682,6 +1689,7 @@ function KameHouseCoreFunctions() {
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
     const config = kameHouse.http.getConfig();
+    config.timeout = 15;
     if(!pageRequiresAuthorization()) {
       config.sendBasicAuthMobile = false;
     }
@@ -1690,14 +1698,14 @@ function KameHouseCoreFunctions() {
         kameHouse.logger.info("KameHouse session: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        completeAuthorizeUser();
+        completeAuthorizeUser(responseCode);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        completeAuthorizeUser();
+        completeAuthorizeUser(responseCode);
       }
     );
   }
@@ -2316,7 +2324,8 @@ function KameHouseCoreFunctions() {
    */
   function getConfig() {
     return {
-      sendBasicAuthMobile : true
+      sendBasicAuthMobile: true,
+      timeout: null
     }
   }
 

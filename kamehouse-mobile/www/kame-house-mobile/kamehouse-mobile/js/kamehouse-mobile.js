@@ -35,6 +35,7 @@ function KameHouseMobileCore() {
   const POST = "POST";
   const PUT = "PUT";
   const DELETE = "DELETE";
+  const DEFAULT_TIMEOUT_SECONDS = 60;
   
   function init() {
     setCordovaMock();
@@ -127,11 +128,7 @@ function KameHouseMobileCore() {
     if (!kameHouse.core.isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
-    if (config.sendBasicAuthMobile) {
-      setMobileBasicAuthHeader();
-    } else {
-      unsetMobileBasicAuthHeader();
-    }
+    setMobileBasicAuthHeader(config);
     setDataSerializer(requestHeaders, httpMethod);
     if (kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
       if (httpMethod == GET || httpMethod == PUT || httpMethod == DELETE) {
@@ -150,6 +147,7 @@ function KameHouseMobileCore() {
       }
     }
     logMobileHttpRequest(requestUrl, options);
+    setMobileTimeout(config);
     cordova.plugin.http.setServerTrustMode('nocheck',
      () => {
       cordova.plugin.http.sendRequest(requestUrl, options, 
@@ -217,19 +215,39 @@ function KameHouseMobileCore() {
     return isJson;
   }
 
-  function setMobileBasicAuthHeader() {
-    const credentials = getBackendCredentials();
-    if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
-      kameHouse.logger.debug("Setting basicAuth header for mobile http request");
-      cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+  /**
+   * Set request timeout. Only supported for android in the cordova http plugin at the moment.
+   */
+  function setMobileTimeout(config) {
+    if (!kameHouse.core.isEmpty(config.timeout)) {
+      kameHouse.logger.debug("Setting timeout for mobile http request");
+      cordova.plugin.http.setRequestTimeout(config.timeout);
+      cordova.plugin.http.setReadTimeout(config.timeout);
+    } else {
+      kameHouse.logger.debug("Using default timeout for mobile http request");
+      cordova.plugin.http.setRequestTimeout(DEFAULT_TIMEOUT_SECONDS);
     }
   }
 
-  function unsetMobileBasicAuthHeader() {
-    kameHouse.logger.debug("Unsetting basicAuth header for mobile http request");
-    cordova.plugin.http.setHeader('Authorization', null);
+  /**
+   * Set basic auth header.
+   */
+  function setMobileBasicAuthHeader(config) {
+    if (config.sendBasicAuthMobile) {
+      const credentials = getBackendCredentials();
+      if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
+        kameHouse.logger.debug("Setting basicAuth header for mobile http request");
+        cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+      }
+    } else {
+      kameHouse.logger.debug("Unsetting basicAuth header for mobile http request");
+      cordova.plugin.http.setHeader('Authorization', null);
+    }
   }
 
+  /**
+   * Set data serializer.
+   */
   function setDataSerializer(headers, httpMethod) {
     kameHouse.logger.debug("Setting data serializer to 'utf8'");
     cordova.plugin.http.setDataSerializer('utf8');

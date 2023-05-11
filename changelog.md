@@ -67,6 +67,9 @@
 - Updated awk tail log and js debug console to log errors with red
 - Added page to preview all banners in test module
 - Deleted deprecated wake on lan page
+- Added timeout to session calls on mobile
+- Fixed error message on timeout on mobile
+- Reduced logging of waitForModules to log every 3 seconds
 - Fixed bugs
 
 #### v8.12

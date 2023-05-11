@@ -11,24 +11,33 @@ function KameHouseMobileSettings() {
   function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app settings page");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseModal"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       handleUrlParams();
     });
     kameHouse.util.module.waitForModules(["mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseMobile", "mobileTabsManager"], () => {
-      handleUrlParams();
       kameHouse.extension.mobile.core.setMobileBuildVersion();
     });
   }
 
   function handleUrlParams() {
+    kameHouse.logger.info("Settings query string: " + window.location.search);
     const urlParams = new URLSearchParams(window.location.search);
+    const requestTimeout = urlParams.get('requestTimeout');
+    if (!kameHouse.core.isEmpty(requestTimeout)) {
+      const message = "Unable to connect to the backend. Try again later";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
+      return;
+    }
     const unauthorizedPageAccess = urlParams.get('unauthorizedPageAccess');
     if (!kameHouse.core.isEmpty(unauthorizedPageAccess)) {
-      kameHouse.logger.info("Tried to access a page without proper authorization. Redirected to settings page");
-      kameHouse.plugin.modal.basicModal.openAutoCloseable("User is not authorized to access the page. Login with an authorized user", 5000);
+      const message = "User is not authorized to access the page. Login with an authorized user";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
+      return;
     }
   }
 } 
