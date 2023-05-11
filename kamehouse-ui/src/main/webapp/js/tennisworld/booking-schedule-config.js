@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
+  kameHouse.util.module.waitForModules(["crudManager"], () => {    
     kameHouse.plugin.crudManager.init({
       entityName: "Booking Schedule Config",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs",

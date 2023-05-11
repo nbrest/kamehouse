@@ -63,7 +63,8 @@ function KameHouseMobileCore() {
       });
     }
     if (backendServer == null) {
-      kameHouse.logger.error("Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet.");
+      const message = "Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet.";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     }
     return backendServer;
   }
@@ -90,7 +91,8 @@ function KameHouseMobileCore() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         if (responseBody.includes("KameHouse - Login")) {
-          kameHouse.logger.error("Backend connectivity test error - redirected back to login");
+          const message = "Backend connectivity test error - redirected back to login";
+          kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
           kameHouse.plugin.modal.basicModal.openAutoCloseable("Invalid credentials", 1000);
           return;
         }
@@ -100,11 +102,13 @@ function KameHouseMobileCore() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         if (responseCode == 401 || responseCode == 403) {
-          kameHouse.logger.error("Backend connectivity test error - invalid credentials");
+          const message = "Backend connectivity test error - invalid credentials";
+          kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
           kameHouse.plugin.modal.basicModal.openAutoCloseable("Invalid credentials", 1000);
           return;
         }
-        kameHouse.logger.error("Error connecting to the backend. Response code: " + responseCode);
+        const message = "Error connecting to the backend. Response code: " + responseCode;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Error connecting to the backend. Response code: " + responseCode, 2000);
       }
     );
@@ -153,7 +157,8 @@ function KameHouseMobileCore() {
         (response) => { processMobileError(response, errorCallback); }
       );
     }, () => {
-      kameHouse.logger.error("Error setting cordova ssl trustmode to nocheck");
+      const message = "Error setting cordova ssl trustmode to nocheck";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       cordova.plugin.http.sendRequest(requestUrl, options, 
         (response) => { processMobileSuccess(response, successCallback); } ,
         (response) => { processMobileError(response, errorCallback); }

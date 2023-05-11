@@ -57,7 +57,8 @@ function GrootHeader() {
         completeAuthorizeUser();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error retrieving current groot session information.")
+        const message = "Error retrieving current groot session information.";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.extension.groot.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         completeAuthorizeUser();

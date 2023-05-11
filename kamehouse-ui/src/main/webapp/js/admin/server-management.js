@@ -37,7 +37,7 @@ function ServerManager() {
     kameHouse.logger.info("Started initializing server management");
     kameHouse.util.banner.setRandomAllBanner();
     importServerManagementCss();
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       getSuspendStatus(false);
       getShutdownStatus(false);
       getHttpdStatus(false);

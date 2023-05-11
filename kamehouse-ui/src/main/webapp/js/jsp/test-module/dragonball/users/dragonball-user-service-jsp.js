@@ -14,7 +14,7 @@ function DragonBallUserServiceJsp() {
 
   function load() {
     kameHouse.logger.info("Loading DragonBallUserServiceJsp");
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       kameHouse.util.module.setModuleLoaded("dragonBallUserServiceJsp");
     });
   }
@@ -114,7 +114,8 @@ function DragonBallUserServiceJsp() {
       try {
         errorMessage = errorMessage + " : " + JSON.parse(responseBody).message;
       } catch (e) {
-        kameHouse.logger.error("Error parsing response body");
+        const message = "Error parsing response body";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);

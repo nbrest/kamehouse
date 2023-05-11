@@ -17,7 +17,7 @@ function KameHouseFooter() {
       kameHouse.util.dom.load($("#kamehouse-footer-container"), "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
         kameHouse.util.mobile.disableWebappOnlyElements();
         kameHouse.util.mobile.disableMobileOnlyElements();
-        kameHouse.util.module.waitForModules(["session"], () => {
+        kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           updateSessionStatus();
         });
         kameHouse.logger.info("Finished loading footer");

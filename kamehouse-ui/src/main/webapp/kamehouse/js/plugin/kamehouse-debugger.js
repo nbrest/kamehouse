@@ -60,11 +60,12 @@ function KameHouseDebugger() {
     const logLevel = document.getElementById("debug-mode-log-level-dropdown").value;
     kameHouse.logger.setLogLevel(logLevel);
     
-    kameHouse.logger.error("Set log level to " + logLevel);
-    kameHouse.logger.warn("Set log level to " + logLevel);
-    kameHouse.logger.info("Set log level to " + logLevel);
-    kameHouse.logger.debug("Set log level to " + logLevel);
-    kameHouse.logger.trace("Set log level to " + logLevel);
+    const message = "Set log level to " + logLevel;
+    kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+    kameHouse.logger.warn(message, kameHouse.logger.getYellowText(message));
+    kameHouse.logger.info(message, kameHouse.logger.getBlueText(message));
+    kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message));
+    kameHouse.logger.trace(message, kameHouse.logger.getCyanText(message));
   }
 
   /**

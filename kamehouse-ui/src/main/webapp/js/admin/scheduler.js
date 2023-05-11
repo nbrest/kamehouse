@@ -19,7 +19,7 @@ function Scheduler() {
       kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-scheduler');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     });
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "webappTabsManager"], () => {
       init();
     });
   }

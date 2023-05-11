@@ -14,13 +14,14 @@
 function KameHouseModal() {
   this.load = load;
 
-  function load() {
+  async function load() {
     kameHouse.logger.info("Started initializing kamehouse modal framework");
     importKamehouseModalCss();
     kameHouse.plugin.modal.basicModal = new BasicKamehouseModal();
-    kameHouse.plugin.modal.basicModal.import();
     kameHouse.plugin.modal.loadingWheelModal = new LoadingWheelModal();
-    kameHouse.plugin.modal.loadingWheelModal.import();
+    await kameHouse.plugin.modal.basicModal.import();
+    await kameHouse.plugin.modal.loadingWheelModal.import();
+    kameHouse.util.module.setModuleLoaded("kameHouseModal");
   }
 
   function importKamehouseModalCss() {
@@ -144,6 +145,7 @@ function ModalUtils(modalId) {
     kameHouse.util.dom.append($('body'), modalDiv);
     const modalDivCloseBtn = document.getElementById(modalId + "-close");
     kameHouse.util.dom.setOnClick(modalDivCloseBtn, () => close());
+    kameHouse.logger.info("Imported " + modalId);
   }
 
   /** Open modal */

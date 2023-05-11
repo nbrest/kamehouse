@@ -30,7 +30,7 @@ function EhCacheManager() {
       kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-ehcache');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     });
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "webappTabsManager"], () => {
       init();
     });
   }
@@ -148,7 +148,8 @@ function EhCacheManager() {
     kameHouse.util.dom.setHtml($("#ehcache-table-" + webapp + "-error-val"), kameHouse.util.time.getTimestamp() +
       " : Error retrieving cache data. Please try again later.");
 
-    kameHouse.logger.error("Error retrieving cache data. Please try again later.");
+    const message = "Error retrieving cache data. Please try again later.";
+    kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
   }
 
   /**
@@ -166,7 +167,8 @@ function EhCacheManager() {
         getAllCacheData(webapp);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error clearing cache " + cacheName);
+        const message = "Error clearing cache " + cacheName;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing cache " + cacheName, 3000);
         getAllCacheData(webapp);
       });
@@ -183,7 +185,8 @@ function EhCacheManager() {
         getAllCacheData(webapp);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error clearing all caches");
+        const message = "Error clearing all caches";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing all caches", 3000);
         getAllCacheData(webapp);
       });

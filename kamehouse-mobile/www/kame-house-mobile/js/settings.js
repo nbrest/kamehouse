@@ -11,10 +11,13 @@ function KameHouseMobileSettings() {
   function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app settings page");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules([ "mobileTabsManager"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal"], () => {
+      handleUrlParams();
+    });
+    kameHouse.util.module.waitForModules(["mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
     });
-    kameHouse.util.module.waitForModules(["kameHouseMobile", "mobileTabsManager"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseMobile", "mobileTabsManager"], () => {
       handleUrlParams();
       kameHouse.extension.mobile.core.setMobileBuildVersion();
     });

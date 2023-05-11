@@ -58,11 +58,11 @@ function VlcPlayer(hostname) {
     loadStateFromCookies();
     playlist.init();
     kameHouse.util.mobile.setMobileEventListeners(stopVlcPlayerLoops, restartVlcPlayerLoops);
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
       loadStateFromApi();
     });
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "kameHouseWebSocket"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseWebSocket"], () => {
       synchronizer = new VlcPlayerSynchronizer(this);
       synchronizer.syncVlcPlayerHttpLoop();
       kameHouse.util.mobile.exec(
@@ -697,7 +697,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       kameHouse.logger.info("Started syncVlcRcStatusLoop");
       if (isRunningSyncVlcRcStatusLoop || vlcRcStatusLoopCount > 1) {
-        kameHouse.logger.error("syncVlcRcStatusLoop is already running");
+        const message = "syncVlcRcStatusLoop is already running";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         return;
       }
       isRunningSyncVlcRcStatusLoop = true;
@@ -752,7 +753,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       kameHouse.logger.info("Started syncPlaylistLoop");
       if (isRunningSyncPlaylistLoop || vlcPlaylistLoopCount > 1) {
-        kameHouse.logger.error("syncPlaylistLoop is already running");
+        const message = "syncPlaylistLoop is already running";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         return;
       }
       isRunningSyncPlaylistLoop = true;
@@ -786,7 +788,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   function keepAliveWebSocketsLoop() {
     setTimeout(async () => {
       if (isRunningKeepAliveWebSocketLoop || keepAliveWebSocketLoopCount > 1) {
-        kameHouse.logger.error("Attempted to start keepAliveWebSocketsLoop but is already running");
+        const message = "Attempted to start keepAliveWebSocketsLoop but is already running";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         return;
       }
       isRunningKeepAliveWebSocketLoop = true;
@@ -826,7 +829,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       kameHouse.logger.info("Started syncVlcPlayerHttpLoop");
       if (isRunningSyncVlcPlayerHttpLoop || syncVlcPlayerHttpLoopCount > 1) {
-        kameHouse.logger.error("syncVlcPlayerHttpLoop is already running");
+        const message = "syncVlcPlayerHttpLoop is already running";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         return;
       }
       isRunningSyncVlcPlayerHttpLoop = true;

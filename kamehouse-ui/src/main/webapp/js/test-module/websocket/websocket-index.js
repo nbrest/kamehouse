@@ -64,7 +64,8 @@ function TestWebSocket() {
       } else {
         kameHouse.plugin.modal.loadingWheelModal.close();
         setConnected(false);
-        kameHouse.logger.error("Error connecting websocket");
+        const message = "Error connecting websocket";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.open("Error connecting websocket");
       }
     }, 4000);

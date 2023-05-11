@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
+  kameHouse.util.module.waitForModules(["crudManager"], () => {    
     kameHouse.plugin.crudManager.init({
       entityName: "Vlc Player",
       url: "/kame-house-vlcrc/api/v1/vlc-rc/players",

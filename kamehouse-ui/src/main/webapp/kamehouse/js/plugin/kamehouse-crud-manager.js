@@ -88,7 +88,9 @@ function CrudManager() {
     loadStateFromCookies();
     loadStateFromUrlParams();
     disableEditFunctionalityForReadOnly();
-    readAll();
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
+      readAll();
+    });
   }
 
   /**

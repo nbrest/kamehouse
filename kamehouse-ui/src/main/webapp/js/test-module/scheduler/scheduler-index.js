@@ -21,7 +21,7 @@ function TestScheduler() {
   function load() {
     kameHouse.logger.info("Loading TestScheduler");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       getSampleJobStatus(false);
     });
   }

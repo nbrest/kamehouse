@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  kameHouse.util.module.waitForModules(["kameHouseDebugger", "crudManager"], () => {    
+  kameHouse.util.module.waitForModules(["crudManager"], () => {    
     kameHouse.plugin.crudManager.init({
       entityName: "KameHouse User",
       url: "/kame-house-admin/api/v1/admin/kamehouse/users",

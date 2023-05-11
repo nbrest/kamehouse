@@ -29,7 +29,8 @@ function TailLogManager() {
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
     } else {
-      kameHouse.logger.error("Invalid or no script received as url parameter");
+      const message = "Invalid or no script received as url parameter";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       displayInvalidScript();
     }
   }

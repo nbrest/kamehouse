@@ -28,7 +28,7 @@ function PlaylistBrowser() {
   function load() {
     kameHouse.logger.info("Started initializing playlist browser");
     kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       populateVideoPlaylistCategories();
       kameHouse.util.module.setModuleLoaded("playlistBrowser");
     });

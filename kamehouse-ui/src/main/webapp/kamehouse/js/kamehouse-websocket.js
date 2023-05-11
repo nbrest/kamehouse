@@ -72,11 +72,13 @@ function KameHouseWebSocket() {
       kameHouse.logger.warn("WebSocket is already connected!");
     }
     if (kameHouse.core.isEmpty(statusUrl) || kameHouse.core.isEmpty(topicUrl) || kameHouse.core.isEmpty(pollUrl)) {
-      kameHouse.logger.error("statusUrl or topicUrl are not set. Can't connect.");
+      const message = "statusUrl or topicUrl are not set. Can't connect.";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
     }
     if (!kameHouse.core.isFunction(topicResponseCallback)) {
-      kameHouse.logger.error("The parameter passed is not a valid function. Can't connect.");
+      const message = "The parameter passed is not a valid function. Can't connect.";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
     }
     try {
@@ -101,7 +103,8 @@ function KameHouseWebSocket() {
         }
       },
       () => {
-        kameHouse.logger.error("Error during stompClient.connect()");
+        const message = "Error during stompClient.connect()";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       });
       stompClients.push(stompClient);
     } catch (error) {
@@ -133,7 +136,8 @@ function KameHouseWebSocket() {
         kameHouse.logger.error("Error disconnecting web socket: " + error);
       }
     } else {
-      kameHouse.logger.error("stompClient is not set. Can't disconnect.");
+      const message = "stompClient is not set. Can't disconnect.";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     }
   }
 
@@ -150,7 +154,8 @@ function KameHouseWebSocket() {
     // Setting this as trace as it executes every second in VlcPlayer 
     // so if I want to debug other stuff it's noisy.
     if (kameHouse.core.isEmpty(pollUrl)) {
-      kameHouse.logger.error("pollUrl is not set. Can't poll");
+      const message = "pollUrl is not set. Can't poll";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
     }
     if (!isConnected()) {

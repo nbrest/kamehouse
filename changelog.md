@@ -63,7 +63,10 @@
 - Added colors to debug mode log entries
 - Added world cup 2022 (ARGENTINA CAMPEON!!) banners
 - Updated homepage banner animation
-- Delayed preloading banner images a few seconds to improve initial page load speed
+- Delayed preloading banner images to improve initial page load speed
+- Updated awk tail log and js debug console to log errors with red
+- Added page to preview all banners in test module
+- Deleted deprecated wake on lan page
 - Fixed bugs
 
 #### v8.12

@@ -7,7 +7,7 @@ function ModuleStatusManager() {
   this.getAllModulesStatus = getAllModulesStatus;
   
   function load() {
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       init();
       kameHouse.util.module.setModuleLoaded("moduleStatusManager");
       kameHouse.logger.info("Initialized moduleStatusManager");
@@ -69,7 +69,8 @@ function ModuleStatusManager() {
    */
   function displayErrorGettingModuleStatus(webapp) {
     kameHouse.util.dom.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
-    kameHouse.logger.error("Error retrieving module status data for " + webapp + ". Please try again later.");
+    const message = "Error retrieving module status data for " + webapp + ". Please try again later.";
+    kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
   }
 }
 

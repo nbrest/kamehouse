@@ -34,7 +34,8 @@ function KameHouseShell() {
         (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback));
     } else {
-      kameHouse.logger.error("No script specified to execute");
+      const message = "No script specified to execute";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     }
   }
 

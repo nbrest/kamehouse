@@ -20,7 +20,7 @@ function KameHouseHeader() {
         kameHouse.util.mobile.disableWebappOnlyElements();
         kameHouse.util.mobile.disableMobileOnlyElements();
         updateActiveTab();
-        kameHouse.util.module.waitForModules(["session"], () => {
+        kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           updateSessionStatus();
         });
         kameHouse.logger.info("Finished loading header");

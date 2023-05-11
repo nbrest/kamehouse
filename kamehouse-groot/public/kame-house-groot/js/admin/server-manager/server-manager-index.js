@@ -241,7 +241,7 @@ function DeploymentManager() {
 
   function load() {
     kameHouse.logger.info("Loading DeploymentManager");
-    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseDebugger", "kameHouseGrootSession"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseModal", "kameHouseDebugger", "kameHouseGrootSession"], () => {
       getTomcatModulesStatus();
       getNonTomcatModulesStatus();
       getTomcatProcessStatus();
@@ -597,7 +597,7 @@ function TailLogManagerWrapper() {
   function createStartImg() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
-      src: "/kame-house/img/mplayer/play-green.png",
+      src: "/kame-house/img/mplayer/play-gray.png",
       className: "img-btn-kh m-7-d-r-kh",
       alt: "Start Tail Log",
       onClick: () => toggleTailLog()

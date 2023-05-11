@@ -24,7 +24,7 @@ function BackendLogLevelUtils() {
       kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-log-level');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     });
-    kameHouse.util.module.waitForModules(["kameHouseDebugger", "webappTabsManager"], () => {
+    kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "webappTabsManager"], () => {
       init();
     });
   }

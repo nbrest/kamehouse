@@ -396,6 +396,13 @@ function isLogLevelError(logLevel_fn_) {
   }  
 }
 
+function getMessageColor(logLevel_fn_) {
+  if (isLogLevelError(logLevel_fn_)) {
+    return COL_RED;
+  }
+  return COL_NORMAL;
+}
+
 function isLogLevelWarn(logLevel_fn_) {
   logLevel_fn_ = toupper(logLevel_fn_);
   if (logLevel_fn_ == "WARN"|| logLevel_fn_ == "WARNING") {
@@ -490,7 +497,7 @@ function printColored(color_fn_) {
 }
 
 # Print kamehouse java log 
-function printKamehouseJavaLog(date_loc_, time_loc_, thread_loc_, logLevel_loc_, logLevelColor_loc_, logLevelNumber_loc_, class_loc_, dash_loc_, message_loc_) {
+function printKamehouseJavaLog(date_loc_, time_loc_, thread_loc_, logLevel_loc_, logLevelColor_loc_, logLevelNumber_loc_, class_loc_, dash_loc_, message_loc_, messageColor_loc_) {
   # LOG format: 'date time [thread] logLevel class - message'
   PRINT_LINE = "";
   date_loc_ = $1;
@@ -504,6 +511,7 @@ function printKamehouseJavaLog(date_loc_, time_loc_, thread_loc_, logLevel_loc_,
   logLevelColor_loc_ = getLogLevelColor(logLevel_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevel_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
+  messageColor_loc_ = getMessageColor(logLevel_loc_);
 
   addColumnToPrintLine(date_loc_, COL_CYAN);
   addColumnToPrintLine(time_loc_, COL_CYAN);
@@ -511,7 +519,7 @@ function printKamehouseJavaLog(date_loc_, time_loc_, thread_loc_, logLevel_loc_,
   addColumnToPrintLine(logLevel_loc_, logLevelColor_loc_);
   addColumnToPrintLine(class_loc_, COL_PURPLE);
   addColumnToPrintLineNoOFS(dash_loc_, COL_BLUE);
-  addColumnToPrintLineNoOFS(message_loc_, COL_NORMAL);
+  addColumnToPrintLineNoOFS(message_loc_, messageColor_loc_);
 
   print PRINT_LINE
   next
@@ -552,7 +560,7 @@ function printTomcatLocalhostAccessLog(ip_loc_, dash_loc_, datetime_loc_, tzone_
 }
 
 # Print apache error.log
-function printApacheErrorLog(datetime_loc_, moduleAndLogLevel_loc_, pid_loc_, message_loc_, logLevel_loc_, logLevelColor_loc_, logLevelNumber_loc_, start_loc_, end_loc_) {
+function printApacheErrorLog(datetime_loc_, moduleAndLogLevel_loc_, pid_loc_, message_loc_, logLevel_loc_, logLevelColor_loc_, logLevelNumber_loc_, start_loc_, end_loc_, messageColor_loc_) {
   # Format: '[Ddd Mmm DD HH:MM:SS.XXXXXX YYYY] [MODULE:LOG_LEVEL] [pid 9999:tid 999] MESSAGE'
   PRINT_LINE = "";
   datetime_loc_ = $1" "$2" "$3" "$4" "$5; # [Ddd Mmm HH:MM:SS.XXXXXX YYYY]
@@ -566,12 +574,13 @@ function printApacheErrorLog(datetime_loc_, moduleAndLogLevel_loc_, pid_loc_, me
   logLevelColor_loc_ = getLogLevelColor(logLevel_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevel_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
+  messageColor_loc_ = getMessageColor(logLevel_loc_);
 
   addColumnToPrintLine(datetime_loc_, COL_CYAN); 
   addColumnToPrintLine(moduleAndLogLevel_loc_, logLevelColor_loc_);
   addColumnToPrintLineNoOFS(pid_loc_, COL_PURPLE); 
   #TODO: Fix logic for when I don't have tid
-  addColumnToPrintLine(message_loc_, COL_NORMAL);
+  addColumnToPrintLine(message_loc_, messageColor_loc_);
 
   print PRINT_LINE
   next
@@ -649,7 +658,7 @@ function printApacheOtherVhostsAccessLog(ip1_loc_, ip2_loc_, separator_loc_, dat
 }
 
 # Print catalina.out entry
-function printCatalinaOutLogLevelEntry(logLevel_loc_, message_loc_, logLevelFormatted_loc_, logLevelColor_loc_, logLevelNumber_loc_, end_loc_) {
+function printCatalinaOutLogLevelEntry(logLevel_loc_, message_loc_, logLevelFormatted_loc_, logLevelColor_loc_, logLevelNumber_loc_, end_loc_, messageColor_loc_) {
   # Format: 'LOG_LEVEL: MESSAGE'
   PRINT_LINE = "";
   logLevel_loc_ = $1; # LOG_LEVEL:
@@ -660,9 +669,10 @@ function printCatalinaOutLogLevelEntry(logLevel_loc_, message_loc_, logLevelForm
   logLevelColor_loc_ = getLogLevelColor(logLevelFormatted_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevelFormatted_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
+  messageColor_loc_ = getMessageColor(logLevel_loc_);
 
   addColumnToPrintLineNoOFS(logLevel_loc_, logLevelColor_loc_);
-  addColumnToPrintLine(message_loc_, COL_NORMAL);
+  addColumnToPrintLine(message_loc_, messageColor_loc_);
 
   print PRINT_LINE
   next
@@ -685,7 +695,7 @@ function printCatalinaOutDateWinEntry(datetime_loc_, class_loc_, message_loc_) {
 }
 
 # Print catalina.out entry
-function printCatalinaOutDateLinEntry(datetime_loc_, logLevel_loc_, message_loc_, logLevelFormatted_loc_, logLevelColor_loc_, logLevelNumber_loc_, end_loc_) {
+function printCatalinaOutDateLinEntry(datetime_loc_, logLevel_loc_, message_loc_, logLevelFormatted_loc_, logLevelColor_loc_, logLevelNumber_loc_, end_loc_, messageColor_loc_) {
   # Format: 'Ddd Mmm DD HH:MM:SS ZONE YYYY LOG_LEVEL: MESSAGE'
   PRINT_LINE = "";
   datetime_loc_ = $1" "$2" "$3" "$4" "$5" "$6; # Ddd Mmm DD HH:MM:SS ZONE YYYY
@@ -697,17 +707,18 @@ function printCatalinaOutDateLinEntry(datetime_loc_, logLevel_loc_, message_loc_
   logLevelColor_loc_ = getLogLevelColor(logLevelFormatted_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevelFormatted_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
+  messageColor_loc_ = getMessageColor(logLevel_loc_);
 
   addColumnToPrintLine(datetime_loc_, COL_CYAN); 
   addColumnToPrintLineNoOFS(logLevel_loc_, logLevelColor_loc_);
-  addColumnToPrintLine(message_loc_, COL_NORMAL); 
+  addColumnToPrintLine(message_loc_, messageColor_loc_); 
 
   print PRINT_LINE
   next
 }
 
 # Print catalina.out entry
-function printCatalinaOutDateLinEntry2(datetime_loc_, class_loc_, message_loc_, logLevelColor_loc_, logLevelNumber_loc_, end_loc_) {
+function printCatalinaOutDateLinEntry2(datetime_loc_, class_loc_, message_loc_, logLevelColor_loc_, logLevelNumber_loc_, end_loc_, messageColor_loc_) {
   # Format: 'DD-Mmm-YYYY HH:MM:SS.XXX LOG_LEVEL [THREAD] CLASS MESSAGE'
   PRINT_LINE = "";
   datetime_loc_ = $1" "$2; # DD-Mmm-YYYY HH:MM:SS.XXX
@@ -719,12 +730,13 @@ function printCatalinaOutDateLinEntry2(datetime_loc_, class_loc_, message_loc_, 
   logLevelColor_loc_ = getLogLevelColor(logLevel_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevel_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
+  messageColor_loc_ = getMessageColor(logLevel_loc_);
 
   addColumnToPrintLine(datetime_loc_, COL_CYAN);
   addColumnToPrintLine(logLevel_loc_, logLevelColor_loc_);
   addColumnToPrintLine(thread_loc_, COL_PURPLE);
   addColumnToPrintLineNoOFS(class_loc_, COL_GREEN);
-  addColumnToPrintLine(message_loc_, COL_NORMAL); 
+  addColumnToPrintLine(message_loc_, messageColor_loc_); 
 
   print PRINT_LINE
   next
