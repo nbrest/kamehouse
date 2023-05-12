@@ -70,6 +70,11 @@
 - Added timeout to session calls on mobile
 - Fixed error message on timeout on mobile
 - Reduced logging of waitForModules to log every 3 seconds
+- Added timeout to backend connectivity test
+- Added option to reverse the received data order to crud manager
+- Improved initial load time of booking responses by fixing initial sorting of data
+- Added sorting data modal while data is being sorted
+- Improved performance of data rendering function on crud manager
 - Fixed bugs
 
 #### v8.12

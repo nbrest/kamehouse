@@ -26,6 +26,7 @@ function CrudManager() {
   let columns = [];
   let entities = [];
   let readOnly = false;
+  let reverseDataOrder = false;
   let defaultSorting = null;
   
   /**
@@ -46,8 +47,9 @@ function CrudManager() {
    *    entityName: "EntityName",
    *    url: "/kame-house-module/etc",
    *    readOnly: true,
+   *    reverseDataOrder: true, // Data is usually received by id asc, if my initial view is desc by id, set this to true
    *    defaultSorting: {
-   *     columnNumber: 11,
+   *     columnNumber: 11, // Column number starts with 0
    *     sortType: "timestamp",
    *     direction: "desc"
    *    },
@@ -83,6 +85,7 @@ function CrudManager() {
     setColumns(config.columns);
     setReadOnly(config.readOnly);
     setDefaultSorting(config.defaultSorting);
+    setReverseDataOrder(config.reverseDataOrder);
     loadCustomSections(config);
     updateEntityNameInView();
     loadStateFromCookies();
@@ -186,6 +189,15 @@ function CrudManager() {
   function setDefaultSorting(crudDefaultSorting) {
     if (!kameHouse.core.isEmpty(crudDefaultSorting)) {
       defaultSorting = crudDefaultSorting;
+    }
+  }
+
+  /**
+   * Set the crud manager to reverse the received data's order.
+   */
+  function setReverseDataOrder(crudReverseDataOrder) {
+    if (!kameHouse.core.isEmpty(crudReverseDataOrder)) {
+      reverseDataOrder = crudReverseDataOrder;
     }
   }
 
@@ -382,12 +394,21 @@ function CrudManager() {
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
       kameHouse.util.dom.append(crudTbody, noDataTd);
     } else {
-      kameHouse.util.dom.append(crudTbody, getCrudTableHeader());
+      const updatedCrudTbody = kameHouse.util.dom.getTbody({
+        id: TBODY_ID
+      }, null);
+      kameHouse.util.dom.append(updatedCrudTbody, getCrudTableHeader());
       kameHouse.logger.info("Received " + entities.length + " entities from the backend");
-      for (const entity of entities) {
-        kameHouse.util.dom.append(crudTbody, getEntityTr(entity));
+      if (!reverseDataOrder) {
+        for (const entity of entities) {
+          kameHouse.util.dom.append(updatedCrudTbody, getEntityTr(entity));
+        }
+      } else {
+        for (let i = entities.length -1; i >= 0; i--) {
+          kameHouse.util.dom.append(updatedCrudTbody, getEntityTr(entities[i]));
+        }
       }
-      filterRows();
+      kameHouse.util.dom.replaceWith(crudTbody, updatedCrudTbody);
     }
     reloadForm(ADD_INPUT_FIELDS_ID);
     reloadForm(EDIT_INPUT_FIELDS_ID);
@@ -644,8 +665,7 @@ function CrudManager() {
       kameHouse.logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType);
       kameHouse.util.dom.setClick(td, null,
         () => {
-          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType);
-          filterRows();
+          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType, null, filterRows);
         }
       );
       kameHouse.util.dom.append(tr, td);
@@ -1043,7 +1063,7 @@ function CrudManager() {
       return;
     }
     kameHouse.logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));
-    kameHouse.util.table.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction);
+    kameHouse.util.table.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction, filterRows);
   }
 
   function refreshView() {

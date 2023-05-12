@@ -1330,7 +1330,7 @@ function KameHouseTableUtils() {
   }
 
   /**
-   * Sort the table by the specified column number.
+   * Sort the table by the specified column number. COLUMN NUMBER STARTS WITH 0!
    * 
    * getComparatorFunction() determines which type of sorting will be used depending on the dataType.
    * The dataType is the same type used in crud-manager.js to determine the column types.
@@ -1340,67 +1340,86 @@ function KameHouseTableUtils() {
    * 
    * sortDirection can either be "asc" or "desc"
    */
-  function sortTable(tableId, columnNumber, dataType, initialSortDirection) {
-    kameHouse.logger.trace("tableId " + tableId);
-    kameHouse.logger.trace("columnNumber " + columnNumber);
-    kameHouse.logger.trace("dataType " + dataType);
-    kameHouse.logger.trace("initialSortDirection " + initialSortDirection);
+  function sortTable(tableId, columnNumber, dataType, initialSortDirection, callback) {
+    kameHouse.plugin.modal.loadingWheelModal.open("Sorting data...");
+    setTimeout(() => {
+      kameHouse.logger.trace("tableId " + tableId);
+      kameHouse.logger.trace("columnNumber " + columnNumber);
+      kameHouse.logger.trace("dataType " + dataType);
+      kameHouse.logger.trace("initialSortDirection " + initialSortDirection);
+  
+      const table = document.getElementById(tableId);
+      const rows = table.rows;
+      const MAX_SORTING_CYCLES = 100000;
+      const compareFunction = getComparatorFunction(dataType);
 
-    const table = document.getElementById(tableId);
-    const rows = table.rows;
-    const MAX_SORTING_CYCLES = 100000;
-    const compareFunction = getComparatorFunction(dataType);
-
-    let numSortingCycles = 0;
-    let sorting = true;
-    let swapRows = false;
-    let swapCount = 0;
-    let currentRowIndex;
-    let currentRow = null;
-    let nextRow = null;
-    let sortDirection = "asc";
-
-    initialSortDirection = initSortDirection(initialSortDirection);
-
-    while (sorting) {
-      sorting = false;
-
-      for (currentRowIndex = 2; currentRowIndex < (rows.length - 1); currentRowIndex++) {
-        swapRows = false;
-        currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
-        nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];        
-        if (shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction)) {
-          swapRows = true;
-          break;
-        }
-      }
-
-      if (swapRows) {
-        kameHouse.util.dom.insertBefore(rows[currentRowIndex].parentNode, rows[currentRowIndex + 1], rows[currentRowIndex]);
-        sorting = true;
-        swapCount++;
-      } else {
-        if (shouldSwapDirection(swapCount, sortDirection, initialSortDirection)) {
-          // if no sorting was done, swap sort direction, and sort reversely.
-          sortDirection = "desc";
-          sorting = true;
-        }
-      }
-      if (numSortingCycles > MAX_SORTING_CYCLES) {
+      let numSortingCycles = 0;
+      let sorting = true;
+      let swapRows = false;
+      let swapCount = 0;
+      let currentRowIndex;
+      let currentRow = null;
+      let nextRow = null;
+      let sortDirection = initSortDirection(initialSortDirection);
+      let directionSwitchCount = 0;
+      kameHouse.logger.trace("sortDirection " + sortDirection);
+      kameHouse.logger.trace("Started sorting process");
+      while (sorting) {
         sorting = false;
-        const message = "Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting";
-        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        
+        if (sortDirection != null) {
+          for (currentRowIndex = 2; currentRowIndex < (rows.length - 1); currentRowIndex++) {
+            swapRows = false;
+            currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
+            nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];
+            if (shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction)) {
+              swapRows = true;
+              break;
+            }
+          }
+        }
+  
+        if (swapRows) {
+          kameHouse.util.dom.insertBefore(rows[currentRowIndex].parentNode, rows[currentRowIndex + 1], rows[currentRowIndex]);
+          sorting = true;
+          swapCount++;
+        } else {
+          if (directionSwitchCount < 2) {
+            if (shouldSwapDirection(swapCount, sortDirection, initialSortDirection)) {
+              // if no sorting was done, swap sort direction, and sort reversely.
+              if (sortDirection == "asc") {
+                sortDirection = "desc";
+              } else {
+                sortDirection = "asc";
+              }
+              kameHouse.logger.trace("No sorting was done, swap sort direction, and sort reversely. sortDirection is now " + sortDirection);
+              directionSwitchCount++;
+              sorting = true;
+            }
+          }
+        }
+        if (numSortingCycles > MAX_SORTING_CYCLES) {
+          sorting = false;
+          const message = "Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting";
+          kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        }
+        numSortingCycles++;
       }
-      numSortingCycles++;
-    }
-    kameHouse.logger.trace("numSortingCycles " + numSortingCycles);
+      kameHouse.plugin.modal.loadingWheelModal.close();
+      kameHouse.logger.trace("Finished sorting process. Sorting cycles: " + numSortingCycles + "; Swap count: " + swapCount);
+      if (kameHouse.core.isFunction(callback)) {
+        callback();
+      }
+    }, 50);
   }
 
   /**
    * Check if it should swap the sorting direction.
    */
   function shouldSwapDirection(swapCount, sortDirection, initialSortDirection) {
-    return swapCount == 0 && sortDirection == "asc" && initialSortDirection != "asc";
+    return swapCount == 0 && ((sortDirection == "asc" && initialSortDirection != "asc") 
+      || (sortDirection == "desc" && initialSortDirection != "desc")
+      || (sortDirection == null));
   }
 
   /**
@@ -1612,7 +1631,7 @@ function KameHouseCoreFunctions() {
    * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
    * Call this function after the session is loaded.
    */
-  function completeAuthorizeUser(responseCode) {
+  function completeAuthorizeUser(responseCode, responseBody) {
     if (window.location.href.includes("/kame-house-groot/")) {
       kameHouse.logger.trace("Complete authorize user is handled in groot");
       return;
@@ -1623,7 +1642,7 @@ function KameHouseCoreFunctions() {
     }
     const loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
     let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
-    if (responseCode == "-4") {
+    if ((responseCode == "-4") || (responseCode == "-1" && responseBody.includes("Failed to connect to"))) {
       mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
     }
     const roles = kameHouse.session.roles;
@@ -1698,14 +1717,14 @@ function KameHouseCoreFunctions() {
         kameHouse.logger.info("KameHouse session: " + JSON.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        completeAuthorizeUser(responseCode);
+        completeAuthorizeUser(responseCode, responseBody);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        completeAuthorizeUser(responseCode);
+        completeAuthorizeUser(responseCode, responseBody);
       }
     );
   }

@@ -55,7 +55,7 @@ function GrootHeader() {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
-        completeAuthorizeUser(responseCode);
+        completeAuthorizeUser(responseCode, responseBody);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current groot session information.";
@@ -63,7 +63,7 @@ function GrootHeader() {
         kameHouse.extension.groot.session = {};
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
-        completeAuthorizeUser(responseCode);
+        completeAuthorizeUser(responseCode, responseBody);
       }
     );
   }
@@ -72,14 +72,14 @@ function GrootHeader() {
    * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
    * Call this function after the groot session is loaded.
    */
-  function completeAuthorizeUser(responseCode) {
+  function completeAuthorizeUser(responseCode, responseBody) {
     if (!kameHouse.core.pageRequiresAuthorization()) {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
       return;
     }
     const loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
     let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
-    if (responseCode == "-4") {
+    if ((responseCode == "-4") || (responseCode == "-1" && responseBody.includes("Failed to connect to"))) {
       mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
     }
     const roles = kameHouse.extension.groot.session.roles;

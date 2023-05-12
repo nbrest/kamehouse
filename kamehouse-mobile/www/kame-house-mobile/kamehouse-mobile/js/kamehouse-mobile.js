@@ -80,7 +80,7 @@ function KameHouseMobileCore() {
 
   function testBackendConnectivity() {
     kameHouse.logger.info("Testing backend connectivity");
-    kameHouse.plugin.modal.loadingWheelModal.open();
+    kameHouse.plugin.modal.loadingWheelModal.open("Testing login credentials...");
     const LOGIN_URL = "/kame-house/login";
     const credentials = getBackendCredentials();
     const loginData = {
@@ -88,6 +88,7 @@ function KameHouseMobileCore() {
       password : credentials.password
     }
     const config = kameHouse.http.getConfig();
+    config.timeout = 15;
     kameHouse.plugin.debugger.http.post(config, LOGIN_URL, kameHouse.http.getUrlEncodedHeaders(), loginData,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
