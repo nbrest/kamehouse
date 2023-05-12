@@ -20,6 +20,7 @@ function CrudManager() {
   const ADD_INPUT_FIELDS_ID = "crud-add-input-fields";
   const EDIT_INPUT_FIELDS_ID = "crud-edit-input-fields";
   const DEFAULT_BANNER = "banner-goku-ssj4-earth";
+  const NO_DATA_ROW_ID = "no-data-from-backend-row";
 
   let entityName = "Set EntityName";
   let url = "/kame-house-module/api/v1/override-url";
@@ -392,6 +393,7 @@ function CrudManager() {
     if (entities.length == 0 || entities.length == null || entities.length == undefined) {
       kameHouse.logger.info("No data received from the backend");
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
+      kameHouse.util.dom.setAttr($(noDataTd), "id", NO_DATA_ROW_ID);
       kameHouse.util.dom.append(crudTbody, noDataTd);
     } else {
       const updatedCrudTbody = kameHouse.util.dom.getTbody({
@@ -412,7 +414,7 @@ function CrudManager() {
     }
     reloadForm(ADD_INPUT_FIELDS_ID);
     reloadForm(EDIT_INPUT_FIELDS_ID);
-    sortTable();
+    sortAndFilterTable();
   }
 
   /**
@@ -1032,13 +1034,19 @@ function CrudManager() {
    */
   function filterRows() {
     // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
-    kameHouse.util.table.filterTableRows("", 'crud-manager-tbody', null);
+    kameHouse.util.table.filterTableRows("", TBODY_ID, null);
+
+    const noDataRow = document.getElementById(NO_DATA_ROW_ID);
+    if (!kameHouse.core.isEmpty(noDataRow)) {
+      kameHouse.logger.info("No data received from the backend, skipping filters");
+      return;
+    }
 
     const filters = document.getElementsByClassName("crud-manager-filter");
     for (const filter of filters) {
       const filterString = filter.value;
       kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString);
-      kameHouse.util.table.filterTableRows(filterString, 'crud-manager-tbody', null, true);
+      kameHouse.util.table.filterTableRows(filterString, TBODY_ID, null, true);
     }
 
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
@@ -1046,7 +1054,7 @@ function CrudManager() {
       const filterString = columnFilter.value;
       const columnNumber = columnFilter.dataset.columnNumber;
       kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
-      kameHouse.util.table.filterTableRowsByColumn(filterString, 'crud-manager-tbody', columnNumber, null, true);
+      kameHouse.util.table.filterTableRowsByColumn(filterString, TBODY_ID, columnNumber, null, true);
     }
     
     const numRows = document.getElementById('num-rows').value;
@@ -1056,10 +1064,11 @@ function CrudManager() {
   /**
    * Sort the table data if default sorting is specified.
    * Column numbers start with 0.
-   * 
+   * Then apply filters.
    */
-  function sortTable() {
+  function sortAndFilterTable() {
     if (kameHouse.core.isEmpty(defaultSorting)) {
+      filterRows();
       return;
     }
     kameHouse.logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));

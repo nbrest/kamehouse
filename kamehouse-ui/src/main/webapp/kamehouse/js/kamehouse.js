@@ -1343,11 +1343,6 @@ function KameHouseTableUtils() {
   function sortTable(tableId, columnNumber, dataType, initialSortDirection, callback) {
     kameHouse.plugin.modal.loadingWheelModal.open("Sorting data...");
     setTimeout(() => {
-      kameHouse.logger.trace("tableId " + tableId);
-      kameHouse.logger.trace("columnNumber " + columnNumber);
-      kameHouse.logger.trace("dataType " + dataType);
-      kameHouse.logger.trace("initialSortDirection " + initialSortDirection);
-  
       const table = document.getElementById(tableId);
       const rows = table.rows;
       const MAX_SORTING_CYCLES = 100000;
@@ -1362,7 +1357,7 @@ function KameHouseTableUtils() {
       let nextRow = null;
       let sortDirection = initSortDirection(initialSortDirection);
       let directionSwitchCount = 0;
-      kameHouse.logger.trace("sortDirection " + sortDirection);
+      kameHouse.logger.trace("Sort table: [ tableId: " + tableId + ", columnNumber: " + columnNumber + ", dataType: " + dataType + ", initialSortDirection: " + initialSortDirection + ", sortDirection: " + sortDirection);  
       kameHouse.logger.trace("Started sorting process");
       while (sorting) {
         sorting = false;
