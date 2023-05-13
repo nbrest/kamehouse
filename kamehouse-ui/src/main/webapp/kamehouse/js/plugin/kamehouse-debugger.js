@@ -19,6 +19,8 @@ function KameHouseDebugger() {
   this.displayRequestData = displayRequestData;
 
   const requests = [];
+  const debuggerModalHtml = getDebuggerModalHtml();
+
   let debuggerHttpClientDivTemplate;  
   
   async function load() {
@@ -27,6 +29,20 @@ function KameHouseDebugger() {
     importKameHouseDebuggerCss();
     await loadDebuggerHttpClientTemplate();
     renderDebugMode();
+  }
+
+  function getDebuggerModalHtml() {
+    const img = kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/other/debug-btn-success.png",
+      className: "debug-mode-btn",
+      alt: "Debug Mode modal",
+      onClick: () => {return;}
+    });
+    const text = "Toggled debug mode!";
+    const div = kameHouse.util.dom.getDiv();
+    kameHouse.util.dom.append(div, img);
+    kameHouse.util.dom.append(div, text);
+    return div;
   }
 
   /** Import debugger-http-client css*/
@@ -46,7 +62,7 @@ function KameHouseDebugger() {
    * Toggle debug mode. 
    */
   function toggleDebugMode() {
-    kameHouse.plugin.modal.basicModal.openAutoCloseable("Toggled debug mode!", 1000);
+    kameHouse.plugin.modal.basicModal.openAutoCloseable(debuggerModalHtml, 1000);
     const message = "Toggled debug mode";
     kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     const debugModeDiv = document.getElementById("debug-mode");
