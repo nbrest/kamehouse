@@ -860,7 +860,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   }
 
   function syncLoopsStatus() {
-    const PERIODIC_STATUS_WAIT_MS = 20000;
+    const PERIODIC_STATUS_WAIT_MS = 28000;
     setTimeout(async () => {
       while (true) {
         const separator = "---------------------------------------------";
