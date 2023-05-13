@@ -81,8 +81,8 @@ function KameHouseDebugger() {
   /**
    * Render the specified html snippet into the custom div of the debugger.
    */
-  function renderCustomDebugger(htmlSnippet) {
-    kameHouse.util.dom.load($("#debug-mode-custom-wrapper"), htmlSnippet);
+  function renderCustomDebugger(htmlSnippet, callback) {
+    kameHouse.util.dom.load($("#debug-mode-custom-wrapper"), htmlSnippet, callback);
   }
 
   /**

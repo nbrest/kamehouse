@@ -807,7 +807,7 @@ function KameHouseMobileConfigManager() {
         (error) => {errorDeleteFileCallback(error, openResultModal);}
       );
     } catch (error) {
-      kameHouse.logger.info("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      kameHouse.logger.error("Error regenerating file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       isCurrentlyPersistingConfig = false;
       if (openResultModal) {
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Error saving settings", 1000);
@@ -932,6 +932,8 @@ function KameHouseMobileConfigManager() {
     this.useBasicAuth = useBasicAuth;
     this.setDataSerializer = setDataSerializer;
     this.setHeader = setHeader;
+    this.setRequestTimeout = setRequestTimeout;
+    this.setReadTimeout = setReadTimeout;
 
     function setServerTrustMode(trustMode, successCallback) {
       kameHouse.logger.info("Called setServerTrustMode on cordova mock with " + trustMode);
@@ -957,6 +959,14 @@ function KameHouseMobileConfigManager() {
 
     function setHeader(key, value) {
       kameHouse.logger.info("Called setHeader on cordova mock with " + key + ":" + value);
+    }
+
+    function setRequestTimeout(val) {
+      kameHouse.logger.info("Called setHeader on cordova mock with " + val);
+    }
+
+    function setReadTimeout(val) {
+      kameHouse.logger.info("Called setHeader on cordova mock with " + val);
     }
   }
 

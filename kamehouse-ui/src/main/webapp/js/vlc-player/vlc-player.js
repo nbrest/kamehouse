@@ -59,7 +59,7 @@ function VlcPlayer(hostname) {
     playlist.init();
     kameHouse.util.mobile.setMobileEventListeners(stopVlcPlayerLoops, restartVlcPlayerLoops);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html");
+      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html", () => {});
       loadStateFromApi();
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseWebSocket"], () => {

@@ -75,6 +75,7 @@
 - Improved initial load time of booking responses by fixing initial sorting of data
 - Added sorting data modal while data is being sorted
 - Improved performance of data rendering function on crud manager
+- Updated mobile settings page layout
 - Fixed bugs
 
 #### v8.12
