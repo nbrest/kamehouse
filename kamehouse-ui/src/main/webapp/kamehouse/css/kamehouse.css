@@ -167,7 +167,7 @@ body {
 } 
 
 .collapsible-kh:after {
-  content: '\2b9f';
+  content: '\2193';
   color: #c0c0c0;
   font-weight: bold;
   float: right;
@@ -179,7 +179,7 @@ body {
 } 
 
 .collapsible-kh-active:after {
-  content: "\2b9d";
+  content: "\2191";
 }
 
 .collapsible-kh:focus {
