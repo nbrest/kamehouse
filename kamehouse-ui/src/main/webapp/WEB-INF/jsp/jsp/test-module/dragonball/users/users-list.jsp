@@ -70,7 +70,7 @@
     </table>
     <br>
     <img class="img-btn-kh" onclick="window.location.href='users-add'"
-      src="/kame-house/img/other/add-gray-dark.png" alt="Add User" title="Add User"/>
+      src="/kame-house/img/other/add-circle-gray-dark.png" alt="Add User" title="Add User"/>
   </div>
   <br>
   </div>

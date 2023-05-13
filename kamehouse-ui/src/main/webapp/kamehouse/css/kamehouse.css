@@ -1248,6 +1248,7 @@ hr {
   padding-top: 10px;
   padding-bottom: 10px;
   text-decoration: none;
+  min-width: 100px;
 }
 
 @media (max-width : 900px) {
@@ -1256,12 +1257,12 @@ hr {
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
-    min-width: 50px;
+    min-width: 80px;
   }
 }
 
 .tabs-kh button:hover {
-  background-color: black;
+  background-color: #292929;
   color: #eeeded;
 }
 
