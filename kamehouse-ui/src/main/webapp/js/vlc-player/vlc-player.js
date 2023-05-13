@@ -885,7 +885,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   function stopVlcPlayerLoops() {
     const message = "KameHouse sent to background. Stopping sync loops and disconnecting websockets";
-    kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
+    kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     isRunningSyncVlcRcStatusLoop = false;
     isRunningSyncPlaylistLoop = false;
     isRunningKeepAliveWebSocketLoop = false;
@@ -896,7 +896,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   function restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
-    kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
+    kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
     vlcRcStatusWebSocket.disconnect();
     playlistWebSocket.disconnect(); 
     const RESTART_LOOPS_WAIT_MS = 1000;
