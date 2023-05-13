@@ -6,8 +6,8 @@
 }
 
 .kh-webapp-tabs {
-  background-color: #0e1214;
-  border-bottom: #272727 3px solid;
+  background-color: #070809;
+  border-bottom: #2a2a2a 3px solid;
 }
 
 @media (max-width : 900px) {
@@ -17,12 +17,12 @@
 }
 
 .kh-webapp-tabs-table {
-  background-color: #0e1214;
+  background-color: #070809;
   border: none;
 }
 
 .kh-webapp-tabs-table tbody {
-  background-color: #0e1214;
+  background-color: #070809;
 }
 
 .kh-webapp-tabs-table tr {
@@ -43,7 +43,7 @@
 }
 
 .kh-webapp-tabs-table tr td:hover {
-  background-color: black;
+  background-color: #262626;
   color: #eeeded;
 }
 
