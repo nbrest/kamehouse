@@ -76,6 +76,7 @@
 - Added sorting data modal while data is being sorted
 - Improved performance of data rendering function on crud manager
 - Updated mobile settings page layout
+- Updated collapsible divs unicode expand/collapse icons
 - Fixed bugs
 
 #### v8.12
