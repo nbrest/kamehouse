@@ -2,6 +2,16 @@
   padding: 10px; 
 }
 
+.tabs-kh button.crud-tab-link {
+  min-width: 180px;
+}
+
+@media (max-width : 900px) {
+  .tabs-kh button.crud-tab-link {
+    min-width: 100px;
+  }
+}
+
 .control-buttons-td {
   padding: 10px;
   text-align: right;
