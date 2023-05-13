@@ -896,7 +896,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   function restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
-    kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
+    kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     vlcRcStatusWebSocket.disconnect();
     playlistWebSocket.disconnect(); 
     const RESTART_LOOPS_WAIT_MS = 1000;

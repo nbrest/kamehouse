@@ -928,7 +928,7 @@ function KameHouseMobileUtils() {
     setMobileEventListeners(
       () => {
         const message = "KameHouse sent to background";
-        kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message));
+        kameHouse.logger.debug(message, kameHouse.logger.getCyanText(message));
       }, 
       () => {
         const message = "KameHouse sent to foreground";
