@@ -293,7 +293,9 @@ function KameHouseBannerUtils() {
   /** Preload banner images */
   function preloadBannerImages(banerCategory, bannerArray) {
     setTimeout(() => {
-      kameHouse.logger.trace("Preloading " + banerCategory + " banners");
+      const message = "Preloading " + banerCategory + " banners";
+      const coloredMessage = "Preloading " + kameHouse.logger.getCyanText(banerCategory) + " banners";
+      kameHouse.logger.debug(message, coloredMessage);
       bannerArray.forEach((bannerName) => {
         const img = kameHouse.util.dom.getImgBtn({
           src: '/kame-house/img/banners/' + banerCategory + '/' + bannerName + '.jpg'
