@@ -916,7 +916,6 @@ function KameHouseMobileUtils() {
   this.windowLocation = windowLocation;
   this.windowOpen = windowOpen;
   this.exec = exec;
-  this.generateAndroidQrCode = generateAndroidQrCode;
 
   let isMobileAppStatus = false;
 
@@ -1064,14 +1063,6 @@ function KameHouseMobileUtils() {
         return null;
       }
     }
-  }
-
-  function generateAndroidQrCode(qrCodeDivId) {
-    $("#" + qrCodeDivId).qrcode({
-      text: 'https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk',
-      ecLevel: 'L',
-      size: 256
-    });
   }
 }
 
