@@ -7,12 +7,12 @@
 function KameHouseMobile() {
   this.load = load;
 
-  async function load() {
+  function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile.js");
     kameHouse.extension.mobile.core = new KameHouseMobileCore();
     kameHouse.extension.mobile.core.init();
     kameHouse.extension.mobile.configManager = new KameHouseMobileConfigManager();
-    await kameHouse.extension.mobile.configManager.init();
+    kameHouse.extension.mobile.configManager.init();
   }
 } 
 
@@ -24,7 +24,6 @@ function KameHouseMobileCore() {
   this.init = init;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
   this.getBackendServer = getBackendServer;
-  this.getBackendCredentials = getBackendCredentials;
   this.testBackendConnectivity = testBackendConnectivity;
   this.mobileHttpRequst = mobileHttpRequst;
   this.setMobileBuildVersion = setMobileBuildVersion;
@@ -78,10 +77,14 @@ function KameHouseMobileCore() {
           && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
         mobileConfig.backend.servers.forEach((server) => {
         if (server.name === mobileConfig.backend.selected) {
+          kameHouse.logger.debug("Selecting credentials for username: " + server.username + " and server: " + server.name);
           credentials.username = server.username;
           credentials.password = server.password;
         }
       });
+    } else {
+      const message = "Unable to get backend credentials. Mobile config manager may not be initialized yet";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     }
     return credentials;
   }
@@ -245,7 +248,7 @@ function KameHouseMobileCore() {
     if (config.sendBasicAuthMobile) {
       const credentials = getBackendCredentials();
       if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
-        kameHouse.logger.debug("Setting basicAuth header for mobile http request");
+        kameHouse.logger.debug("Setting basicAuth header for mobile http request with username: " + credentials.username);
         cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
       }
     } else {
@@ -454,11 +457,14 @@ function KameHouseMobileConfigManager() {
   let isCurrentlyPersistingConfig = false;
   let backendDefaultConfig = null;
 
-  async function init() {
-    kameHouse.logger.info("Initializing mobile config manager");
-    initGlobalMobileConfig();
-    await loadBackendDefaultConfig();
-    readMobileConfigFile();
+  function init() {
+    // waitFor kameHouseDebugger fixed vlc player page not loading the proper credentials on mobile app
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], async () => {
+      kameHouse.logger.info("Initializing mobile config manager");
+      initGlobalMobileConfig();
+      await loadBackendDefaultConfig();
+      readMobileConfigFile();
+    });
   }
 
   function setKameHouseMobileModuleLoaded() {
@@ -584,7 +590,7 @@ function KameHouseMobileConfigManager() {
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
     } catch (error) {
-      kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
+      kameHouse.logger.error("Error reading file " + mobileConfigFile + ". Error: " + JSON.stringify(error));
       setKameHouseMobileModuleLoaded();
       createMobileConfigFile();
     }
@@ -596,7 +602,7 @@ function KameHouseMobileConfigManager() {
           const reader = new FileReader();
           reader.onloadend = function(e) {
             const fileContent = this.result;
-            kameHouse.logger.info("file content read: " + kameHouse.logger.maskSensitiveData(fileContent));
+            kameHouse.logger.info("File content read: " + kameHouse.logger.maskSensitiveData(fileContent));
             let mobileConfig = null;
             try {
               mobileConfig = JSON.parse(fileContent);
