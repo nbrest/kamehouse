@@ -39,6 +39,7 @@ HTTPD_PORT=${DEFAULT_HTTPD_PORT}
 # docker defaults
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
+DEPLOY_TO_DOCKER=false
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
@@ -320,6 +321,10 @@ executeOperationInTomcatManager() {
   local TOMCAT_PORT=$2
   local KAMEHOUSE_MODULE=$3
 
+  if ${DEPLOY_TO_DOCKER}; then
+    TOMCAT_PORT=${DOCKER_PORT_TOMCAT}
+  fi
+
   if [ -z "${KAMEHOUSE_MODULE}" ]; then
     log.info "Executing ${COL_PURPLE}${OPERATION}${COL_DEFAULT_LOG} kamehouse webapps in localhost:${TOMCAT_PORT} for all modules"
   else
@@ -527,4 +532,27 @@ uploadKameHouseMobileApkToGDrive() {
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH}/kamehouse.apk"
   fi
+}
+
+deployToTomcat() {
+  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
+  cd ${PROJECT_DIR}
+
+  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
+  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
+    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
+    if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
+      log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
+      if ${DEPLOY_TO_DOCKER}; then
+        log.debug "scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps"
+        scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps
+      else
+        cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
+        checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
+      fi
+    fi
+  done
+
+  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }

@@ -118,11 +118,6 @@ setSshParameters() {
   SSH_COMMAND="${SCRIPT_NAME} -s local -p ${MAVEN_PROFILE}"
   if [ -n "${MODULE_SHORT}" ]; then
     SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}
-  fi 
-
-  if [ "${KAMEHOUSE_SERVER}" == "aws" ]; then
-    SSH_SERVER=${AWS_SSH_SERVER}
-    SSH_USER=${AWS_SSH_USER}
   fi
 }
 
@@ -139,24 +134,6 @@ pullLatestVersionFromGit() {
     git pull origin dev
     checkCommandStatus "$?" "An error occurred pulling origin dev"
   fi
-}
-
-deployToTomcat() {
-  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
-  cd ${PROJECT_DIR}
-
-  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
-  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
-    if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
-      log.info "Deploying ${COL_PURPLE}${KAMEHOUSE_MODULE}${COL_DEFAULT_LOG} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
-      cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
-      checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
-    fi
-  done
-
-  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
