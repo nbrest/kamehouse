@@ -525,9 +525,16 @@
 
 .vlc-player-select {
   border: 1px solid #292929;
+  font-size: 18px;
   color: #868686;
   background: #101010;
   outline: none;
+}
+
+@media (max-width : 900px) {
+  .vlc-player-select {
+    font-size: 15px;
+  }
 }
 
 .vlc-player-select:hover {

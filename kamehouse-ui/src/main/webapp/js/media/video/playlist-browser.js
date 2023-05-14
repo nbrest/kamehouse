@@ -75,13 +75,26 @@ function PlaylistBrowser() {
         const playlistCategoryDropdown = $('#playlist-category-dropdown');
         $.each(videoPlaylistCategories, (key, entry) => {
           const category = entry;
-          const categoryFormatted = category.replace(/\\/g, ' | ').replace(/\//g, ' | ');
-          kameHouse.util.dom.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, categoryFormatted));
+          const categoryFormatted = category.replace(/\\/g, ' | ')
+                                            .replace(/\//g, ' | ')
+                                            .replace(/_/g, ' ');
+          kameHouse.util.dom.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, capitalizeAllWords(categoryFormatted)));
         });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => 
         kameHouse.plugin.debugger.displayResponseData("Error populating video playlist categories", responseCode, responseDescription, responseHeaders)
       );
+  }
+
+  function capitalizeAllWords(string) {
+    if (kameHouse.core.isEmpty(string)) {
+      return string;
+    }
+    const arr = string.split(" ");
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    return arr.join(" ");
   }
 
   /**
@@ -111,8 +124,9 @@ function PlaylistBrowser() {
     const playlistDropdown = $('#playlist-dropdown');
     $.each(videoPlaylists, (key, entry) => {
       if (entry.category === selectedPlaylistCategory) {
-        const playlistName = entry.name.replace(/.m3u+$/, "");
-        kameHouse.util.dom.append(playlistDropdown, getPlaylistOption(entry.path, playlistName));
+        const playlistName = entry.name.replace(/.m3u+$/, "")
+                                       .replace(/_/g, " ");
+        kameHouse.util.dom.append(playlistDropdown, getPlaylistOption(entry.path, capitalizeAllWords(playlistName)));
       }
     });
   }

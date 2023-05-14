@@ -81,6 +81,7 @@
 - Refactored deploy to dev tomcat script
 - Added git commit hash to mobile app version
 - Refactored logic to keep vlc loops synchronized
+- Updated vlc playlist browser dropdowns styles
 - Fixed bugs
 
 #### v8.12
