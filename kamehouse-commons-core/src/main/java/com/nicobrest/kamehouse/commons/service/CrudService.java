@@ -18,6 +18,9 @@ public interface CrudService<E, D> {
   /** Reads all the entities from the repository of type T. */
   public List<E> readAll();
 
+  /** Reads all the entities from the repository of type T. with the specified filters */
+  public List<E> readAll(Integer maxRows, String sortColumn, Boolean sortAscending);
+
   /** Updates an entity on the repository from it's DTO. */
   public void update(D dto);
 

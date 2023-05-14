@@ -29,6 +29,9 @@ function CrudManager() {
   let readOnly = false;
   let reverseDataOrder = false;
   let defaultSorting = null;
+  let readAllMaxRows = null;
+  let readAllSortColumn = null;
+  let readAllSortAscending = null;
   
   /**
    * Load the crud manager module.
@@ -48,7 +51,12 @@ function CrudManager() {
    *    entityName: "EntityName",
    *    url: "/kame-house-module/etc",
    *    readOnly: true,
-   *    reverseDataOrder: true, // Data is usually received by id asc, if my initial view is desc by id, set this to true
+   *    readAll: {
+   *      maxRows: 200,
+   *      sortColumn: "id",
+   *      sortAscending: false,
+   *    },
+   *    reverseDataOrder: true, // Data is usually received by id asc, if my initial view is desc by id, set this to true. I can also request the data from the backend sorted desc by id with readAll.sortColumn and readAll.sortAscending configs.
    *    defaultSorting: {
    *     columnNumber: 11, // Column number starts with 0
    *     sortType: "timestamp",
@@ -87,6 +95,7 @@ function CrudManager() {
     setReadOnly(config.readOnly);
     setDefaultSorting(config.defaultSorting);
     setReverseDataOrder(config.reverseDataOrder);
+    setReadAllParameters(config.readAll);
     loadCustomSections(config);
     updateEntityNameInView();
     loadStateFromCookies();
@@ -202,6 +211,23 @@ function CrudManager() {
     }
   }
 
+  function setReadAllParameters(readAllParams) {
+    if (kameHouse.core.isEmpty(readAllParams)) {
+      return;
+    }
+    if (!kameHouse.core.isEmpty(readAllParams.maxRows)) {
+      readAllMaxRows = readAllParams.maxRows;
+    }
+
+    if (!kameHouse.core.isEmpty(readAllParams.sortColumn)) {
+      readAllSortColumn = readAllParams.sortColumn;
+    }
+
+    if (readAllParams.sortAscending != null && readAllParams.sortAscending != undefined) {
+      readAllSortAscending = readAllParams.sortAscending;
+    }
+  }
+
   function loadCustomSections(config) {
     if (!kameHouse.core.isEmpty(config.customListSection)) {
       kameHouse.util.dom.load($("#custom-list-section"), config.customListSection);
@@ -230,8 +256,18 @@ function CrudManager() {
    */
   function readAll() {
     kameHouse.logger.info("readAll");
+    const requestParam = {};
+    if (readAllMaxRows) {
+      requestParam.maxRows = readAllMaxRows;
+    }
+    if (readAllSortColumn) {
+      requestParam.sortColumn = readAllSortColumn;
+    }
+    if (readAllSortAscending != null && readAllSortAscending != undefined) {
+      requestParam.sortAscending = readAllSortAscending;
+    }
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, url, null, null,
+    kameHouse.plugin.debugger.http.get(config, url, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         entities = responseBody;
         reloadView();

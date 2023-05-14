@@ -8,7 +8,12 @@ const config = {
     sortType: "timestamp",
     direction: "desc"
   },
-  reverseDataOrder: true,
+  readAll: {
+    maxRows: 500,
+    sortColumn: "id",
+    sortAscending: false,
+  },
+  reverseDataOrder: false,
   customListSection: "/kame-house/html-snippets/tennisworld/booking-responses-custom-list-div.html",
   columns: [
     { 

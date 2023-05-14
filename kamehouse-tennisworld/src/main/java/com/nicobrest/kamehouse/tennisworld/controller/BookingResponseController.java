@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -64,8 +65,12 @@ public class BookingResponseController extends
   @GetMapping(path = "/booking-responses")
   @ResponseBody
   @Override
-  public ResponseEntity<List<BookingResponse>> readAll() {
-    return super.readAll();
+  public ResponseEntity<List<BookingResponse>> readAll(
+      @RequestParam(value = "maxRows", required = false, defaultValue = "0") Integer maxRows,
+      @RequestParam(value = "sortColumn", required = false, defaultValue = "") String sortColumn,
+      @RequestParam(value = "sortAscending", required = false, defaultValue = "true")
+      Boolean sortAscending) {
+    return super.readAll(maxRows, sortColumn, sortAscending);
   }
 
   /**

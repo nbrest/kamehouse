@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -96,11 +97,12 @@ public abstract class AbstractCrudServiceTest<E, D> {
   public void readAllTest() {
     List<E> entityList = testUtils.getTestDataList();
     when(getCrudDao().readAll()).thenReturn(entityList);
+    when(getCrudDao().readAll(any(), any(), any())).thenReturn(entityList);
 
     List<E> returnedList = getCrudService().readAll();
 
     testUtils.assertEqualsAllAttributesList(entityList, returnedList);
-    verify(getCrudDao(), times(1)).readAll();
+    verify(getCrudDao(), times(1)).readAll(any(), any(), any());
   }
 
   /**

@@ -99,6 +99,11 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
 
   @Override
   public List<DragonBallUser> readAll() {
+    return readAll(0, null, true);
+  }
+
+  @Override
+  public List<DragonBallUser> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
     return new ArrayList<>(repository.values());
   }
 

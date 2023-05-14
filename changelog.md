@@ -82,6 +82,7 @@
 - Added git commit hash to mobile app version
 - Refactored logic to keep vlc loops synchronized
 - Updated vlc playlist browser dropdowns styles
+- Added support to filter rows on read all on crud with max rows, a sort column and sort order
 - Fixed bugs
 
 #### v8.12

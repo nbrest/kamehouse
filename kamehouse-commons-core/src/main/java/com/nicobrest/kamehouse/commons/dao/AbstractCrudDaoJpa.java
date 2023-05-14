@@ -34,8 +34,14 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public List<E> readAll() {
-    logger.debug("ReadAll {}", getEntityClass().getSimpleName());
-    List<E> returnedEntities = findAll(getEntityClass());
+    return readAll(0, null, true);
+  }
+
+  @Override
+  public List<E> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
+    logger.debug("Read all {} maxRows: {}, sortColumn: {}, sortAscending: {}",
+        getEntityClass().getSimpleName(), maxRows, sortColumn, sortAscending);
+    List<E> returnedEntities = findAll(getEntityClass(), maxRows, sortColumn, sortAscending);
     logger.trace("ReadAll {} response {}", getEntityClass().getSimpleName(), returnedEntities);
     return returnedEntities;
   }

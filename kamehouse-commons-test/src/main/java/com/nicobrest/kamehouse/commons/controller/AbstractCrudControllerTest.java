@@ -138,6 +138,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   public void readAllTest() throws Exception {
     List<E> entityList = testUtils.getTestDataList();
     when(getCrudService().readAll()).thenReturn(entityList);
+    when(getCrudService().readAll(any(), any(), any())).thenReturn(entityList);
 
     MockHttpServletResponse response = doGet(getCrudUrl());
     List<E> responseBody = getResponseBodyList(response, getEntityClass());
@@ -145,7 +146,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributesList(entityList, responseBody);
-    verify(getCrudService(), times(1)).readAll();
+    verify(getCrudService(), times(1)).readAll(any(), any(), any());
     verifyNoMoreInteractions(getCrudService());
   }
 

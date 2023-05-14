@@ -121,6 +121,15 @@ public class AbstractCrudDaoJpaUnitTest {
   }
 
   /**
+   * read all with filter params test.
+   */
+  @Test
+  public void readAllWithFilterParamsTest() {
+    List<TestEntity> testEntities = testEntityCrudDaoJpa.readAll(30, "id", false);
+    assertEquals(1, testEntities.size());
+  }
+
+  /**
    * update entity test.
    */
   @Test

@@ -45,6 +45,11 @@ public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestE
 
     @Override
     public List<TestEntity> readAll() {
+      return readAll(0, null, true);
+    }
+
+    @Override
+    public List<TestEntity> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
       TestEntity testEntity = new TestEntity();
       testEntity.setId(1L);
       testEntity.setName("goku");

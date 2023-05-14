@@ -41,6 +41,11 @@ public class KameHouseUserDaoInMemory implements KameHouseUserDao {
 
   @Override
   public List<KameHouseUser> readAll() {
+    return readAll(0, null, true);
+  }
+
+  @Override
+  public List<KameHouseUser> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
     return new ArrayList<>(repository.values());
   }
 

@@ -18,6 +18,9 @@ public interface CrudDao<E> {
   /** Reads all the entities from the repository of type E. */
   public List<E> readAll();
 
+  /** Reads all the entities from the repository of type E. with the specified filters */
+  public List<E> readAll(Integer maxRows, String sortColumn, Boolean sortAscending);
+
   /** Updates an entity on the repository. */
   public void update(E entity);
 

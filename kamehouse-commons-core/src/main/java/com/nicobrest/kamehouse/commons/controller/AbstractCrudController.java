@@ -39,8 +39,17 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Reads all the entities from the repository for the specified service.
    */
   protected ResponseEntity<List<E>> readAll() {
-    logger.debug("Read all");
-    List<E> entitiesList = getCrudService().readAll();
+    return readAll(0, null, true);
+  }
+
+  /**
+   * Reads all the entities from the repository for the specified service.
+   */
+  protected ResponseEntity<List<E>> readAll(Integer maxRows, String sortColumn,
+      Boolean sortAscending) {
+    logger.debug("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows, sortColumn,
+        sortAscending);
+    List<E> entitiesList = getCrudService().readAll(maxRows, sortColumn, sortAscending);
     return generateGetResponseEntity(entitiesList);
   }
 

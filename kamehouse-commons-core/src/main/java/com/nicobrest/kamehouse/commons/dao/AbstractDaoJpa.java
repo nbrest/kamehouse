@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -11,6 +12,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +52,38 @@ public abstract class AbstractDaoJpa<E> {
 
   /**
    * Finds all objects of the specified class from the repository.
+   *
+   * @deprecated replaced by findAll(class, maxRows, sortColumn, sortAscending).
    */
   protected List<E> findAll(Class<E> clazz) {
+    return findAll(clazz, 0, null, true);
+  }
+
+  /**
+   * Finds all objects of the specified class from the repository with the specified criteria.
+   */
+  protected List<E> findAll(Class<E> clazz, Integer maxRows, String sortColumn,
+      Boolean sortAscending) {
     EntityManager em = getEntityManager();
     List<E> entitiesList = null;
     try {
-      logger.debug("findAll {}", clazz.getSimpleName());
+      logger.debug("findAll all {} maxRows: {}, sortColumn: {}, sortAscending: {}",
+          clazz.getSimpleName(), maxRows, sortColumn, sortAscending);
       em.getTransaction().begin();
-      entitiesList = em.createQuery("from " + clazz.getSimpleName(), clazz).getResultList();
+      CriteriaQuery<E> criteriaQuery = em.getCriteriaBuilder().createQuery(clazz);
+      Root<E> from = criteriaQuery.from(clazz);
+      if (!StringUtils.isEmpty(sortColumn)) {
+        if (sortAscending) {
+          criteriaQuery.orderBy(em.getCriteriaBuilder().asc(from.get(sortColumn)));
+        } else {
+          criteriaQuery.orderBy(em.getCriteriaBuilder().desc(from.get(sortColumn)));
+        }
+      }
+      TypedQuery<E> typedQuery = em.createQuery(criteriaQuery);
+      if (maxRows != null && maxRows > 0) {
+        typedQuery.setMaxResults(maxRows);
+      }
+      entitiesList = typedQuery.getResultList();
       em.getTransaction().commit();
       logger.trace("findAll {} response {}", clazz.getSimpleName(), entitiesList);
     } catch (PersistenceException pe) {
