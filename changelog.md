@@ -79,6 +79,7 @@
 - Updated collapsible divs unicode expand/collapse icons
 - Masked sensitive data from js logs and debugger
 - Refactored deploy to dev tomcat script
+- Added git commit hash to mobile app version
 - Fixed bugs
 
 #### v8.12

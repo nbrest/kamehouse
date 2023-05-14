@@ -514,17 +514,37 @@ buildCordovaProject() {
   else
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
   fi
+  log.debug "Setting build version"
   cp -f pom.xml www/kame-house-mobile/
   echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
   date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
+  updateConfigWithGitHash
   log.debug "cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+  resetConfigFromGitHash
   if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
   else
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod -d
   fi  
+}
+
+updateConfigWithGitHash() {
+  log.debug "Setting git commit hash on config.xml"
+  cp -f config.xml config-pre-build.xml
+  local RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
+  RELEASE_VERSION=`echo ${RELEASE_VERSION:9:4}`
+  local APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1"
+  local APP_VERSION_WITH_HASH="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1-${GIT_COMMIT_HASH}"
+
+  log.debug "Setting mobile app version to: ${APP_VERSION_WITH_HASH}"
+  sed -i "s+${APP_VERSION}+${APP_VERSION_WITH_HASH}+g" config.xml
+}
+
+resetConfigFromGitHash() {
+  log.debug "Resetting config.xml git commit hash after build"
+  mv -f config-pre-build.xml config.xml
 }
 
 uploadKameHouseMobileApkToGDrive() {
