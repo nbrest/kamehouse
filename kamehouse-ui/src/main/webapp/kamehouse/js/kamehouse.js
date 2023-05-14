@@ -1958,6 +1958,7 @@ function KameHouseCoreFunctions() {
   this.getBlueText = getBlueText;
   this.getGreenText = getGreenText;
   this.getCyanText = getCyanText;
+  this.maskSensitiveData = maskSensitiveData;
 
   /**
    * Log levels:
@@ -2211,8 +2212,8 @@ function KameHouseCoreFunctions() {
     + "'method' : '" + httpMethod + "', "
     + "'url' : '" + url + "', "
     + "'config' : '" + JSON.stringify(config) + "', "
-    + "'headers' : '" + JSON.stringify(requestHeaders) + "', "
-    + "'body' : '" + JSON.stringify(requestBody) + "' ]");
+    + "'headers' : '" + kameHouse.logger.maskSensitiveData(JSON.stringify(requestHeaders)) + "', "
+    + "'body' : '" + kameHouse.logger.maskSensitiveData(JSON.stringify(requestBody)) + "' ]");
   }
   
   /**
@@ -2224,6 +2225,23 @@ function KameHouseCoreFunctions() {
     + "'responseDescription' : '" + responseDescription + "', "
     + "'responseHeaders' : '" + JSON.stringify(responseHeaders) + "', "
     + "'responseBody' : '" + JSON.stringify(responseBody) + "' ]");   
+  }
+
+  /**
+   * Mask passwords, card details and any sensitive data in the message.
+   */
+  function maskSensitiveData(message) {
+    if (kameHouse.core.isEmpty(message)) {
+      return;
+    }
+    const emptyOrWhiteSpaces = "(|\\s)*";
+    const anythingButDoubleQuote = '[^"]*';
+    const passwordsRegex = new RegExp('"[p|P]assword"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"' + anythingButDoubleQuote + '"',"g");
+    const basicAuthRegex = new RegExp('"[a|A]uthorization"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"Basic ' + anythingButDoubleQuote + '"',"g");
+    const cvvRegex = new RegExp('"[c|C][v|V][v|V]"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"[0-9]{1,3}"',"g");
+    return message.replace(passwordsRegex, '"password": "****"')
+                  .replace(basicAuthRegex, '"Authorization": "Basic ****"')
+                  .replace(cvvRegex, '"cvv": "***"');
   }
 }
 

@@ -123,17 +123,19 @@ function BookingService() {
       kameHouse.util.dom.setHtml($('#brt-response-id'), bookingResponse.id);
       kameHouse.util.dom.setHtml($('#brt-status'), bookingResponse.status);
       kameHouse.util.dom.setHtml($('#brt-message'), bookingResponse.message);
-      kameHouse.util.dom.setHtml($('#brt-request-id'), bookingResponse.request.id);
-      kameHouse.util.dom.setHtml($('#brt-username'), bookingResponse.request.username);
-      const date = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.date);
-      kameHouse.util.dom.setHtml($('#brt-date'), date.toLocaleDateString());
-      kameHouse.util.dom.setHtml($('#brt-time'), bookingResponse.request.time);
-      kameHouse.util.dom.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
-      kameHouse.util.dom.setHtml($('#brt-site'), bookingResponse.request.site);
-      kameHouse.util.dom.setHtml($('#brt-duration'), bookingResponse.request.duration);   
-      kameHouse.util.dom.setHtml($('#brt-court-number'), bookingResponse.request.courtNumber);    
-      const creationDate = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.creationDate);
-      kameHouse.util.dom.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
+      if (!kameHouse.core.isEmpty()) {
+        kameHouse.util.dom.setHtml($('#brt-request-id'), bookingResponse.request.id);
+        kameHouse.util.dom.setHtml($('#brt-username'), bookingResponse.request.username);
+        const date = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.date);
+        kameHouse.util.dom.setHtml($('#brt-date'), date.toLocaleDateString());
+        kameHouse.util.dom.setHtml($('#brt-time'), bookingResponse.request.time);
+        kameHouse.util.dom.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
+        kameHouse.util.dom.setHtml($('#brt-site'), bookingResponse.request.site);
+        kameHouse.util.dom.setHtml($('#brt-duration'), bookingResponse.request.duration);   
+        kameHouse.util.dom.setHtml($('#brt-court-number'), bookingResponse.request.courtNumber);    
+        const creationDate = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.creationDate);
+        kameHouse.util.dom.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
+      }
   }
 }
 

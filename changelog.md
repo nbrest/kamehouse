@@ -77,6 +77,7 @@
 - Improved performance of data rendering function on crud manager
 - Updated mobile settings page layout
 - Updated collapsible divs unicode expand/collapse icons
+- Masked sensitive data from js logs and debugger
 - Fixed bugs
 
 #### v8.12

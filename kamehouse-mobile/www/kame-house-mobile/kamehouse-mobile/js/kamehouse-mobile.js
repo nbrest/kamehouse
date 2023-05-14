@@ -279,7 +279,7 @@ function KameHouseMobileCore() {
   function logMobileHttpRequest(url, options) {
     kameHouse.logger.debug("mobile http request: [ " 
     + "'url' : '" + url + "', "
-    + "'options' : '" + JSON.stringify(options) + "' ]");
+    + "'options' : '" + kameHouse.logger.maskSensitiveData(JSON.stringify(options)) + "' ]");
   }
   
   /**
@@ -586,7 +586,7 @@ function KameHouseMobileConfigManager() {
           const reader = new FileReader();
           reader.onloadend = function(e) {
             const fileContent = this.result;
-            kameHouse.logger.info("file content read: " + fileContent);
+            kameHouse.logger.info("file content read: " + kameHouse.logger.maskSensitiveData(fileContent));
             let mobileConfig = null;
             try {
               mobileConfig = JSON.parse(fileContent);
