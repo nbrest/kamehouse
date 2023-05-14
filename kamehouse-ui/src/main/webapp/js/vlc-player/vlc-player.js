@@ -613,10 +613,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   let isRunningSyncPlaylistLoop = false;
   let isRunningKeepAliveWebSocketLoop = false;
   let isRunningSyncVlcPlayerHttpLoop = false;
-  let isFinishedSyncVlcRcStatusLoop = false;
-  let isFinishedSyncPlaylistLoop = false;
-  let isFinishedKeepAliveWebSocketLoop = false;
-  let isFinishedSyncVlcPlayerHttpLoop = false;
   let vlcRcStatusLoopCount = 0;
   let vlcPlaylistLoopCount = 0;
   let keepAliveWebSocketLoopCount = 0;
@@ -702,7 +698,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         return;
       }
       isRunningSyncVlcRcStatusLoop = true;
-      vlcRcStatusLoopCount = vlcRcStatusLoopCount + 1;
+      vlcRcStatusLoopCount++;
       const VLC_STATUS_CONNECTED_SUCCESS_MS = 1000;
       const VLC_STATUS_CONNECTED_FAIL_MS = 7000;
       const VLC_STATUS_DISCONNECTED_MS = 3000;
@@ -739,8 +735,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           break;
         }
       }
-      vlcRcStatusLoopCount = vlcRcStatusLoopCount - 1;
-      isFinishedSyncVlcRcStatusLoop = true;
+      vlcRcStatusLoopCount--;
       kameHouse.logger.info("Finished syncVlcRcStatusLoop");
     }, 0);
   }
@@ -758,7 +753,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         return;
       }
       isRunningSyncPlaylistLoop = true;
-      vlcPlaylistLoopCount = vlcPlaylistLoopCount + 1;
+      vlcPlaylistLoopCount++;
       const PLAYLIST_WAIT_MS = 5000;
       let playlistLoopWaitMs = PLAYLIST_WAIT_MS;
       while (isRunningSyncPlaylistLoop) {
@@ -775,8 +770,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           break;
         }
       }
-      vlcPlaylistLoopCount = vlcPlaylistLoopCount - 1;
-      isFinishedSyncPlaylistLoop = true;
+      vlcPlaylistLoopCount--;
       kameHouse.logger.info("Finished syncPlaylistLoop");
     }, 0);
   }
@@ -793,7 +787,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         return;
       }
       isRunningKeepAliveWebSocketLoop = true;
-      keepAliveWebSocketLoopCount = keepAliveWebSocketLoopCount + 1;
+      keepAliveWebSocketLoopCount++;
       kameHouse.logger.info("Started keepAliveWebSocketsLoop with initial 15 seconds delay");
       await kameHouse.core.sleep(15000);
       const KEEP_ALIVE_WAIT_MS = 5000;
@@ -815,8 +809,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           break;
         }
       }
-      keepAliveWebSocketLoopCount = keepAliveWebSocketLoopCount - 1;
-      isFinishedKeepAliveWebSocketLoop = true;
+      keepAliveWebSocketLoopCount--;
       kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
     }, 0);
   }
@@ -834,7 +827,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         return;
       }
       isRunningSyncVlcPlayerHttpLoop = true;
-      syncVlcPlayerHttpLoopCount = syncVlcPlayerHttpLoopCount + 1;
+      syncVlcPlayerHttpLoopCount++;
       const WEB_SOCKETS_CONNECTED_WAIT_MS = 10000;
       const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
       let syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
@@ -853,14 +846,13 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           break;
         }
       }
-      syncVlcPlayerHttpLoopCount = syncVlcPlayerHttpLoopCount - 1;
-      isFinishedSyncVlcPlayerHttpLoop = true;
+      syncVlcPlayerHttpLoopCount--;
       kameHouse.logger.info("Finished syncVlcPlayerHttpLoop");
     }, 0);
   }
 
   function syncLoopsStatus() {
-    const PERIODIC_STATUS_WAIT_MS = 45000;
+    const PERIODIC_STATUS_WAIT_MS = 60000;
     setTimeout(async () => {
       while (true) {
         const separator = "---------------------------------------------";
@@ -904,8 +896,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       let retriesLeft = MAX_RETRIES;
       let startLoop = true;
-      while (!isFinishedSyncVlcPlayerHttpLoop || syncVlcPlayerHttpLoopCount > 0) {
-        retriesLeft = retriesLeft - 1;
+      while (syncVlcPlayerHttpLoopCount > 0) {
+        retriesLeft--;
         kameHouse.logger.trace("waiting for syncVlcPlayerHttpLoop to finish before restarting");
         await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
         if (retriesLeft <= 0) {
@@ -921,8 +913,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       let retriesLeft = MAX_RETRIES;
       let startLoop = true;
-      while (!isFinishedSyncVlcRcStatusLoop || vlcRcStatusLoopCount > 0) {
-        retriesLeft = retriesLeft - 1;
+      while (vlcRcStatusLoopCount > 0) {
+        retriesLeft--;
         kameHouse.logger.trace("waiting for syncVlcRcStatusLoop to finish before restarting");
         await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
         if (retriesLeft <= 0) {
@@ -939,8 +931,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       let retriesLeft = MAX_RETRIES;
       let startLoop = true;
-      while (!isFinishedSyncPlaylistLoop || vlcPlaylistLoopCount > 0) {
-        retriesLeft = retriesLeft - 1;
+      while (vlcPlaylistLoopCount > 0) {
+        retriesLeft--;
         kameHouse.logger.trace("waiting for syncPlaylistLoop to finish before restarting");
         await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
         if (retriesLeft <= 0) {
@@ -957,8 +949,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     setTimeout(async () => {
       let retriesLeft = MAX_RETRIES;
       let startLoop = true;
-      while (!isFinishedKeepAliveWebSocketLoop || keepAliveWebSocketLoopCount > 0) {
-        retriesLeft = retriesLeft - 1;
+      while (keepAliveWebSocketLoopCount > 0) {
+        retriesLeft--;
         kameHouse.logger.trace("waiting for keepAliveWebSocketsLoop to finish before restarting");
         await kameHouse.core.sleep(RESTART_LOOPS_WAIT_MS);
         if (retriesLeft <= 0) {

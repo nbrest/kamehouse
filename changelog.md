@@ -80,6 +80,7 @@
 - Masked sensitive data from js logs and debugger
 - Refactored deploy to dev tomcat script
 - Added git commit hash to mobile app version
+- Refactored logic to keep vlc loops synchronized
 - Fixed bugs
 
 #### v8.12
