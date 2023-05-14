@@ -1038,8 +1038,10 @@ function KameHouseMobileUtils() {
     exec(
       null,
       () => {
-        kameHouse.util.fetch.getScript("/kame-house-mobile/kamehouse-mobile/js/kamehouse-mobile.js", () => {
-          kameHouse.logger.info("Loaded kamehouse-mobile.js");
+        kameHouse.util.fetch.getScript("/kame-house/lib/js/crypto-js.min.js", () => {
+          kameHouse.util.fetch.getScript("/kame-house-mobile/kamehouse-mobile/js/kamehouse-mobile.js", () => {
+            kameHouse.logger.info("Loaded kamehouse-mobile.js");
+          }); 
         }); 
       }
     );

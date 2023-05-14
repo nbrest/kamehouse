@@ -568,10 +568,16 @@ function KameHouseMobileConfigManager() {
     function successCallback(fs) {
       fs.root.getFile(mobileConfigFile, {create: true}, (fileEntry) => {
         fileEntry.createWriter((fileWriter) => {
+          try {
           const fileContent = JSON.stringify(getMobileConfig());
+          kameHouse.logger.info("Encrypting file");
+          const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, "madamadadane").toString();
           kameHouse.logger.info("File content to write: " + fileContent);
-          const blob = new Blob([fileContent]);
+          const blob = new Blob([encryptedFileContent]);
           fileWriter.write(blob);
+          } catch(e) {
+            kameHouse.logger.info("Error writing config file " + mobileConfigFile + ". Error: " + JSON.stringify(e)); 
+          }
         }, errorCallback);
       }, errorCallback);
     }
@@ -601,10 +607,12 @@ function KameHouseMobileConfigManager() {
         fileEntry.file(function(file) {
           const reader = new FileReader();
           reader.onloadend = function(e) {
-            const fileContent = this.result;
-            kameHouse.logger.info("File content read: " + kameHouse.logger.maskSensitiveData(fileContent));
             let mobileConfig = null;
             try {
+              const encryptedFileContent = this.result;
+              kameHouse.logger.info("Decrypting file");
+              const fileContent = CryptoJS.AES.decrypt(encryptedFileContent, "madamadadane").toString(CryptoJS.enc.Utf8);
+              kameHouse.logger.info("File content read: " + kameHouse.logger.maskSensitiveData(fileContent));
               mobileConfig = JSON.parse(fileContent);
             } catch(e) {
               mobileConfig = null;
@@ -882,13 +890,19 @@ function KameHouseMobileConfigManager() {
         (fileEntry) => {
           fileEntry.createWriter(
             (fileWriter) => {
-              const fileContent = JSON.stringify(getMobileConfig());
-              kameHouse.logger.info("File content to write: " + kameHouse.logger.maskSensitiveData(fileContent));
-              const blob = new Blob([fileContent]);
-              fileWriter.write(blob);
-              isCurrentlyPersistingConfig = false;
-              if (openResultModal) {
-                kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings saved", 1000);
+              try {
+                const fileContent = JSON.stringify(getMobileConfig());
+                kameHouse.logger.info("Encrypting file");
+                const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, "madamadadane").toString();
+                kameHouse.logger.info("File content to write: " + kameHouse.logger.maskSensitiveData(fileContent));
+                const blob = new Blob([encryptedFileContent]);
+                fileWriter.write(blob);
+                isCurrentlyPersistingConfig = false;
+                if (openResultModal) {
+                  kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings saved", 1000);
+                }
+              } catch(e) {
+                kameHouse.logger.info("Error writing config file " + mobileConfigFile + ". Error: " + JSON.stringify(e)); 
               }
             }, 
             (error) => {errorRewriteFileCallback(error, openResultModal)}

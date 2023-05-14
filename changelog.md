@@ -84,6 +84,7 @@
 - Updated vlc playlist browser dropdowns styles
 - Added support to filter rows on read all on crud with max rows, a sort column and sort order
 - Updated mobile config file to store credentials per backend server in the dropdown
+- Added initial version to encrypt the mobile settings config file
 - Fixed bugs
 
 #### v8.12
