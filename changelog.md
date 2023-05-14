@@ -83,6 +83,7 @@
 - Refactored logic to keep vlc loops synchronized
 - Updated vlc playlist browser dropdowns styles
 - Added support to filter rows on read all on crud with max rows, a sort column and sort order
+- Updated mobile config file to store credentials per backend server in the dropdown
 - Fixed bugs
 
 #### v8.12

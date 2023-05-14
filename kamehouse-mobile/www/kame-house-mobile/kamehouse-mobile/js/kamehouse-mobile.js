@@ -56,9 +56,10 @@ function KameHouseMobileCore() {
   function getBackendServer() {
     const mobileConfig = kameHouse.extension.mobile.config;
     let backendServer = null;
-    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.servers)) {
-      mobileConfig.servers.forEach((server) => {
-        if (server.name === "backend") {
+    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
+          && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
+        mobileConfig.backend.servers.forEach((server) => {
+        if (server.name === mobileConfig.backend.selected) {
           backendServer = server.url;
         }
       });
@@ -71,11 +72,18 @@ function KameHouseMobileCore() {
   }
 
   function getBackendCredentials() {
-    if (!kameHouse.core.isEmpty(kameHouse.extension.mobile.config) && !kameHouse.core.isEmpty(kameHouse.extension.mobile.config.credentials)) {
-      return kameHouse.extension.mobile.config.credentials;
+    const mobileConfig = kameHouse.extension.mobile.config;
+    const credentials = {};
+    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
+          && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
+        mobileConfig.backend.servers.forEach((server) => {
+        if (server.name === mobileConfig.backend.selected) {
+          credentials.username = server.username;
+          credentials.password = server.password;
+        }
+      });
     }
-    kameHouse.logger.warn("Could not retrieve credentials from the mobile config");
-    return {};
+    return credentials;
   }
 
   function testBackendConnectivity() {
@@ -281,18 +289,6 @@ function KameHouseMobileCore() {
     + "'url' : '" + url + "', "
     + "'options' : '" + kameHouse.logger.maskSensitiveData(JSON.stringify(options)) + "' ]");
   }
-  
-  /**
-   * Get complete url from lookup.
-   */
-  function getServerUrl(urlLookup) {
-    const server = kameHouse.extension.mobile.configManager.getServers().find(server => server.name === urlLookup);
-    const serverEntity = {};
-    serverEntity.name = server.name;
-    serverEntity.url = server.url;
-    kameHouse.logger.trace("Server entity: " + JSON.stringify(serverEntity));
-    return serverEntity;
-  }
 
   function setMobileBuildVersion() { 
     setAppVersion();
@@ -352,6 +348,20 @@ function KameHouseMobileCore() {
   function openBrowser(urlLookup) {
     const serverEntity = getServerUrl(urlLookup);
     openInAppBrowser(serverEntity);
+  }
+
+  /**
+   * Get complete url from lookup.
+   * 
+   * @deprecated.
+   */
+  function getServerUrl(urlLookup) {
+    const server = kameHouse.extension.mobile.configManager.getBackend().servers.find(server => server.name === urlLookup);
+    const serverEntity = {};
+    serverEntity.name = server.name;
+    serverEntity.url = server.url;
+    kameHouse.logger.trace("Server entity: " + JSON.stringify(serverEntity));
+    return serverEntity;
   }
 
   /**
@@ -429,28 +439,25 @@ function KameHouseMobileCore() {
 function KameHouseMobileConfigManager() {
   
   this.init = init;
-  this.getServers = getServers;
-  this.getCredentials = getCredentials;
   this.reGenerateMobileConfigFile = reGenerateMobileConfigFile;
   this.updateMobileConfigFromView = updateMobileConfigFromView;
-  this.setBackendFromDropdown = setBackendFromDropdown;
-  this.refreshSettingsView = refreshSettingsView;
+  this.setBackendViewFromDropdown = setBackendViewFromDropdown;
+  this.refreshBackendServerViewFromConfig = refreshBackendServerViewFromConfig;
   this.confirmResetDefaults = confirmResetDefaults;
   this.resetDefaults = resetDefaults;
+  this.getSelectedBackendServer = getMobileConfigSelectedBackendServer;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
   const mobileConfigFileSize = 1*1024*1024; //1 mb
 
   let isCurrentlyPersistingConfig = false;
-  let serversDefaultConfig = null;
-  let credentialsDefaultConfig = null;
+  let backendDefaultConfig = null;
 
   async function init() {
     kameHouse.logger.info("Initializing mobile config manager");
     initGlobalMobileConfig();
-    await loadServersDefaultConfig();
-    await loadCredentialsDefaultConfig();
+    await loadBackendDefaultConfig();
     readMobileConfigFile();
   }
 
@@ -461,8 +468,7 @@ function KameHouseMobileConfigManager() {
 
   function initGlobalMobileConfig() {
     kameHouse.extension.mobile.config = {};
-    kameHouse.extension.mobile.config.servers = {};
-    kameHouse.extension.mobile.config.credentials = {};
+    kameHouse.extension.mobile.config.backend = {};
   }
 
   function getMobileConfig() {
@@ -473,32 +479,37 @@ function KameHouseMobileConfigManager() {
     kameHouse.extension.mobile.config = val;
   }
 
-  function getServers() {
-    return kameHouse.extension.mobile.config.servers;
+  function getMobileConfigBackend() {
+    return kameHouse.extension.mobile.config.backend;
   }
 
-  function setServers(val) {
-    kameHouse.extension.mobile.config.servers = val;
+  function setMobileConfigBackend(val) {
+    kameHouse.extension.mobile.config.backend = val;
   }
 
-  function getCredentials() {
-    return kameHouse.extension.mobile.config.credentials;
+  function getMobileConfigSelectedBackendServer() {
+    const backend = getMobileConfigBackend();
+    let backendServer = null;
+    if (!kameHouse.core.isEmpty(backend) && !kameHouse.core.isEmpty(backend.servers)) {
+        backend.servers.forEach((server) => {
+        if (server.name === backend.selected) {
+          backendServer = server;
+        }
+      });
+    }
+    if (backendServer == null) {
+      const message = "Couldn't find backend server in the config";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+    } else {
+      kameHouse.logger.info("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(JSON.stringify(backendServer)));      
+    }
+    return backendServer;
   }
 
-  function setCredentials(val) {
-    kameHouse.extension.mobile.config.credentials = val;
-  }
-
-  async function loadServersDefaultConfig() {
-    serversDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/servers.json'));
-    kameHouse.logger.info("servers default config: " + JSON.stringify(serversDefaultConfig));
-    setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
-  }
-
-  async function loadCredentialsDefaultConfig() {
-    credentialsDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/credentials.json'));
-    kameHouse.logger.info("credentials default config: " + JSON.stringify(credentialsDefaultConfig));
-    setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
+  async function loadBackendDefaultConfig() {
+    backendDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/backend.json'));
+    kameHouse.logger.info("backend default config: " + kameHouse.logger.maskSensitiveData(JSON.stringify(backendDefaultConfig)));
+    setMobileConfigBackend(JSON.parse(JSON.stringify(backendDefaultConfig)));
   }
   
   /**
@@ -506,8 +517,7 @@ function KameHouseMobileConfigManager() {
    */
   function isValidMobileConfigFile(mobileConfig) {
     return mobileConfig != null 
-      && mobileConfig.servers != null 
-      && mobileConfig.credentials != null;
+      && mobileConfig.backend != null;
   }
 
   /**
@@ -646,89 +656,47 @@ function KameHouseMobileConfigManager() {
    * Update the mobile config file from the view in the config tab.
    */
   function updateMobileConfigFromView() {
-    kameHouse.logger.info("Updating mobile config file from view");
-
-    // Set servers
-    updateServer("backend");
-
-    // Update credentials
-    updateBackendCredentials();
-
-    kameHouse.logger.info("servers: " + JSON.stringify(getServers()));
-    kameHouse.logger.info("credentials: " + JSON.stringify(getCredentials()));
+    kameHouse.logger.info("Updating entire mobile config file from view");
+    updateSelectedBackendServerInConfig();
+    updateBackendServerUrlInConfig();
+    updateBackendServerCredentialsInConfig();
+    kameHouse.logger.info("Mobile config: " + kameHouse.logger.maskSensitiveData(JSON.stringify(getMobileConfig())));
     reGenerateMobileConfigFile(false);
   }
 
-  /**
-   * Update backend credentials from the input fields.
-   */
-  function updateBackendCredentials() {
-    const credentials = getCredentials();
-    const username = document.getElementById("backend-username-input").value;
-    credentials.username = username;
-    const password = document.getElementById("backend-password-input").value; 
-    credentials.password = password;
-  }
-
-  /**
-   * Update the server url in the config from the input.
-   */
-  function updateServer(serverName) {
-    const servers = getServers();
-    const server = servers.find(server => server.name === serverName);
-    const serverInput = document.getElementById(serverName + "-server-input"); 
-    server.url = serverInput.value;
-  }
-
-  /** Set the backend server in the config from the dropdown menu in the config page */
-  function setBackendFromDropdown() {
-    kameHouse.logger.info("Setting backend server from dropdown");
+  /** Set the backend server in the view from the selected dropdown. then trigger a mobile config update */
+  function setBackendViewFromDropdown() {
+    kameHouse.logger.info("Setting backend server view from dropdown");
     const backendServerInput = document.getElementById("backend-server-input"); 
     const backendServerDropdown = document.getElementById("backend-server-dropdown");
-    if (!kameHouse.core.isEmpty(backendServerDropdown.value)) {
-      kameHouse.util.dom.setValue(backendServerInput, backendServerDropdown.value);
-      updateMobileConfigFromView();
-    }    
-    setServerInput("backend");
+    kameHouse.util.dom.setValue(backendServerInput, backendServerDropdown.value);
+    updateSelectedBackendServerInConfig();
+    refreshBackendServerViewFromConfig();
+    updateMobileConfigFromView();
   }
 
   /**
-   * Refresh settings tab view values.
+   * Refresh backend server tab view values from the config.
    */
-  function refreshSettingsView() {
-    kameHouse.logger.info("Refreshing settings tab view values");
-    setServerInput("backend");
-    setBackendCredentialsInput();
-  }
+  function refreshBackendServerViewFromConfig() {
+    kameHouse.logger.info("Refreshing settings tab view values from the config");
+    const selectedServer = getMobileConfigSelectedBackendServer();
 
-  /**
-   * Set the credentials view from the config.
-   */
-  function setBackendCredentialsInput() {
-    const credentials = getCredentials();
     const usernameInput = document.getElementById("backend-username-input");
-    kameHouse.util.dom.setValue(usernameInput, credentials.username);
+    kameHouse.util.dom.setValue(usernameInput, selectedServer.username);
     const passwordInput = document.getElementById("backend-password-input"); 
-    kameHouse.util.dom.setValue(passwordInput, credentials.password);
-  }
+    kameHouse.util.dom.setValue(passwordInput, selectedServer.password);
 
-  /**
-   * Set the server input field value in the view from the config.
-   */
-  function setServerInput(serverName) {
-    const servers = getServers();
-    const server = servers.find(server => server.name === serverName);
-    const serverInput = document.getElementById(serverName + "-server-input");
-    kameHouse.util.dom.setValue(serverInput, server.url);
+    const backendServerInput = document.getElementById("backend-server-input");
+    const backendServerDropdown = document.getElementById("backend-server-dropdown");
 
-    const backendServerInput = document.getElementById(serverName + "-server-input");
-    const backendServerDropdown = document.getElementById(serverName + "-server-dropdown");
     if (backendServerInput.value != "") {
       backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
     }
     for (let i = 0; i < backendServerDropdown.options.length; ++i) {
-      if (backendServerDropdown.options[i].value === backendServerInput.value) {
+      if (backendServerDropdown.options[i].textContent === selectedServer.name) {
         backendServerDropdown.options[i].selected = true;
+        backendServerInput.value = selectedServer.url;
         if (backendServerDropdown.options[i].textContent == "custom server") {
           backendServerInput.readOnly = false;
         } else {
@@ -736,6 +704,36 @@ function KameHouseMobileConfigManager() {
         }
       }
     }
+  }
+
+  function updateSelectedBackendServerInConfig() {
+    // Update backend.selected in config
+    const backend = getMobileConfigBackend();
+    const backendServerDropdown = document.getElementById("backend-server-dropdown");
+    for (let i = 0; i < backendServerDropdown.options.length; ++i) {
+      if (backendServerDropdown.options[i].selected == true) {
+        kameHouse.logger.info("Setting selected backend in the config to: " + backendServerDropdown.options[i].textContent);
+        backend.selected = backendServerDropdown.options[i].textContent;
+      }
+    }
+  }
+
+  function updateBackendServerUrlInConfig() {
+    // Update backend.servers[selected].url (for custom server) in config
+    const selectedBackendServer = getMobileConfigSelectedBackendServer();
+    const backendServerInput = document.getElementById("backend-server-input");
+    kameHouse.logger.info("Setting selected backend server url in the config to: " + backendServerInput.value);
+    selectedBackendServer.url = backendServerInput.value;
+  }
+
+  function updateBackendServerCredentialsInConfig() {
+    // Update backend.servers[] selected server credentials in config
+    const selectedBackendServer = getMobileConfigSelectedBackendServer();
+    const username = document.getElementById("backend-username-input").value;
+    kameHouse.logger.info("Setting selected backend server username in the config to: " + username);
+    selectedBackendServer.username = username;
+    const password = document.getElementById("backend-password-input").value; 
+    selectedBackendServer.password = password;
   }
 
   /**
@@ -776,10 +774,9 @@ function KameHouseMobileConfigManager() {
   function resetDefaults() {
     kameHouse.logger.info("Resetting config to default values");
     initGlobalMobileConfig();
-    setServers(JSON.parse(JSON.stringify(serversDefaultConfig)));
-    setCredentials(JSON.parse(JSON.stringify(credentialsDefaultConfig)));
+    setMobileConfigBackend(JSON.parse(JSON.stringify(backendDefaultConfig)));
     reGenerateMobileConfigFile(false);
-    refreshSettingsView();
+    refreshBackendServerViewFromConfig();
     kameHouse.plugin.modal.basicModal.close();
     kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings reset to defaults", 1000);
   }
@@ -880,7 +877,7 @@ function KameHouseMobileConfigManager() {
           fileEntry.createWriter(
             (fileWriter) => {
               const fileContent = JSON.stringify(getMobileConfig());
-              kameHouse.logger.info("File content to write: " + fileContent);
+              kameHouse.logger.info("File content to write: " + kameHouse.logger.maskSensitiveData(fileContent));
               const blob = new Blob([fileContent]);
               fileWriter.write(blob);
               isCurrentlyPersistingConfig = false;

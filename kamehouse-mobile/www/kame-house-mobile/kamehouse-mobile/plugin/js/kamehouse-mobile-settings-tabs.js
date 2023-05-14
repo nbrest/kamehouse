@@ -18,7 +18,7 @@ function KameHouseMobileTabsManager() {
     });
     kameHouse.util.dom.load($("#tab-backend"), "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-backend.html", () => {
       kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-        kameHouse.extension.mobile.configManager.refreshSettingsView();
+        kameHouse.extension.mobile.configManager.refreshBackendServerViewFromConfig();
       });
     });
   }
