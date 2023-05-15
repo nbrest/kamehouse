@@ -68,8 +68,8 @@
       "password": "ikki"
     },
     { 
-      "name": "niko-w dev tomcat", 
-      "url": "https://192.168.0.100:9980",
+      "name": "niko-w dev tomcat http", 
+      "url": "http://192.168.0.100:9980",
       "username": "seiya",
       "password": "ikki"
     },
