@@ -86,6 +86,7 @@
 - Updated mobile config file to store credentials per backend server in the dropdown
 - Added js encryption support with CryptoJS to encrypt the mobile app config file
 - Fixed previous responses in debugger to log the response body in one line
+- Updated crud manager to allow customizing building the entity, form fields and list display for arrays. And applied it to kamehouse roles to make it easier to edit them
 - Fixed bugs
 
 #### v8.12
