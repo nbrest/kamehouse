@@ -70,6 +70,25 @@ function CrudManager() {
    *        displayValues: ["dispVal1", "dispVal2"],
    *        sortType: "number"
    *      },
+   *      { 
+   *        name: "columnName",
+   *        type: "array",
+   *        arrayType: "select",
+   *        values: [ "VAL1", "VAL2" ],
+   *        displayValues: [ "DIS1", "DIS2" ],
+   *        buildEntity: (element) => { 
+   *          // function to customize building the entity to send to the backend from the form in the select array
+   *          return null;
+   *        },
+   *        buildFormField: (baseSelectElement, entity) => {
+   *          // function to customize building the edit form field from the entity received in the backend in the select array
+   *          return null;
+   *        },
+   *        buildListDisplay: (array) => {
+   *          // function to customize the way the array is rendered in the list view
+   *          return "";
+   *        }
+   *      },
    *      ...
    *    ]
    * }
@@ -360,7 +379,6 @@ function CrudManager() {
    * Probably needs to be overriden if custom columns are set or the forms are loaded from a snippet.
    */
   function setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders) { 
-    kameHouse.logger.debug("readCallback: override this with setReadCallback when required");
     reloadForm(EDIT_INPUT_FIELDS_ID);
     updateEditFormFieldValues(responseBody, columns, null);
   }
@@ -386,11 +404,26 @@ function CrudManager() {
         kameHouse.util.dom.setVal(inputField, getFormattedDateFieldValue(entity[name]));
       }
       if (isArrayField(type)) {
+        const arrayType = column.arrayType;
         kameHouse.util.dom.setVal(inputField, null);
         const array = entity[name];
         const arraySourceNode = document.getElementById(inputFieldId);
         let i = 0;
         for (const arrayElement of array) {
+          if (arrayType == "select") {
+            if (kameHouse.core.isFunction(column.buildFormField)) {
+              const formField = column.buildFormField(arraySourceNode, arrayElement);
+              if (!kameHouse.core.isEmpty(formField)) {
+                kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, formField, arraySourceNode.nextSibling);
+              } else {
+                kameHouse.logger.warn("Unable to build form field from entity " + JSON.stringify(arrayElement));
+              }
+              i++;
+              continue;
+            } else {
+              kameHouse.logger.warn("No buildFormField function defined for column " + name);
+            }
+          } 
           const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
           kameHouse.util.dom.setValue(newNode, JSON.stringify(arrayElement, null, 4));
           kameHouse.util.dom.setId(newNode, arraySourceNode.id + "-" + i);
@@ -398,7 +431,10 @@ function CrudManager() {
           kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
           i++;
         }
-        kameHouse.util.dom.removeChild(arraySourceNode.parentNode, arraySourceNode);
+        if (i > 0) {
+          // Only remove the arraySourceNode when the entity's array from the backend came with data
+          kameHouse.util.dom.removeChild(arraySourceNode.parentNode, arraySourceNode);
+        }
       }
       if (isBooleanField(type)) {
         if (entity[name]) {
@@ -503,14 +539,14 @@ function CrudManager() {
         createEntityRow(tr, entity[name], column.columns, parentNodeChain + name);
         continue;
       }
-      setColumnValue(tr, type, entity[name]);
+      setColumnValue(tr, type, entity[name], column);
     }
   }
 
   /**
    * Set the column value formatted depending on it's type.
    */
-  function setColumnValue(tr, type, value) {
+  function setColumnValue(tr, type, value, column) {
     if (isMaskedField(type)) {
       kameHouse.util.dom.append(tr, getMaskedFieldTd());
       return;
@@ -524,7 +560,11 @@ function CrudManager() {
       return;
     }
     if (isArrayField(type)) {
-      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, JSON.stringify(value)));
+      if (kameHouse.core.isFunction(column.buildListDisplay)) {
+        kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, column.buildListDisplay(value)));
+      } else {
+        kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, JSON.stringify(value)));
+      }
       return;
     }
     if (isBooleanField(type)) {
@@ -742,7 +782,7 @@ function CrudManager() {
       
       addFieldLabel(div, type, name);
       kameHouse.util.dom.append(div, getFormInputField(column, fieldId, fieldClassList));
-      addAddArrayRowButton(div, column, fieldId);
+      addArrayRowButtons(div, column, fieldId);
       addShowPasswordCheckbox(div, type, fieldId);
       addBreak(div, type);
     }
@@ -762,15 +802,7 @@ function CrudManager() {
     };
 
     if (isSelectField(type)) {
-      const select = kameHouse.util.dom.getSelect(config, null);
-      const values = column.values;
-      const displayValues = column.displayValues;
-      for (let i = 0; i < values.length; i++) { 
-        kameHouse.util.dom.append(select, kameHouse.util.dom.getOption({
-          value: values[i]
-        }, displayValues[i]));
-      }
-      return select;
+      return getSelectField(config, column);
     }
 
     if (isNumberField(type)) {
@@ -788,9 +820,27 @@ function CrudManager() {
       if (arrayType == "object") {
         return kameHouse.util.dom.getTextArea(config, null);
       }
+      if (arrayType == "select") {
+        return getSelectField(config, column);
+      }
     }
 
     return kameHouse.util.dom.getInput(config, null);
+  }
+
+  function getSelectField(config, column) {
+    const select = kameHouse.util.dom.getSelect(config, null);
+    const values = column.values;
+    const displayValues = column.displayValues;
+    kameHouse.util.dom.append(select, kameHouse.util.dom.getOption({
+      value: ""
+    }, ""));
+    for (let i = 0; i < values.length; i++) { 
+      kameHouse.util.dom.append(select, kameHouse.util.dom.getOption({
+        value: values[i]
+      }, displayValues[i]));
+    }
+    return select;
   }
 
   /**
@@ -848,31 +898,69 @@ function CrudManager() {
   /**
    * Add button to add extra rows for arrays.
    */
-  function addAddArrayRowButton(div, column, fieldId) {
+  function addArrayRowButtons(div, column, fieldId) {
     if (!isArrayField(column.type)) {
       return;
     }
-    const buttonId = fieldId + "-add";
-    const button = kameHouse.util.dom.getImgBtn({
-      id: buttonId,
+    const addButtonId = fieldId + "-add";
+    const addButton = kameHouse.util.dom.getImgBtn({
+      id: addButtonId,
       src: "/kame-house/img/other/add-gray-dark.png",
       className: "img-btn-kh p-7-d-kh m-7-d-kh",
       alt: "Add",
-      onClick: () => addArrayInputFieldElement(buttonId)
+      onClick: () => addArrayInputFieldElement(addButtonId, fieldId, column.type)
     });
-    kameHouse.util.dom.append(div, button);
+    kameHouse.util.dom.append(div, addButton);
+    const removeButtonId = fieldId + "-remove";
+    const removeButton = kameHouse.util.dom.getImgBtn({
+      id: removeButtonId,
+      src: "/kame-house/img/other/remove-gray-dark.png",
+      className: "img-btn-kh p-7-d-kh m-7-d-kh",
+      alt: "Remove",
+      onClick: () => removeArrayInputFieldElement(removeButtonId, fieldId)
+    });
+    kameHouse.util.dom.append(div, removeButton);
   }
 
   /**
    * Add a new entry to the array input field.
    */
-  function addArrayInputFieldElement(buttonId) {
+  function addArrayInputFieldElement(buttonId, fieldId, columnType) {
+    kameHouse.logger.debug("Adding array element");
     const arraySourceNode = document.getElementById(buttonId).previousSibling; 
-    const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
+    let deepClone = false;
+    if (isArrayField(columnType)) {
+      deepClone = true;
+    }
+    if (arraySourceNode.name != fieldId + "[]") {
+      kameHouse.logger.error("Trying to clone a node that isn't an array element of the expected name. Something's wrong. Name of node to clone is: " + arraySourceNode.name + " and the expected value is " + fieldId + "[]");
+      return;
+    }
+    const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, deepClone);
     newNode.value = "";
     newNode.id = "";
+    Array.from(newNode.attributes).forEach((attribute) => {
+      if (attribute.name.startsWith("data-kamehouse-")) {
+        attribute.value = "";
+      }
+    });
     kameHouse.util.dom.classListAdd(newNode, "m-5-t-d-kh");
     kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+  }
+
+  function removeArrayInputFieldElement(buttonId, fieldId) {
+    kameHouse.logger.debug("Removing array element");
+    const arrayNodes = document.getElementsByName(fieldId + "[]");
+    if (kameHouse.core.isEmpty(arrayNodes) || arrayNodes.length <= 1) {
+      kameHouse.logger.warn("Trying to remove the last node of the array. Skipping...");
+      return;
+    }
+    const nodeToRemove = document.getElementById(buttonId).previousSibling.previousSibling; 
+    if (nodeToRemove.name != fieldId + "[]") {
+      kameHouse.logger.error("Trying to remove a node that isn't an array element of the expected name. Something's wrong. Name of node to remove is: " + nodeToRemove.name + " and the expected value is " + fieldId + "[]");
+      return;
+    }
+    kameHouse.util.dom.removeElement(nodeToRemove);
   }
 
   /**
@@ -1040,9 +1128,20 @@ function CrudManager() {
       if (!kameHouse.core.isEmpty(arrayElement.value)) {
         if (isObjectField(arrayType)) {
           arrayVal.push(JSON.parse(arrayElement.value));
-        } else {
-          arrayVal.push(arrayElement.value);
+          continue;
         }
+        if (isSelectField(arrayType)) {
+          if (kameHouse.core.isFunction(column.buildEntity)) {
+            const entityArrayElement = column.buildEntity(arrayElement);
+            if (!kameHouse.core.isEmpty(entityArrayElement)) {
+              arrayVal.push(entityArrayElement);
+            }
+            continue;
+          } else {
+            kameHouse.logger.warn("No buildEntity function defined in config for " + name);
+          }
+        }
+        arrayVal.push(arrayElement.value);
       }
     }
     return arrayVal;
