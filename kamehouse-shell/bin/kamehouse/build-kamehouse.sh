@@ -14,6 +14,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+source ${HOME}/.kamehouse/.shell/.cred
+
 LOG_PROCESS_TO_FILE=true
 
 # buildMobile default settings override for build

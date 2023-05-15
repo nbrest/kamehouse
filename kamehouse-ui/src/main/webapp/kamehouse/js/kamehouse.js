@@ -451,6 +451,7 @@ function KameHouseDomUtils() {
   this.after = after;
   this.cloneNode = cloneNode;
   this.remove = remove;
+  this.removeElement = removeElement;
 
   /** ------ Manipulation through jQuery --------------------------------- */
   this.getDomNode = getDomNode;
@@ -623,6 +624,12 @@ function KameHouseDomUtils() {
    */
   function remove(elementId) {
     const element = document.getElementById(elementId);
+    if (element) {
+      element.remove();
+    }
+  }
+
+  function removeElement(element) {
     if (element) {
       element.remove();
     }
@@ -847,7 +854,7 @@ function KameHouseDomUtils() {
  function KameHouseFetchUtils() {
 
   this.loadHtmlSnippet = loadHtmlSnippet;
-  this.loadJsonConfig = loadJsonConfig;
+  this.loadFile = loadFile;
   this.getScript = getScript;
 
   /**
@@ -862,14 +869,14 @@ function KameHouseDomUtils() {
   }
 
   /**
-   * Load a json config object.
+   * Load a file as a text string.
    * 
    * Declare the caller function as async
-   * and call this with await kameHouse.util.fetch.loadJsonConfig(...);
+   * and call this with await kameHouse.util.fetch.loadFile(...);
    */
-   async function loadJsonConfig(jsonConfigPath) {
-    const jsonConfigResponse = await fetch(jsonConfigPath);
-    return jsonConfigResponse.text();
+  async function loadFile(filePath) {
+    const file = await fetch(filePath);
+    return file.text();
   }
 
   /** Get a js script from the server. */

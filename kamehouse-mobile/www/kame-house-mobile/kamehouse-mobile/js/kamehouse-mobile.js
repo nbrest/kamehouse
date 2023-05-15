@@ -300,7 +300,7 @@ function KameHouseMobileCore() {
   }
 
   async function setAppVersion() {
-    const pom = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house-mobile/pom.xml');
+    const pom = await kameHouse.util.fetch.loadFile('/kame-house-mobile/pom.xml');
     const versionPrefix = "<version>";
     const versionSuffix = "-KAMEHOUSE-SNAPSHOT";
     const tempVersion = pom.slice(pom.indexOf(versionPrefix) + versionPrefix.length);
@@ -311,14 +311,14 @@ function KameHouseMobileCore() {
   }
 
   async function setGitCommitHash() {
-    const gitHash = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house-mobile/git-commit-hash.txt');
+    const gitHash = await kameHouse.util.fetch.loadFile('/kame-house-mobile/git-commit-hash.txt');
     kameHouse.logger.info("Mobile git hash: " + gitHash);
     const gitHashDiv = document.getElementById("mobile-git-hash");
     kameHouse.util.dom.setInnerHtml(gitHashDiv, gitHash);
   }
 
   async function setBuildDate() {
-    const buildDate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house-mobile/build-date.txt');
+    const buildDate = await kameHouse.util.fetch.loadFile('/kame-house-mobile/build-date.txt');
     kameHouse.logger.info("Mobile build date: " + buildDate);
     const buildDateDiv = document.getElementById("mobile-build-date");
     kameHouse.util.dom.setInnerHtml(buildDateDiv, buildDate);
@@ -456,12 +456,14 @@ function KameHouseMobileConfigManager() {
 
   let isCurrentlyPersistingConfig = false;
   let backendDefaultConfig = null;
+  let encryptionKey = null;
 
   function init() {
     // waitFor kameHouseDebugger fixed vlc player page not loading the proper credentials on mobile app
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], async () => {
       kameHouse.logger.info("Initializing mobile config manager");
       initGlobalMobileConfig();
+      await loadEncryptionKey();
       await loadBackendDefaultConfig();
       readMobileConfigFile();
     });
@@ -513,11 +515,16 @@ function KameHouseMobileConfigManager() {
   }
 
   async function loadBackendDefaultConfig() {
-    backendDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadJsonConfig('/kame-house-mobile/json/config/backend.json'));
+    backendDefaultConfig = JSON.parse(await kameHouse.util.fetch.loadFile('/kame-house-mobile/json/config/backend.json'));
     kameHouse.logger.info("backend default config: " + kameHouse.logger.maskSensitiveData(JSON.stringify(backendDefaultConfig)));
     setMobileConfigBackend(JSON.parse(JSON.stringify(backendDefaultConfig)));
   }
   
+  async function loadEncryptionKey() {
+    encryptionKey = await kameHouse.util.fetch.loadFile('/kame-house-mobile/encryption.key');
+    kameHouse.logger.info("Loaded encryption key");
+  }
+
   /**
    * Returns true if the config has all the required properties.
    */
@@ -571,7 +578,7 @@ function KameHouseMobileConfigManager() {
           try {
           const fileContent = JSON.stringify(getMobileConfig());
           kameHouse.logger.info("Encrypting file");
-          const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, "madamadadane").toString();
+          const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, encryptionKey).toString();
           kameHouse.logger.info("File content to write: " + fileContent);
           const blob = new Blob([encryptedFileContent]);
           fileWriter.write(blob);
@@ -611,7 +618,7 @@ function KameHouseMobileConfigManager() {
             try {
               const encryptedFileContent = this.result;
               kameHouse.logger.info("Decrypting file");
-              const fileContent = CryptoJS.AES.decrypt(encryptedFileContent, "madamadadane").toString(CryptoJS.enc.Utf8);
+              const fileContent = CryptoJS.AES.decrypt(encryptedFileContent, encryptionKey).toString(CryptoJS.enc.Utf8);
               kameHouse.logger.info("File content read: " + kameHouse.logger.maskSensitiveData(fileContent));
               mobileConfig = JSON.parse(fileContent);
             } catch(e) {
@@ -893,7 +900,7 @@ function KameHouseMobileConfigManager() {
               try {
                 const fileContent = JSON.stringify(getMobileConfig());
                 kameHouse.logger.info("Encrypting file");
-                const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, "madamadadane").toString();
+                const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, encryptionKey).toString();
                 kameHouse.logger.info("File content to write: " + kameHouse.logger.maskSensitiveData(fileContent));
                 const blob = new Blob([encryptedFileContent]);
                 fileWriter.write(blob);

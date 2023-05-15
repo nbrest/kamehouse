@@ -110,7 +110,7 @@ function KameHouseDebugger() {
     request.responseData = {};
     request.responseData.responseCode = responseCode;
     request.responseData.headers = responseHeaders;
-    request.responseData.responseBody = responseBody;
+    request.responseData.responseBody = JSON.stringify(responseBody);
     request.responseData.timestamp = kameHouse.util.time.getTimestamp();
     while (requests.length >= 7) {
       requests.shift();

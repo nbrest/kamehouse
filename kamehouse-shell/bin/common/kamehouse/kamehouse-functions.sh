@@ -518,6 +518,7 @@ buildCordovaProject() {
   cp -f pom.xml www/kame-house-mobile/
   echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
   date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
+  echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
   updateConfigWithGitHash
   log.debug "cordova build android"
   cordova build android
@@ -527,7 +528,7 @@ buildCordovaProject() {
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
   else
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod -d
-  fi  
+  fi
 }
 
 updateConfigWithGitHash() {
