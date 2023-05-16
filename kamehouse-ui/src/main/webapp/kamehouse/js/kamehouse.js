@@ -28,17 +28,17 @@ function KameHouse() {
     this.session = {};
     this.plugin = {};
     this.extension = {};
-
-    /** core modules */
+    this.util = {};
+    
+    /** core/utils modules */
     this.core = new KameHouseCoreFunctions();
+    this.util.cookies = new KameHouseCookiesUtils();
     this.logger = new KameHouseLogger();
     this.http = new KameHouseHttpClient();
 
     /** utils */
-    this.util = {};
     this.util.banner = new KameHouseBannerUtils();
     this.util.collapsibleDiv = new KameHouseCollapsibleDivUtils();
-    this.util.cookies = new KameHouseCookiesUtils();
     this.util.cursor = new KameHouseCursorUtils();
     this.util.dom = new KameHouseDomUtils();
     this.util.fetch = new KameHouseFetchUtils();
@@ -1988,6 +1988,11 @@ function KameHouseCoreFunctions() {
   function init() {
     info("Initializing logger");
     const urlParams = new URLSearchParams(window.location.search);
+    const logLevelCookie = kameHouse.util.cookies.getCookie('kh-log-level');
+    if (!kameHouse.core.isEmpty(logLevelCookie)) {
+      info("Overriding logLevel with cookie logLevel: " + logLevelCookie);
+      setLogLevel(logLevelCookie);
+    }
     const logLevel = urlParams.get('logLevel');
     if (!kameHouse.core.isEmpty(logLevel)) {
       const logLevelNumberParam = getLogLevelNumber(logLevel);

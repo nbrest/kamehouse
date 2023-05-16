@@ -714,15 +714,18 @@ function KameHouseMobileConfigManager() {
     if (backendServerInput.value != "") {
       backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
     }
+    const editableServers = ["WiFi Hotspot", "Dev Intellij", "Dev Eclipse", "Dev Tomcat HTTP", "Custom Server"];
     for (let i = 0; i < backendServerDropdown.options.length; ++i) {
       if (backendServerDropdown.options[i].textContent === selectedServer.name) {
         backendServerDropdown.options[i].selected = true;
         backendServerInput.value = selectedServer.url;
-        if (backendServerDropdown.options[i].textContent == "custom server") {
+        if (editableServers.includes(backendServerDropdown.options[i].textContent)) {
           backendServerInput.readOnly = false;
         } else {
           backendServerInput.readOnly = true;
         }
+      } else {
+        backendServerDropdown.options[i].selected = false;
       }
     }
   }
@@ -740,7 +743,7 @@ function KameHouseMobileConfigManager() {
   }
 
   function updateBackendServerUrlInConfig() {
-    // Update backend.servers[selected].url (for custom server) in config
+    // Update backend.servers[selected].url (for editable servers) in config
     const selectedBackendServer = getMobileConfigSelectedBackendServer();
     const backendServerInput = document.getElementById("backend-server-input");
     kameHouse.logger.info("Setting selected backend server url in the config to: " + backendServerInput.value);
@@ -794,12 +797,12 @@ function KameHouseMobileConfigManager() {
    */
   function resetDefaults() {
     kameHouse.logger.info("Resetting config to default values");
+    kameHouse.plugin.modal.basicModal.close();
     initGlobalMobileConfig();
     setMobileConfigBackend(JSON.parse(JSON.stringify(backendDefaultConfig)));
     reGenerateMobileConfigFile(false);
-    refreshBackendServerViewFromConfig();
-    kameHouse.plugin.modal.basicModal.close();
     kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings reset to defaults", 1000);
+    refreshBackendServerViewFromConfig();
   }
 
   /**

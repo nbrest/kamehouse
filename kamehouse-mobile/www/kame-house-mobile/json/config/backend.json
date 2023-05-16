@@ -1,30 +1,42 @@
 {
-  "selected" : "media-server",
+  "selected" : "Media Server",
   "servers": [
     { 
-      "name": "media-server", 
+      "name": "Media Server", 
       "url": "https://192.168.0.109",
       "username": "seiya",
       "password": "ikki"
     },
     { 
-      "name": "tennis world bookings", 
+      "name": "Tennis World Bookings", 
       "url": "https://kame.nicobrest.com",
       "username": "seiya",
       "password": "ikki"
     },
     { 
-      "name": "niko-w android hotspot", 
+      "name": "WiFi Hotspot", 
       "url": "https://192.168.43.171",
       "username": "seiya",
       "password": "ikki"
     },
     { 
-      "name": "niko-w intellij", 
+      "name": "Dev Intellij", 
       "url": "https://192.168.0.100:9949",
       "username": "seiya",
       "password": "ikki"
     },
+    { 
+      "name": "Dev Eclipse", 
+      "url": "https://192.168.0.100:9948",
+      "username": "seiya",
+      "password": "ikki"
+    },
+    { 
+      "name": "Dev Tomcat HTTP", 
+      "url": "http://192.168.0.100:9980",
+      "username": "seiya",
+      "password": "ikki"
+    },    
     { 
       "name": "www.nicobrest.com", 
       "url": "https://www.nicobrest.com",
@@ -56,24 +68,6 @@
       "password": "ikki"
     },
     { 
-      "name": "niko-w", 
-      "url": "https://192.168.0.100",
-      "username": "seiya",
-      "password": "ikki"
-    },
-    { 
-      "name": "niko-w eclipse", 
-      "url": "https://192.168.0.100:9948",
-      "username": "seiya",
-      "password": "ikki"
-    },
-    { 
-      "name": "niko-w dev tomcat http", 
-      "url": "http://192.168.0.100:9980",
-      "username": "seiya",
-      "password": "ikki"
-    },
-    { 
       "name": "niko-server-vm-ubuntu", 
       "url": "https://192.168.0.107",
       "username": "seiya",
@@ -86,13 +80,19 @@
       "password": "ikki"
     },
     { 
+      "name": "niko-w", 
+      "url": "https://192.168.0.100",
+      "username": "seiya",
+      "password": "ikki"
+    },    
+    { 
       "name": "niko-nba", 
       "url": "https://192.168.0.99",
       "username": "seiya",
       "password": "ikki"
     },
     { 
-      "name": "custom server", 
+      "name": "Custom Server", 
       "url": "https://0.0.0.0",
       "username": "seiya",
       "password": "ikki"

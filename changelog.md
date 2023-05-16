@@ -87,6 +87,8 @@
 - Added js encryption support with CryptoJS to encrypt the mobile app config file
 - Fixed previous responses in debugger to log the response body in one line
 - Updated crud manager to allow customizing building the entity, form fields and list display for arrays. And applied it to kamehouse roles to make it easier to edit them
+- Added cookie to store/restore js log level
+- Updated debugger log level dropdown to change level on click
 - Fixed bugs
 
 #### v8.12

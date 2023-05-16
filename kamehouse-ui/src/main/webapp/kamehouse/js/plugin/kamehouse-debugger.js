@@ -73,15 +73,36 @@ function KameHouseDebugger() {
    * Set the log level of the console.
    */
   function setConsoleLogLevel() {
-    const logLevel = document.getElementById("debug-mode-log-level-dropdown").value;
+    const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
+    const logLevel = logLevelDropdown.value;
+    let logLevelName = "";
+    for (let i = 0; i < logLevelDropdown.options.length; ++i) {
+      if (logLevelDropdown.options[i].selected === true) {
+        logLevelName = logLevelDropdown.options[i].textContent;
+      }
+    }
+
     kameHouse.logger.setLogLevel(logLevel);
     
-    const message = "Set log level to " + logLevel;
-    kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-    kameHouse.logger.warn(message, kameHouse.logger.getYellowText(message));
-    kameHouse.logger.info(message, kameHouse.logger.getBlueText(message));
-    kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message));
-    kameHouse.logger.trace(message, kameHouse.logger.getCyanText(message));
+    const message = "Set log level to " + logLevelName;
+    
+    if (logLevelName == "ERROR") {
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+    }
+    if (logLevelName == "WARN") {
+      kameHouse.logger.warn(message, kameHouse.logger.getYellowText(message));
+    }
+    if (logLevelName == "INFO") {
+      kameHouse.logger.info(message, kameHouse.logger.getBlueText(message)); 
+    }
+    if (logLevelName == "DEBUG") {
+      kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message)); 
+    }
+    if (logLevelName == "TRACE") {
+      kameHouse.logger.trace(message, kameHouse.logger.getCyanText(message));
+    }
+    kameHouse.logger.trace("Setting kh-log-level cookie to " + logLevel);
+    kameHouse.util.cookies.setCookie("kh-log-level", logLevel);
   }
 
   /**
@@ -91,6 +112,7 @@ function KameHouseDebugger() {
     kameHouse.util.dom.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       displayRequestData(null, null, null, null);
+      setConsoleLogLevelDropdown();
     });
   }
 
@@ -157,6 +179,19 @@ function KameHouseDebugger() {
   function emptyDebuggerHttpClientDiv() {
     const $debuggerHttpClientDiv = $("#debugger-http-client");
     kameHouse.util.dom.empty($debuggerHttpClientDiv);
+  }
+
+  function setConsoleLogLevelDropdown() {
+    const currentLogLevel = kameHouse.logger.getLogLevel();
+    kameHouse.logger.debug("Updating debugger console log level dropdown to " + currentLogLevel);
+    const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
+    for (let i = 0; i < logLevelDropdown.options.length; ++i) {
+      if (logLevelDropdown.options[i].value == currentLogLevel) {
+        logLevelDropdown.options[i].selected = true;
+      } else {
+        logLevelDropdown.options[i].selected = false;
+      }
+    }
   }
 }
 
