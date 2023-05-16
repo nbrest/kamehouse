@@ -16,7 +16,6 @@
 <script src="/kame-house/js/home-index.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
-<link rel="stylesheet" href="/kame-house/css/home-index.css" />
 </head>
 <body class="bg-lighter-0-kh">
   <div class="main-body">
@@ -30,23 +29,29 @@
   </div>
   <div class="default-layout">
   <br>
-  <div id="boxes">
-    <div class="box">
-      <a href="/kame-house/vlc-player.html"><img src="./img/dbz/kamesenin-logo.png" alt="Kame Senin Logo"/></a>
-      <h3 class="bold-kh">VLC</h3>
-      <p class="bold-kh">Play all my media files on VLC Player</p>
-    </div>
-    <div class="box">
-      <a href="/kame-house/about.html"><img src="./img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo"/></a>
-      <h3 class="bold-kh">About</h3>
-      <p class="bold-kh">Learn more about KameHouse</p>
-    </div>
-    <div class="box">
-      <a href="/kame-house-groot/index.html"><img src="./img/dbz/goku-go-logo.png" alt="Goku Go Logo"/></a>
-      <h3 class="bold-kh">GRoot</h3>
-      <p class="bold-kh">Manage the current server</p>
-    </div> 
-  </div>
+  <table class="boxes">
+    <caption class="hidden-kh">Boxes</caption>
+    <thead class="hidden-kh"><tr><th>Boxes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="box">
+          <a href="/kame-house/vlc-player.html"><img src="./img/dbz/kamesenin-logo.png" alt="Kame Senin Logo"/></a>
+          <h3>VLC</h3>
+          <p>Play all my media files on VLC Player</p>
+        </td>
+        <td class="box">
+          <a href="/kame-house/about.html"><img src="./img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo"/></a>
+          <h3>About</h3>
+          <p>Learn more about KameHouse</p>
+        </td>
+        <td class="box">
+          <a href="/kame-house-groot/index.html"><img src="./img/dbz/goku-go-logo.png" alt="Goku Go Logo"/></a>
+          <h3 class="bold-kh">GRoot</h3>
+          <p class="bold-kh">Manage the current server</p>
+        </td> 
+      </tr>
+    </tbody>
+  </table>
   </div>
   </div>
   <span id="debug-mode-wrapper"></span>

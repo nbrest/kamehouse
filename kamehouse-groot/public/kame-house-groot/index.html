@@ -17,7 +17,6 @@
   <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-groot.js"></script>
   <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
-  <link rel="stylesheet" href="/kame-house/css/home-index.css" />
   <link rel="stylesheet" href="/kame-house-groot/kamehouse-groot/css/kamehouse-groot.css" />
 </head>
 
@@ -34,23 +33,29 @@
     <div id="groot-menu-wrapper"></div>
     <div class="default-layout">
       <br>
-      <div id="boxes">
-        <div class="box">
-          <a onclick="kameHouse.extension.groot.windowLocation('/kame-house-groot/admin/server-manager/index', null);"><img src="/kame-house/img/dbz/kamesenin-logo.png" alt="Kame Senin Logo"/></a>
-          <h3 class="bold-kh">Server Manager</h3>
-          <p class="bold-kh">Manage the current server</p>
-        </div>
-        <div class="box">
-          <a onclick="kameHouse.extension.groot.windowLocation('/kame-house-groot/admin/kamehouse-shell/index', null);"><img src="/kame-house/img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo"/></a>
-          <h3 class="bold-kh">Shell</h3>
-          <p class="bold-kh">Execute scripts from KameHouse Shell</p>
-        </div>
-        <div class="box">
-          <a href="/kame-house/index.html"><img src="/kame-house/img/dbz/goku-go-logo.png" alt="Goku Go Logo"/></a>
-          <h3 class="bold-kh">KameHouse</h3>
-          <p class="bold-kh">Go back to KameHouse main app</p>
-        </div> 
-      </div>
+      <table class="boxes">
+        <caption class="hidden-kh">Boxes</caption>
+        <thead class="hidden-kh"><tr><th>Boxes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="box">
+              <a onclick="kameHouse.extension.groot.windowLocation('/kame-house-groot/admin/server-manager/index', null);"><img src="/kame-house/img/dbz/kamesenin-logo.png" alt="Kame Senin Logo"/></a>
+              <h3>Server Manager</h3>
+              <p>Manage the current server</p>
+            </td>
+            <td class="box">
+              <a onclick="kameHouse.extension.groot.windowLocation('/kame-house-groot/admin/kamehouse-shell/index', null);"><img src="/kame-house/img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo"/></a>
+              <h3>Shell</h3>
+              <p>Execute scripts from KameHouse Shell</p>
+            </td>
+            <td class="box">
+              <a href="/kame-house/index.html"><img src="/kame-house/img/dbz/goku-go-logo.png" alt="Goku Go Logo"/></a>
+              <h3>KameHouse</h3>
+              <p>Go back to KameHouse main app</p>
+            </td> 
+          </tr>
+        </tbody>
+      </table>
       <br>
       <p class="p-15-d-kh"><span class="highlight">Kame</span><span class="bold-kh">House</span> <span class="highlight">GRoot</span> is an app built to do admin tasks independently of having all the <span class="bold-kh">KameHouse</span> modules deployed on tomcat</p> 
       
