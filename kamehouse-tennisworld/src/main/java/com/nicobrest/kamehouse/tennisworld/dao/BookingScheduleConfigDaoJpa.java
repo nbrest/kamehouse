@@ -39,7 +39,13 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
 
   @Override
   public List<BookingScheduleConfig> readAll() {
-    List<BookingScheduleConfig> entities = super.readAll();
+    return readAll(0, null, true);
+  }
+
+  @Override
+  public List<BookingScheduleConfig> readAll(Integer maxRows, String sortColumn,
+      Boolean sortAscending) {
+    List<BookingScheduleConfig> entities = super.readAll(maxRows, sortColumn, sortAscending);
     unsetDefaultBookingDate(entities);
     return entities;
   }
