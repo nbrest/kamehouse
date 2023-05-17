@@ -44,7 +44,20 @@
 
 .link-image-desc {
   text-align: left;
-  font-size: 14px;
+  font-size: 15px;
   padding-top: 8px;
   padding-right: 15px;
+}
+
+/** Show image on right side on desktop */
+.link-image-table-revese {
+  direction: rtl;
+}
+
+.link-image-table-revese .link-image-text {
+  text-align: right;
+}
+
+.link-image-table-revese .link-image-desc {
+  text-align: right;
 }
