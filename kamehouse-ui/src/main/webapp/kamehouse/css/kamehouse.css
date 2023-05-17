@@ -13,6 +13,7 @@
 @import url('kamehouse-heading.css');
 @import url('kamehouse-img.css');
 @import url('kamehouse-links.css');
+@import url('kamehouse-list.css');
 @import url('kamehouse-margin.css');
 @import url('kamehouse-padding.css');
 @import url('kamehouse-scrollbar.css');
@@ -111,10 +112,4 @@ html.wait, html.wait * {
 
 textarea {
   min-height: 100px;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }

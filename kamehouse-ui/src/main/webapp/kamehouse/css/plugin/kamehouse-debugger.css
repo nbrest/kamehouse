@@ -38,6 +38,9 @@
   overflow: scroll;
   min-width: 100%;
   width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 @media (max-width : 900px) {
