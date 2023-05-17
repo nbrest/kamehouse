@@ -91,6 +91,7 @@
 - Updated debugger log level dropdown to change level on click
 - Restructured css code
 - Added image/info ui component
+- Added custom ui lists
 - Fixed bugs
 
 #### v8.12
