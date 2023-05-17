@@ -29,12 +29,14 @@
   </div>
   <div class="default-layout">
     <p class="p-15-d-kh">JSP test application in the Test Module</p>
-    <div class="default-layout landing-p-links">
-      <input type="button" value="DragonBall Users" class="landing-p-link"
-        onclick="window.location.href='dragonball/users/users-list'">
-      <br>
-      <input type="button" value="DragonBall Model And View" class="landing-p-link"
-        onclick="window.location.href='dragonball/model-and-view'">  
+    <div class="default-layout">
+      <div class="landing-p-links">
+        <input type="button" value="DragonBall Users" class="landing-p-link"
+          onclick="window.location.href='dragonball/users/users-list'">
+        <br>
+        <input type="button" value="DragonBall Model And View" class="landing-p-link"
+          onclick="window.location.href='dragonball/model-and-view'">  
+      </div>
     </div>
   </div>
   </div>

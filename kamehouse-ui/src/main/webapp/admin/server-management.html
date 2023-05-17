@@ -78,7 +78,7 @@
       </div>
     </td></tr>
     <tr><td>
-      <div id="shutdown-status" class="status-message-box fl-l-d-kh">
+      <div id="shutdown-status" class="status-box fl-l-d-kh">
         Shutdown status: -
       </div>
     </td></tr>
@@ -107,32 +107,33 @@
         <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
           onclick="kameHouse.extension.serverManager.setSuspendCommand()"
           src="/kame-house/img/pc/hibernate-red.png" alt="Suspend" title="Suspend" />
-        <br class="mobile-br-kh">
-        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-10-m-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown-minutes">
+        <div class="suspend-dropdowns">
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-10-m-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown-minutes">
             <option value="2700">45 Minutes</option>
             <option value="1800">30 Minutes</option>
             <option value="900">15 Minutes</option>
             <option value="0" selected>0 Minutes</option>
-        </select>
-        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-10-m-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown-hours">
-          <option value="43200">12 Hours</option>
-          <option value="39600">11 Hours</option>
-          <option value="36000">10 Hours</option>
-          <option value="32400">9 Hours</option>
-          <option value="28800">8 Hours</option>
-          <option value="25200">7 Hours</option>
-          <option value="21600">6 Hours</option>
-          <option value="18000">5 Hours</option>
-          <option value="14400">4 Hours</option>
-          <option value="10800">3 Hours</option>
-          <option value="7200" selected>2 Hours</option>
-          <option value="3600">1 Hour</option>
-          <option value="0">0 Hours</option>
-        </select>
+          </select>
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-10-m-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown-hours">
+            <option value="43200">12 Hours</option>
+            <option value="39600">11 Hours</option>
+            <option value="36000">10 Hours</option>
+            <option value="32400">9 Hours</option>
+            <option value="28800">8 Hours</option>
+            <option value="25200">7 Hours</option>
+            <option value="21600">6 Hours</option>
+            <option value="18000">5 Hours</option>
+            <option value="14400">4 Hours</option>
+            <option value="10800">3 Hours</option>
+            <option value="7200" selected>2 Hours</option>
+            <option value="3600">1 Hour</option>
+            <option value="0">0 Hours</option>
+          </select>
+        </div>
       </div>
     </td></tr>
     <tr><td>
-      <div id="suspend-status" class="status-message-box fl-r-d-kh">
+      <div id="suspend-status" class="status-box fl-r-d-kh">
         Suspend status: - 
       </div>
     </td></tr>
@@ -193,9 +194,9 @@
       <br><br><br>
 
       <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Apache Httpd Status</h6>
-      <table class="table-kh table-borderless-kh">
+      <table class="table-kh table-borderless-kh table-backgroundless-kh">
       <caption class="hidden-kh">Apache Httpd</caption>
-      <tbody class="bg-none-kh">
+      <tbody>
       <tr class="hidden-kh">
         <th scope="row" class="hidden-kh">Apache Httpd</th>
       </tr>
