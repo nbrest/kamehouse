@@ -1,0 +1,59 @@
+
+/** Set width percentage (for example in table columns) */
+.w-10-pc-kh {
+  width: 10%;
+}
+
+.w-20-pc-kh {
+  width: 20%;
+}
+
+.w-25-pc-kh {
+  width: 25%;
+}
+
+.w-30-pc-kh {
+  width: 30%;
+}
+
+.w-40-pc-kh {
+  width: 40%;
+}
+
+.w-50-pc-kh {
+  width: 50%;
+}
+
+.w-60-pc-kh {
+  width: 60%;
+}
+
+.w-70-pc-kh {
+  width: 70%;
+}
+
+.w-75-pc-kh {
+  width: 75%;
+}
+
+.w-80-pc-kh {
+  width: 80%;
+}
+
+.w-90-pc-kh {
+  width: 90%;
+}
+
+.w-97-pc-kh {
+  width: 97%;
+}
+
+.w-100-pc-kh {
+  width: 100%;
+}
+
+@media(max-width: 900px) {
+  .w-100-pc-m-kh {
+    width: 100%;
+  }
+}

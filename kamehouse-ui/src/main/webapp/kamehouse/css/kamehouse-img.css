@@ -1,0 +1,31 @@
+.img-btn-kh {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+/** This css affects desktop, not mobile! */
+@media (min-width : 900px) {
+  .img-btn-kh:hover {
+    transform: scale(1.3);
+  }
+}
+
+.img-btn-kh:active {
+  transform: scale(0.9);
+}
+
+@media (max-width : 900px) {
+  .img-btn-kh:active {
+    transform: scale(1);
+    border: 1px solid #181818;
+    border-radius: 50%;
+    background-color: #181818;
+  }
+}
+
+/** Use in combination with img-btn-kh to make it smaller */
+.img-btn-s-kh {
+  width: 25px;
+  height: 25px;
+}

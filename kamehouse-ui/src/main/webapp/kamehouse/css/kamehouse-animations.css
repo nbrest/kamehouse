@@ -1,0 +1,136 @@
+.fade-in-out-15s {
+  animation: fade-in-out 15s;
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in-out 15s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.fade-in-out-60s {
+  animation: fade-in-out-60s 60s;
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in-out-60s 60s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+/** fade-in-out: fade in-out effect for banners */
+@-webkit-keyframes fade-in-out {
+  0% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+
+  25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.25;
+    transform: scale(1.1);
+  }
+}
+
+@-webkit-keyframes fade-in-out-60s {
+  0% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes fade-in-out-60s {
+  0% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+
+.fade-04o-10s {
+  animation: fade-04 10s infinite linear;
+}
+
+@keyframes fade-04 {
+  0% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  
+  50% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/** rotate infinitely for -X seconds */
+.rotate-4 {
+  animation: rotation-full 4s infinite linear;
+}
+
+@keyframes rotation-full {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  100% {
+    transform: rotate(359deg);
+  }
+}

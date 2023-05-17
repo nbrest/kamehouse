@@ -1,0 +1,19 @@
+.fl-l-d-kh {
+  float: left;
+}
+
+@media (max-width: 900px) {
+  .fl-l-m-kh {
+    float: left;
+  }
+}
+
+.fl-r-d-kh {
+  float: right;
+}
+
+@media (max-width: 900px) {
+  .fl-r-m-kh {
+    float: right;
+  }
+}

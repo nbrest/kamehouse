@@ -1,0 +1,134 @@
+/** ---------------------------------------------------------- */
+.table-kh {
+  border-collapse: collapse;
+  color: #8b8b8b;
+  text-align: center;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+
+.table-kh,
+.table-kh tr,
+.table-kh thead th,
+.table-kh td {
+  border: 3px solid #000000;
+}
+
+.table-kh tbody {
+  background-color: #240000;
+  display: table;
+  width: 100%;
+}
+
+@media (max-width : 900px) {
+  .table-kh tbody {
+    display: table;
+    width: 100%;
+  }
+}
+
+.table-kh tr td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.table-kh tr th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.table-kh thead {
+  background-color: #131010;
+  color: #5e5e5e;
+  font-weight: bold;
+  width: 100%;
+  display: table;
+}
+
+@media (max-width : 900px) {
+  .table-kh thead {
+    display: table;
+    width: 100%;
+  }
+}
+
+/** Use table-kh-header in the first row of tbody if using thead has a mismatch 
+  between tbody and thead in column widths */
+.table-kh-header {
+  font-weight: bold;
+  background-color: #131010;
+  color: #5e5e5e;
+}
+
+.table-kh-actions {
+  min-width: 120px;
+}
+
+.table-kh-controls {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  display: table;
+  background-color: #131010;
+  color: #5e5e5e;
+  border: 3px solid #000000;
+}
+
+.table-kh-filter-input {
+  border: 1px solid #292929;
+  border-radius: 0px;
+  color: #5e5e5e;
+  background: #101010;
+  padding: 5px;
+  width: 100%;
+  margin-left: 10px;
+  outline: none;
+}
+
+.table-kh-filter-input:hover {
+  border: 1px solid #292929;
+  background: #1d1d1d;
+}
+
+.table-kh-filter-input:focus {
+  border: 1px solid #3f3f3f;
+  background: #202020;
+}
+
+#table-kh-vertical-scroll-wrapper {
+  max-height: 750px;
+  overflow: scroll;
+}
+
+#table-kh-vertical-scroll-wrapper .table-kh {
+  border-right: none;
+  border-bottom: none;
+}
+
+@media (max-width : 900px) {
+  #table-kh-vertical-scroll-wrapper {
+    max-height: 380px;
+  }
+}
+
+/** Default table overrides */
+.table-borderless-kh,
+.table-borderless-kh tr,
+.table-borderless-kh thead th,
+.table-borderless-kh td {
+  border: none;
+}
+
+.table-backgroundless-kh,
+.table-backgroundless-kh tbody,
+.table-backgroundless-kh tr,
+.table-backgroundless-kh thead th,
+.table-backgroundless-kh td {
+  background: none;
+  background-color: unset;
+}

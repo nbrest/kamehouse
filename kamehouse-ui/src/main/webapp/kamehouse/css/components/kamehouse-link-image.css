@@ -1,0 +1,50 @@
+
+.link-image-table-wrapper {
+  width: 80%;
+  margin: auto;
+}
+
+@media (max-width : 900px) {
+  .link-image-table-wrapper {
+    width: 100%;
+  }
+}
+
+.link-image-table {
+  margin: auto;
+  border: none;
+  width: 100%;
+}
+
+.link-image-table tr {
+  border: none;
+}
+
+.link-image-table tr td {
+  border: none;
+}
+
+.link-image-img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  margin: 30px;
+}
+
+.link-image-img:hover {
+  transform: scale(1.1);
+}
+
+.link-image-text {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: left;
+  padding-right: 15px;
+}
+
+.link-image-desc {
+  text-align: left;
+  font-size: 14px;
+  padding-top: 8px;
+  padding-right: 15px;
+}

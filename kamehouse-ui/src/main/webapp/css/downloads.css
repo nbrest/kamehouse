@@ -1,3 +1,21 @@
+.android-app-qrcode {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin: auto;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  border: 5px solid #FFFFFF;
+  width: 256px;
+  height: 256px;
+}
+
+@media ( max-width : 900px) {
+  .android-app-qrcode {
+    margin-top: 40px;
+  }
+}
+
 .disclaimer {
   font-weight: bold;
 }

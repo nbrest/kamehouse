@@ -1,0 +1,106 @@
+@import url('kamehouse-banners-captain-tsubasa.css');
+@import url('kamehouse-banners-dc.css');
+@import url('kamehouse-banners-dragonball.css');
+@import url('kamehouse-banners-errors.css');
+@import url('kamehouse-banners-game-of-thrones.css');
+@import url('kamehouse-banners-marvel.css');
+@import url('kamehouse-banners-prince-of-tennis.css');
+@import url('kamehouse-banners-saint-seiya.css');
+@import url('kamehouse-banners-star-wars.css');
+@import url('kamehouse-banners-tennis.css');
+@import url('kamehouse-banners-world-cup-2022.css');
+
+#banner {
+  min-height: 600px;
+  text-align: center;
+  color: #dddddd;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+@media (max-width : 900px) {
+  #banner {
+    min-height: 400px;
+  }
+}
+
+.banner-text-error {
+  color: #000000;
+  text-shadow: -2px 0 #C0C0C0, 0 2px #C0C0C0, 2px 0 #C0C0C0, 0 -2px #C0C0C0;
+  font-size: 70px !important; 
+}
+
+@media (max-width : 900px) {
+  .banner-text-error {
+    font-size: 40px !important; 
+  }
+}
+
+.banner-p-error {
+  color: #000000;
+  font-size: 30px !important; 
+  font-weight: bolder;
+  text-shadow: -1px 0 #939393, 0 1px #939393, 1px 0 #939393, 0 -1px #939393;
+  margin-top: 35px;
+}
+
+@media (max-width : 900px) {
+  .banner-p-error {
+    font-size: 20px !important; 
+    margin: auto;
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+.banner-p-error-light {
+  color: #c0c0c0;
+  font-size: 30px !important; 
+  font-weight: bolder;
+  text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+  margin-top: 35px;
+}
+
+@media (max-width : 900px) {
+  .banner-p-error-light {
+    font-size: 20px !important; 
+    margin: auto;
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+#banner h1 {
+  margin-top: 250px;
+  font-size: 55px;
+  margin-bottom: 10px;
+}
+
+@media (max-width : 900px) {
+  #banner h1 {
+    margin-top: 40px;
+  }
+}
+
+#banner p {
+  font-size: 20px;
+}
+
+@media (max-width : 900px) {
+  .banner-text {
+    padding-top: 80px;
+  }
+}
+
+#banner-server-name {
+  font-size: 30px;
+}
+
+.banner-wrapper {
+  overflow: hidden;
+  background-color: black;
+}

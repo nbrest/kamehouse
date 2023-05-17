@@ -1,0 +1,21 @@
+.h3-kh {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.h4-kh {
+  text-align: center;
+  font-weight: bold;
+}
+
+.h5-kh {
+  text-align: center;
+  font-weight: bold;
+}
+
+.h6-kh {
+  text-align: left;
+  font-weight: bold;
+  padding-left: 10px;
+}

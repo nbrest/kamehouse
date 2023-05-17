@@ -1,0 +1,193 @@
+/** Set margins -t top -b bottom -l left -r right | -d desktop -m mobile */
+/** margin auto */
+.m-auto-d-kh {
+  margin: auto;
+}
+
+@media (max-width : 900px) {
+  .m-auto-m-kh {
+    margin: auto;
+  }
+}
+
+/** margin 5 */
+.m-5-d-kh {
+  margin: 5px;
+}
+
+@media (max-width : 900px) {
+  .m-5-m-kh {
+    margin: 5px;
+  }
+}
+
+.m-5-t-d-kh {
+  margin-top: 5px;
+}
+
+/** margin 7 */
+.m-7-d-kh {
+  margin: 7px;
+}
+
+@media (max-width : 900px) {
+  .m-7-m-kh {
+    margin: 7px;
+  }
+}
+
+.m-7-d-r-kh {
+  margin-right: 7px;
+}
+
+@media (max-width : 900px) {
+  .m-7-m-r-kh {
+    margin-right: 7px;
+  }
+}
+
+/** margin 10 */
+.m-10-d-kh {
+  margin: 10px;
+}
+
+@media (max-width : 900px) {
+  .m-10-m-kh {
+    margin: 10px;
+  }
+}
+
+.m-10-d-r-kh {
+  margin-right: 10px;
+}
+
+@media (max-width : 900px) {
+  .m-10-m-r-kh {
+    margin-right: 10px;
+  }
+}
+
+/** margin 15 */
+.m-15-d-kh {
+  margin: 15px;
+}
+
+@media (max-width : 900px) {
+  .m-15-m-kh {
+    margin: 15px;
+  }
+}
+
+.m-15-d-l-kh {
+  margin-left: 15px;
+}
+
+@media (max-width : 900px) {
+  .m-15-m-l-kh {
+    margin-left: 15px;
+  }
+}
+
+.m-15-d-r-kh {
+  margin-right: 15px;
+}
+
+@media (max-width : 900px) {
+  .m-15-m-r-kh {
+    margin-right: 15px;
+  }
+}
+
+/** margin 20 */
+.m-20-d-kh {
+  margin: 20px;
+}
+
+@media (max-width : 900px) {
+  .m-20-m-kh {
+    margin: 20px;
+  }
+}
+
+.m-20-d-r-kh {
+  margin-right: 20px;
+}
+
+@media (max-width : 900px) {
+  .m-20-m-r-kh {
+    margin-right: 20px;
+  }
+}
+
+/** margin 25 */
+.m-25-d-kh {
+  margin: 25px;
+}
+
+@media (max-width : 900px) {
+  .m-25-m-kh {
+    margin: 25px;
+  }
+}
+
+.m-25-d-l-kh {
+  margin-left: 25px;
+}
+
+@media (max-width : 900px) {
+  .m-25-m-l-kh {
+    margin-left: 25px;
+  }
+}
+
+.m-25-d-r-kh {
+  margin-right: 25px;
+}
+
+@media (max-width : 900px) {
+  .m-25-m-r-kh {
+    margin-right: 25px;
+  }
+}
+
+/** margin 50 */
+.m-50-d-kh {
+  margin: 50px;
+}
+
+@media (max-width : 900px) {
+  .m-50-m-kh {
+    margin: 50px;
+  }
+}
+
+.m-50-d-l-kh {
+  margin-left: 50px;
+}
+
+@media (max-width : 900px) {
+  .m-50-m-l-kh {
+    margin-left: 50px;
+  }
+}
+
+.m-50-d-r-kh {
+  margin-right: 50px;
+}
+
+@media (max-width : 900px) {
+  .m-50-m-r-kh {
+    margin-right: 50px;
+  }
+}
+
+/** margin 0 (needs to be below other m-X-x-kh definitions or it breaks for some reason) */
+.m-0-d-kh {
+  margin: 0;
+}
+
+@media (max-width : 900px) {
+  .m-0-m-kh {
+    margin: 0;
+  }
+}

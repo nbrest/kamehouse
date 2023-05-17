@@ -1,0 +1,31 @@
+
+/** set text alignment desktop and mobile */
+.txt-c-d-kh {
+  text-align: center;
+}
+
+.txt-l-d-kh {
+  text-align: left;
+}
+
+.txt-r-d-kh {
+  text-align: right;
+}
+
+@media(max-width: 900px) {
+  .txt-c-m-kh {
+    text-align: center;
+  }
+}
+
+@media(max-width: 900px) {
+  .txt-l-m-kh {
+    text-align: left;
+  }
+}
+
+@media(max-width: 900px) {
+  .txt-r-m-kh {
+    text-align: right;
+  }
+}
