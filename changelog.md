@@ -89,6 +89,8 @@
 - Updated crud manager to allow customizing building the entity, form fields and list display for arrays. And applied it to kamehouse roles to make it easier to edit them
 - Added cookie to store/restore js log level
 - Updated debugger log level dropdown to change level on click
+- Restructured css code
+- Added image/info ui component
 - Fixed bugs
 
 #### v8.12
