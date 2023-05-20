@@ -4,6 +4,7 @@ $(document).ready(() => {
       entityName: "TennisWorld User",
       url: "/kame-house-tennisworld/api/v1/tennis-world/users",
       banner: "banner-fuji",
+      icon: "/kame-house/img/prince-of-tennis/icon-fuji.png",
       columns: [
         { 
           name: "id",

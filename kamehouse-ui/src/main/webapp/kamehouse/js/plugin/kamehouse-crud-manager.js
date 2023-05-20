@@ -23,6 +23,7 @@ function CrudManager() {
   const NO_DATA_ROW_ID = "no-data-from-backend-row";
 
   let entityName = "Set EntityName";
+  let icon = null;
   let url = "/kame-house-module/api/v1/override-url";
   let columns = [];
   let entities = [];
@@ -108,6 +109,7 @@ function CrudManager() {
    */
   function init(config) {
     replaceBanner(config);
+    setIcon(config);
     setEntityName(config.entityName);
     setUrl(config.url);
     setColumns(config.columns);
@@ -134,15 +136,55 @@ function CrudManager() {
       kameHouse.util.dom.addClass($("#banner"), config.banner);
     }
   }
+
+  function setIcon(config) {
+    if (!kameHouse.core.isEmpty(config.icon)) {
+      icon = kameHouse.util.dom.getImgBtn({
+        src: config.icon,
+        className: "crud-icon",
+        alt: "Icon",
+        onClick: () => {return;}
+      });
+    }
+  }
+
+  function getIcon() {
+    if (!kameHouse.core.isEmpty(icon)) {
+      return kameHouse.util.dom.cloneNode(icon, false);
+    }
+    return "";
+  }
+
+  function getListTitle() {
+    const span = kameHouse.util.dom.getSpan();
+    kameHouse.util.dom.append(span, getIcon());
+    kameHouse.util.dom.append(span, "List " + getEntityNames());
+    return span;
+  }
+
+  function getAddTitle() {
+    const span = kameHouse.util.dom.getSpan();
+    kameHouse.util.dom.append(span, getIcon());
+    kameHouse.util.dom.append(span, "Add " + entityName);
+    return span;
+  }
+
+  function getEditTitle() {
+    const span = kameHouse.util.dom.getSpan();
+    kameHouse.util.dom.append(span, getIcon());
+    kameHouse.util.dom.append(span, "Edit " + entityName);
+    return span;
+  }
+
   /**
    * Updates the view with the entity name.
    */
   function updateEntityNameInView() {
     kameHouse.util.dom.setHtml($("title"), "KameHouse - " + getEntityNames());
     kameHouse.util.dom.setHtml($("#crud-manager-banner-title"), getEntityNames());
-    kameHouse.util.dom.setHtml($("#crud-manager-list-title"), "List " + getEntityNames());
-    kameHouse.util.dom.setHtml($("#crud-manager-add-title"), "Add " + entityName);
-    kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), "Edit " + entityName);
+    kameHouse.util.dom.setHtml($("#crud-manager-list-title"), getListTitle());
+    kameHouse.util.dom.setHtml($("#crud-manager-add-title"), getAddTitle());
+    kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), getEditTitle());
   }
 
   /**
