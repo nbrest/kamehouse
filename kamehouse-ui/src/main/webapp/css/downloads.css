@@ -10,6 +10,10 @@
   height: 256px;
 }
 
+.android-slideshow-img {
+  border: 10px solid #1e1e1e;
+}
+
 @media ( max-width : 900px) {
   .android-app-qrcode {
     margin-top: 40px;
