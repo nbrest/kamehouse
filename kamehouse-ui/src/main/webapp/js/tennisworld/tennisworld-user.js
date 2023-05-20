@@ -5,6 +5,12 @@ $(document).ready(() => {
       url: "/kame-house-tennisworld/api/v1/tennis-world/users",
       banner: "banner-fuji",
       icon: "/kame-house/img/prince-of-tennis/fuji-icon.png",
+      infoImage: {
+        img: "/kame-house/img/banners/prince-of-tennis/banner-seigaku.jpg",
+        title: "Join Tennis World?",
+        desc: "Echizen Ryoma, Fuji Syuske, Tezuka Kunimitzu are already waiting for you",
+        isReverse: true
+      },
       columns: [
         { 
           name: "id",

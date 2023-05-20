@@ -68,6 +68,7 @@
   font-size: 30px;
   text-align: center;
   color: #dddddd;
+  direction: ltr;
 }
 
 @media (max-width : 900px) {

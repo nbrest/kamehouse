@@ -110,6 +110,7 @@ function CrudManager() {
   function init(config) {
     replaceBanner(config);
     setIcon(config);
+    setInfoImage(config);
     setEntityName(config.entityName);
     setUrl(config.url);
     setColumns(config.columns);
@@ -145,6 +146,20 @@ function CrudManager() {
         alt: "Icon",
         onClick: () => {return;}
       });
+    }
+  }
+
+  function setInfoImage(config) {
+    if (!kameHouse.core.isEmpty(config.infoImage)) {
+      kameHouse.util.dom.removeClass($("#crud-info-image"), "hidden-kh");
+      const infoImage = config.infoImage;
+      const img = document.getElementById("info-image-img");
+      kameHouse.util.dom.setAttribute(img, "src", infoImage.img); 
+      kameHouse.util.dom.setHtml($("#info-image-title"), infoImage.title);
+      kameHouse.util.dom.setHtml($("#info-image-desc"), infoImage.desc);
+      if (infoImage.isReverse == true) {
+        kameHouse.util.dom.addClass($("#crud-info-image"), "info-image-table-revese");
+      }
     }
   }
 
