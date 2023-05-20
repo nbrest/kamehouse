@@ -1,11 +1,11 @@
 
-.boxes {
-	text-align: center;
-	margin: auto;
+.info-boxes {
+  text-align: center;
+  margin: auto;
   width: 100%;
 }
 
-.box {
+.info-box {
   width: 30%;
   padding: 10px;
   color: #7e7e7e;
@@ -13,34 +13,34 @@
 }
 
 @media (max-width : 900px) {
-  .boxes .box {
+  .info-boxes .info-box {
     float: none;
     text-align: center;
     width: 100%;
   }	
 }
 
-.boxes .box a {
+.info-boxes .info-box a {
   cursor: pointer;
 }
 
-.boxes .box a img {
+.info-boxes .info-box a img {
   width: 90px;
   height: 90px;
   margin-bottom: 7px;
 }
 
-.boxes .box a img:hover {
+.info-boxes .info-box a img:hover {
   transform: scale(1.1);
 }
 
-.boxes .box h3 {
+.info-boxes .info-box h3 {
   padding-left: 0px;
   font-weight: bold;
   color: #999999;
 }
 
-.boxes .box p {
+.info-boxes .info-box p {
   font-weight: bold;
   color: #6e6d6d;
 }
