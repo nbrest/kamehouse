@@ -94,6 +94,7 @@
 - Added custom ui lists
 - Added new boxes components for info and links
 - Revamped kamehouse homepage
+- Added custom icons support on crud manager ui
 - Fixed bugs
 
 #### v8.12
