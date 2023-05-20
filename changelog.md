@@ -93,6 +93,7 @@
 - Added image/info ui component
 - Added custom ui lists
 - Added new boxes components for info and links
+- Revamped kamehouse homepage
 - Fixed bugs
 
 #### v8.12

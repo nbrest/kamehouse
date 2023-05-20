@@ -7,3 +7,13 @@
 	background-position: left center;
 	background-size: 30px;
 }
+
+.li-wc-kh {
+	margin: 0;
+	padding: 20px 0 15px 50px;
+	list-style: none;
+	background-image: url("/kame-house/img/sports/world-cup.png");
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 30px;
+}

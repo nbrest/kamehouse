@@ -16,6 +16,7 @@
 <script src="/kame-house/js/home-index.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house/css/kamehouse-home.css" />
 </head>
 <body>
   <div class="main-body">
@@ -28,30 +29,192 @@
   </div>
   </div>
   <div class="default-layout">
-  <br>
-  <table class="link-boxes">
-    <caption class="hidden-kh">Link-Boxes</caption>
-    <thead class="hidden-kh"><tr><th>Link-Boxes</th></tr></thead>
-    <tbody>
-      <tr>
-        <td class="link-box">
-          <a href="/kame-house/vlc-player.html"><img src="./img/dbz/kamesenin-logo.png" alt="Kame Senin Logo"/></a>
-          <h3>VLC</h3>
-          <p>Play all my media files on VLC Player</p>
-        </td>
-        <td class="link-box">
-          <a href="/kame-house/about.html"><img src="./img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo"/></a>
-          <h3>About</h3>
-          <p>Learn more about KameHouse</p>
-        </td>
-        <td class="link-box">
-          <a href="/kame-house-groot/index.html"><img src="./img/dbz/goku-go-logo.png" alt="Goku Go Logo"/></a>
-          <h3 class="bold-kh">GRoot</h3>
-          <p class="bold-kh">Manage the current server</p>
-        </td> 
-      </tr>
-    </tbody>
-  </table>
+    <div class="main-link-boxes-wrapper">
+      <table class="link-boxes">
+        <caption class="hidden-kh">Link-Boxes</caption>
+        <thead class="hidden-kh"><tr><th>Link-Boxes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="link-box">
+              <a href="/kame-house/vlc-player.html"><img src="./img/dbz/kamesenin-logo.png" alt="Kame Senin Logo"/></a>
+              <h3>VLC</h3>
+              <p>Play all my media files on VLC Player</p>
+            </td>
+            <td class="link-box">
+              <a href="/kame-house/about.html"><img src="./img/dbz/kaio-sama-logo.png" alt="Kaio Sama Logo"/></a>
+              <h3>About</h3>
+              <p>Learn more about KameHouse</p>
+            </td>
+            <td class="link-box">
+              <a href="/kame-house-groot/index.html"><img src="./img/dbz/goku-go-logo.png" alt="Goku Go Logo"/></a>
+              <h3 class="bold-kh">GRoot</h3>
+              <p class="bold-kh">Manage the current server</p>
+            </td> 
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="whats-kamehouse-image-info-wrapper">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/dbz/kamehouse.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                What is KameHouse
+              </div>
+              <div class="info-image-desc">
+                KameHouse is a set of webapps and command line tools written in Java, JavaScript and Bash that can be used together to execute the functionality mentioned below
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="kamehouse-functionality-info-boxes-wrapper">
+      <table class="info-boxes">
+        <caption class="hidden-kh">Info-Boxes</caption>
+        <thead class="hidden-kh"><tr><th>Link-Boxes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-boxes-row-4-2">
+              <div class="info-box info-box-row-4-2">
+                <img src="/kame-house/img/mplayer/play-circle-gray-dark.png" alt="Kaio Sama Logo"/>
+                <h3>VLC Player</h3>
+                <p>Control the VLC player running on this server</p>
+              </div>
+              <div class="info-box info-box-row-4-2">
+                <img src="/kame-house/img/sports/tennis-ball-gray-dark.png" alt="Goku Go Logo"/>
+                <h3>TennisWorld</h3>
+                <p>Manage session bookings to tennis world</p>
+              </div>
+            </td>
+            <td class="info-boxes-row-4-2">
+              <div class="info-box info-box-row-4-2">
+                <img src="/kame-house/img/other/lab-tube-gray-dark.png" alt="Kame Senin Logo"/>
+                <h3>Test Module</h3>
+                <p>Run all the functionality to test new tech in the test module</p>
+              </div>
+              <div class="info-box info-box-row-4-2">
+                <img src="/kame-house/img/other/admin-gray-dark.png" alt="Goku Go Logo"/>
+                <h3>Admin</h3>
+                <p>Manage the current server running KameHouse</p>
+              </div>
+            </td> 
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="external-links-1-wrapper">
+      <div class="link-image-table-wrapper-80">
+        <table class="link-image-table link-image-table-revese">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/jenkins.png" alt="Kame Senin Logo" onclick='window.open("https://jenkins.nicobrest.com")' /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Jenkins</div>
+                <div class="link-image-desc">Manage KameHouse builds and run end to end integration tests with Jenkins CI server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/ubuntu.png" alt="Kame Senin Logo" onclick='window.open("https://vm-ubuntu.nicobrest.com")' /></a>
+              </td>
+              <td>
+                <div class="link-image-text">VM Ubuntu</div>
+                <div class="link-image-desc">KameHouse server running on an ubuntu virtualbox vm</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/docker.png" alt="Kame Senin Logo" onclick='window.open("https://docker-demo.nicobrest.com")'/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Docker Demo</div>
+                <div class="link-image-desc">KameHouse server running on a demo docker container</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h4 class="h4-kh">Other things you can do with KameHouse</h4>
+    <div class="kamehouse-functionality-list-wrapper">
+      <ul>
+        <li class="li-wc-kh">Manage all media files and play them with VLC</li>
+        <li class="li-wc-kh">Schedule automatic bookings of cardio and comps on TennisWorld</li>
+        <li class="li-wc-kh">Execute all test functionality with the test module</li>
+        <li class="li-wc-kh">Manage all KameHouse entities and users</li>
+        <li class="li-wc-kh">Manage the backend settings like ehcache, log level and job scheduler</li>
+        <li class="li-wc-kh">Schedule server restarts</li>
+        <li class="li-wc-kh">Wake up media server</li>
+        <li class="li-wc-kh">Restart httpd running on the current server</li>
+      </ul>
+    </div>
+
+    <div class="argentina-world-cup-champion-wrapper">
+      <table class="info-image-table info-image-table-revese">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/banners/world-cup-2022/banner-world-cup-champions.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                In case you didn't know
+              </div>
+              <div class="info-image-desc">
+                <span class="bold-kh">ARGENTINA</span> we are the world cup 2022 champions
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="external-links-2-wrapper">
+      <div class="link-image-table-wrapper-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/dbz/piccolo-daimao-logo.png" alt="Kame Senin Logo" onclick='window.open("https://kame.nicobrest.com")' /></a>
+              </td>
+              <td>
+                <div class="link-image-text">KameHouse kame.com</div>
+                <div class="link-image-desc">Main KameHouse server currently running on a raspberry pi</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/dbz/db-4-star.png" alt="Kame Senin Logo" onclick='window.open("https://www.nicobrest.com")' /></a>
+              </td>
+              <td>
+                <div class="link-image-text">KameHouse www.com</div>
+                <div class="link-image-desc">KameHouse server on main domain</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
   </div>
   <span id="debug-mode-wrapper"></span>

@@ -27,7 +27,7 @@
 .link-boxes .link-box a img {
   width: 90px;
   height: 90px;
-  margin-bottom: 7px;
+  margin-bottom: 20px;
 }
 
 .link-boxes .link-box a img:hover {
@@ -38,9 +38,11 @@
   padding-left: 0px;
   font-weight: bold;
   color: #999999;
+  margin-bottom: 15px;
 }
 
 .link-boxes .link-box p {
   font-weight: bold;
   color: #6e6d6d;
+  min-height: 70px;
 }
