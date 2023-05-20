@@ -1,11 +1,11 @@
 
-.link-image-table-wrapper {
+.link-image-table-wrapper-80 {
   width: 80%;
   margin: auto;
 }
 
 @media (max-width : 900px) {
-  .link-image-table-wrapper {
+  .link-image-table-wrapper-80 {
     width: 100%;
   }
 }
