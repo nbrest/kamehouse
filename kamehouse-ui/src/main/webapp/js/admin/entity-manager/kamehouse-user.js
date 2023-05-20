@@ -4,6 +4,7 @@ $(document).ready(() => {
       entityName: "KameHouse User",
       url: "/kame-house-admin/api/v1/admin/kamehouse/users",
       banner: "banner-gohan-ssj2-3",
+      icon: "/kame-house/img/dbz/goku-icon.png",
       columns: [
         { 
           name: "id",

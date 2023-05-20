@@ -3,6 +3,7 @@ const config = {
   entityName: "Booking Response",
   url: "/kame-house-tennisworld/api/v1/tennis-world/booking-responses",
   banner: "banner-rikkaidai",
+  icon: "/kame-house/img/sports/tennis-ball-icon-green.png",
   defaultSorting: {
     columnNumber: 11, //creationDate
     sortType: "timestamp",

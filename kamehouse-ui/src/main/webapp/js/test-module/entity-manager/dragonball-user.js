@@ -5,6 +5,7 @@ $(document).ready(() => {
       entityName: "DragonBall User",
       url: "/kame-house-testmodule/api/v1/test-module/dragonball/users",
       banner: "banner-goku-ssj1",
+      icon: "/kame-house/img/dbz/gohan-ssj2-icon.png",
       columns: [
         { 
           name: "id",

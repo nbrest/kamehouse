@@ -4,6 +4,7 @@ $(document).ready(() => {
       entityName: "Booking Schedule Config",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs",
       banner: "banner-ryoma-ss",
+      icon: "/kame-house/img/sports/tennis-ball-gray.png",
       columns: [
         { 
           name: "id",

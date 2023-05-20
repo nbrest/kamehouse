@@ -4,6 +4,7 @@ $(document).ready(() => {
       entityName: "Vlc Player",
       url: "/kame-house-vlcrc/api/v1/vlc-rc/players",
       banner: "banner-pegasus-ryu-sei-ken",
+      icon: "/kame-house/img/mplayer/vlc.png",
       columns: [
         { 
           name: "id",
