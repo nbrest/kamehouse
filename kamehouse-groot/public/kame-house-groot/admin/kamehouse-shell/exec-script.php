@@ -62,18 +62,18 @@
       </tr>
     </table>
     <br>
-    <h4 id="script-output-header" class="">Script Output</h4>
+    <h4 id="kamehouse-shell-output-header" class="">Shell Script Output</h4>
     <br>
     <!-- pre and the divs need to be in the same line or it prints some extra lines -->
-    <pre id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh"><div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
+    <pre id="kamehouse-shell-output-executing-wrapper" class="kamehouse-shell-output-executing-wrapper hidden-kh"><div id="kamehouse-shell-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
 
     <!-- pre and table need to be in the same line or it prints some extra lines -->
-    <pre id="script-output" class="console-output"><table class="console-output-table">
-        <caption class="hidden-kh">Script Output</caption>
+    <pre id="kamehouse-shell-output" class="kamehouse-shell-output"><table class="kamehouse-shell-output-table">
+        <caption class="hidden-kh">Shell Script Output</caption>
         <tr class="hidden-kh">
-          <th scope="row">Script Output</th>
+          <th scope="row">Shell Script Output</th>
         </tr>
-        <tbody id="script-output-table-body">
+        <tbody id="kamehouse-shell-output-table-body">
           <tr><td>No script executed yet...</td></tr>
         </tbody>
       </table></pre>
@@ -84,7 +84,7 @@
       class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh"
       onclick="kameHouse.extension.execScriptLoader.executeFromUrlParams()" src="/kame-house/img/mplayer/play.png"
       alt="Execute Script" title="Execute Script" />
-    <img id="btn-download-script-output" class="img-btn-kh hidden-kh"
+    <img id="btn-download-kamehouse-shell-output" class="img-btn-kh hidden-kh"
       onclick="kameHouse.extension.execScriptLoader.downloadBashScriptOutput()"
       src="/kame-house/img/other/download-blue.png" alt="Download Output"
       title="Download Output" />

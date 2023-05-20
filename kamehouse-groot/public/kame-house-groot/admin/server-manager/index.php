@@ -250,7 +250,7 @@
         </tr>        
       </table>
 
-      <pre class="console-output tomcat-process-console-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
+      <pre class="kamehouse-shell-output tomcat-process-kamehouse-shell-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
       <span class="bold-kh">Tomcat Process: </span>
       <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.restartTomcat()" 
         src="/kame-house/img/mplayer/resume.png" alt="Restart Tomcat" title="Restart Tomcat"/>
@@ -368,7 +368,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
         </button>
         <!-- pre and table need to be in the same line or it prints some extra lines -->
-        <pre class="console-output"><table class="console-output-table">
+        <pre class="kamehouse-shell-output"><table class="kamehouse-shell-output-table">
             <caption class="hidden-kh">Tail Log Output</caption>
             <tr class="hidden-kh">
               <th scope="row">Tail Log Output</th>
@@ -394,15 +394,15 @@
       </button>
       
         <!-- pre and the divs need to be in the same line or it prints some extra lines -->
-      <pre id="script-output-executing-wrapper" class="script-output-executing-wrapper hidden-kh"><div id="script-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
+      <pre id="kamehouse-shell-output-executing-wrapper" class="kamehouse-shell-output-executing-wrapper hidden-kh"><div id="kamehouse-shell-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
 
       <!-- pre and table need to be in the same line or it prints some extra lines -->
-      <pre id="script-output" class="console-output"><table class="console-output-table">
+      <pre id="kamehouse-shell-output" class="kamehouse-shell-output"><table class="kamehouse-shell-output-table">
           <caption class="hidden-kh">Script Output</caption>
           <tr class="hidden-kh">
             <th scope="row">Script Output</th>
           </tr>
-          <tbody id="script-output-table-body">
+          <tbody id="kamehouse-shell-output-table-body">
             <tr><td>No command executed yet...</td></tr>
           </tbody>
       </table></pre>

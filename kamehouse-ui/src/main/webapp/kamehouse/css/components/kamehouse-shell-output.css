@@ -1,4 +1,4 @@
-.console-output {
+.kamehouse-shell-output {
   border: 2px solid #373737;
   padding: 10px;
   margin-top: 10px;
@@ -10,17 +10,17 @@
 }
 
 @media (max-width : 900px) {
-  .console-output {
+  .kamehouse-shell-output {
     margin-left: 25px;
     margin-right: 25px;
   }
 }
 
-.console-output-table {
+.kamehouse-shell-output-table {
   width: 100%;
 }
 
-.script-output-executing-wrapper {
+.kamehouse-shell-output-executing-wrapper {
   border: 2px solid #373737;
   padding: 10px;
   margin-top: 10px;
@@ -32,7 +32,7 @@
 }
 
 @media (max-width : 900px) {
-  .script-output-executing-wrapper {
+  .kamehouse-shell-output-executing-wrapper {
     margin-left: 25px;
     margin-right: 25px;
   }

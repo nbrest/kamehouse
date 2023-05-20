@@ -32,17 +32,17 @@ function ExecScriptLoader() {
 
   function scriptExecCallback() {
     updateScriptExecutionEndDate();
-    kameHouse.util.dom.removeClass($('#script-output-header'), "hidden-kh");
+    kameHouse.util.dom.removeClass($('#kamehouse-shell-output-header'), "hidden-kh");
     kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#btn-download-script-output'), "hidden-kh");  
+    kameHouse.util.dom.removeClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");  
     setBannerScriptStatus("finished!");
   }
 
   function setScriptInProgressView() {
     updateScriptExecutionStartDate();
-    kameHouse.util.dom.addClass($('#script-output-header'), "hidden-kh");
+    kameHouse.util.dom.addClass($('#kamehouse-shell-output-header'), "hidden-kh");
     kameHouse.util.dom.addClass($('#btn-execute-script'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#btn-download-script-output'), "hidden-kh");
+    kameHouse.util.dom.addClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");
     setBannerScriptStatus("in progress...");
   }
 
@@ -108,7 +108,7 @@ function ExecScriptLoader() {
   function getDownloadLink(timestamp) {
     return kameHouse.util.dom.getDomNode(kameHouse.util.dom.getA({
       href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(kameHouse.extension.kameHouseShell.getBashScriptOutput()),
-      download:  "script-output-" + timestamp + ".log",
+      download:  "kamehouse-shell-output-" + timestamp + ".log",
       class: "hidden-kh"
     }, null));
   }
