@@ -106,25 +106,51 @@ function KameHouseMobileCore() {
         if (responseBody.includes("KameHouse - Login")) {
           const message = "Backend connectivity test error - redirected back to login";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-          kameHouse.plugin.modal.basicModal.openAutoCloseable("Invalid credentials", 1000);
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivityErrorModalHtml("Invalid credentials"), 1000);
           return;
         }
         kameHouse.logger.info("Backend connectivity test successful");
-        kameHouse.plugin.modal.basicModal.openAutoCloseable("Success!", 1000);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivitySuccessModalHtml("Success!"), 1000);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         if (responseCode == 401 || responseCode == 403) {
           const message = "Backend connectivity test error - invalid credentials";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-          kameHouse.plugin.modal.basicModal.openAutoCloseable("Invalid credentials", 1000);
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivityErrorModalHtml("Invalid credentials"), 1000);
           return;
         }
         const message = "Error connecting to the backend. Response code: " + responseCode;
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error connecting to the backend. Response code: " + responseCode, 2000);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivityErrorModalHtml(message), 2000);
       }
     );
+  }
+
+  function getBackentConectivitySuccessModalHtml(message) {
+    const img = kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/dbz/goku-dark-gray.png",
+      className: "img-btn-kh",
+      alt: "Success modal",
+      onClick: () => {return;}
+    });
+    const div = kameHouse.util.dom.getDiv();
+    kameHouse.util.dom.append(div, img);
+    kameHouse.util.dom.append(div, message);
+    return div;
+  }
+
+  function getBackentConectivityErrorModalHtml(message) {
+    const img = kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/other/delete-red.png",
+      className: "img-btn-kh",
+      alt: "Error modal",
+      onClick: () => {return;}
+    });
+    const div = kameHouse.util.dom.getDiv();
+    kameHouse.util.dom.append(div, img);
+    kameHouse.util.dom.append(div, message);
+    return div;
   }
 
   /** 
