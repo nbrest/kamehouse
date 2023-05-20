@@ -11,26 +11,6 @@
   animation: spin 2s linear infinite;
 }
 
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 /* spinning wheel mobile ------------------------------------ */
 .spinning-wheel-mobile {
   display: none;
@@ -62,25 +42,5 @@
     height: 25px;
     -webkit-animation: spin 1s linear infinite;
     animation: spin 1s linear infinite;
-  }
-}
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
   }
 }
