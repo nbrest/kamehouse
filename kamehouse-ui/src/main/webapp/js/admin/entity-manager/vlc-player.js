@@ -5,6 +5,12 @@ $(document).ready(() => {
       url: "/kame-house-vlcrc/api/v1/vlc-rc/players",
       banner: "banner-pegasus-ryu-sei-ken",
       icon: "/kame-house/img/mplayer/vlc.png",
+      infoImage: {
+        img: "/kame-house/img/banners/saint-seiya/banner-athena-saints.jpg",
+        title: "KameHouse Media Player",
+        desc: "Control all the media stored in this KameHouse server with the greatest media player VLC",
+        isReverse: false
+      },
       columns: [
         { 
           name: "id",

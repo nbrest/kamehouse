@@ -5,6 +5,12 @@ $(document).ready(() => {
       url: "/kame-house-admin/api/v1/admin/kamehouse/users",
       banner: "banner-gohan-ssj2-3",
       icon: "/kame-house/img/dbz/goku-icon.png",
+      infoImage: {
+        img: "/kame-house/img/dbz/z-senshi.png",
+        title: "Enter KameHouse World",
+        desc: "Join the Z Senshi and become one of the most powerful beings in the universe by entering KameHouse",
+        isReverse: true
+      },
       columns: [
         { 
           name: "id",
