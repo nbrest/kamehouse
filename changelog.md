@@ -98,6 +98,7 @@
 - Added info image component on crud manager ui
 - Updated downloads page layout and styles
 - Revamped about page
+- Revamped tennisworld pages
 - Fixed bugs
 
 #### v8.12

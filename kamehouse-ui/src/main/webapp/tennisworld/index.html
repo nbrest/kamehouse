@@ -14,6 +14,7 @@
 <script src="/kame-house/js/tennisworld/tennisworld-index.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house/css/tennisworld/tennisworld.css" />
 </head>
 <body>
   <div class="main-body">
@@ -25,21 +26,87 @@
   </div>
   </div>
   <div class="default-layout">
-    <div class="landing-p-links">
-      <br>
-      <input type="button" value="TennisWorld Users" class="landing-p-link"
-        onclick="window.location.href='/kame-house/tennisworld/tennisworld-user.html'">
-      <br>
-      <input type="button" value="Scheduled Bookings" class="landing-p-link"
-        onclick="window.location.href='/kame-house/tennisworld/scheduled-bookings.html'">
-      <br>
-      <input type="button" value="One Off Bookings" class="landing-p-link"
-        onclick="window.location.href='/kame-house/tennisworld/one-off-bookings.html'">
-      <br>
-      <input type="button" value="Booking Responses" class="landing-p-link"
-        onclick="window.location.href='/kame-house/tennisworld/booking-response.html'">
-      <br>
+
+    <div class="welcome-tennisworld-image-info-wrapper">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/prince-of-tennis/pot-everyone.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                Welcome to TennisWorld
+              </div>
+              <div class="info-image-desc">
+                <p>The TennisWorld KameHouse module integrates with Australia's TennisWorld platform to execute bookings of lessons and court hire</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <div class="tennisworld-functionality-list-wrapper">
+      <h4 class="h4-kh">TennisWorld module has the following functionality...</h4>
+      <ul>
+        <li class="li-wc-kh">Integrates to the current tennisworld interface to do bookings. At the moment it's PerfectGym. Previously ActiveCarrot</li>
+        <li class="li-wc-kh">Manage users to connect to tennisworld</li>
+        <li class="li-wc-kh">Make one off bookings to tennisworld (court hire, cardio sessions and comps)</li>
+        <li class="li-tw-kh">Manage scheduled bookings to tennis world of any kind of session</li>
+        <li class="li-tw-kh">View of the booking requests and responses (both scheduled and one off)</li>
+      </ul>
+    </div>
+
+    <div class="tennisworld-links-wrapper">
+      <div class="link-image-table-wrapper-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/prince-of-tennis/fuji-icon.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/tennisworld/tennisworld-user.html'" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">TennisWorld Users</div>
+                <div class="link-image-desc">Manage TennisWorld users registered to do scheduled bookings</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/prince-of-tennis/inui-data-tennis-icon.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/tennisworld/scheduled-bookings.html'" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Scheduled Bookings</div>
+                <div class="link-image-desc">Interface to schedule automatic bookings of classes and court hire</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/prince-of-tennis/ryoma-ss-icon.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/tennisworld/one-off-bookings.html'"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">One Off Bookings</div>
+                <div class="link-image-desc">Execute a one off booking of a court hire or lesson to TennisWorld</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/prince-of-tennis/yukimura-icon.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/tennisworld/booking-response.html'"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Booking Responses</div>
+                <div class="link-image-desc">Check the result of the latest booking requests done to TennisWorld through KameHouse</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
   </div>
   <span id="debug-mode-wrapper"></span>

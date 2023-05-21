@@ -17,3 +17,13 @@
 	background-position: left center;
 	background-size: 30px;
 }
+
+.li-tw-kh {
+	margin: 0;
+	padding: 20px 10px 15px 50px;
+	list-style: none;
+	background-image: url("/kame-house/img/sports/tennis-ball-gray.png");
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 30px;
+}
