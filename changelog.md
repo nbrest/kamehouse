@@ -97,6 +97,7 @@
 - Added custom icons support on crud manager ui
 - Added info image component on crud manager ui
 - Updated downloads page layout and styles
+- Revamped about page
 - Fixed bugs
 
 #### v8.12
