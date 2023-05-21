@@ -181,7 +181,7 @@ function CrudManager() {
   function getListTitle() {
     const span = kameHouse.util.dom.getSpan();
     kameHouse.util.dom.append(span, getIcon());
-    kameHouse.util.dom.append(span, "List " + getEntityNames());
+    kameHouse.util.dom.append(span, getEntityNames());
     return span;
   }
 
