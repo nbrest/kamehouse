@@ -4,7 +4,13 @@ $(document).ready(() => {
       entityName: "Booking Schedule Config",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs",
       banner: "banner-ryoma-ss",
-      icon: "/kame-house/img/sports/tennis-ball-gray.png",
+      icon: "/kame-house/img/prince-of-tennis/inui-data-tennis-icon.png",
+      infoImage: {
+        img: "/kame-house/img/prince-of-tennis/inui-data-tennis.jpg",
+        title: "Schedule automatic bookings",
+        desc: "Use your data tennis skills to automate your bookings",
+        isReverse: false
+      },
       columns: [
         { 
           name: "id",
