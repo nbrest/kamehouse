@@ -1,88 +1,81 @@
-.github-kamehouse-btn {
-  padding: 10px 20px 10px 20px;
-  margin: auto;
-  text-align: center;
-  line-height:1.5;
-  color: #6b6b6b;
-  font-weight: bold;
-  background-color: #1a1a1a;
-  background-image: none;
-  border: 1px solid #383838;
-  outline: none;
-  display: block;
-  width: 70%;
+.about-kamehouse-image-info-wrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
 }
 
-@media ( max-width : 900px) { 
-  .github-kamehouse-btn {
-    width: 90%;
+@media (max-width : 900px) {
+  .about-kamehouse-image-info-wrapper {
+    margin-top: 60px;
+    margin-bottom: 60px;
   }
 }
 
-.github-kamehouse-btn:hover {
-  color: #969696;
-  background: #4d0000;
+.about-me-image-info-wrapper {
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
-#main-article {
-  float: left;
-  width: 65%;
+@media (max-width : 900px) {
+  .about-me-image-info-wrapper {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
 }
 
-@media ( max-width : 900px) {
-  #main-article {
-    float: none;
-    text-align: center;
+.argentina-world-cup-champion-wrapper {
+  margin-bottom: 60px;
+}
+
+.dev-branch-status-wrapper {
+  padding: 20px;
+}
+
+.dev-branch-status-wrapper h4 {
+  padding: 20px;
+}
+
+.external-links-1-wrapper {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+@media (max-width : 900px) {
+  .external-links-1-wrapper {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+}
+
+.external-links-2-wrapper {
+  margin: auto;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  width: 70%;
+}
+
+@media (max-width : 900px) {
+  .external-links-2-wrapper {
+    margin-top: 50px;
+    margin-bottom: 50px;
     width: 100%;
   }
 }
 
-#sidebar {
-  border: 1px solid #363636;
-  float: right;
-  width: 30%;
-  margin-top: 20px;
-  min-height: 500px;
+.kamehouse-functionality-list-wrapper {
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
-@media ( max-width : 900px) {
-	#sidebar {
-	    float: none;
-	    text-align: center;
-	    width: 100%;
-      min-height: 420px;
-	  }
+@media (max-width : 900px) {
+  .kamehouse-functionality-list-wrapper {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
 }
 
-#social-media-links {
-  background-color: #000000;
-  border: 1px solid #363636;
-	margin: auto;
-	width: 90%;
-}
-
-.social-media-logo { 
-  width: 14px;
-  height: 14px; 
-}
-
-.social-media-btn {
-  padding: 10px 20px 10px 20px;
-  margin: 15px 15px 15px 15px;
-  text-align: center;
-  line-height:1.5;
-  color: #6b6b6b;
-  font-weight: bold;
-  background-color: #1a1a1a;
-  background-image: none;
-  border: 1px solid #383838;
-  outline: none;
-  display: block;
-}
-
-.social-media-btn:hover {
-  color: #969696;
-  background: #4d0000;
+.kamehouse-functionality-list-wrapper h4 {
+  margin-left: 20px;
+  margin-bottom: 30px;
 }
 
 .table-dev-branch-status {

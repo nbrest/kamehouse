@@ -1,6 +1,6 @@
 .li-kh {
 	margin: 0;
-	padding: 20px 0 15px 50px;
+	padding: 20px 10px 15px 50px;
 	list-style: none;
 	background-image: url("/kame-house/img/dbz/dragonball-4star-gray.png");
 	background-repeat: no-repeat;
@@ -10,7 +10,7 @@
 
 .li-wc-kh {
 	margin: 0;
-	padding: 20px 0 15px 50px;
+	padding: 20px 10px 15px 50px;
 	list-style: none;
 	background-image: url("/kame-house/img/sports/world-cup.png");
 	background-repeat: no-repeat;
