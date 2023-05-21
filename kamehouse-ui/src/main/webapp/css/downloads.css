@@ -3,11 +3,29 @@
   text-align: center;
   text-decoration: none;
   margin: auto;
-  margin-top: 60px;
+  margin-top: 30px;
   margin-bottom: 30px;
   border: 5px solid #FFFFFF;
   width: 256px;
   height: 256px;
+}
+
+@media (max-width : 900px) {
+  .android-app-qrcode {
+    margin-top: 60px;
+  }
+}
+
+.android-image-info-wrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+@media (max-width : 900px) {
+  .android-image-info-wrapper {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
 }
 
 .android-slideshow-img {
@@ -65,69 +83,19 @@
   }
 }
 
-.mobile-app-icon {
-  height: 35px;
-  width: 35px;
-  margin-bottom: 10px;
+.mobile-app-btn {
+  height: 70px;
+  width: 255px;
 }
 
-@media ( max-width : 900px) {
-  .mobile-app-icon {
-    height: 30px;
-    width: 30px;
+.mobile-app-btn:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width : 900px) {
+  .mobile-app-btn {
+    margin-top: 20px;
   }
-}
-
-.mobile-app-link {
-  display: block; 
-  margin: auto;
-  margin-top: 50px;
-  text-align: center;
-  width: 330px;
-  padding: 6px;
-  font-size: 22px;
-}
-
-@media ( max-width : 900px) {
-	.mobile-app-link {
-    width: 300px;
-  }
-}
-
-.mobile-app-link:link {
-  background-color: #000000;
-  border: 1px solid #4b4b4b;
-  color: #969696;
-  text-decoration: none;
-}
-
-@media ( max-width : 900px) {
-	.mobile-app-link:link {
-    margin-top: 0px;
-    font-size: 18px;
-  }
-}
-
-.mobile-app-link.active {
-  background-color: #500000;
-  color: #cccccc;
-  text-decoration: none;
-}
-
-.mobile-app-link:hover {
-  background-color: #500000;
-  color: #dbdbdb;
-  border: 1px solid #4b4b4b;
-  text-decoration: none;
-}
-
-.mobile-app-link:visited { 
-  text-decoration: none; 
-}
-
-.mobile-app-link-text {
-  padding-right: 20px;
-  font-weight: bold;
 }
 
 .mobile-href-link {
