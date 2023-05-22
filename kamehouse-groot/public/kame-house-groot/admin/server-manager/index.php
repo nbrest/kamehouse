@@ -56,15 +56,54 @@
 
     <div id="tab-deployment" class="default-layout tab-content-kh p-7-d-kh">
 
-      <br>
-      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Deployment</h4>
-      <p class="default-layout tomcat-description">Manage all the <span class="highlight">Kame</span><span class="bold-kh">House</span> modules installed in the current server. <span class="bold-kh">Login to kame-house to get the current build version and date of the tomcat modules</span>.</p> 
-      <p class="default-layout tomcat-description">You can also deploy to all servers using the cloud buttons. Deploying all servers also deploys the non-tomcat modules. As well as check the status of the current tomcat process and start and stop the process when required.</p>
-      <span class="bold-kh">Deploy all modules: </span>
-      <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployAllModules()" 
-        src="/kame-house/img/other/rocket-green.png" alt="Deploy All Modules" title="Deploy All Modules"/>
-      <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployAllModulesAllServers()" 
-        src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy All Modules - All Servers" title="Deploy All Modules - All Servers"/>
+      <div class="groot-image-info-wrapper">
+        <table class="info-image-table info-image-table-reverse">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/vegeta-napa-ships.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Deployment
+                </div>
+                <div class="info-image-desc">
+                  <p>Fire up your engines and get ready to launch</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="link-image-table-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/rocket-green.png" alt="Deploy All Modules" title="Deploy All Modules" onclick="kameHouse.extension.deploymentManager.deployAllModules()"/></a><br>
+                <a><img class="link-image-img" src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy All Modules All Servers" title="Deploy All Modules All Servers" onclick="kameHouse.extension.deploymentManager.deployAllModulesAllServers()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Deploy All Modules</div>
+                <div class="link-image-desc">Deploy all KameHouse modules with one click. Deploy to all servers using the cloud buttons. This button also deploys non tomcat modules</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="groot-functionality-list-wrapper">
+        <ul>
+          <li class="li-wc-kh">Deploying all modules on all servers also deploys the non-tomcat modules</li>
+          <li class="li-wc-kh">Check the status of the current tomcat process and start and stop the process when required</li>
+          <li class="li-wc-kh">Deploy indivitually each module in the current server or on all servers</li>
+        </ul>
+      </div>
 
       <img class="img-btn-kh m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="kameHouse.extension.deploymentManager.refreshServerView()"
         src="/kame-house/img/other/sync-btn-info.png" alt="Refresh" title="Refresh"/>
@@ -251,11 +290,25 @@
       </table>
 
       <pre class="kamehouse-shell-output tomcat-process-kamehouse-shell-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
-      <span class="bold-kh">Tomcat Process: </span>
-      <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.restartTomcat()" 
-        src="/kame-house/img/mplayer/resume.png" alt="Restart Tomcat" title="Restart Tomcat"/>
-      <span class="tomcat-debug-mode-span">Debug Mode: <input id="tomcat-debug-mode" class="tomcat-debug-mode" type="checkbox" name="tomcat-debug-mode"></span>
-      <br><br>
+
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/mplayer/resume.png" alt="Restart Tomcat" title="Restart Tomcat" onclick="kameHouse.extension.deploymentManager.restartTomcat()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Restart Tomcat</div>
+                <div class="link-image-desc">
+                  Click to restart the tomcat process running on this server. <br>
+                  Check to start tomcat on debug mode: <input id="tomcat-debug-mode" class="tomcat-debug-mode" type="checkbox" name="tomcat-debug-mode">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
     </div> <!-- tab-deployment -->
 
@@ -338,7 +391,7 @@
                 <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist-blue.png" alt="Create Playlists" title="Create Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
               </td>
               <td>
-                <div class="link-image-text">Update my media database</div>
+                <div class="link-image-text">Update media database</div>
                 <div class="link-image-desc">Click to regenerate all video playlists. This command can only be executed in the media server</div>
               </td>
             </tr>
