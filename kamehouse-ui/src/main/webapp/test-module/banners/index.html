@@ -25,10 +25,35 @@
     </div>
   </div>
   </div>
-  <br>
   <div class="default-layout">
-    <select class="select-kh-dark banner-category-dropdown" id="banner-category-dropdown" name="banner-category" 
-            onchange="kameHouse.extension.testBannerRenderer.reloadBanners()"></select>
+    <div class="image-info-wrapper-m-80-40">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/captain-tsubasa/richard-tex-tex.png" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                Banners
+              </div>
+              <div class="info-image-desc">
+                <p>Select the banner category from the dropdown to see all the available <span class="bold-kh">KameHouse</span> banners</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="p-15-d-kh">Select Banner Category</h4>
+    <div class="banner-category-dropdown-wrapper">
+      <select class="select-kh-dark banner-category-dropdown" id="banner-category-dropdown" name="banner-category" 
+        onchange="kameHouse.extension.testBannerRenderer.reloadBanners()"></select>
+    </div>
+    
     <br><br>
     <table id="banners-table" class="table-kh banner-table">
       <caption class="hidden-kh">Banners</caption>

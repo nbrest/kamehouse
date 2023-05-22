@@ -22,7 +22,7 @@ function TestBannerRenderer() {
     const bannerCategories = kameHouse.util.banner.getBannerCategories();
     kameHouse.util.dom.append(bannerCategoryDropdown, kameHouse.util.dom.getOption({
       value: ""
-    }, "Select banner category"));
+    }, "Banner Category"));
     bannerCategories.forEach((bannerCategory) => {
       kameHouse.util.dom.append(bannerCategoryDropdown, getBannerCategoryOption(bannerCategory));
     });

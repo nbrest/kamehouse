@@ -1,5 +1,10 @@
+.banner-category-dropdown-wrapper {
+  margin: auto;
+  margin-left: 40px;
+}
+
 .banner-category-dropdown {
-  margin-left: 20px;
+  margin: auto;
 }
 
 .banner-table tbody {
