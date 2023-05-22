@@ -32,11 +32,29 @@
   </div>
   <div id="groot-menu-wrapper"></div>
   <div class="default-layout">
-  <br>
-  <h3>All Scripts</h3>
-  <br>
-  <p class="p-15-m-kh">Lists the scripts from kamehouse-shell that can be executed in this server</p>
-  <div class="default-layout p-7-d-kh p-7-m-kh"></div>
+
+  <div class="groot-image-info-wrapper">
+    <table class="info-image-table">
+      <caption class="hidden-kh">Image-Info</caption>
+      <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="info-image-img">
+            <img src="/kame-house/img/dbz/roshi-chibi-goku-krillin-shells.jpg" alt="info image"/>
+          </td>
+          <td class="info-image-info">
+            <div class="info-image-title">
+              Shell Scripts
+            </div>
+            <div class="info-image-desc">
+              <p>Select the script to execute from the list of all <span class="bold-kh">KameHouse Shell</span> scripts available on this server</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    
   <div class="default-layout bg-lighter-0-kh border-gray-dark-kh">
     <table id="all-kamehouse-shell-table-controls" class="all-kamehouse-shell-table-controls-table">
       <caption class="hidden-kh">All KameHouse Shell Controls</caption>

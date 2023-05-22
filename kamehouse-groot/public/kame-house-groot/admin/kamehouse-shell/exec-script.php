@@ -34,10 +34,29 @@
   </div>
   <div id="groot-menu-wrapper"></div>
   <div class="default-layout">
-    <br>
-    <p class="p-15-m-kh">Executes the specified script from kamehouse-shell in my
-      kame-house server and displays the console output</p>
-    <br>
+
+    <div class="groot-image-info-wrapper">
+      <table class="info-image-table info-image-table-reverse">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/dbz/roshi-goku-krillin-fight.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                Execute Shell Script
+              </div>
+              <div class="info-image-desc">
+                <p>Runs the specified script from <span class="bold-kh">KameHouse Shell</span> in the current server server and displays the console output</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <table id="script-table"
       class="table-kh">
       <tr class="table-kh-header">
@@ -62,7 +81,7 @@
       </tr>
     </table>
     <br>
-    <h4 id="kamehouse-shell-output-header" class="">Shell Script Output</h4>
+    <h4 id="kamehouse-shell-output-header" class="p-15-d-kh">Shell Script Output</h4>
     <br>
     <!-- pre and the divs need to be in the same line or it prints some extra lines -->
     <pre id="kamehouse-shell-output-executing-wrapper" class="kamehouse-shell-output-executing-wrapper hidden-kh"><div id="kamehouse-shell-output-executing" class="txt-c-d-kh txt-c-m-kh"></div><br><div class="txt-c-d-kh txt-c-m-kh">Please wait...</div><div class="spinning-wheel"></div></pre>
@@ -88,10 +107,6 @@
       onclick="kameHouse.extension.execScriptLoader.downloadBashScriptOutput()"
       src="/kame-house/img/other/download-blue.png" alt="Download Output"
       title="Download Output" />
-    <img class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh fl-r-d-kh"
-      onclick="kameHouse.core.scrollToTop()"
-      src="/kame-house/img/other/back-to-top.png"
-      alt="Back To Top" title="Back To Top" />
 
   </div>
   <span id="debug-mode-wrapper"></span>
