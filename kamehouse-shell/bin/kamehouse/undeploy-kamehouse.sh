@@ -25,14 +25,17 @@ mainProcess() {
 
 parseArguments() {
   parseKameHouseModule "$@"
+  parseTomcatPort "$@"
 }
 
 setEnvFromArguments() {
   setEnvForKameHouseModule
+  setEnvForTomcatPort
 }
 
 printHelpOptions() {
   printKameHouseModuleOption "${OPERATION}"
+  printTomcatPortOption
 }
 
 main "$@"

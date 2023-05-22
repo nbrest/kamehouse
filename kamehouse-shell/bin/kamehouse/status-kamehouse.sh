@@ -23,4 +23,16 @@ mainProcess() {
   curl http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | sort
 }
 
+parseArguments() {
+  parseTomcatPort "$@"
+}
+
+setEnvFromArguments() {
+  setEnvForTomcatPort
+}
+
+printHelpOptions() {
+  printTomcatPortOption
+}
+
 main "$@"
