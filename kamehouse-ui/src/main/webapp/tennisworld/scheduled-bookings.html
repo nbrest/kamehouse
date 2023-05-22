@@ -14,6 +14,7 @@
 <script src="/kame-house/js/tennisworld/scheduled-bookings.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house/css/tennisworld/tennisworld.css" />
 </head>
 <body>
   <div class="main-body">
@@ -26,8 +27,47 @@
   </div>
   </div>
   <div class="default-layout">
-    <br>
-    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh p-15-d-kh">Scheduled Bookings</h5>
+
+    <div class="tennisworld-image-info-wrapper">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/prince-of-tennis/penal-tea.png" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                Manage Scheduled Bookings
+              </div>
+              <div class="info-image-desc">
+                <p>Get your scheduled bookings sorted, or experience Inui's penal tea when you arrive late to Tennis World</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="link-image-table-wrapper">
+      <table class="link-image-table">
+        <caption class="hidden-kh">Image-Links</caption>
+        <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/mplayer/play-gray.png" alt="Kame Senin Logo" title="Trigger scheduled bookings" onclick="kameHouse.extension.scheduledBookingService.triggerScheduledBookings()"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Trigger Scheduled Bookings</div>
+              <div class="link-image-desc">Run the job that iterates through the scheduled booking configurations and execute any that matches the execution criteria</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <table class="w-100-pc-kh">
       <caption class="hidden-kh">Scheduler</caption>
       <tbody>
@@ -35,34 +75,42 @@
         <th scope="row" class="hidden-kh">Scheduler</th>
       </tr>
       <tr><td>
-        <p class="p-15-d-kh">Configure scheduled booking requests and trigger the job to iterate through the scheduled booking configurations and execute any that matches the execution criteria</p>
-        <span class="bold-kh p-15-d-kh">Trigger scheduled bookings</span>
-        <img class="img-btn-kh" onclick="kameHouse.extension.scheduledBookingService.triggerScheduledBookings()"
-          src="/kame-house/img/mplayer/play-gray.png" 
-          alt="Trigger scheduled bookings" title="Trigger scheduled bookings" />
-      </td></tr>
-      <tr><td>
         <div id="scheduled-bookings-status" class="status-box">
           Scheduled Bookings not triggered yet...
         </div>
       </td></tr>
     </tbody></table>
-    <br>
-    <div class="default-layout">
-      <div class="landing-p-links">
-        <br>
-        <input type="button" value="Booking Schedule Config" class="landing-p-link"
-          onclick="window.location.href='/kame-house/tennisworld/booking-schedule-config.html'">    
-        <br>
-        <input type="button" value="Booking Responses" class="landing-p-link"
-          onclick="window.location.href='/kame-house/tennisworld/booking-response.html'">    
-        <br>
+
+    <div class="tennisworld-links-wrapper">
+      <div class="link-image-table-wrapper-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/prince-of-tennis/inui-data-tennis-icon.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/tennisworld/booking-schedule-config.html'" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Booking Schedule Manager</div>
+                <div class="link-image-desc">Configure the automatic bookings scheduled through KameHouse</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/prince-of-tennis/yukimura-icon.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/tennisworld/booking-response.html'"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Check Booking Responses</div>
+                <div class="link-image-desc">See the result of the latest booking requests done to TennisWorld through KameHouse</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+
   </div>
-  </div>
-  <div class="txt-c-d-kh txt-c-m-kh">
-    <br>
   </div>
   <span id="debug-mode-wrapper"></span>
 </body>

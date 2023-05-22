@@ -166,7 +166,7 @@ function CrudManager() {
       kameHouse.util.dom.setHtml($("#info-image-title"), infoImage.title);
       kameHouse.util.dom.setHtml($("#info-image-desc"), infoImage.desc);
       if (infoImage.isReverse == true) {
-        kameHouse.util.dom.addClass($("#crud-info-image"), "info-image-table-revese");
+        kameHouse.util.dom.addClass($("#crud-info-image"), "info-image-table-reverse");
       }
     }
   }
