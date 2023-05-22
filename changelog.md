@@ -99,6 +99,9 @@
 - Updated downloads page layout and styles
 - Revamped about page
 - Revamped tennisworld pages
+- Updated groot server manager to work with dev tomcat too
+- Changed module/status api to permitAll to remove dependency on being logged in to kamehouse on groot
+- Revamped groot admin pages
 - Fixed bugs
 
 #### v8.12

@@ -25,6 +25,7 @@
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
     <!-- ======================================================================================= -->
+    <intercept-url pattern="/api/v1/commons/module/status" access="permitAll" method="GET" />
 
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="GET" />
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="POST" />
