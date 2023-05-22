@@ -1,3 +1,14 @@
+.groot-image-info-wrapper {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+@media (max-width : 900px) {
+  .groot-image-info-wrapper {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
 
 .img-tomcat-manager-status {
   width: 22px;
@@ -6,10 +17,10 @@
 }
 
 #log-selector {
+  margin: auto;
+  text-align: center;
   margin-top: 40px;
   margin-bottom: 40px;
-  margin-left: 10px;
-  margin-right:10px;
 }
 
 @media (max-width : 900px) {

@@ -1,5 +1,8 @@
 /**
- * Main object of the server manager page, to handle commands execution and some view updates.
+ * Main object of the groot server manager page, to handle commands execution and some view updates.
+ * 
+ * - Each tomcat module's build date and version are pulled with the tomcat-module-status-manager.js tool
+ * - The rest is done through this script.
  */
 function ServerManager() {
 
@@ -238,6 +241,9 @@ function DeploymentManager() {
   const statusBallBlueImg = createStatusBallBlueImg();
   const statusBallRedImg = createStatusBallRedImg();
   const statusBallGreenImg = createStatusBallGreenImg();
+  const DEV_PORTS = ["9980", "9989", "9988", "9949", "9948"];
+  const ECLIPSE_PORTS = ["9988", "9948"];
+  const TOMCAT_DEV_PORT = "9980";
 
   function load() {
     kameHouse.logger.info("Loading DeploymentManager");
@@ -248,11 +254,68 @@ function DeploymentManager() {
     });
   }
 
+  function isEclipseEnvironment() {
+    return kameHouse.util.mobile.exec(
+      () => {
+        const port = location.port;
+        if (!kameHouse.core.isEmpty(port) && ECLIPSE_PORTS.includes(port)) {
+          return true;
+        }
+        return false;
+      },
+      () => {
+        const selectedBackend = kameHouse.extension.mobile.configManager.getMobileConfigSelectedBackendServer();
+        if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
+          kameHouse.logger.warn("Selected backend name is empty");
+          return false;
+        }
+        if (selectedBackend.name == "Dev Eclipse") {
+          return true;
+        }
+        return false;
+      }
+    );
+  }
+
+  function isDevEnvironment() {
+    return kameHouse.util.mobile.exec(
+      () => {
+        const port = location.port;
+        if (!kameHouse.core.isEmpty(port) && DEV_PORTS.includes(port)) {
+          return true;
+        }
+        return false;
+      },
+      () => {
+        kameHouse.logger.trace("Checking if it's dev environment on mobile");
+        const selectedBackend = kameHouse.extension.mobile.configManager.getMobileConfigSelectedBackendServer();
+        if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
+          kameHouse.logger.warn("Selected backend name is empty");
+          return false;
+        }
+        if (selectedBackend.name == "Dev Intellij" 
+              || selectedBackend.name == "Dev Eclipse"
+              || selectedBackend.name == "Dev Tomcat HTTP") {
+          return true;
+        }
+        return false;
+      }
+    );
+  }
+
+  function getDevTomcatPortArgument() {
+    if (isDevEnvironment()) {
+      return "-p " + TOMCAT_DEV_PORT;
+    }
+    return "";
+  }
+
   /**
    * Get status from all tomcat modules.
    */
   function getTomcatModulesStatus() {
-    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', "", false, displayTomcatModulesStatus, () => {});
+    const scriptArgs = getDevTomcatPortArgument();
+    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, displayTomcatModulesStatus, () => {});
   }
 
   /**
@@ -270,7 +333,8 @@ function DeploymentManager() {
    */
   function getTomcatProcessStatus() {
     const hostOs = kameHouse.extension.serverManager.getHostOs();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', "", false, displayTomcatProcessStatus, () => {});
+    const args = getDevTomcatPortArgument();
+    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, displayTomcatProcessStatus, () => {});
   }
 
   /**
@@ -372,7 +436,7 @@ function DeploymentManager() {
     resetAllModulesStatus();
     getTomcatModulesStatus();
     getTomcatProcessStatus();
-    kameHouse.extension.moduleStatusManager.getAllModulesStatus();
+    kameHouse.extension.tomcatModuleStatusManager.getAllModulesStatus();
     getNonTomcatModulesStatus();
     kameHouse.extension.serverManager.completeCommandCallback();
   }
@@ -407,7 +471,7 @@ function DeploymentManager() {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module;
+    const args = "-m " + module + " " + getDevTomcatPortArgument();
     kameHouse.extension.kameHouseShell.execute('kamehouse/start-kamehouse.sh', args, false, refreshServerView, () => {});
   }
 
@@ -420,7 +484,7 @@ function DeploymentManager() {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module;
+    const args = "-m " + module + " " + getDevTomcatPortArgument();
     kameHouse.extension.kameHouseShell.execute('kamehouse/stop-kamehouse.sh', args, false, refreshServerView, () => {});
   }
 
@@ -433,9 +497,14 @@ function DeploymentManager() {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const script = 'kamehouse/deploy-kamehouse.sh';
-    const args = "-m " + module;
-
+    let script = 'kamehouse/deploy-kamehouse.sh';
+    if (isDevEnvironment()) {
+      script = 'kamehouse/deploy-kamehouse-dev-tomcat.sh';
+    }
+    let args = "-m " + module;
+    if (isEclipseEnvironment()) {
+      args = args + " -i eclipse";
+    }
     kameHouse.extension.kameHouseShell.execute(script, args, false, refreshServerView, () => {});
   }
 
@@ -461,7 +530,7 @@ function DeploymentManager() {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module;
+    const args = "-m " + module + " " + getDevTomcatPortArgument();
     kameHouse.extension.kameHouseShell.execute('kamehouse/undeploy-kamehouse.sh', args, false, refreshServerView, () => {});
   }
 
@@ -474,7 +543,15 @@ function DeploymentManager() {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy-kamehouse.sh', "", false, refreshServerView, () => {});
+    let script = 'kamehouse/deploy-kamehouse.sh';
+    if (isDevEnvironment()) {
+      script = 'kamehouse/deploy-kamehouse-dev-tomcat.sh';
+    }
+    let args = "";
+    if (isEclipseEnvironment()) {
+      args = args + " -i eclipse";
+    }
+    kameHouse.extension.kameHouseShell.execute(script, args, false, refreshServerView, () => {});
   }
 
   /**
@@ -498,9 +575,12 @@ function DeploymentManager() {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-
+    let script = 'kamehouse/tomcat-restart.sh';
+    if (isDevEnvironment()) {
+      script = 'kamehouse/tomcat-restart-dev.sh';
+    }
     const stringArgs = getRestartTomcatParams();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/tomcat-restart.sh', stringArgs, false, refreshServerView, () => {});
+    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, refreshServerView, () => {});
   }
 
   /**
@@ -598,7 +678,7 @@ function TailLogManagerWrapper() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
       src: "/kame-house/img/mplayer/play-gray.png",
-      className: "img-btn-kh m-7-d-r-kh",
+      className: "link-image-img",
       alt: "Start Tail Log",
       onClick: () => toggleTailLog()
     });
@@ -608,7 +688,7 @@ function TailLogManagerWrapper() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
       src: "/kame-house/img/mplayer/stop.png",
-      className: "img-btn-kh m-7-d-r-kh",
+      className: "link-image-img",
       alt: "Stop Tail Log",
       onClick: () => toggleTailLog()
     });

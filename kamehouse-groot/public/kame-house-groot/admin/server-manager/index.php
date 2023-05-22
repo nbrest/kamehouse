@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
 <link rel="stylesheet" href="/kame-house-groot/kamehouse-groot/css/kamehouse-groot.css" />
-<link rel="stylesheet" href="/kame-house-groot/css/admin/server-manager.css" />
+<link rel="stylesheet" href="/kame-house-groot/css/admin/groot-server-manager.css" />
 </head>
 <body>
   <div class="banner-wrapper">
@@ -260,105 +260,221 @@
     </div> <!-- tab-deployment -->
 
     <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
-
-      <br>
-      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Git</h4>
-      <br>
-      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
-        <span class="bold-kh">Pull latest changes in all my git repos: </span>
-        <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.gitManager.pullAll()" 
-          src="/kame-house/img/other/git-pull-request-blue.png" alt="Git Pull All" title="Git Pull All"/>
-        <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.gitManager.pullAllAllServers()" 
-          src="/kame-house/img/other/cloud-up-down-blue.png" alt="Git Pull All - All Servers" title="Git Pull All - All Servers"/>
-        <br><br>
+      <div class="groot-image-info-wrapper">
+        <table class="info-image-table">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/gotenks-fusion.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Synchronize
+                </div>
+                <div class="info-image-desc">
+                  <p>Keep my git repos in perfect sync like goten and trunks doing the fusion</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <p class="p-15-m-kh">You can also trigger a git pull in all servers using the cloud button</p>
+
+      <div class="link-image-table-wrapper">
+        <table class="link-image-table link-image-table-reverse">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/git-pull-request-blue.png" alt="Git Pull" title="Git Pull" onclick="kameHouse.extension.gitManager.pullAll()"/></a><br>
+                <a><img class="link-image-img" src="/kame-house/img/other/cloud-up-down-blue.png" alt="Git Pull All Servers" title="Git Pull All Servers" onclick="kameHouse.extension.gitManager.pullAllAllServers()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Git Pull</div>
+                <div class="link-image-desc">Pull latest changes in all my git repos. Pull in all servers using the cloud button</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br><br>
 
     </div> <!-- tab-git -->
 
     <div id="tab-media" class="default-layout tab-content-kh p-7-d-kh w-50-pc-kh w-100-pc-m-kh">
 
-      <br>
-      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Media</h4>
-      <br>
-      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
-        <span class="bold-kh">Create all video playlists: </span>
-        <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()" 
-          src="/kame-house/img/mplayer/playlist-blue.png" alt="Create Video Playlists" title="Create Video Playlists"/>
-        <br><br>
+      <div class="groot-image-info-wrapper">
+        <table class="info-image-table info-image-table-reverse">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/gohan-studying.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Media Library
+                </div>
+                <div class="info-image-desc">
+                  <p>Regenerate my media library in the streaming media server</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <p>This command can only be executed in the media server</p>
+
+      <div class="link-image-table-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist-blue.png" alt="Create Playlists" title="Create Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Update my media database</div>
+                <div class="link-image-desc">Click to regenerate all video playlists. This command can only be executed in the media server</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br><br>
 
     </div> <!-- tab-media -->
 
     <div id="tab-power" class="tab-content-kh">
-
       <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
-      <br>
-      <h5 class="h5-kh txt-c-m-kh">Power Management</h5>
-      <br>
-      <span class="bold-kh p-15-d-kh">Restart the server: </span>
-      <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.serverManager.confirmRebootServer()" 
-        src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot"/>
+        <div class="groot-image-info-wrapper">
+          <table class="info-image-table">
+            <caption class="hidden-kh">Image-Info</caption>
+            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="info-image-img">
+                  <img src="/kame-house/img/marvel/spiderman-swinging.jpg" alt="info image"/>
+                </td>
+                <td class="info-image-info">
+                  <div class="info-image-title">
+                    Power Management
+                  </div>
+                  <div class="info-image-desc">
+                    <p>With Great Power Comes Great Responsibility</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <br><br>
-      <p>If I need to schedule a shutdown or hibernate, I can do it from /kame-house's server management page</p>
-      <br>
+        <div class="link-image-table-wrapper">
+          <table class="link-image-table">
+            <caption class="hidden-kh">Image-Links</caption>
+            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
+                </td>
+                <td>
+                  <div class="link-image-text">Restart the server</div>
+                  <div class="link-image-desc">Click to restart now. If I need to schedule a shutdown or hibernate, I can do it from /kame-house's server management page</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br>
       </div>
-
     </div> <!-- tab-power -->
 
     <div id="tab-tail-log" class="default-layout tab-content-kh p-15-d-kh">
 
-      <br>
-      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">Tail Logs</h4>
-      <div class="default-layout w-80-pc-kh w-100-pc-m-kh">
-        <br>
-        <p>Tail the logs of the current processes running in the server. Once tail log is started, you can switch between logs to tail and the number of lines without the need for stopping and starting</p>
+      <div class="groot-image-info-wrapper">
+        <table class="info-image-table info-image-table-reverse">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/goku-chibi-tail.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Tail Logs
+                </div>
+                <div class="info-image-desc">
+                  <p>Good luck figuring out what's going on in the backend</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div id="log-selector">
-          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
-            <option value="common/logs/cat-backup-server-log.sh">backup-server</option>
-            <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
-            <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
-            <option value="common/logs/cat-deploy-kamehouse-log.sh" selected>deploy-kamehouse</option>
-            <option value="common/logs/cat-git-pull-all-log.sh">git-pull-all</option>
-            <option value="common/logs/cat-git-pull-all-all-servers-log.sh">git-pull-all-all-servers</option>
-            <option value="common/logs/cat-httpd-log.sh">httpd</option>
-            <option value="common/logs/cat-httpd-error-log.sh">httpd-error</option>
-            <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
-            <option value="common/logs/cat-resync-subtitles-log.sh">resync-subtitles</option>
-            <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
-            <option value="common/logs/cat-world-cup-bookings-log.sh">world-cup-bookings</option>
+      <div class="link-image-table-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/mplayer/play-gray.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Tail the logs of the current processes running in the server</div>
+                <div class="link-image-desc">Once tail log is started, you can switch between logs to tail and the number of lines without the need for stopping and starting</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br><br>
+
+      <div id="log-selector" class="log-selector">
+        <span class="bold-kh p-15-d-kh">File: </span>
+        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
+          <option value="common/logs/cat-backup-server-log.sh">backup-server</option>
+          <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
+          <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
+          <option value="common/logs/cat-deploy-kamehouse-log.sh" selected>deploy-kamehouse</option>
+          <option value="common/logs/cat-git-pull-all-log.sh">git-pull-all</option>
+          <option value="common/logs/cat-git-pull-all-all-servers-log.sh">git-pull-all-all-servers</option>
+          <option value="common/logs/cat-httpd-log.sh">httpd</option>
+          <option value="common/logs/cat-httpd-error-log.sh">httpd-error</option>
+          <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
+          <option value="common/logs/cat-resync-subtitles-log.sh">resync-subtitles</option>
+          <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
+          <option value="common/logs/cat-world-cup-bookings-log.sh">world-cup-bookings</option>
+        </select>
+        <div id="tail-log-num-lines">
+          <span class="bold-kh p-15-d-kh">Number of lines: </span>
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-num-lines-dropdown">
+            <option value="50" selected>50</option>
+            <option value="150">150</option>
+            <option value="350">350</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="1500">1500</option>
+            <option value="2000">2000</option>
           </select>
-          <img id="toggle-tail-log-img"
-            class="img-btn-kh m-10-d-r-kh" 
-            onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()" 
-            src="/kame-house/img/mplayer/play-gray.png"
-            alt="Start Tail Log" title="Start Tail Log"/>
-          <div id="tail-log-num-lines">
-            <span class="bold-kh p-15-d-kh">Number of lines: </span>
-            <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-num-lines-dropdown">
-              <option value="50" selected>50</option>
-              <option value="150">150</option>
-              <option value="350">350</option>
-              <option value="500">500</option>
-              <option value="1000">1000</option>
-              <option value="1500">1500</option>
-              <option value="2000">2000</option>
-            </select>
-          </div>
-          <div id="tail-log-level">
-            <span class="bold-kh p-15-d-kh">Log level: </span>
-            <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-level-dropdown">
-              <option value="ERROR">ERROR</option>
-              <option value="WARN">WARN</option>
-              <option value="INFO">INFO</option>
-              <option value="DEBUG">DEBUG</option>
-              <option value="TRACE">TRACE</option>
-              <option value="ALL" selected>ALL</option>
-            </select>
-          </div>
+        </div>
+        <div id="tail-log-level">
+          <span class="bold-kh p-15-d-kh">Log level: </span>
+          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-level-dropdown">
+            <option value="ERROR">ERROR</option>
+            <option value="WARN">WARN</option>
+            <option value="INFO">INFO</option>
+            <option value="DEBUG">DEBUG</option>
+            <option value="TRACE">TRACE</option>
+            <option value="ALL" selected>ALL</option>
+          </select>
         </div>
       </div>
       <button id="tail-log-output-wrapper" class="collapsible-kh collapsible-kh-btn">Tail Log Output</button>
@@ -414,9 +530,9 @@
     <br>
   </div>
   <span id="debug-mode-wrapper"></span>
-  <script src="/kame-house/js/admin/module-status-manager.js"></script>
+  <script src="/kame-house/js/admin/tomcat-module-status-manager.js"></script>
   <script src="/kame-house-groot/js/admin/kamehouse-shell/tail-log-manager.js"></script>
   <script src="/kame-house-groot/kamehouse-groot/js/kamehouse-shell.js"></script>
-  <script src="/kame-house-groot/js/admin/server-manager/server-manager-index.js"></script>
+  <script src="/kame-house-groot/js/admin/server-manager/groot-server-manager.js"></script>
 </body>
 </html>

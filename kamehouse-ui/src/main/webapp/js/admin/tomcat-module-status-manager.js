@@ -1,7 +1,7 @@
 /**
  * Manager to get the status of the tomcat modules in the current server.
  */
-function ModuleStatusManager() {
+function TomcatModuleStatusManager() {
 
   this.load = load;
   this.getAllModulesStatus = getAllModulesStatus;
@@ -50,6 +50,7 @@ function ModuleStatusManager() {
   function getModuleStatus(webapp) {
     kameHouse.logger.trace("getModuleStatus");
     const config = kameHouse.http.getConfig();
+    config.sendBasicAuthMobile = false;
     kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => displayModuleStatus(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => displayErrorGettingModuleStatus(webapp));
@@ -75,5 +76,5 @@ function ModuleStatusManager() {
 }
 
 $(document).ready(() => {
-  kameHouse.addExtension("moduleStatusManager", new ModuleStatusManager());
+  kameHouse.addExtension("tomcatModuleStatusManager", new TomcatModuleStatusManager());
 });
