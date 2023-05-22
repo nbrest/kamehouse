@@ -474,7 +474,7 @@ function KameHouseMobileConfigManager() {
   this.refreshBackendServerViewFromConfig = refreshBackendServerViewFromConfig;
   this.confirmResetDefaults = confirmResetDefaults;
   this.resetDefaults = resetDefaults;
-  this.getSelectedBackendServer = getMobileConfigSelectedBackendServer;
+  this.getMobileConfigSelectedBackendServer = getMobileConfigSelectedBackendServer;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;

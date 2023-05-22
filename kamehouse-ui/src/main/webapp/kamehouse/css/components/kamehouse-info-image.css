@@ -79,7 +79,8 @@
     margin: auto;
     text-align: center;
     font-size: 28px;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    color: rgba(0, 0, 0, 0.6);
+    text-shadow: -2px 0px 20px #ffffff, 0px 2px 20px #ffffff, 2px 0px 20px #ffffff, 0px -2px 20px #ffffff;
   }
 }
 
@@ -105,12 +106,12 @@
 }
 
 /** Show image on right side on desktop */
-.info-image-table-revese {
+.info-image-table-reverse {
   direction: rtl;
 }
 
 @media (max-width : 900px) {
-  .info-image-table-revese {
+  .info-image-table-reverse {
     direction: ltr;
   }
 }

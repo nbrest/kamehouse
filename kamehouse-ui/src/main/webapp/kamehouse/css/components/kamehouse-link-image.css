@@ -50,14 +50,14 @@
 }
 
 /** Show image on right side on desktop */
-.link-image-table-revese {
+.link-image-table-reverse {
   direction: rtl;
 }
 
-.link-image-table-revese .link-image-text {
+.link-image-table-reverse .link-image-text {
   text-align: right;
 }
 
-.link-image-table-revese .link-image-desc {
+.link-image-table-reverse .link-image-desc {
   text-align: right;
 }
