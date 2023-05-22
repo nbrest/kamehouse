@@ -78,6 +78,15 @@
         </table>
       </div>
 
+      <div class="groot-functionality-list-wrapper">
+        <ul>
+          <li class="li-wc-kh">Deploying all modules on all servers also deploys the non-tomcat modules</li>
+          <li class="li-wc-kh">Deploy indivitually each module in the current server or on all servers</li>
+          <li class="li-wc-kh"><span class="bold-kh">Start/Stop/Deploy/Undeploy</span> individual tomcat modules</li>
+          <li class="li-kh">Check the status of the current tomcat process and start and stop the process when required</li>
+        </ul>
+      </div>
+      
       <div class="link-image-table-wrapper-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
@@ -95,15 +104,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="groot-functionality-list-wrapper">
-        <ul>
-          <li class="li-wc-kh">Deploying all modules on all servers also deploys the non-tomcat modules</li>
-          <li class="li-wc-kh">Deploy indivitually each module in the current server or on all servers</li>
-          <li class="li-wc-kh"><span class="bold-kh">Start/Stop/Deploy/Undeploy</span> individual tomcat modules</li>
-          <li class="li-kh">Check the status of the current tomcat process and start and stop the process when required</li>
-        </ul>
       </div>
 
       <img class="img-btn-kh m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="kameHouse.extension.deploymentManager.refreshServerView()"
