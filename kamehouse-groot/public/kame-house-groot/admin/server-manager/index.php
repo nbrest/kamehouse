@@ -63,14 +63,14 @@
           <tbody>
             <tr>
               <td class="info-image-img">
-                <img src="/kame-house/img/dbz/vegeta-napa-ships.jpg" alt="info image"/>
+                <img src="/kame-house/img/dbz/trunks-time-machine.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
                 <div class="info-image-title">
                   Deployment
                 </div>
                 <div class="info-image-desc">
-                  <p>Fire up your engines and get ready to launch</p>
+                  <p>Fire up your engines and get ready to launch. Don't mess up the timeline like <span class="bold-kh">Trunks</span> while you are at it</p>
                 </div>
               </td>
             </tr>
@@ -78,7 +78,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper">
+      <div class="link-image-table-wrapper-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -90,7 +90,7 @@
               </td>
               <td>
                 <div class="link-image-text">Deploy All Modules</div>
-                <div class="link-image-desc">Deploy all KameHouse modules with one click. Deploy to all servers using the cloud buttons. This button also deploys non tomcat modules</div>
+                <div class="link-image-desc">Deploy all <span class="bold-kh">KameHouse</span> modules with one click. Deploy to all servers using the cloud buttons. This button also deploys non tomcat modules</div>
               </td>
             </tr>
           </tbody>
@@ -100,8 +100,9 @@
       <div class="groot-functionality-list-wrapper">
         <ul>
           <li class="li-wc-kh">Deploying all modules on all servers also deploys the non-tomcat modules</li>
-          <li class="li-wc-kh">Check the status of the current tomcat process and start and stop the process when required</li>
           <li class="li-wc-kh">Deploy indivitually each module in the current server or on all servers</li>
+          <li class="li-wc-kh"><span class="bold-kh">Start/Stop/Deploy/Undeploy</span> individual tomcat modules</li>
+          <li class="li-kh">Check the status of the current tomcat process and start and stop the process when required</li>
         </ul>
       </div>
 
@@ -246,7 +247,7 @@
           </td>
         </tr>
       </table>
-      <br>
+      <br><br>
       <table class="table-kh">
         <tr class="table-kh-header">
           <td>module</td>
@@ -288,9 +289,32 @@
           </td>
         </tr>        
       </table>
-
+      <br>
       <pre class="kamehouse-shell-output tomcat-process-kamehouse-shell-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
 
+      <div class="groot-image-info-wrapper">
+        <table class="info-image-table">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/goku-ssj1-kamehameha.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Issues with Tomcat?
+                </div>
+                <div class="info-image-desc">
+                  <p>Raise your Ki to the limit and nuke that process with your most powerful <span class="bold-kh">Kame Hame Ha</span></p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="link-image-table-wrapper-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -309,7 +333,8 @@
             </tr>
           </tbody>
         </table>
-        <br><br>
+      </div>
+      <br><br>
 
     </div> <!-- tab-deployment -->
 
@@ -328,7 +353,7 @@
                   Synchronize
                 </div>
                 <div class="info-image-desc">
-                  <p>Keep my git repos in perfect sync like goten and trunks doing the fusion</p>
+                  <p>Keep git repos in perfect sync like <span class="bold-kh">Goten</span> and <span class="bold-kh">Trunks</span> doing the <span class="bold-kh">fusion</span></p>
                 </div>
               </td>
             </tr>
@@ -336,7 +361,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper">
+      <div class="link-image-table-wrapper-80">
         <table class="link-image-table link-image-table-reverse">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -348,7 +373,7 @@
               </td>
               <td>
                 <div class="link-image-text">Git Pull</div>
-                <div class="link-image-desc">Pull latest changes in all my git repos. Pull in all servers using the cloud button</div>
+                <div class="link-image-desc">Pull latest changes in all git repos. Pull in all servers using the cloud button</div>
               </td>
             </tr>
           </tbody>
@@ -374,7 +399,7 @@
                   Media Library
                 </div>
                 <div class="info-image-desc">
-                  <p>Regenerate my media library in the streaming media server</p>
+                  <p>Regenerate media library in the streaming media server</p>
                 </div>
               </td>
             </tr>
@@ -382,7 +407,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper">
+      <div class="link-image-table-wrapper-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -427,7 +452,7 @@
           </table>
         </div>
 
-        <div class="link-image-table-wrapper">
+        <div class="link-image-table-wrapper-80">
           <table class="link-image-table">
             <caption class="hidden-kh">Image-Links</caption>
             <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -472,7 +497,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper">
+      <div class="link-image-table-wrapper-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -482,8 +507,8 @@
                 <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/mplayer/play-gray.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
               </td>
               <td>
-                <div class="link-image-text">Tail the logs of the current processes running in the server</div>
-                <div class="link-image-desc">Once tail log is started, you can switch between logs to tail and the number of lines without the need for stopping and starting</div>
+                <div class="link-image-text">Toggle Tail Logs</div>
+                <div class="link-image-desc">Once tail log is started, you can switch between log file to tail, log level and the number of lines without the need for stopping and starting</div>
               </td>
             </tr>
           </tbody>
@@ -552,6 +577,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
         </button>
       </div>
+      <br><br>
     
     </div> <!-- tab-tail-log -->
 
