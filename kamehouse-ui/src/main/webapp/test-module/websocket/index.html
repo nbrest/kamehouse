@@ -21,47 +21,68 @@
 </head>
 <body>
   <div class="main-body">
-  <div class="banner-wrapper">
-  <div id="banner" class="fade-in-out-15s banner-sanctuary">
-    <div class="default-layout banner-text">
-      <h1>WebSocket Test</h1>
+    <div class="banner-wrapper">
+    <div id="banner" class="fade-in-out-15s banner-sanctuary">
+      <div class="default-layout banner-text">
+        <h1>WebSocket Test</h1>
+      </div>
+    </div>
+    </div>
+    <div class="default-layout">
+      <div class="info-image-wrapper-m-80-60">
+        <table class="info-image-table info-image-table-reverse">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/saint-seiya/aiorioa-vs-shaka.png" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Web Sockets
+                </div>
+                <div class="info-image-desc">
+                  <p>Test your patience and see how long you can keep sending messages to the backend only to receive the same response every time</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="p-15-d-kh">
+        <br>
+        <span class="bold-kh">WebSocket: </span>
+        <img id="connect" class="img-btn-kh m-7-d-kh"
+            src="/kame-house/img/pc/disconnected-red.png" alt="connect" title="connect"/>
+        <img id="disconnect" class="img-btn-kh m-7-d-kh hidden-kh"
+          src="/kame-house/img/pc/connected-green.png" alt="disconnect" title="disconnect"/>
+        <span id="connected" class="hidden-kh">connected!</span>
+        <span id="disconnected">disconnected!</span>
+      </div>
+          
+      <form class="form-kh"> 
+        <label>Tell us who you are: </label>
+        <br><br>
+        <input type="text" id="firstName" class="form-input-kh" placeholder="First name...">
+        <br>
+        <input type="text" id="lastName" class="form-input-kh" placeholder="Last name...">
+        <br>
+        <span id="send-label" class="bold-kh m-25-d-l-kh hidden-kh">Send: </span>
+        <img id="send" class="img-btn-kh m-7-d-kh hidden-kh"
+          src="/kame-house/img/other/send-gray-dark.png" alt="send" title="send"/>
+      </form>
+      <br>
+
+      <table id="websocket-responses-wrapper" class="table-kh hidden-kh">
+        <caption class="hidden-kh">Websocket Responses</caption>
+        <thead><tr><th id="header-row">WebSocket Responses</th></tr></thead>
+        <tbody id="websocket-responses" class="txt-l-d-kh"></tbody>
+      </table>
+      <span id="debug-mode-wrapper"></span>
     </div>
   </div>
-  </div>
-  <div class="default-layout">
-  <div class="p-15-d-kh">
-    <br>
-    <span class="bold-kh">WebSocket: </span>
-    <img id="connect" class="img-btn-kh m-7-d-kh"
-        src="/kame-house/img/pc/disconnected-red.png" alt="connect" title="connect"/>
-    <img id="disconnect" class="img-btn-kh m-7-d-kh hidden-kh"
-      src="/kame-house/img/pc/connected-green.png" alt="disconnect" title="disconnect"/>
-    <span id="connected" class="hidden-kh">connected!</span>
-    <span id="disconnected">disconnected!</span>
-  </div>
-        
-  <form class="form-kh"> 
-    <label>Tell us who you are: </label>
-    <br><br>
-    <input type="text" id="firstName" class="form-input-kh" placeholder="First name...">
-    <br>
-    <input type="text" id="lastName" class="form-input-kh" placeholder="Last name...">
-    <br>
-    <span id="send-label" class="bold-kh m-25-d-l-kh hidden-kh">Send: </span>
-    <img id="send" class="img-btn-kh m-7-d-kh hidden-kh"
-      src="/kame-house/img/other/send-gray-dark.png" alt="send" title="send"/>
-  </form>
-  <br>
-
-  <table id="websocket-responses-wrapper" class="table-kh hidden-kh">
-    <caption class="hidden-kh">Websocket Responses</caption>
-    <thead><tr><th id="header-row">WebSocket Responses</th></tr></thead>
-    <tbody id="websocket-responses" class="txt-l-d-kh"></tbody>
-  </table>
-  </div>
-  </div>
-  <br>
-  <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/test-module/websocket/websocket-index.js"></script>  
 </body>
 </html>

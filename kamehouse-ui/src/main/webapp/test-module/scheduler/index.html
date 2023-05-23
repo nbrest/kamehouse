@@ -17,55 +17,69 @@
 </head>
 <body>
   <div class="main-body">
-  <div class="banner-wrapper">
-  <div id="banner" class="fade-in-out-15s banner-gogeta">
-    <div class="default-layout banner-text">
-      <h1>Test Scheduler</h1>
-    </div>
-  </div>
-  </div>
-  <div class="txt-l-d-kh">
-    <div class="p-15-d-kh p-15-m-kh">
-    <div class="default-layout">
-    <br>
-    <h5 class="h5-kh txt-c-m-kh">Sample Job Scheduler</h5>
-    <br>
-    <table class="w-100-pc-kh">
-    <caption class="hidden-kh">Scheduler</caption>
-    <tbody>
-    <tr class="hidden-kh">
-      <th scope="row" class="hidden-kh">Scheduler</th>
-    </tr>
-    <tr><td>
-      <div class="fl-l-d-kh">
-        <p>Commands to schedule a sample job after the specified time, cancel a scheduled sample job and check the status of an active sample job</p>
-        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="sample-job-delay-dropdown">
-          <option value="30">30 Sec</option>
-          <option value="10" selected>10 Sec</option>
-          <option value="">Fixed</option>
-        </select>
-        <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
-          onclick="kameHouse.extension.testScheduler.setSampleJob()"
-          src="/kame-house/img/mplayer/play-green.png" alt="Schedule Sample Job" title="Schedule Sample Job" />
-        <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
-          onclick="kameHouse.extension.testScheduler.cancelSampleJob()"
-          src="/kame-house/img/mplayer/stop.png" alt="Cancel Sample Job" title="Cancel Sample Job" />
-        <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
-          onclick="kameHouse.extension.testScheduler.getSampleJobStatus(true)"
-          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Sample Job Status" 
-          title="Refresh Sample Job Status" />
+    <div class="banner-wrapper">
+      <div id="banner" class="fade-in-out-15s banner-gogeta">
+        <div class="default-layout banner-text">
+          <h1>Test Scheduler</h1>
+        </div>
       </div>
-    </td></tr>
-    <tr><td>
-      <div id="sample-job-status" class="status-box fl-l-d-kh">
-        Sample Job status: -
+    </div>
+    <div class="default-layout txt-l-d-kh">
+      <div class="info-image-wrapper-m-80-60">
+        <table class="info-image-table">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/saint-seiya/camus-aurora-execution.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Job Scheduler
+                </div>
+                <div class="info-image-desc">
+                  <p>Execute commands to schedule a sample job after the specified time, cancel a scheduled sample job and check the status of an active sample job</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </td></tr>
-    </tbody></table>
+      <table class="w-100-pc-kh m-15-d-kh">
+        <caption class="hidden-kh">Scheduler</caption>
+        <tbody>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Scheduler</th>
+          </tr>
+          <tr><td>
+            <div class="fl-l-d-kh">
+              <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="sample-job-delay-dropdown">
+                <option value="30">30 Sec</option>
+                <option value="10" selected>10 Sec</option>
+                <option value="">Fixed</option>
+              </select>
+              <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
+                onclick="kameHouse.extension.testScheduler.setSampleJob()"
+                src="/kame-house/img/mplayer/play-green.png" alt="Schedule Sample Job" title="Schedule Sample Job" />
+              <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
+                onclick="kameHouse.extension.testScheduler.cancelSampleJob()"
+                src="/kame-house/img/mplayer/stop.png" alt="Cancel Sample Job" title="Cancel Sample Job" />
+              <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
+                onclick="kameHouse.extension.testScheduler.getSampleJobStatus(true)"
+                src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Sample Job Status" 
+                title="Refresh Sample Job Status" />
+            </div>
+          </td></tr>
+          <tr><td>
+            <div id="sample-job-status" class="status-box fl-l-d-kh">
+              Sample Job status: -
+            </div>
+          </td></tr>
+        </tbody>
+      </table>
     </div>
-    </div>
-  </div>
-  <span id="debug-mode-wrapper"></span>
+    <span id="debug-mode-wrapper"></span>
   </div> <!-- main-body -->
   <script src="/kame-house/js/test-module/scheduler/scheduler-index.js"></script>
 </body>

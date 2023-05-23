@@ -1,7 +1,28 @@
 <div class="default-layout main-body">
+  <div class="info-image-wrapper-m-80-60">
+    <table class="info-image-table info-image-table-reverse">
+      <caption class="hidden-kh">Image-Info</caption>
+      <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="info-image-img">
+            <img src="/kame-house/img/dbz/shen-long-dragonballs.jpg" alt="info image"/>
+          </td>
+          <td class="info-image-info">
+            <div class="info-image-title">
+              Raise your Ki to the limit
+            </div>
+            <div class="info-image-desc">
+              <p>Join Goku and Bulma to find the 7 dragonballs and make your wishes come true with Shen Long</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <div data-ng-controller="dragonBallUserController as ctrl">
-    <br>
-    <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Add/Edit DragonBall User</h3>
+    <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>
     <br>
     <form class="form-kh form-db-users-angular" name="myForm" data-ng-submit="ctrl.submit()">
       <input type="hidden" data-ng-model="ctrl.user.id" />
@@ -38,11 +59,9 @@
           src="/kame-house/img/other/clear-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
       </div>
     </form>
-    <br>
+    <br><br>
 
     <div class="p-15-m-kh">
-      <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>
-      <br>
       <table class="table-kh table-db-users-angular">
         <caption class="hidden-kh">DragonBall Users</caption>
         <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>
