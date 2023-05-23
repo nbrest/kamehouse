@@ -26,8 +26,27 @@
   </div>
   <div id="kh-webapp-tabs-wrapper"></div>
   <div class="default-layout">
-    <br>
-    <p class="p-15-d-kh">List the status of each of the modules running.</p>
+    <div class="info-image-wrapper-m-80-60">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/saint-seiya/sanctuary-athena-statue.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                KameHouse Modules
+              </div>
+              <div class="info-image-desc">
+                <p>List of the status of each of the <span class="bold-kh">KameHouse</span> modules running on this server</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <table id="mst-admin" class="table-kh p-15-d-kh">
       <caption class="hidden-kh">Caption</caption>
@@ -108,8 +127,8 @@
       </tbody>
     </table>
     <br>
+    <span id="debug-mode-wrapper"></span>
   </div>
-  <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/admin/tomcat-module-status-manager.js"></script>
   <script src="/kame-house/js/admin/module-status.js"></script>
 </body>
