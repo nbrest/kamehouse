@@ -57,6 +57,16 @@
   }
 }
 
+.m-10-d-l-kh {
+  margin-left: 10px;
+}
+
+@media (max-width : 900px) {
+  .m-10-m-l-kh {
+    margin-left: 10px;
+  }
+}
+
 .m-10-d-r-kh {
   margin-right: 10px;
 }

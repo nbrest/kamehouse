@@ -1,4 +1,12 @@
+.link-image-wrapper-w-40 {
+  width: 40%;
+}
 
+@media (max-width : 900px) {
+  .link-image-wrapper-w-40 {
+    width: 100%;
+  }
+}
 
 .link-image-wrapper-w-70 {
   width: 70%;
@@ -90,7 +98,15 @@
 }
 
 .link-image-table-reverse .link-image-text {
+  direction: ltr;
+}
+
+.link-image-table-reverse .link-image-text {
   text-align: right;
+}
+
+.link-image-table-reverse .link-image-desc {
+  direction: ltr;
 }
 
 .link-image-table-reverse .link-image-desc {

@@ -49,36 +49,58 @@
       </table>
     </div>
     <div class="screen-section">
-      <br>
-      <h5 class="h5-kh txt-l-d-kh txt-c-m-kh">Screen</h5>
-      <br>
-      <p>Control the screen of the current server with Unlock, Wake-Up screen and Lock commands</p>
-      <img class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-50-d-r-kh m-50-m-r-kh"
-        onclick="kameHouse.extension.serverManager.post('/screen/unlock', null)"
-        src="/kame-house/img/pc/unlock-green.png" alt="Unlock" title="Unlock" />
-      <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
-        onclick="kameHouse.extension.serverManager.post('/screen/wake-up', null)"
-        src="/kame-house/img/pc/mouse-click.png" alt="Wake-Up" title="Wake-Up" />
-      <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
-        onclick="kameHouse.extension.serverManager.post('/screen/lock', null)"
-        src="/kame-house/img/pc/lock-red.png" alt="Lock" title="Lock" />
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/unlock.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.post('/screen/unlock', null)" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Unlock</div>
+                <div class="link-image-desc">Unlock the screen of the current server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/alarm.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.post('/screen/wake-up', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Wake Up</div>
+                <div class="link-image-desc">Trigger some mouse clicks to wake up the screen of the current server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/lock.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.post('/screen/lock', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Lock</div>
+                <div class="link-image-desc">Lock the screen of the current server</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div> 
 
-    <div class="info-image-wrapper-m-80-60">
+    <div class="info-image-wrapper-m-80-40">
       <table class="info-image-table info-image-table-reverse">
         <caption class="hidden-kh">Image-Info</caption>
         <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
         <tbody>
           <tr>
             <td class="info-image-img">
-              <img src="/kame-house/img/saint-seiya/sanctuary-athena-statue.jpg" alt="info image"/>
+              <img src="/kame-house/img/marvel/spiderman-swinging.jpg" alt="info image"/>
             </td>
             <td class="info-image-info">
               <div class="info-image-title">
                 Power Management
               </div>
               <div class="info-image-desc">
-                <p>List of the status of each of the <span class="bold-kh">KameHouse</span> modules running on this server</p>
+                <p>With Great Power Comes Great Responsibility</p>
               </div>
             </td>
           </tr>
@@ -86,116 +108,137 @@
       </table>
     </div>
     <div class="pm-section">
-    <br>
-    <h5 class="h5-kh txt-c-m-kh">Power Management</h5>
-    <br>
-    <table class="w-100-pc-kh">
-    <caption class="hidden-kh">Shutdown</caption>
-    <tbody>
-    <tr class="hidden-kh">
-      <th scope="row" class="hidden-kh">Shutdown</th>
-    </tr>
-    <tr><td><h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Shutdown</h6></td></tr>
-    <tr><td>
-      <div class="fl-l-d-kh">
-        <p>Commands to shutdown the server after the specified time, cancel a scheduled shutdown and check the status of an active shutdown</p>
-        <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="shutdown-delay-dropdown">
-          <option value="5400">90 Min</option>
-          <option value="60">1 Min</option>
-        </select>
-        <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
-          onclick="kameHouse.extension.serverManager.setShutdownCommand()"
-          src="/kame-house/img/pc/shutdown-red.png" alt="Shutdown" title="Shutdown" />
-        <img class="img-btn-kh m-50-d-r-kh m-50-m-r-kh"
-          onclick="kameHouse.extension.serverManager.cancelShutdownCommand()"
-          src="/kame-house/img/pc/shutdown-green.png" alt="Cancel Shutdown" title="Cancel Shutdown" />
-        <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
-          onclick="kameHouse.extension.serverManager.getShutdownStatus(true)"
-          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Shutdown Status" 
-          title="Refresh Shutdown Status" />
+
+      <h4 class="h4-kh txt-l-d-kh txt-l-m-kh p-15-d-kh">Shutdown</h4>
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setShutdownCommand()" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Shut Down</div>
+                <div class="link-image-desc">
+                  <span>Schedule a full system shutdown with the specified delay: </span>
+                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="shutdown-delay-dropdown">
+                    <option value="5400">90 Min</option>
+                    <option value="60">1 Min</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelShutdownCommand()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Cancel Shutdown</div>
+                <div class="link-image-desc">Click to cancel the scheduled shutdown</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/sync-btn-info.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getShutdownStatus(true)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Status</div>
+                <div class="link-image-desc">Check if there's an active shutdown scheduled to be executed</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </td></tr>
-    <tr><td>
-      <div id="shutdown-status" class="status-box fl-l-d-kh">
+
+      <div id="shutdown-status" class="status-box">
         Shutdown status: -
       </div>
-    </td></tr>
-    </tbody>
-    </table>
+      <br><br>
 
-    <br><br>
-
-    <table class="w-100-pc-kh">
-    <caption class="hidden-kh">Suspend</caption>
-    <tbody>
-    <tr class="hidden-kh">
-      <th scope="row" class="hidden-kh">Suspend</th>
-    </tr>
-    <tr><td><h6 class="h6-kh txt-r-d-kh">Suspend</h6></td></tr>
-    <tr><td>
-      <div class="fl-r-d-kh">
-        <p>Send the server into a hibernation state</p>
-        <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
-          onclick="kameHouse.extension.serverManager.getSuspendStatus(true)"
-          src="/kame-house/img/other/sync-btn-info.png" alt="Refresh Suspend Status" 
-          title="Refresh Suspend Status" />
-        <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
-          onclick="kameHouse.extension.serverManager.cancelSuspendCommand()"
-          src="/kame-house/img/pc/hibernate-green.png" alt="Cancel Suspend" title="Cancel Suspend" />
-        <img class="img-btn-kh m-25-d-r-kh m-25-m-r-kh m-10-d-l-kh m-10-m-l-kh fl-r-d-kh fl-l-m-kh"
-          onclick="kameHouse.extension.serverManager.setSuspendCommand()"
-          src="/kame-house/img/pc/hibernate-red.png" alt="Suspend" title="Suspend" />
-        <div class="suspend-dropdowns">
-          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-10-m-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown-minutes">
-            <option value="2700">45 Minutes</option>
-            <option value="1800">30 Minutes</option>
-            <option value="900">15 Minutes</option>
-            <option value="0" selected>0 Minutes</option>
-          </select>
-          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-10-m-kh fl-r-d-kh fl-l-m-kh" id="suspend-delay-dropdown-hours">
-            <option value="43200">12 Hours</option>
-            <option value="39600">11 Hours</option>
-            <option value="36000">10 Hours</option>
-            <option value="32400">9 Hours</option>
-            <option value="28800">8 Hours</option>
-            <option value="25200">7 Hours</option>
-            <option value="21600">6 Hours</option>
-            <option value="18000">5 Hours</option>
-            <option value="14400">4 Hours</option>
-            <option value="10800">3 Hours</option>
-            <option value="7200" selected>2 Hours</option>
-            <option value="3600">1 Hour</option>
-            <option value="0">0 Hours</option>
-          </select>
-        </div>
+      <h4 class="h4-kh txt-r-d-kh txt-r-m-kh p-15-d-kh">Suspend</h4>
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+        <table class="link-image-table link-image-table-reverse">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/hibernate-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setSuspendCommand()" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Suspend</div>
+                <div class="link-image-desc">
+                  <span>Schedule a system suspend with the specified delay: </span>
+                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="suspend-delay-dropdown-hours">
+                    <option value="43200">12 Hours</option>
+                    <option value="39600">11 Hours</option>
+                    <option value="36000">10 Hours</option>
+                    <option value="32400">9 Hours</option>
+                    <option value="28800">8 Hours</option>
+                    <option value="25200">7 Hours</option>
+                    <option value="21600">6 Hours</option>
+                    <option value="18000">5 Hours</option>
+                    <option value="14400">4 Hours</option>
+                    <option value="10800">3 Hours</option>
+                    <option value="7200" selected>2 Hours</option>
+                    <option value="3600">1 Hour</option>
+                    <option value="0">0 Hours</option>
+                  </select>
+                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="suspend-delay-dropdown-minutes">
+                    <option value="2700">45 Minutes</option>
+                    <option value="1800">30 Minutes</option>
+                    <option value="900">15 Minutes</option>
+                    <option value="0" selected>0 Minutes</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/hibernate-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelSuspendCommand()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Cancel Suspend</div>
+                <div class="link-image-desc">Click to cancel the scheduled suspend</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/sync-btn-info.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getSuspendStatus(true)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Status</div>
+                <div class="link-image-desc">Check if there's an active suspend scheduled to be executed</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </td></tr>
-    <tr><td>
-      <div id="suspend-status" class="status-box fl-r-d-kh">
+
+      <div id="suspend-status" class="status-box">
         Suspend status: - 
       </div>
-    </td></tr>
-    </tbody>
-    </table>
 
-    <br><br>
-    <table class="w-100-pc-kh">
-    <caption class="hidden-kh">Reboot</caption>
-    <tbody>
-    <tr class="hidden-kh">
-      <th scope="row" class="hidden-kh">Reboot</th>
-    </tr>
-    <tr><td><h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Reboot</h6></td></tr>
-    <tr><td>
-      <div class="fl-l-d-kh">
-        <span class="p-15-d-kh">Restart the server: </span>
-        <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh" onclick="kameHouse.extension.serverManager.confirmRebootServer()" 
-          src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot"/>
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-40">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Reboot</div>
+                <div class="link-image-desc">Restart the server</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </td></tr>
-    </tbody>
-    </table>
-    <br><br>
+
     </div>
 
     <div class="info-image-wrapper-m-80-60">
@@ -205,14 +248,14 @@
         <tbody>
           <tr>
             <td class="info-image-img">
-              <img src="/kame-house/img/saint-seiya/sanctuary-athena-statue.jpg" alt="info image"/>
+              <img src="/kame-house/img/dbz/goku-hospital.jpg" alt="info image"/>
             </td>
             <td class="info-image-info">
               <div class="info-image-title">
-                System Status
+                System Health
               </div>
               <div class="info-image-desc">
-                <p>List of the status of each of the <span class="bold-kh">KameHouse</span> modules running on this server</p>
+                <p>Check the health of the current server running <span class="bold-kh">KameHouse</span></p>
               </div>
             </td>
           </tr>
@@ -220,35 +263,48 @@
       </table>
     </div>
     <div>
-      <br>
-      <h4 class="h4-kh txt-l-d-kh txt-c-m-kh">System State</h4>
-      <br>
-      <p>Check the current state of the server running KameHouse. Also check the status of the apache httpd server and restart the process if needed</p>
-      <br>
-      <div id="system-state-commands">
-        <div class="system-state-command">
-          <span class="bold-kh">Uptime: </span>
-          <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.serverManager.uptime()" 
-            src="/kame-house/img/other/clock-gray.png" alt="uptime" title="uptime"/>
-        </div>
-        <div class="system-state-command">
-          <span class="bold-kh p-15-d-kh">Memory usage: </span>
-          <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.serverManager.free()" 
-            src="/kame-house/img/pc/ram-green.png" alt="free" title="free"/>
-        </div>
-        <div class="system-state-command">
-          <span class="bold-kh m-25-d-l-kh">Disk usage: </span>
-          <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.serverManager.df()" 
-            src="/kame-house/img/pc/hdd-blue.png" alt="df" title="df"/>
-        </div>
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/clock.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.uptime()" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Uptime</div>
+                <div class="link-image-desc">See how long the server has been running uninterrupted</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/ram.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.free()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Memory</div>
+                <div class="link-image-desc">Check how much memory the current server has available</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/hard-drive.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.df()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Disk Usage</div>
+                <div class="link-image-desc">See how much disk space is still available for use in the server</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <br><br>
-            
-      <button class="collapsible-kh collapsible-kh-btn">System State Command Output</button>
+
+      <button class="collapsible-kh collapsible-kh-btn">System Health Command Output</button>
       <div class="collapsible-kh-content">
         <pre class="kamehouse-shell-output system-state-command-output"><div id="system-command-output">No command executed yet...</div></pre>
       </div>
-      <br><br><br>
+      <br><br>
+
     </div>
 
     <div class="info-image-wrapper-m-80-60">
@@ -258,42 +314,47 @@
         <tbody>
           <tr>
             <td class="info-image-img">
-              <img src="/kame-house/img/saint-seiya/sanctuary-athena-statue.jpg" alt="info image"/>
+              <img src="/kame-house/img/dbz/maki-gero-lab-trunks-krillin.jpg" alt="info image"/>
             </td>
             <td class="info-image-info">
               <div class="info-image-title">
                 Apache Httpd
               </div>
               <div class="info-image-desc">
-                <p>List of the status of each of the <span class="bold-kh">KameHouse</span> modules running on this server</p>
+                <p>Get the process information for Apache HTTPd and restart it when necessary</p>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div>
-      <h6 class="h6-kh txt-l-d-kh txt-l-m-kh">Apache Httpd Status</h6>
-      <table class="table-kh table-borderless-kh table-backgroundless-kh">
-      <caption class="hidden-kh">Apache Httpd</caption>
-      <tbody>
-      <tr class="hidden-kh">
-        <th scope="row" class="hidden-kh">Apache Httpd</th>
-      </tr>
-      <tr><td>
-        <pre><div id="httpd-status" class="httpd-status fl-l-d-kh">Apache httpd status not available</div></pre>
-      </td></tr>
-      </tbody>
+    
+    <pre><div id="httpd-status" class="httpd-status fl-l-d-kh">Apache httpd status not available</div></pre>
+    <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+      <table class="link-image-table">
+        <caption class="hidden-kh">Image-Links</caption>
+        <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/other/sync-btn-info.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getHttpdStatus(true)" /></a>
+            </td>
+            <td>
+              <div class="link-image-text">Refresh</div>
+              <div class="link-image-desc">Get the latest status of the apache httpd process</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/mplayer/resume.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.restartHttpd(true)"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Restart</div>
+              <div class="link-image-desc">Something's off? Restart the httpd process</div>
+            </td>
+          </tr>
+        </tbody>
       </table>
-      <br>
-      <img class="img-btn-kh m-10-d-r-kh m-10-m-r-kh"
-        onclick="kameHouse.extension.serverManager.restartHttpd(true)"
-        src="/kame-house/img/mplayer/resume.png" alt="Restart httpd" title="Restart httpd" />
-      <img class="img-btn-kh  m-10-d-r-kh m-10-m-r-kh"
-        onclick="kameHouse.extension.serverManager.getHttpdStatus(true)"
-        src="/kame-house/img/other/sync-btn-info.png" 
-        alt="Refresh httpd Status" title="Refresh httpd Status" />
-      <br>
     </div>
 
     <div class="info-image-wrapper-m-80-60">
@@ -303,14 +364,14 @@
         <tbody>
           <tr>
             <td class="info-image-img">
-              <img src="/kame-house/img/saint-seiya/sanctuary-athena-statue.jpg" alt="info image"/>
+              <img src="/kame-house/img/dbz/goku-sleeping.png" alt="info image"/>
             </td>
             <td class="info-image-info">
               <div class="info-image-title">
                 Media Server
               </div>
               <div class="info-image-desc">
-                <p>List of the status of each of the <span class="bold-kh">KameHouse</span> modules running on this server</p>
+                <p>Wake up the <span class="bold-kh">KameHouse</span> media server to stream all the most amazing content in the world, including Argentina winning the 2022 world cup</p>
               </div>
             </td>
           </tr>
@@ -318,17 +379,23 @@
       </table>
     </div>
     <div class="media-server-section">
-      <br>
-      <h5 class="h5-kh txt-c-m-kh">Media Server</h5>
-      <br>
-      <p>The media server contains the media drive with all my videos and playlists</p>
-      <p>Use the WakeOnLan command to power on the media server when it's stopped</p>
-      <span class="h6-kh txt-l-d-kh txt-l-m-kh m-15-d-kh">Wake On Lan</span>
-      <img class="img-btn-kh"
-        onclick="kameHouse.extension.serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')"
-        src="/kame-house/img/pc/wol-red.png" alt="WOL media server"
-        title="WOL media server" />
-      <br><br>
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+        <table class="link-image-table link-image-table-reverse">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/wol-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Wake Up</div>
+                <div class="link-image-desc">Click to trigger a wake on lan command to wake up the media server</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div> <!-- server-management -->
