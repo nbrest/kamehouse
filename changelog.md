@@ -102,6 +102,7 @@
 - Updated groot server manager to work with dev tomcat too
 - Changed module/status api to permitAll to remove dependency on being logged in to kamehouse on groot
 - Revamped groot admin pages
+- Revamped all ui pages with new components
 - Fixed bugs
 
 #### v8.12
