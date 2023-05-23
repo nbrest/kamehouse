@@ -60,6 +60,7 @@ function KameHouseHeader() {
         "/kame-house-mobile" : "nav-mobile",
         "/kame-house/tennisworld" : "nav-tennisworld",
         "/kame-house/test-module" : "nav-test-module",
+        "/kame-house/jsp/test-module" : "nav-test-module",
         "/kame-house/vlc-player" : "nav-vlc-player"
       }
 

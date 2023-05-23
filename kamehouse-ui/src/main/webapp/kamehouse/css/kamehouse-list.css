@@ -1,3 +1,36 @@
+.li-kh-wrapper-m-60-50 {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+@media (max-width : 900px) {
+  .li-kh-wrapper-m-60-50 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+}
+
+.li-kh-wrapper-m-60-50 h4 {
+  margin-left: 20px;
+  margin-bottom: 30px;
+}
+
+.li-kh-wrapper-m-80-60 {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+@media (max-width : 900px) {
+  .li-kh-wrapper-m-80-60 {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+}
+
+.li-kh-wrapper-m-80-60 h4 {
+  margin-bottom: 30px;
+}
+
 .li-kh {
 	margin: 0;
 	padding: 20px 10px 15px 50px;

@@ -35,7 +35,7 @@
   <div id="groot-menu-wrapper"></div>
   <div class="default-layout">
 
-    <div class="groot-image-info-wrapper">
+    <div class="info-image-wrapper-m-80-40">
       <table class="info-image-table info-image-table-reverse">
         <caption class="hidden-kh">Image-Info</caption>
         <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>

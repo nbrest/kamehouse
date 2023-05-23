@@ -1,27 +1,3 @@
-.groot-image-info-wrapper {
-  margin-top: 80px;
-  margin-bottom: 80px;
-}
-
-@media (max-width : 900px) {
-  .groot-image-info-wrapper {
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-}
-
-.groot-functionality-list-wrapper {
-  margin-top: 80px;
-  margin-bottom: 80px;
-}
-
-@media (max-width : 900px) {
-  .groot-functionality-list-wrapper {
-    margin-top: 60px;
-    margin-bottom: 60px;
-  }
-}
-
 .img-tomcat-manager-status {
   width: 22px;
   height: 22px;

@@ -1,81 +1,9 @@
-.about-kamehouse-image-info-wrapper {
-  margin-top: 80px;
-  margin-bottom: 80px;
-}
-
-@media (max-width : 900px) {
-  .about-kamehouse-image-info-wrapper {
-    margin-top: 60px;
-    margin-bottom: 60px;
-  }
-}
-
-.about-me-image-info-wrapper {
-  margin-top: 60px;
-  margin-bottom: 60px;
-}
-
-@media (max-width : 900px) {
-  .about-me-image-info-wrapper {
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-}
-
-.argentina-world-cup-champion-wrapper {
-  margin-bottom: 60px;
-}
-
 .dev-branch-status-wrapper {
   padding: 20px;
 }
 
 .dev-branch-status-wrapper h4 {
   padding: 20px;
-}
-
-.external-links-1-wrapper {
-  margin-top: 60px;
-  margin-bottom: 60px;
-}
-
-@media (max-width : 900px) {
-  .external-links-1-wrapper {
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-}
-
-.external-links-2-wrapper {
-  margin: auto;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  width: 70%;
-}
-
-@media (max-width : 900px) {
-  .external-links-2-wrapper {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    width: 100%;
-  }
-}
-
-.kamehouse-functionality-list-wrapper {
-  margin-top: 60px;
-  margin-bottom: 60px;
-}
-
-@media (max-width : 900px) {
-  .kamehouse-functionality-list-wrapper {
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-}
-
-.kamehouse-functionality-list-wrapper h4 {
-  margin-left: 20px;
-  margin-bottom: 30px;
 }
 
 .table-dev-branch-status {

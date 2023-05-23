@@ -16,7 +16,7 @@
 }
 
 .media-server-section {
-  width: 60%;
+  width: 100%;
 }
 
 @media (max-width : 900px) {
@@ -26,7 +26,7 @@
 }
 
 .pm-section {
-  width: 40%; 
+  width: 100%; 
 }
 
 @media (max-width: 900px) {

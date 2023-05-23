@@ -1,3 +1,14 @@
+.link-boxes-wrapper-m-80-60 {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+@media (max-width : 900px) {
+  .link-boxes-wrapper-m-80-60 {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+}
 
 .link-boxes {
   text-align: center;

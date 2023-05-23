@@ -56,7 +56,7 @@
 
     <div id="tab-deployment" class="default-layout tab-content-kh p-7-d-kh">
 
-      <div class="groot-image-info-wrapper">
+      <div class="info-image-wrapper-m-80-40">
         <table class="info-image-table info-image-table-reverse">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
@@ -78,7 +78,7 @@
         </table>
       </div>
 
-      <div class="groot-functionality-list-wrapper">
+      <div class="li-kh-wrapper-m-80-60">
         <ul>
           <li class="li-wc-kh">Deploying all modules on all servers also deploys the non-tomcat modules</li>
           <li class="li-wc-kh">Deploy indivitually each module in the current server or on all servers</li>
@@ -87,7 +87,7 @@
         </ul>
       </div>
       
-      <div class="link-image-table-wrapper-80">
+      <div class="link-image-wrapper-w-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -292,7 +292,7 @@
       <br>
       <pre class="kamehouse-shell-output tomcat-process-kamehouse-shell-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
 
-      <div class="groot-image-info-wrapper">
+      <div class="info-image-wrapper-m-80-40">
         <table class="info-image-table">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
@@ -314,7 +314,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper-80">
+      <div class="link-image-wrapper-w-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -339,7 +339,7 @@
     </div> <!-- tab-deployment -->
 
     <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
-      <div class="groot-image-info-wrapper">
+      <div class="info-image-wrapper-m-80-40">
         <table class="info-image-table">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
@@ -361,7 +361,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper-80">
+      <div class="link-image-wrapper-w-80">
         <table class="link-image-table link-image-table-reverse">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -385,7 +385,7 @@
 
     <div id="tab-media" class="default-layout tab-content-kh p-7-d-kh w-50-pc-kh w-100-pc-m-kh">
 
-      <div class="groot-image-info-wrapper">
+      <div class="info-image-wrapper-m-80-40">
         <table class="info-image-table info-image-table-reverse">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
@@ -407,7 +407,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper-80">
+      <div class="link-image-wrapper-w-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -430,7 +430,7 @@
 
     <div id="tab-power" class="tab-content-kh">
       <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
-        <div class="groot-image-info-wrapper">
+        <div class="info-image-wrapper-m-80-40">
           <table class="info-image-table">
             <caption class="hidden-kh">Image-Info</caption>
             <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
@@ -452,7 +452,7 @@
           </table>
         </div>
 
-        <div class="link-image-table-wrapper-80">
+        <div class="link-image-wrapper-w-80">
           <table class="link-image-table">
             <caption class="hidden-kh">Image-Links</caption>
             <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
@@ -475,7 +475,7 @@
 
     <div id="tab-tail-log" class="default-layout tab-content-kh p-15-d-kh">
 
-      <div class="groot-image-info-wrapper">
+      <div class="info-image-wrapper-m-80-40">
         <table class="info-image-table info-image-table-reverse">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
@@ -497,7 +497,7 @@
         </table>
       </div>
 
-      <div class="link-image-table-wrapper-80">
+      <div class="link-image-wrapper-w-80">
         <table class="link-image-table">
           <caption class="hidden-kh">Image-Links</caption>
           <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
