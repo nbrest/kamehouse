@@ -28,18 +28,57 @@
   </div>
   </div>
   <div class="default-layout">
-    <p class="p-15-d-kh">JSP test application in the Test Module</p>
-    <div class="default-layout">
-      <div class="landing-p-links">
-        <input type="button" value="DragonBall Users" class="landing-p-link"
-          onclick="window.location.href='dragonball/users/users-list'">
-        <br>
-        <input type="button" value="DragonBall Model And View" class="landing-p-link"
-          onclick="window.location.href='dragonball/model-and-view'">  
-      </div>
+    <div class="info-image-wrapper-m-80-60">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                KameHouse JSPs
+              </div>
+              <div class="info-image-desc">
+                <p>Ancient era JSP test application in the Test Module</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  
+    <div class="link-image-wrapper-m-80-60 link-image-wrapper-w-80">
+      <table class="link-image-table">
+        <caption class="hidden-kh">Image-Links</caption>
+        <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/dbz/gohan-ssj2-icon.png" alt="Kame Senin Logo" onclick="window.location.href='dragonball/users/users-list'"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">DragonBall Users</div>
+              <div class="link-image-desc">Control the dragonball users registered in <span class="bold-kh">KameHouse</span></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/dbz/dragon-radar.png" alt="Kame Senin Logo" onclick="window.location.href='dragonball/model-and-view'"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Model And View</div>
+              <div class="link-image-desc">Sample Model And View JSP endpoint</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <span id="debug-mode-wrapper"></span>
   </div>
   </div>
-  <span id="debug-mode-wrapper"></span>
 </body>
 </html>

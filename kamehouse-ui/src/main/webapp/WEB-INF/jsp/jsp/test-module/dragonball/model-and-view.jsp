@@ -26,7 +26,28 @@
       </div>
     </div>
     <div class="default-layout">
-      <br> 
+      <div class="info-image-wrapper-m-80-60">
+        <table class="info-image-table">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/saint-seiya/dohko-shion-previous-era.jpg" alt="info image"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title">
+                  Model And View
+                </div>
+                <div class="info-image-desc">
+                  <p>Antique JSP model and view endpoint belonging to the previous holly war</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <table class="table-kh">
         <caption class="hidden-kh">Caption</caption>
         <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>
@@ -41,13 +62,27 @@
         </tr>
         </tbody>
       </table>
-      <br>
-      Call this view from:
-      <a href="/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=gohan">
-        Model And View Sample Controller</a>
-      to test it with parameters
+
+      <div class="link-image-wrapper-m-80-60 link-image-wrapper-w-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/dbz/scouter.png" alt="Kame Senin Logo" onclick="window.location.href='/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=gohan'"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Use Parameters</div>
+                <div class="link-image-desc">Click to call this view with some sample parameters and see the updated view</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
+    <span id="debug-mode-wrapper"></span>
   </div>
-  <span id="debug-mode-wrapper"></span>
 </body>
 </html>
