@@ -8,6 +8,7 @@
 #### v8.14
 
 - Updated more banners to Japanese
+- Fixed bugs
 
 #### v8.13
 
