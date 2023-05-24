@@ -25,7 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public class DragonBallUserServlet extends AbstractKameHouseServlet {
 
   private static DragonBallUserService dragonBallUserService;
-  private final static String ROLE_SAIYAJIN = "ROLE_SAIYAJIN";
+  private static final String ROLE_SAIYAJIN = "ROLE_SAIYAJIN";
 
   protected static void setDragonBallUserService(DragonBallUserService dragonBallUserServiceBean) {
     dragonBallUserService = dragonBallUserServiceBean;

@@ -48,7 +48,7 @@ public class AbstractKameHouseServletTest {
   private MockHttpServletRequest request = new MockHttpServletRequest();
   private MockHttpServletResponse response = new MockHttpServletResponse();
   private SampleKameHouseServlet sampleKameHouseServlet;
-  private final static String SESSION_ID = "Y2VkODlmZTktYmFlZi00Njg5LTljN2MtYzI3NzYxZTQ0ZDM3";
+  private static final String SESSION_ID = "Y2VkODlmZTktYmFlZi00Njg5LTljN2MtYzI3NzYxZTQ0ZDM3";
 
   @Mock
   private HttpServletResponse responseMock;
