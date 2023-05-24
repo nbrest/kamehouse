@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
@@ -47,8 +48,9 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    */
   protected ResponseEntity<List<E>> readAll(Integer maxRows, String sortColumn,
       Boolean sortAscending) {
-    logger.debug("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows, sortColumn,
-        sortAscending);
+    String sanitizedSortColumn = StringUtils.sanitizeInput(sortColumn);
+    logger.debug("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows,
+        sanitizedSortColumn, sortAscending);
     List<E> entitiesList = getCrudService().readAll(maxRows, sortColumn, sortAscending);
     return generateGetResponseEntity(entitiesList);
   }
