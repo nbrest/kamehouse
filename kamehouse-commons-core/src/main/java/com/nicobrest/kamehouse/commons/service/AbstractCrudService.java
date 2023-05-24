@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +53,10 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
 
   @Override
   public List<E> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
-    logger.trace("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows, sortColumn,
-        sortAscending);
-    List<E> returnedEntities = getCrudDao().readAll(maxRows, sortColumn, sortAscending);
+    String sanitizedSortColumn = StringUtils.sanitizeInput(sortColumn);
+    logger.trace("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows,
+        sanitizedSortColumn, sortAscending);
+    List<E> returnedEntities = getCrudDao().readAll(maxRows, sanitizedSortColumn, sortAscending);
     logger.trace("ReadAll response {}", returnedEntities);
     return returnedEntities;
   }
