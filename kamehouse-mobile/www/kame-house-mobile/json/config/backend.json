@@ -92,6 +92,12 @@
       "password": "ikki"
     },
     { 
+      "name": "Mock Localhost", 
+      "url": "https://localhost",
+      "username": "seiya",
+      "password": "ikki"
+    },
+    { 
       "name": "Custom Server", 
       "url": "https://0.0.0.0",
       "username": "seiya",
