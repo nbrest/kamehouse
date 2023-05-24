@@ -28,14 +28,14 @@ mainProcess() {
 
   log.info "Updating hash"
   local SHA_HASH=`sha256sum kamehouse.apk`
-  sed -i "s#[SHA_HASH]#${SHA_HASH}#Ig" "${KAMEHOUSE_APK_HTML}"
+  sed -i "s#[SHA_HASH]#${SHA_HASH}#I" "${KAMEHOUSE_APK_HTML}"
 
   log.info "Updating git commit"
-  sed -i "s#[GIT_COMMIT_HASH]#${GIT_COMMIT_HASH}#Ig" "${KAMEHOUSE_APK_HTML}"
+  sed -i "s#[GIT_COMMIT_HASH]#${GIT_COMMIT_HASH}#I" "${KAMEHOUSE_APK_HTML}"
 
   log.info "Updating apk files"
   local APK_FILES=`ls -ln | grep -v ".html" | grep ".apk" | cut -d ' ' -f 5-`
-  sed -i "s#[APK_FILES]#${APK_FILES}#Ig" "${KAMEHOUSE_APK_HTML}"
+  sed -i "s#[APK_FILES]#${APK_FILES}#I" "${KAMEHOUSE_APK_HTML}"
 }
 
 parseArguments() {
