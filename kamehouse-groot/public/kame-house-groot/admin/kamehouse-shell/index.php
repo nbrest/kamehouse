@@ -25,7 +25,8 @@
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-shiryu">
     <div class="default-layout banner-text">
-      <h1>Shell</h1>
+      <h1>シェル</h1>
+      <p>Shell</p>
       <div id="banner-server-name"></div>
     </div>
   </div>  
@@ -74,7 +75,7 @@
         <td class="txt-r-d-kh txt-r-m-kh">
           <img class="img-btn-kh img-btn-s-kh btn-kamehouse-shell-controls"
             onclick="kameHouse.core.scrollToTopOfDiv('all-kamehouse-shell-table-wrapper')"
-            src="/kame-house/img/other/back-to-top.png"
+            src="/kame-house/img/other/back-to-top-gray-dark.png"
             alt="Back To Top" title="Back To Top" />
         </td>
       </tr> 

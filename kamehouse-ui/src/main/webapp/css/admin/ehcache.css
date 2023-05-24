@@ -1,0 +1,16 @@
+.ehcache-table-headings-column {
+  width: 90px;
+  max-width: 90px; 
+}
+
+.ehcache-table-header-btns {
+  width: 100px;
+  max-width: 100px;
+}
+
+@media (max-width : 900px) {
+  .ehcache-table-header-btns {
+    min-width: 100px;
+  }
+}
+

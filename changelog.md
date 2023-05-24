@@ -7,6 +7,7 @@
 
 #### v8.13
 
+- Refactored completely the UI compared to the previous release
 - Updated groot menu styles on mobile app and settings page
 - Moved loading varela round fonts locally for offline connections
 - Fixed loading static content directly from tomcat
@@ -103,6 +104,11 @@
 - Changed module/status api to permitAll to remove dependency on being logged in to kamehouse on groot
 - Revamped groot admin pages
 - Revamped all ui pages with new components
+- Updated icons styles in all pages
+- Updated banner text styles
+- Updated footer icons
+- Translated most banners to Japanese
+- Updated apk version page generator script
 - Fixed bugs
 
 #### v8.12

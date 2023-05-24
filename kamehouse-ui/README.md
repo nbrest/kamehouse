@@ -20,11 +20,14 @@ This module handles the following functionality:
 ### Colors used to download icons:
 
 - ![#4a90e2](icon-colors/4a90e2.png) **Blue**: *#4a90e2* 
-- ![#2ecc71](icon-colors/2ecc71.png) **Green**: *#2ecc71* 
+- ![#0075fa](icon-colors/0075fa.png) **Blue Dark**: *#0075fa* 
+- ![#2ecc71](icon-colors/2ecc71.png) **Green**: *#2ecc71*
+- ![#00880e](icon-colors/00880e.png) **Green Dark**: *#00880e* 
 - ![#c0c0c0](icon-colors/c0c0c0.png) **Gray**: *#c0c0c0*
 - ![#5a5b5b](icon-colors/5a5b5b.png) **Gray Dark**: *#5a5b5b* 
 - ![#fa314a](icon-colors/fa314a.png) **Red**: *#fa314a* 
-- ![#7b0000](icon-colors/7b0000.png) **Red Dark**: *#7b0000* 
+- ![#C00018](icon-colors/C00018.png) **Red Dark**: *#C00018* 
+- ![#7b0000](icon-colors/7b0000.png) **Red Dark 2**: *#7b0000* 
 - ![#ffc107](icon-colors/ffc107.png) **Yellow**: *#ffc107* 
 - ![#4d3901](icon-colors/4d3901.png) **Yellow Dark**: *#4d3901* 
 

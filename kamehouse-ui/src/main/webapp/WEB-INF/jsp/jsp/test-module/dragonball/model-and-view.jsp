@@ -21,7 +21,8 @@
     <div class="banner-wrapper">
       <div id="banner" class="fade-in-out-15s banner-camus">
         <div class="default-layout banner-text">
-          <h1>Dragonball ModelAndView JSP</h1>
+          <h1>ドラゴンボールのモデルとビュー</h1>
+          <p>Dragonball ModelAndView JSP</p>
         </div>
       </div>
     </div>

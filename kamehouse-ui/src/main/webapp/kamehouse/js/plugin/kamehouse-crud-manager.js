@@ -709,7 +709,7 @@ function CrudManager() {
    */
   function getEditButton(id) {
     return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/edit-green.png",
+      src: "/kame-house/img/other/edit.png",
       className: "img-btn-kh m-15-d-r-kh",
       alt: "Edit",
       onClick: () => { 
@@ -724,7 +724,7 @@ function CrudManager() {
    */
   function getConfirmDeleteButton(id) {
     return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/delete-red.png",
+      src: "/kame-house/img/other/delete.png",
       className: "img-btn-kh",
       alt: "Delete",
       onClick: () => confirmDelete(id)

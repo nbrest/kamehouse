@@ -5,16 +5,6 @@ function GrootHome() {
 
   function load() {
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
-      updateBanner();
-    });
-  }
-
-  /** Update page banner with server name */
-  function updateBanner() {
-    if (!kameHouse.core.isEmpty(kameHouse.extension.groot.session.server)) {
-      kameHouse.util.dom.setHtml($("#banner-p"), kameHouse.extension.groot.session.server);
-    }
   }
 
   /** @deprecated Set client time and date */

@@ -25,7 +25,8 @@
   <div class="banner-wrapper">
     <div id="banner" class="fade-in-out-15s banner-ikki">
       <div class="default-layout banner-text">
-        <h1>Execute</h1>
+        <h1>実行する</h1>
+        <p>Execute</p>
         <div id="banner-server-name"></div>
         <br>
         <div id="banner-script-status">not running</div>
@@ -101,11 +102,11 @@
 
     <img id="btn-execute-script"
       class="img-btn-kh m-50-d-l-kh m-50-m-l-kh m-25-d-r-kh m-25-m-l-kh"
-      onclick="kameHouse.extension.execScriptLoader.executeFromUrlParams()" src="/kame-house/img/mplayer/play.png"
+      onclick="kameHouse.extension.execScriptLoader.executeFromUrlParams()" src="/kame-house/img/other/go-green.png"
       alt="Execute Script" title="Execute Script" />
     <img id="btn-download-kamehouse-shell-output" class="img-btn-kh hidden-kh"
       onclick="kameHouse.extension.execScriptLoader.downloadBashScriptOutput()"
-      src="/kame-house/img/other/download-blue.png" alt="Download Output"
+      src="/kame-house/img/other/download-blue-dark.png" alt="Download Output"
       title="Download Output" />
 
   </div>

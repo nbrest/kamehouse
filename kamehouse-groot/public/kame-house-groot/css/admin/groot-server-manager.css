@@ -105,12 +105,14 @@
 
 .server-manager-tabs {
   background-color: #060809;
+  border-top: #272727 3px solid;
   border-bottom: #272727 3px solid;
 }
 
 @media (max-width : 900px) {
   .server-manager-tabs {
-    border-bottom: #272727 2px solid;;
+    border-top: #272727 2px solid;
+    border-bottom: #272727 2px solid;
   }
 }
 

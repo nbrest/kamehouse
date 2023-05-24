@@ -84,7 +84,10 @@ function Scheduler() {
     const $jobsData = $("#jobs-data-" + webapp);
     kameHouse.util.dom.empty($jobsData);
     if (jobs.length == 0 || jobs.length == null || jobs.length == undefined) {
-      const noJobsTd = kameHouse.util.dom.getTrTd("No jobs configured for " + webapp);
+      const message = kameHouse.util.dom.getSpan({
+        class: "bold-kh"
+      }, "No jobs configured for " + webapp);
+      const noJobsTd = kameHouse.util.dom.getTrTd(message);
       kameHouse.util.dom.append($jobsData, noJobsTd);
     } else {
       jobs.forEach((jobEntry) => {

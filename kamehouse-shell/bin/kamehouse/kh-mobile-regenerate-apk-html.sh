@@ -15,48 +15,27 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
+KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-template.html
 KAMEHOUSE_APK_HTML=kamehouse-apk.html
 GIT_COMMIT_HASH=""
-HEAD='
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="author" content="nbrest">
-<meta name="description" content="kame-house application">
-<meta name="keywords" content="kame-house nicobrest nbrest">
-<meta name="mobile-web-app-capable" content="yes">
-
-<title>KameHouse APK</title>
-
-<link rel="shortcut icon" href="/kame-house-groot/favicon.ico" type="image/x-icon" />
-<script src="/kame-house/lib/js/jquery.js"></script>
-<script src="/kame-house/kamehouse/js/kamehouse.js"></script>
-<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
-'
-PRE_STYLE='style="color: #c0c0c0;font-size: 17px;margin: 30px; border:3px solid #2a2a2a; padding: 20px; background: #000000"'
 
 mainProcess() {
   log.info "Re generating apk html file"
   cd ${KAMEHOUSE_MOBILE_APP_PATH}
 
-  echo "<html><head>${HEAD}</head><body>" > ${KAMEHOUSE_APK_HTML}
-  
-  echo '<div class="default-layout main-body"><br><br>' >> ${KAMEHOUSE_APK_HTML}
-  
-  echo "<h2>Mobile APK Status</h2><br>" >> ${KAMEHOUSE_APK_HTML}
-  echo "<pre ${PRE_STYLE}>" >> ${KAMEHOUSE_APK_HTML}
-  echo -n 'sha256sum: ' >> ${KAMEHOUSE_APK_HTML}
-  sha256sum kamehouse.apk >> ${KAMEHOUSE_APK_HTML}
+  log.info "Copying html from template"
+  cp ${KAMEHOUSE_APK_HTML_TEMPLATE} ${KAMEHOUSE_APK_HTML}
 
-  ls -ln | grep -v ".html" | cut -d ' ' -f 5- >> ${KAMEHOUSE_APK_HTML}
+  log.info "Updating hash"
+  local SHA_HASH=`sha256sum kamehouse.apk`
+  sed -i "s#[SHA_HASH]#${SHA_HASH}#Ig" "${KAMEHOUSE_APK_HTML}"
 
-  echo "" >> ${KAMEHOUSE_APK_HTML}
-  echo 'git commit hash: '${GIT_COMMIT_HASH} >> ${KAMEHOUSE_APK_HTML}
-  echo "</pre>" >> ${KAMEHOUSE_APK_HTML}
+  log.info "Updating git commit"
+  sed -i "s#[GIT_COMMIT_HASH]#${GIT_COMMIT_HASH}#Ig" "${KAMEHOUSE_APK_HTML}"
 
-  echo '</div>' >> ${KAMEHOUSE_APK_HTML}
-  echo '<span id="debug-mode-wrapper"></span>' >> ${KAMEHOUSE_APK_HTML}
-  echo "</body></html>" >> ${KAMEHOUSE_APK_HTML}
+  log.info "Updating apk files"
+  local APK_FILES=`ls -ln | grep -v ".html" | grep ".apk" | cut -d ' ' -f 5-`
+  sed -i "s#[APK_FILES]#${APK_FILES}#Ig" "${KAMEHOUSE_APK_HTML}"
 }
 
 parseArguments() {

@@ -24,7 +24,8 @@
     <div class="banner-wrapper">
       <div id="banner" class="fade-in-out-15s banner-gohan-ssj2-4">
         <div class="default-layout banner-text">
-          <h1>Add Dragonball User JSP</h1>
+          <h1>ドラゴンボールユーザーを追加</h1>
+          <p>Add Dragonball User JSP</p>
         </div>
       </div>
     </div>
@@ -77,7 +78,7 @@
 
         <div class="form-submit-wrapper-kh">
           <img class="img-btn-kh m-15-d-r-kh" onclick="kameHouse.extension.dragonBallUserServiceJsp.addDragonBallUser()" 
-          src="/kame-house/img/other/submit-gray-dark.png" alt="Add User" title="Add User"/>
+          src="/kame-house/img/other/check-gray-dark.png" alt="Add User" title="Add User"/>
           <img class="img-btn-kh fl-r-d-kh" onclick="window.location.href='users-list'"
             src="/kame-house/img/other/list-bullet-gray-dark.png" alt="List Users" title="List Users"/>
         </div>

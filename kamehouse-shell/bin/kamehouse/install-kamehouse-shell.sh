@@ -69,6 +69,7 @@ installKameHouseShell() {
   rm -f ${KAMEHOUSE_SHELL_PATH}/conf/shell-version.txt
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
+  cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
 }
 
 fixPermissions() {

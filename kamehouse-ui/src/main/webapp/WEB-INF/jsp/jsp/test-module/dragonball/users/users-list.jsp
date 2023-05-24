@@ -25,7 +25,8 @@
     <div class="banner-wrapper">
       <div id="banner" class="fade-in-out-15s banner-hades">
         <div class="default-layout banner-text">
-          <h1>Dragonball Users JSP</h1>
+          <h1>ドラゴンボールユーザー</h1>
+          <p>Dragonball Users JSP</p>
         </div>
       </div>
     </div>

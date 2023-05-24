@@ -677,7 +677,7 @@ function TailLogManagerWrapper() {
   function createStartImg() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
-      src: "/kame-house/img/mplayer/play-gray.png",
+      src: "/kame-house/img/other/go-green.png",
       className: "link-image-img",
       alt: "Start Tail Log",
       onClick: () => toggleTailLog()
@@ -687,7 +687,7 @@ function TailLogManagerWrapper() {
   function createStopImg() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
-      src: "/kame-house/img/mplayer/stop.png",
+      src: "/kame-house/img/other/stop-red-dark.png",
       className: "link-image-img",
       alt: "Stop Tail Log",
       onClick: () => toggleTailLog()

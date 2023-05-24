@@ -25,12 +25,36 @@
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-dbz-messi-maradona">
     <div class="default-layout banner-text">
-      <h1>Server Manager</h1>
+      <h1>サーバ マネジャー</h1>
+      <p>Server Manager</p>
       <div id="banner-server-name"></div>
     </div>
   </div>  
   </div>
   <div id="groot-menu-wrapper"></div>
+  <div class="default-layout">
+    <div class="info-image-wrapper-m-40-00">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/dbz/kamisama-temple.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                Kami-Sama
+              </div>
+              <div class="info-image-desc">
+                <p>Congrats! You have <span class="bold-kh">Kami-Sama</span> level access to <span class="bold-kh">KameHouse GRoot</span>. Don't let all that power get to your head</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <div class="server-manager-tabs">
   <div class="default-layout">
     <table class="table-kh server-manager-tabs-table">
@@ -94,12 +118,12 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/rocket-green.png" alt="Deploy All Modules" title="Deploy All Modules" onclick="kameHouse.extension.deploymentManager.deployAllModules()"/></a><br>
-                <a><img class="link-image-img" src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy All Modules All Servers" title="Deploy All Modules All Servers" onclick="kameHouse.extension.deploymentManager.deployAllModulesAllServers()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/other/rocket.png" alt="Deploy All Modules" title="Deploy All Modules" onclick="kameHouse.extension.deploymentManager.deployAllModules()"/></a><br>
+                <a><img class="link-image-img" src="/kame-house/img/dbz/nimbus.png" alt="Deploy All Modules All Servers" title="Deploy All Modules All Servers" onclick="kameHouse.extension.deploymentManager.deployAllModulesAllServers()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Deploy All Modules</div>
-                <div class="link-image-desc">Deploy all <span class="bold-kh">KameHouse</span> modules with one click. Deploy to all servers using the cloud buttons. This button also deploys non tomcat modules</div>
+                <div class="link-image-desc">Deploy all <span class="bold-kh">KameHouse</span> modules with one click. Deploy to all servers using the nimbus buttons. This button also deploys non tomcat modules</div>
               </td>
             </tr>
           </tbody>
@@ -107,7 +131,7 @@
       </div>
 
       <img class="img-btn-kh m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="kameHouse.extension.deploymentManager.refreshServerView()"
-        src="/kame-house/img/other/sync-btn-info.png" alt="Refresh" title="Refresh"/>
+        src="/kame-house/img/other/refresh.png" alt="Refresh" title="Refresh"/>
 
       <table id="mst-admin" 
         class="table-kh">
@@ -128,17 +152,17 @@
           <td id="mst-admin-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('admin')" 
-              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('admin')" 
-              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('admin')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('admin')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('admin')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -149,17 +173,17 @@
           <td id="mst-media-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('media')" 
-              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('media')" 
-              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('media')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('media')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('media')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -170,17 +194,17 @@
           <td id="mst-tennisworld-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('tennisworld')" 
-              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('tennisworld')" 
-              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('tennisworld')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('tennisworld')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('tennisworld')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -191,17 +215,17 @@
           <td id="mst-testmodule-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('testmodule')" 
-              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('testmodule')" 
-              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('testmodule')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('testmodule')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('testmodule')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -212,17 +236,17 @@
           <td id="mst-ui-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('ui')" 
-              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('ui')" 
-              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('ui')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('ui')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('ui')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -233,17 +257,17 @@
           <td id="mst-vlcrc-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('vlcrc')" 
-              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('vlcrc')" 
-              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('vlcrc')" 
               src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('vlcrc')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('vlcrc')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
       </table>
@@ -261,9 +285,9 @@
           <td id="mst-cmd-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('cmd')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('cmd')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -272,9 +296,9 @@
           <td id="mst-groot-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('groot')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('groot')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>
         <tr>
@@ -283,9 +307,9 @@
           <td id="mst-shell-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('shell')" 
-              src="/kame-house/img/other/rocket-green.png" alt="Deploy" title="Deploy"/>
+              src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('shell')" 
-              src="/kame-house/img/other/cloud-up-down-green.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
+              src="/kame-house/img/dbz/nimbus.png" alt="Deploy - All Servers" title="Deploy - All Servers"/>
           </td>
         </tr>        
       </table>
@@ -321,7 +345,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/mplayer/resume.png" alt="Restart Tomcat" title="Restart Tomcat" onclick="kameHouse.extension.deploymentManager.restartTomcat()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/restart-red-dark.png" alt="Restart Tomcat" title="Restart Tomcat" onclick="kameHouse.extension.deploymentManager.restartTomcat()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Restart Tomcat</div>
@@ -368,12 +392,12 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/git-pull-request-blue.png" alt="Git Pull" title="Git Pull" onclick="kameHouse.extension.gitManager.pullAll()"/></a><br>
-                <a><img class="link-image-img" src="/kame-house/img/other/cloud-up-down-blue.png" alt="Git Pull All Servers" title="Git Pull All Servers" onclick="kameHouse.extension.gitManager.pullAllAllServers()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/git.png" alt="Git Pull" title="Git Pull" onclick="kameHouse.extension.gitManager.pullAll()"/></a><br>
+                <a><img class="link-image-img" src="/kame-house/img/dbz/nimbus.png" alt="Git Pull All Servers" title="Git Pull All Servers" onclick="kameHouse.extension.gitManager.pullAllAllServers()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Git Pull</div>
-                <div class="link-image-desc">Pull latest changes in all git repos. Pull in all servers using the cloud button</div>
+                <div class="link-image-desc">Pull latest changes in all git repos. Pull in all servers using the nimbus button</div>
               </td>
             </tr>
           </tbody>
@@ -414,7 +438,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist-blue.png" alt="Create Playlists" title="Create Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist.png" alt="Create Playlists" title="Create Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Update media database</div>
@@ -459,11 +483,11 @@
             <tbody>
               <tr>
                 <td>
-                  <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-red.png" alt="Reboot" title="Reboot" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
+                  <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Reboot" title="Reboot" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
                 </td>
                 <td>
                   <div class="link-image-text">Restart the server</div>
-                  <div class="link-image-desc">Click to restart now. If I need to schedule a shutdown or hibernate, I can do it from /kame-house's server management page</div>
+                  <div class="link-image-desc">Click to restart now. To schedule a shutdown or hibernate, it's possible to do from <span class="bold-kh">KameHouse</span>'s server management page</div>
                 </td>
               </tr>
             </tbody>
@@ -504,7 +528,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/mplayer/play-gray.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
+                <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/other/go-green.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Toggle Tail Logs</div>

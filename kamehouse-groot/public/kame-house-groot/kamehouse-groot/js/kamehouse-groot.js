@@ -178,7 +178,7 @@ function GrootHeader() {
       },
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku-red-very-dark.png",
+          src: "/kame-house/img/dbz/goku-red-dark-2.png",
           className: "header-login-status-btn",
           alt: "KameHouse Groot",
           onClick: () => {return;}

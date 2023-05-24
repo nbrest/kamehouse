@@ -184,7 +184,7 @@ function DragonBallUserServiceJsp() {
 
   function getEditButton(username) {
     return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/edit-green.png",
+      src: "/kame-house/img/other/edit.png",
       className: "img-btn-kh m-15-d-r-kh",
       alt: "Edit",
       onClick: () => window.location.href="users-edit?username=" + username
@@ -193,7 +193,7 @@ function DragonBallUserServiceJsp() {
 
   function getDeleteButton(id) {
     return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/delete-red.png",
+      src: "/kame-house/img/other/delete.png",
       className: "img-btn-kh",
       alt: "Delete",
       onClick: () => deleteDragonBallUser(id)

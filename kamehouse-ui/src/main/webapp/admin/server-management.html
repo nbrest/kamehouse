@@ -20,7 +20,8 @@
   <div class="banner-wrapper">
   <div id="banner" class="fade-in-out-15s banner-gohan-ssj2">
     <div class="default-layout banner-text">
-      <h1>Server Management</h1>
+      <h1>サーバ マネジャー</h1>
+      <p>Server Manager</p>
       <div id="banner-server-name"></div>
     </div>
   </div>
@@ -117,10 +118,10 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setShutdownCommand()" /></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setShutdownCommand()" /></a>
               </td>
               <td>
-                <div class="link-image-text">Shut Down</div>
+                <div class="link-image-text">Shutdown</div>
                 <div class="link-image-desc">
                   <span>Schedule a full system shutdown with the specified delay: </span>
                   <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="shutdown-delay-dropdown">
@@ -132,7 +133,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelShutdownCommand()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/other/cancel-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelShutdownCommand()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Cancel Shutdown</div>
@@ -141,7 +142,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/sync-btn-info.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getShutdownStatus(true)"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/other/refresh.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getShutdownStatus(true)"/></a>
               </td>
               <td>
                 <div class="link-image-text">Status</div>
@@ -165,7 +166,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/hibernate-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setSuspendCommand()" /></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setSuspendCommand()" /></a>
               </td>
               <td>
                 <div class="link-image-text">Suspend</div>
@@ -197,7 +198,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/hibernate-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelSuspendCommand()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/other/cancel-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelSuspendCommand()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Cancel Suspend</div>
@@ -206,7 +207,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/sync-btn-info.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getSuspendStatus(true)"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/other/refresh.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getSuspendStatus(true)"/></a>
               </td>
               <td>
                 <div class="link-image-text">Status</div>
@@ -228,7 +229,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/shutdown-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Reboot</div>
@@ -337,7 +338,7 @@
         <tbody>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/other/sync-btn-info.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getHttpdStatus(true)" /></a>
+              <a><img class="link-image-img" src="/kame-house/img/other/refresh.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getHttpdStatus(true)" /></a>
             </td>
             <td>
               <div class="link-image-text">Refresh</div>
@@ -346,7 +347,7 @@
           </tr>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/mplayer/resume.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.restartHttpd(true)"/></a>
+              <a><img class="link-image-img" src="/kame-house/img/pc/restart-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.restartHttpd(true)"/></a>
             </td>
             <td>
               <div class="link-image-text">Restart</div>
@@ -386,7 +387,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/wol-red.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')" /></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/wol-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')" /></a>
               </td>
               <td>
                 <div class="link-image-text">Wake Up</div>
