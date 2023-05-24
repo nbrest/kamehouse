@@ -163,7 +163,7 @@ function KameHouseHeader() {
       },
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku-gray-dark.png",
+          src: "/kame-house/img/dbz/goku.png",
           className: "header-login-status-btn",
           alt: "KameHouse",
           onClick: () => {return;}

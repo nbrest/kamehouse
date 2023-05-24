@@ -129,7 +129,7 @@ function KameHouseMobileCore() {
 
   function getBackentConectivitySuccessModalHtml(message) {
     const img = kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/dbz/goku-gray-dark.png",
+      src: "/kame-house/img/dbz/goku.png",
       className: "img-btn-kh",
       alt: "Success modal",
       onClick: () => {return;}
