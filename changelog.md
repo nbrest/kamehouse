@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.14
+
+- Updated more banners to Japanese
+
 #### v8.13
 
 - Refactored completely the UI compared to the previous release
