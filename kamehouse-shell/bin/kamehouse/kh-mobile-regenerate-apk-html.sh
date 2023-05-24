@@ -36,7 +36,7 @@ mainProcess() {
   log.info "Updating apk files"
   local APK_FILES=`ls -ln | grep -v ".html" | grep ".apk" | cut -d ' ' -f 5-`
   APK_FILES=`echo -e "${APK_FILES}"`
-  sed -i "s#-----APK_FILES-----#${APK_FILES}#I" "${KAMEHOUSE_APK_HTML}"
+  sed -i "s#-----APK_FILES-----#`echo ${APK_FILES}`#I" "${KAMEHOUSE_APK_HTML}"
 }
 
 parseArguments() {
