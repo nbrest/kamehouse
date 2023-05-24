@@ -33,7 +33,7 @@ mainProcess() {
   log.info "Updating git commit"
   sed -i "s#-----GIT_COMMIT_HASH-----#${GIT_COMMIT_HASH}#I" "${KAMEHOUSE_APK_HTML}"
 
-  log.info "Updating apk files"
+  log.info "Updating apk deploy date"
   local APK_DEPLOY_DATE=$(date +%Y-%m-%d' '%H:%M:%S)
   sed -i "s#-----APK_DEPLOY_DATE-----#${APK_DEPLOY_DATE}#I" "${KAMEHOUSE_APK_HTML}"
 }
