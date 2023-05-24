@@ -55,6 +55,7 @@ public abstract class AbstractDaoJpa<E> {
    *
    * @deprecated replaced by findAll(class, maxRows, sortColumn, sortAscending).
    */
+  @Deprecated
   protected List<E> findAll(Class<E> clazz) {
     return findAll(clazz, 0, null, true);
   }
@@ -73,7 +74,7 @@ public abstract class AbstractDaoJpa<E> {
       CriteriaQuery<E> criteriaQuery = em.getCriteriaBuilder().createQuery(clazz);
       Root<E> from = criteriaQuery.from(clazz);
       if (!StringUtils.isEmpty(sortColumn)) {
-        if (sortAscending) {
+        if (Boolean.TRUE.equals(sortAscending)) {
           criteriaQuery.orderBy(em.getCriteriaBuilder().asc(from.get(sortColumn)));
         } else {
           criteriaQuery.orderBy(em.getCriteriaBuilder().desc(from.get(sortColumn)));

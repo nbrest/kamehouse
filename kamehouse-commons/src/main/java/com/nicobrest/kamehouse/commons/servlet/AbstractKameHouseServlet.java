@@ -179,7 +179,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
   }
 
   private List<String> getCurrentUserRoles(HttpServletRequest request, String sessionId) {
-    SessionRepository sessionRepository = getSessionRepository(request);
+    SessionRepository<Session> sessionRepository = getSessionRepository(request);
     Session session = getSession(sessionRepository, sessionId);
     Instant lastAccess = session.getLastAccessedTime();
     Duration maxInactive = session.getMaxInactiveInterval();
@@ -202,8 +202,8 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
     return currentUserRoles;
   }
 
-  protected SessionRepository getSessionRepository(HttpServletRequest request) {
-    SessionRepository sessionRepository =
+  protected SessionRepository<Session> getSessionRepository(HttpServletRequest request) {
+    SessionRepository<Session> sessionRepository =
         (SessionRepository) request.getAttribute(SESSION_REPOSITORY_CLASS);
     if (sessionRepository == null) {
       logger.trace("Unable to find session repository in request");
@@ -212,7 +212,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
     return sessionRepository;
   }
 
-  protected Session getSession(SessionRepository sessionRepository, String sessionId) {
+  protected Session getSession(SessionRepository<Session> sessionRepository, String sessionId) {
     Session session = sessionRepository.findById(sessionId);
     if (session == null) {
       logger.trace("Unable to find session in repository");

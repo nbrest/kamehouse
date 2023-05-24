@@ -25,6 +25,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public class DragonBallUserServlet extends AbstractKameHouseServlet {
 
   private static DragonBallUserService dragonBallUserService;
+  private final static String ROLE_SAIYAJIN = "ROLE_SAIYAJIN";
 
   protected static void setDragonBallUserService(DragonBallUserService dragonBallUserServiceBean) {
     dragonBallUserService = dragonBallUserServiceBean;
@@ -74,7 +75,7 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
-      authorize(request, List.of("ROLE_SAIYAJIN"));
+      authorize(request, List.of(ROLE_SAIYAJIN));
       DragonBallUserDto dragonBallUserDto = getDtoFromRequest(request);
       Long createdId = getDragonBallUserService().create(dragonBallUserDto);
       setResponseBody(response, JsonUtils.toJsonString(createdId));
@@ -87,7 +88,7 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   @Override
   public void doPut(HttpServletRequest request, HttpServletResponse response) {
     try {
-      authorize(request, List.of("ROLE_SAIYAJIN"));
+      authorize(request, List.of(ROLE_SAIYAJIN));
       DragonBallUserDto dragonBallUserDto = getDtoFromRequest(request);
       getDragonBallUserService().update(dragonBallUserDto);
     } catch (KameHouseException e) {
@@ -99,7 +100,7 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response) {
     try {
-      authorize(request, List.of("ROLE_SAIYAJIN"));
+      authorize(request, List.of(ROLE_SAIYAJIN));
       Long userId = getLongUrlDecodedParam(request, "id");
       DragonBallUser deletedUser = getDragonBallUserService().delete(userId);
       setResponseBody(response, JsonUtils.toJsonString(deletedUser));
