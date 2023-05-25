@@ -41,7 +41,7 @@ public class TennisWorldSchedulerConfig {
     try {
       JobDetail scheduledBookingJobDetail = scheduledBookingJobDetail();
       scheduler.addJob(scheduledBookingJobDetail, true);
-      int[] bookingMinutes = {1, 16, 31, 46};
+      int[] bookingMinutes = {0, 1, 15, 16, 30, 31, 45, 46};
       for (int bookingHour = 0; bookingHour < 24; bookingHour++) {
         for (int bookingMinute : bookingMinutes) {
           scheduler.scheduleJob(
