@@ -3,7 +3,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "kamehouse.js"
+    "service_worker": "kamehouse-chrome-extension.js"
   },
   "action": {
     "default_title": "KameHouse Chrome Extension"
