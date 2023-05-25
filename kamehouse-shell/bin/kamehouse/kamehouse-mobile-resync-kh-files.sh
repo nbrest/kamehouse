@@ -87,7 +87,7 @@ exportGroot() {
 
 exportMockedApis() {
   log.debug "Copying mocked localhost apis"
-  cp -r -f -v ${MOCKED_KAMEHOUSE_API_DIR}/* ${EXPORT_MOCKED_APIS_DIR}/
+  cp -r -f ${MOCKED_KAMEHOUSE_API_DIR}/* ${EXPORT_MOCKED_APIS_DIR}/
 }
 
 parseArguments() {
