@@ -24,6 +24,7 @@ mainProcess() {
   setGlobalVariables
   exportKameHouseUi
   exportGroot
+  exportMockedApis
 }
 
 setGlobalVariables() {
@@ -37,6 +38,9 @@ setGlobalVariables() {
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
   EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
+  EXPORT_MOCKED_APIS_DIR=${PROJECT_DIR}/kamehouse-mobile/www
+
+  MOCKED_KAMEHOUSE_API_DIR="${PROJECT_DIR}/kamehouse-mobile/apis"
 }
 
 exportKameHouseUi() {
@@ -78,7 +82,12 @@ exportGroot() {
     local HTML_FILE=${PHP_FILE::-3}html
     mv ${PHP_FILE} ${HTML_FILE}
     sed -i "s#<?php.*?>##Ig" "${HTML_FILE}"
-  done <<< ${PHP_FILES}  
+  done <<< ${PHP_FILES}
+}
+
+exportMockedApis() {
+  log.debug "Copying mocked localhost apis"
+  cp -r -f -v ${MOCKED_KAMEHOUSE_API_DIR}/* ${EXPORT_MOCKED_APIS_DIR}/
 }
 
 parseArguments() {

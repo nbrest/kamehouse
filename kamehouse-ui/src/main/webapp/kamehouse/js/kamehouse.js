@@ -855,6 +855,7 @@ function KameHouseDomUtils() {
 
   this.loadHtmlSnippet = loadHtmlSnippet;
   this.loadFile = loadFile;
+  this.loadFileWithTimeout = loadFileWithTimeout;
   this.getScript = getScript;
 
   /**
@@ -877,6 +878,32 @@ function KameHouseDomUtils() {
   async function loadFile(filePath) {
     const file = await fetch(filePath);
     return file.text();
+  }
+
+  /**
+   * Loads a file with a configurable timeout.
+   */
+  async function loadFileWithTimeout(filePath, timeout) {
+    const DEFAULT_TIMEOUT = 60000;
+    const options = {};
+    if (kameHouse.core.isEmpty(timeout)) {
+      options.timeout = DEFAULT_TIMEOUT;
+    } else {
+      options.timeout = timeout;
+    }
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), options.timeout);
+    try {
+      const response = await fetch(filePath, {
+        ...options,
+        signal: controller.signal  
+      });
+      clearTimeout(id);
+      return response.text();
+    } catch (error) {
+      kameHouse.logger.error("Error executing fetch: " + error);
+      return "Error executing fetch to " + filePath;
+    }
   }
 
   /** Get a js script from the server. */
@@ -2320,42 +2347,50 @@ function KameHouseCoreFunctions() {
     kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
     kameHouse.util.mobile.exec(
       () => {
-        if (kameHouse.core.isEmpty(requestBody)) {
-          $.ajax({
-            type: httpMethod,
-            url: url,
-            headers: requestHeaders,
-            success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-            error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
-          });
-          return;
-        }
-        if (isUrlEncodedRequest(requestHeaders)) {
-          const urlEncoded = url + "?" + urlEncodeParams(requestBody);
-          $.ajax({
-            type: httpMethod,
-            url: urlEncoded,
-            headers: requestHeaders,
-            success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-            error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
-          });
-          return;
-        }
-        $.ajax({
-          type: httpMethod,
-          url: url,
-          data: JSON.stringify(requestBody),
-          headers: requestHeaders,
-          success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-          error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
-        });        
+        webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
       },
       () => {
-        kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-          kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
-        });
+        mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
       },
     );
+  }
+
+  function webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    if (kameHouse.core.isEmpty(requestBody)) {
+      $.ajax({
+        type: httpMethod,
+        url: url,
+        headers: requestHeaders,
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
+      });
+      return;
+    }
+    if (isUrlEncodedRequest(requestHeaders)) {
+      const urlEncoded = url + "?" + urlEncodeParams(requestBody);
+      $.ajax({
+        type: httpMethod,
+        url: urlEncoded,
+        headers: requestHeaders,
+        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
+      });
+      return;
+    }
+    $.ajax({
+      type: httpMethod,
+      url: url,
+      data: JSON.stringify(requestBody),
+      headers: requestHeaders,
+      success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
+      error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
+    });
+  }
+  
+  function mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+      kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    });
   }
 
   /**

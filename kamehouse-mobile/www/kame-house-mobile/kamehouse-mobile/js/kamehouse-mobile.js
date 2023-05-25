@@ -30,6 +30,8 @@ function KameHouseMobileCore() {
   this.openBrowser = openBrowser;
   this.overrideWindowOpen = overrideWindowOpen;
 
+  const mockLocalhostServer = new MockLocalhostServer();
+
   const GET = "GET";
   const POST = "POST";
   const PUT = "PUT";
@@ -57,7 +59,7 @@ function KameHouseMobileCore() {
     let backendServer = null;
     if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
           && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
-        mobileConfig.backend.servers.forEach((server) => {
+      mobileConfig.backend.servers.forEach((server) => {
         if (server.name === mobileConfig.backend.selected) {
           backendServer = server.url;
         }
@@ -68,6 +70,17 @@ function KameHouseMobileCore() {
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     }
     return backendServer;
+  }
+
+  function isMockBackendSelected() {
+    const mobileConfig = kameHouse.extension.mobile.config;
+    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
+          && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
+      if (mobileConfig.backend.selected === "Mock Localhost") {
+        return true;
+      }
+    }
+    return false;
   }
 
   function getBackendCredentials() {
@@ -157,6 +170,9 @@ function KameHouseMobileCore() {
    * Http request to be sent from the mobile app.
    */
   function mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    if (isMockBackendSelected()) {
+      return mockLocalhostServer.httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    }
     let requestUrl = getBackendServer() + url;   
     const options = {
       method: httpMethod,
@@ -967,6 +983,76 @@ function KameHouseMobileConfigManager() {
     setTimeout(() => { writeMobileConfigFile(); }, 10000);
     setTimeout(() => { readMobileConfigFile(); }, 15000);
     setTimeout(() => { deleteMobileConfigFile(); }, 20000);
+  }
+}
+
+/**
+ * Mock object that simulates http requests to localhost on mobile device, to be able to test all functionality offline.
+ */
+function MockLocalhostServer() {
+
+  this.httpRequest = httpRequest;
+ 
+  async function httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    kameHouse.logger.debug("Using mock localhost server for http request to: " + url);
+    const responseBody = await mockResponseBody(httpMethod, config, url, requestHeaders, requestBody);
+    const responseCode = mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody);
+    const responseDescription = mockResponseDescription(httpMethod, config, url, requestHeaders, requestBody, responseBody);
+    const responseHeaders = mockResponseHeaders(httpMethod, config, url, requestHeaders, requestBody, responseBody);
+    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
+    if (isErrorResponseCode(responseCode)) {
+      kameHouse.logger.debug("Executing errorCallback with mock response");
+      errorCallback(responseBody, responseCode, responseDescription, responseHeaders); 
+    } else {
+      kameHouse.logger.debug("Executing successCallback with mock response");
+      successCallback(responseBody, responseCode, responseDescription, responseHeaders);
+    }
+  }
+
+  async function mockResponseBody(httpMethod, config, url, requestHeaders, requestBody) {
+    const responseBody = await kameHouse.util.fetch.loadFileWithTimeout(url, 8000);
+    try {
+      return JSON.parse(responseBody);
+    } catch (error) {
+      kameHouse.logger.warn("Error parsing responseBody as json. Returning as a text string. " + error);
+    }
+    return responseBody;
+  }
+
+  function mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody) {
+    if (isFetchErrorResponse(responseBody)) {
+      return "404";
+    }
+    return "200";
+  }
+
+  function mockResponseDescription(httpMethod, config, url, requestHeaders, requestBody, responseBody) {
+    return "";
+  }
+
+  function mockResponseHeaders(httpMethod, config, url, requestHeaders, requestBody, responseBody) {
+    return {};
+  }
+
+  function isFetchErrorResponse(responseBody) {
+    if (!kameHouse.core.isEmpty(responseBody)){
+      try {
+        const responseString = JSON.stringify(responseBody);
+        if (responseString.includes("Error executing fetch to")) {
+          return true;
+        }
+      } catch (error) {
+        kameHouse.logger.error("Error on JSON.stringify(). " + error);
+      }
+    }
+    return false;
+  }
+
+  function isErrorResponseCode(responseCode) {
+    if (responseCode == "200" || responseCode == "201") {
+      return false;
+    }
+    return true;
   }
 }
 

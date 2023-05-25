@@ -472,7 +472,12 @@ buildMobile() {
     git checkout HEAD -- package.json
     git checkout HEAD -- package-lock.json
   fi
+  syncStaticUiFilesOnMobile
+  setMobileBuildVersionAndKeys
+  updateConfigWithGitHash
   buildCordovaProject
+  resetConfigFromGitHash
+  deleteStaticUiFilesOnMobile
   uploadKameHouseMobileApkToGDrive
 }
 
@@ -508,22 +513,29 @@ refreshCordovaPlugins() {
   fi 
 }
 
-buildCordovaProject() {
+syncStaticUiFilesOnMobile() {
   if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
   else
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
   fi
-  log.debug "Setting build version"
+}
+
+setMobileBuildVersionAndKeys() {
+  log.debug "Setting build version and encryption key"
   cp -f pom.xml www/kame-house-mobile/
   echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
   date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
   echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
-  updateConfigWithGitHash
-  log.debug "cordova build android"
+}
+
+buildCordovaProject() {
+  log.debug "Executiing: cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
-  resetConfigFromGitHash
+}
+
+deleteStaticUiFilesOnMobile() {
   if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
   else
