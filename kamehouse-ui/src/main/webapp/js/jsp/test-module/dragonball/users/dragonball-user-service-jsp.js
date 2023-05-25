@@ -112,7 +112,7 @@ function DragonBallUserServiceJsp() {
   function handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders) {
     if (!kameHouse.core.isEmpty(responseBody)) {
       try {
-        errorMessage = errorMessage + " : " + JSON.parse(responseBody).message;
+        errorMessage = errorMessage + " : " + kameHouse.json.parse(responseBody).message;
       } catch (e) {
         const message = "Error parsing response body";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));

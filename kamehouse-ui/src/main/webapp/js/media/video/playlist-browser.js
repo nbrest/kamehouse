@@ -70,7 +70,7 @@ function PlaylistBrowser() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         videoPlaylists = responseBody;
         videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
-        kameHouse.logger.debug("Playlists: " + JSON.stringify(videoPlaylists));
+        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(videoPlaylists));
         kameHouse.logger.debug("Playlist categories: " + videoPlaylistCategories);
         const playlistCategoryDropdown = $('#playlist-category-dropdown');
         $.each(videoPlaylistCategories, (key, entry) => {
@@ -146,7 +146,7 @@ function PlaylistBrowser() {
         populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) =>
-        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + JSON.stringify(responseBody), responseCode, responseDescription, responseHeaders)
+        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + kameHouse.json.stringify(responseBody), responseCode, responseDescription, responseHeaders)
       );
   }
 

@@ -31,7 +31,7 @@ function BookingService() {
         kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error executing booking request");
         kameHouse.plugin.modal.loadingWheelModal.close();
         try {
-          const bookingResponse = JSON.parse(responseBody);
+          const bookingResponse = kameHouse.json.parse(responseBody);
           updateBookingResponseTable(bookingResponse, responseCode);
         } catch (error) {
           kameHouse.logger.error("Error parsing the response: " + error);

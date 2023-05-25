@@ -481,7 +481,7 @@ function CrudManager() {
               if (!kameHouse.core.isEmpty(formField)) {
                 kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, formField, arraySourceNode.nextSibling);
               } else {
-                kameHouse.logger.warn("Unable to build form field from entity " + JSON.stringify(arrayElement));
+                kameHouse.logger.warn("Unable to build form field from entity " + kameHouse.json.stringify(arrayElement));
               }
               i++;
               continue;
@@ -490,7 +490,7 @@ function CrudManager() {
             }
           } 
           const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
-          kameHouse.util.dom.setValue(newNode, JSON.stringify(arrayElement, null, 4));
+          kameHouse.util.dom.setValue(newNode, kameHouse.json.stringify(arrayElement, null, 4));
           kameHouse.util.dom.setId(newNode, arraySourceNode.id + "-" + i);
           kameHouse.util.dom.classListAdd(newNode, "m-5-t-d-kh");
           kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
@@ -628,7 +628,7 @@ function CrudManager() {
       if (kameHouse.core.isFunction(column.buildListDisplay)) {
         kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, column.buildListDisplay(value)));
       } else {
-        kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, JSON.stringify(value)));
+        kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, kameHouse.json.stringify(value)));
       }
       return;
     }
@@ -1192,7 +1192,7 @@ function CrudManager() {
     for (const arrayElement of array) {
       if (!kameHouse.core.isEmpty(arrayElement.value)) {
         if (isObjectField(arrayType)) {
-          arrayVal.push(JSON.parse(arrayElement.value));
+          arrayVal.push(kameHouse.json.parse(arrayElement.value));
           continue;
         }
         if (isSelectField(arrayType)) {
@@ -1271,7 +1271,7 @@ function CrudManager() {
       filterRows();
       return;
     }
-    kameHouse.logger.trace("Sorting table data with default sorting config: " + JSON.stringify(defaultSorting));
+    kameHouse.logger.trace("Sorting table data with default sorting config: " + kameHouse.json.stringify(defaultSorting));
     kameHouse.util.table.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction, filterRows);
   }
 

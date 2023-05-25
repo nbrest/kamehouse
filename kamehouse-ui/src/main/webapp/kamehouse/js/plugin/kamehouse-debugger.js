@@ -132,13 +132,13 @@ function KameHouseDebugger() {
     request.responseData = {};
     request.responseData.responseCode = responseCode;
     request.responseData.headers = responseHeaders;
-    request.responseData.responseBody = JSON.stringify(responseBody);
+    request.responseData.responseBody = kameHouse.json.stringify(responseBody);
     request.responseData.timestamp = kameHouse.util.time.getTimestamp();
     while (requests.length >= 7) {
       requests.shift();
     }
     requests.push(request);
-    kameHouse.util.dom.setText($('#debugger-http-client-previous-requests-val'), kameHouse.logger.maskSensitiveData(JSON.stringify(requests, null, 2)));
+    kameHouse.util.dom.setText($('#debugger-http-client-previous-requests-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requests, null, 2)));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
@@ -149,8 +149,8 @@ function KameHouseDebugger() {
     const responseTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-code-val"), responseCode);
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
-    kameHouse.util.dom.setHtml($("#debugger-http-client-res-headers-val"), JSON.stringify(responseHeaders));
-    kameHouse.util.dom.setText($("#debugger-http-client-res-body-val"), JSON.stringify(responseBody, null, 2));
+    kameHouse.util.dom.setHtml($("#debugger-http-client-res-headers-val"), kameHouse.json.stringify(responseHeaders));
+    kameHouse.util.dom.setText($("#debugger-http-client-res-body-val"), kameHouse.json.stringify(responseBody, null, 2));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
@@ -164,12 +164,12 @@ function KameHouseDebugger() {
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-method-val'), method);
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-url-val'), url);
-    kameHouse.util.dom.setHtml($('#debugger-http-client-req-config-val'), JSON.stringify(config));
-    kameHouse.util.dom.setHtml($('#debugger-http-client-req-headers-val'), kameHouse.logger.maskSensitiveData(JSON.stringify(requestHeaders)));
-    kameHouse.util.dom.setText($('#debugger-http-client-req-body-val'), kameHouse.logger.maskSensitiveData(JSON.stringify(requestBody, null, 2)));
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-config-val'), kameHouse.json.stringify(config));
+    kameHouse.util.dom.setHtml($('#debugger-http-client-req-headers-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders)));
+    kameHouse.util.dom.setText($('#debugger-http-client-req-body-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody, null, 2)));
     kameHouse.util.dom.setHtml($('#debugger-http-client-res-code-val'), null);
     kameHouse.util.dom.setHtml($('#debugger-http-client-res-timestamp-val'), null);
-    kameHouse.util.dom.setText($('#debugger-http-client-res-body-val'), JSON.stringify(null, null, 2));
+    kameHouse.util.dom.setText($('#debugger-http-client-res-body-val'), kameHouse.json.stringify(null, null, 2));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 

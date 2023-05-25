@@ -55,7 +55,7 @@ function TestWebSocket() {
    */
   function connectWebSocket() {
     kameHouse.plugin.modal.loadingWheelModal.open("Connecting websocket...");
-    websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(JSON.parse(testWebSocketResponse.body)));
+    websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(kameHouse.json.parse(testWebSocketResponse.body)));
     setTimeout(() => {
       if (websocket.isConnected()) {
         kameHouse.plugin.modal.loadingWheelModal.close();
@@ -84,7 +84,7 @@ function TestWebSocket() {
    * Send a message through the websocket.
    */
   function sendWebSocketRequest() {
-    const pollBody = JSON.stringify({
+    const pollBody = kameHouse.json.stringify({
       'firstName': $("#firstName").val(),
       'lastName': $("#lastName").val()
     });
@@ -95,7 +95,7 @@ function TestWebSocket() {
    * Update the view after getting a response from the websocket.
    */
   function showTestWebSocketResponse(testWebSocketResponseBody) {
-    kameHouse.logger.trace("Received testWebSocketResponse from server: " + JSON.stringify(testWebSocketResponseBody));
+    kameHouse.logger.trace("Received testWebSocketResponse from server: " + kameHouse.json.stringify(testWebSocketResponseBody));
     const date = kameHouse.util.time.getDateFromEpoch(testWebSocketResponseBody.date);
     kameHouse.util.dom.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));
   }

@@ -51,7 +51,7 @@ function GrootHeader() {
     }
     kameHouse.http.get(config, SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("GRoot session: " + JSON.stringify(responseBody));
+        kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody));
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");

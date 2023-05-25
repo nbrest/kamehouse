@@ -10,6 +10,7 @@
 - Updated more banners to Japanese
 - Added initial mock offline server to mobile app to test all pages offline
 - Updated tennis world booking schedule job config execution times
+- Added wrappers for json functions
 - Fixed bugs
 
 #### v8.13

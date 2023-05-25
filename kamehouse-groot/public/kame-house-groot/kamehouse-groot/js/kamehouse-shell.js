@@ -103,7 +103,7 @@ function KameHouseShell() {
     kameHouse.util.dom.empty($scriptOutputTableBody);
     const tbody = getScriptOutputTbody();
     kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("Error response from the backend"));
-    kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseBody : " + JSON.stringify(responseBody, null, 2)));
+    kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseBody : " + kameHouse.json.stringify(responseBody, null, 2)));
     kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseCode : " + responseCode));
     kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseDescription : " + responseDescription));
     kameHouse.util.dom.replaceWith($scriptOutputTableBody, tbody);

@@ -652,7 +652,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   function connectVlcRcStatus() {
     vlcRcStatusWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!kameHouse.core.isEmpty(topicResponse) && !kameHouse.core.isEmpty(topicResponse.body)) {
-        vlcPlayer.setVlcRcStatus(JSON.parse(topicResponse.body));
+        vlcPlayer.setVlcRcStatus(kameHouse.json.parse(topicResponse.body));
       } else {
         vlcPlayer.setVlcRcStatus({});
       }
@@ -673,7 +673,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   function connectPlaylist() {
     playlistWebSocket.connect(function topicResponseCallback(topicResponse) {
       if (!kameHouse.core.isEmpty(topicResponse) && !kameHouse.core.isEmpty(topicResponse.body)) {
-        vlcPlayer.setUpdatedPlaylist(JSON.parse(topicResponse.body));
+        vlcPlayer.setUpdatedPlaylist(kameHouse.json.parse(topicResponse.body));
       } else {
         vlcPlayer.setUpdatedPlaylist(null);
       }
@@ -713,7 +713,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       let failedCount = 0;
       let skipResetViewCount = 10;
       while (isRunningSyncVlcRcStatusLoop) {
-        kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + JSON.stringify(vlcPlayer.getVlcRcStatus()));
+        kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
         if (vlcRcStatusWebSocket.isConnected()) {
           // poll VlcRcStatus from the websocket.
           vlcRcStatusWebSocket.poll();

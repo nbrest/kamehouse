@@ -30,13 +30,14 @@ function KameHouse() {
     this.extension = {};
     this.util = {};
     
-    /** core/utils modules */
+    /** core modules */
     this.core = new KameHouseCoreFunctions();
-    this.util.cookies = new KameHouseCookiesUtils();
+    this.json = new KameHouseJson();
     this.logger = new KameHouseLogger();
     this.http = new KameHouseHttpClient();
 
     /** utils */
+    this.util.cookies = new KameHouseCookiesUtils();
     this.util.banner = new KameHouseBannerUtils();
     this.util.collapsibleDiv = new KameHouseCollapsibleDivUtils();
     this.util.cursor = new KameHouseCursorUtils();
@@ -996,8 +997,8 @@ function KameHouseMobileUtils() {
   function addCordovaErrorHandler() {
     kameHouse.logger.info("Adding cordova error handler");
     window.addEventListener("cordovacallbackerror", (event) => {
-      kameHouse.logger.error("Unexpected cordova error: " + JSON.stringify(event));
-      alert("Unexpected cordova error: " + JSON.stringify(event));
+      kameHouse.logger.error("Unexpected cordova error: " + kameHouse.json.stringify(event));
+      alert("Unexpected cordova error: " + kameHouse.json.stringify(event));
     });  
   }
 
@@ -1154,7 +1155,7 @@ function KameHouseModuleUtils() {
    */
   async function waitForModules(moduleNames, initFunction) {
     let message;
-    message = "Start waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
+    message = "Start waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(modules);
     kameHouse.logger.trace(message);
 
     const WAIT_FOR_MODULES_MS = 20;
@@ -1164,7 +1165,7 @@ function KameHouseModuleUtils() {
     while (!areAllModulesLoaded) {
       waitForModulesMs = WAIT_FOR_MODULES_MS;
       if (loopCount >= 150) {
-        message = "Waiting waitForModules " + JSON.stringify(moduleNames) + ". modules status: " + JSON.stringify(modules);
+        message = "Waiting waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(modules);
         kameHouse.logger.trace(message);
         loopCount = 0;
       }
@@ -1182,7 +1183,7 @@ function KameHouseModuleUtils() {
       // SLEEP IS IN MS!!
       await kameHouse.core.sleep(waitForModulesMs);
     }
-    message = "*** Finished  waitForModules " + JSON.stringify(moduleNames) + " ***. modules status: " + JSON.stringify(modules);
+    message = "*** Finished  waitForModules " + kameHouse.json.stringify(moduleNames) + " ***. modules status: " + kameHouse.json.stringify(modules);
     kameHouse.logger.trace(message);
     if (kameHouse.core.isFunction(initFunction)) {
       initFunction();
@@ -1600,6 +1601,33 @@ function KameHouseTimeUtils() {
   }
 }
 
+/** 
+ * Functions to handle json objects.
+ */
+function KameHouseJson() {
+
+  this.parse = parse;
+  this.stringify = stringify;
+  
+  function parse(string) {
+    try {
+      return JSON.parse(string);
+    } catch (error) {
+      kameHouse.logger.warn("Error parsing string as json. Returning null. " + error);
+    }
+    return null;
+  }
+
+  function stringify(object) {
+    try {
+      return JSON.stringify(object);
+    } catch (error) {
+      kameHouse.logger.warn("Error stringifying object. Returning null. " + error);
+    }
+    return null;
+  }
+}
+
 
 /** 
  * Prototype that contains the logic for all the core global functions. 
@@ -1738,7 +1766,7 @@ function KameHouseCoreFunctions() {
     }
     kameHouse.http.get(config, SESSION_STATUS_URL, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("KameHouse session: " + JSON.stringify(responseBody));
+        kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
         completeAuthorizeUser(responseCode, responseBody);
@@ -2239,7 +2267,7 @@ function KameHouseCoreFunctions() {
     }
     const errorMessage = message + ": [ 'responseCode' : '" + responseCode 
       + "', 'responseDescription' : '" + responseDescription 
-      + "', 'responseHeaders' : '" + JSON.stringify(responseHeaders) 
+      + "', 'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) 
       + "', 'responseBody' : '" + responseBody 
       + "' ]";
     error(errorMessage);
@@ -2252,9 +2280,9 @@ function KameHouseCoreFunctions() {
     debug("http request: [ " 
     + "'method' : '" + httpMethod + "', "
     + "'url' : '" + url + "', "
-    + "'config' : '" + JSON.stringify(config) + "', "
-    + "'headers' : '" + kameHouse.logger.maskSensitiveData(JSON.stringify(requestHeaders)) + "', "
-    + "'body' : '" + kameHouse.logger.maskSensitiveData(JSON.stringify(requestBody)) + "' ]");
+    + "'config' : '" + kameHouse.json.stringify(config) + "', "
+    + "'headers' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders)) + "', "
+    + "'body' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody)) + "' ]");
   }
   
   /**
@@ -2264,8 +2292,8 @@ function KameHouseCoreFunctions() {
     debug("http response: [ " 
     + "'responseCode' : '" + responseCode + "', "
     + "'responseDescription' : '" + responseDescription + "', "
-    + "'responseHeaders' : '" + JSON.stringify(responseHeaders) + "', "
-    + "'responseBody' : '" + JSON.stringify(responseBody) + "' ]");   
+    + "'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) + "', "
+    + "'responseBody' : '" + kameHouse.json.stringify(responseBody) + "' ]");   
   }
 
   /**
@@ -2380,7 +2408,7 @@ function KameHouseCoreFunctions() {
     $.ajax({
       type: httpMethod,
       url: url,
-      data: JSON.stringify(requestBody),
+      data: kameHouse.json.stringify(requestBody),
       headers: requestHeaders,
       success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
       error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)

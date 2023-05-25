@@ -83,7 +83,7 @@ function BasicKamehouseModal() {
     kameHouse.util.dom.append(message, "Response body: ");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     const bodySpan = kameHouse.util.dom.getSpan({}, null);
-    kameHouse.util.dom.setText(bodySpan, JSON.stringify(responseBody));
+    kameHouse.util.dom.setText(bodySpan, kameHouse.json.stringify(responseBody));
     kameHouse.util.dom.append(message, bodySpan);
     return message;
   }

@@ -96,7 +96,7 @@ $(document).ready(() => {
             roles.forEach((role) => {
               rolesToPrint.push(role.name);
             });
-            return JSON.stringify(rolesToPrint);
+            return kameHouse.json.stringify(rolesToPrint);
           }
         },
         { 

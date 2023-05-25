@@ -102,7 +102,7 @@ function Scheduler() {
         kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), formatSchedule(jobEntry.schedules));
   
         kameHouse.util.dom.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
-          kameHouse.logger.debug("Clear schedule for " + JSON.stringify(jobEntry.key));
+          kameHouse.logger.debug("Clear schedule for " + kameHouse.json.stringify(jobEntry.key));
           cancelJobExecution(jobEntry.key, webapp);
         });
       });
@@ -137,7 +137,7 @@ function Scheduler() {
           scheduleFormattedArray.push(date.toLocaleString());
         }
       });
-      return JSON.stringify(scheduleFormattedArray);
+      return kameHouse.json.stringify(scheduleFormattedArray);
     } else {
       return "Job not scheduled";
     }
