@@ -56,6 +56,7 @@ function KameHouse() {
      */
     this.logger.init();
     this.logger.info("Started initializing kamehouse.js");
+    this.core.setGlobalErrorHandler();
     this.core.initAuthorizeUser();
     this.util.mobile.init();
     this.core.loadSession();
@@ -1618,9 +1619,9 @@ function KameHouseJson() {
     return null;
   }
 
-  function stringify(object) {
+  function stringify(object, replacer, identation) {
     try {
-      return JSON.stringify(object);
+      return JSON.stringify(object, replacer, identation);
     } catch (error) {
       kameHouse.logger.warn("Error stringifying object. Returning null. " + error);
     }
@@ -1654,7 +1655,29 @@ function KameHouseCoreFunctions() {
   this.getStringKameHouseData = getStringKameHouseData;
   this.convertBashColorsToHtml = convertBashColorsToHtml;
   this.pageRequiresAuthorization = pageRequiresAuthorization;
+  this.setGlobalErrorHandler = setGlobalErrorHandler;
   
+  /**
+   * Add a global error handler for uncaught exceptions, specially useful to see them in debug mode in mobile app.
+   */
+  function setGlobalErrorHandler() {
+    kameHouse.logger.info("Setting global kamehouse error handler");
+    window.addEventListener("error", (ErrorEvent) => {
+      const errorObject = {
+        message: ErrorEvent.message,
+        filename: ErrorEvent.filename,
+        lineNumber: ErrorEvent.lineno,
+        columnNumber: ErrorEvent.colno,
+        error: ErrorEvent.error
+      };
+      const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
+      console.log(errorMessage);
+      kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+        kameHouse.logger.error(errorMessage);
+      });
+   });
+  }
+
   /**
    * Returns true if the page requires authorization.
    */

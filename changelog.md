@@ -11,6 +11,10 @@
 - Added initial mock offline server to mobile app to test all pages offline
 - Updated tennis world booking schedule job config execution times
 - Added wrappers for json functions
+- Updated login background
+- Updated stringify identation
+- Updated start/stop tomcat module buttons
+- Added handler for all js uncaught errors
 - Fixed bugs
 
 #### v8.13

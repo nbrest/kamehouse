@@ -152,9 +152,9 @@
           <td id="mst-admin-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('admin')" 
-              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('admin')" 
-              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('admin')" 
@@ -173,9 +173,9 @@
           <td id="mst-media-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('media')" 
-              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('media')" 
-              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('media')" 
@@ -194,9 +194,9 @@
           <td id="mst-tennisworld-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('tennisworld')" 
-              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('tennisworld')" 
-              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('tennisworld')" 
@@ -215,9 +215,9 @@
           <td id="mst-testmodule-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('testmodule')" 
-              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('testmodule')" 
-              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('testmodule')" 
@@ -236,9 +236,9 @@
           <td id="mst-ui-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('ui')" 
-              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('ui')" 
-              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('ui')" 
@@ -257,9 +257,9 @@
           <td id="mst-vlcrc-build-date-val">N/A</td>
           <td>
             <img class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('vlcrc')" 
-              src="/kame-house/img/mplayer/play-circle-green.png" alt="Start" title="Start"/>
+              src="/kame-house/img/mplayer/play-green.png" alt="Start" title="Start"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('vlcrc')" 
-              src="/kame-house/img/other/stop-red-dark.png" alt="Stop" title="Stop"/>
+              src="/kame-house/img/mplayer/stop.png" alt="Stop" title="Stop"/>
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('vlcrc')" 
