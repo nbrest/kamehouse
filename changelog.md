@@ -15,6 +15,8 @@
 - Updated stringify identation
 - Updated start/stop tomcat module buttons
 - Added handler for all js uncaught errors
+- Updated several icon sizes and replaced some other icons
+- Updated webapp tabs info-image for ui
 - Fixed bugs
 
 #### v8.13
