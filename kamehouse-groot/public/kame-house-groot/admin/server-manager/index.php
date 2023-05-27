@@ -323,7 +323,7 @@
           <tbody>
             <tr>
               <td class="info-image-img">
-                <img src="/kame-house/img/dbz/goku-ssj1-kamehameha.jpg" alt="info image"/>
+                <img src="/kame-house/img/dbz/goku-broli-kamehameha.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
                 <div class="info-image-title">
