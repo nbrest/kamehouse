@@ -130,7 +130,7 @@
         </table>
       </div>
 
-      <img class="img-btn-kh m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="kameHouse.extension.deploymentManager.refreshServerView()"
+      <img class="img-btn-kh img-btn-m-kh m-5-d-kh m-5-d-kh fl-r-d-kh" onclick="kameHouse.extension.deploymentManager.refreshServerView()"
         src="/kame-house/img/other/refresh.png" alt="Refresh" title="Refresh"/>
 
       <table id="mst-admin" 
