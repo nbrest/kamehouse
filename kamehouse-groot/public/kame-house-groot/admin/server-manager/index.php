@@ -317,7 +317,7 @@
       <pre class="kamehouse-shell-output tomcat-process-kamehouse-shell-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>
 
       <div class="info-image-wrapper-m-80-40">
-        <table class="info-image-table">
+        <table class="info-image-table info-image-table-reverse">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
           <tbody>
@@ -606,7 +606,29 @@
     </div> <!-- tab-tail-log -->
 
   <div class="default-layout p-7-d-kh">
-    <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn">Command Output</button>
+    <div class="info-image-wrapper-m-80-60">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/saint-seiya/camus-aurora-execution.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title">
+                Aurora Execution
+              </div>
+              <div class="info-image-desc">
+                <p>Execute a command with Camus's <span class="bold-kh">Aurora Execution</span> and wait for the freezing cold output to unravel below 0 degrees</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn">Aurora Execution Output</button>
     <div class="collapsible-kh-content">
       <button class="btn-svg-scroll-down fl-r-d-kh"
         onclick="kameHouse.core.scrollToTop('btn-command-output-scroll-up')">
