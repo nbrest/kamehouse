@@ -626,11 +626,35 @@ function TailLogManagerWrapper() {
 
   const stopImg = createStopImg();
   const startImg = createStartImg();
+
   let isTailLogRunning = false;
+  let tailLogCount = 0;
+  let resume = false;
 
   function load() {
     kameHouse.logger.info("Loading TailLogManagerWrapper");
     kameHouse.util.module.setModuleLoaded("tailLogManagerWrapper");
+    kameHouse.util.mobile.setMobileEventListeners(pauseTailLog, resumeTailLog);
+  }
+
+  function pauseTailLog() {
+    if (isTailLogRunning) {
+      kameHouse.logger.info("KameHouse sent to background. Pausing tail logs");
+      resume = true;
+    } else {
+      kameHouse.logger.info("KameHouse sent to background. Tail log not running");
+    }
+    isTailLogRunning = false;
+  }
+
+  function resumeTailLog() {
+    if (resume) {
+      kameHouse.logger.info("KameHouse sent to foreground. Resuming tail logs");
+      resume = false;
+      tailLog();
+    } else {
+      kameHouse.logger.info("KameHouse sent to foreground. Tail log not running");
+    }
   }
 
   /**
@@ -638,14 +662,10 @@ function TailLogManagerWrapper() {
    */
   function toggleTailLog() {
     if (isTailLogRunning) {
-      kameHouse.logger.info("Stopped tailLog loop");
       isTailLogRunning = false;
-      kameHouse.util.dom.replaceWith($("#toggle-tail-log-img"), startImg);
+      kameHouse.plugin.modal.loadingWheelModal.open("Stopping tail log...");
       return;
     }
-    kameHouse.logger.info("Started tailLog loop");
-    isTailLogRunning = true;
-    kameHouse.util.dom.replaceWith($("#toggle-tail-log-img"), stopImg);
     tailLog();
   }
 
@@ -653,8 +673,17 @@ function TailLogManagerWrapper() {
    * Tail the log selected in the ui.
    */
   async function tailLog() {
+    if (isTailLogRunning || tailLogCount > 1) {
+      const message = "tail log is already running";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      return;
+    }
+    kameHouse.logger.info("Started tailLog loop");
+    kameHouse.util.dom.replaceWith($("#toggle-tail-log-img"), stopImg);
+    tailLogCount++;
+    isTailLogRunning = true;
     while (isTailLogRunning) {
-      kameHouse.logger.trace(" tailLog loop running");
+      kameHouse.logger.trace("tailLog loop running. tailLogCount: " + tailLogCount);
       let tailLogScript = document.getElementById("tail-log-dropdown").value;
       let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
       let logLevel = document.getElementById("tail-log-level-dropdown").value;
@@ -662,8 +691,17 @@ function TailLogManagerWrapper() {
       kameHouse.extension.tailLogManager.tailLog(tailLogScript, numberOfLines, logLevel, executeOnDockerHost, kameHouse.util.collapsibleDiv.refreshCollapsibleDiv);
   
       await kameHouse.core.sleep(5000);
+      if (tailLogCount > 1) {
+        kameHouse.logger.info("tailLog loop: Running multiple tailLog, exiting this loop");
+        break;
+      }
+    }
+    tailLogCount--;
+    if (tailLogCount == 0) {
+      kameHouse.util.dom.replaceWith($("#toggle-tail-log-img"), startImg);
     }
     kameHouse.logger.info("Finished tailLog loop");
+    kameHouse.plugin.modal.loadingWheelModal.close();
   }
 
   /**
@@ -677,7 +715,7 @@ function TailLogManagerWrapper() {
   function createStartImg() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
-      src: "/kame-house/img/other/go-green.png",
+      src: "/kame-house/img/mplayer/play-circle-green.png",
       className: "link-image-img",
       alt: "Start Tail Log",
       onClick: () => toggleTailLog()
