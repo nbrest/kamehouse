@@ -158,7 +158,7 @@
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('admin')" 
-              src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
+              src="/kame-house/img/other/cancel-shallow-red.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('admin')" 
               src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('admin')" 
@@ -179,7 +179,7 @@
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('media')" 
-              src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
+              src="/kame-house/img/other/cancel-shallow-red.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('media')" 
               src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('media')" 
@@ -200,7 +200,7 @@
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('tennisworld')" 
-              src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
+              src="/kame-house/img/other/cancel-shallow-red.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('tennisworld')" 
               src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('tennisworld')" 
@@ -221,7 +221,7 @@
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('testmodule')" 
-              src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
+              src="/kame-house/img/other/cancel-shallow-red.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('testmodule')" 
               src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('testmodule')" 
@@ -242,7 +242,7 @@
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('ui')" 
-              src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
+              src="/kame-house/img/other/cancel-shallow-red.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('ui')" 
               src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('ui')" 
@@ -263,7 +263,7 @@
           </td>
           <td>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('vlcrc')" 
-              src="/kame-house/img/other/cancel.png" alt="Undeploy" title="Undeploy"/>
+              src="/kame-house/img/other/cancel-shallow-red.png" alt="Undeploy" title="Undeploy"/>
             <img class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('vlcrc')" 
               src="/kame-house/img/other/rocket.png" alt="Deploy" title="Deploy"/>
             <img class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('vlcrc')" 
