@@ -1,0 +1,81 @@
+[{
+	"id": 653,
+	"tennisWorldUser": {
+		"id": 609,
+		"email": "gotenks@gmail.com",
+		"password": ""
+	},
+	"sessionType": "CARDIO",
+	"site": "MELBOURNE_PARK",
+	"day": "FRIDAY",
+	"time": "13:11",
+	"bookingDate": 1621432800000,
+	"bookAheadDays": 13,
+	"enabled": false,
+	"duration": null,
+	"courtNumber": 33
+}, {
+	"id": 1781,
+	"tennisWorldUser": {
+		"id": 706,
+		"email": "goku@dbz.com",
+		"password": ""
+	},
+	"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+	"site": "MELBOURNE_PARK",
+	"day": "SUNDAY",
+	"time": "11:15",
+	"bookingDate": null,
+	"bookAheadDays": 14,
+	"enabled": true,
+	"duration": "60",
+	"courtNumber": null
+}, {
+	"id": 1782,
+	"tennisWorldUser": {
+		"id": 707,
+		"email": "gohan@dbz.com",
+		"password": ""
+	},
+	"sessionType": "CARDIO",
+	"site": "MELBOURNE_PARK",
+	"day": "TUESDAY",
+	"time": "19:15",
+	"bookingDate": null,
+	"bookAheadDays": 12,
+	"enabled": true,
+	"duration": "45",
+	"courtNumber": 23
+}, {
+	"id": 1783,
+	"tennisWorldUser": {
+		"id": 707,
+		"email": "gohan@dbz.com",
+		"password": ""
+	},
+	"sessionType": "CARDIO",
+	"site": "MELBOURNE_PARK",
+	"day": "WEDNESDAY",
+	"time": "19:15",
+	"bookingDate": 1647349200000,
+	"bookAheadDays": 1,
+	"enabled": true,
+	"duration": "45",
+	"courtNumber": null
+}, {
+	"id": 1784,
+	"tennisWorldUser": {
+		"id": 707,
+		"email": "gohan@dbz.com",
+		"password": ""
+	},
+	"sessionType": "NTC_CLAY_COURTS",
+	"site": "MELBOURNE_PARK",
+	"day": "SUNDAY",
+	"time": "12:00",
+	"bookingDate": 1647694800000,
+	"bookAheadDays": 3,
+	"enabled": false,
+	"duration": "90",
+	"courtNumber": 8
+}]

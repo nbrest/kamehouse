@@ -1,0 +1,106 @@
+[{
+	"id": 26,
+	"username": "admin",
+	"password": null,
+	"email": "admin@dbz.com",
+	"firstName": "admin",
+	"lastName": "admin",
+	"lastLogin": null,
+	"authorities": [{
+		"id": 27,
+		"name": "ROLE_KAMISAMA"
+	}],
+	"accountNonExpired": true,
+	"accountNonLocked": true,
+	"credentialsNonExpired": true,
+	"enabled": true
+}, {
+	"id": 30,
+	"username": "user",
+	"password": null,
+	"email": "user@dbz.com",
+	"firstName": "user",
+	"lastName": "user",
+	"lastLogin": null,
+	"authorities": [{
+		"id": 31,
+		"name": "ROLE_SAIYAJIN"
+	}],
+	"accountNonExpired": true,
+	"accountNonLocked": true,
+	"credentialsNonExpired": true,
+	"enabled": true
+}, {
+	"id": 32,
+	"username": "kamisama",
+	"password": null,
+	"email": "kamisama@nicobrest.com",
+	"firstName": "goku",
+	"lastName": "sonkun",
+	"lastLogin": null,
+	"authorities": [{
+		"id": 2441,
+		"name": "ROLE_NAMEKIAN"
+	}, {
+		"id": 2437,
+		"name": "ROLE_SAIYAJIN"
+	}, {
+		"id": 2436,
+		"name": "ROLE_KAMISAMA"
+	}],
+	"accountNonExpired": true,
+	"accountNonLocked": true,
+	"credentialsNonExpired": true,
+	"enabled": true
+}, {
+	"id": 36,
+	"username": "guest",
+	"password": null,
+	"email": "guest@dbz.com",
+	"firstName": "goku",
+	"lastName": "son",
+	"lastLogin": null,
+	"authorities": [{
+		"id": 37,
+		"name": "ROLE_NAMEKIAN"
+	}],
+	"accountNonExpired": true,
+	"accountNonLocked": true,
+	"credentialsNonExpired": true,
+	"enabled": true
+}, {
+	"id": 1809,
+	"username": "seiya",
+	"password": null,
+	"email": "seiya@saintseiya.com",
+	"firstName": "Seiya",
+	"lastName": "Saint",
+	"lastLogin": null,
+	"authorities": [{
+		"id": 1810,
+		"name": "ROLE_SAIYAJIN"
+	}, {
+		"id": 1811,
+		"name": "ROLE_KAMISAMA"
+	}],
+	"accountNonExpired": true,
+	"accountNonLocked": true,
+	"credentialsNonExpired": true,
+	"enabled": true
+}, {
+	"id": 1814,
+	"username": "vegeta",
+	"password": null,
+	"email": "vegeta@dbz.com",
+	"firstName": "Vegeta",
+	"lastName": "Prince",
+	"lastLogin": null,
+	"authorities": [{
+		"id": 2448,
+		"name": "ROLE_NAMEKIAN"
+	}],
+	"accountNonExpired": true,
+	"accountNonLocked": true,
+	"credentialsNonExpired": true,
+	"enabled": true
+}]

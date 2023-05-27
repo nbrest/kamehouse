@@ -1010,17 +1010,102 @@ function MockLocalhostServer() {
   }
 
   async function mockResponseBody(httpMethod, config, url, requestHeaders, requestBody) {
-    const responseBody = await kameHouse.util.fetch.loadFileWithTimeout(url, 8000);
+    let requestUrl = url;
+    if (isCrudEntityUrl(url)) {
+      requestUrl = getCrudBaseUrl(url);
+    }
+    const responseBody = await kameHouse.util.fetch.loadFileWithTimeout(requestUrl, 8000);
     const responseBodyParsed = kameHouse.json.parse(responseBody);
     if (responseBodyParsed == null) {
       return responseBody;
     }
+    if (isCrudBaseUrl(url)) {
+      return getCrudBaseUrlResponseBody(httpMethod, responseBodyParsed);
+    }
+    if (isCrudEntityUrl(url)) {
+      return getCrudEntityResponseBody(httpMethod, getCrudEntityId(url), responseBodyParsed);
+    }
     return responseBodyParsed;
   }
 
+  /**
+   * API calls that end with a number are crud id urls.
+   */
+  function isCrudEntityUrl(url) {
+    const crudIdUrl = new RegExp("/kame-house.*/.*/[0-9]+","g");
+    if (crudIdUrl.test(url)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isCrudBaseUrl(url) {
+    const CRUD_URLS = [
+      "/kame-house-admin/api/v1/admin/kamehouse/users", 
+      "/kame-house-tennisworld/api/v1/tennis-world/users", 
+      "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs"
+    ];
+    return CRUD_URLS.includes(url);
+  }
+
+  function getCrudEntityId(url) {
+    return url.split("/").pop();
+  }
+
+  function getCrudBaseUrl(url) {
+    return url.slice(0, -(getCrudEntityId(url).length + 1));
+  }
+
+  function getCrudEntityResponseBody(httpMethod, id, responseBody) {
+    if (httpMethod == "GET") {
+      let selectedCrudEntity = null;
+      responseBody.forEach((crudEntity) => {
+        if (crudEntity.id == id) {
+          selectedCrudEntity = crudEntity;
+        }
+      });
+      kameHouse.logger.info("Returning crud entity: " + kameHouse.json.stringify(selectedCrudEntity));
+      return selectedCrudEntity;
+    }
+    const errorResponse = {
+      message: "Mocked error response for CRUD modifications"
+    };
+    return errorResponse;
+  }
+
+  function getCrudBaseUrlResponseBody(httpMethod, responseBody) {
+    if (httpMethod == "GET") {
+      return responseBody;
+    }
+    const errorResponse = {
+      message: "Mocked error response for CRUD modifications"
+    };
+    return errorResponse;
+  }
+
   function mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody) {
+    if (isCrudBaseUrl(url)) {
+      return getCrudBaseUrlResponseCode(httpMethod);
+    }
+    if (isCrudEntityUrl(url)) {
+      return getCrudEntityResponseCode(httpMethod);
+    }
     if (isFetchErrorResponse(responseBody)) {
       return "404";
+    }
+    return "200";
+  }
+
+  function getCrudEntityResponseCode(httpMethod) {
+    if (httpMethod != "GET") {
+      return "409";
+    }
+    return "200";
+  }
+
+  function getCrudBaseUrlResponseCode(httpMethod) {
+    if (httpMethod != "GET") {
+      return "409";
     }
     return "200";
   }
