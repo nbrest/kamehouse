@@ -528,7 +528,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/other/go-green.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
+                <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/mplayer/play-circle-green.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Toggle Tail Logs</div>
