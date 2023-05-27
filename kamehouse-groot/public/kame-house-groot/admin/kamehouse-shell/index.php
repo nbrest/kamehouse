@@ -44,7 +44,7 @@
             <img src="/kame-house/img/dbz/roshi-chibi-goku-krillin-shells.jpg" alt="info image"/>
           </td>
           <td class="info-image-info">
-            <div class="info-image-title">
+            <div class="info-image-title info-image-title-top">
               Shell Scripts
             </div>
             <div class="info-image-desc">

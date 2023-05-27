@@ -17,6 +17,8 @@
 - Added handler for all js uncaught errors
 - Updated several icon sizes and replaced some other icons
 - Updated webapp tabs info-image for ui
+- Added info image to groot server manager command execution
+- Added option to set title at the top or bottom on info image
 - Fixed bugs
 
 #### v8.13

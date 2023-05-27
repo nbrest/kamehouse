@@ -38,7 +38,7 @@
               <img src="/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg" alt="info image"/>
             </td>
             <td class="info-image-info">
-              <div class="info-image-title">
+              <div class="info-image-title info-image-title-bottom">
                 KameHouse JSPs
               </div>
               <div class="info-image-desc">

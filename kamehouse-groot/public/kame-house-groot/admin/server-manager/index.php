@@ -326,7 +326,7 @@
                 <img src="/kame-house/img/dbz/goku-broli-kamehameha.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
-                <div class="info-image-title">
+                <div class="info-image-title info-image-title-bottom">
                   Issues with Tomcat?
                 </div>
                 <div class="info-image-desc">
@@ -373,7 +373,7 @@
                 <img src="/kame-house/img/dbz/gotenks-fusion.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
-                <div class="info-image-title">
+                <div class="info-image-title info-image-title-top">
                   Synchronize
                 </div>
                 <div class="info-image-desc">
@@ -419,7 +419,7 @@
                 <img src="/kame-house/img/dbz/gohan-studying.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
-                <div class="info-image-title">
+                <div class="info-image-title info-image-title-bottom">
                   Media Library
                 </div>
                 <div class="info-image-desc">
@@ -464,7 +464,7 @@
                   <img src="/kame-house/img/marvel/spiderman-swinging.jpg" alt="info image"/>
                 </td>
                 <td class="info-image-info">
-                  <div class="info-image-title">
+                  <div class="info-image-title info-image-title-bottom">
                     Power Management
                   </div>
                   <div class="info-image-desc">
@@ -509,7 +509,7 @@
                 <img src="/kame-house/img/dbz/goku-chibi-tail.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
-                <div class="info-image-title">
+                <div class="info-image-title info-image-title-top">
                   Tail Logs
                 </div>
                 <div class="info-image-desc">
@@ -616,7 +616,7 @@
               <img src="/kame-house/img/saint-seiya/camus-aurora-execution.jpg" alt="info image"/>
             </td>
             <td class="info-image-info">
-              <div class="info-image-title">
+              <div class="info-image-title info-image-title-bottom">
                 Aurora Execution
               </div>
               <div class="info-image-desc">

@@ -46,7 +46,7 @@
               <img src="/kame-house/img/dbz/roshi-goku-krillin-fight.jpg" alt="info image"/>
             </td>
             <td class="info-image-info">
-              <div class="info-image-title">
+              <div class="info-image-title info-image-title-top">
                 Execute Shell Script
               </div>
               <div class="info-image-desc">

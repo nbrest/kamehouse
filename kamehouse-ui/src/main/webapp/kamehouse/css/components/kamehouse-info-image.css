@@ -136,6 +136,18 @@
   }
 }
 
+@media (max-width : 900px) {
+  .info-image-title-top {
+    top: 10px;
+  }
+}
+
+@media (max-width : 900px) {
+  .info-image-title-bottom {
+    top: 160px;
+  }
+}
+
 .info-image-desc {
   text-align: left;
   font-size: 20px;
