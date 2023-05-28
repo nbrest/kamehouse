@@ -23,10 +23,10 @@ main() {
   restartSshService
   startHttpd
   startMysql
+  startTomcat
   configGitDevDir
   pullKameHouse
   deployKameHouse
-  startTomcat
   cloneGitRepoToRoot
   printEnv
   keepContainerAlive
