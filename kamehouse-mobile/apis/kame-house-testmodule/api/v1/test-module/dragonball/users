@@ -1,0 +1,36 @@
+[{
+	"id": 15,
+	"username": "goku",
+	"email": "goku@dbz.com",
+	"age": 213,
+	"powerLevel": 12,
+	"stamina": 177
+}, {
+	"id": 76,
+	"username": "gohan",
+	"email": "gohan@dbz.com",
+	"age": 26,
+	"powerLevel": 234,
+	"stamina": 232
+}, {
+	"id": 2245,
+	"username": "bulma",
+	"email": "bulma@dbz.com",
+	"age": 1,
+	"powerLevel": 2,
+	"stamina": 3
+}, {
+	"id": 2246,
+	"username": "vegeta",
+	"email": "vegeta@dbz.com",
+	"age": 1,
+	"powerLevel": 2,
+	"stamina": 3345
+}, {
+	"id": 2334,
+	"username": "user",
+	"email": "user@dbz.com",
+	"age": 1,
+	"powerLevel": 2,
+	"stamina": 323
+}]

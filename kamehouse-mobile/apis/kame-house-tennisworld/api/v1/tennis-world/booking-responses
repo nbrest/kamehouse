@@ -1,0 +1,5910 @@
+[{
+	"id": 2519,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2518,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1686405600000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685253660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2517,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2516,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1686405600000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685252760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2515,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2514,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1686405600000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685251860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2513,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2512,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1686405600000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685250960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2511,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2510,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1686405600000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685250060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2509,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2508,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1686405600000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685249174000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2507,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2506,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1685973600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685022360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2505,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2504,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1685973600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685021460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2503,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2502,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1685973600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685020560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2501,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2500,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1685973600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685019660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2499,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2498,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1685973600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1685018772000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2492,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2491,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684676760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2490,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2489,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684675860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2488,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2487,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684674960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2486,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2485,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684657861000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2484,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2483,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684656960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2482,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2481,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684656060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2480,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2479,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684655160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2478,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2477,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684654260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2476,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2475,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684653360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2474,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2473,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684652460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2472,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2471,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684651560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2470,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2469,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684650660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2468,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2467,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684649760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2466,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2465,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684648860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2464,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2463,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684647960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2462,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2461,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684647060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2460,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2459,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684646160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2458,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2457,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684645260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2456,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2455,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684644360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2454,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2453,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684643460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2452,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2451,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684642560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2450,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2449,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685800800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684641674000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2422,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2421,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684056660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2420,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2419,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684055762000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2406,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2405,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1595858400000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684055507000,
+		"scheduled": false,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2404,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2403,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684055504000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2398,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2397,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684054861000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2396,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2395,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684053961000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2394,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2393,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684053060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2392,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2391,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684052160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2390,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2389,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684051261000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2388,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2387,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684050362000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2386,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2385,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684049466000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2384,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2383,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684048560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2382,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2381,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684047660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2380,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2379,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684046760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2378,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2377,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684045861000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2376,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2375,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684044960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2374,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2373,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684044060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2372,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2371,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684043160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2370,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2369,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684042260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2368,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2367,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684041360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2366,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2365,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684040460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2364,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2363,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684039560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2362,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2361,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684038660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2360,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2359,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684037760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2358,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2357,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684036860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2356,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2355,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1685196000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1684026960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2353,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2352,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683812760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2351,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2350,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683811860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2349,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2348,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683810961000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2347,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2346,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683810060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2345,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2344,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683809160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2343,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2342,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683808260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2341,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2340,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683807360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2339,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2338,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683806460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2337,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2336,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1684764000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683805561000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2329,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2328,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683467160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2327,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2326,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683462660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2325,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2324,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683461760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2323,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2322,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683460860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2321,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2320,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683459960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2319,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2318,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683451860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2317,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2316,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683450960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2315,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2314,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683450060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2313,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2312,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683449160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2311,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2310,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683448260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2309,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2308,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683447360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2307,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2306,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683446460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2305,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2304,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683445560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2303,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2302,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683444660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2301,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2300,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683443760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2299,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2298,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683442860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2297,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2296,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683441960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2295,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2294,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683441060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2293,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2292,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683440160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2291,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2290,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683439260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2289,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2288,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683438360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2287,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2286,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683437460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2285,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2284,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683436560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2283,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2282,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683435660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2281,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2280,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683434760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2279,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2278,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683433860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2277,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2276,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683432960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2275,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2274,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683432060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2273,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2272,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683431160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2271,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2270,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683430260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2269,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2268,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683429360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2267,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2266,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683428460000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2265,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2264,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683427561000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2263,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2262,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683426660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2261,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2260,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683425760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2259,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2258,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683424860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2257,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2256,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1684591200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1683423973000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2239,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2238,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682949600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681996560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2237,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2236,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682949600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681995660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2235,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2234,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682949600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681994760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2233,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2232,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682949600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681993860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2231,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2230,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682949600000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681992961000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2222,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2221,
+		"username": "seichi",
+		"password": null,
+		"date": 1681394400000,
+		"time": "01:59",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681809049000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2220,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2219,
+		"username": "seichi",
+		"password": null,
+		"date": 1681826400000,
+		"time": "01:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681798712000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2218,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2217,
+		"username": "seichi",
+		"password": null,
+		"date": 1681826400000,
+		"time": "01:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681798681000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2214,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2213,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682776800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681652760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2212,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2211,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682776800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681651860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2210,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2209,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682776800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681650960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2208,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2207,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682776800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681650060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2206,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2205,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682776800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681649161000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2204,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2203,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682776800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681648262000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2202,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2201,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681393560000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2200,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2199,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681392660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2198,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2197,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681391760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2196,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2195,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681390860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2194,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2193,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681389960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2192,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2191,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681389060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2190,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2189,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681388160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2188,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2187,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681387260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2186,
+	"status": "INTERNAL_ERROR",
+	"message": "Error executing booking request to tennis world Message: No such host is known (tennisworld.perfectgym.com.au)",
+	"request": {
+		"id": 2185,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681386360000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2184,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2183,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681383660000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2182,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2181,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681382760000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2180,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2179,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681381860000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2178,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2177,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681380960000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2176,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2175,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681380060000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2174,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2173,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681379160000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2172,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2171,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681378260000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2170,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2169,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1682344800000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681377361000,
+		"scheduled": true,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2168,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2167,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681121383000,
+		"scheduled": false,
+		"courtNumber": 3
+	}
+}, {
+	"id": 2166,
+	"status": "INTERNAL_ERROR",
+	"message": "Unable to determine zoneId",
+	"request": {
+		"id": 2165,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681121333000,
+		"scheduled": false,
+		"courtNumber": 4
+	}
+}, {
+	"id": 2164,
+	"status": "INTERNAL_ERROR",
+	"message": "Unable to determine zoneId",
+	"request": {
+		"id": 2163,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681121301000,
+		"scheduled": false,
+		"courtNumber": 7
+	}
+}, {
+	"id": 2162,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2161,
+		"username": "seichi",
+		"password": null,
+		"date": 1681221600000,
+		"time": "12:33",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681119679000,
+		"scheduled": false,
+		"courtNumber": 12
+	}
+}, {
+	"id": 2160,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2159,
+		"username": "seichi@goku.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "14:23",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681119555000,
+		"scheduled": false,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2158,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2157,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681118877000,
+		"scheduled": false,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2156,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2155,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681118045000,
+		"scheduled": false,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2154,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2153,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "90",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681118016000,
+		"scheduled": false,
+		"courtNumber": 0
+	}
+}, {
+	"id": 2152,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2151,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "90",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681115595000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2150,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2149,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681115060000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2148,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2147,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681115013000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2146,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2145,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "30",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681114955000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2144,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2143,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:30",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681104948000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2142,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2141,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "18:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681104477000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2140,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2139,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "17:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681104351000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2138,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2137,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681104272000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2136,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2135,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681104211000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2134,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 2133,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681103324000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2132,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2131,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681102763000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2130,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2129,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681102645000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2128,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2127,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681102051000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2126,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2125,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681101406000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2124,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2123,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681101207000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2122,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 401 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/FacilityCalendar/GetClubZoneTypes",
+	"request": {
+		"id": 2121,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681101008000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2120,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2119,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681100562000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2118,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2117,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681100235000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2116,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2115,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681097854000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2114,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2113,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681092293000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2112,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2111,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091810000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2110,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2109,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091793000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2108,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2107,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091652000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2106,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2105,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091618000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2104,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2103,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091412000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2102,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 500 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next",
+	"request": {
+		"id": 2101,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091355000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2100,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2099,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681091151000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2098,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2097,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681090313000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2096,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2095,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681090144000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2094,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2093,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681086834000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2092,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2091,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681221600000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681086776000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2090,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2089,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681057671000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2088,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2087,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681057642000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2086,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2085,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681057429000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2084,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2083,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681057403000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2082,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2081,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681057063000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2080,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2079,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681056656000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2078,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2077,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681056314000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2076,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http server error response code: 302 for request to https://tennisworld.perfectgym.com.au/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next",
+	"request": {
+		"id": 2075,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "16:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "NTC_CLAY_COURTS",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681056086000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2074,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2073,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681047960000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2072,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2071,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681047060000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2070,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2069,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681046160000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2068,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2067,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681045260000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2066,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2065,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681044360000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2064,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2063,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681043460000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2062,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2061,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681042560000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2060,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2059,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681041660000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2058,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2057,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681040760000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2056,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2055,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681039860000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2054,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2053,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681038960000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2052,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2051,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681038060000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2050,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2049,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681037160000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2048,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2047,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681036260000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2046,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2045,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681035360000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2044,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2043,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1595858400000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681035290000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2042,
+	"status": "ERROR",
+	"message": "Invalid http client error response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2041,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681035288000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2040,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2039,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681034460000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2038,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2037,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1595858400000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681034066000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2036,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2035,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1595858400000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681033967000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2034,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2033,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681033965000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2032,
+	"status": "INTERNAL_ERROR",
+	"message": "Error executing booking request to tennis world Message: No such host is known (tennisworld.perfectgym.com.au)",
+	"request": {
+		"id": 2031,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681030861000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2030,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2029,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681029960000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2028,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2027,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681029061000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2026,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2025,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681027500000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2024,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2023,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681013100000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2022,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2021,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681011300000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2020,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2019,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681009500000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2018,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2017,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681007700000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2016,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2015,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681005900000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2014,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Auth/Login",
+	"request": {
+		"id": 2013,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1682172000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ADULT_MATCH_PLAY_SINGLES",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1681004100000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 2012,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 2011,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680884465000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2010,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 2009,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881702000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2008,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 2007,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881400000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2006,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 2005,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881374000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2004,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 2003,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881212000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2002,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 2001,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881140000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 2000,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 1999,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881108000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1998,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 1997,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680881070000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1996,
+	"status": "INTERNAL_ERROR",
+	"message": "Invalid http response code: 499 for request to https://tennisworld.perfectgym.com.au/ClientPortal2/Classes/ClassCalendar/BookClass",
+	"request": {
+		"id": 1995,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680880797000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1994,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1993,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680880052000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1992,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1991,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680868264000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1990,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1989,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680868149000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1988,
+	"status": "INTERNAL_ERROR",
+	"message": "Book class response from PerfectGym doesn't contain a Tickets entry",
+	"request": {
+		"id": 1987,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680868050000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1986,
+	"status": "INTERNAL_ERROR",
+	"message": "Book class response from PerfectGym doesn't contain a Tickets entry",
+	"request": {
+		"id": 1985,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680867822000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1984,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1983,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680796440000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1982,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1981,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "13:00",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680755446000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1980,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1979,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680755379000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1978,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1977,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751752000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1976,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1975,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751704000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1974,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1973,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": true,
+		"creationDate": 1680751655000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1972,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1971,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751580000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1970,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1969,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751478000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1968,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1967,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751296000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1966,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1965,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751291000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1964,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1963,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "12:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751160000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1962,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1961,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680751123000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1960,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1959,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680750979000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1957,
+	"status": "ERROR",
+	"message": "No bookable class was found for this booking request",
+	"request": {
+		"id": 1956,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680750861000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1955,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1954,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680750098000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1953,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1952,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681653600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680748524000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1951,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1950,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681567200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744803000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1949,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1948,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681567200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744785000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1947,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1946,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680703200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744694000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1945,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1944,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681567200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744654000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1943,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1942,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681567200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744621000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1941,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1940,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681567200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744579000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1939,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1938,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681567200000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680744450000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1937,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1936,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680789600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680743901000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1935,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1934,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680789600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680743803000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1933,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1932,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680789600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680743771000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1931,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1930,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680789600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680743765000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1929,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1928,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680789600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680743698000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1927,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1926,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680789600000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680743665000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1925,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1924,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680706065000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1923,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1922,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680705990000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1921,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1920,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680705163000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1919,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1918,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680704217000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1917,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world.",
+	"request": {
+		"id": 1916,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680703800000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1915,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world.",
+	"request": {
+		"id": 1914,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680703320000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1913,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world.",
+	"request": {
+		"id": 1912,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1681740000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680703201000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1911,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1910,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680680391000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1909,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1908,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680679956000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1906,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1905,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680678196000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1904,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1903,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680675948000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1902,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1901,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680675041000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1900,
+	"status": "INTERNAL_ERROR",
+	"message": "Error executing class booking request to tennis world Message: No such host is known (tennisworld.perfectgym.com.auClientPortal2)",
+	"request": {
+		"id": 1899,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680616800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680674732000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1898,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1897,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680664048000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1896,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world.",
+	"request": {
+		"id": 1895,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680663986000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1894,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1893,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680663942000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1892,
+	"status": "SUCCESS",
+	"message": "Completed the booking request successfully",
+	"request": {
+		"id": 1891,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680663109000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1890,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1889,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680660950000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1888,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1887,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680653719000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1886,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1885,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680653603000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1884,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1883,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680653209000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1882,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1881,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1681480800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680653030000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1880,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1879,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680094920000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1878,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1877,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1681135200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1680094801000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1876,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1875,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680094800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679980702000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1874,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1873,
+		"username": "brest.nico@gmail.com",
+		"password": null,
+		"date": 1680094800000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679980372000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1872,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1871,
+		"username": "invalid.user@gmail.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679919697000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1870,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1869,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1595858400000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679917100000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1868,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1867,
+		"username": "invalid.user@gmail.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679916293000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1866,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1865,
+		"username": "seichi",
+		"password": null,
+		"date": 1679835600000,
+		"time": "22:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679915849000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1864,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1863,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1680354000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679148600000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1862,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1861,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1680354000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679148120000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1860,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1859,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1680354000000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1679148000000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1858,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1857,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678889400000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1856,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1855,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678888920000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1854,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1853,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678888800000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1852,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1851,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678885800000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1850,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1849,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678885320000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1848,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1847,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1679922000000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678885200000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1846,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1845,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1679749200000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1678543208000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1823,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1822,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1595858400000,
+		"time": "18:45",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+		"duration": "60",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1655638217000,
+		"scheduled": false,
+		"courtNumber": null
+	}
+}, {
+	"id": 1821,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1820,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1656770400000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1655638214000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1808,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1807,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648305000000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1806,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1805,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648303800000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1804,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1803,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648303320000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1802,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1801,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648303200000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1800,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1799,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648300200000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1798,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1797,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648299720000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1796,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1795,
+		"username": "goku@dbz.com",
+		"password": null,
+		"date": 1649512800000,
+		"time": "11:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1648299601000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1794,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1793,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1647349200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1647267000000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1792,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1791,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1647349200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1647266520000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1790,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1789,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1647349200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1647266402000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1788,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1787,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1647349200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1647263400000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}, {
+	"id": 1786,
+	"status": "ERROR",
+	"message": "Invalid login to tennis world",
+	"request": {
+		"id": 1785,
+		"username": "gohan@dbz.com",
+		"password": null,
+		"date": 1647349200000,
+		"time": "19:15",
+		"site": "MELBOURNE_PARK",
+		"sessionType": "CARDIO",
+		"duration": "45",
+		"cardDetails": null,
+		"dryRun": false,
+		"creationDate": 1647262923000,
+		"scheduled": true,
+		"courtNumber": null
+	}
+}]
