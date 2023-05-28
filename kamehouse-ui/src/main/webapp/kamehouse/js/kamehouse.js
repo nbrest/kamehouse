@@ -2291,7 +2291,7 @@ function KameHouseCoreFunctions() {
     const errorMessage = message + ": [ 'responseCode' : '" + responseCode 
       + "', 'responseDescription' : '" + responseDescription 
       + "', 'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) 
-      + "', 'responseBody' : '" + responseBody 
+      + "', 'responseBody' : '" + kameHouse.json.stringify(responseBody) 
       + "' ]";
     error(errorMessage);
   }
