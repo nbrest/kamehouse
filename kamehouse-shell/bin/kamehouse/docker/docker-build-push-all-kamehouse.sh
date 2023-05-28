@@ -21,9 +21,9 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -b
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-push-kamehouse.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -o pi
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -b -o pi
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-push-kamehouse.sh -o pi
 }
 
