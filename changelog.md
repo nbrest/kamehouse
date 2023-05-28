@@ -19,6 +19,8 @@
 - Updated webapp tabs info-image for ui
 - Added info image to groot server manager command execution
 - Added option to set title at the top or bottom on info image
+- Updated dockerfile to combine multiple run commands into one
+- Updated dockerfile and docker build scripts to skip docker cache with a command line parameter
 - Fixed bugs
 
 #### v8.13
