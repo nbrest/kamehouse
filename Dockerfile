@@ -37,75 +37,77 @@ ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
 ARG KAMEHOUSE_PASSWORD=gohan
 ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
+# Setup users and apache httpd
 COPY docker/etc/sudoers /etc/sudoers
-RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
-  echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
-  usermod -a -G adm ${KAMEHOUSE_USERNAME} ; \
-  usermod -a -G sudo ${KAMEHOUSE_USERNAME}
-
-# Setup apache httpd
 COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
-RUN chown ${KAMEHOUSE_USERNAME}:users -R /var/www/html ; \
+
+# Setup users 
+RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
+  echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
+  usermod -a -G adm ${KAMEHOUSE_USERNAME} ; \
+  usermod -a -G sudo ${KAMEHOUSE_USERNAME} ; \
+  # Setup apache httpd
+  chown ${KAMEHOUSE_USERNAME}:users -R /var/www/html ; \
   ln -s /var/www/html/ /var/www/kamehouse-webserver ; \
   chown ${KAMEHOUSE_USERNAME}:users -R /var/www/kamehouse-webserver ; \
   a2ensite default-ssl ; \
-  a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
-
-# Setup ${KAMEHOUSE_USERNAME} home
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
-    mkdir -p /home/${KAMEHOUSE_USERNAME}/.ssh"
-
-# Install tomcat
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs ; \
+  a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite ; \
+  # Setup ${KAMEHOUSE_USERNAME} home
+  sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
+    mkdir -p /home/${KAMEHOUSE_USERNAME}/.ssh" ; \
+  # Install tomcat
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs ; \
   cd /home/${KAMEHOUSE_USERNAME}/programs ; \
   wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
   tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
   mv /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53 /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat ; \
   rm /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53.tar.gz ; \
-  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/bin/catalina.sh"
+  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/bin/catalina.sh" ; \
+  ### Setup directories ###
+  # /home/${KAMEHOUSE_USERNAME}/.config/vlc
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.config/vlc/" ; \
+  # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse" ; \
+  # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/" ; \
+  # /home/${KAMEHOUSE_USERNAME}/programs
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd ; \
+  mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-cmd/bin ; \
+  mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-cmd/lib" ; \
+  chmod a+rx /var/log/apache2 ; \
+  ln -s /var/log/apache2 /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd/logs ; \
+  # Setup mocked bins
+  mv /usr/bin/vlc /usr/bin/vlc-bin
+
+# Setup mocked bins
+COPY docker/mocked-bin/vlc /usr/bin/vlc
+COPY docker/mocked-bin/vncdo /usr/local/bin/vncdo
+COPY docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
+# Setup tomcat
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/server.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/manager.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/Catalina/localhost/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/host-manager.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/Catalina/localhost/
-
-################## Setup directories ################################
+### Setup directories ###
 # /home/${KAMEHOUSE_USERNAME}/.config/vlc
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.config/vlc/"
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/vlc/* /home/${KAMEHOUSE_USERNAME}/.config/vlc/
-
 # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse"
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.vnc.server.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.unlock.screen.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-
 # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/"
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.cred /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/.cred
-
-# /home/${KAMEHOUSE_USERNAME}/programs
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd ; \
-  mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-cmd/bin ; \
-  mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-cmd/lib" ; \
-  chmod a+rx /var/log/apache2 ; \
-  ln -s /var/log/apache2 /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd/logs
-
-#####################################################################
-
-# Setup mocked bins
-RUN mv /usr/bin/vlc /usr/bin/vlc-bin
-COPY docker/mocked-bin/vlc /usr/bin/vlc
-COPY docker/mocked-bin/vncdo /usr/local/bin/vncdo
-COPY docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
-RUN chmod a+x /usr/bin/vlc ; \
-  chmod a+x /usr/local/bin/vncdo ; \
-  chmod a+x /usr/bin/gnome-screensaver-command
 
 # Copy docker setup folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
+
+# Setup mocked bins
+RUN chmod a+x /usr/bin/vlc ; \
+  chmod a+x /usr/local/bin/vncdo ; \
+  chmod a+x /usr/bin/gnome-screensaver-command
 
 # run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00
