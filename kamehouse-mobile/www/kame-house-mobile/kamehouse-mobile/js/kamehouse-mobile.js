@@ -1010,6 +1010,9 @@ function MockLocalhostServer() {
   }
 
   async function mockResponseBody(httpMethod, config, url, requestHeaders, requestBody) {
+    if (isServerModificationRequest(httpMethod, url)) {
+      return getServerModificationErrorResponseBody(httpMethod, url);
+    }
     let requestUrl = url;
     if (isCrudEntityUrl(url)) {
       requestUrl = getCrudBaseUrl(url);
@@ -1019,13 +1022,24 @@ function MockLocalhostServer() {
     if (responseBodyParsed == null) {
       return responseBody;
     }
-    if (isCrudBaseUrl(url)) {
-      return getCrudBaseUrlResponseBody(httpMethod, responseBodyParsed);
-    }
     if (isCrudEntityUrl(url)) {
       return getCrudEntityResponseBody(httpMethod, getCrudEntityId(url), responseBodyParsed);
     }
     return responseBodyParsed;
+  }
+
+  function isServerModificationRequest(httpMethod, url) {
+    const ALLOWED_NON_GET_URLS = [
+      "/kame-house/login"
+    ];
+    return httpMethod != "GET" && !ALLOWED_NON_GET_URLS.includes(url);
+  }
+
+  function getServerModificationErrorResponseBody(httpMethod, url) {
+    const errorResponse = {
+      message: "Gomen-Chai. Server modifications are not supported in this mock server. '" + httpMethod + " " + url + "' unavailable"
+    };
+    return errorResponse;
   }
 
   /**
@@ -1037,15 +1051,6 @@ function MockLocalhostServer() {
       return true;
     }
     return false;
-  }
-
-  function isCrudBaseUrl(url) {
-    const CRUD_URLS = [
-      "/kame-house-admin/api/v1/admin/kamehouse/users", 
-      "/kame-house-tennisworld/api/v1/tennis-world/users", 
-      "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs"
-    ];
-    return CRUD_URLS.includes(url);
   }
 
   function getCrudEntityId(url) {
@@ -1073,39 +1078,12 @@ function MockLocalhostServer() {
     return errorResponse;
   }
 
-  function getCrudBaseUrlResponseBody(httpMethod, responseBody) {
-    if (httpMethod == "GET") {
-      return responseBody;
-    }
-    const errorResponse = {
-      message: "Mocked error response for CRUD modifications"
-    };
-    return errorResponse;
-  }
-
   function mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody) {
-    if (isCrudBaseUrl(url)) {
-      return getCrudBaseUrlResponseCode(httpMethod);
-    }
-    if (isCrudEntityUrl(url)) {
-      return getCrudEntityResponseCode(httpMethod);
+    if (isServerModificationRequest(httpMethod, url)) {
+      return "503";
     }
     if (isFetchErrorResponse(responseBody)) {
       return "404";
-    }
-    return "200";
-  }
-
-  function getCrudEntityResponseCode(httpMethod) {
-    if (httpMethod != "GET") {
-      return "409";
-    }
-    return "200";
-  }
-
-  function getCrudBaseUrlResponseCode(httpMethod) {
-    if (httpMethod != "GET") {
-      return "409";
     }
     return "200";
   }
