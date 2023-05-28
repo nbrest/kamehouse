@@ -72,7 +72,6 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/tomcat-users.xml /home/${
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/manager.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/Catalina/localhost/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/host-manager.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/Catalina/localhost/
 
-
 ################## Setup directories ################################
 # /home/${KAMEHOUSE_USERNAME}/.config/vlc
 RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.config/vlc/"
@@ -108,18 +107,15 @@ RUN chmod a+x /usr/bin/vlc ; \
 # Copy docker setup folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
 
-# run docker-build-kamehouse.sh with -b to skip cache from this point onwards
+# run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00
 RUN echo "${BUILD_DATE_KAMEHOUSE}" > /home/${KAMEHOUSE_USERNAME}/.docker-image-build-date; 
 
-# Clone KameHouse dev branch
-# Deploy latest version of kamehouse
-# Also updates the kamehouse-shell directory with the latest version of the scripts
-# And recreate sample video playlists directories
 RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
+  # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
   cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   git checkout dev ; \
@@ -127,31 +123,33 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/git
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker ; \
+  # clear temporary files
   mvn clean ; \
-  rm -rf /home/${KAMEHOUSE_USERNAME}/.m2 ; \
+  rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
+  # And recreate sample video playlists directories
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh" ; \
+  # Install groot
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh -u ${KAMEHOUSE_USERNAME} 
-
-# /home/${KAMEHOUSE_USERNAME}/home-synced
-RUN sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys ; \
+  # Install kamehouse shell for root
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh -u ${KAMEHOUSE_USERNAME} ; \
+  # /home/${KAMEHOUSE_USERNAME}/home-synced
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys ; \
   mkdir -p /home/${KAMEHOUSE_USERNAME}/home-synced/httpd ; \
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.pkcs12 ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.crt"
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/
-
-# Httpd root index.html
-RUN rm /var/www/html/index.html ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html
-
-# Open mysqldb to external connections and intial dump of mysql data
-RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
+  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.crt" ; \
+  # Httpd root index.html
+  rm /var/www/html/index.html ; \
+  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html ; \
+  # Open mysqldb to external connections and intial dump of mysql data
+  sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mariadb start ; \
   sleep 5 ; \
   mysql < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
   mysql -e"set @nikoLqsPass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MYSQL_PASS_NIKOLQS | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
+
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090
