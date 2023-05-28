@@ -31,8 +31,7 @@ function BookingService() {
         kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error executing booking request");
         kameHouse.plugin.modal.loadingWheelModal.close();
         try {
-          const bookingResponse = kameHouse.json.parse(responseBody);
-          updateBookingResponseTable(bookingResponse, responseCode);
+          updateBookingResponseTable(kameHouse.json.parse(responseBody), responseCode);
         } catch (error) {
           kameHouse.logger.error("Error parsing the response: " + error);
           kameHouse.util.dom.setHtml($('#brt-status'), "Error parsing response body");
@@ -123,17 +122,18 @@ function BookingService() {
       kameHouse.util.dom.setHtml($('#brt-response-id'), bookingResponse.id);
       kameHouse.util.dom.setHtml($('#brt-status'), bookingResponse.status);
       kameHouse.util.dom.setHtml($('#brt-message'), bookingResponse.message);
-      if (!kameHouse.core.isEmpty()) {
-        kameHouse.util.dom.setHtml($('#brt-request-id'), bookingResponse.request.id);
-        kameHouse.util.dom.setHtml($('#brt-username'), bookingResponse.request.username);
-        const date = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.date);
+      const bookingRequest = bookingResponse.request;
+      if (!kameHouse.core.isEmpty(bookingRequest)) {
+        kameHouse.util.dom.setHtml($('#brt-request-id'), bookingRequest.id);
+        kameHouse.util.dom.setHtml($('#brt-username'), bookingRequest.username);
+        const date = kameHouse.util.time.getDateFromEpoch(bookingRequest.date);
         kameHouse.util.dom.setHtml($('#brt-date'), date.toLocaleDateString());
-        kameHouse.util.dom.setHtml($('#brt-time'), bookingResponse.request.time);
-        kameHouse.util.dom.setHtml($('#brt-session-type'), bookingResponse.request.sessionType);
-        kameHouse.util.dom.setHtml($('#brt-site'), bookingResponse.request.site);
-        kameHouse.util.dom.setHtml($('#brt-duration'), bookingResponse.request.duration);   
-        kameHouse.util.dom.setHtml($('#brt-court-number'), bookingResponse.request.courtNumber);    
-        const creationDate = kameHouse.util.time.getDateFromEpoch(bookingResponse.request.creationDate);
+        kameHouse.util.dom.setHtml($('#brt-time'), bookingRequest.time);
+        kameHouse.util.dom.setHtml($('#brt-session-type'), bookingRequest.sessionType);
+        kameHouse.util.dom.setHtml($('#brt-site'), bookingRequest.site);
+        kameHouse.util.dom.setHtml($('#brt-duration'), bookingRequest.duration);   
+        kameHouse.util.dom.setHtml($('#brt-court-number'), bookingRequest.courtNumber);    
+        const creationDate = kameHouse.util.time.getDateFromEpoch(bookingRequest.creationDate);
         kameHouse.util.dom.setHtml($('#brt-creation-date'), creationDate.toLocaleString());   
       }
   }

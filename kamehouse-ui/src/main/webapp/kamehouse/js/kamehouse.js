@@ -904,7 +904,7 @@ function KameHouseDomUtils() {
       return response.text();
     } catch (error) {
       kameHouse.logger.error("Error executing fetch: " + error);
-      return "Error executing fetch to " + filePath;
+      return '{"message": "Error executing fetch to ' + filePath + '"}';
     }
   }
 
@@ -1614,18 +1614,18 @@ function KameHouseJson() {
     try {
       return JSON.parse(string);
     } catch (error) {
-      kameHouse.logger.warn("Error parsing string as json. Returning null. " + error);
+      kameHouse.logger.warn("Error on JSON.parse(). Returning initial value. " + error);
     }
-    return null;
+    return string;
   }
 
   function stringify(object, replacer, identation) {
     try {
       return JSON.stringify(object, replacer, identation);
     } catch (error) {
-      kameHouse.logger.warn("Error stringifying object. Returning null. " + error);
+      kameHouse.logger.warn("Error on JSON.stringify(). Returning initial value. " + error);
     }
-    return null;
+    return object;
   }
 }
 

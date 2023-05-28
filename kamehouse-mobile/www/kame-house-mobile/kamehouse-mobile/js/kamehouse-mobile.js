@@ -559,7 +559,7 @@ function KameHouseMobileConfigManager() {
   async function loadBackendDefaultConfig() {
     backendDefaultConfig = kameHouse.json.parse(await kameHouse.util.fetch.loadFile('/kame-house-mobile/json/config/backend.json'));
     kameHouse.logger.info("backend default config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(backendDefaultConfig)));
-    setMobileConfigBackend(kameHouse.json.parse(kameHouse.json.stringify(backendDefaultConfig)));
+    setMobileConfigBackend(backendDefaultConfig);
   }
   
   async function loadEncryptionKey() {
@@ -841,7 +841,7 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Resetting config to default values");
     kameHouse.plugin.modal.basicModal.close();
     initGlobalMobileConfig();
-    setMobileConfigBackend(kameHouse.json.parse(kameHouse.json.stringify(backendDefaultConfig)));
+    setMobileConfigBackend(backendDefaultConfig);
     reGenerateMobileConfigFile(false);
     kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings reset to defaults", 1000);
     refreshBackendServerViewFromConfig();
@@ -1018,6 +1018,8 @@ function MockLocalhostServer() {
       requestUrl = getCrudBaseUrl(url);
     }
     const responseBody = await kameHouse.util.fetch.loadFileWithTimeout(requestUrl, 8000);
+    // Usually kamehouse apis would return header content-type application/json, so the response body
+    // would be mapped to a json object. here I need to map it manually
     const responseBodyParsed = kameHouse.json.parse(responseBody);
     if (responseBodyParsed == null) {
       return responseBody;

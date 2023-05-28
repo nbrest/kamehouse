@@ -113,9 +113,9 @@ function DragonBallUserServiceJsp() {
     if (!kameHouse.core.isEmpty(responseBody)) {
       try {
         errorMessage = errorMessage + " : " + kameHouse.json.parse(responseBody).message;
-      } catch (e) {
-        const message = "Error parsing response body";
-        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      } catch (error) {
+        const message = "Error parsing api error response body. " + error;
+        kameHouse.logger.error(message);
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);
