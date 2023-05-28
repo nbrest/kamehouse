@@ -21,15 +21,29 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
+BUILD_DATE_KAMEHOUSE="0000-00-00"
 
 mainProcess() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
-  log.debug "docker build --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} ."
-  docker build --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
+  log.debug "docker build --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} --build-arg BUILD_DATE_KAMEHOUSE=${BUILD_DATE_KAMEHOUSE} -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} ."
+  docker build \
+    --build-arg BUILD_DATE_KAMEHOUSE="${BUILD_DATE_KAMEHOUSE}" \
+    --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
+    -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
 }
 
 parseArguments() {
   parseDockerOs "$@"
+   while getopts ":bo:" OPT; do
+    case $OPT in
+    ("b")
+      BUILD_DATE_KAMEHOUSE=$(date)
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
 }
 
 setEnvFromArguments() {
@@ -38,6 +52,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   printDockerOsOption
+  addHelpOption "-b" "force build of kamehouse. Skip docker cache from build step"
 }
 
 main "$@"

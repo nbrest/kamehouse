@@ -144,8 +144,9 @@ RUN sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.
   mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
   mysql -e"set @nikoLqsPass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MYSQL_PASS_NIKOLQS | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
 
-# Increment number in the next command to trigger executing all the following layers instead of getting them from cache
-RUN echo "echo 'Update number to avoid cache 131'"
+# run docker-build-kamehouse.sh with -b to skip cache from this point onwards
+ARG BUILD_DATE_KAMEHOUSE=0000-00-00
+RUN echo "${BUILD_DATE_KAMEHOUSE}" > /home/${KAMEHOUSE_USERNAME}/.docker-image-build-date; 
 
 # Deploy latest version of kamehouse (should have most of the dependencies already downloaded)
 # Also updates the kamehouse-shell directory with the latest version of the scripts
