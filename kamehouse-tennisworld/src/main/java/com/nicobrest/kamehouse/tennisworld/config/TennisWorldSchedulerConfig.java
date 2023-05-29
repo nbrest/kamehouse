@@ -67,16 +67,18 @@ public class TennisWorldSchedulerConfig {
   }
 
   /**
-   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes.
+   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes at 30 seconds of
+   * the minute.
    */
   private static Trigger scheduledBookingTrigger(
       JobDetail scheduledBookingJobDetail, int hour, int minute) {
+    String cronExpression = String.format("30 %d %d ? * *", minute, hour);
     return TriggerBuilder.newTrigger()
         .forJob(scheduledBookingJobDetail)
         .withIdentity(TriggerKey.triggerKey("scheduledBookingTrigger_" + hour + "_" + minute))
         .withDescription("Trigger to schedule a booking job at " + hour + ":" + minute)
         .withSchedule(
-            CronScheduleBuilder.dailyAtHourAndMinute(hour, minute)
+            CronScheduleBuilder.cronSchedule(cronExpression)
                 .withMisfireHandlingInstructionDoNothing())
         .build();
   }
