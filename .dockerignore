@@ -1,0 +1,94 @@
+# ##################
+# Added by me     
+# ##################
+*.checkstyle
+**kamehouse**/logs/**
+logs/**
+**/tmp/**
+data/**
+
+# Patch files
+*.diff
+*.patch
+
+# ##################
+# Directories 
+# ##################
+**/build/
+/bin/
+**/target/
+
+# ##################
+# Compiled Files
+# ##################
+*.class
+
+# ##################
+# Package Files 
+# ##################
+# *.jar
+*.war
+*.ear
+*.db
+ 
+# ##################
+# Windows
+# ##################
+# Windows image file caches
+Thumbs.db 
+# Folder config file
+Desktop.ini
+ 
+# ##################
+# OSX
+# ##################
+.DS_Store
+.svn
+# Thumbnails
+._*
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+ 
+# ##################
+# Eclipse
+# ##################
+.factorypath
+*.pydevproject
+.project
+.metadata
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+/src/main/resources/rebel.xml
+# External tool builders
+.externalToolBuilders/
+# Locally stored "Eclipse launch configurations"
+*.launch
+# CDT-specific
+.cproject
+# PDT-specific
+.buildpath
+# Internal tomcat deployment
+**/WebContent/
+**/target/
+
+# ##################
+# IntelliJ
+# ##################
+.idea/**
+/.apt_generated/
+/.apt_generated_tests/
+*.iml
+
+##########
+# Node
+##########
+**/node_modules/
