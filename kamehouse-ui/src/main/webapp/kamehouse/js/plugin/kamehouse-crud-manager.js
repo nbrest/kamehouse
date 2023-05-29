@@ -23,6 +23,7 @@ function CrudManager() {
   const NO_DATA_ROW_ID = "no-data-from-backend-row";
 
   let entityName = "Set EntityName";
+  let entityNameJapanese = null;
   let icon = null;
   let url = "/kame-house-module/api/v1/override-url";
   let columns = [];
@@ -50,12 +51,14 @@ function CrudManager() {
    * Initialize the crud manager. Configuration object is: 
    * {
    *    entityName: "EntityName",
+   *    entityNameJapanese: "かめはうす",
    *    url: "/kame-house-module/etc",
    *    banner: "banner-fuji",
    *    icon: "/kame-house/img/prince-of-tennis/fuji-icon.png",
    *    infoImage: {
    *      img: "/kame-house/img/banners/prince-of-tennis/banner-seigaku.jpg",
    *      title: "Join Tennis World?",
+   *      titlePosition: "[top|bottom]", // default is center if not set
    *      desc: "Echizen Ryoma, Fuji Syuske, Tezuka Kunimitzu are already waiting for you",
    *      isReverse: true
    *    },
@@ -120,6 +123,7 @@ function CrudManager() {
     setIcon(config);
     setInfoImage(config);
     setEntityName(config.entityName);
+    setEntityNameJapanese(config.entityNameJapanese);
     setUrl(config.url);
     setColumns(config.columns);
     setReadOnly(config.readOnly);
@@ -164,6 +168,14 @@ function CrudManager() {
       const img = document.getElementById("info-image-img");
       kameHouse.util.dom.setAttribute(img, "src", infoImage.img); 
       kameHouse.util.dom.setHtml($("#info-image-title"), infoImage.title);
+      if (!kameHouse.core.isEmpty(infoImage.titlePosition)) {
+        if (infoImage.titlePosition.toUpperCase() == "TOP") {
+          kameHouse.util.dom.addClass($("#info-image-title"), "info-image-title-top");
+        }
+        if (infoImage.titlePosition.toUpperCase() == "BOTTOM") {
+          kameHouse.util.dom.addClass($("#info-image-title"), "info-image-title-bottom");
+        }
+      }
       kameHouse.util.dom.setHtml($("#info-image-desc"), infoImage.desc);
       if (infoImage.isReverse == true) {
         kameHouse.util.dom.addClass($("#crud-info-image"), "info-image-table-reverse");
@@ -204,10 +216,17 @@ function CrudManager() {
    */
   function updateEntityNameInView() {
     kameHouse.util.dom.setHtml($("title"), "KameHouse - " + getEntityNames());
-    kameHouse.util.dom.setHtml($("#crud-manager-banner-title"), getEntityNames());
+    kameHouse.util.dom.setHtml($("#crud-manager-banner-title"), getBannerTitle());
     kameHouse.util.dom.setHtml($("#crud-manager-list-title"), getListTitle());
     kameHouse.util.dom.setHtml($("#crud-manager-add-title"), getAddTitle());
     kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), getEditTitle());
+  }
+
+  function getBannerTitle() {
+    if (kameHouse.core.isEmpty(entityNameJapanese)) {
+      return getEntityNames();
+    }
+    return entityNameJapanese;
   }
 
   /**
@@ -252,6 +271,13 @@ function CrudManager() {
    */
   function setEntityName(name) {
     entityName = name;
+  }
+
+  /**
+   * Set the Japanese name of the entity managed by the crud manager.
+   */
+  function setEntityNameJapanese(name) {
+    entityNameJapanese = name;
   }
 
   /**

@@ -2,6 +2,7 @@ $(document).ready(() => {
   kameHouse.util.module.waitForModules(["crudManager"], () => {    
     kameHouse.plugin.crudManager.init({
       entityName: "Booking Schedule Config",
+      entityNameJapanese: "予約スケジュールの構成",
       url: "/kame-house-tennisworld/api/v1/tennis-world/booking-schedule-configs",
       banner: "banner-ryoma-ss",
       icon: "/kame-house/img/prince-of-tennis/inui-data-tennis-icon.png",

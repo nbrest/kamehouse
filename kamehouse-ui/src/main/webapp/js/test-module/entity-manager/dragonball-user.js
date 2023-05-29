@@ -3,12 +3,14 @@ $(document).ready(() => {
     kameHouse.plugin.crudManager.init({
       readOnly: true,
       entityName: "DragonBall User",
+      entityNameJapanese: "ドラゴンボール ユーザー",
       url: "/kame-house-testmodule/api/v1/test-module/dragonball/users",
       banner: "banner-goku-ssj1",
       icon: "/kame-house/img/dbz/gohan-ssj2-icon.png",
       infoImage: {
         img: "/kame-house/img/dbz/shen-long-dragonballs.jpg",
         title: "Raise your Ki to the limit",
+        titlePosition: "bottom",
         desc: "Join Goku and Bulma to find the 7 dragonballs and make your wishes come true with Shen Long",
         isReverse: true
       },

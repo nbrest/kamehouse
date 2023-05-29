@@ -1,6 +1,7 @@
 const config = {
   readOnly: true,
   entityName: "Booking Response",
+  entityNameJapanese: "予約応答",
   url: "/kame-house-tennisworld/api/v1/tennis-world/booking-responses",
   banner: "banner-rikkaidai",
   icon: "/kame-house/img/prince-of-tennis/yukimura-icon.png",
