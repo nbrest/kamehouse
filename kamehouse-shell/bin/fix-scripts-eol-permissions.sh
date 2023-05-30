@@ -22,7 +22,8 @@ fixPermissions() {
 
 fixEol() {
   log.info "Fixing end of line"
-  find . -regex ".*sh" -type f -exec vim {} -c "set ff=unix" -c ":wq" \;
+  #find . -regex ".*sh" -type f -exec vim {} -c "set ff=unix" -c ":wq" \;
+  find . -regex ".*sh" -type f -exec sed -i 's/\r$//' {} \;
 }
 
 log.info() {
