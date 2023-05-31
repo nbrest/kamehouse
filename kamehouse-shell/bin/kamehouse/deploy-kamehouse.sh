@@ -252,7 +252,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
-  addHelpOption "-c" "deploy from current directory instead of default directory without pulling latest version ${PROJECT_DIR}"
+  addHelpOption "-c" "deploy current version of the current directory without pulling latest version. Default deployment dir: ${PROJECT_DIR}"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
   printKameHouseServerOption
