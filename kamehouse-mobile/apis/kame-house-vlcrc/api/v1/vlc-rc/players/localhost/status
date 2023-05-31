@@ -1,0 +1,89 @@
+{
+	"fullscreen": false,
+	"repeat": false,
+	"subtitleDelay": 0,
+	"aspectRatio": null,
+	"audioDelay": 0,
+	"apiVersion": 3,
+	"currentPlId": 4,
+	"time": 41,
+	"volume": 256,
+	"length": 230,
+	"random": false,
+	"rate": 1,
+	"state": "playing",
+	"loop": false,
+	"position": 0.17894318699837,
+	"version": "3.0.16 Vetinari",
+	"equalizer": {
+		"presets": null,
+		"bands": null,
+		"preAmp": 0
+	},
+	"audioFilters": {
+		"filter_0": ""
+	},
+	"stats": {
+		"inputBitrate": 0.00657923752442,
+		"sentBytes": 0,
+		"lostaBuffers": 1620,
+		"averageDemuxBitrate": 0.0,
+		"readPackets": 511,
+		"demuxReadPackets": 0,
+		"lostPictures": 0,
+		"displayedPictures": 0,
+		"sentPackets": 0,
+		"demuxReadBytes": 170110,
+		"demuxBitrate": 0.0040228120051324,
+		"playedaBuffers": 0,
+		"demuxDiscontinuity": 1,
+		"decodedAudio": 3241,
+		"sendBitrate": 0.0,
+		"readBytes": 495930,
+		"averageInputBitrate": 0.0,
+		"demuxCorrupted": 0,
+		"decodedVideo": 0
+	},
+	"videoEffects": {
+		"hue": 0,
+		"saturation": 1,
+		"contrast": 1,
+		"brightness": 1,
+		"gamma": 1
+	},
+	"information": {
+		"chapter": "0",
+		"chapters": [""],
+		"title": "0",
+		"titles": [""],
+		"audio": {
+			"name": "Stream 1",
+			"type": "Audio",
+			"bitrate": "32 kb/s",
+			"channels": "Stereo",
+			"sampleRate": "22050 Hz",
+			"codec": "MPEG Audio layer 1/2 (mpga)",
+			"language": null
+		},
+		"meta": {
+			"name": "meta",
+			"filename": "dbz-buus-ending.mp4",
+			"title": "/home/goku/docker/media/video/dbz-buus-ending.mp4-/home/goku/docker/media/video/dbz-buus-ending.mp4",
+			"artist": null,
+			"setting": null,
+			"software": null,
+			"artworkUrl": null
+		},
+		"subtitle": null,
+		"video": {
+			"name": "Stream 0",
+			"type": "Video",
+			"frameRate": "25.000958",
+			"decodedFormat": null,
+			"displayResolution": null,
+			"codec": "H264 - MPEG-4 AVC (part 10) (avc1)",
+			"resolution": null,
+			"language": null
+		}
+	}
+}

@@ -1017,6 +1017,10 @@ function MockLocalhostServer() {
     if (isCrudEntityUrl(url)) {
       requestUrl = getCrudBaseUrl(url);
     }
+    if (isModifiedUrl(requestUrl)) {
+      requestUrl = requestUrl + "-modified";
+    }
+    kameHouse.logger.debug("Loading respose body from file: " + requestUrl);
     const responseBody = await kameHouse.util.fetch.loadFileWithTimeout(requestUrl, 8000);
     // Usually kamehouse apis would return header content-type application/json, so the response body
     // would be mapped to a json object. here I need to map it manually
@@ -1028,6 +1032,13 @@ function MockLocalhostServer() {
       return getCrudEntityResponseBody(httpMethod, getCrudEntityId(url), responseBodyParsed);
     }
     return responseBodyParsed;
+  }
+
+  function isModifiedUrl(url) {
+    const MODIFIED_URLS = [
+      "/kame-house-vlcrc/api/v1/vlc-rc/players",
+    ];
+    return MODIFIED_URLS.includes(url);
   }
 
   function isServerModificationRequest(httpMethod, url) {
