@@ -23,6 +23,7 @@
 - Added dockerignore file
 - Updated dockerfile to combine multiple run commands into one
 - Updated dockerfile and docker build scripts to skip docker cache with a command line parameter
+- Created docker containers for the first release of kamehouse (v0.10) and old java 8 releases and pushed them to docker hub
 - Fixed bugs
 
 #### v8.13
