@@ -131,7 +131,7 @@ function KameHouseHeader() {
     return kameHouse.util.mobile.exec(
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/pc/login-left-red.png",
+          src: "/kame-house/img/pc/login-red-dark.png",
           className: "header-login-status-btn",
           alt: "Login KameHouse",
           onClick: () => window.location="/kame-house/login.html"
@@ -155,7 +155,7 @@ function KameHouseHeader() {
     return kameHouse.util.mobile.exec(
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/pc/logout-right-red.png",
+          src: "/kame-house/img/dbz/goku.png",
           className: "header-login-status-btn",
           alt: "Logout KameHouse",
           onClick: () => window.location="/kame-house/logout"

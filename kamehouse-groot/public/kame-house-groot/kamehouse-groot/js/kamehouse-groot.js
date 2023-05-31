@@ -149,7 +149,7 @@ function GrootHeader() {
     return kameHouse.util.mobile.exec(
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/pc/login-left-gray-dark.png",
+          src: "/kame-house/img/pc/login-gray-dark.png",
           className: "groot-header-login-status-btn",
           alt: "Login GRoot",
           onClick: () => window.location="/kame-house-groot/login.html"
@@ -157,7 +157,7 @@ function GrootHeader() {
       },
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/dragonball-7-star-dark-gray.png",
+          src: "/kame-house/img/dbz/dragonball-7-star-gray-dark.png",
           className: "groot-header-login-status-btn",
           alt: "GRoot",
           onClick: () => {return;}
@@ -170,7 +170,7 @@ function GrootHeader() {
     return kameHouse.util.mobile.exec(
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/pc/logout-right-gray-dark.png",
+          src: "/kame-house/img/dbz/goku-gray-dark.png",
           className: "groot-header-login-status-btn",
           alt: "Logout GRoot",
           onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
@@ -178,7 +178,7 @@ function GrootHeader() {
       },
       () => {
         return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku-red-dark-2.png",
+          src: "/kame-house/img/dbz/goku-gray-dark.png",
           className: "header-login-status-btn",
           alt: "KameHouse Groot",
           onClick: () => {return;}
