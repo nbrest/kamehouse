@@ -30,7 +30,6 @@ function KameHouseShell() {
       setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
       kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " and timeout " + timeout);
       const config = kameHouse.http.getConfig();
-      config.timeout = 600;
       if (!kameHouse.core.isEmpty(timeout)) {
         config.timeout = timeout;
       }

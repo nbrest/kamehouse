@@ -580,7 +580,7 @@ function DeploymentManager() {
       script = 'kamehouse/tomcat-restart-dev.sh';
     }
     const stringArgs = getRestartTomcatParams();
-    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, refreshServerView, 600, () => {});
+    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, 600, refreshServerView, () => {});
   }
 
   /**

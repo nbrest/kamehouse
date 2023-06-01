@@ -64,10 +64,11 @@ function KameHouseShellLoader() {
     }
   }
 
-  /** Get session status from the backend */
+  /** Get kamehouse shell scripts from the backend */
   function getKameHouseShell(successCallback, errorCallback) {
     const KAMEHOUSE_SHELL_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
     const config = kameHouse.http.getConfig();
+    config.timeout = 15;
     kameHouse.http.get(config, KAMEHOUSE_SHELL_SCRIPTS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => successCallback(responseBody, responseCode, responseDescription, responseHeaders),
       (responseBody, responseCode, responseDescription, responseHeaders) => errorCallback(responseBody, responseCode, responseDescription, responseHeaders));

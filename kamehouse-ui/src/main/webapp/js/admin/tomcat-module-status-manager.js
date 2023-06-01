@@ -50,6 +50,7 @@ function TomcatModuleStatusManager() {
   function getModuleStatus(webapp) {
     kameHouse.logger.trace("getModuleStatus");
     const config = kameHouse.http.getConfig();
+    config.timeout = 15;
     kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => displayModuleStatus(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => displayErrorGettingModuleStatus(webapp));
