@@ -264,7 +264,7 @@ function DeploymentManager() {
         return false;
       },
       () => {
-        const selectedBackend = kameHouse.extension.mobile.configManager.getMobileConfigSelectedBackendServer();
+        const selectedBackend = kameHouse.extension.mobile.core.getSelectedBackendServer();
         if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
           kameHouse.logger.warn("Selected backend name is empty");
           return false;
@@ -288,7 +288,7 @@ function DeploymentManager() {
       },
       () => {
         kameHouse.logger.trace("Checking if it's dev environment on mobile");
-        const selectedBackend = kameHouse.extension.mobile.configManager.getMobileConfigSelectedBackendServer();
+        const selectedBackend = kameHouse.extension.mobile.core.getSelectedBackendServer();
         if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
           kameHouse.logger.warn("Selected backend name is empty");
           return false;

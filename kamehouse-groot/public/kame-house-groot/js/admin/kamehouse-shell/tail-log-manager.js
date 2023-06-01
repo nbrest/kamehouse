@@ -25,6 +25,7 @@ function TailLogManager() {
         executeOnDockerHost: executeOnDockerHost
       };
       const config = kameHouse.http.getConfig();
+      config.timeout = 10;
       kameHouse.http.get(config, KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
@@ -77,14 +78,18 @@ function TailLogManager() {
 
   /** Displays the error message in the tail log output */
   function updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
-    const $tailLogOutputTableBody = $('#tail-log-output-table-body');
-    const tbody = getTailLogOutputTbody();
-    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));
-    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseBody : " + responseBody));
-    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
-    kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseDescription : " + responseDescription));
-    kameHouse.util.dom.empty($tailLogOutputTableBody);
-    kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
+    if (responseCode == 0 && responseDescription == "timeout") {
+      kameHouse.logger.warn("Tail log request timed out");
+    } else {
+      const $tailLogOutputTableBody = $('#tail-log-output-table-body');
+      const tbody = getTailLogOutputTbody();
+      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));
+      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseBody : " + responseBody));
+      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
+      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseDescription : " + responseDescription));
+      kameHouse.util.dom.empty($tailLogOutputTableBody);
+      kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
+    }
 
     if (kameHouse.core.isFunction(callback)) {
       callback();

@@ -132,7 +132,11 @@ function KameHouseDebugger() {
     request.responseData = {};
     request.responseData.responseCode = responseCode;
     request.responseData.headers = responseHeaders;
-    request.responseData.responseBody = kameHouse.json.stringify(responseBody);
+    let trimmedResponseBody = kameHouse.json.stringify(responseBody);
+    if (!kameHouse.core.isEmpty(trimmedResponseBody) && trimmedResponseBody.length > 1000) {
+      trimmedResponseBody = trimmedResponseBody.slice(0, 1000) + "... [trimmed]";
+    }
+    request.responseData.responseBody = trimmedResponseBody;
     request.responseData.timestamp = kameHouse.util.time.getTimestamp();
     while (requests.length >= 7) {
       requests.shift();

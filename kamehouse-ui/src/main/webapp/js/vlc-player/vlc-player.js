@@ -323,7 +323,7 @@ function VlcPlayer(hostname) {
    */
   function unlockScreen() {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
-    getRestClient().post(true, UNLOCK_SCREEN_API_URL, null, null);
+    getRestClient().post(UNLOCK_SCREEN_API_URL, null, null);
   }
 
   function wolMediaServer() {
@@ -331,7 +331,7 @@ function VlcPlayer(hostname) {
       "server" : "media.server"
     };
     const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
-    getRestClient().post(true, WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+    getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
   }
 }
 
@@ -366,7 +366,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
         val: val
       };
     }
-    vlcPlayer.getRestClient().post(false, vlcRcCommandUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
+    vlcPlayer.getRestClient().post(vlcRcCommandUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
   }
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
@@ -376,7 +376,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
       "file" : fileName
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
-    vlcPlayer.getRestClient().post(false, vlcPlayerProcessControlUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+    vlcPlayer.getRestClient().post(vlcPlayerProcessControlUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam);
   }
 
   /** Close vlc player. */
@@ -1094,7 +1094,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
       name: 'pl_play',
       id: event.data.id
     };
-    vlcPlayer.getRestClient().post(false, playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
+    vlcPlayer.getRestClient().post(playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
   }
 
   /** Highlight currently playing item in the playlist. */
@@ -1226,7 +1226,7 @@ function VlcPlayerRestClient(vlcPlayer) {
       kameHouse.util.cursor.setCursorWait();
     }
     const config = kameHouse.http.getConfig();
-    config.sendBasicAuthMobile = false;
+    config.timeout = 10;
     kameHouse.plugin.debugger.http.get(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         if (!kameHouse.core.isEmpty(successCallback)) {
@@ -1248,10 +1248,9 @@ function VlcPlayerRestClient(vlcPlayer) {
   }
 
   /** Execute a POST request to the specified url with the specified request body. */
-  function httpPost(sendBasicAuthMobile, url, requestHeaders, requestBody) {
+  function httpPost(url, requestHeaders, requestBody) {
     kameHouse.util.cursor.setCursorWait();
     const config = kameHouse.http.getConfig();
-    config.sendBasicAuthMobile = sendBasicAuthMobile;
     kameHouse.plugin.debugger.http.post(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders)
@@ -1262,7 +1261,6 @@ function VlcPlayerRestClient(vlcPlayer) {
   function httpDelete(url, requestHeaders, requestBody) {
     kameHouse.util.cursor.setCursorWait();
     const config = kameHouse.http.getConfig();
-    config.sendBasicAuthMobile = false;
     kameHouse.plugin.debugger.http.delete(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => apiCallSuccessDefault(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders)

@@ -23,9 +23,12 @@ function KameHouseMobileCore() {
 
   this.init = init;
   this.disableWebappOnlyElements = disableWebappOnlyElements;
-  this.getBackendServer = getBackendServer;
-  this.testBackendConnectivity = testBackendConnectivity;
+  this.login = login;
+  this.logout = logout;
   this.mobileHttpRequst = mobileHttpRequst;
+  this.getSelectedBackendServer = getSelectedBackendServer;
+  this.getSelectedBackendServerUrl = getSelectedBackendServerUrl;
+  this.isLoggedIn = isLoggedIn;
   this.setMobileBuildVersion = setMobileBuildVersion;
   this.openBrowser = openBrowser;
   this.overrideWindowOpen = overrideWindowOpen;
@@ -54,22 +57,54 @@ function KameHouseMobileCore() {
     });
   }
 
-  function getBackendServer() {
+  function getSelectedBackendServerUrl() {
+    const selectedBackendServer = getSelectedBackendServer();
+    if (kameHouse.core.isEmpty(selectedBackendServer) || kameHouse.core.isEmpty(selectedBackendServer.url)) {
+      const message = "Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      return null;
+    }
+    return selectedBackendServer.url;
+  }
+
+  function skipSslCheck() {
+    const selectedBackendServer = getSelectedBackendServer();
+    if (kameHouse.core.isEmpty(selectedBackendServer) || selectedBackendServer.skipSslCheck == null) {
+      const message = "Couldn't find backend server skipSslCheck in the config. Mobile app config manager may not have completed initialization yet. Defaulting to false";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      return false;
+    }
+    return selectedBackendServer.skipSslCheck;
+  }
+
+  function isLoggedIn() {
+    const selectedBackendServer = getSelectedBackendServer();
+    if (kameHouse.core.isEmpty(selectedBackendServer) || selectedBackendServer.isLoggedIn == null) {
+      const message = "Couldn't find backend server isLoggedIn in the config. Mobile app config manager may not have completed initialization yet. Defaulting to false";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      return false;
+    }
+    return selectedBackendServer.isLoggedIn;
+  }
+
+  function getSelectedBackendServer() {
     const mobileConfig = kameHouse.extension.mobile.config;
-    let backendServer = null;
+    let selectedBackendServer = null;
     if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
           && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
       mobileConfig.backend.servers.forEach((server) => {
         if (server.name === mobileConfig.backend.selected) {
-          backendServer = server.url;
+          selectedBackendServer = server;
         }
       });
     }
-    if (backendServer == null) {
-      const message = "Couldn't find backend server url in the config. Mobile app config manager may not have completed initialization yet.";
+    if (selectedBackendServer == null) {
+      const message = "Couldn't find selected backend server in the config. Mobile app config manager may not have completed initialization yet";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+    } else {
+      kameHouse.logger.info("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(selectedBackendServer)));      
     }
-    return backendServer;
+    return selectedBackendServer;
   }
 
   function isMockBackendSelected() {
@@ -84,17 +119,12 @@ function KameHouseMobileCore() {
   }
 
   function getBackendCredentials() {
-    const mobileConfig = kameHouse.extension.mobile.config;
+    const selectedBackendServer = getSelectedBackendServer();
     const credentials = {};
-    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
-          && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
-        mobileConfig.backend.servers.forEach((server) => {
-        if (server.name === mobileConfig.backend.selected) {
-          kameHouse.logger.debug("Selecting credentials for username: " + server.username + " and server: " + server.name);
-          credentials.username = server.username;
-          credentials.password = server.password;
-        }
-      });
+    if (!kameHouse.core.isEmpty(selectedBackendServer)) {
+      kameHouse.logger.debug("Selecting credentials for username: " + selectedBackendServer.username + " and server: " + selectedBackendServer.name);
+      credentials.username = selectedBackendServer.username;
+      credentials.password = selectedBackendServer.password;
     } else {
       const message = "Unable to get backend credentials. Mobile config manager may not be initialized yet";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
@@ -102,9 +132,9 @@ function KameHouseMobileCore() {
     return credentials;
   }
 
-  function testBackendConnectivity() {
-    kameHouse.logger.info("Testing backend connectivity");
-    kameHouse.plugin.modal.loadingWheelModal.open("Testing login credentials...");
+  function login() {
+    kameHouse.logger.info("Logging in to KameHouse...");
+    kameHouse.plugin.modal.loadingWheelModal.open("Logging in to KameHouse...");
     const LOGIN_URL = "/kame-house/login";
     const credentials = getBackendCredentials();
     const loginData = {
@@ -117,30 +147,44 @@ function KameHouseMobileCore() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         if (responseBody.includes("KameHouse - Login")) {
-          const message = "Backend connectivity test error - redirected back to login";
+          const message = "Login error - invalid credentials. Redirected back to login";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-          kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivityErrorModalHtml(" Invalid credentials"), 1000);
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(getErrorModalHtml(" Invalid credentials"), 1000);
           return;
         }
-        kameHouse.logger.info("Backend connectivity test successful");
-        kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivitySuccessModalHtml(" Success!"), 1000);
+        kameHouse.logger.info("Login successful");
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(getSuccessModalHtml(" Success!"), 1000);
+        setSuccessfulLoginView();
+        setSuccessfulLoginConfig();
+        kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(false);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         if (responseCode == 401 || responseCode == 403) {
-          const message = "Backend connectivity test error - invalid credentials";
+          const message = "Login error - invalid credentials";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-          kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivityErrorModalHtml(" Invalid credentials"), 1000);
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(getErrorModalHtml(" Invalid credentials"), 1000);
           return;
         }
-        const message = "Error connecting to the backend. Response code: " + responseCode;
+        const message = "Error connecting to the backend to login. Response code: " + responseCode;
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        kameHouse.plugin.modal.basicModal.openAutoCloseable(getBackentConectivityErrorModalHtml(message), 2000);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(getErrorModalHtml(message), 2000);
       }
     );
   }
 
-  function getBackentConectivitySuccessModalHtml(message) {
+  function setSuccessfulLoginView() {
+    kameHouse.util.dom.addClass($('#backend-username-password'), "hidden-kh");
+    kameHouse.util.dom.addClass($('#backend-login-btn'), "hidden-kh");
+    kameHouse.util.dom.removeClass($('#backend-logout-btn'), "hidden-kh");
+  }
+
+  function setSuccessfulLoginConfig() {
+    const selectedBackendServer = getSelectedBackendServer();
+    selectedBackendServer.isLoggedIn = true;
+  }
+
+  function getSuccessModalHtml(message) {
     const img = kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/dbz/goku.png",
       className: "img-btn-kh",
@@ -153,7 +197,7 @@ function KameHouseMobileCore() {
     return div;
   }
 
-  function getBackentConectivityErrorModalHtml(message) {
+  function getErrorModalHtml(message) {
     const img = kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/delete-red.png",
       className: "img-btn-kh",
@@ -165,6 +209,54 @@ function KameHouseMobileCore() {
     kameHouse.util.dom.append(div, message);
     return div;
   }
+  
+  function logout() {
+    kameHouse.logger.info("Logging out of KameHouse");
+    kameHouse.plugin.modal.loadingWheelModal.open("Logging out of KameHouse...");
+    const LOGOUT_URL = "/kame-house/logout";
+    const config = kameHouse.http.getConfig();
+    config.timeout = 15;
+    kameHouse.plugin.debugger.http.get(config, LOGOUT_URL, kameHouse.http.getUrlEncodedHeaders(), null,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        if (responseBody.includes("KameHouse - Login")) {
+          kameHouse.logger.info("Logout successful");
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(getSuccessModalHtml(" Success!"), 1000);
+          setSuccessfulLogoutView();
+          setSuccessfulLogoutConfig();
+          kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(false);
+          cordova.plugin.http.clearCookies();
+          return;
+        }
+        const message = "Logout error: " + kameHouse.json.stringify(responseBody);
+        kameHouse.logger.error(message);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(getErrorModalHtml(" Error logging out. Try again later"), 1000);
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        const message = "Error connecting to the backend to logout. Response code: " + responseCode;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(getErrorModalHtml(message), 2000);
+      }
+    );
+  }
+
+  function setSuccessfulLogoutView() {
+    const usernameInput = document.getElementById("backend-username-input");
+    usernameInput.value = "";
+    const passwordInput = document.getElementById("backend-password-input");
+    passwordInput.value = "";
+    kameHouse.util.dom.removeClass($('#backend-username-password'), "hidden-kh");
+    kameHouse.util.dom.removeClass($('#backend-login-btn'), "hidden-kh");
+    kameHouse.util.dom.addClass($('#backend-logout-btn'), "hidden-kh");
+  }
+
+  function setSuccessfulLogoutConfig() {
+    const selectedBackendServer = getSelectedBackendServer();
+    selectedBackendServer.isLoggedIn = false;
+    selectedBackendServer.username = "";
+    selectedBackendServer.password = "";
+  }
 
   /** 
    * Http request to be sent from the mobile app.
@@ -173,7 +265,7 @@ function KameHouseMobileCore() {
     if (isMockBackendSelected()) {
       return mockLocalhostServer.httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
     }
-    let requestUrl = getBackendServer() + url;   
+    let requestUrl = getSelectedBackendServerUrl() + url;   
     const options = {
       method: httpMethod,
       data: ""
@@ -182,7 +274,7 @@ function KameHouseMobileCore() {
     if (!kameHouse.core.isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
-    setMobileBasicAuthHeader(config);
+    setMobileBasicAuthHeader();
     setDataSerializer(requestHeaders, httpMethod);
     if (kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
       if (httpMethod == GET || httpMethod == PUT || httpMethod == DELETE) {
@@ -202,20 +294,28 @@ function KameHouseMobileCore() {
     }
     logMobileHttpRequest(requestUrl, options);
     setMobileTimeout(config);
-    cordova.plugin.http.setServerTrustMode('nocheck',
-     () => {
+    if (skipSslCheck()) {
+      kameHouse.logger.trace("Skipping SSL check for mobile request");
+      cordova.plugin.http.setServerTrustMode('nocheck',
+      () => {
+       cordova.plugin.http.sendRequest(requestUrl, options, 
+         (response) => { processMobileSuccess(response, successCallback); } ,
+         (response) => { processMobileError(response, errorCallback); }
+       );
+     }, () => {
+       const message = "Error setting cordova ssl trustmode to nocheck";
+       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+       cordova.plugin.http.sendRequest(requestUrl, options, 
+         (response) => { processMobileSuccess(response, successCallback); } ,
+         (response) => { processMobileError(response, errorCallback); }
+       );
+     });
+    } else {
       cordova.plugin.http.sendRequest(requestUrl, options, 
         (response) => { processMobileSuccess(response, successCallback); } ,
         (response) => { processMobileError(response, errorCallback); }
-      );
-    }, () => {
-      const message = "Error setting cordova ssl trustmode to nocheck";
-      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-      cordova.plugin.http.sendRequest(requestUrl, options, 
-        (response) => { processMobileSuccess(response, successCallback); } ,
-        (response) => { processMobileError(response, errorCallback); }
-      );
-    });
+      ); 
+    }
   }
 
   /** Process a successful response from the api call */
@@ -274,27 +374,28 @@ function KameHouseMobileCore() {
    */
   function setMobileTimeout(config) {
     if (!kameHouse.core.isEmpty(config.timeout)) {
-      kameHouse.logger.debug("Setting timeout for mobile http request");
+      kameHouse.logger.debug("Setting timeout for mobile http request to " + config.timeout);
       cordova.plugin.http.setRequestTimeout(config.timeout);
       cordova.plugin.http.setReadTimeout(config.timeout);
     } else {
       kameHouse.logger.debug("Using default timeout for mobile http request");
       cordova.plugin.http.setRequestTimeout(DEFAULT_TIMEOUT_SECONDS);
+      cordova.plugin.http.setReadTimeout(DEFAULT_TIMEOUT_SECONDS);
     }
   }
 
   /**
    * Set basic auth header.
    */
-  function setMobileBasicAuthHeader(config) {
-    if (config.sendBasicAuthMobile) {
+  function setMobileBasicAuthHeader() {
+    if (isLoggedIn()) {
       const credentials = getBackendCredentials();
       if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
         kameHouse.logger.debug("Setting basicAuth header for mobile http request with username: " + credentials.username);
         cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
       }
     } else {
-      kameHouse.logger.debug("Unsetting basicAuth header for mobile http request");
+      kameHouse.logger.debug("User is not logged in. Unsetting basicAuth header for mobile http request");
       cordova.plugin.http.setHeader('Authorization', null);
     }
   }
@@ -475,7 +576,7 @@ function KameHouseMobileCore() {
     inAppBrowserInstance.addEventListener('message', (params) => {
       kameHouse.logger.info("Executing event message for url: '" + serverEntity.url + "'. with params " + kameHouse.json.stringify(params));
     });
-  } 
+  }
 }
 
 /**
@@ -490,7 +591,6 @@ function KameHouseMobileConfigManager() {
   this.refreshBackendServerViewFromConfig = refreshBackendServerViewFromConfig;
   this.confirmResetDefaults = confirmResetDefaults;
   this.resetDefaults = resetDefaults;
-  this.getMobileConfigSelectedBackendServer = getMobileConfigSelectedBackendServer;
 
   const mobileConfigFile = "kamehouse-mobile-config.json";
   const mobileConfigFileType = window.PERSISTENT;
@@ -535,25 +635,6 @@ function KameHouseMobileConfigManager() {
 
   function setMobileConfigBackend(val) {
     kameHouse.extension.mobile.config.backend = val;
-  }
-
-  function getMobileConfigSelectedBackendServer() {
-    const backend = getMobileConfigBackend();
-    let backendServer = null;
-    if (!kameHouse.core.isEmpty(backend) && !kameHouse.core.isEmpty(backend.servers)) {
-        backend.servers.forEach((server) => {
-        if (server.name === backend.selected) {
-          backendServer = server;
-        }
-      });
-    }
-    if (backendServer == null) {
-      const message = "Couldn't find backend server in the config";
-      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-    } else {
-      kameHouse.logger.info("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(backendServer)));      
-    }
-    return backendServer;
   }
 
   async function loadBackendDefaultConfig() {
@@ -722,6 +803,7 @@ function KameHouseMobileConfigManager() {
     kameHouse.logger.info("Updating entire mobile config file from view");
     updateSelectedBackendServerInConfig();
     updateBackendServerUrlInConfig();
+    updateBackendSslCheckInConfig();
     updateBackendServerCredentialsInConfig();
     kameHouse.logger.info("Mobile config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(getMobileConfig())));
     reGenerateMobileConfigFile(false);
@@ -743,15 +825,10 @@ function KameHouseMobileConfigManager() {
    */
   function refreshBackendServerViewFromConfig() {
     kameHouse.logger.info("Refreshing settings tab view values from the config");
-    const selectedServer = getMobileConfigSelectedBackendServer();
+    const selectedServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
 
-    const usernameInput = document.getElementById("backend-username-input");
-    kameHouse.util.dom.setValue(usernameInput, selectedServer.username);
-    const passwordInput = document.getElementById("backend-password-input"); 
-    kameHouse.util.dom.setValue(passwordInput, selectedServer.password);
-
-    const backendServerInput = document.getElementById("backend-server-input");
     const backendServerDropdown = document.getElementById("backend-server-dropdown");
+    const backendServerInput = document.getElementById("backend-server-input");
 
     if (backendServerInput.value != "") {
       backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
@@ -770,6 +847,25 @@ function KameHouseMobileConfigManager() {
         backendServerDropdown.options[i].selected = false;
       }
     }
+
+    const backendServerSkipSslCheckCheckbox = document.getElementById("backend-skip-ssl-check-checkbox");
+    backendServerSkipSslCheckCheckbox.checked = selectedServer.skipSslCheck;
+
+    const usernameInput = document.getElementById("backend-username-input");
+    kameHouse.util.dom.setValue(usernameInput, selectedServer.username);
+
+    const passwordInput = document.getElementById("backend-password-input"); 
+    kameHouse.util.dom.setValue(passwordInput, selectedServer.password);
+
+    if (kameHouse.extension.mobile.core.isLoggedIn()) {
+      kameHouse.util.dom.addClass($('#backend-username-password'), "hidden-kh");
+      kameHouse.util.dom.addClass($('#backend-login-btn'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#backend-logout-btn'), "hidden-kh");
+    } else {
+      kameHouse.util.dom.removeClass($('#backend-username-password'), "hidden-kh");
+      kameHouse.util.dom.removeClass($('#backend-login-btn'), "hidden-kh");
+      kameHouse.util.dom.addClass($('#backend-logout-btn'), "hidden-kh");
+    }
   }
 
   function updateSelectedBackendServerInConfig() {
@@ -786,15 +882,22 @@ function KameHouseMobileConfigManager() {
 
   function updateBackendServerUrlInConfig() {
     // Update backend.servers[selected].url (for editable servers) in config
-    const selectedBackendServer = getMobileConfigSelectedBackendServer();
+    const selectedBackendServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
     const backendServerInput = document.getElementById("backend-server-input");
     kameHouse.logger.info("Setting selected backend server url in the config to: " + backendServerInput.value);
     selectedBackendServer.url = backendServerInput.value;
   }
 
+  function updateBackendSslCheckInConfig() {
+    const selectedBackendServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
+    const backendServerSkipSslCheckbox = document.getElementById("backend-skip-ssl-check-checkbox");
+    kameHouse.logger.info("Setting selected backend server skip ssl check in the config to: " + backendServerSkipSslCheckbox.checked);
+    selectedBackendServer.skipSslCheck = backendServerSkipSslCheckbox.checked;
+  }
+
   function updateBackendServerCredentialsInConfig() {
     // Update backend.servers[] selected server credentials in config
-    const selectedBackendServer = getMobileConfigSelectedBackendServer();
+    const selectedBackendServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
     const username = document.getElementById("backend-username-input").value;
     kameHouse.logger.info("Setting selected backend server username in the config to: " + username);
     selectedBackendServer.username = username;

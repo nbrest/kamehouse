@@ -55,7 +55,6 @@ function TestScheduler() {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
     const config = kameHouse.http.getConfig();
-    config.sendBasicAuthMobile = false;
     kameHouse.plugin.debugger.http.get(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJobStatus, processErrorSampleJobStatus);
   }
 

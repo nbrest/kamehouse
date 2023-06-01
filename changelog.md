@@ -25,6 +25,11 @@
 - Updated dockerfile and docker build scripts to skip docker cache with a command line parameter
 - Created docker containers for the first release of kamehouse (v0.10) and old java 8 releases and pushed them to docker hub
 - Updated login and logout buttons
+- Added timeout to more http requests on vlc player and groot
+- Updated slideshow styles
+- Limited length of log messages on js console and debugger
+- Added option to skip ssl check on mobile http requests
+- Added login and logout buttons in mobile settings tab
 - Fixed bugs
 
 #### v8.13

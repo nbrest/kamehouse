@@ -27,16 +27,20 @@
 
 .kamehouse-slideshow-prev, .kamehouse-slideshow-next {
   margin-top: 240px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
   cursor: pointer;
   padding: 16px;
   color: white;
   font-weight: bold;
   font-size: 18px;
-  transition: 0.6s ease;
+  transition: 0.3s ease;
+  border-radius: 50%;
 }
 
 .kamehouse-slideshow-prev:hover, .kamehouse-slideshow-next:hover {
-  background-color: #383838cc;
+  background-color: #292929cc;
 }
 
 .kamehouse-slideshow-dot {
@@ -45,12 +49,12 @@
   width: 15px;
   margin-right: 10px;
   margin-bottom: 20px;
-  background-color: #bbbbbb;
+  background-color: #e2e2e2;
   border-radius: 50%;
   display: inline-block;
-  transition: background-color 0.6s ease;
+  transition: background-color 0.3s ease;
 }
 
 .kamehouse-slideshow-dot-active, .kamehouse-slideshow-dot:hover {
-  background-color: #717171;
+  background-color: #4a4a4a;
 }

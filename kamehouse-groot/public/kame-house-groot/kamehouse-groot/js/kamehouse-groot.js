@@ -46,9 +46,6 @@ function GrootHeader() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
-    if(!kameHouse.core.pageRequiresAuthorization()) {
-      config.sendBasicAuthMobile = false;
-    }
     kameHouse.http.get(config, SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody));

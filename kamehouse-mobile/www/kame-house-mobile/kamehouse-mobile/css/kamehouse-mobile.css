@@ -11,6 +11,10 @@
   }
 }
 
+.backend-username-password {
+  min-height: 175px;
+}
+
 .config-header {
   text-align: center;
   background-color: #1a0000;
@@ -81,6 +85,7 @@
   width: 50%;
   min-width: 180px;
   max-width: 280px;
+  margin-bottom: 20px;
 }
 
 /** animation: contract and expand in 10 seconds */

@@ -1039,7 +1039,7 @@ function KameHouseMobileUtils() {
   function windowOpen(url, targetWeb) {
     return exec(
       () => {window.open(url, targetWeb)},
-      () => {window.open(kameHouse.extension.mobile.core.getBackendServer() + url)}
+      () => {window.open(kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + url)}
     )
   }
 
@@ -1784,9 +1784,6 @@ function KameHouseCoreFunctions() {
 
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
-    if(!pageRequiresAuthorization()) {
-      config.sendBasicAuthMobile = false;
-    }
     kameHouse.http.get(config, SESSION_STATUS_URL, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody));
@@ -2127,6 +2124,9 @@ function KameHouseCoreFunctions() {
       console.error("Invalid use of log(logLevel, message) function. Message is empty");
       return;
     }
+    if (message.length > 1000) {
+      message = message.slice(0, 1000) + "... [trimmed]";
+    }
     const logLevelUpperCase = logLevel.toUpperCase();
     const timestamp = kameHouse.util.time.getTimestamp();
     const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
@@ -2361,6 +2361,7 @@ function KameHouseCoreFunctions() {
   const POST = "POST";
   const PUT = "PUT";
   const DELETE = "DELETE";
+  const DEFAULT_TIMEOUT_MS = 60000;
 
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
@@ -2407,11 +2408,17 @@ function KameHouseCoreFunctions() {
   }
 
   function webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    let requestTimeout = DEFAULT_TIMEOUT_MS;
+    if (!kameHouse.core.isEmpty(config.timeout)) {
+      requestTimeout = config.timeout * 1000;
+      kameHouse.logger.debug("Setting timeout for web request to " + requestTimeout);
+    }
     if (kameHouse.core.isEmpty(requestBody)) {
       $.ajax({
         type: httpMethod,
         url: url,
         headers: requestHeaders,
+        timeout: requestTimeout,
         success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
         error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
       });
@@ -2423,6 +2430,7 @@ function KameHouseCoreFunctions() {
         type: httpMethod,
         url: urlEncoded,
         headers: requestHeaders,
+        timeout: requestTimeout,
         success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
         error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
       });
@@ -2433,6 +2441,7 @@ function KameHouseCoreFunctions() {
       url: url,
       data: kameHouse.json.stringify(requestBody),
       headers: requestHeaders,
+      timeout: requestTimeout,
       success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
       error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
     });
@@ -2449,7 +2458,6 @@ function KameHouseCoreFunctions() {
    */
   function getConfig() {
     return {
-      sendBasicAuthMobile: true,
       timeout: null
     }
   }

@@ -35,10 +35,10 @@ function KameHouseWebSocket() {
       () => {
         // It's better to also waitForModule kameHouseMobile in the caller of this function so I get a synchronous set of the statusUrl and the connect call usually done inmediately after doesn't fail. See vlc-player.js
         if (kameHouse.util.module.isModuleLoaded("kameHouseMobile")) {
-          statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
+          statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
         } else {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-            statusUrl = kameHouse.extension.mobile.core.getBackendServer() + statusUrlParam;
+            statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
           });
         }
       }
