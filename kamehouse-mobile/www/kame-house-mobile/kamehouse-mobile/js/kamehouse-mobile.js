@@ -102,7 +102,7 @@ function KameHouseMobileCore() {
       const message = "Couldn't find selected backend server in the config. Mobile app config manager may not have completed initialization yet";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     } else {
-      kameHouse.logger.info("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(selectedBackendServer)));      
+      kameHouse.logger.debug("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(selectedBackendServer)));      
     }
     return selectedBackendServer;
   }
