@@ -20,7 +20,7 @@ function KameHouseShell() {
   }
 
   /** Execute the specified script*/
-  function execute(scriptName, args, executeOnDockerHost, successCallback, errorCallback) {
+  function execute(scriptName, args, executeOnDockerHost, timeout, successCallback, errorCallback) {
     if (!kameHouse.core.isEmpty(scriptName)) {
       const params = {
         script: scriptName,
@@ -28,9 +28,12 @@ function KameHouseShell() {
         executeOnDockerHost: executeOnDockerHost
       };
       setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
-      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost);
+      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " and timeout " + timeout);
       const config = kameHouse.http.getConfig();
       config.timeout = 600;
+      if (!kameHouse.core.isEmpty(timeout)) {
+        config.timeout = timeout;
+      }
       kameHouse.plugin.debugger.http.get(config, EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback));
