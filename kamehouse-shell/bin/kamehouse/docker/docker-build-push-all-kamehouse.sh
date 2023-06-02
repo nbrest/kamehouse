@@ -20,6 +20,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+LOG_PROCESS_TO_FILE=true
+
 mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -b
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-push-kamehouse.sh

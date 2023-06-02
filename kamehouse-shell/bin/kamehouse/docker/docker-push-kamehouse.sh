@@ -20,6 +20,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+LOG_PROCESS_TO_FILE=true
+
 mainProcess() {
   log.info "Pushing docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   log.debug "docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
