@@ -78,7 +78,7 @@ function TailLogManager() {
 
   /** Displays the error message in the tail log output */
   function updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
-    if (responseCode == 0 && responseDescription == "timeout") {
+    if ((responseCode == "0" && responseDescription == "timeout") || responseCode == "-4") {
       kameHouse.logger.warn("Tail log request timed out");
     } else {
       const $tailLogOutputTableBody = $('#tail-log-output-table-body');

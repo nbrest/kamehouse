@@ -23,11 +23,18 @@ function KameHouseMobileSettings() {
   }
 
   function handleUrlParams() {
-    kameHouse.logger.info("Settings query string: " + window.location.search);
+    kameHouse.logger.debug("Settings query string: " + window.location.search);
     const urlParams = new URLSearchParams(window.location.search);
     const requestTimeout = urlParams.get('requestTimeout');
+    const sslError = urlParams.get('sslError');
     if (!kameHouse.core.isEmpty(requestTimeout)) {
       const message = "Unable to connect to the backend. Try again later";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
+      return;
+    }
+    if (!kameHouse.core.isEmpty(sslError)) {
+      const message = "SSL error connecting to the backend. Check SSL certificate on server or skip ssl validation";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
       return;

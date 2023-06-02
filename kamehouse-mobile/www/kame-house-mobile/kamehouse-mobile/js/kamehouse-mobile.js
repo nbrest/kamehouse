@@ -297,25 +297,32 @@ function KameHouseMobileCore() {
     if (skipSslCheck()) {
       kameHouse.logger.trace("Skipping SSL check for mobile request");
       cordova.plugin.http.setServerTrustMode('nocheck',
-      () => {
-       cordova.plugin.http.sendRequest(requestUrl, options, 
-         (response) => { processMobileSuccess(response, successCallback); } ,
-         (response) => { processMobileError(response, errorCallback); }
-       );
-     }, () => {
-       const message = "Error setting cordova ssl trustmode to nocheck";
-       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-       cordova.plugin.http.sendRequest(requestUrl, options, 
-         (response) => { processMobileSuccess(response, successCallback); } ,
-         (response) => { processMobileError(response, errorCallback); }
-       );
-     });
+      () => { // success
+        sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
+      },
+      () => { // error
+        const message = "Error setting cordova ssl trustmode to nocheck. Trying mobile http request anyway";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
+      });
     } else {
-      cordova.plugin.http.sendRequest(requestUrl, options, 
-        (response) => { processMobileSuccess(response, successCallback); } ,
-        (response) => { processMobileError(response, errorCallback); }
-      ); 
+      kameHouse.logger.trace("Enabling SSL check for mobile request");
+      cordova.plugin.http.setServerTrustMode('default',
+      () => { // success
+        sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
+      },
+      () => { // error
+        const message = "Error setting cordova ssl trustmode to default. Can't proceed with mobile http request to " + requestUrl;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+      });
     }
+  }
+
+  function sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback) {
+    cordova.plugin.http.sendRequest(requestUrl, options, 
+      (response) => { processMobileSuccess(response, successCallback); },
+      (response) => { processMobileError(response, errorCallback); }
+    );
   }
 
   /** Process a successful response from the api call */
@@ -346,7 +353,17 @@ function KameHouseMobileCore() {
      * status: http status code
      * url: request url
      * response headers: header map object
-      */
+     * 
+     * advanced-http-plugin error response codes:
+     *  GENERIC: -1,
+     *  SSL_EXCEPTION: -2,
+     *  SERVER_NOT_FOUND: -3,
+     *  TIMEOUT: -4,
+     *  UNSUPPORTED_URL: -5,
+     *  NOT_CONNECTED: -6,
+     *  POST_PROCESSING_FAILED: -7,
+     *  ABORTED: -8,
+     */
      const responseBody = response.error;
      const responseCode = response.status;
      const responseDescription = null;
@@ -645,7 +662,7 @@ function KameHouseMobileConfigManager() {
   
   async function loadEncryptionKey() {
     encryptionKey = await kameHouse.util.fetch.loadFile('/kame-house-mobile/encryption.key');
-    kameHouse.logger.info("Loaded encryption key");
+    kameHouse.logger.debug("Loaded encryption key");
   }
 
   /**
@@ -667,7 +684,7 @@ function KameHouseMobileConfigManager() {
         errorCallback
       );
     } catch (error) {
-      kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error creating file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
 
     // createMobileConfigFile callback
@@ -679,7 +696,7 @@ function KameHouseMobileConfigManager() {
   
     // createMobileConfigFile callback
     function errorCallback(error) {
-      kameHouse.logger.info("Error creating file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error creating file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
   }
   
@@ -691,7 +708,7 @@ function KameHouseMobileConfigManager() {
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
     } catch (error) {
-      kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error writing file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
 
     // writeMobileConfigFile callback
@@ -700,13 +717,13 @@ function KameHouseMobileConfigManager() {
         fileEntry.createWriter((fileWriter) => {
           try {
           const fileContent = kameHouse.json.stringify(getMobileConfig());
-          kameHouse.logger.info("Encrypting file");
+          kameHouse.logger.debug("Encrypting file");
           const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, encryptionKey).toString();
-          kameHouse.logger.info("File content to write: " + fileContent);
+          kameHouse.logger.debug("File content to write: " + fileContent);
           const blob = new Blob([encryptedFileContent]);
           fileWriter.write(blob);
           } catch(e) {
-            kameHouse.logger.info("Error writing config file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(e)); 
+            kameHouse.logger.error("Error writing config file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(e)); 
           }
         }, errorCallback);
       }, errorCallback);
@@ -714,7 +731,7 @@ function KameHouseMobileConfigManager() {
   
     // writeMobileConfigFile callback
     function errorCallback(error) {
-      kameHouse.logger.info("Error writing file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error writing file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
   }
   
@@ -740,9 +757,9 @@ function KameHouseMobileConfigManager() {
             let mobileConfig = null;
             try {
               const encryptedFileContent = this.result;
-              kameHouse.logger.info("Decrypting file");
+              kameHouse.logger.debug("Decrypting file");
               const fileContent = CryptoJS.AES.decrypt(encryptedFileContent, encryptionKey).toString(CryptoJS.enc.Utf8);
-              kameHouse.logger.info("File content read: " + kameHouse.logger.maskSensitiveData(fileContent));
+              kameHouse.logger.debug("File content read: " + kameHouse.logger.maskSensitiveData(fileContent));
               mobileConfig = kameHouse.json.parse(fileContent);
             } catch(e) {
               mobileConfig = null;
@@ -764,7 +781,7 @@ function KameHouseMobileConfigManager() {
   
     // readMobileConfigFile callback
     function errorCallback(error) {
-      kameHouse.logger.info("Error reading file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error reading file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
       setKameHouseMobileModuleLoaded();
       createMobileConfigFile();
     }
@@ -778,7 +795,7 @@ function KameHouseMobileConfigManager() {
     try {
       window.requestFileSystem(mobileConfigFileType, mobileConfigFileSize, successCallback, errorCallback);
     } catch (error) {
-      kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error deleting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
 
     // deleteMobileConfigFile callback
@@ -792,7 +809,7 @@ function KameHouseMobileConfigManager() {
   
     // deleteMobileConfigFile callback
     function errorCallback(error) {
-      kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error deleting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
   }
 
@@ -805,7 +822,7 @@ function KameHouseMobileConfigManager() {
     updateBackendServerUrlInConfig();
     updateBackendSslCheckInConfig();
     updateBackendServerCredentialsInConfig();
-    kameHouse.logger.info("Mobile config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(getMobileConfig())));
+    kameHouse.logger.debug("Mobile config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(getMobileConfig())));
     reGenerateMobileConfigFile(false);
   }
 
@@ -874,7 +891,7 @@ function KameHouseMobileConfigManager() {
     const backendServerDropdown = document.getElementById("backend-server-dropdown");
     for (let i = 0; i < backendServerDropdown.options.length; ++i) {
       if (backendServerDropdown.options[i].selected == true) {
-        kameHouse.logger.info("Setting selected backend in the config to: " + backendServerDropdown.options[i].textContent);
+        kameHouse.logger.debug("Setting selected backend in the config to: " + backendServerDropdown.options[i].textContent);
         backend.selected = backendServerDropdown.options[i].textContent;
       }
     }
@@ -884,14 +901,14 @@ function KameHouseMobileConfigManager() {
     // Update backend.servers[selected].url (for editable servers) in config
     const selectedBackendServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
     const backendServerInput = document.getElementById("backend-server-input");
-    kameHouse.logger.info("Setting selected backend server url in the config to: " + backendServerInput.value);
+    kameHouse.logger.debug("Setting selected backend server url in the config to: " + backendServerInput.value);
     selectedBackendServer.url = backendServerInput.value;
   }
 
   function updateBackendSslCheckInConfig() {
     const selectedBackendServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
     const backendServerSkipSslCheckbox = document.getElementById("backend-skip-ssl-check-checkbox");
-    kameHouse.logger.info("Setting selected backend server skip ssl check in the config to: " + backendServerSkipSslCheckbox.checked);
+    kameHouse.logger.debug("Setting selected backend server skip ssl check in the config to: " + backendServerSkipSslCheckbox.checked);
     selectedBackendServer.skipSslCheck = backendServerSkipSslCheckbox.checked;
   }
 
@@ -899,7 +916,7 @@ function KameHouseMobileConfigManager() {
     // Update backend.servers[] selected server credentials in config
     const selectedBackendServer = kameHouse.extension.mobile.core.getSelectedBackendServer();
     const username = document.getElementById("backend-username-input").value;
-    kameHouse.logger.info("Setting selected backend server username in the config to: " + username);
+    kameHouse.logger.debug("Setting selected backend server username in the config to: " + username);
     selectedBackendServer.username = username;
     const password = document.getElementById("backend-password-input").value; 
     selectedBackendServer.password = password;
@@ -961,7 +978,7 @@ function KameHouseMobileConfigManager() {
    * */
   function reGenerateMobileConfigFile(openResultModal) {
     if (isCurrentlyPersistingConfig) {
-      kameHouse.logger.info("A regenerate file is already in progress, skipping this call");
+      kameHouse.logger.warn("A regenerate file is already in progress, skipping this call");
       return;
     }
     isCurrentlyPersistingConfig = true;
@@ -998,7 +1015,7 @@ function KameHouseMobileConfigManager() {
 
     // deleteFile error callback
     function errorDeleteFileCallback(error, openResultModal) {
-      kameHouse.logger.info("Error deleting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error deleting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
       requestRecreateFile(openResultModal);
     }
   }
@@ -1025,7 +1042,7 @@ function KameHouseMobileConfigManager() {
 
     // recreateFile error callback
     function errorRecreateFileCallback(error, openResultModal) {
-      kameHouse.logger.info("Error recreating file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error recreating file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
       requestRewriteFile(openResultModal);
     }
   }
@@ -1047,9 +1064,9 @@ function KameHouseMobileConfigManager() {
             (fileWriter) => {
               try {
                 const fileContent = kameHouse.json.stringify(getMobileConfig());
-                kameHouse.logger.info("Encrypting file");
+                kameHouse.logger.debug("Encrypting file");
                 const encryptedFileContent = CryptoJS.AES.encrypt(fileContent, encryptionKey).toString();
-                kameHouse.logger.info("File content to write: " + kameHouse.logger.maskSensitiveData(fileContent));
+                kameHouse.logger.debug("File content to write: " + kameHouse.logger.maskSensitiveData(fileContent));
                 const blob = new Blob([encryptedFileContent]);
                 fileWriter.write(blob);
                 isCurrentlyPersistingConfig = false;
@@ -1057,7 +1074,7 @@ function KameHouseMobileConfigManager() {
                   kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings saved", 1000);
                 }
               } catch(e) {
-                kameHouse.logger.info("Error writing config file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(e)); 
+                kameHouse.logger.error("Error writing config file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(e)); 
               }
             }, 
             (error) => {errorRewriteFileCallback(error, openResultModal)}
@@ -1069,7 +1086,7 @@ function KameHouseMobileConfigManager() {
 
     // rewriteFile error callback
     function errorRewriteFileCallback(error, openResultModal) {
-      kameHouse.logger.info("Error rewriting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
+      kameHouse.logger.error("Error rewriting file " + mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
       isCurrentlyPersistingConfig = false;
       if (openResultModal) {
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Error saving settings", 1000);
@@ -1185,7 +1202,7 @@ function MockLocalhostServer() {
           selectedCrudEntity = crudEntity;
         }
       });
-      kameHouse.logger.info("Returning crud entity: " + kameHouse.json.stringify(selectedCrudEntity));
+      kameHouse.logger.debug("Returning crud entity: " + kameHouse.json.stringify(selectedCrudEntity));
       return selectedCrudEntity;
     }
     const errorResponse = {

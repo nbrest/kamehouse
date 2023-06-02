@@ -79,6 +79,9 @@ function GrootHeader() {
     if ((responseCode == "-4") || (responseCode == "-1" && responseBody.includes("Failed to connect to"))) {
       mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
     }
+    if (responseCode == "-2") {
+      mobileSettingsUrl = mobileSettingsUrl + "&sslError=true";
+    }
     const roles = kameHouse.extension.groot.session.roles;
     if (kameHouse.core.isEmpty(roles)) {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);

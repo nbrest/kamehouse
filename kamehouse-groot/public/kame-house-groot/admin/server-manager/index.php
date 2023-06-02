@@ -509,7 +509,7 @@
                 <img src="/kame-house/img/dbz/goku-chibi-tail.jpg" alt="info image"/>
               </td>
               <td class="info-image-info">
-                <div class="info-image-title info-image-title-top">
+                <div class="info-image-title info-image-title-bottom">
                   Tail Logs
                 </div>
                 <div class="info-image-desc">
