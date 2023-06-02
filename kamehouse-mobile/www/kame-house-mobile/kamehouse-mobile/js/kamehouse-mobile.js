@@ -199,7 +199,7 @@ function KameHouseMobileCore() {
 
   function getErrorModalHtml(message) {
     const img = kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/delete-red.png",
+      src: "/kame-house/img/other/cancel-shallow-red-dark.png",
       className: "img-btn-kh",
       alt: "Error modal",
       onClick: () => {return;}
