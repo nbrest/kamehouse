@@ -5,7 +5,7 @@
 
 .login-alert-error {
   color: #bd2121;
-  background-color: #191f21;
+  background-color: #000000;
   border-color: #bd2121;
   border-radius: 0px;
   border: 1px solid;
@@ -17,7 +17,7 @@
 
 .login-alert-success {
   color: #3a7b49;
-  background-color: #191f21;
+  background-color: #000000;
   border-color: #3a7b49;
   border-radius: 0px;
   border: 1px solid;
@@ -31,18 +31,19 @@
   outline: none;
   padding:.5rem 1rem;
   line-height:1.5;
-  color: #6b6b6b;
   font-weight: bold;
-  background-color: #1a1a1a;
+  color: #969696;
+  background: #4d0000;
   background-image: none;
   border: 1px solid #333333;
   display: block;
   width: 100%;
+  cursor: pointer;
 }
 
 .login-btn:hover {
-  color: #969696;
-  background: #4d0000;
+  color: #b8b8b8;
+  background-color: #750101;
 }
 
 .login-form {
