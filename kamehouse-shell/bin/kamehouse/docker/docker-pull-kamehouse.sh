@@ -27,16 +27,4 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-cleanup-kamehouse.sh
 }
 
-parseArguments() {
-  parseDockerOs "$@"
-}
-
-setEnvFromArguments() {
-  setEnvForDockerOs
-}
-
-printHelpOptions() {
-  printDockerOsOption
-}
-
 main "$@"

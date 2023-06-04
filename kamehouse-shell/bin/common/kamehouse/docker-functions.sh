@@ -11,7 +11,6 @@ DOCKER_PROFILES_LIST="(ci|dev|demo|prod|prod-ext)"
 DEFAULT_DOCKER_PROFILE="dev"
 DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
-DOCKER_OS_LIST="(ubuntu|pi)"
 DEFAULT_DOCKER_OS="ubuntu"
 DOCKER_ENVIRONMENT="${DEFAULT_DOCKER_OS}"
 
@@ -38,17 +37,6 @@ getKameHouseDockerHostIp() {
   fi
 }
 
-parseDockerOs() {
-  local ARGS=("$@")
-  for i in "${!ARGS[@]}"; do
-    case "${ARGS[i]}" in
-      -o)
-        DOCKER_ENVIRONMENT="${ARGS[i+1]}"
-        ;;
-    esac
-  done
-}
-
 parseDockerProfile() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
@@ -58,21 +46,6 @@ parseDockerProfile() {
         ;;
     esac
   done
-}
-
-setEnvForDockerOs() {
-  if [ "${DOCKER_ENVIRONMENT}" != "ubuntu" ] &&
-    [ "${DOCKER_ENVIRONMENT}" != "pi" ]; then
-    log.error "Option -o [os] has an invalid value of ${DOCKER_ENVIRONMENT}"
-    printHelp
-    exitProcess 1
-  fi
-
-  if [ "${DOCKER_ENVIRONMENT}" == "pi" ]; then
-    DOCKER_COMMAND="docker run --privileged --rm"
-    DOCKER_IMAGE_BASE="arm32v7/ubuntu:22.04"
-    DOCKER_IMAGE_TAG="latest-pi"
-  fi  
 }
 
 setEnvForDockerProfile() {
@@ -110,10 +83,6 @@ setEnvForDockerProfile() {
     DOCKER_PORT_HTTP=7080
     DOCKER_PORT_SSH=7022
   fi  
-}
-
-printDockerOsOption() {
-  addHelpOption "-o ${DOCKER_OS_LIST}" "default value is ${DEFAULT_DOCKER_OS}"
 }
 
 printDockerProfileOption() {

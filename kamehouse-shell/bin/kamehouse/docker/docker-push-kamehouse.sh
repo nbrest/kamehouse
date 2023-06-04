@@ -28,16 +28,4 @@ mainProcess() {
   docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}
 }
 
-parseArguments() {
-  parseDockerOs "$@"
-}
-
-setEnvFromArguments() {
-  setEnvForDockerOs
-}
-
-printHelpOptions() {
-  printDockerOsOption
-}
-
 main "$@"

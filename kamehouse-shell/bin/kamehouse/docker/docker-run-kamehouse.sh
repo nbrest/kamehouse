@@ -251,10 +251,9 @@ overrideDefaultValues() {
 
 parseArguments() {
   parseIde "$@"
-  parseDockerOs "$@"
   parseDockerProfile "$@"
   
-  while getopts ":bcdfi:o:p:s:v" OPT; do
+  while getopts ":bcdfi:p:s:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
@@ -283,7 +282,6 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForIde
-  setEnvForDockerOs
   setEnvForDockerProfile
   buildProfile
   overrideDefaultValues  
@@ -295,7 +293,6 @@ printHelpOptions() {
   addHelpOption "-d" "debug. start tomcat in debug mode"
   addHelpOption "-f" "fast startup. don't build and deploy"
   printIdeOption "ide workspace to use for a dev docker container. Default is ${DEFAULT_IDE}"
-  printDockerOsOption
   printDockerProfileOption
   addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   addHelpOption "-v" "use volumes to persist data"
