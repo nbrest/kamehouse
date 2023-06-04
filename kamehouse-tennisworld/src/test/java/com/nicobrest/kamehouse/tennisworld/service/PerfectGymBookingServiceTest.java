@@ -81,6 +81,7 @@ public class PerfectGymBookingServiceTest {
     PerfectGymBookingService perfectGymBookingService = new PerfectGymBookingService();
     perfectGymBookingServiceSpy = Mockito.spy(perfectGymBookingService);
     PerfectGymBookingService.setSleepMs(0);
+    PerfectGymBookingService.setRetrySleepMs(0);
     bookingResponseTestUtils.initTestData();
     bookingScheduleConfigTestUtils.initTestData();
 
@@ -736,8 +737,7 @@ public class PerfectGymBookingServiceTest {
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     request.setSessionType(SessionType.UNKNOWN);
 
-    BookingResponse response = perfectGymBookingServiceSpy.executeBookingRequestOnTennisWorld(
-        request);
+    BookingResponse response = perfectGymBookingServiceSpy.executeBookingRequest(request);
     expected.setStatus(Status.INTERNAL_ERROR);
     expected.setMessage("Unhandled sessionType: UNKNOWN");
     BookingResponseTestUtils.matchDynamicFields(response, expected);
@@ -768,9 +768,11 @@ public class PerfectGymBookingServiceTest {
   private void setupHttpResponseInputStreamMocks(PerfectGymResponses perfectGymResponses)
       throws Exception {
     OngoingStubbing<InputStream> ongoingStubbing = when(HttpClientUtils.getInputStream(any()));
-    for (String testFilename : perfectGymResponses.getValue()) {
-      InputStream testInputStream = BookingRequestTestUtils.getInputStream(testFilename);
-      ongoingStubbing = ongoingStubbing.thenReturn(testInputStream);
+    for (int i = 0; i < PerfectGymBookingService.MAX_BOOKING_RETRIES; i++) {
+      for (String testFilename : perfectGymResponses.getValue()) {
+        InputStream testInputStream = BookingRequestTestUtils.getInputStream(testFilename);
+        ongoingStubbing = ongoingStubbing.thenReturn(testInputStream);
+      }
     }
   }
 

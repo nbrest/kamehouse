@@ -532,7 +532,7 @@ public class AbstractBookingServiceTest {
     private static final String REQUEST = "{\"request\":\"mada mada\"}";
 
     @Override
-    protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
+    protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {
       HttpClient httpClient = HttpClientUtils.getClient("", "");
       try {
         executeRequest(httpClient, new HttpGet(""));

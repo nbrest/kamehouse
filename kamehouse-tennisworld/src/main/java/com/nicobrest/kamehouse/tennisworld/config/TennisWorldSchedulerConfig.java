@@ -41,7 +41,7 @@ public class TennisWorldSchedulerConfig {
     try {
       JobDetail scheduledBookingJobDetail = scheduledBookingJobDetail();
       scheduler.addJob(scheduledBookingJobDetail, true);
-      int[] bookingMinutes = {0, 1, 15, 16, 30, 31, 45, 46};
+      int[] bookingMinutes = {0, 15, 30, 45};
       for (int bookingHour = 0; bookingHour < 24; bookingHour++) {
         for (int bookingMinute : bookingMinutes) {
           scheduler.scheduleJob(
@@ -67,12 +67,12 @@ public class TennisWorldSchedulerConfig {
   }
 
   /**
-   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes at 30 seconds of
+   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes at 1 second of
    * the minute.
    */
   private static Trigger scheduledBookingTrigger(
       JobDetail scheduledBookingJobDetail, int hour, int minute) {
-    String cronExpression = String.format("30 %d %d ? * *", minute, hour);
+    String cronExpression = String.format("1 %d %d ? * *", minute, hour);
     return TriggerBuilder.newTrigger()
         .forJob(scheduledBookingJobDetail)
         .withIdentity(TriggerKey.triggerKey("scheduledBookingTrigger_" + hour + "_" + minute))

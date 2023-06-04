@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 public class PerfectGymBookingService extends BookingService {
 
   public static final String CP_BOOK_FACILITY_SESSION_ID_HEADER = "CP-BOOK-FACILITY-SESSION-ID";
+  public static final int MAX_BOOKING_RETRIES = 25;
   // URLs
   public static final String ROOT_URL = "https://tennisworld.perfectgym.com.au";
   public static final String LOGIN_URL = ROOT_URL + "/ClientPortal2/Auth/Login";
@@ -70,42 +71,54 @@ public class PerfectGymBookingService extends BookingService {
   private static final long INVALID_ID = -9999L;
 
   @Override
-  protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
+  protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {
     SessionType sessionType = bookingRequest.getSessionType();
-    try {
-      switch (sessionType) {
-        case ADULT_MATCH_PLAY_DOUBLES:
-        case ADULT_MATCH_PLAY_SINGLES:
-        case ADULT_SOCIAL_PLAY:
-        case CARDIO:
-        case CARDIO_ACTIV8:
-          return bookClass(bookingRequest);
-        case NTC_CLAY_COURTS:
-        case NTC_INDOOR:
-        case NTC_OUTDOOR:
-        case ROD_LAVER_OUTDOOR_EASTERN:
-        case ROD_LAVER_OUTDOOR_WESTERN:
-        case ROD_LAVER_SHOW_COURTS:
-          return bookCourt(bookingRequest);
-        case UNKNOWN:
-        default:
-          return buildResponse(
-              Status.INTERNAL_ERROR,
-              "Unhandled sessionType: " + sessionType.name(),
-              bookingRequest);
-
+    BookingResponse bookingResponse = null;
+    for (int i = 0; i < MAX_BOOKING_RETRIES; i++) {
+      if (bookingResponse != null && Status.SUCCESS.equals(bookingResponse.getStatus())) {
+        break;
       }
-    } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
-    } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
-    } catch (IOException e) {
-      logger.error(e.getMessage(), e);
-      return buildResponse(
-          Status.INTERNAL_ERROR,
-          "Error executing booking request to tennis world Message: " + e.getMessage(),
-          bookingRequest);
+      logger.info("Executing booking request - retry number " + i);
+      try {
+        switch (sessionType) {
+          case ADULT_MATCH_PLAY_DOUBLES:
+          case ADULT_MATCH_PLAY_SINGLES:
+          case ADULT_SOCIAL_PLAY:
+          case CARDIO:
+          case CARDIO_ACTIV8:
+            bookingResponse = bookClass(bookingRequest);
+            break;
+          case NTC_CLAY_COURTS:
+          case NTC_INDOOR:
+          case NTC_OUTDOOR:
+          case ROD_LAVER_OUTDOOR_EASTERN:
+          case ROD_LAVER_OUTDOOR_WESTERN:
+          case ROD_LAVER_SHOW_COURTS:
+            bookingResponse = bookCourt(bookingRequest);
+            break;
+          case UNKNOWN:
+          default:
+            bookingResponse = buildResponse(
+                Status.INTERNAL_ERROR,
+                "Unhandled sessionType: " + sessionType.name(),
+                bookingRequest);
+            break;
+        }
+      } catch (KameHouseBadRequestException e) {
+        bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
+      } catch (KameHouseServerErrorException e) {
+        bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
+      } catch (IOException e) {
+        logger.error(e.getMessage(), e);
+        bookingResponse = buildResponse(
+            Status.INTERNAL_ERROR,
+            "Error executing booking request to tennis world Message: " + e.getMessage(),
+            bookingRequest);
+      }
+      retrySleep();
     }
+    storeBookingResponse(bookingResponse);
+    return bookingResponse;
   }
 
   /**

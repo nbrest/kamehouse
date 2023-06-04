@@ -73,37 +73,43 @@ public class ActiveCarrotBookingService extends BookingService {
   private static final String ID_ERROR_MESSAGE = "error-message";
 
   @Override
-  protected BookingResponse executeBookingRequestOnTennisWorld(BookingRequest bookingRequest) {
+  protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {
     updateTimeFormatForActiveCarrot(bookingRequest);
     SessionType sessionType = bookingRequest.getSessionType();
+    BookingResponse bookingResponse = null;
     try {
       switch (sessionType) {
         case CARDIO:
-          return bookCardioSessionRequest(bookingRequest);
+          bookingResponse = bookCardioSessionRequest(bookingRequest);
+          break;
         case NTC_CLAY_COURTS:
         case NTC_OUTDOOR:
         case ROD_LAVER_OUTDOOR_EASTERN:
         case ROD_LAVER_OUTDOOR_WESTERN:
         case ROD_LAVER_SHOW_COURTS:
-          return bookFacilityOverlayRequest(bookingRequest);
+          bookingResponse = bookFacilityOverlayRequest(bookingRequest);
+          break;
         case UNKNOWN:
         default:
-          return buildResponse(
+          bookingResponse = buildResponse(
               Status.INTERNAL_ERROR,
               "Unhandled sessionType: " + sessionType.name(),
               bookingRequest);
+          break;
       }
     } catch (KameHouseBadRequestException e) {
-      return buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
+      bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
     } catch (KameHouseServerErrorException e) {
-      return buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
+      bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     } catch (IOException e) {
       logger.error(e.getMessage(), e);
-      return buildResponse(
+      bookingResponse = buildResponse(
           Status.INTERNAL_ERROR,
           "Error executing booking request to tennis world Message: " + e.getMessage(),
           bookingRequest);
     }
+    storeBookingResponse(bookingResponse);
+    return bookingResponse;
   }
 
   /**

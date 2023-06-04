@@ -48,6 +48,7 @@ public abstract class BookingService {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private static int sleepMs = 500;
+  private static int retrySleepMs = 5000;
 
   @Autowired
   private BookingScheduleConfigService bookingScheduleConfigService;
@@ -61,14 +62,20 @@ public abstract class BookingService {
   /**
    * Build and send the booking response to the active tennis world implementation.
    */
-  protected abstract BookingResponse executeBookingRequestOnTennisWorld(
-      BookingRequest bookingRequest);
+  protected abstract BookingResponse executeBookingRequest(BookingRequest bookingRequest);
 
   /**
    * Set the sleep ms between requests.
    */
   public static void setSleepMs(int sleepMs) {
     BookingService.sleepMs = sleepMs;
+  }
+
+  /**
+   * Set the sleep ms between booking request retries.
+   */
+  public static void setRetrySleepMs(int retrySleepMs) {
+    BookingService.retrySleepMs = retrySleepMs;
   }
 
   /**
@@ -79,7 +86,7 @@ public abstract class BookingService {
     Long requestId = persistBookingRequest(bookingRequest);
     setThreadName(requestId);
     logger.info("Booking tennis world request: {}", bookingRequest);
-    return executeBookingRequestOnTennisWorld(bookingRequest);
+    return executeBookingRequest(bookingRequest);
   }
 
   /**
@@ -126,9 +133,15 @@ public abstract class BookingService {
     } else {
       logger.info(BOOKING_FINISHED, bookingResponse);
     }
+    return bookingResponse;
+  }
+
+  /**
+   * Persist the booking response.
+   */
+  protected void storeBookingResponse(BookingResponse bookingResponse) {
     Long responseId = bookingResponseService.create(bookingResponse.buildDto());
     bookingResponse.setId(responseId);
-    return bookingResponse;
   }
 
   /**
@@ -137,6 +150,17 @@ public abstract class BookingService {
   protected static void sleep() {
     try {
       Thread.sleep(sleepMs);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+  }
+
+  /**
+   * Sleep for the specified ms by sleepMs between booking request retries.
+   */
+  protected static void retrySleep() {
+    try {
+      Thread.sleep(retrySleepMs);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
