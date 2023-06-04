@@ -31,6 +31,7 @@
 - Added option to skip ssl check on mobile http requests
 - Added login and logout buttons in mobile settings tab
 - Added shell script to rebuild latest docker images after every commit on jenkins automatically
+- Updated groot header server manager icon 
 - Fixed bugs
 
 #### v8.13
