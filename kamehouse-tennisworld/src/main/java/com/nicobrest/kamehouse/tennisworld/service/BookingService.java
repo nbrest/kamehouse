@@ -365,7 +365,7 @@ public abstract class BookingService {
   private boolean isBookingTimeValid(BookingScheduleConfig bookingScheduleConfig) {
     String scheduledBookingTime = bookingScheduleConfig.getTime();
     String currentTime = DateUtils.getFormattedDate(DateUtils.HH_MM_24HS);
-    if (scheduledBookingTime.compareTo(currentTime) < 0) {
+    if (scheduledBookingTime.compareTo(currentTime) <= 0) {
       return true;
     }
     logger.debug("BookingScheduleConfig id {} is scheduled for today but should be executed at"
