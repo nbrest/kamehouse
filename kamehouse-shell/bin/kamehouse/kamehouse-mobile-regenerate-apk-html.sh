@@ -17,7 +17,7 @@ LOG_PROCESS_TO_FILE=true
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-template.html
 KAMEHOUSE_APK_HTML=kamehouse-apk.html
-GIT_COMMIT_HASH=""
+BUILD_VERSION=""
 
 mainProcess() {
   log.info "Re generating apk html file"
@@ -30,8 +30,8 @@ mainProcess() {
   local SHA_HASH=`sha256sum kamehouse.apk`
   sed -i "s#-----SHA_HASH-----#${SHA_HASH}#I" "${KAMEHOUSE_APK_HTML}"
 
-  log.info "Updating git commit"
-  sed -i "s#-----GIT_COMMIT_HASH-----#${GIT_COMMIT_HASH}#I" "${KAMEHOUSE_APK_HTML}"
+  log.info "Updating build version"
+  sed -i "s#-----BUILD_VERSION-----#${BUILD_VERSION}#I" "${KAMEHOUSE_APK_HTML}"
 
   log.info "Updating apk deploy date"
   local APK_DEPLOY_DATE=$(date +%Y-%m-%d' '%H:%M:%S)
@@ -39,10 +39,10 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":c:" OPT; do
+  while getopts ":b:" OPT; do
     case $OPT in
-    ("c")
-      GIT_COMMIT_HASH=$OPTARG
+    ("b")
+      BUILD_VERSION=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -52,14 +52,14 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${GIT_COMMIT_HASH}" ]; then
-    log.error "git commit hash not passed with argument -c"
+  if [ -z "${BUILD_VERSION}" ]; then
+    log.error "build version not passed with argument -b"
     exitProcess 1
   fi  
 }
 
 printHelpOptions() {
-  addHelpOption "-c hash" "git commit hash"
+  addHelpOption "-b v9.99.1-commit-hash" "build version"
 }
 
 main "$@"
