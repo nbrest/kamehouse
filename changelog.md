@@ -32,6 +32,9 @@
 - Added login and logout buttons in mobile settings tab
 - Added shell script to rebuild latest docker images after every commit on jenkins automatically
 - Updated groot header server manager icon 
+- Updated build script to set environment for android build on linux
+- Added steps on mobile readme to build apk on linux
+- Added step on jenkins to deploy mobile app automatically on every commit
 - Fixed bugs
 
 #### v8.13

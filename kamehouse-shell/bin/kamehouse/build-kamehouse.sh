@@ -29,16 +29,16 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":bcdfim:p:r" OPT; do
+  while getopts ":abcfim:p:ru" OPT; do
     case $OPT in 
+    ("a")
+      CLEAN_CORDOVA_BEFORE_BUILD=true
+      ;;   
     ("b")
       REFRESH_CORDOVA_PLUGINS=true
       ;;  
     ("c")
       CONTINUE_INTEGRATION_TESTS_ON_ERRORS=true
-      ;;    
-    ("d")
-      CLEAN_CORDOVA_BEFORE_BUILD=true
       ;;    
     ("f")
       FAST_BUILD=true
@@ -49,6 +49,9 @@ parseArguments() {
     ("r")
       RESUME_BUILD=true
       ;;
+    ("u")
+      USE_CURRENT_DIR_FOR_CORDOVA=false
+      ;;        
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -62,14 +65,15 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
+  addHelpOption "-a" "mobile: reset platforms on project. ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-c" "integration tests: continue even with errors when running integration tests"
-  addHelpOption "-d" "mobile: reset platforms on project. ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "integration tests: run integration tests only"
   printKameHouseModuleOption "build"
   printMavenProfileOption
   addHelpOption "-r" "resume build. Continue where it failed in the last build"
+  addHelpOption "-u" "use prod dir for cordova. Use this when running a manual kamehouse mobile build from the deployment dir"
 }
 
 main "$@"

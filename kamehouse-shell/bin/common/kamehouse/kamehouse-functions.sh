@@ -59,7 +59,8 @@ USE_CURRENT_DIR_FOR_CORDOVA=false
 REFRESH_CORDOVA_PLUGINS=false
 CLEAN_CORDOVA_BEFORE_BUILD=false
 RESET_PACKAGE_JSON=false
-KAMEHOUSE_MOBILE_GDRIVE_PATH="/d/Downloads/Google Drive/KameHouse/kamehouse-mobile"
+KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN="/d/Downloads/Google Drive/KameHouse/kamehouse-mobile"
+KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN="${HOME}/GoogleDrive/KameHouse/kamehouse-mobile"
 KAMEHOUSE_ANDROID_APK="/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 
@@ -462,6 +463,7 @@ cleanLogsInGitRepoFolder() {
 buildMobile() {
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
   cd kamehouse-mobile
+  setLinuxBuildEnv
   setKameHouseMobileApkPath
   if ${CLEAN_CORDOVA_BEFORE_BUILD}; then
     cleanCordovaProject
@@ -479,6 +481,14 @@ buildMobile() {
   resetConfigFromGitHash
   deleteStaticUiFilesOnMobile
   uploadKameHouseMobileApkToGDrive
+}
+
+setLinuxBuildEnv() {
+  if ${IS_LINUX_HOST}; then
+    log.info "Setting android build env"
+    export ANDROID_SDK_ROOT=${HOME}/Android/Sdk
+    export PATH=${PATH}:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin
+  fi
 }
 
 setKameHouseMobileApkPath() {
@@ -561,9 +571,20 @@ resetConfigFromGitHash() {
 }
 
 uploadKameHouseMobileApkToGDrive() {
-  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH}" ]; then
-    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder"
-    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH}/kamehouse.apk"
+  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}" ]; then
+    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}"
+    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
+  fi
+
+  if [ -d "${HOME}/GoogleDrive" ]; then
+    log.info "Mounting google drive"
+    google-drive-ocamlfuse ${HOME}/GoogleDrive
+    sleep 8
+  fi
+
+  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
+    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}"
+    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
   fi
 }
 
