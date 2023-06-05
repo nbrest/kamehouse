@@ -5,6 +5,11 @@
 
 # ChangeLog:
 
+#### v8.15
+
+- Updated android apk status page with build version
+- Fixed bugs
+
 #### v8.14
 
 - Updated more banners to Japanese
