@@ -8,6 +8,7 @@
 #### v8.15
 
 - Updated android apk status page with build version
+- Updated edit and delete icons
 - Fixed bugs
 
 #### v8.14
