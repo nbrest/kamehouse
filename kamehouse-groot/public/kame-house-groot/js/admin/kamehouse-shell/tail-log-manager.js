@@ -25,7 +25,7 @@ function TailLogManager() {
         executeOnDockerHost: executeOnDockerHost
       };
       const config = kameHouse.http.getConfig();
-      config.timeout = 10;
+      config.timeout = 20;
       kameHouse.http.get(config, KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
         (responseBody, responseCode, responseDescription, responseHeaders) => updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
