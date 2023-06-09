@@ -27,7 +27,7 @@ mainProcess() {
   cp ${KAMEHOUSE_APK_HTML_TEMPLATE} ${KAMEHOUSE_APK_HTML}
 
   log.info "Updating hash"
-  local SHA_HASH=`sha256sum kamehouse.apk`
+  local SHA_HASH=`sha256sum kamehouse.apk | awk '{print $1}'`
   sed -i "s#-----SHA_HASH-----#${SHA_HASH}#I" "${KAMEHOUSE_APK_HTML}"
 
   log.info "Updating build version"
