@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.16
+
+- Fixed bugs
+
 #### v8.15
 
 - Updated android apk status page with build version
