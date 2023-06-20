@@ -1,3 +1,5 @@
+export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
+
 # Common kamehouse variables
 # DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
