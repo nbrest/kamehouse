@@ -133,11 +133,11 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
   cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
-  git checkout dev ; \
-  git branch -D master ; \
+  chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/* ; \
+  /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-git-checkout.sh ${DOCKER_IMAGE_TAG} ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c -p docker ; \
   # clear temporary files
   /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin/mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
@@ -173,4 +173,4 @@ EXPOSE 22 80 443 3306 8000 8080 9090
 ENV TZ=Australia/Sydney
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-CMD "/home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-init-kamehouse.sh"
+CMD "/home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse.sh"
