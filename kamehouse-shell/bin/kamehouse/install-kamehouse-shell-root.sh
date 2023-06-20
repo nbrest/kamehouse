@@ -19,7 +19,9 @@ main() {
     log.error "This script needs to run as root. Exiting..."
     exit 1
   fi
-  cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+  cd /home/${KAMEHOUSE_USER}/git/kamehouse
+  git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
   log.info "To ${COL_RED}uninstall${COL_MESSAGE} kamehouse-shell for root, run as root ${COL_PURPLE}cd ${HOME}/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
   log.info "Finished setting up root user for kamehouse"
 }
