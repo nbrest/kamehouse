@@ -95,13 +95,14 @@ restoreKameHouseShell() {
 
 parseArguments() {
   parseDockerTag "$@"
-  while getopts ":bt:r" OPT; do
+  while getopts ":brt:" OPT; do
     case $OPT in
     ("b")
       BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
       ;;
     ("r")
       RUN_BUILD_STEP_FOR_RELEASE_TAG=true
+      ;;
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
