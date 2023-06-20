@@ -133,6 +133,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   git branch -D master ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
+  export PATH=/home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin:${PATH} ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker ; \
   # clear temporary files
   /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin/mvn clean ; \

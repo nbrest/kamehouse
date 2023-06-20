@@ -37,6 +37,7 @@ mainProcess() {
     --build-arg BUILD_DATE_KAMEHOUSE="${BUILD_DATE_KAMEHOUSE}" \
     --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
     --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+    --progress plain
     --push \
   "
 
