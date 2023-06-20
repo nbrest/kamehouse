@@ -9,6 +9,11 @@
 
 - Updated android apk status page with build version
 - Updated edit and delete icons
+- Extended tail log timeout
+- Updated tennisworld, testmodule and admin home styles
+- Updated spring session config to run cleanup at default times
+- Added retries to the booking request to allow to set custom number of retries
+- Updated dockerfile to use a specific maven version
 - Fixed bugs
 
 #### v8.14
