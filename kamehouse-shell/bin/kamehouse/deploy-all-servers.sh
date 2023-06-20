@@ -15,6 +15,12 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/docker-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
+  exit 1
+fi
+
 # Global variables
 LOG_PROCESS_TO_FILE=true
 
@@ -28,13 +34,13 @@ deployInAllServers() {
 
   # niko-server-vm-ubuntu
   deployInServer "niko-server-vm-ubuntu" "80" "lin" "false" "false" &
-  deployInServer "niko-server-vm-ubuntu" "12080" "lin" "true" "false" &
+  deployInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "lin" "true" "false" &
 
   # pi
   deployInServer "pi" "443" "lin" "false" "true" &
   
   # niko-nba
-  deployInServer "niko-nba" "80" "win" "false" "false" &
+  #deployInServer "niko-nba" "80" "win" "false" "false" &
 
   # niko-w
   deployInServer "niko-w" "80" "win" "false" "false" &

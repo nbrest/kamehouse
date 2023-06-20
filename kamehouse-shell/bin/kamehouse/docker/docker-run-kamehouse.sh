@@ -166,12 +166,6 @@ getUserHome() {
 
 buildProfile() {
   if [ "${DOCKER_PROFILE}" == "ci" ]; then
-    DOCKER_PORT_SSH=15022
-    DOCKER_PORT_HTTP=15080
-    DOCKER_PORT_HTTPS=15443
-    DOCKER_PORT_TOMCAT_DEBUG=15000
-    DOCKER_PORT_TOMCAT=15090
-    DOCKER_PORT_MYSQL=15306
     BUILD_ON_STARTUP=true
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
@@ -180,12 +174,6 @@ buildProfile() {
   fi
 
   if [ "${DOCKER_PROFILE}" == "demo" ]; then
-    DOCKER_PORT_SSH=12022
-    DOCKER_PORT_HTTP=12080
-    DOCKER_PORT_HTTPS=12443
-    DOCKER_PORT_TOMCAT_DEBUG=12000
-    DOCKER_PORT_TOMCAT=12090
-    DOCKER_PORT_MYSQL=12306
     BUILD_ON_STARTUP=true
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
@@ -194,7 +182,6 @@ buildProfile() {
   fi
 
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
-    # Use default ports in the 6000 range
     BUILD_ON_STARTUP=false
     DEBUG_MODE=true
     DOCKER_CONTROL_HOST=false
@@ -203,12 +190,6 @@ buildProfile() {
   fi
 
   if [ "${DOCKER_PROFILE}" == "prod" ]; then
-    DOCKER_PORT_SSH=7022
-    DOCKER_PORT_HTTP=7080
-    DOCKER_PORT_HTTPS=7443
-    DOCKER_PORT_TOMCAT_DEBUG=7000
-    DOCKER_PORT_TOMCAT=7090
-    DOCKER_PORT_MYSQL=7306
     BUILD_ON_STARTUP=true
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=true
@@ -217,17 +198,19 @@ buildProfile() {
   fi
 
   if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
-    DOCKER_PORT_SSH=7022
-    DOCKER_PORT_HTTP=7080
-    DOCKER_PORT_HTTPS=7443
-    DOCKER_PORT_TOMCAT_DEBUG=7000
-    DOCKER_PORT_TOMCAT=7090
-    DOCKER_PORT_MYSQL=7306
     BUILD_ON_STARTUP=true
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=true
     USE_VOLUMES=true
     EXPORT_NATIVE_HTTPD=true
+  fi
+
+  if [ "${DOCKER_PROFILE}" == "tag" ]; then
+    BUILD_ON_STARTUP=false
+    DEBUG_MODE=false
+    DOCKER_CONTROL_HOST=false
+    USE_VOLUMES=false
+    EXPORT_NATIVE_HTTPD=false
   fi
 }
 

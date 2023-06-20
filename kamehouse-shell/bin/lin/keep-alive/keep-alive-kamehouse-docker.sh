@@ -22,7 +22,7 @@ fi
 
 # Global variables
 LOG_PROCESS_TO_FILE=false
-DOCKER_PORT_HTTP=7080
+DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_PROD}
 SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
 DEFAULT_DOCKER_PROFILE="prod"

@@ -5,7 +5,7 @@ LOG_PROCESS_TO_FILE=true
 GIT_BRANCH="dev"
 GIT_REMOTE="all"
 PROJECT_DIR="${HOME}/git/kamehouse-server-config"
-DOCKER_PORT_SSH=7022
+DOCKER_PORT_SSH=${DOCKER_PORT_SSH_PROD}
 
 mainProcess() {
   log.warn "User running this script needs ${COL_RED}sudo chown,cp,crontab,rm${COL_DEFAULT_LOG} permissions"
