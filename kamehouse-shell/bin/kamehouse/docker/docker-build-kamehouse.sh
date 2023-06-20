@@ -21,13 +21,30 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
+RUN_BUILD_STEP_FOR_RELEASE_TAG=false
 BUILD_DATE_KAMEHOUSE="0000-00-00"
 DOCKER_COMMAND="docker buildx build"
 PLATFORM="linux/amd64,linux/arm/v7"
 ACTION="--push"
 
 mainProcess() {
+  if ${RUN_BUILD_STEP_FOR_RELEASE_TAG}; then
+    runDockerBuildCommand
+  else
+    if ${DOCKER_BUILD_RELEASE_TAG}; then
+      buildReleaseTag
+    else
+      buildLatestImage
+    fi
+  fi
+}
+
+buildLatestImage() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_DEFAULT_LOG}"
+  runDockerBuildCommand
+}
+
+runDockerBuildCommand() {
   mkdir -p ${HOME}/.docker-cache
   log.debug "docker buildx create --platform linux/amd64,linux/arm/v7 --name kamehouse-builder --bootstrap --use"
   docker buildx create --platform linux/amd64,linux/arm/v7 --name kamehouse-builder --bootstrap --use
@@ -47,13 +64,42 @@ mainProcess() {
   ${DOCKER_COMMAND}
 }
 
+buildReleaseTag() {
+  log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} locally"
+  setupKameHouseShellForReleaseTag
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -t ${DOCKER_IMAGE_TAG} -r -b
+  restoreKameHouseShell
+}
+
+setupKameHouseShellForReleaseTag() {
+  log.info "Setting up kamehouse shell for release tag"
+  cd ${HOME}/git
+  git clone https://github.com/nbrest/kamehouse.git kamehouse-release-${DOCKER_IMAGE_TAG}
+  cd kamehouse-release-${DOCKER_IMAGE_TAG}
+  log.debug "Installing kamehouse-shell from `pwd`"
+  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+}
+
+restoreKameHouseShell() {
+  log.info "Restoring kamehouse shell"
+  cd ${HOME}/git
+  rm -r kamehouse-release-${DOCKER_IMAGE_TAG}
+  cd kamehouse
+  log.debug "Installing kamehouse-shell from `pwd`"
+  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh 
+}
+
 parseArguments() {
   parseDockerTag "$@"
-  while getopts ":bt:" OPT; do
+  while getopts ":bt:r" OPT; do
     case $OPT in
     ("b")
       BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
       ;;
+    ("r")
+      RUN_BUILD_STEP_FOR_RELEASE_TAG=true
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -67,6 +113,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-b" "force build of kamehouse. Skip docker cache from build step"
+  addHelpOption "-r" "run the build step for the release tag"
   printDockerTagOption
 }
 
