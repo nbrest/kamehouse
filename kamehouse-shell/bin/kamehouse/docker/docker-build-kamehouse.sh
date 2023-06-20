@@ -24,7 +24,7 @@ LOG_PROCESS_TO_FILE=true
 BUILD_DATE_KAMEHOUSE="0000-00-00"
 
 mainProcess() {
-  log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and push it to docker hub"
+  log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_DEFAULT_LOG}"
   mkdir -p ${HOME}/.docker-cache
   log.debug "docker buildx create --platform linux/amd64,linux/arm/v7 --name kamehouse-builder --bootstrap --use"
   docker buildx create --platform linux/amd64,linux/arm/v7 --name kamehouse-builder --bootstrap --use

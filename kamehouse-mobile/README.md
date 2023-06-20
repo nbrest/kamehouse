@@ -77,7 +77,7 @@ sudo npm install -g cordova
   - Install Android SDK Command line tools latest (currently 9.0)
   - Install Android SDK Platform Tools (currently 33.0.0)
 
-- Check that android sdk is installed to: `${HOME}/Android/Sdk`. That's where the build script expects it. It's the default behavior in the current android studio release (android studion 2022.1.2.20)
+- Check that android sdk is installed to: `${HOME}/Android/Sdk`. That's where the build script expects it. It's the default behavior in the current android studio release (v2022.1.2.20)
 
 # Build Instructions:
 

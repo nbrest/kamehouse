@@ -16,7 +16,6 @@ RUN apt-get update -y && apt-get -y upgrade ; \
   apt-get install -y iputils-ping ; \
   apt-get install -y openjdk-11-jdk ; \
   apt-get install -y mariadb-server ; \
-  apt-get install -y maven ; \
   apt-get install -y net-tools ; \
   apt-get install -y openssh-server ; \
   apt-get install -y php libapache2-mod-php php-mysql ; \
@@ -66,7 +65,15 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
   mv /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53 /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat ; \
   rm /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53.tar.gz ; \
-  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/bin/catalina.sh" ; \
+  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/bin/catalina.sh ; \
+  # Install maven
+  cd /home/${KAMEHOUSE_USERNAME}/programs ; \
+  wget --no-check-certificate https://archive.apache.org/dist/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz ; \
+  tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-3.9.2-bin.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
+  mv /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-3.9.2 /home/${KAMEHOUSE_USERNAME}/programs/apache-maven ; \
+  rm /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-3.9.2-bin.tar.gz ; \
+  echo PATH=/home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
+  echo . /home/${KAMEHOUSE_USERNAME}/.env >> /home/${KAMEHOUSE_USERNAME}/.bashrc" ; \
   ### Setup directories ###
   # /home/${KAMEHOUSE_USERNAME}/.config/vlc
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.config/vlc/" ; \
