@@ -91,6 +91,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     singleTestData.setCardDetails(cardDetails);
     singleTestData.setScheduled(false);
     singleTestData.setCourtNumber(0);
+    singleTestData.setRetries(0);
   }
 
   private void initTestDataDto() {
@@ -118,6 +119,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     sessionRequest2.setCardDetails(cardDetails);
     sessionRequest2.setScheduled(false);
     sessionRequest2.setCourtNumber(0);
+    sessionRequest2.setRetries(0);
     testDataList.add(sessionRequest2);
   }
 
@@ -138,5 +140,6 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     cardioTennisBookingRequest.setCardDetails(cardDetails);
     cardioTennisBookingRequest.setScheduled(false);
     cardioTennisBookingRequest.setCourtNumber(0);
+    cardioTennisBookingRequest.setRetries(0);
   }
 }

@@ -25,14 +25,14 @@ public class BookingResponseDaoJpaTest
     String table = "BOOKING_REQUEST";
     String columns =
         "id, username, date, time, site, session_type, duration, dry_run, "
-            + "creation_date, scheduled, court_number";
+            + "creation_date, scheduled, court_number, retries";
     String[] rows = {
         "1, 'goku@dbz.com', '2020-07-28', '18:45', 'MELBOURNE_PARK', 'ROD_LAVER_OUTDOOR_WESTERN'"
-            + ", '60', 'false', '2020-07-28 20:08:08.235', 'false', 0",
+            + ", '60', 'false', '2020-07-28 20:08:08.235', 'false', 0, 0",
         "2, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'CARDIO'"
-            + ", '45', 'false', '2020-07-28 20:08:08.235', 'false', 0",
+            + ", '45', 'false', '2020-07-28 20:08:08.235', 'false', 0, 0",
         "3, 'goku@dbz.com', '2021-07-30', '06:30', 'MELBOURNE_PARK', 'ROD_LAVER_SHOW_COURTS'"
-            + ", '45', 'false', '2020-07-28 20:08:08.235', 'false', 0"
+            + ", '45', 'false', '2020-07-28 20:08:08.235', 'false', 0, 0"
     };
 
     for (String row : rows) {

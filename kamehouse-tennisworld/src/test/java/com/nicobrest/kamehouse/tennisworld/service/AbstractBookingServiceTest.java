@@ -195,6 +195,7 @@ public class AbstractBookingServiceTest {
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
+    expected.getRequest().setRetries(BookingService.MAX_BOOKING_RETRIES);
 
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();
@@ -231,6 +232,7 @@ public class AbstractBookingServiceTest {
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
+    expected.getRequest().setRetries(BookingService.MAX_BOOKING_RETRIES);
 
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();
@@ -267,6 +269,7 @@ public class AbstractBookingServiceTest {
 
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
     expected.getRequest().setScheduled(true);
+    expected.getRequest().setRetries(BookingService.MAX_BOOKING_RETRIES);
 
     BookingScheduleConfig bookingScheduleConfig =
         bookingScheduleConfigTestUtils.getSingleTestData();

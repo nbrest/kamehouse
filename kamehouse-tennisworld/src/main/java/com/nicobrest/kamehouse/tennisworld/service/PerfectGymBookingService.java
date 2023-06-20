@@ -44,7 +44,6 @@ import org.springframework.stereotype.Service;
 public class PerfectGymBookingService extends BookingService {
 
   public static final String CP_BOOK_FACILITY_SESSION_ID_HEADER = "CP-BOOK-FACILITY-SESSION-ID";
-  public static final int MAX_BOOKING_RETRIES = 25;
   // URLs
   public static final String ROOT_URL = "https://tennisworld.perfectgym.com.au";
   public static final String LOGIN_URL = ROOT_URL + "/ClientPortal2/Auth/Login";
@@ -74,11 +73,20 @@ public class PerfectGymBookingService extends BookingService {
   protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {
     SessionType sessionType = bookingRequest.getSessionType();
     BookingResponse bookingResponse = null;
-    for (int i = 0; i < MAX_BOOKING_RETRIES; i++) {
+    int retries = MAX_BOOKING_RETRIES;
+    Integer bookingRequestRetries = bookingRequest.getRetries();
+    if (bookingRequestRetries != null && bookingRequestRetries >= 0) {
+      retries = bookingRequestRetries;
+    }
+    for (int i = 0; i <= retries; i++) {
       if (bookingResponse != null && Status.SUCCESS.equals(bookingResponse.getStatus())) {
         break;
       }
-      logger.info("Executing booking request - retry number " + i);
+      if (i > 0) {
+        logger.info("Executing booking request - retry number {}", i);
+      } else {
+        logger.info("Executing booking request");
+      }
       try {
         switch (sessionType) {
           case ADULT_MATCH_PLAY_DOUBLES:

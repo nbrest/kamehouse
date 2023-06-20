@@ -19,7 +19,7 @@ function BookingService() {
   function book() {
     kameHouse.logger.info("Executing booking request...");
     kameHouse.plugin.modal.loadingWheelModal.open("Executing booking request. This could take a few minutes...");
-    const bookingRequest = getFormData();
+    const bookingRequest = getBookingRequest();
     const config = kameHouse.http.getConfig();
     config.timeout = 300;
     kameHouse.plugin.debugger.http.post(config, BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
@@ -43,7 +43,7 @@ function BookingService() {
   /**
    * Get booking request to send to the backend.
    */
-  function getFormData() {
+  function getBookingRequest() {
     const bookingRequest = {};
     bookingRequest['username'] = document.getElementById('username').value;
     bookingRequest['password'] = document.getElementById('password').value;
@@ -68,6 +68,7 @@ function BookingService() {
       cardDetails['cvv'] = document.getElementById('card-cvv').value;
       bookingRequest['cardDetails'] = cardDetails;
     }
+    bookingRequest['retries'] = 0;
     return bookingRequest;
   }
 

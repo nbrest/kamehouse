@@ -91,6 +91,9 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
 
   @Column(name = "court_number", unique = false, nullable = true)
   private Integer courtNumber = 0;
+  
+  @Column(name = "retries", unique = false, nullable = true)
+  private Integer retries;
 
   @Override
   public BookingRequestDto buildDto() {
@@ -103,6 +106,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
     dto.setDryRun(isDryRun());
     dto.setDuration(getDuration());
     dto.setPassword(getPassword());
+    dto.setRetries(getRetries());
     dto.setScheduled(isScheduled());
     dto.setSessionType(getSessionType());
     dto.setSite(getSite());
@@ -245,6 +249,14 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
     this.courtNumber = courtNumber;
   }
 
+  public Integer getRetries() {
+    return retries;
+  }
+
+  public void setRetries(Integer retries) {
+    this.retries = retries;
+  }
+
   @Override
   public int hashCode() {
     String dateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, date);
@@ -258,6 +270,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
         .append(sessionType)
         .append(scheduled)
         .append(courtNumber)
+        .append(retries)
         .toHashCode();
   }
 
@@ -277,6 +290,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
           .append(sessionType, other.getSessionType())
           .append(scheduled, other.isScheduled())
           .append(courtNumber, other.getCourtNumber())
+          .append(retries, other.getRetries())
           .isEquals();
     } else {
       return false;

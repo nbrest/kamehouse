@@ -768,7 +768,7 @@ public class PerfectGymBookingServiceTest {
   private void setupHttpResponseInputStreamMocks(PerfectGymResponses perfectGymResponses)
       throws Exception {
     OngoingStubbing<InputStream> ongoingStubbing = when(HttpClientUtils.getInputStream(any()));
-    for (int i = 0; i < PerfectGymBookingService.MAX_BOOKING_RETRIES; i++) {
+    for (int i = 0; i < BookingService.MAX_BOOKING_RETRIES; i++) {
       for (String testFilename : perfectGymResponses.getValue()) {
         InputStream testInputStream = BookingRequestTestUtils.getInputStream(testFilename);
         ongoingStubbing = ongoingStubbing.thenReturn(testInputStream);
