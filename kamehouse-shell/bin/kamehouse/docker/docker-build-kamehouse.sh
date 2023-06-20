@@ -38,7 +38,7 @@ mainProcess() {
     --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
     --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
     --progress plain
-    --push \
+    --load \
   "
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\

@@ -44,6 +44,9 @@ COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
 
+ENV MAVEN_VERSION=3.8.2
+ENV TOMCAT_VERSION=9.0.53
+
 # Setup users 
 RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   echo "${KAMEHOUSE_USERNAME}:${KAMEHOUSE_PASSWORD}" | chpasswd ; \
@@ -61,17 +64,17 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   # Install tomcat
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs ; \
   cd /home/${KAMEHOUSE_USERNAME}/programs ; \
-  wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.53/bin/apache-tomcat-9.0.53.tar.gz ; \
-  tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
-  mv /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53 /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat ; \
-  rm /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-9.0.53.tar.gz ; \
+  wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz ; \
+  tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
+  mv /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-${TOMCAT_VERSION} /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat ; \
+  rm /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz ; \
   sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/bin/catalina.sh ; \
   # Install maven
   cd /home/${KAMEHOUSE_USERNAME}/programs ; \
-  wget --no-check-certificate https://archive.apache.org/dist/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz ; \
-  tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-3.9.2-bin.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
-  mv /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-3.9.2 /home/${KAMEHOUSE_USERNAME}/programs/apache-maven ; \
-  rm /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-3.9.2-bin.tar.gz ; \
+  wget --no-check-certificate https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz ; \
+  tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
+  mv /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION} /home/${KAMEHOUSE_USERNAME}/programs/apache-maven ; \
+  rm /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz ; \
   echo PATH=/home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
   echo . /home/${KAMEHOUSE_USERNAME}/.env >> /home/${KAMEHOUSE_USERNAME}/.bashrc" ; \
   echo "PATH=/home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin:${PATH}" >> /etc/profile ; \
