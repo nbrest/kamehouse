@@ -32,7 +32,7 @@ mainProcess() {
   /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -p ci -i > /home/${DOCKER_USERNAME}/logs/build-kamehouse.log
   BUILD_RESULT=$?
 
-  BUILD_LOG=`tail -n 75 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
+  BUILD_LOG=`tail -n 150 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
   echo -e "${BUILD_LOG}" | grep "BUILD SUCCESS" > /dev/null
   BUILD_LOG_RESULT=$?
   

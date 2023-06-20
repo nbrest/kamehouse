@@ -23,6 +23,8 @@ fi
 LOG_PROCESS_TO_FILE=true
 BUILD_DATE_KAMEHOUSE="0000-00-00"
 DOCKER_COMMAND="docker buildx build"
+PLATFORM="linux/amd64" #,linux/arm/v7
+ACTION="--load"
 
 mainProcess() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_DEFAULT_LOG}"
@@ -33,12 +35,12 @@ mainProcess() {
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
     --cache-from=type=local,src=${HOME}/.docker-cache \
     --cache-to=type=local,dest=${HOME}/.docker-cache \
-    --platform=linux/amd64,linux/arm/v7 \
     --build-arg BUILD_DATE_KAMEHOUSE="${BUILD_DATE_KAMEHOUSE}" \
     --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
     --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
     --progress plain
-    --load \
+    --platform=${PLATFORM} \
+    ${ACTION} \
   "
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\

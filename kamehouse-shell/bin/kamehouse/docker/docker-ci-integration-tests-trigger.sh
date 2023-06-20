@@ -32,7 +32,7 @@ INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
 SCRIPT="kamehouse/docker/docker-integration-tests-run.sh"
 DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_CI}
 DOCKER_CI_CREDENTIALS="${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"
-RETRIES=4
+RETRIES=5
 NUM_MAIN_PROCESS_RETRIES=""
 NUM_TOMCAT_STARTUP_RETRIES=""
 NUM_LOGIN_RETRIES=""
@@ -77,7 +77,9 @@ mainProcessLoop() {
     fi
     : $((NUM_MAIN_PROCESS_RETRIES--))
     if [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; then 
-      sleep 15
+      local SECONDS=15
+      log.info "Sleeping ${SECONDS} seconds until next retry"
+      sleep ${SECONDS}
     fi
   done
 }
@@ -93,7 +95,9 @@ startCiDockerContainerLoop() {
     loginCheckLoop
     : $((NUM_TOMCAT_STARTUP_RETRIES--))
     if [ ${NUM_TOMCAT_STARTUP_RETRIES} -gt 0 ]; then 
-      sleep 10
+      local SECONDS=10
+      log.info "Sleeping ${SECONDS} seconds until next retry"
+      sleep ${SECONDS}
     fi
   done
 }
@@ -109,8 +113,10 @@ startCiDockerContainer() {
 }
 
 waitForTomcatStartup() {
-  log.info "Waiting for tomcat startup"
-  sleep 90
+  local SECONDS=240
+  log.info "Waiting ${SECONDS} seconds for tomcat startup"
+  sleep ${SECONDS}
+  log.info "Checking if tomcat startup completed"
 }
 
 loginCheckLoop() {
@@ -121,7 +127,9 @@ loginCheckLoop() {
     loginCheck
     : $((NUM_LOGIN_RETRIES--))
     if [ ${NUM_LOGIN_RETRIES} -gt 0 ]; then
-      sleep 45
+      local SECONDS=45
+      log.info "Sleeping ${SECONDS} seconds until next retry"
+      sleep ${SECONDS}
     fi
   done   
 }
@@ -157,7 +165,9 @@ executeIntegrationTestsLoop() {
     executeIntegrationTests
     : $((NUM_INTEGRATION_TESTS_RETRIES--))
     if [ ${NUM_INTEGRATION_TESTS_RETRIES} -gt 0 ]; then
-      sleep 20
+      local SECONDS=60
+      log.info "Sleeping ${SECONDS} seconds until next retry"
+      sleep ${SECONDS}
     fi
   done
 }
