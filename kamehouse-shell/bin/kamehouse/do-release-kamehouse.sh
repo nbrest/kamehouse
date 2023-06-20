@@ -17,7 +17,7 @@ fi
 declare -a VALID_WORKING_DIRS=("${HOME}/workspace-eclipse/${PROJECT}" "${HOME}/workspace-intellij/${PROJECT}")
 CURRENT_BRANCH=""
 RELEASE_VERSION=""
-RELEASE_VERSION_RX=^[0-9]\.[0-9]{2}$
+RELEASE_VERSION_RX=^[0-9]+\.[0-9]{2}$
 RELEASE_BRANCH="dev"
 REQUEST_CONFIRMATION_RX=^yes\|y$
 

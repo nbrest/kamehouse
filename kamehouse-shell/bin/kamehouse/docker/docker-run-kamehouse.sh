@@ -235,8 +235,9 @@ overrideDefaultValues() {
 parseArguments() {
   parseIde "$@"
   parseDockerProfile "$@"
-  
-  while getopts ":bcdfi:p:s:v" OPT; do
+  parseDockerTag "$@"
+
+  while getopts ":bcdfi:p:s:t:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
@@ -266,6 +267,7 @@ parseArguments() {
 setEnvFromArguments() {
   setEnvForIde
   setEnvForDockerProfile
+  setEnvForDockerTag
   buildProfile
   overrideDefaultValues  
 }
@@ -278,6 +280,7 @@ printHelpOptions() {
   printIdeOption "ide workspace to use for a dev docker container. Default is ${DEFAULT_IDE}"
   printDockerProfileOption
   addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
+  printDockerTagOption
   addHelpOption "-v" "use volumes to persist data"
 }
 

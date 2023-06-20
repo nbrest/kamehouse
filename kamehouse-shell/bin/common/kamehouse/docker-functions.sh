@@ -51,10 +51,14 @@ DEFAULT_DOCKER_OS="ubuntu"
 DOCKER_ENVIRONMENT="${DEFAULT_DOCKER_OS}"
 
 DOCKER_COMMAND=""
+
+DOCKER_BUILD_RELEASE_TAG=false
+DOCKER_TAG_MINIMUM_VERSION="v8.14"
+let DOCKER_TAG_MINIMUM_VER_NUMBER=814
+
 # When I update the base image here also update docker-setup.md
 DOCKER_IMAGE_BASE="ubuntu:22.04"
 DOCKER_IMAGE_TAG="latest"
-DOCKER_BUILD_TAG=
 
 # This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
 DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
@@ -91,6 +95,7 @@ parseDockerTag() {
     case "${ARGS[i]}" in
       -t)
         DOCKER_IMAGE_TAG="${ARGS[i+1]}"
+        DOCKER_BUILD_RELEASE_TAG=true
         ;;
     esac
   done
@@ -167,6 +172,39 @@ setEnvForDockerTag() {
   if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
     return
   fi
+  
+  local DOCKER_IMAGE_TAG_RX=^v[0-9]+\.[0-9]{2}$
+  if [[ "${DOCKER_IMAGE_TAG}" =~ ${DOCKER_IMAGE_TAG_RX} ]]; then
+    local DOUBLE_DIGITS_MAIN_RX=^v[0-9]{2}\.[0-9]{2}$
+    local TAG_NUMBER_STR="0"
+    if [[ "${DOCKER_IMAGE_TAG}" =~ ${DOUBLE_DIGITS_MAIN_RX} ]]; then
+      # vXX.XX
+      TAG_NUMBER_STR=${DOCKER_IMAGE_TAG:1:2}${DOCKER_IMAGE_TAG:4:2}
+    else
+      # vX.XX
+      TAG_NUMBER_STR=${DOCKER_IMAGE_TAG:1:1}${DOCKER_IMAGE_TAG:3:2}
+    fi
+    log.debug "TAG_NUMBER_STR=${TAG_NUMBER_STR}"
+    local let TAG_NUMBER=$(($TAG_NUMBER_STR))
+    log.info "TAG_NUMBER=${TAG_NUMBER}"
+    if [ ${TAG_NUMBER} -ge ${DOCKER_TAG_MINIMUM_VER_NUMBER} ]; then
+      log.info "tag ${DOCKER_IMAGE_TAG} is valid"
+    else
+      log.error "Option -t [tag] has an invalid value of ${DOCKER_IMAGE_TAG}"
+      printHelp
+      exitProcess 1
+    fi
+  else
+    log.error "Option -t [tag] has an invalid value of ${DOCKER_IMAGE_TAG}"
+    printHelp
+    exitProcess 1
+  fi 
+
+  if ${DOCKER_BUILD_RELEASE_TAG}; then
+    # For release tags, build the image locally, don't push to docker hub
+    PLATFORM="linux/amd64"
+    ACTION="--load"
+  fi
 }
 
 printDockerProfileOption() {
@@ -174,5 +212,5 @@ printDockerProfileOption() {
 }
 
 printDockerTagOption() {
-  addHelpOption "-t vX.XX" "run this script for a specific KameHouse tag version. Default is ${DOCKER_IMAGE_TAG}"
+  addHelpOption "-t vX.XX" "run this script for a specific KameHouse tag version. Minimum supported tag is ${DOCKER_TAG_MINIMUM_VERSION}"
 }

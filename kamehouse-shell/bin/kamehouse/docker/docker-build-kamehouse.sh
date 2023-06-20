@@ -23,8 +23,8 @@ fi
 LOG_PROCESS_TO_FILE=true
 BUILD_DATE_KAMEHOUSE="0000-00-00"
 DOCKER_COMMAND="docker buildx build"
-PLATFORM="linux/amd64" #,linux/arm/v7
-ACTION="--load"
+PLATFORM="linux/amd64,linux/arm/v7"
+ACTION="--push"
 
 mainProcess() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_DEFAULT_LOG}"

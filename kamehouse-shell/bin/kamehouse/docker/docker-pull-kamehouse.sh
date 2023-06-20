@@ -27,4 +27,16 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-cleanup-kamehouse.sh
 }
 
+parseArguments() {
+  parseDockerTag "$@"
+}
+
+setEnvFromArguments() {
+  setEnvForDockerTag 
+}
+
+printHelpOptions() {
+  printDockerTagOption
+}
+
 main "$@"
