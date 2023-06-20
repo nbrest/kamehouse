@@ -74,6 +74,7 @@ buildReleaseTag() {
 setupKameHouseShellForReleaseTag() {
   log.info "Setting up kamehouse shell for release tag"
   cd ${HOME}/git
+  rm -r -f kamehouse-release-${DOCKER_IMAGE_TAG}
   git clone https://github.com/nbrest/kamehouse.git kamehouse-release-${DOCKER_IMAGE_TAG}
   cd kamehouse-release-${DOCKER_IMAGE_TAG}
   git checkout tags/${DOCKER_IMAGE_TAG} -b ${DOCKER_IMAGE_TAG}
