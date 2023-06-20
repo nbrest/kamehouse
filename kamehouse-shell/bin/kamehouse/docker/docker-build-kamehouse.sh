@@ -22,7 +22,7 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 BUILD_DATE_KAMEHOUSE="0000-00-00"
-DOCKER_COMMAND="buildx build"
+DOCKER_COMMAND="docker buildx build"
 
 mainProcess() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_DEFAULT_LOG}"
@@ -48,7 +48,8 @@ mainProcess() {
 }
 
 parseArguments() {
-   while getopts ":b" OPT; do
+  parseDockerTag "$@"
+  while getopts ":bt:" OPT; do
     case $OPT in
     ("b")
       BUILD_DATE_KAMEHOUSE=$(date)
@@ -60,8 +61,13 @@ parseArguments() {
   done
 }
 
+setEnvFromArguments() {
+  setEnvForDockerTag 
+}
+
 printHelpOptions() {
   addHelpOption "-b" "force build of kamehouse. Skip docker cache from build step"
+  printDockerTagOption
 }
 
 main "$@"

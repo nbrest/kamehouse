@@ -91,7 +91,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
 
   @Column(name = "court_number", unique = false, nullable = true)
   private Integer courtNumber = 0;
-  
+
   @Column(name = "retries", unique = false, nullable = true)
   private Integer retries;
 

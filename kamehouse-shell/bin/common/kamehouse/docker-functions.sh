@@ -85,6 +85,17 @@ parseDockerProfile() {
   done
 }
 
+parseDockerTag() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -t)
+        DOCKER_IMAGE_TAG="${ARGS[i+1]}"
+        ;;
+    esac
+  done
+}
+
 setEnvForDockerProfile() {
   if [ "${DOCKER_PROFILE}" != "ci" ] &&
     [ "${DOCKER_PROFILE}" != "demo" ] &&
@@ -152,6 +163,16 @@ setEnvForDockerProfile() {
   fi
 }
 
+setEnvForDockerTag() {
+  if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
+    return
+  fi
+}
+
 printDockerProfileOption() {
   addHelpOption "-p ${DOCKER_PROFILES_LIST}" "default profile is ${DEFAULT_DOCKER_PROFILE}"
+}
+
+printDockerTagOption() {
+  addHelpOption "-t vX.XX" "run this script for a specific KameHouse tag version. Default is ${DOCKER_IMAGE_TAG}"
 }
