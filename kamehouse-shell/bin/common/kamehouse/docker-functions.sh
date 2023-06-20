@@ -186,7 +186,7 @@ setEnvForDockerTag() {
     fi
     log.debug "TAG_NUMBER_STR=${TAG_NUMBER_STR}"
     local let TAG_NUMBER=$(($TAG_NUMBER_STR))
-    log.info "TAG_NUMBER=${TAG_NUMBER}"
+    log.debug "TAG_NUMBER=${TAG_NUMBER}"
     if [ ${TAG_NUMBER} -ge ${DOCKER_TAG_MINIMUM_VER_NUMBER} ]; then
       log.info "tag ${DOCKER_IMAGE_TAG} is valid"
     else
