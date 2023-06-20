@@ -22,12 +22,15 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
+
 PROJECT_DIR=/home/${DOCKER_USERNAME}/git/kamehouse
 SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
 ERROR="ERROR EXECUTING INTEGRATION TESTS"
 
 mainProcess() {
   log.trace "DOCKER_USERNAME=${DOCKER_USERNAME}"
+  log.trace "PROJECT_DIR=${PROJECT_DIR}"
   cd ${PROJECT_DIR}
   
   /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -p ci -i > /home/${DOCKER_USERNAME}/logs/build-kamehouse.log
