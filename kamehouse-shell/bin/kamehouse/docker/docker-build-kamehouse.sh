@@ -41,9 +41,6 @@ mainProcess() {
     --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
     --platform=${PLATFORM} \
     ${ACTION} \
-    "
-
-  DOCKER_COMMAND=${DOCKER_COMMAND}"\
     -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
   "
   log.debug "${DOCKER_COMMAND}"
