@@ -14,6 +14,7 @@
 - Updated spring session config to run cleanup at default times
 - Added retries to the booking request to allow to set custom number of retries
 - Updated dockerfile to use a specific maven version
+- Updated docker scripts to allow building and running release tags from v8.15 onward
 - Fixed bugs
 
 #### v8.14
