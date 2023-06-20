@@ -35,13 +35,13 @@ mainProcess() {
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
     --cache-from=type=local,src=${HOME}/.docker-cache \
     --cache-to=type=local,dest=${HOME}/.docker-cache \
-    --build-arg BUILD_DATE_KAMEHOUSE="${BUILD_DATE_KAMEHOUSE}" \
+    --progress plain
+    --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
     --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
     --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-    --progress plain
     --platform=${PLATFORM} \
     ${ACTION} \
-  "
+    "
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
     -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
@@ -55,7 +55,7 @@ parseArguments() {
   while getopts ":bt:" OPT; do
     case $OPT in
     ("b")
-      BUILD_DATE_KAMEHOUSE=$(date)
+      BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
