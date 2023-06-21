@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.17
+
+- Fixed bugs
+
 #### v8.16
 
 - Added java8-* and java11-* scripts to generate docker images for all major kamehouse releases from v0.10 to v8.14
