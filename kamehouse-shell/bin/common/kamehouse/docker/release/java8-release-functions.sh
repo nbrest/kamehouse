@@ -1,0 +1,14 @@
+FIRST_RELEASE=false
+FIRST_RELEASE_VERSION=v0.10
+FIRST_RELEASE_SSH_PORT=18022
+FIRST_RELEASE_HTTP_PORT=18080
+FIRST_RELEASE_IMAGE_TAG=first-release
+RELEASE_VERSION=${FIRST_RELEASE_VERSION}
+DOCKER_SSH_PORT=18122
+DOCKER_HTTP_PORT=18180
+DOCKER_IMAGE_TAG=java8-release
+DOCKER_CONTAINER_USERNAME=`cat ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/release/java8-release/Dockerfile | grep "ARG KAMEHOUSE_USERNAME=" | awk -F'=' '{print $2}'`
+if [ -z "${DOCKER_CONTAINER_USERNAME}" ]; then
+  log.error "Could not set DOCKER_CONTAINER_USERNAME from Dockerfile"
+  exit 1
+fi 

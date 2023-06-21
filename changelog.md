@@ -7,10 +7,12 @@
 
 #### v8.16
 
+- Added java8-* and java11-* scripts to generate docker images for all major kamehouse releases from v0.10 to v8.14
 - Fixed bugs
 
 #### v8.15
 
+- Updated docker scripts to allow building and running kamehouse release tags from v8.15 onward
 - Updated android apk status page with build version
 - Updated edit and delete icons
 - Extended tail log timeout
@@ -18,7 +20,6 @@
 - Updated spring session config to run cleanup at default times
 - Added retries to the booking request to allow to set custom number of retries
 - Updated dockerfile to use a specific maven version
-- Updated docker scripts to allow building and running release tags from v8.15 onward
 - Fixed bugs
 
 #### v8.14
