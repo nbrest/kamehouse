@@ -11,13 +11,7 @@ COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
 main() {
-  fixPermissions
   fixEol
-}
-
-fixPermissions() {
-  log.info "Fixing permissions"
-  chmod -R a+x .
 }
 
 fixEol() {

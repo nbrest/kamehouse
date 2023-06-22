@@ -18,28 +18,28 @@ main() {
   SCRIPTS_PATH=$(find ${BASE_DIR} -name '.*' -prune -o -type f)
   
   # Filter bashrc
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /aws/bashrc) 
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /lin/bashrc) 
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /win/bashrc) 
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /common/bashrc) 
-  # Filter deprecated
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /deprecated)
-  # Filter sudoers
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /lin/sudoers)
+  # Filter docker container scripts
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/docker-container)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java8-release/bin)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java8-release/docker)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java11-release/bin)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java11-release/docker)    
   # Filter lin
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/lin/') 
-  # Filter pi
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/pi/') 
-  # Filter aws
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/aws/') 
   # Filter .. directory
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/../') 
-  
+  # Filter -functions.sh scripts
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v -e '\-functions\.sh$') 
+
   # Keep only .sh scripts
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep '.sh') 
- 
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -e '\.sh$') 
+
   # Replace \n with :  
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | tr '\n' ':')
+
   # Remove last :
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | sed '$s/.$//') 
 

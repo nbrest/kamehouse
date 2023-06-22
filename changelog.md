@@ -7,6 +7,7 @@
 
 #### v8.17
 
+- Fixed kamehouse-shell scripts permissions
 - Fixed bugs
 
 #### v8.16

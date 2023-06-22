@@ -11,8 +11,8 @@ mainProcess() {
   log.info "Deploying rc-local.sh systemd service"
   log.warn "User running this script needs ${COL_RED}sudo chmod,cp,systemctl${COL_DEFAULT_LOG} permissions"
   local USERNAME=`whoami`
-  sudo chmod 744 /home/${USERNAME}/programs/kamehouse-shell/bin/pi/startup/rc-local.sh
-  sudo cp -v /home/${USERNAME}/programs/kamehouse-shell/bin/pi/startup/rc-local.service /etc/systemd/system/rc-local.service 
+  sudo chmod 744 /home/${USERNAME}/programs/kamehouse-shell/bin/lin/pi/startup/pi-rc-local.sh
+  sudo cp -v /home/${USERNAME}/programs/kamehouse-shell/bin/lin/pi/startup/pi-rc-local.service /etc/systemd/system/rc-local.service 
   sudo chmod 664 /etc/systemd/system/rc-local.service
   sudo systemctl daemon-reload
   sudo systemctl enable rc-local.service

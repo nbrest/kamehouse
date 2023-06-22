@@ -1,0 +1,8 @@
+[Unit]
+After=network.service
+
+[Service]
+ExecStart=/home/KAMEHOUSE_USER/programs/kamehouse-shell/bin/lin/pi/startup/pi-rc-local.sh
+
+[Install]
+WantedBy=default.target

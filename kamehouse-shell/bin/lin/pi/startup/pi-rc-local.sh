@@ -45,7 +45,7 @@ checkEnv() {
 
 setupTmpfs() {
   log.info "Setup tmpfs" >> ${LOG_FILE}
-  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/pi/startup/setup-tmpfs.sh
+  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/lin/pi/startup/pi-setup-tmpfs.sh
 }
 
 startTomcat() {
@@ -60,7 +60,7 @@ backupServer() {
 
 disableSwap() {
   log.info "Disabling swap" >> ${LOG_FILE}
-  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/pi/startup/disable-swap.sh
+  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/lin/pi/startup/pi-disable-swap.sh
 }
 
 moveLogFile() {
