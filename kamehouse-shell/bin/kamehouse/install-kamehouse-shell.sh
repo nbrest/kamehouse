@@ -74,26 +74,28 @@ installKameHouseShell() {
 
 fixPermissions() {
   log.info "Fixing permissions"
-  local NON_SCRIPTS=`find ${MY_SCRIPTS_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
+  local NON_SCRIPTS=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read NON_SCRIPT; do
     if [ -n "${NON_SCRIPT}" ]; then
       chmod a-x ${NON_SCRIPT}
     fi
   done <<< ${NON_SCRIPTS}
 
-  local SCRIPTS=`find ${MY_SCRIPTS_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
+  local SCRIPTS=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
       chmod a+x ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
-  local FUNCTIONS=`find ${MY_SCRIPTS_PATH} -name '.*' -prune -o -type f | grep "\-functions.sh$"`
+  local FUNCTIONS=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type f | grep "\-functions.sh$"`
   while read FUNCTION; do
     if [ -n "${FUNCTION}" ]; then
       chmod a-x ${FUNCTION}
     fi
   done <<< ${FUNCTIONS}
+
+  chmod u+x ${KAMEHOUSE_SHELL_PATH}/.cred
 }
 
 installCred() {
