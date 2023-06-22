@@ -94,8 +94,6 @@ fixPermissions() {
       chmod a-x ${FUNCTION}
     fi
   done <<< ${FUNCTIONS}
-
-  chmod u+x ${KAMEHOUSE_SHELL_PATH}/.cred
 }
 
 installCred() {
