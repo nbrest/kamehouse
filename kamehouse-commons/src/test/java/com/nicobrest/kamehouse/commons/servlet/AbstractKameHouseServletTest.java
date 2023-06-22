@@ -103,7 +103,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doGet(request, response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-    assertEquals("{\"message\":\"Error getting url parameter my-param\"}",
+    assertEquals("{\"code\":400,\"message\":\"Error getting url parameter my-param\"}",
         response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
@@ -116,7 +116,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doException(new KameHouseBadRequestException("bad request"), response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-    assertEquals("{\"message\":\"bad request\"}", response.getContentAsString());
+    assertEquals("{\"code\":400,\"message\":\"bad request\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -128,7 +128,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doException(new KameHouseConflictException("conflict"), response);
 
     assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
-    assertEquals("{\"message\":\"conflict\"}", response.getContentAsString());
+    assertEquals("{\"code\":409,\"message\":\"conflict\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -140,7 +140,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doException(new KameHouseForbiddenException("forbidden"), response);
 
     assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
-    assertEquals("{\"message\":\"forbidden\"}", response.getContentAsString());
+    assertEquals("{\"code\":403,\"message\":\"forbidden\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -153,7 +153,7 @@ public class AbstractKameHouseServletTest {
         response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-    assertEquals("{\"message\":\"invalid command\"}", response.getContentAsString());
+    assertEquals("{\"code\":400,\"message\":\"invalid command\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -165,7 +165,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doException(new KameHouseInvalidDataException("invalid data"), response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-    assertEquals("{\"message\":\"invalid data\"}", response.getContentAsString());
+    assertEquals("{\"code\":400,\"message\":\"invalid data\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -177,7 +177,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doException(new KameHouseNotFoundException("not found"), response);
 
     assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
-    assertEquals("{\"message\":\"not found\"}", response.getContentAsString());
+    assertEquals("{\"code\":404,\"message\":\"not found\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 
@@ -189,7 +189,7 @@ public class AbstractKameHouseServletTest {
     sampleKameHouseServlet.doException(new KameHouseServerErrorException("server error"), response);
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-    assertEquals("{\"message\":\"server error\"}", response.getContentAsString());
+    assertEquals("{\"code\":500,\"message\":\"server error\"}", response.getContentAsString());
     assertEquals(ContentType.APPLICATION_JSON.getMimeType(), response.getContentType());
   }
 

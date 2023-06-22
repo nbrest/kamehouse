@@ -8,7 +8,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandExceptio
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
+import com.nicobrest.kamehouse.commons.model.KameHouseApiErrorResponse;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -112,45 +112,49 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
    * Set the response for kamehouse exceptions.
    */
   public void handleKameHouseException(HttpServletResponse response, KameHouseException exception) {
-    KameHouseGenericResponse responseBody = generateErrorResponseBody(exception.getMessage());
+    int statusCode = getErrorStatusCode(exception);
+    KameHouseApiErrorResponse responseBody = generateErrorResponseBody(statusCode,
+        exception.getMessage());
     setResponseBody(response, responseBody.toString());
-    setErrorStatusCode(response, exception);
+    response.setStatus(statusCode);
   }
 
   /**
    * Generate the response body to return on errors.
    */
-  private KameHouseGenericResponse generateErrorResponseBody(String message) {
-    KameHouseGenericResponse kameHouseGenericResponse = new KameHouseGenericResponse();
-    kameHouseGenericResponse.setMessage(message);
-    return kameHouseGenericResponse;
+  private KameHouseApiErrorResponse generateErrorResponseBody(int statusCode, String message) {
+    KameHouseApiErrorResponse kameHouseApiErrorResponse = new KameHouseApiErrorResponse();
+    kameHouseApiErrorResponse.setCode(statusCode);
+    kameHouseApiErrorResponse.setMessage(message);
+    return kameHouseApiErrorResponse;
   }
 
   /**
-   * Set the response code for kamehouse exceptions.
+   * Get the response code for kamehouse exceptions.
    */
-  private void setErrorStatusCode(HttpServletResponse response, KameHouseException exception) {
+  private int getErrorStatusCode(KameHouseException exception) {
     if (exception instanceof KameHouseBadRequestException) {
-      response.setStatus(HttpStatus.BAD_REQUEST.value());
+      return HttpStatus.BAD_REQUEST.value();
     }
     if (exception instanceof KameHouseConflictException) {
-      response.setStatus(HttpStatus.CONFLICT.value());
+      return HttpStatus.CONFLICT.value();
     }
     if (exception instanceof KameHouseForbiddenException) {
-      response.setStatus(HttpStatus.FORBIDDEN.value());
+      return HttpStatus.FORBIDDEN.value();
     }
     if (exception instanceof KameHouseInvalidCommandException) {
-      response.setStatus(HttpStatus.BAD_REQUEST.value());
+      return HttpStatus.BAD_REQUEST.value();
     }
     if (exception instanceof KameHouseInvalidDataException) {
-      response.setStatus(HttpStatus.BAD_REQUEST.value());
+      return HttpStatus.BAD_REQUEST.value();
     }
     if (exception instanceof KameHouseNotFoundException) {
-      response.setStatus(HttpStatus.NOT_FOUND.value());
+      return HttpStatus.NOT_FOUND.value();
     }
     if (exception instanceof KameHouseServerErrorException) {
-      response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+      return HttpStatus.INTERNAL_SERVER_ERROR.value();
     }
+    return HttpStatus.INTERNAL_SERVER_ERROR.value();
   }
 
   private String getSessionId(HttpServletRequest request) {
