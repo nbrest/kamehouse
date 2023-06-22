@@ -66,7 +66,10 @@ function isLinuxHost() {
  */
 function exitWithError($statusCode, $errorMessage) {
 
-  $responseBody = [ 'message' => $errorMessage ];
+  $responseBody = [ 
+    'code' => $statusCode,
+    'message' => $errorMessage 
+  ];
 
   http_response_code($statusCode);
 
