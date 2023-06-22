@@ -7,7 +7,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandExceptio
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
+import com.nicobrest.kamehouse.commons.model.KameHouseApiErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleBadRequest(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(
         ex,
-        generateResponseBody(ex.getMessage()),
+        generateResponseBody(HttpStatus.BAD_REQUEST.value(), ex.getMessage()),
         new HttpHeaders(),
         HttpStatus.BAD_REQUEST,
         request);
@@ -44,14 +44,15 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   @ExceptionHandler(value = {KameHouseConflictException.class})
   protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(
-        ex, generateResponseBody(ex.getMessage()), new HttpHeaders(), HttpStatus.CONFLICT, request);
+        ex, generateResponseBody(HttpStatus.CONFLICT.value(), ex.getMessage()),
+        new HttpHeaders(), HttpStatus.CONFLICT, request);
   }
 
   @ExceptionHandler(value = {KameHouseForbiddenException.class})
   protected ResponseEntity<Object> handleForbidden(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(
         ex,
-        generateResponseBody(ex.getMessage()),
+        generateResponseBody(HttpStatus.FORBIDDEN.value(), ex.getMessage()),
         new HttpHeaders(),
         HttpStatus.FORBIDDEN,
         request);
@@ -61,7 +62,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleNotFound(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(
         ex,
-        generateResponseBody(ex.getMessage()),
+        generateResponseBody(HttpStatus.NOT_FOUND.value(), ex.getMessage()),
         new HttpHeaders(),
         HttpStatus.NOT_FOUND,
         request);
@@ -71,7 +72,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleServerError(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(
         ex,
-        generateResponseBody(ex.getMessage()),
+        generateResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()),
         new HttpHeaders(),
         HttpStatus.INTERNAL_SERVER_ERROR,
         request);
@@ -82,16 +83,17 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     logger.error(ex.getMessage(), ex);
     return handleExceptionInternal(
         ex,
-        generateResponseBody(ex.getMessage()),
+        generateResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage()),
         new HttpHeaders(),
         HttpStatus.INTERNAL_SERVER_ERROR,
         request);
   }
 
   /** Generate the response body to return on errors. */
-  private KameHouseGenericResponse generateResponseBody(String message) {
-    KameHouseGenericResponse kameHouseGenericResponse = new KameHouseGenericResponse();
-    kameHouseGenericResponse.setMessage(message);
-    return kameHouseGenericResponse;
+  private KameHouseApiErrorResponse generateResponseBody(int code, String message) {
+    KameHouseApiErrorResponse kameHouseApiErrorResponse = new KameHouseApiErrorResponse();
+    kameHouseApiErrorResponse.setCode(code);
+    kameHouseApiErrorResponse.setMessage(message);
+    return kameHouseApiErrorResponse;
   }
 }

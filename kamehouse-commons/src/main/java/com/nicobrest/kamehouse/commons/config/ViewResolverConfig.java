@@ -1,14 +1,17 @@
-package com.nicobrest.kamehouse.ui.config;
+package com.nicobrest.kamehouse.commons.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * UI module bean configuration.
+ * View Resolver Configuration.
+ *
+ * @author nbrest
+ *
  */
 @Configuration
-public class UiAppConfig {
+public class ViewResolverConfig {
 
   /**
    * View resolver for jsps.

@@ -21,18 +21,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
- * Unit tests for the ViewResolverController class.
+ * Unit tests for the JspViewResolverController class.
  *
  * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndView, Object> {
+public class JspViewResolverControllerTest extends AbstractControllerTest<ModelAndView, Object> {
 
   private MockHttpServletResponse response = new MockHttpServletResponse();
 
-  @InjectMocks private ViewResolverController viewResolverController;
+  @InjectMocks private JspViewResolverController jspViewResolverController;
 
   /** Resets mock objects. */
   @BeforeEach
@@ -43,25 +43,25 @@ public class ViewResolverControllerTest extends AbstractControllerTest<ModelAndV
 
     MockitoAnnotations.openMocks(this);
     mockMvc =
-        MockMvcBuilders.standaloneSetup(viewResolverController)
+        MockMvcBuilders.standaloneSetup(jspViewResolverController)
             .setViewResolvers(viewResolver)
             .build();
   }
 
-  /** Tests jsp test module urls. */
+  /** Tests jsp urls. */
   @Test
-  public void testModuleUrlsTest() throws Exception {
-    testTestModuleJsp("/jsp/test-module/", "/jsp/test-module/index");
-    testTestModuleJsp("/jsp/test-module/trunks", "/jsp/test-module/trunks");
+  public void jspTest() throws Exception {
+    jspUrlTest("/jsp/test-module/", "/jsp/test-module/index");
+    jspUrlTest("/jsp/test-module/trunks", "/jsp/test-module/trunks");
   }
 
   /** Tests test module jsp view generated from the source url. */
-  private void testTestModuleJsp(String sourceUrl, String expectedView) {
+  private void jspUrlTest(String sourceUrl, String expectedView) {
     HttpServletRequestWrapper request =
         Mockito.spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
     when(request.getServletPath()).thenReturn(sourceUrl);
 
-    String testModuleJspView = viewResolverController.testModuleJsp(request, response);
+    String testModuleJspView = jspViewResolverController.jsp(request, response);
 
     assertEquals(expectedView, testModuleJspView);
   }

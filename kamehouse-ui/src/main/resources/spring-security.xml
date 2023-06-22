@@ -20,7 +20,7 @@
       method="DELETE" />
 
     <intercept-url pattern="/test-module/**" access="hasRole('ROLE_SAIYAJIN')"
-                   method="GET" />
+      method="GET" />
 
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->

@@ -7,16 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Controller to resolve views in the application.
+ * Controller to resolve jsp views.
  *
  * @author nbrest
  */
 @Controller
-public class ViewResolverController extends AbstractController {
+public class JspViewResolverController extends AbstractController {
 
   /** View resolver for the jsp app pages. */
   @GetMapping(path = "/jsp/**")
-  public String testModuleJsp(HttpServletRequest request, HttpServletResponse response) {
+  public String jsp(HttpServletRequest request, HttpServletResponse response) {
     logger.debug("/jsp/** (GET) with path: {}", request.getServletPath());
     if (request.getServletPath().endsWith("/")) {
       return request.getServletPath() + "index";

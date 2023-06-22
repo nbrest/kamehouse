@@ -21,8 +21,8 @@ public class SpringSecurityConfig {
   }
 
   /**
-   * Custom implementation of AuthenticationSuccessHandler.
-   * Not sure if it's still relevant to keep this. It's referenced in spring-security.xml.
+   * Custom implementation of AuthenticationSuccessHandler. Not sure if it's still relevant to keep
+   * this. It's referenced in spring-security.xml.
    */
   @Bean
   public CustomAuthenticationSuccessHandler authenticationSuccessHandler() {
