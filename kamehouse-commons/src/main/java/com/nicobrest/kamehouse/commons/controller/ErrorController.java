@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.http.HttpStatus;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,10 +22,12 @@ public class ErrorController extends AbstractController {
   @RequestMapping(value = "errors")
   public ModelAndView error(HttpServletRequest request) {
     int statusCode = getStatusCode(request);
-    if (!isApiRequest(request) && isNotFoundRequest(statusCode)) {
-      return new ModelAndView("/errors/404");
+    ModelAndView modelAndView;
+    if (!isApiRequest(request) && isGetRequest(request) && isNotFoundRequest(statusCode)) {
+      modelAndView = new ModelAndView("/errors/404");
+    } else {
+      modelAndView = new ModelAndView("/errors/kamehouse-api-error-response");
     }
-    ModelAndView modelAndView = new ModelAndView("/errors/api-error");
     String message = getErrorMessage(request, statusCode);
     modelAndView.addObject("code", statusCode);
     modelAndView.addObject("message", message);
@@ -43,7 +46,8 @@ public class ErrorController extends AbstractController {
    */
   private boolean isApiRequest(HttpServletRequest request) {
     String requestUrl = (String) request.getAttribute("javax.servlet.error.request_uri");
-    return (requestUrl != null && requestUrl.contains("/api/"));
+    return requestUrl != null &&
+        (requestUrl.contains("/api/") || !requestUrl.startsWith("/kame-house/"));
   }
 
   /**
@@ -51,6 +55,13 @@ public class ErrorController extends AbstractController {
    */
   private boolean isNotFoundRequest(int statusCode) {
     return statusCode == HttpStatus.SC_NOT_FOUND;
+  }
+
+  /**
+   * True if the http request is GET.
+   */
+  private boolean isGetRequest(HttpServletRequest request) {
+    return HttpMethod.GET.name().equals(request.getMethod());
   }
 
   /**

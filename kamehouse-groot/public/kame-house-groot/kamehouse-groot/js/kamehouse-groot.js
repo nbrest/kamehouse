@@ -52,7 +52,7 @@ function GrootHeader() {
         kameHouse.extension.groot.session = responseBody;
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
-        completeAuthorizeUser(responseCode, responseBody);
+        kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current groot session information.";
@@ -60,49 +60,9 @@ function GrootHeader() {
         kameHouse.extension.groot.session = {};
         updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
-        completeAuthorizeUser(responseCode, responseBody);
+        kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
       }
     );
-  }
-
-  /**
-   * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
-   * Call this function after the groot session is loaded.
-   */
-  function completeAuthorizeUser(responseCode, responseBody) {
-    if (!kameHouse.core.pageRequiresAuthorization()) {
-      kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
-      return;
-    }
-    const loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
-    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
-    if ((responseCode == "-4") || (responseCode == "-1" && responseBody.includes("Failed to connect to"))) {
-      mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
-    }
-    if (responseCode == "-2") {
-      mobileSettingsUrl = mobileSettingsUrl + "&sslError=true";
-    }
-    const roles = kameHouse.extension.groot.session.roles;
-    if (kameHouse.core.isEmpty(roles)) {
-      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
-      return;
-    }
-    const authorizedRoles = kameHouse.core.getStringKameHouseData("authorized-roles");
-    let isAuthorized = false;
-    roles.forEach((userRole) => {
-      if (authorizedRoles.includes(userRole)) {
-        isAuthorized = true;
-      }
-    });
-
-    if (isAuthorized) {
-      kameHouse.logger.debug("User is authorized to access this page");
-      kameHouse.util.dom.removeClass($("body"), "hidden-kh");
-      kameHouse.util.dom.remove('kamehouse-splashscreen');  
-    } else {
-      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
-      return;
-    }
   }
   
   /**

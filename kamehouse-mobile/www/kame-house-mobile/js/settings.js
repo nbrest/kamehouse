@@ -27,21 +27,22 @@ function KameHouseMobileSettings() {
     const urlParams = new URLSearchParams(window.location.search);
     const requestTimeout = urlParams.get('requestTimeout');
     const sslError = urlParams.get('sslError');
+    const responseCode = urlParams.get('responseCode');
     if (!kameHouse.core.isEmpty(requestTimeout)) {
-      const message = "Unable to connect to the backend. Try again later";
+      const message = "Unable to connect to the backend. Try again later. responseCode: " + responseCode;
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
       return;
     }
     if (!kameHouse.core.isEmpty(sslError)) {
-      const message = "SSL error connecting to the backend. Check SSL certificate on server or skip ssl validation";
+      const message = "SSL error connecting to the backend. Check SSL certificate on server or skip ssl validation. responseCode: " + responseCode;
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
       return;
     }
     const unauthorizedPageAccess = urlParams.get('unauthorizedPageAccess');
     if (!kameHouse.core.isEmpty(unauthorizedPageAccess)) {
-      const message = "User is not authorized to access the page. Login with an authorized user";
+      const message = "User is not authorized to access the page. Login with an authorized user. responseCode: " + responseCode;
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
       return;

@@ -9,6 +9,7 @@
 
 - Updated error responses on all webapps and groot to always return a json with a standard error format
 - Fixed kamehouse-shell scripts permissions
+- Updated redirect modal with response code on unsuccessful authorization on mobile
 - Fixed bugs
 
 #### v8.16

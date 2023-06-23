@@ -1656,6 +1656,7 @@ function KameHouseCoreFunctions() {
   this.convertBashColorsToHtml = convertBashColorsToHtml;
   this.pageRequiresAuthorization = pageRequiresAuthorization;
   this.setGlobalErrorHandler = setGlobalErrorHandler;
+  this.completeAuthorizeUser = completeAuthorizeUser;
   
   /**
    * Add a global error handler for uncaught exceptions, specially useful to see them in debug mode in mobile app.
@@ -1707,23 +1708,24 @@ function KameHouseCoreFunctions() {
    * Call this function after the session is loaded.
    */
   function completeAuthorizeUser(responseCode, responseBody) {
-    if (window.location.href.includes("/kame-house-groot/")) {
-      kameHouse.logger.trace("Complete authorize user is handled in groot");
-      return;
-    }
     if (!pageRequiresAuthorization()) {
       kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
       return;
     }
-    const loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
-    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true";
-    if ((responseCode == "-4") || (responseCode == "-1" && responseBody.includes("Failed to connect to"))) {
+    let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
+    let roles = kameHouse.session.roles;
+    if (isGRootPage()) {
+      loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
+      roles = kameHouse.extension.groot.session.roles;
+    }
+
+    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true&responseCode=" + responseCode;
+    if (isUnableToConnectToBackend(responseCode, responseBody)) {
       mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
     }
     if (responseCode == "-2") {
       mobileSettingsUrl = mobileSettingsUrl + "&sslError=true";
     }
-    const roles = kameHouse.session.roles;
     if (isEmpty(roles)) {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
       return;
@@ -1744,6 +1746,22 @@ function KameHouseCoreFunctions() {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
       return;
     }
+  }
+
+  /**
+   * Returns true when processing a GRoot page.
+   */
+  function isGRootPage() {
+    return window.location.href.includes("/kame-house-groot/");
+  }
+
+  /**
+   * Returns true if it's unable to connect to the backend.
+   */
+  function isUnableToConnectToBackend(responseCode, responseBody) {
+    return (responseCode == "-3") || (responseCode == "-4") || (responseCode == "-5")
+      || (responseCode == "-6") || (responseCode == "-7") || (responseCode == "-8")   
+      || (responseCode == "-1" && responseBody.includes("Failed to connect to"));
   }
 
   function openKameHouseSplashScreen() {
@@ -1792,14 +1810,18 @@ function KameHouseCoreFunctions() {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        completeAuthorizeUser(responseCode, responseBody);
+        if (!isGRootPage()) {
+          completeAuthorizeUser(responseCode, responseBody);
+        }
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        completeAuthorizeUser(responseCode, responseBody);
+        if (!isGRootPage()) {
+          completeAuthorizeUser(responseCode, responseBody);
+        }
       }
     );
   }
