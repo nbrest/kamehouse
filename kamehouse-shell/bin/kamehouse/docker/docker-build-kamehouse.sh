@@ -116,7 +116,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-b" "force build of kamehouse. Skip docker cache from build step"
-  addHelpOption "-r" "run the build step for the release tag"
+  addHelpOption "-r" "run only the build step for the release tag. Ignore. Used internally recursively by the script"
   printDockerTagOption
 }
 

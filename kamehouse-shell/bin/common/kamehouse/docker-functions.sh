@@ -53,8 +53,8 @@ DOCKER_ENVIRONMENT="${DEFAULT_DOCKER_OS}"
 DOCKER_COMMAND=""
 
 DOCKER_BUILD_RELEASE_TAG=false
-DOCKER_TAG_MINIMUM_VERSION="v8.13"
-let DOCKER_TAG_MINIMUM_VER_NUMBER=813
+DOCKER_TAG_MINIMUM_VERSION="v8.15"
+let DOCKER_TAG_MINIMUM_VER_NUMBER=815
 
 # When I update the base image here also update docker-setup.md
 DOCKER_IMAGE_BASE="ubuntu:22.04"
@@ -204,6 +204,9 @@ setEnvForDockerTag() {
     # For release tags, build the image locally, don't push to docker hub
     PLATFORM="linux/amd64"
     ACTION="--load"
+    # Set the tag profile when running an image
+    log.debug "Overriding DOCKER_PROFILE to tag"
+    DOCKER_PROFILE="tag"
   fi
 }
 

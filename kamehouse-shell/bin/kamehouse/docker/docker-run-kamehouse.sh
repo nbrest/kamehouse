@@ -164,7 +164,7 @@ getUserHome() {
   fi
 }
 
-buildProfile() {
+configureDockerProfile() {
   if [ "${DOCKER_PROFILE}" == "ci" ]; then
     BUILD_ON_STARTUP=true
     DEBUG_MODE=false
@@ -265,10 +265,10 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
+  setEnvForDockerTag
   setEnvForIde
   setEnvForDockerProfile
-  setEnvForDockerTag
-  buildProfile
+  configureDockerProfile
   overrideDefaultValues  
 }
 
