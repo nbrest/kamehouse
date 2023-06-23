@@ -46,8 +46,8 @@ public class ErrorController extends AbstractController {
    */
   private boolean isApiRequest(HttpServletRequest request) {
     String requestUrl = (String) request.getAttribute("javax.servlet.error.request_uri");
-    return requestUrl != null &&
-        (requestUrl.contains("/api/") || !requestUrl.startsWith("/kame-house/"));
+    return requestUrl != null
+        && (requestUrl.contains("/api/") || !requestUrl.startsWith("/kame-house/"));
   }
 
   /**
