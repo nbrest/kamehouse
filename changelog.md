@@ -7,6 +7,7 @@
 
 #### v8.18
 
+- Refactored api error response controller
 - Fixed bugs
 
 #### v8.17

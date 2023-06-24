@@ -1,15 +1,16 @@
 package com.nicobrest.kamehouse.commons.controller;
 
+import com.nicobrest.kamehouse.commons.model.KameHouseApiErrorResponse;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.http.HttpStatus;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Controller to resolve error views.
+ * Controller to resolve api errors.
  *
  * @author nbrest
  */
@@ -17,21 +18,17 @@ import org.springframework.web.servlet.ModelAndView;
 public class ErrorController extends AbstractController {
 
   /**
-   * Handle error views mappings.
+   * Handle api errors. This mapping should be used in the web.xml of all api based modules.
    */
   @RequestMapping(value = "errors")
-  public ModelAndView error(HttpServletRequest request) {
+  @ResponseBody
+  public ResponseEntity<KameHouseApiErrorResponse> errors(HttpServletRequest request) {
     int statusCode = getStatusCode(request);
-    ModelAndView modelAndView;
-    if (!isApiRequest(request) && isGetRequest(request) && isNotFoundRequest(statusCode)) {
-      modelAndView = new ModelAndView("/errors/404");
-    } else {
-      modelAndView = new ModelAndView("/errors/kamehouse-api-error-response");
-    }
     String message = getErrorMessage(request, statusCode);
-    modelAndView.addObject("code", statusCode);
-    modelAndView.addObject("message", message);
-    return modelAndView;
+    KameHouseApiErrorResponse kameHouseApiErrorResponse = new KameHouseApiErrorResponse();
+    kameHouseApiErrorResponse.setCode(statusCode);
+    kameHouseApiErrorResponse.setMessage(message);
+    return new ResponseEntity<>(kameHouseApiErrorResponse, HttpStatus.valueOf(statusCode));
   }
 
   /**
@@ -39,29 +36,6 @@ public class ErrorController extends AbstractController {
    */
   private int getStatusCode(HttpServletRequest httpRequest) {
     return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
-  }
-
-  /**
-   * Check if the request comes from an API call.
-   */
-  private boolean isApiRequest(HttpServletRequest request) {
-    String requestUrl = (String) request.getAttribute("javax.servlet.error.request_uri");
-    return requestUrl != null
-        && (requestUrl.contains("/api/") || !requestUrl.startsWith("/kame-house/"));
-  }
-
-  /**
-   * Returns true for 404 not found requests.
-   */
-  private boolean isNotFoundRequest(int statusCode) {
-    return statusCode == HttpStatus.SC_NOT_FOUND;
-  }
-
-  /**
-   * True if the http request is GET.
-   */
-  private boolean isGetRequest(HttpServletRequest request) {
-    return HttpMethod.GET.name().equals(request.getMethod());
   }
 
   /**
@@ -92,7 +66,7 @@ public class ErrorController extends AbstractController {
       case 503:
         return "Search your feelings. You know it to be true";
       default:
-        return "Error executing request";
+        return "Unexpected error executing the request. Try again later";
     }
   }
 }
