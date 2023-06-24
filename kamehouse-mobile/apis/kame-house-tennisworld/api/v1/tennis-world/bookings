@@ -1,0 +1,21 @@
+{
+    "id": 2800,
+    "status": "SUCCESS",
+    "message": "Completed the booking request successfully",
+    "request": {
+        "id": 2799,
+        "username": "seichi",
+        "password": null,
+        "date": 1687651200000,
+        "time": "01:00",
+        "site": "MELBOURNE_PARK",
+        "sessionType": "CARDIO",
+        "duration": "45",
+        "cardDetails": null,
+        "dryRun": false,
+        "creationDate": 1687585104861,
+        "scheduled": false,
+        "courtNumber": null,
+        "retries": 0
+    }
+}

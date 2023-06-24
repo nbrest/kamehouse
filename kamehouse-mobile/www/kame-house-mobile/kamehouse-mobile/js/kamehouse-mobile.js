@@ -1163,13 +1163,18 @@ function MockLocalhostServer() {
 
   function isServerModificationRequest(httpMethod, url) {
     const ALLOWED_NON_GET_URLS = [
-      "/kame-house/login"
+      "/kame-house/login",
+      "/kame-house-admin/api/v1/admin/power-management/wol",
+      "/kame-house-tennisworld/api/v1/tennis-world/bookings",
+      "/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings",
+      "/kame-house-testmodule/api/v1/test-module/test-scheduler/sample-job"
     ];
     return httpMethod != "GET" && !ALLOWED_NON_GET_URLS.includes(url);
   }
 
   function getServerModificationErrorResponseBody(httpMethod, url) {
     const errorResponse = {
+      code: 503,
       message: "Gomen-Chai. Server modifications are not supported in this mock server. '" + httpMethod + " " + url + "' unavailable"
     };
     return errorResponse;
@@ -1271,7 +1276,7 @@ function MockLocalhostServer() {
     function sendRequest(requestUrl, options, successCallback, errorCallback) {
       kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + kameHouse.json.stringify(options) + ". Mocking error response");
       const mockResponse = {
-        error : '{"message":"mocked cordova http error response"}',
+        error : '{"code":999, "message":"mocked cordova http error response"}',
         status: 999
       };
       errorCallback(mockResponse);

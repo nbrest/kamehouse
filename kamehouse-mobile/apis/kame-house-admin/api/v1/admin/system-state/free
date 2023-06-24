@@ -1,0 +1,16 @@
+[
+    {
+        "command": "[powershell.exe, -c, \"systeminfo | Select-String -Pattern Memory\"]",
+        "exitCode": 0,
+        "pid": -1,
+        "status": "completed",
+        "standardOutput": [
+            "Total Physical Memory:     32,620 MB",
+            "Available Physical Memory: 17,488 MB",
+            "Virtual Memory: Max Size:  65,388 MB",
+            "Virtual Memory: Available: 43,769 MB",
+            "Virtual Memory: In Use:    21,619 MB"
+        ],
+        "standardError": []
+    }
+]

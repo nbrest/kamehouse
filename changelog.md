@@ -11,6 +11,7 @@
 - Fixed kamehouse-shell scripts permissions
 - Updated redirect modal with response code on unsuccessful authorization on mobile
 - Updated docker build/run scripts
+- Added more apis to mobile mock server
 - Fixed bugs
 
 #### v8.16

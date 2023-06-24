@@ -1,0 +1,13 @@
+[
+    {
+        "command": "[powershell.exe, -c, \"systeminfo | Select-String -Pattern Time\"]",
+        "exitCode": 0,
+        "pid": -1,
+        "status": "completed",
+        "standardOutput": [
+            "System Boot Time:          2023-06-24, 1:30:45 AM",
+            "Time Zone:                 (UTC+10:00) Canberra, Melbourne, Sydney"
+        ],
+        "standardError": []
+    }
+]

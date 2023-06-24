@@ -1,0 +1,24 @@
+[
+    {
+        "command": "[powershell.exe, -c, gdr]",
+        "exitCode": 0,
+        "pid": -1,
+        "status": "completed",
+        "standardOutput": [
+            "Name           Used (GB)     Free (GB) Provider      Root                                               CurrentLocation",
+            "----           ---------     --------- --------      ----                                               ---------------",
+            "Alias                                  Alias                                                                           ",
+            "C                 256.66        138.38 FileSystem    C:\\                                 ...\\programs\\apache-tomcat-dev",
+            "Cert                                   Certificate   \\                                                                 ",
+            "D                 266.69        277.65 FileSystem    D:\\                                                               ",
+            "Env                                    Environment                                                                     ",
+            "Function                               Function                                                                        ",
+            "G                  12.42          4.58 FileSystem    G:\\                                                               ",
+            "HKCU                                   Registry      HKEY_CURRENT_USER                                                 ",
+            "HKLM                                   Registry      HKEY_LOCAL_MACHINE                                                ",
+            "Variable                               Variable                                                                        ",
+            "WSMan                                  WSMan                                                                           "
+        ],
+        "standardError": []
+    }
+]

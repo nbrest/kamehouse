@@ -904,7 +904,7 @@ function KameHouseDomUtils() {
       return response.text();
     } catch (error) {
       kameHouse.logger.error("Error executing fetch: " + error);
-      return '{"message": "Error executing fetch to ' + filePath + '"}';
+      return '{"code": 404, "message": "Error executing fetch to ' + filePath + '"}';
     }
   }
 
