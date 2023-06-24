@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.19
+
+- Fixed bugs
+
 #### v8.18
 
 - Refactored api error response controller
