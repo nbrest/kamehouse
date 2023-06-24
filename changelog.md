@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.18
+
+- Fixed bugs
+
 #### v8.17
 
 - Updated error responses on all webapps and groot to always return a json with a standard error format
