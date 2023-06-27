@@ -44,7 +44,9 @@ import org.springframework.stereotype.Service;
 public class PerfectGymBookingService extends BookingService {
 
   public static final String CP_BOOK_FACILITY_SESSION_ID_HEADER = "CP-BOOK-FACILITY-SESSION-ID";
-  // URLs
+  private static final String USER_AGENT_HEADER = "User-Agent";
+  private static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple"
+      + "WebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
   public static final String ROOT_URL = "https://tennisworld.perfectgym.com.au";
   public static final String LOGIN_URL = ROOT_URL + "/ClientPortal2/Auth/Login";
   private static final String CLASSES_CLUBS_URL =
@@ -203,6 +205,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(LOGIN_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(loginRequestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 1: POST request to: {}", LOGIN_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, loginRequestBody);
     String responseBody = getResponseBody(httpResponse);
@@ -234,6 +237,7 @@ public class PerfectGymBookingService extends BookingService {
    */
   private JsonNode[] getClassesClubs(HttpClient httpClient) throws IOException {
     HttpGet httpGet = new HttpGet(CLASSES_CLUBS_URL);
+    httpGet.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 2: GET request to: {}", CLASSES_CLUBS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     String responseBody = getResponseBody(httpResponse);
@@ -270,6 +274,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(CALENDAR_FILTERS_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 3: POST request to: {}", CALENDAR_FILTERS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
@@ -293,6 +298,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(DAILY_CLASSES_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 4: POST request to: {}", DAILY_CLASSES_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
@@ -341,6 +347,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(COMPLETE_CLASS_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 5: POST request to: {}", COMPLETE_CLASS_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
@@ -362,6 +369,7 @@ public class PerfectGymBookingService extends BookingService {
   private JsonNode[] getClubs(HttpClient httpClient)
       throws IOException {
     HttpGet httpGet = new HttpGet(CLUBS_URL);
+    httpGet.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 2: GET request to: {}", CLUBS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     String responseBody = getResponseBody(httpResponse);
@@ -382,6 +390,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(CLUB_ZONE_TYPES_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 3: POST request to: {}", CLUB_ZONE_TYPES_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
@@ -422,6 +431,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(COURT_WEEKLY_SCHEDULE_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     logger.info("Step 4: POST request to: {}", COURT_WEEKLY_SCHEDULE_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
@@ -440,6 +450,7 @@ public class PerfectGymBookingService extends BookingService {
   private JsonNode startBookingModal(HttpClient httpClient, BookingRequest bookingRequest,
       long clubId, long zoneTypeId) throws IOException {
     HttpGet httpGet = new HttpGet(START_COURT_BOOKING_MODAL_URL);
+    httpGet.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     String startDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         bookingRequest.getDate()) + "T" + bookingRequest.getTime() + ":00";
     Map<String, String> parameters = new HashMap<>();
@@ -532,6 +543,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(SELECT_COURT_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     httpPost.setHeader(CP_BOOK_FACILITY_SESSION_ID_HEADER, sessionId);
     logger.info("Step 6: POST request to: {}", SELECT_COURT_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
@@ -567,6 +579,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(FINALIZE_COURT_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
+    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
     httpPost.setHeader(CP_BOOK_FACILITY_SESSION_ID_HEADER, sessionId);
     logger.info("Step 7: POST request to: {}", FINALIZE_COURT_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);

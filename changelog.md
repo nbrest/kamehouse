@@ -9,6 +9,7 @@
 
 - Added global generic exception handler to exception handler controller
 - Added error output to integration tests run script for troubleshooting
+- Fixed broken login to perfectgym tennisworld
 - Fixed bugs
 
 #### v8.18
