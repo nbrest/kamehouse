@@ -28,9 +28,9 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(
       value = {
-        KameHouseBadRequestException.class,
-        KameHouseInvalidCommandException.class,
-        KameHouseInvalidDataException.class
+          KameHouseBadRequestException.class,
+          KameHouseInvalidCommandException.class,
+          KameHouseInvalidDataException.class
       })
   protected ResponseEntity<Object> handleBadRequest(RuntimeException ex, WebRequest request) {
     return handleExceptionInternal(
@@ -78,8 +78,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         request);
   }
 
-  @ExceptionHandler(value = {NullPointerException.class})
-  protected ResponseEntity<Object> handleGenericException(RuntimeException ex, WebRequest request) {
+  @ExceptionHandler(value = {Exception.class})
+  protected ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
     logger.error(ex.getMessage(), ex);
     return handleExceptionInternal(
         ex,
@@ -89,7 +89,9 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         request);
   }
 
-  /** Generate the response body to return on errors. */
+  /**
+   * Generate the response body to return on errors.
+   */
   private KameHouseApiErrorResponse generateResponseBody(int code, String message) {
     KameHouseApiErrorResponse kameHouseApiErrorResponse = new KameHouseApiErrorResponse();
     kameHouseApiErrorResponse.setCode(code);

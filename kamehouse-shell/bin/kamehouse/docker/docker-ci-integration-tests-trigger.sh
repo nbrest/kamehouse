@@ -176,16 +176,17 @@ executeIntegrationTests() {
   local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
   log.info "Executing request to ${COL_PURPLE}${URL}"
   local CURL_RESPONSE=`curl --max-time 1800 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
-  log.trace "CURL_RESPONSE ${CURL_RESPONSE}"
   echo ${CURL_RESPONSE} | grep "${INTEGRATION_TESTS_SUCCESS_MESSAGE}" > /dev/null
   local INTEGRATION_TESTS_RESULT="$?"
   log.trace "INTEGRATION_TESTS_RESULT ${INTEGRATION_TESTS_RESULT}"
   if [ "${INTEGRATION_TESTS_RESULT}" == "0" ]; then
     NUM_INTEGRATION_TESTS_RETRIES=0
     INTEGRATION_TESTS_SUCCESSFUL=true
+    log.trace "${CURL_RESPONSE}"
     log.info "Completed integration tests successfully!"
   else
     INTEGRATION_TESTS_SUCCESSFUL=false
+    echo -e "${CURL_RESPONSE}"
     log.error "Error executing integration tests"
   fi
 }

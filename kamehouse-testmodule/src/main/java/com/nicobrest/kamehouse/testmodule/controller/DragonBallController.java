@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
+import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.CrudService;
@@ -68,12 +69,20 @@ public class DragonBallController extends
   @ResponseBody
   public ResponseEntity<List<DragonBallUser>> readAll(
       @RequestParam(value = "action", required = false, defaultValue = "goku") String action) {
-    // switch to test parameters and exceptions
+    // switch to test parameters and exception handlers
     switch (action) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
+      case "KameHouseConflictException":
+        throw new KameHouseConflictException("*** KameHouseConflictException in getUsers ***");
       case "KameHouseException":
         throw new KameHouseException("*** KameHouseException in getUsers ***");
+      case "NullPointerException":
+        throw new NullPointerException("*** NullPointerException in getUsers ***");
+      case "IndexOutOfBoundsException":
+        throw new IndexOutOfBoundsException("*** IndexOutOfBounds in getUsers ***");
+      case "RuntimeException":
+        throw new RuntimeException("*** RuntimeException in getUsers ***");
       default:
         break;
     }

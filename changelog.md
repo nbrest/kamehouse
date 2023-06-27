@@ -7,6 +7,8 @@
 
 #### v8.19
 
+- Added global generic exception handler to exception handler controller
+- Added error output to integration tests run script for troubleshooting
 - Fixed bugs
 
 #### v8.18

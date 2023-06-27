@@ -16,6 +16,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -94,25 +96,20 @@ public class DragonBallControllerTest
    * Tests the rest web service on the endpoint /dragonball/users with the parameter to throw an
    * exception.
    */
-  @Test
-  public void readAllExceptionTest() throws Exception {
+  @ParameterizedTest
+  @ValueSource(strings = {
+      "KameHouseException",
+      "KameHouseConflictException",
+      "KameHouseNotFoundException",
+      "NullPointerException",
+      "IndexOutOfBoundsException",
+      "RuntimeException"
+  })
+  public void readAllKameHouseExceptionTest(String exception) throws Exception {
     assertThrows(
         NestedServletException.class,
         () -> {
-          doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseException");
-        });
-  }
-
-  /**
-   * Tests the rest web service on the endpoint /dragonball/users with the parameter to throw an
-   * exception.
-   */
-  @Test
-  public void readAllNotFoundExceptionTest() throws Exception {
-    assertThrows(
-        NestedServletException.class,
-        () -> {
-          doGet(API_V1_DRAGONBALL_USERS + "?action=KameHouseNotFoundException");
+          doGet(API_V1_DRAGONBALL_USERS + "?action=" + exception);
         });
   }
 

@@ -35,10 +35,11 @@ mainProcess() {
   BUILD_RESULT=$?
 
   BUILD_LOG=`tail -n 150 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
+  BUILD_LOG_OUTPUT=`cat /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
   echo -e "${BUILD_LOG}" | grep "BUILD SUCCESS" > /dev/null
   BUILD_LOG_RESULT=$?
   
-  echo -e "${BUILD_LOG}"
+  echo -e "${BUILD_LOG_OUTPUT}"
   if [ "${BUILD_RESULT}" == "0" ] && [ "${BUILD_LOG_RESULT}" == "0" ]; then
     echo "${SUCCESS}"
   else
