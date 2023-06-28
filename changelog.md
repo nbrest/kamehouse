@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.20
+
+- Fixed bugs
+
 #### v8.19
 
 - Added global generic exception handler to exception handler controller
