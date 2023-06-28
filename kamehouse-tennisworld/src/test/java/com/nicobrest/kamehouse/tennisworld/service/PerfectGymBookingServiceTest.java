@@ -731,7 +731,9 @@ public class PerfectGymBookingServiceTest {
    * Test booking an unknown session type flow.
    */
   @Test
-  public void bookUnknownSessionTypeTest() {
+  public void bookUnknownSessionTypeTest() throws Exception {
+    setupHttpResponseInputStreamMocks(
+        PerfectGymResponses.BOOK_CLASS_STEP_2_ERROR_INVALID_JSON_ARRAY_RESPONSES);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setSessionType(SessionType.UNKNOWN);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
@@ -746,12 +748,33 @@ public class PerfectGymBookingServiceTest {
   }
 
   /**
-   * Test IOException error.
+   * Test IOException error in login.
    */
   @Test
-  public void bookIoExceptionTest() throws IOException {
+  public void bookIoExceptionInLoginTest() throws IOException {
     when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
+    expected.setMessage("Invalid login to tennis world.");
+    BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
+
+    BookingResponse response = perfectGymBookingServiceSpy.book(request);
+    BookingResponseTestUtils.matchDynamicFields(response, expected);
+
+    bookingResponseTestUtils.assertEqualsAllAttributes(expected, response);
+  }
+
+  /**
+   * Test IOException error in booking steps.
+   */
+  @Test
+  public void bookIoExceptionInBookingTest() throws Exception {
+    setupHttpResponseInputStreamMocks(
+        PerfectGymResponses.BOOK_CLASS_STEP_2_ERROR_INVALID_JSON_ARRAY_RESPONSES);
+    OngoingStubbing<HttpResponse> ongoingStubbing = when(HttpClientUtils.execRequest(any(), any()));
+    ongoingStubbing.thenReturn(httpResponseMock).thenThrow(new IOException("IO Error"));
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    request.setRetries(2);
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
     expected.setMessage("Error executing booking request to tennis world Message: IO Error");
     BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
@@ -769,8 +792,11 @@ public class PerfectGymBookingServiceTest {
       throws Exception {
     OngoingStubbing<InputStream> ongoingStubbing = when(HttpClientUtils.getInputStream(any()));
     for (int i = 0; i < BookingService.MAX_BOOKING_RETRIES; i++) {
-      for (String testFilename : perfectGymResponses.getValue()) {
-        InputStream testInputStream = BookingRequestTestUtils.getInputStream(testFilename);
+      String[] responses = perfectGymResponses.getValue();
+      InputStream testInputStream = BookingRequestTestUtils.getInputStream(responses[0]);
+      ongoingStubbing = ongoingStubbing.thenReturn(testInputStream);
+      for (int j = 1; j < responses.length; j++) {
+        testInputStream = BookingRequestTestUtils.getInputStream(responses[j]);
         ongoingStubbing = ongoingStubbing.thenReturn(testInputStream);
       }
     }

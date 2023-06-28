@@ -205,6 +205,20 @@ public abstract class BookingService {
   }
 
   /**
+   * Log response headers.
+   */
+  protected void logResponseHeaders(HttpResponse httpResponse) {
+    logger.debug("Response headers:");
+    if (!HttpClientUtils.hasHeaders(httpResponse)) {
+      logger.debug("No response headers set");
+    } else {
+      for (Header header : HttpClientUtils.getAllHeaders(httpResponse)) {
+        logger.debug("{} : {}", header.getName(), header.getValue());
+      }
+    }
+  }
+
+  /**
    * Log the response code received from tennis world.
    */
   protected void logHttpResponseCode(HttpResponse httpResponse) {

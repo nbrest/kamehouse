@@ -30,6 +30,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.springframework.http.HttpStatus;
@@ -80,52 +81,62 @@ public class PerfectGymBookingService extends BookingService {
     if (bookingRequestRetries != null && bookingRequestRetries >= 0) {
       retries = bookingRequestRetries;
     }
-    for (int i = 0; i <= retries; i++) {
-      if (bookingResponse != null && Status.SUCCESS.equals(bookingResponse.getStatus())) {
-        break;
-      }
-      if (i > 0) {
-        logger.info("Executing booking request - retry number {}", i);
-      } else {
-        logger.info("Executing booking request");
-      }
-      try {
-        switch (sessionType) {
-          case ADULT_MATCH_PLAY_DOUBLES:
-          case ADULT_MATCH_PLAY_SINGLES:
-          case ADULT_SOCIAL_PLAY:
-          case CARDIO:
-          case CARDIO_ACTIV8:
-            bookingResponse = bookClass(bookingRequest);
-            break;
-          case NTC_CLAY_COURTS:
-          case NTC_INDOOR:
-          case NTC_OUTDOOR:
-          case ROD_LAVER_OUTDOOR_EASTERN:
-          case ROD_LAVER_OUTDOOR_WESTERN:
-          case ROD_LAVER_SHOW_COURTS:
-            bookingResponse = bookCourt(bookingRequest);
-            break;
-          case UNKNOWN:
-          default:
-            bookingResponse = buildResponse(
-                Status.INTERNAL_ERROR,
-                "Unhandled sessionType: " + sessionType.name(),
-                bookingRequest);
-            break;
+    HttpClient httpClient = HttpClientUtils.getClient(null, null);
+    try {
+      loginToTennisWorld(httpClient, bookingRequest);
+      for (int i = 0; i <= retries; i++) {
+        if (bookingResponse != null && Status.SUCCESS.equals(bookingResponse.getStatus())) {
+          break;
         }
-      } catch (KameHouseBadRequestException e) {
-        bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
-      } catch (KameHouseServerErrorException e) {
-        bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
-      } catch (IOException e) {
-        logger.error(e.getMessage(), e);
-        bookingResponse = buildResponse(
-            Status.INTERNAL_ERROR,
-            "Error executing booking request to tennis world Message: " + e.getMessage(),
-            bookingRequest);
+        if (i > 0) {
+          logger.info("Executing booking request - retry number {}", i);
+        } else {
+          logger.info("Executing booking request");
+        }
+        try {
+          switch (sessionType) {
+            case ADULT_MATCH_PLAY_DOUBLES:
+            case ADULT_MATCH_PLAY_SINGLES:
+            case ADULT_SOCIAL_PLAY:
+            case CARDIO:
+            case CARDIO_ACTIV8:
+              bookingResponse = bookClass(httpClient, bookingRequest);
+              break;
+            case NTC_CLAY_COURTS:
+            case NTC_INDOOR:
+            case NTC_OUTDOOR:
+            case ROD_LAVER_OUTDOOR_EASTERN:
+            case ROD_LAVER_OUTDOOR_WESTERN:
+            case ROD_LAVER_SHOW_COURTS:
+              bookingResponse = bookCourt(httpClient, bookingRequest);
+              break;
+            case UNKNOWN:
+            default:
+              bookingResponse = buildResponse(
+                  Status.INTERNAL_ERROR,
+                  "Unhandled sessionType: " + sessionType.name(),
+                  bookingRequest);
+              break;
+          }
+        } catch (KameHouseBadRequestException e) {
+          bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
+        } catch (KameHouseServerErrorException e) {
+          bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
+        } catch (IOException e) {
+          logger.error(e.getMessage(), e);
+          bookingResponse = buildResponse(
+              Status.INTERNAL_ERROR,
+              "Error executing booking request to tennis world Message: " + e.getMessage(),
+              bookingRequest);
+        }
+        retrySleep();
       }
-      retrySleep();
+    } catch (KameHouseBadRequestException e) {
+      // Login error
+      bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
+    } catch (KameHouseServerErrorException e) {
+      // Login error
+      bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     }
     storeBookingResponse(bookingResponse);
     return bookingResponse;
@@ -142,9 +153,8 @@ public class PerfectGymBookingService extends BookingService {
    *   <li>5) POST Complete a class booking
    * </ul>
    */
-  private BookingResponse bookClass(BookingRequest bookingRequest) throws IOException {
-    HttpClient httpClient = HttpClientUtils.getClient(null, null);
-    loginToTennisWorld(httpClient, bookingRequest);
+  private BookingResponse bookClass(HttpClient httpClient, BookingRequest bookingRequest)
+      throws IOException {
     JsonNode[] clubs = getClassesClubs(httpClient);
     long clubId = getClubId(clubs, bookingRequest);
     getCalendarFilters(httpClient, clubId);
@@ -170,9 +180,8 @@ public class PerfectGymBookingService extends BookingService {
    *   <li>7) POST Complete court booking
    * </ul>
    */
-  private BookingResponse bookCourt(BookingRequest bookingRequest) throws IOException {
-    HttpClient httpClient = HttpClientUtils.getClient(null, null);
-    loginToTennisWorld(httpClient, bookingRequest);
+  private BookingResponse bookCourt(HttpClient httpClient, BookingRequest bookingRequest)
+      throws IOException {
     JsonNode[] clubs = getClubs(httpClient);
     long clubId = getClubId(clubs, bookingRequest);
     JsonNode clubZoneTypes = getClubZoneTypes(httpClient, clubId);
@@ -196,8 +205,7 @@ public class PerfectGymBookingService extends BookingService {
   /**
    * Class/Court Step 1: Login to PerfectGym Tennis World.
    */
-  private void loginToTennisWorld(HttpClient httpClient, BookingRequest bookingRequest)
-      throws IOException {
+  private void loginToTennisWorld(HttpClient httpClient, BookingRequest bookingRequest) {
     LoginRequest loginRequestBody = new LoginRequest();
     loginRequestBody.setRememberMe(false);
     loginRequestBody.setUsername(bookingRequest.getUsername());
@@ -205,11 +213,20 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(LOGIN_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(loginRequestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
+    logger.info("Logging into tennis world");
     logger.info("Step 1: POST request to: {}", LOGIN_URL);
-    HttpResponse httpResponse = executeRequest(httpClient, httpPost, loginRequestBody);
-    String responseBody = getResponseBody(httpResponse);
+    HttpResponse httpResponse = null;
+    String responseBody = null;
+    try {
+      httpResponse = executeRequest(httpClient, httpPost, loginRequestBody);
+      responseBody = getResponseBody(httpResponse);
+    } catch (IOException e) {
+      logger.error("Login to tennis world unsuccessful", e);
+      throw new KameHouseBadRequestException("Invalid login to tennis world.");
+    }
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, LOGIN_URL);
     if (!isSuccessfulLogin(responseBody)) {
       logger.error("Login to tennis world unsuccessful. Error response: {}", responseBody);
@@ -237,11 +254,12 @@ public class PerfectGymBookingService extends BookingService {
    */
   private JsonNode[] getClassesClubs(HttpClient httpClient) throws IOException {
     HttpGet httpGet = new HttpGet(CLASSES_CLUBS_URL);
-    httpGet.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpGet);
     logger.info("Step 2: GET request to: {}", CLASSES_CLUBS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, CLASSES_CLUBS_URL);
     if (!JsonUtils.isJsonArray(responseBody)) {
       throw new KameHouseServerErrorException("Invalid classes clubs response from PerfectGym");
@@ -274,11 +292,12 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(CALENDAR_FILTERS_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     logger.info("Step 3: POST request to: {}", CALENDAR_FILTERS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, CALENDAR_FILTERS_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid calendar filters response from PerfectGym");
@@ -298,11 +317,12 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(DAILY_CLASSES_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     logger.info("Step 4: POST request to: {}", DAILY_CLASSES_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, DAILY_CLASSES_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid daily classes response from PerfectGym");
@@ -347,11 +367,12 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(COMPLETE_CLASS_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     logger.info("Step 5: POST request to: {}", COMPLETE_CLASS_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, COMPLETE_CLASS_BOOKING_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid book class response from PerfectGym");
@@ -369,11 +390,12 @@ public class PerfectGymBookingService extends BookingService {
   private JsonNode[] getClubs(HttpClient httpClient)
       throws IOException {
     HttpGet httpGet = new HttpGet(CLUBS_URL);
-    httpGet.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpGet);
     logger.info("Step 2: GET request to: {}", CLUBS_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, CLUBS_URL);
     if (!JsonUtils.isJsonArray(responseBody)) {
       throw new KameHouseServerErrorException("Invalid clubs response from PerfectGym");
@@ -390,11 +412,12 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(CLUB_ZONE_TYPES_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     logger.info("Step 3: POST request to: {}", CLUB_ZONE_TYPES_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, CLUB_ZONE_TYPES_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException("Invalid club zone types response from PerfectGym");
@@ -431,11 +454,12 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(COURT_WEEKLY_SCHEDULE_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     logger.info("Step 4: POST request to: {}", COURT_WEEKLY_SCHEDULE_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, COURT_WEEKLY_SCHEDULE_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
@@ -450,7 +474,7 @@ public class PerfectGymBookingService extends BookingService {
   private JsonNode startBookingModal(HttpClient httpClient, BookingRequest bookingRequest,
       long clubId, long zoneTypeId) throws IOException {
     HttpGet httpGet = new HttpGet(START_COURT_BOOKING_MODAL_URL);
-    httpGet.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpGet);
     String startDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD,
         bookingRequest.getDate()) + "T" + bookingRequest.getTime() + ":00";
     Map<String, String> parameters = new HashMap<>();
@@ -466,6 +490,7 @@ public class PerfectGymBookingService extends BookingService {
     HttpResponse httpResponse = executeRequest(httpClient, httpGet);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, START_COURT_BOOKING_MODAL_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
@@ -543,12 +568,13 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(SELECT_COURT_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     httpPost.setHeader(CP_BOOK_FACILITY_SESSION_ID_HEADER, sessionId);
     logger.info("Step 6: POST request to: {}", SELECT_COURT_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, SELECT_COURT_BOOKING_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
@@ -579,12 +605,13 @@ public class PerfectGymBookingService extends BookingService {
     HttpPost httpPost = new HttpPost(FINALIZE_COURT_BOOKING_URL);
     httpPost.setEntity(new StringEntity(JsonUtils.toJsonString(requestBody, null, false),
         ContentType.APPLICATION_JSON));
-    httpPost.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
+    setUserAgent(httpPost);
     httpPost.setHeader(CP_BOOK_FACILITY_SESSION_ID_HEADER, sessionId);
     logger.info("Step 7: POST request to: {}", FINALIZE_COURT_BOOKING_URL);
     HttpResponse httpResponse = executeRequest(httpClient, httpPost, requestBody);
     String responseBody = getResponseBody(httpResponse);
     logResponseBody(responseBody);
+    logResponseHeaders(httpResponse);
     validateHttpResponseCode(httpResponse, FINALIZE_COURT_BOOKING_URL);
     if (!JsonUtils.isJsonObject(responseBody)) {
       throw new KameHouseServerErrorException(
@@ -606,11 +633,18 @@ public class PerfectGymBookingService extends BookingService {
     int httpStatus = HttpClientUtils.getStatusCode(httpResponse);
     if (httpStatus >= 400 && httpStatus < 500) {
       throw new KameHouseBadRequestException("Invalid http client error response code: "
-          + HttpClientUtils.getStatusCode(httpResponse) + " for request to " + url);
+          + httpStatus + " for request to " + url);
     }
-    if (HttpClientUtils.getStatusCode(httpResponse) != HttpStatus.OK.value()) {
+    if (httpStatus != HttpStatus.OK.value()) {
       throw new KameHouseServerErrorException("Invalid http server error response code: "
-          + HttpClientUtils.getStatusCode(httpResponse) + " for request to " + url);
+          + httpStatus + " for request to " + url);
     }
+  }
+
+  /**
+   * Set User-Agent header.
+   */
+  private static void setUserAgent(HttpRequestBase httpRequest) {
+    httpRequest.setHeader(USER_AGENT_HEADER, USER_AGENT_VALUE);
   }
 }

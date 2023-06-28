@@ -9,7 +9,7 @@
 
 - Added global generic exception handler to exception handler controller
 - Added error output to integration tests run script for troubleshooting
-- Fixed broken login to perfectgym tennisworld
+- Fixed broken login and retries to perfectgym tennisworld
 - Fixed bugs
 
 #### v8.18
@@ -77,7 +77,7 @@
 
 #### v8.13
 
-- Refactored completely the UI compared to the previous release
+- **Refactored completely the UI compared to the previous release**
 - Updated groot menu styles on mobile app and settings page
 - Moved loading varela round fonts locally for offline connections
 - Fixed loading static content directly from tomcat

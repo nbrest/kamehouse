@@ -182,11 +182,11 @@ executeIntegrationTests() {
   if [ "${INTEGRATION_TESTS_RESULT}" == "0" ]; then
     NUM_INTEGRATION_TESTS_RETRIES=0
     INTEGRATION_TESTS_SUCCESSFUL=true
-    log.trace "${CURL_RESPONSE}"
+    log.trace "Success CURL_RESPONSE: ${CURL_RESPONSE}"
     log.info "Completed integration tests successfully!"
   else
     INTEGRATION_TESTS_SUCCESSFUL=false
-    echo -e "${CURL_RESPONSE}"
+    log.info "Error CURL_RESPONSE: ${CURL_RESPONSE}"
     log.error "Error executing integration tests"
   fi
 }
