@@ -128,48 +128,28 @@ function KameHouseHeader() {
    * Get login button.
    */
   function getLoginButton() {
-    return kameHouse.util.mobile.exec(
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/pc/login-red-dark.png",
-          className: "header-login-status-btn",
-          alt: "Login KameHouse",
-          onClick: () => window.location="/kame-house/login.html"
-        });
-      },
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/kamesenin-logo.png",
-          className: "header-login-status-btn",
-          alt: "KameHouse",
-          onClick: () => {return;}
-        });
+    return kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/pc/login-red-dark.png",
+      className: "header-login-status-btn",
+      alt: "Login KameHouse",
+      onClick: () => {
+        return kameHouse.util.mobile.windowLocation("/kame-house/login.html", "/kame-house-mobile/settings.html");
       }
-    );
+    });
   }
 
   /**
    * Get logout button.
    */
   function getLogoutButton() {
-    return kameHouse.util.mobile.exec(
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku.png",
-          className: "header-login-status-btn",
-          alt: "Logout KameHouse",
-          onClick: () => window.location="/kame-house/logout"
-        });
-      },
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku.png",
-          className: "header-login-status-btn",
-          alt: "KameHouse",
-          onClick: () => {return;}
-        });
+    return kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/dbz/goku.png",
+      className: "header-login-status-btn",
+      alt: "Logout KameHouse",
+      onClick: () => {
+        return kameHouse.util.mobile.windowLocation("/kame-house/logout", "/kame-house-mobile/settings.html");
       }
-    );
+    });
   }
 
   /**

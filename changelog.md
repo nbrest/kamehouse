@@ -7,6 +7,7 @@
 
 #### v8.20
 
+- Updated login and logout buttons to work on mobile as they work on desktop
 - Fixed bugs
 
 #### v8.19

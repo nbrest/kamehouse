@@ -106,45 +106,25 @@ function GrootHeader() {
   }
   
   function getLoginButton() {
-    return kameHouse.util.mobile.exec(
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/pc/login-gray-dark.png",
-          className: "groot-header-login-status-btn",
-          alt: "Login GRoot",
-          onClick: () => window.location="/kame-house-groot/login.html"
-        });
-      },
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/dragonball-7-star-gray-dark.png",
-          className: "groot-header-login-status-btn",
-          alt: "GRoot",
-          onClick: () => {return;}
-        });
+    return kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/pc/login-gray-dark.png",
+      className: "groot-header-login-status-btn",
+      alt: "Login GRoot",
+      onClick: () => {
+        return kameHouse.util.mobile.windowLocation("/kame-house-groot/login.html", "/kame-house-mobile/settings.html");
       }
-    );
+    });
   }
 
   function getLogoutButton() {
-    return kameHouse.util.mobile.exec(
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku-gray-dark.png",
-          className: "groot-header-login-status-btn",
-          alt: "Logout GRoot",
-          onClick: () => window.location="/kame-house-groot/api/v1/auth/logout.php"
-        });
-      },
-      () => {
-        return kameHouse.util.dom.getImgBtn({
-          src: "/kame-house/img/dbz/goku-gray-dark.png",
-          className: "header-login-status-btn",
-          alt: "KameHouse Groot",
-          onClick: () => {return;}
-        });
+    return kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/dbz/goku-gray-dark.png",
+      className: "groot-header-login-status-btn",
+      alt: "Logout GRoot",
+      onClick: () => {
+        return kameHouse.util.mobile.windowLocation("/kame-house-groot/api/v1/auth/logout.php", "/kame-house-mobile/settings.html");
       }
-    );
+    });
   }
 
   function getUsernameHeader(username) {
