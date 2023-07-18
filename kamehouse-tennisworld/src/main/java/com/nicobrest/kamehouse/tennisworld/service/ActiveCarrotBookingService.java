@@ -228,10 +228,10 @@ public class ActiveCarrotBookingService extends BookingService {
     loadSessionAjaxRequestHttpPost.setHeader(REFERER, ROOT_URL + "/#");
     loadSessionAjaxRequestHttpPost.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 4: POST request to: {}", BOOK_SESSION_OVERLAY_AJAX_URL);
-    logRequestHeaders(loadSessionAjaxRequestHttpPost);
+    HttpClientUtils.logRequestHeaders(loadSessionAjaxRequestHttpPost);
     HttpResponse httpResponse =
         HttpClientUtils.execRequest(httpClient, loadSessionAjaxRequestHttpPost);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasJsonErrorResponse(html) || hasError(Jsoup.parse(html))) {
@@ -250,9 +250,9 @@ public class ActiveCarrotBookingService extends BookingService {
     httpGet.setHeader(REFERER, selectedSessionDateUrl);
     httpGet.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 5: GET request to: {}", SESSION_CONFIRM_BOOKING_URL);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasError(Jsoup.parse(html))) {
@@ -275,9 +275,9 @@ public class ActiveCarrotBookingService extends BookingService {
     confirmBookingHttpPost.setHeader(REFERER, SESSION_CONFIRM_BOOKING_URL);
     confirmBookingHttpPost.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 6: POST request to: {}", SESSION_CONFIRM_BOOKING_URL);
-    logRequestHeaders(confirmBookingHttpPost);
+    HttpClientUtils.logRequestHeaders(confirmBookingHttpPost);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, confirmBookingHttpPost);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
@@ -303,9 +303,9 @@ public class ActiveCarrotBookingService extends BookingService {
     httpGet.setHeader(REFERER, SESSION_CONFIRM_BOOKING_URL);
     httpGet.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 7: GET request to: {}", confirmBookingRedirectUrl);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);
@@ -405,7 +405,7 @@ public class ActiveCarrotBookingService extends BookingService {
     logger.info("Step 1.1: POST request to: {}", INITIAL_LOGIN_URL);
     HttpResponse initialLoginPostResponse =
         HttpClientUtils.execRequest(httpClient, initialLoginPostRequest);
-    logHttpResponseCode(initialLoginPostResponse);
+    HttpClientUtils.logHttpResponseCode(initialLoginPostResponse);
     String initialLoginHtml =
         IOUtils.toString(HttpClientUtils.getInputStream(initialLoginPostResponse), Charsets.UTF_8);
     logger.debug(initialLoginHtml);
@@ -419,10 +419,10 @@ public class ActiveCarrotBookingService extends BookingService {
     String completeLoginUrl = HttpClientUtils.getHeader(initialLoginPostResponse, LOCATION);
     HttpGet completeLoginAllSitesGetRequest = HttpClientUtils.httpGet(completeLoginUrl);
     logger.info("Step 1.2: GET request to: {}", completeLoginUrl);
-    logRequestHeaders(completeLoginAllSitesGetRequest);
+    HttpClientUtils.logRequestHeaders(completeLoginAllSitesGetRequest);
     HttpResponse completeLoginAllSitesGetResponse =
         HttpClientUtils.execRequest(httpClient, completeLoginAllSitesGetRequest);
-    logHttpResponseCode(completeLoginAllSitesGetResponse);
+    HttpClientUtils.logHttpResponseCode(completeLoginAllSitesGetResponse);
     String completeLoginAllSitesResponseHtml = IOUtils.toString(HttpClientUtils.getInputStream(
         completeLoginAllSitesGetResponse), Charsets.UTF_8);
     logger.debug(completeLoginAllSitesResponseHtml);
@@ -452,10 +452,10 @@ public class ActiveCarrotBookingService extends BookingService {
     HttpGet completeLoginSelectedSiteGetRequest =
         HttpClientUtils.httpGet(completeLoginSelectedSiteUrl);
     logger.info("Step 1.3: GET request to: {}", completeLoginSelectedSiteUrl);
-    logRequestHeaders(completeLoginSelectedSiteGetRequest);
+    HttpClientUtils.logRequestHeaders(completeLoginSelectedSiteGetRequest);
     HttpResponse completeLoginSelectedSiteResponse =
         HttpClientUtils.execRequest(httpClient, completeLoginSelectedSiteGetRequest);
-    logHttpResponseCode(completeLoginSelectedSiteResponse);
+    HttpClientUtils.logHttpResponseCode(completeLoginSelectedSiteResponse);
     String completeLoginSelectedSiteResponseHtml = IOUtils.toString(HttpClientUtils.getInputStream(
         completeLoginSelectedSiteResponse), Charsets.UTF_8);
     logger.debug(completeLoginSelectedSiteResponseHtml);
@@ -497,9 +497,9 @@ public class ActiveCarrotBookingService extends BookingService {
     String selectedSessionTypeUrl = DASHBOARD_URL + "#" + selectedSessionTypeId;
     HttpGet httpGet = HttpClientUtils.httpGet(selectedSessionTypeUrl);
     logger.info("Step 2: GET request to: {}", selectedSessionTypeUrl);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document sessionTypePage = Jsoup.parse(html);
@@ -540,9 +540,9 @@ public class ActiveCarrotBookingService extends BookingService {
     String selectedSessionDateUrl = ROOT_URL + selectedSessionDatePath;
     HttpGet httpGet = HttpClientUtils.httpGet(selectedSessionDateUrl);
     logger.info("Step 3: GET request to: {}", selectedSessionDateUrl);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document sessionDatePage = Jsoup.parse(html);
@@ -585,9 +585,9 @@ public class ActiveCarrotBookingService extends BookingService {
     String selectedSessionUrl = ROOT_URL + selectedSessionPath;
     HttpGet httpGet = HttpClientUtils.httpGet(selectedSessionUrl);
     logger.info("Step 4: GET request to: {}", selectedSessionUrl);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document sessionPage = Jsoup.parse(html);
@@ -645,10 +645,10 @@ public class ActiveCarrotBookingService extends BookingService {
     loadSessionAjaxRequestHttpPost.setHeader(REFERER, ROOT_URL + selectedSessionDatePath);
     loadSessionAjaxRequestHttpPost.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 5: POST request to: {}", BOOK_FACILITY_OVERLAY_AJAX_URL);
-    logRequestHeaders(loadSessionAjaxRequestHttpPost);
+    HttpClientUtils.logRequestHeaders(loadSessionAjaxRequestHttpPost);
     HttpResponse httpResponse =
         HttpClientUtils.execRequest(httpClient, loadSessionAjaxRequestHttpPost);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasJsonErrorResponse(html) || hasError(Jsoup.parse(html))) {
@@ -667,9 +667,9 @@ public class ActiveCarrotBookingService extends BookingService {
     httpGet.setHeader(REFERER, selectedSessionDateUrl);
     httpGet.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 6: GET request to: {}", FACILITY_CONFIRM_BOOKING_URL);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     if (hasError(Jsoup.parse(html))) {
@@ -692,9 +692,9 @@ public class ActiveCarrotBookingService extends BookingService {
     confirmBookingHttpPost.setHeader(REFERER, FACILITY_CONFIRM_BOOKING_URL);
     confirmBookingHttpPost.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 7: POST request to: {}", FACILITY_CONFIRM_BOOKING_URL);
-    logRequestHeaders(confirmBookingHttpPost);
+    HttpClientUtils.logRequestHeaders(confirmBookingHttpPost);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, confirmBookingHttpPost);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document postBookingResponsePage = Jsoup.parse(html);
@@ -733,9 +733,9 @@ public class ActiveCarrotBookingService extends BookingService {
     httpGet.setHeader(REFERER, FACILITY_CONFIRM_BOOKING_URL);
     httpGet.setHeader(X_REQUESTED_WITH, XML_HTTP_REQUEST);
     logger.info("Step 8: GET request to: {}", confirmBookingRedirectUrl);
-    logRequestHeaders(httpGet);
+    HttpClientUtils.logRequestHeaders(httpGet);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpGet);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     String html = IOUtils.toString(HttpClientUtils.getInputStream(httpResponse), Charsets.UTF_8);
     logger.debug(html);
     Document confirmFinalBookingPage = Jsoup.parse(html);

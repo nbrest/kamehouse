@@ -5,7 +5,6 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
-import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.utils.ThreadUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
@@ -21,8 +20,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -182,56 +179,12 @@ public abstract class BookingService {
       RequestBody requestBody)
       throws IOException {
     if (requestBody != null) {
-      logger.trace("Request body: {}", requestBody);
+      HttpClientUtils.logRequestBody(requestBody.toString());
     }
-    logRequestHeaders(httpRequest);
+    HttpClientUtils.logRequestHeaders(httpRequest);
     HttpResponse httpResponse = HttpClientUtils.execRequest(httpClient, httpRequest);
-    logHttpResponseCode(httpResponse);
+    HttpClientUtils.logHttpResponseCode(httpResponse);
     return httpResponse;
-  }
-
-  /**
-   * Log request headers.
-   */
-  protected void logRequestHeaders(HttpRequest httpRequest) {
-    logger.debug("Request headers:");
-    if (!HttpClientUtils.hasHeaders(httpRequest)) {
-      logger.debug("No request headers set");
-    } else {
-      for (Header header : HttpClientUtils.getAllHeaders(httpRequest)) {
-        logger.debug("{} : {}", header.getName(), header.getValue());
-      }
-    }
-  }
-
-  /**
-   * Log response headers.
-   */
-  protected void logResponseHeaders(HttpResponse httpResponse) {
-    logger.debug("Response headers:");
-    if (!HttpClientUtils.hasHeaders(httpResponse)) {
-      logger.debug("No response headers set");
-    } else {
-      for (Header header : HttpClientUtils.getAllHeaders(httpResponse)) {
-        logger.debug("{} : {}", header.getName(), header.getValue());
-      }
-    }
-  }
-
-  /**
-   * Log the response code received from tennis world.
-   */
-  protected void logHttpResponseCode(HttpResponse httpResponse) {
-    logger.info("Response code: {}", HttpClientUtils.getStatusLine(httpResponse));
-  }
-
-  /**
-   * Log response body.
-   */
-  protected void logResponseBody(String responseBody) {
-    if (!StringUtils.isEmpty(responseBody)) {
-      logger.trace("Response body: {}", responseBody);
-    }
   }
 
   /**

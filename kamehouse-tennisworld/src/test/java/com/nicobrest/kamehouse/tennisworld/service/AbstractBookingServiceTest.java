@@ -548,7 +548,7 @@ public class AbstractBookingServiceTest {
           }
         });
         String responseBody = getResponseBody(response);
-        logResponseBody(responseBody);
+        HttpClientUtils.logResponseBody(responseBody);
       } catch (IOException e) {
         logger.info(e.getMessage(), e);
       }

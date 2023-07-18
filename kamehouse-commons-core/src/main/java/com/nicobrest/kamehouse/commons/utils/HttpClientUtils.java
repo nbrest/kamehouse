@@ -188,4 +188,57 @@ public class HttpClientUtils {
     request.setURI(uri);
     return uri;
   }
+
+  /**
+   * Log the response code received from tennis world.
+   */
+  public static void logHttpResponseCode(HttpResponse httpResponse) {
+    LOGGER.info("Response code: {}", HttpClientUtils.getStatusLine(httpResponse));
+  }
+
+  /**
+   * Log response headers.
+   */
+  public static void logResponseHeaders(HttpResponse httpResponse) {
+    LOGGER.debug("Response headers:");
+    if (!hasHeaders(httpResponse)) {
+      LOGGER.debug("No response headers set");
+    } else {
+      for (Header header : getAllHeaders(httpResponse)) {
+        LOGGER.debug("{} : {}", header.getName(), header.getValue());
+      }
+    }
+  }
+
+  /**
+   * Log response body.
+   */
+  public static void logResponseBody(String responseBody) {
+    if (!StringUtils.isEmpty(responseBody)) {
+      LOGGER.trace("Response body: {}", responseBody);
+    }
+  }
+
+  /**
+   * Log request headers.
+   */
+  public static void logRequestHeaders(HttpRequest httpRequest) {
+    LOGGER.debug("Request headers:");
+    if (!hasHeaders(httpRequest)) {
+      LOGGER.debug("No request headers set");
+    } else {
+      for (Header header : getAllHeaders(httpRequest)) {
+        LOGGER.debug("{} : {}", header.getName(), header.getValue());
+      }
+    }
+  }
+
+  /**
+   * Log request body.
+   */
+  public static void logRequestBody(String requestBody) {
+    if (!StringUtils.isEmpty(requestBody)) {
+      LOGGER.trace("Request body: {}", requestBody);
+    }
+  }
 }
