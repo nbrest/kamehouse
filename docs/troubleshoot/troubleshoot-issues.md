@@ -143,3 +143,12 @@ ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
 ## Can't tail apache httpd log on linux
 
 - Add user running kamehouse to adm group as described in [kamehouse-shell](/kamehouse-shell/README.md)
+
+*********************
+
+## Add jar to local maven repository
+
+- From the root of the project
+```sh
+mvn deploy:deploy-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=./lib/ojdbc6.jar
+```

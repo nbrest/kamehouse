@@ -7,6 +7,7 @@
 
 #### v8.20
 
+- Removed maven profiles dev (h2) and qa (oracle)
 - Updated login and logout buttons to work on mobile as they work on desktop
 - Fixed bugs
 
