@@ -467,6 +467,7 @@ buildMobile() {
   cd kamehouse-mobile
   setLinuxBuildEnv
   setKameHouseMobileApkPath
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
   if ${CLEAN_CORDOVA_BEFORE_BUILD}; then
     cleanCordovaProject
   fi
@@ -483,6 +484,7 @@ buildMobile() {
   resetConfigFromGitHash
   deleteStaticUiFilesOnMobile
   uploadKameHouseMobileApkToGDrive
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh
 }
 
 setLinuxBuildEnv() {
