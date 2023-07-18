@@ -390,6 +390,7 @@ getHttpdContentRoot() {
 }
 
 buildKameHouseProject() {
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   
   exportGitCommitHash
