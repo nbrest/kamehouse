@@ -151,9 +151,6 @@
     <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
     <mysql.connector.java.version>8.0.26</mysql.connector.java.version>
 
-    <!-- Updated : 2016/02 | Dependency version date: 2016/02 -->
-    <oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
-
     <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
     <quartz.version>2.3.2</quartz.version>
 
@@ -345,13 +342,6 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql.connector.java.version}</version>
-    </dependency>
-
-    <!-- Oracle database driver -->
-    <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc6</artifactId>
-      <version>${oracle.ojdbc.version}</version>
     </dependency>
 
     <!-- Spring dependencies -->
