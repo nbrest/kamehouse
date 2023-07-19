@@ -44,7 +44,7 @@ COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
 
-ENV MAVEN_VERSION=3.6.3
+ENV MAVEN_VERSION=3.9.3
 ENV TOMCAT_VERSION=9.0.53
 
 # Setup users 

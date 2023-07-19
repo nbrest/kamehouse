@@ -394,6 +394,8 @@ buildKameHouseProject() {
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   
   exportGitCommitHash
+  exportBuildVersion
+  exportBuildDate
   buildMavenCommand
   executeMavenCommand
   
@@ -409,9 +411,29 @@ exportGitCommitHash() {
   if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
     cd ..
   fi
-  log.info "Exporting git commit hash to project"
+  log.info "Exporting git commit hash to commons-core"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+}
+
+exportBuildVersion() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+    cd ..
+  fi
+  log.info "Exporting build version to commons-core"
+  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
+  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
+  echo "${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.txt
+}
+
+exportBuildDate() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+    cd ..
+  fi
+  log.info "Exporting build date to commons-core"
+  date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.txt
 }
 
 buildMavenCommand() {

@@ -7,6 +7,8 @@ logs/**
 **/tmp/**
 data/**
 kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+kamehouse-commons-core/src/main/resources/build-version.txt
+kamehouse-commons-core/src/main/resources/build-date.txt
 
 # Patch files
 *.diff

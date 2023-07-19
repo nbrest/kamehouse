@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import org.apache.commons.io.IOUtils;
@@ -25,12 +24,11 @@ public class PropertiesUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties properties = new Properties();
-  private static final String COMMONS_POM_PROPERTIES =
-      "/META-INF/maven/com.nicobrest/kamehouse-commons-core/pom.properties";
 
   static {
     loadAllPropertiesFiles();
-    loadBuildVersionAndDate();
+    loadBuildVersion();
+    loadBuildDate();
     loadGitCommitHash();
   }
 
@@ -146,39 +144,6 @@ public class PropertiesUtils {
   }
 
   /**
-   * Loads the build version and date.
-   */
-  private static void loadBuildVersionAndDate() {
-    try {
-      InputStream pomPropertiesInputStream =
-          PropertiesUtils.class.getResourceAsStream(COMMONS_POM_PROPERTIES);
-      List<String> pomProperties = null;
-      if (pomPropertiesInputStream != null) {
-        pomProperties = IOUtils.readLines(pomPropertiesInputStream, StandardCharsets.UTF_8.name());
-      }
-      if (pomProperties == null) {
-        LOGGER.error("Error loading kamehouse build version and date into properties");
-        return;
-      }
-      for (String pomPropertiesLine : pomProperties) {
-        if (pomPropertiesLine.startsWith("#Generated")) {
-          continue;
-        }
-        if (pomPropertiesLine.startsWith("#")) {
-          String buildDate = DateUtils.getFormattedBuildDate(pomPropertiesLine.substring(1));
-          properties.put("kamehouse.build.date", buildDate);
-        }
-        if (pomPropertiesLine.startsWith("version=")) {
-          properties.put("kamehouse.build.version",
-              pomPropertiesLine.replace("version=", "").replace("-KAMEHOUSE-SNAPSHOT", ""));
-        }
-      }
-    } catch (IOException e) {
-      LOGGER.error("Error loading kamehouse build version and date into properties", e);
-    }
-  }
-
-  /**
    * Loads the git commit hash into the properties, if it's available.
    */
   private static void loadGitCommitHash() {
@@ -202,6 +167,48 @@ public class PropertiesUtils {
       properties.put("kamehouse.build.version", updatedBuildVersion);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse git commit hash into properties", e);
+    }
+  }
+
+  /**
+   * Loads the build version into the properties, if it's available.
+   */
+  private static void loadBuildVersion() {
+    try {
+      Resource buildVersionResource = new ClassPathResource("/build-version.txt");
+      InputStream buildVersionInputStream = buildVersionResource.getInputStream();
+      String buildVersion = null;
+      if (buildVersionInputStream != null) {
+        buildVersion = IOUtils.toString(buildVersionInputStream, StandardCharsets.UTF_8.name());
+      }
+      if (buildVersion == null) {
+        LOGGER.error("Error loading kamehouse build version into properties");
+        return;
+      }
+      properties.put("kamehouse.build.version", buildVersion.trim());
+    } catch (IOException e) {
+      LOGGER.error("Error loading kamehouse build version into properties", e);
+    }
+  }
+
+  /**
+   * Loads the build date into the properties, if it's available.
+   */
+  private static void loadBuildDate() {
+    try {
+      Resource buildDateResource = new ClassPathResource("/build-date.txt");
+      InputStream buildDateInputStream = buildDateResource.getInputStream();
+      String buildDate = null;
+      if (buildDateInputStream != null) {
+        buildDate = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
+      }
+      if (buildDate == null) {
+        LOGGER.error("Error loading kamehouse build date into properties");
+        return;
+      }
+      properties.put("kamehouse.build.date", buildDate.trim());
+    } catch (IOException e) {
+      LOGGER.error("Error loading kamehouse build date into properties", e);
     }
   }
 }
