@@ -65,7 +65,7 @@ public class VlcPlayerControllerIntegrationTest
     logger.info("Running loadUserByHostnameTest");
     String hostname = getDto().getHostname();
 
-    HttpResponse response = get(getCrudUrl() + "hostname/" + hostname);
+    HttpResponse response = get(getCrudUrl() + "/hostname/" + hostname);
 
     verifySuccessfulResponse(response, VlcPlayer.class);
   }
@@ -79,7 +79,7 @@ public class VlcPlayerControllerIntegrationTest
     logger.info("Running loadUserByHostnameNotFoundExceptionTest");
     String invalidHostname = "invalid-" + getDto().getHostname();
 
-    HttpResponse response = get(getCrudUrl() + "hostname/" + invalidHostname);
+    HttpResponse response = get(getCrudUrl() + "/hostname/" + invalidHostname);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByHostnameNotFoundExceptionTest completed successfully");

@@ -74,7 +74,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatus);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/status");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/status");
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -91,7 +91,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/status");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/status");
 
     verifyResponseStatus(response, HttpStatus.NOT_FOUND);
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
@@ -109,7 +109,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
     byte[] requestPayload = JsonUtils.toJsonByteArray(vlcRcCommand);
 
     MockHttpServletResponse response =
-        doPost(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/commands", requestPayload);
+        doPost(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/commands", requestPayload);
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
@@ -126,7 +126,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/playlist");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/playlist");
     List<VlcRcPlaylistItem> responseBody = getResponseBodyList(response, VlcRcPlaylistItem.class);
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
@@ -142,7 +142,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "niko-nba/browse");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/browse");
     List<VlcRcFileListItem> responseBody = getResponseBodyList(response, VlcRcFileListItem.class);
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);

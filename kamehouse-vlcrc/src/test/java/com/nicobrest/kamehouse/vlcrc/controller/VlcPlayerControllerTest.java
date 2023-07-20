@@ -63,7 +63,7 @@ public class VlcPlayerControllerTest extends AbstractCrudControllerTest<VlcPlaye
     when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 
     MockHttpServletResponse response =
-        doGet(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "hostname/" + vlcPlayer.getHostname());
+        doGet(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/hostname/" + vlcPlayer.getHostname());
     VlcPlayer responseBody = getResponseBody(response, VlcPlayer.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

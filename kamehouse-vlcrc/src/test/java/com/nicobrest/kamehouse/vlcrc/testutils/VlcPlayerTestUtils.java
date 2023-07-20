@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class VlcPlayerTestUtils extends AbstractTestUtils<VlcPlayer, VlcPlayerDto>
     implements TestUtils<VlcPlayer, VlcPlayerDto> {
 
-  public static final String API_V1_VLCPLAYERS = "/api/v1/vlc-rc/players/";
+  public static final String API_V1_VLCPLAYERS = "/api/v1/vlc-rc/players";
   public static final String INVALID_HOSTNAME = "yukimura";
 
   @Override
