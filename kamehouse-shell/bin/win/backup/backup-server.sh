@@ -23,8 +23,7 @@ if [ "$?" != "0" ]; then
 	exit 1
 fi
 
-MYSQL_VERSION_WIN="5.7"
-MYSQL_VERSION_WIN_2="8.0"
+MARIADB_VERSION_WIN="10.11"
 
 backupApacheHttpd() {
 	log.info "Backing up apache-httpd"  
@@ -69,21 +68,13 @@ backupMysqlConfig() {
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
   checkCommandStatus "$?" "An error occurred creating directories"
   # Doesn't work if I double quote MYSQL_INI in the definition
-  local MYSQL_INI=/c/ProgramData/MySQL/MySQL\ Server\ ${MYSQL_VERSION_WIN}/my.ini
+  local MYSQL_INI=/c/Program Files/MariaDB ${MARIADB_VERSION_WIN}/data/my.ini
   if test -f "${MYSQL_INI}"; then
     cp -vrf "${MYSQL_INI}" ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
 	  checkCommandStatus "$?" "An error occurred during file copy"
   else
     log.warn "${MYSQL_INI} doesn't exist"
-  fi
-
-  MYSQL_INI=/c/ProgramData/MySQL/MySQL\ Server\ ${MYSQL_VERSION_WIN_2}/my.ini
-  if test -f "${MYSQL_INI}"; then
-    cp -vrf "${MYSQL_INI}" ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
-	  checkCommandStatus "$?" "An error occurred during file copy"
-  else
-    log.warn "${MYSQL_INI} doesn't exist"
-  fi
+  fi  
 }
 
 backupStartupScripts() {
