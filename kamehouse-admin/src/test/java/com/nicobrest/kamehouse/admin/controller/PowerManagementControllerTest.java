@@ -26,7 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
+import jakarta.servlet.ServletException;
 
 /**
  * Unit tests for PowerManagementController class.
@@ -71,7 +71,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Test
   public void setShutdownExceptionTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified"))
               .when(powerManagementService)
@@ -103,7 +103,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Test
   public void cancelShutdownServerErrorTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseServerErrorException(""))
               .when(powerManagementService)
@@ -150,7 +150,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Test
   public void setSuspendExceptionTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified"))
               .when(powerManagementService)
@@ -182,7 +182,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   @Test
   public void cancelSuspendServerErrorTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseServerErrorException(""))
               .when(powerManagementService)
@@ -252,7 +252,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   public void wolInvalidRequestTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString());
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           doPost("/api/v1/admin/power-management/wol");
         });

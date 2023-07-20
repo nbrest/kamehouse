@@ -63,7 +63,7 @@ public class KameHouseUserControllerIntegrationTest
     logger.info("Running loadUserByUsernameTest");
     String username = getDto().getUsername();
 
-    HttpResponse response = get(getCrudUrl() + "username/" + username);
+    HttpResponse response = get(getCrudUrl() + "/username/" + username);
 
     verifySuccessfulResponse(response, KameHouseUser.class);
   }
@@ -77,7 +77,7 @@ public class KameHouseUserControllerIntegrationTest
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
     String invalidUsername = "invalid-" + getDto().getUsername();
 
-    HttpResponse response = get(getCrudUrl() + "username/" + invalidUsername);
+    HttpResponse response = get(getCrudUrl() + "/username/" + invalidUsername);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByUsernameNotFoundExceptionTest completed successfully");

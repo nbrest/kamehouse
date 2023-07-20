@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.config;
 
 import com.nicobrest.kamehouse.admin.model.scheduler.job.ShutdownJob;
 import com.nicobrest.kamehouse.admin.model.scheduler.job.SuspendJob;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;

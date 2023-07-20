@@ -12,13 +12,13 @@ import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.util.NestedServletException;
 
 /**
  * Unit tests for the KameHouseUserController class.
@@ -72,7 +72,7 @@ public class KameHouseUserControllerTest
         .thenReturn(kameHouseUser);
 
     MockHttpServletResponse response =
-        doGet(API_V1_ADMIN_KAMEHOUSE_USERS + "username/" + kameHouseUser.getUsername());
+        doGet(API_V1_ADMIN_KAMEHOUSE_USERS + "/username/" + kameHouseUser.getUsername());
     KameHouseUser responseBody = getResponseBody(response, KameHouseUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -85,14 +85,14 @@ public class KameHouseUserControllerTest
   @Test
   public void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseNotFoundException(""))
               .when(kameHouseUserServiceMock)
               .loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
 
           doGet(
-              API_V1_ADMIN_KAMEHOUSE_USERS + "username/" + KameHouseUserTestUtils.INVALID_USERNAME);
+              API_V1_ADMIN_KAMEHOUSE_USERS + "/username/" + KameHouseUserTestUtils.INVALID_USERNAME);
         });
   }
 }
