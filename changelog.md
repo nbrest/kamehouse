@@ -7,8 +7,10 @@
 
 #### v8.20
 
-- Upgraded maven to version 3.9.3
 - Upgraded project to Java 17
+- Upgraded project to tomcat 10
+- Upgraded maven to version 3.9.3
+- Upgraded maven dependencies to latest versions
 - Removed maven profiles dev (h2) and qa (oracle)
 - Updated login and logout buttons to work on mobile as they work on desktop
 - Fixed bugs
