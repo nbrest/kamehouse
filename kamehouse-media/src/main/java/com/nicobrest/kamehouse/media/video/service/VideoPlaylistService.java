@@ -47,7 +47,10 @@ public class VideoPlaylistService {
   /**
    * Gets all video playlists without their contents.
    */
+  //TODO UPGRADE BROKEN
+  /*
   @Cacheable(value = VIDEO_PLAYLISTS_CACHE)
+   */
   public List<Playlist> getAll() {
     return getAll(false);
   }
@@ -63,10 +66,13 @@ public class VideoPlaylistService {
     return getAllFromFileSystem(fetchContent);
   }
 
+  //TODO UPGRADE BROKEN
+  /*
+  @Cacheable(value = VIDEO_PLAYLIST_CACHE)
+   */
   /**
    * Get the specified playlist.
    */
-  @Cacheable(value = VIDEO_PLAYLIST_CACHE)
   public Playlist getPlaylist(String playlistFilename, boolean fetchContent) {
     logger.trace("Get playlist {}", playlistFilename);
     if (DockerUtils.shouldControlDockerHost()) {
