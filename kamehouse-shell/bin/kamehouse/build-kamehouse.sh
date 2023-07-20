@@ -72,7 +72,7 @@ printHelpOptions() {
   addHelpOption "-i" "integration tests: run integration tests only"
   printKameHouseModuleOption "build"
   printMavenProfileOption
-  addHelpOption "-r" "resume build. Continue where it failed in the last build"
+  addHelpOption "-r" "resume build. Continue where it failed in the last build. ${COL_YELLOW}Use with -m"
   addHelpOption "-u" "use prod dir for cordova. Use this when running a manual kamehouse mobile build from the deployment dir"
 }
 
