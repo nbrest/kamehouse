@@ -75,6 +75,7 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
   mv /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION} /home/${KAMEHOUSE_USERNAME}/programs/apache-maven ; \
   rm /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz ; \
+  sed -i 's#<blocked>true</blocked>#<blocked>false</blocked>#g' /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/conf/settings.xml ; \
   echo PATH=/home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
   echo . /home/${KAMEHOUSE_USERNAME}/.env >> /home/${KAMEHOUSE_USERNAME}/.bashrc" ; \
   echo "PATH=/home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin:${PATH}" >> /etc/profile ; \
