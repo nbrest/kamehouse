@@ -12,6 +12,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
 
 /**
  * Unit tests for the AbstractCrudController and AbstractController through a TestEntity
@@ -110,7 +110,7 @@ public class AbstractCrudControllerUnitTest {
   @Test
   public void updatePathIdNotValidTest() {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
           doPut(API_TEST_ENTITY + "/2", requestPayload);

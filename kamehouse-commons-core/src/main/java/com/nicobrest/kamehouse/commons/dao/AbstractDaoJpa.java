@@ -6,15 +6,15 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import java.util.List;
 import java.util.function.BiFunction;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -311,7 +311,7 @@ public abstract class AbstractDaoJpa<E> {
         STATIC_LOGGER.error(errorMessage, pe);
         throw new KameHouseConflictException(errorMessage, pe);
       }
-      if (cause instanceof javax.persistence.NoResultException) {
+      if (cause instanceof jakarta.persistence.NoResultException) {
         String warnMessage = NO_RESULT_EXCEPTION + pe.getMessage();
         STATIC_LOGGER.warn(warnMessage);
         throw new KameHouseNotFoundException(warnMessage, pe);

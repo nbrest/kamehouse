@@ -1,10 +1,14 @@
 package com.nicobrest.kamehouse.commons.config;
 
-import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import java.net.URL;
+import javax.cache.integration.CacheLoader;
+import org.ehcache.CacheManager;
+import org.ehcache.config.builders.CacheManagerBuilder;
+import org.ehcache.xml.XmlConfiguration;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 
 /**
  * Cache configuration beans for all modules.
@@ -13,23 +17,22 @@ import org.springframework.core.io.ClassPathResource;
 public class CacheConfig {
 
   /**
-   * Default cacheManager.
+   * Default ehCacheManager.
    */
   @Bean
-  public EhCacheCacheManager cacheManager(EhCacheManagerFactoryBean ehCacheManagerFactoryBean) {
-    EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
-    ehCacheCacheManager.setCacheManager(ehCacheManagerFactoryBean.getObject());
-    return ehCacheCacheManager;
+  public CacheManager ehCacheManager() {
+    URL url = getClass().getResource("/ehcache.xml");
+    XmlConfiguration xmlConfig = new XmlConfiguration(url);
+    CacheManager cacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
+    cacheManager.init();
+    return cacheManager;
   }
 
-  /**
-   * Default ehcacheMangerFactory.
-   */
+  //TODO UPGRADE BROKEN
+  // need to make sure my caches are working even with this dummy cacheManager set
   @Bean
-  public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-    EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
-    ehCacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
-    ehCacheManagerFactoryBean.setShared(true);
-    return ehCacheManagerFactoryBean;
+  public org.springframework.cache.CacheManager cacheManager() {
+    SimpleCacheManager cacheManager = new SimpleCacheManager();
+    return cacheManager;
   }
 }
