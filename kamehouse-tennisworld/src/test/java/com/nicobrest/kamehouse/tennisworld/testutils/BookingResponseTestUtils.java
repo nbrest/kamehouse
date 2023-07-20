@@ -23,10 +23,10 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     implements TestUtils<BookingResponse, BookingResponseDto> {
 
   public static final String API_V1_TENNISWORLD_BOOKING_RESPONSES =
-      "/api/v1/tennis-world" + "/booking-responses/";
+      "/api/v1/tennis-world/booking-responses";
   public static final String API_V1_TENNISWORLD_BOOKINGS = "/api/v1/tennis-world/bookings";
   public static final String API_V1_TENNISWORLD_SCHEDULED_BOOKINGS =
-      "/api/v1/tennis-world" + "/scheduled-bookings";
+      "/api/v1/tennis-world/scheduled-bookings";
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
   private BookingRequest bookingRequest;

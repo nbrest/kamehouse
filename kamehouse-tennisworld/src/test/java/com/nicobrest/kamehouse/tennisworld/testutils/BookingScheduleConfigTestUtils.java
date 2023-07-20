@@ -24,7 +24,7 @@ public class BookingScheduleConfigTestUtils
     implements TestUtils<BookingScheduleConfig, BookingScheduleConfigDto> {
 
   public static final String API_V1_TENNISWORLD_BOOKING_SCHEDULE_CONFIG =
-      "/api/v1/tennis-world/booking-schedule-configs/";
+      "/api/v1/tennis-world/booking-schedule-configs";
 
   private TennisWorldUserTestUtils tennisWorldUserTestUtils = new TennisWorldUserTestUtils();
   private TennisWorldUser tennisWorldUser;

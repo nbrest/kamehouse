@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.config;
 
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;

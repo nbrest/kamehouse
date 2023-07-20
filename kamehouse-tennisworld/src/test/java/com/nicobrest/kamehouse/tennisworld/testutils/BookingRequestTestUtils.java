@@ -22,7 +22,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     implements TestUtils<BookingRequest, BookingRequestDto> {
 
   public static final String API_V1_TENNISWORLD_BOOKING_REQUESTS =
-      "/api/v1/tennis-world/booking-requests/";
+      "/api/v1/tennis-world/booking-requests";
   private BookingRequest cardioTennisBookingRequest = null;
 
   public BookingRequest getCardioTennisBookingRequest() {
