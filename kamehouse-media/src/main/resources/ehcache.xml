@@ -1,29 +1,22 @@
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="ehcache.xsd"
-  updateCheck="true"
-  monitoring="autodetect"
-  dynamicConfig="true">
+<config
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns='http://www.ehcache.org/v3'
+  xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
 
-  <diskStore path="java.io.tmpdir" />
+  <cache-template name="cache-defaults">
+    <resources>
+      <offheap unit="MB">20</offheap>
+    </resources>
+  </cache-template>
 
-  <cache name="videoPlaylist"
-         maxEntriesLocalHeap="1000"
-         maxEntriesLocalDisk="10000"
-         eternal="true"
-         diskSpoolBufferSizeMB="20"
-         memoryStoreEvictionPolicy="LFU"
-         transactionalMode="off">
-    <persistence strategy="localTempSwap" />
+  <cache alias="videoPlaylist" uses-template="cache-defaults">
+    <key-type>java.lang.Long</key-type>
+    <value-type>com.nicobrest.kamehouse.commons.model.KameHouseUser</value-type>
   </cache>
 
-  <cache name="videoPlaylists"
-         maxEntriesLocalHeap="1000"
-         maxEntriesLocalDisk="10000"
-         eternal="true"
-         diskSpoolBufferSizeMB="20"
-         memoryStoreEvictionPolicy="LFU"
-         transactionalMode="off">
-    <persistence strategy="localTempSwap" />
+  <cache alias="videoPlaylists" uses-template="cache-defaults">
+    <key-type>java.lang.Long</key-type>
+    <value-type>com.nicobrest.kamehouse.commons.model.KameHouseUser</value-type>
   </cache>
- 
-</ehcache>
+
+</config>

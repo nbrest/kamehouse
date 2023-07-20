@@ -23,12 +23,7 @@ http://www.springframework.org/schema/cache/spring-cache.xsd">
   <cache:annotation-driven />
 
   <!-- testmodule beans -->
-  <bean
-          class="org.springframework.web.context.support.ServletContextAttributeExporter">
-    <!-- Enable access to specific beans from JSP pages using ${beanName}
-    TODO: now that the beans are in testmodule and the jsps in webapp module, I can't access them
-    I might need some communication between the modules-->
-
+  <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
     <property name="attributes">
       <map>
         <entry key="dragonBallUserService">

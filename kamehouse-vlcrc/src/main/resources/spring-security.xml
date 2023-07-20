@@ -4,16 +4,19 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-5.4.xsd">
+	http://www.springframework.org/schema/security/spring-security-6.1.xsd">
 
   <http entry-point-ref="customEntryPoint">
     <!-- The order of intercept-urls matters. Order them from more specific to more
       general within the same url. Ej: /api/v1/admin/kamehouse/** before /api/v1/admin/** -->
 
-    <intercept-url pattern="/api/v1/vlc-rc" access="permitAll" method="GET" />
-    <intercept-url pattern="/api/v1/vlc-rc" access="permitAll" method="POST" />
-    <intercept-url pattern="/api/v1/vlc-rc" access="permitAll" method="PUT" />
-    <intercept-url pattern="/api/v1/vlc-rc" access="permitAll" method="DELETE" />
+    <intercept-url pattern="/api/v1/vlc-rc/**" access="permitAll" method="GET" />
+    <intercept-url pattern="/api/v1/vlc-rc/**" access="permitAll" method="POST" />
+    <intercept-url pattern="/api/v1/vlc-rc/**" access="permitAll" method="PUT" />
+    <intercept-url pattern="/api/v1/vlc-rc/**" access="permitAll" method="DELETE" />
+
+    <intercept-url pattern="/api/ws/vlc-player/status/**" access="permitAll"/>
+    <intercept-url pattern="/api/ws/vlc-player/playlist/**" access="permitAll"/>
 
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
