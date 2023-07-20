@@ -7,7 +7,7 @@ import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationServic
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import com.nicobrest.kamehouse.ui.testutils.SessionStatusTestUtils;
 import java.util.List;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -4,9 +4,9 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpSession;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,8 @@ public class SessionStatusService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
+  @Autowired
+  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
   public void setKameHouseUserAuthenticationService(
       KameHouseUserAuthenticationService kameHouseUserAuthenticationService) {
@@ -38,7 +39,9 @@ public class SessionStatusService {
     return kameHouseUserAuthenticationService;
   }
 
-  /** Returns the current session's status. */
+  /**
+   * Returns the current session's status.
+   */
   public SessionStatus get(HttpSession session) {
     logger.trace("getting the user's session status");
     Authentication authentication = getAuthentication();
@@ -67,7 +70,9 @@ public class SessionStatusService {
     return sessionStatus;
   }
 
-  /** Gets the Authentication object from the spring security context. */
+  /**
+   * Gets the Authentication object from the spring security context.
+   */
   protected Authentication getAuthentication() {
     return SecurityContextHolder.getContext().getAuthentication();
   }

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

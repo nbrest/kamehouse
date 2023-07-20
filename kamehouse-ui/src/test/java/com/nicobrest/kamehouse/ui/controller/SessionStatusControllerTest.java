@@ -17,11 +17,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -39,13 +36,15 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
 
   private SessionStatus sessionStatus;
 
-  @Autowired private FilterChainProxy springSecurityFilterChain;
+  @InjectMocks
+  private SessionStatusController sessionStatusController;
 
-  @InjectMocks private SessionStatusController sessionStatusController;
+  @Mock
+  private SessionStatusService sessionStatusServiceMock;
 
-  @Mock private SessionStatusService sessionStatusServiceMock;
-
-  /** Resets mock objects. */
+  /**
+   * Resets mock objects.
+   */
   @BeforeEach
   public void beforeTest() {
     testUtils = new SessionStatusTestUtils();
@@ -54,13 +53,12 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
 
     MockitoAnnotations.openMocks(this);
     Mockito.reset(sessionStatusServiceMock);
-    mockMvc =
-        MockMvcBuilders.standaloneSetup(sessionStatusController)
-            .apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain))
-            .build();
+    mockMvc = MockMvcBuilders.standaloneSetup(sessionStatusController).build();
   }
 
-  /** Tests getting the current session information. */
+  /**
+   * Tests getting the current session information.
+   */
   @Test
   public void getSessionStatusTest() throws Exception {
     when(sessionStatusServiceMock.get(any())).thenReturn(sessionStatus);
