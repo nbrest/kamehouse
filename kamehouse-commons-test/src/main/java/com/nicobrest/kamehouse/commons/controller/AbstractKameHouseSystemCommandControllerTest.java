@@ -10,13 +10,13 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
+import jakarta.servlet.ServletException;
 import java.util.List;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.util.NestedServletException;
 
 /**
  * Abstract class for common test functionality for KameHouseSystemCommand controller tests.
@@ -82,7 +82,7 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
    */
   protected void execPostInvalidKameHouseSystemCommandTest(String url) {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           doPost(url);
         });

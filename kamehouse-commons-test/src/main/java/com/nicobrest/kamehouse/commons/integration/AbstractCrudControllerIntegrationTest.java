@@ -137,7 +137,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   public void readTest() throws IOException {
     logger.info("Running readTest with id {}", createdId);
 
-    HttpResponse response = get(getCrudUrl() + createdId);
+    HttpResponse response = get(getCrudUrl() + "/" + createdId);
 
     verifySuccessfulResponse(response, getEntityClass());
   }
@@ -166,7 +166,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
     dto.setId(createdId);
     logger.info(UPDATE_ENTITY, dto);
 
-    HttpResponse response = put(getCrudUrl() + createdId, dto);
+    HttpResponse response = put(getCrudUrl() + "/" + createdId, dto);
 
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     logger.info("updateTest completed successfully");
@@ -181,7 +181,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
     logger.info("Running updateInvalidPathId with id {}", createdId + createdId);
     logger.info(UPDATE_ENTITY, dto);
 
-    HttpResponse response = put(getCrudUrl() + createdId + createdId, dto);
+    HttpResponse response = put(getCrudUrl() + "/" + createdId + createdId, dto);
 
     assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusLine().getStatusCode());
     logger.info("updateInvalidPathId completed successfully");
@@ -198,7 +198,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
     dto.setId(invalidId);
     logger.info(UPDATE_ENTITY, dto);
 
-    HttpResponse response = put(getCrudUrl() + invalidId, dto);
+    HttpResponse response = put(getCrudUrl() + "/" + invalidId, dto);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("updateNotFoundExceptionTest completed successfully");
@@ -212,7 +212,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   public void deleteTest() throws IOException {
     logger.info("Running deleteTest with id {}", createdId);
 
-    HttpResponse response = delete(getCrudUrl() + createdId);
+    HttpResponse response = delete(getCrudUrl() + "/" + createdId);
 
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     logger.info("deleteTest completed successfully");
@@ -226,7 +226,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
   public void deleteNotFoundExceptionTest() throws IOException {
     logger.info("Running deleteNotFoundExceptionTest with id {}", createdId);
 
-    HttpResponse response = delete(getCrudUrl() + createdId);
+    HttpResponse response = delete(getCrudUrl() + "/" + createdId);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("deleteNotFoundExceptionTest completed successfully");

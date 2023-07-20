@@ -14,6 +14,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import jakarta.servlet.ServletException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
 
 /**
  * Abstract class to group all CRUD controller common test functionality.
@@ -106,7 +106,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   public void createConflictExceptionTest() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseConflictException("")).when(getCrudService()).create(dto);
           byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
@@ -124,7 +124,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Identifiable identifiableEntity = (Identifiable) entity;
     when(getCrudService().read(identifiableEntity.getId())).thenReturn(entity);
 
-    MockHttpServletResponse response = doGet(getCrudUrl() + identifiableEntity.getId());
+    MockHttpServletResponse response = doGet(getCrudUrl() + "/" + identifiableEntity.getId());
     E responseBody = getResponseBody(response, getEntityClass());
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -160,7 +160,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Mockito.doNothing().when(getCrudService()).update(dto);
     byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-    MockHttpServletResponse response = doPut(getCrudUrl() + identifiableDto.getId(),
+    MockHttpServletResponse response = doPut(getCrudUrl() + "/" + identifiableDto.getId(),
         requestPayload);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -174,11 +174,11 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   public void updateInvalidPathId() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
 
-          doPut(getCrudUrl() + INVALID_ID, requestPayload);
+          doPut(getCrudUrl() + "/" + INVALID_ID, requestPayload);
         });
   }
 
@@ -189,12 +189,12 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   public void updateNotFoundExceptionTest() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseNotFoundException("")).when(getCrudService()).update(dto);
           byte[] requestPayload = JsonUtils.toJsonByteArray(dto);
           Identifiable identifiableDto = (Identifiable) dto;
-          doPut(getCrudUrl() + identifiableDto.getId(), requestPayload);
+          doPut(getCrudUrl() + "/" + identifiableDto.getId(), requestPayload);
         });
   }
 
@@ -207,7 +207,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
     Identifiable identifiableEntity = (Identifiable) entity;
     when(getCrudService().delete(identifiableEntity.getId())).thenReturn(entity);
 
-    MockHttpServletResponse response = doDelete(getCrudUrl() + identifiableEntity.getId());
+    MockHttpServletResponse response = doDelete(getCrudUrl() + "/" + identifiableEntity.getId());
     E responseBody = getResponseBody(response, getEntityClass());
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -221,12 +221,12 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
   @Test
   public void deleteNotFoundExceptionTest() {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseNotFoundException("")).when(getCrudService())
               .delete(INVALID_ID);
 
-          doDelete(getCrudUrl() + INVALID_ID);
+          doDelete(getCrudUrl() + "/" + INVALID_ID);
         });
   }
 }

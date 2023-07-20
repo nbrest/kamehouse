@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, KameHouseUserDto> {
 
-  public static final String API_V1_ADMIN_KAMEHOUSE_USERS = "/api/v1/admin/kamehouse/users/";
+  public static final String API_V1_ADMIN_KAMEHOUSE_USERS = "/api/v1/admin/kamehouse/users";
   public static final Long INVALID_ID = 987987L;
   public static final String INVALID_USERNAME = "yukimura";
   public static final String TEST_EMAIL = "goku@dbz.com";
