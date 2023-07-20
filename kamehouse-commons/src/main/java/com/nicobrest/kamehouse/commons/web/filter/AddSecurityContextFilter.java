@@ -1,22 +1,21 @@
 package com.nicobrest.kamehouse.commons.web.filter;
 
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * Filter class to add the logged in username to each request.<br>
+ * Filter class to add the logged in username to each request. Functionality replaced by
+ * {@link com.nicobrest.kamehouse.ui.controller.SessionStatusController}.
  *
- * @deprecated. Functionality replaced by {@link
- *     com.nicobrest.kamehouse.ui.controller.SessionStatusController}.<br>
  * @author nbrest
  */
 @Deprecated(since = "A long long time ago, in a galaxy far far away")
@@ -44,7 +43,9 @@ public class AddSecurityContextFilter implements Filter {
     chain.doFilter(request, response);
   }
 
-  /** Gets the Authentication object from the spring security context. */
+  /**
+   * Gets the Authentication object from the spring security context.
+   */
   protected Authentication getAuthentication() {
     return SecurityContextHolder.getContext().getAuthentication();
   }

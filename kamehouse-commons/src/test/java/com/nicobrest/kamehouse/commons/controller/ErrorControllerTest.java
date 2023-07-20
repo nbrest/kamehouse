@@ -27,8 +27,8 @@ public class ErrorControllerTest {
   @BeforeEach
   public void beforeTest() {
     MockitoAnnotations.openMocks(this);
-    when(request.getAttribute("javax.servlet.error.status_code")).thenReturn(new Integer("404"));
-    when(request.getAttribute("javax.servlet.error.message")).thenReturn("mock message");
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("404"));
+    when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("mock message");
   }
 
   @Test
@@ -43,8 +43,8 @@ public class ErrorControllerTest {
 
   @Test
   public void handleErrors400Test() {
-    when(request.getAttribute("javax.servlet.error.status_code")).thenReturn(new Integer("400"));
-    when(request.getAttribute("javax.servlet.error.message")).thenReturn("");
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("400"));
+    when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
@@ -55,8 +55,8 @@ public class ErrorControllerTest {
 
   @Test
   public void handleErrors401Test() {
-    when(request.getAttribute("javax.servlet.error.status_code")).thenReturn(new Integer("401"));
-    when(request.getAttribute("javax.servlet.error.message")).thenReturn("");
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("401"));
+    when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
@@ -67,8 +67,8 @@ public class ErrorControllerTest {
 
   @Test
   public void handleErrors403Test() {
-    when(request.getAttribute("javax.servlet.error.status_code")).thenReturn(new Integer("403"));
-    when(request.getAttribute("javax.servlet.error.message")).thenReturn("");
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("403"));
+    when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());

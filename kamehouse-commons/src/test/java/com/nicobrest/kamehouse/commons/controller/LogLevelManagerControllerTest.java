@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
+import jakarta.servlet.ServletException;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
 
 /**
  * Test class for the LogLevelManagerController.
@@ -45,11 +45,15 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
           "com.nicobrest.kamehouse.vlcrc:TRACE",
           "com.nicobrest.kamehouse.main:DEBUG");
 
-  @InjectMocks private LogLevelManagerController logLevelManagerController;
+  @InjectMocks
+  private LogLevelManagerController logLevelManagerController;
 
-  @Mock private LogLevelManagerService logLevelManagerService;
+  @Mock
+  private LogLevelManagerService logLevelManagerService;
 
-  /** Resets mock objects. */
+  /**
+   * Resets mock objects.
+   */
   @BeforeEach
   public void beforeTest() {
     MockitoAnnotations.openMocks(this);
@@ -57,7 +61,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     mockMvc = MockMvcBuilders.standaloneSetup(logLevelManagerController).build();
   }
 
-  /** Tests getting the log level for a specific package. */
+  /**
+   * Tests getting the log level for a specific package.
+   */
   @Test
   public void getLogLevelSinglePackageSuccessTest() throws Exception {
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse"))
@@ -73,7 +79,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests getting the log level for all packages with log level set. */
+  /**
+   * Tests getting the log level for all packages with log level set.
+   */
   @Test
   public void getLogLevelSuccessTest() throws Exception {
     when(logLevelManagerService.getLogLevel(null)).thenReturn(logLevelMultipleElements);
@@ -87,7 +95,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests setting the log level for a specific package. */
+  /**
+   * Tests setting the log level for a specific package.
+   */
   @Test
   public void setLogLevelSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setLogLevel("TRACE", "com.nicobrest.kamehouse");
@@ -106,7 +116,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests setting the log level for the default package. */
+  /**
+   * Tests setting the log level for the default package.
+   */
   @Test
   public void setLogLevelDefaultPackageSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setLogLevel("TRACE", "com.nicobrest.kamehouse");
@@ -124,11 +136,13 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests setting an invalid log level for the default package. */
+  /**
+   * Tests setting an invalid log level for the default package.
+   */
   @Test
   public void setLogLevelInvalidLogLevelTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           doThrow(new KameHouseBadRequestException("Invalid log level TRACEs"))
               .when(logLevelManagerService)
@@ -138,7 +152,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
         });
   }
 
-  /** Tests setting the log level for all kamehouse packages to INFO. */
+  /**
+   * Tests setting the log level for all kamehouse packages to INFO.
+   */
   @Test
   public void setKamehouseLogLevelsToInfoSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToInfo();
@@ -151,7 +167,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests setting the log level for all kamehouse packages to DEBUG. */
+  /**
+   * Tests setting the log level for all kamehouse packages to DEBUG.
+   */
   @Test
   public void setKamehouseLogLevelsToDebugSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
@@ -164,7 +182,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests setting the log level for all kamehouse packages to TRACE. */
+  /**
+   * Tests setting the log level for all kamehouse packages to TRACE.
+   */
   @Test
   public void setKamehouseLogLevelsToTraceSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
@@ -177,7 +197,9 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
     verifyNoMoreInteractions(logLevelManagerService);
   }
 
-  /** Tests resetting all the log levels to their default value. */
+  /**
+   * Tests resetting all the log levels to their default value.
+   */
   @Test
   public void resetLogLevelsSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).resetLogLevels();

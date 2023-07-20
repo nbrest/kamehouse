@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.commons.web.filter.logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 /** Custom request logging filter to log all incoming requests. */

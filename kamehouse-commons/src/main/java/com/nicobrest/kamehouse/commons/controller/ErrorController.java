@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseApiErrorResponse;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,14 +35,14 @@ public class ErrorController extends AbstractController {
    * Get the status code.
    */
   private int getStatusCode(HttpServletRequest httpRequest) {
-    return (Integer) httpRequest.getAttribute("javax.servlet.error.status_code");
+    return (Integer) httpRequest.getAttribute("jakarta.servlet.error.status_code");
   }
 
   /**
    * Get the error message to return in the http response.
    */
   private String getErrorMessage(HttpServletRequest request, int statusCode) {
-    String errorMessage = (String) request.getAttribute("javax.servlet.error.message");
+    String errorMessage = (String) request.getAttribute("jakarta.servlet.error.message");
     if (!StringUtils.isEmpty(errorMessage)) {
       return errorMessage;
     }
