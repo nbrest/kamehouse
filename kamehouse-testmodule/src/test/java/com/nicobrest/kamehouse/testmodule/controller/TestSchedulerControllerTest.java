@@ -23,7 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
+import jakarta.servlet.ServletException;
 
 /**
  * Unit tests for TestSchedulerController class.
@@ -78,7 +78,7 @@ public class TestSchedulerControllerTest
   @Test
   public void cancelSampleJobServerErrorTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseServerErrorException(""))
               .when(testSchedulerService)

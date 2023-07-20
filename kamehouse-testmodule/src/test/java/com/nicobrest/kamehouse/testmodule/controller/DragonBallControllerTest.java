@@ -23,7 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.util.NestedServletException;
+import jakarta.servlet.ServletException;
 
 /**
  * Unit tests for the DragonBallController class.
@@ -107,7 +107,7 @@ public class DragonBallControllerTest
   })
   public void readAllKameHouseExceptionTest(String exception) throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           doGet(API_V1_DRAGONBALL_USERS + "?action=" + exception);
         });
@@ -123,7 +123,7 @@ public class DragonBallControllerTest
         .thenReturn(dragonBallUser);
 
     MockHttpServletResponse response =
-        doGet(API_V1_DRAGONBALL_USERS + "username/" + dragonBallUser.getUsername());
+        doGet(API_V1_DRAGONBALL_USERS + "/username/" + dragonBallUser.getUsername());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -136,13 +136,13 @@ public class DragonBallControllerTest
   @Test
   public void getByUsernameNotFoundExceptionTest() throws Exception {
     assertThrows(
-        NestedServletException.class,
+        ServletException.class,
         () -> {
           Mockito.doThrow(new KameHouseNotFoundException(""))
               .when(dragonBallUserServiceMock)
               .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 
-          doGet(API_V1_DRAGONBALL_USERS + "username/" + DragonBallUserTestUtils.INVALID_USERNAME);
+          doGet(API_V1_DRAGONBALL_USERS + "/username/" + DragonBallUserTestUtils.INVALID_USERNAME);
         });
   }
 
@@ -156,7 +156,7 @@ public class DragonBallControllerTest
         .thenReturn(dragonBallUser);
 
     MockHttpServletResponse response =
-        doGet(API_V1_DRAGONBALL_USERS + "emails?email=" + dragonBallUser.getEmail());
+        doGet(API_V1_DRAGONBALL_USERS + "/emails?email=" + dragonBallUser.getEmail());
     DragonBallUser responseBody = getResponseBody(response, DragonBallUser.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

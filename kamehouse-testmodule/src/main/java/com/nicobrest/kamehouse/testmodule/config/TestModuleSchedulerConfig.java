@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.config;
 
 import com.nicobrest.kamehouse.testmodule.model.scheduler.job.SampleJob;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -29,9 +29,12 @@ public class TestModuleSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired private Scheduler scheduler;
+  @Autowired
+  private Scheduler scheduler;
 
-  /** Init TestModuleSchedulerConfig. */
+  /**
+   * Init TestModuleSchedulerConfig.
+   */
   @PostConstruct
   public void init() {
     logger.info("init TestModuleSchedulerConfig");
@@ -42,7 +45,9 @@ public class TestModuleSchedulerConfig {
     }
   }
 
-  /** sampleJobDetail bean. */
+  /**
+   * sampleJobDetail bean.
+   */
   @Bean(name = "sampleJobDetail")
   public JobDetail sampleJobDetail() {
     return JobBuilder.newJob()
@@ -53,7 +58,9 @@ public class TestModuleSchedulerConfig {
         .build();
   }
 
-  /** sampleTrigger bean. */
+  /**
+   * sampleTrigger bean.
+   */
   @Bean(name = "sampleTrigger")
   public Trigger sampleTrigger(JobDetail sampleJobDetail) {
     return TriggerBuilder.newTrigger()

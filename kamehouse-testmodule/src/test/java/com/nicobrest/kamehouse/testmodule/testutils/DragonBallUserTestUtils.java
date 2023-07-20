@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class DragonBallUserTestUtils extends AbstractTestUtils<DragonBallUser, DragonBallUserDto>
     implements TestUtils<DragonBallUser, DragonBallUserDto> {
 
-  public static final String API_V1_DRAGONBALL_USERS = "/api/v1/test-module/dragonball/users/";
+  public static final String API_V1_DRAGONBALL_USERS = "/api/v1/test-module/dragonball/users";
   public static final Long INVALID_ID = 987987L;
   public static final String INVALID_USERNAME = "yukimura";
   public static final String INVALID_EMAIL = "yukimura@dbz.com";

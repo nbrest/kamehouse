@@ -65,7 +65,7 @@ public class DragonBallUserControllerIntegrationTest
     logger.info("Running loadUserByUsernameTest");
     String username = getDto().getUsername();
 
-    HttpResponse response = get(getCrudUrl() + "username/" + username);
+    HttpResponse response = get(getCrudUrl() + "/username/" + username);
 
     verifySuccessfulResponse(response, DragonBallUser.class);
   }
@@ -79,7 +79,7 @@ public class DragonBallUserControllerIntegrationTest
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
     String invalidUsername = "invalid-" + getDto().getUsername();
 
-    HttpResponse response = get(getCrudUrl() + "username/" + invalidUsername);
+    HttpResponse response = get(getCrudUrl() + "/username/" + invalidUsername);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByUsernameNotFoundExceptionTest completed successfully");
@@ -94,7 +94,7 @@ public class DragonBallUserControllerIntegrationTest
     logger.info("Running loadUserByEmailTest");
     String email = getDto().getEmail();
 
-    HttpResponse response = get(getCrudUrl() + "emails?email=" + email);
+    HttpResponse response = get(getCrudUrl() + "/emails?email=" + email);
 
     verifySuccessfulResponse(response, DragonBallUser.class);
   }
@@ -108,7 +108,7 @@ public class DragonBallUserControllerIntegrationTest
     logger.info("Running loadUserByEmailNotFoundExceptionTest");
     String invalidEmail = "invalid-" + getDto().getEmail();
 
-    HttpResponse response = get(getCrudUrl() + "emails?email=" + invalidEmail);
+    HttpResponse response = get(getCrudUrl() + "/emails?email=" + invalidEmail);
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
     logger.info("loadUserByEmailNotFoundExceptionTest completed successfully");

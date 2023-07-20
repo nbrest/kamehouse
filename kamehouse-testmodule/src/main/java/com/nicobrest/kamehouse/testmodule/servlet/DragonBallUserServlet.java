@@ -7,12 +7,12 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -53,7 +53,8 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   }
 
   /**
-   * Get all the dragonball users. Or get a single dragonball user if the username parameter is set.
+   * Get all the dragonball users. Or get a single dragonball user if the username parameter is
+   * set.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -71,7 +72,9 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
     }
   }
 
-  /** Create a new dragonball user. */
+  /**
+   * Create a new dragonball user.
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
@@ -84,7 +87,9 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
     }
   }
 
-  /** Update a dragonball user. */
+  /**
+   * Update a dragonball user.
+   */
   @Override
   public void doPut(HttpServletRequest request, HttpServletResponse response) {
     try {
@@ -96,7 +101,9 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
     }
   }
 
-  /** Delete a dragonball user. */
+  /**
+   * Delete a dragonball user.
+   */
   @Override
   public void doDelete(HttpServletRequest request, HttpServletResponse response) {
     try {
@@ -109,7 +116,9 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
     }
   }
 
-  /** Gets the DTO object from the request parameters. */
+  /**
+   * Gets the DTO object from the request parameters.
+   */
   private DragonBallUserDto getDtoFromRequest(HttpServletRequest request) {
     DragonBallUserDto dragonBallUserDto = new DragonBallUserDto();
     if (request.getParameter("id") != null) {
