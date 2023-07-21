@@ -44,7 +44,9 @@ COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
 
+ENV MAVEN_TOP_LEVEL_VERSION=3
 ENV MAVEN_VERSION=3.9.3
+ENV TOMCAT_TOP_LEVEL_VERSION=10
 ENV TOMCAT_VERSION=10.1.11
 
 # Setup users 
@@ -64,14 +66,14 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   # Install tomcat
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs ; \
   cd /home/${KAMEHOUSE_USERNAME}/programs ; \
-  wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz ; \
+  wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_TOP_LEVEL_VERSION}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz ; \
   tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
   mv /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-${TOMCAT_VERSION} /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat ; \
   rm /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz ; \
   sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/bin/catalina.sh ; \
   # Install maven
   cd /home/${KAMEHOUSE_USERNAME}/programs ; \
-  wget --no-check-certificate https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz ; \
+  wget --no-check-certificate https://archive.apache.org/dist/maven/maven-${MAVEN_TOP_LEVEL_VERSION}/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz ; \
   tar -xf /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /home/${KAMEHOUSE_USERNAME}/programs/ ; \
   mv /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION} /home/${KAMEHOUSE_USERNAME}/programs/apache-maven ; \
   rm /home/${KAMEHOUSE_USERNAME}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz ; \
