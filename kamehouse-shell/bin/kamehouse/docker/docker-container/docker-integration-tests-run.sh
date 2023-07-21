@@ -31,7 +31,7 @@ mainProcess() {
   log.trace "PROJECT_DIR=${PROJECT_DIR}"
   cd ${PROJECT_DIR}
   
-  /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -p ci -i > /home/${DOCKER_USERNAME}/logs/build-kamehouse.log
+  /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -p ci -i
   BUILD_RESULT=$?
 
   BUILD_LOG=`tail -n 150 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
