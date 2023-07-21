@@ -2,7 +2,7 @@
 
 KAMEHOUSE_CMD_PATH=${HOME}/programs/kamehouse-cmd
 
-function main() {
+main() {
   executeApp "$@"
 }
 
