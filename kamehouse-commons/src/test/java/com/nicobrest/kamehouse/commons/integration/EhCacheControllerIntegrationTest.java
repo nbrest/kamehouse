@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.commons.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Disabled;
@@ -23,14 +23,12 @@ public class EhCacheControllerIntegrationTest extends AbstractControllerIntegrat
   }
 
   @Test
-  @Disabled
-  //TODO UPGRADE BROKEN
   public void ehcacheStatusTest() throws Exception {
     logger.info("Running ehcacheStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);
 
-    verifySuccessfulResponseList(response, ApplicationCache.class);
+    verifySuccessfulResponseList(response, KameHouseCache.class);
   }
 
   @Test

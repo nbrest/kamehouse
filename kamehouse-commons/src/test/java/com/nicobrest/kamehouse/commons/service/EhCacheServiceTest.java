@@ -1,8 +1,10 @@
 package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,7 @@ public class EhCacheServiceTest {
    */
   @Test
   public void readAllTest() {
-    List<ApplicationCache> cacheList = ehCacheService.getAll();
+    List<KameHouseCache> cacheList = ehCacheService.getAll();
 
     assertEquals(1, cacheList.size());
   }
@@ -42,9 +44,9 @@ public class EhCacheServiceTest {
 
     ehCacheService.clearAll();
 
-    for (ApplicationCache applicationCache : ehCacheService.getAll()) {
-      if ("dragonBallUsers".equals(applicationCache.getName())) {
-        assertEquals(emptyList, applicationCache.getValues());
+    for (KameHouseCache kameHouseCache : ehCacheService.getAll()) {
+      if ("dragonBallUsers".equals(kameHouseCache.getName())) {
+        assertEquals(emptyList, kameHouseCache.getValues());
       }
     }
   }
@@ -54,6 +56,10 @@ public class EhCacheServiceTest {
    */
   @Test
   public void clearInvalidCacheTest() {
-    ehCacheService.clear("invalid-cache");
+    assertThrows(
+        KameHouseServerErrorException.class,
+        () -> {
+          ehCacheService.clear("invalid-cache");
+        });
   }
 }

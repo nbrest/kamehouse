@@ -1,12 +1,13 @@
 package com.nicobrest.kamehouse.commons.config;
 
+import com.nicobrest.kamehouse.commons.model.KameHouseCacheManager;
+import java.net.URISyntaxException;
 import java.net.URL;
-import javax.cache.integration.CacheLoader;
-import org.ehcache.CacheManager;
-import org.ehcache.config.builders.CacheManagerBuilder;
-import org.ehcache.xml.XmlConfiguration;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
-import org.springframework.cache.support.SimpleCacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,25 +15,28 @@ import org.springframework.context.annotation.Configuration;
  * Cache configuration beans for all modules.
  */
 @Configuration
+@EnableCaching
 public class CacheConfig {
 
   /**
-   * Default ehCacheManager.
+   * KameHouseCacheManager instance.
    */
   @Bean
-  public CacheManager ehCacheManager() {
-    URL url = getClass().getResource("/ehcache.xml");
-    XmlConfiguration xmlConfig = new XmlConfiguration(url);
-    CacheManager cacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
-    cacheManager.init();
-    return cacheManager;
+  public KameHouseCacheManager kameHouseCacheManager() {
+    return new KameHouseCacheManager();
   }
 
-  //TODO UPGRADE BROKEN
-  // need to make sure my caches are working even with this dummy cacheManager set
+  /**
+   * Generate the ehcache manager instance.
+   */
   @Bean
-  public org.springframework.cache.CacheManager cacheManager() {
-    SimpleCacheManager cacheManager = new SimpleCacheManager();
+  public CacheManager cacheManager() throws URISyntaxException {
+    JCacheCacheManager cacheManager = new JCacheCacheManager();
+    CachingProvider cachingProvider = Caching.getCachingProvider();
+    URL url = getClass().getResource("/ehcache.xml");
+    javax.cache.CacheManager manager = cachingProvider.getCacheManager(url.toURI(),
+        getClass().getClassLoader());
+    cacheManager.setCacheManager(manager);
     return cacheManager;
   }
 }

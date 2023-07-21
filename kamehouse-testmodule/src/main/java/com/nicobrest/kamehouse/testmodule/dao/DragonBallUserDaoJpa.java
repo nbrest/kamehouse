@@ -3,6 +3,8 @@ package com.nicobrest.kamehouse.testmodule.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import java.util.List;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,8 +29,6 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @CacheEvict(
       value = {
           DRAGONBALL_USERS_CACHE,
@@ -37,42 +37,29 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
           DRAGONBALL_USER_BY_EMAIL_CACHE
       },
       allEntries = true)
-
-   */
   public Long create(DragonBallUser entity) {
     return super.create(entity);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @Cacheable(value = DRAGONBALL_USER_CACHE)
-   */
   public DragonBallUser read(Long id) {
     return super.read(id);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @Cacheable(value = DRAGONBALL_USERS_CACHE)
-   */
   public List<DragonBallUser> readAll() {
     return readAll(0, null, true);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @Cacheable(value = DRAGONBALL_USERS_CACHE)
-   */
   public List<DragonBallUser> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
     return super.readAll(maxRows, sortColumn, sortAscending);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @CacheEvict(
       value = {
           DRAGONBALL_USERS_CACHE,
@@ -81,14 +68,11 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
           DRAGONBALL_USER_BY_EMAIL_CACHE
       },
       allEntries = true)
-   */
   public void update(DragonBallUser entity) {
     super.update(entity);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @CacheEvict(
       value = {
           DRAGONBALL_USERS_CACHE,
@@ -97,7 +81,6 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
           DRAGONBALL_USER_BY_EMAIL_CACHE
       },
       allEntries = true)
-   */
   public DragonBallUser delete(Long id) {
     return super.delete(id);
   }
@@ -112,10 +95,7 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @Cacheable(value = DRAGONBALL_USER_BY_USERNAME_CACHE)
-   */
   public DragonBallUser getByUsername(String username) {
     logger.trace(GET_DRAGONBALLUSER, username);
     DragonBallUser dragonBallUser = findByUsername(DragonBallUser.class, username);
@@ -124,10 +104,7 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @Cacheable(value = DRAGONBALL_USER_BY_EMAIL_CACHE)
-   */
   public DragonBallUser getByEmail(String email) {
     logger.trace(GET_DRAGONBALLUSER, email);
     DragonBallUser dragonBallUser = findByEmail(DragonBallUser.class, email);

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +31,14 @@ public class EhCacheController extends AbstractController {
    */
   @GetMapping
   @ResponseBody
-  public ResponseEntity<List<ApplicationCache>> read(
+  public ResponseEntity<List<KameHouseCache>> read(
       @RequestParam(value = "name", required = false) String cacheName) {
-    List<ApplicationCache> cacheList;
+    List<KameHouseCache> cacheList;
     if (!StringUtils.isBlank(cacheName)) {
       cacheList = new ArrayList<>();
-      ApplicationCache applicationCache = ehCacheService.get(cacheName);
-      if (applicationCache != null) {
-        cacheList.add(applicationCache);
+      KameHouseCache kameHouseCache = ehCacheService.get(cacheName);
+      if (kameHouseCache != null) {
+        cacheList.add(kameHouseCache);
       }
     } else {
       cacheList = ehCacheService.getAll();

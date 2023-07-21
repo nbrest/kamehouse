@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class ApplicationCache {
+public class KameHouseCache {
 
   private String name;
   private String status;
@@ -62,8 +62,8 @@ public class ApplicationCache {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof ApplicationCache) {
-      final ApplicationCache other = (ApplicationCache) obj;
+    if (obj instanceof KameHouseCache) {
+      final KameHouseCache other = (KameHouseCache) obj;
       return new EqualsBuilder()
           .append(name, other.getName())
           .append(status, other.getStatus())

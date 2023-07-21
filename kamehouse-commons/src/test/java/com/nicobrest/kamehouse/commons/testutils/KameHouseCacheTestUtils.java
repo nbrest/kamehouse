@@ -4,16 +4,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import java.util.LinkedList;
 
 /**
- * Test data and common test methods to test ApplicationCaches in all layers of the application.
+ * Test data and common test methods to test KameHouseCaches in all layers of the application.
  *
  * @author nbrest
  */
-public class ApplicationCacheTestUtils extends AbstractTestUtils<ApplicationCache, Object>
-    implements TestUtils<ApplicationCache, Object> {
+public class KameHouseCacheTestUtils extends AbstractTestUtils<KameHouseCache, Object>
+    implements TestUtils<KameHouseCache, Object> {
 
   @Override
   public void initTestData() {
@@ -22,7 +22,7 @@ public class ApplicationCacheTestUtils extends AbstractTestUtils<ApplicationCach
   }
 
   @Override
-  public void assertEqualsAllAttributes(ApplicationCache expected, ApplicationCache returned) {
+  public void assertEqualsAllAttributes(KameHouseCache expected, KameHouseCache returned) {
     assertEquals(expected, returned);
     assertEquals(expected.getName(), returned.getName());
     assertEquals(expected.getStatus(), returned.getStatus());
@@ -31,20 +31,20 @@ public class ApplicationCacheTestUtils extends AbstractTestUtils<ApplicationCach
   }
 
   private void initSingleTestData() {
-    singleTestData = new ApplicationCache();
+    singleTestData = new KameHouseCache();
     singleTestData.setName("dragonBallUsers");
-    singleTestData.setStatus("STATUS_ALIVE");
+    singleTestData.setStatus("ACTIVE");
     singleTestData.setKeys("[]");
   }
 
   private void initTestDataList() {
-    ApplicationCache applicationCache = new ApplicationCache();
-    applicationCache.setName("vlcPlayer");
-    applicationCache.setStatus("STATUS_ALIVE");
-    applicationCache.setKeys("[]");
+    KameHouseCache kameHouseCache = new KameHouseCache();
+    kameHouseCache.setName("vlcPlayer");
+    kameHouseCache.setStatus("ACTIVE");
+    kameHouseCache.setKeys("[]");
 
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
-    testDataList.add(applicationCache);
+    testDataList.add(kameHouseCache);
   }
 }

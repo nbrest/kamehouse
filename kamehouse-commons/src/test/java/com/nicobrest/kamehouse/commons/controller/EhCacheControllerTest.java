@@ -6,9 +6,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.ApplicationCache;
+import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
-import com.nicobrest.kamehouse.commons.testutils.ApplicationCacheTestUtils;
+import com.nicobrest.kamehouse.commons.testutils.KameHouseCacheTestUtils;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,10 +32,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCache, Object> {
+public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache, Object> {
 
-  private ApplicationCache applicationCache;
-  private List<ApplicationCache> applicationCacheList;
+  private KameHouseCache kameHouseCache;
+  private List<KameHouseCache> kameHouseCacheList;
 
   @InjectMocks private EhCacheController ehCacheController;
 
@@ -45,10 +45,10 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   /** Resets mock objects. */
   @BeforeEach
   public void beforeTest() {
-    testUtils = new ApplicationCacheTestUtils();
+    testUtils = new KameHouseCacheTestUtils();
     testUtils.initTestData();
-    applicationCache = testUtils.getSingleTestData();
-    applicationCacheList = testUtils.getTestDataList();
+    kameHouseCache = testUtils.getSingleTestData();
+    kameHouseCacheList = testUtils.getTestDataList();
 
     MockitoAnnotations.openMocks(this);
     Mockito.reset(ehCacheServiceMock);
@@ -58,13 +58,13 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   /** Tests getting all caches. */
   @Test
   public void readAllTest() throws Exception {
-    when(ehCacheServiceMock.getAll()).thenReturn(applicationCacheList);
+    when(ehCacheServiceMock.getAll()).thenReturn(kameHouseCacheList);
 
     MockHttpServletResponse response = doGet("/api/v1/commons/ehcache");
-    List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
+    List<KameHouseCache> responseBody = getResponseBodyList(response, KameHouseCache.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
-    testUtils.assertEqualsAllAttributesList(applicationCacheList, responseBody);
+    testUtils.assertEqualsAllAttributesList(kameHouseCacheList, responseBody);
     verify(ehCacheServiceMock, times(1)).getAll();
     verifyNoMoreInteractions(ehCacheServiceMock);
   }
@@ -72,14 +72,14 @@ public class EhCacheControllerTest extends AbstractControllerTest<ApplicationCac
   /** Tests getting a single cache. */
   @Test
   public void readSingleCacheTest() throws Exception {
-    when(ehCacheServiceMock.get("dragonBallUsers")).thenReturn(applicationCache);
+    when(ehCacheServiceMock.get("dragonBallUsers")).thenReturn(kameHouseCache);
 
     MockHttpServletResponse response = doGet("/api/v1/commons/ehcache?name=dragonBallUsers");
-    List<ApplicationCache> responseBody = getResponseBodyList(response, ApplicationCache.class);
+    List<KameHouseCache> responseBody = getResponseBodyList(response, KameHouseCache.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     assertEquals(1, responseBody.size());
-    testUtils.assertEqualsAllAttributes(applicationCache, responseBody.get(0));
+    testUtils.assertEqualsAllAttributes(kameHouseCache, responseBody.get(0));
     verify(ehCacheServiceMock, times(1)).get("dragonBallUsers");
     verifyNoMoreInteractions(ehCacheServiceMock);
   }

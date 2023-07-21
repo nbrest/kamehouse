@@ -4,14 +4,13 @@
   xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
 
   <cache-template name="cache-defaults">
+    <key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+    <value-type>java.util.ArrayList</value-type>
     <resources>
       <offheap unit="MB">20</offheap>
     </resources>
   </cache-template>
 
-  <cache alias="uiTestCache" uses-template="cache-defaults">
-    <key-type>java.lang.Long</key-type>
-    <value-type>com.nicobrest.kamehouse.commons.model.KameHouseUser</value-type>
-  </cache>
+  <cache alias="uiTestCache" uses-template="cache-defaults" />
 
 </config>

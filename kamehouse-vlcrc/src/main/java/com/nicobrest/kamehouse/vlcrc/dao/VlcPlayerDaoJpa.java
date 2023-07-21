@@ -2,6 +2,8 @@ package com.nicobrest.kamehouse.vlcrc.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,34 +22,25 @@ public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa<VlcPlayer> implements Vl
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @CacheEvict(
       value = {VLC_PLAYER_CACHE},
       allEntries = true)
-   */
   public Long create(VlcPlayer entity) {
     return super.create(entity);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @CacheEvict(
       value = {VLC_PLAYER_CACHE},
       allEntries = true)
-   */
   public void update(VlcPlayer entity) {
     super.update(entity);
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @CacheEvict(
       value = {VLC_PLAYER_CACHE},
       allEntries = true)
-   */
   public VlcPlayer delete(Long id) {
     return super.delete(id);
   }
@@ -61,10 +54,7 @@ public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa<VlcPlayer> implements Vl
   }
 
   @Override
-  //TODO UPGRADE BROKEN
-  /*
   @Cacheable(value = VLC_PLAYER_CACHE)
-   */
   public VlcPlayer getByHostname(String hostname) {
     logger.trace("Get VlcPlayer {}", hostname);
     VlcPlayer response = findByAttribute(VlcPlayer.class, "hostname", hostname);
