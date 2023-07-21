@@ -290,13 +290,6 @@
       <version>${glassfish.jaxb.version}</version>
     </dependency>
 
-    <!-- needed for ehcache 3.10.X -->
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>2.3.1</version>
-    </dependency>
-
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
@@ -500,6 +493,12 @@
       <groupId>org.ehcache</groupId>
       <artifactId>ehcache</artifactId>
       <version>${ehcache.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.glassfish.jaxb</groupId>
+          <artifactId>jaxb-runtime</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Testing dependencies -->
