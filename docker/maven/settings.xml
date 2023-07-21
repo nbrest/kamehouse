@@ -156,7 +156,7 @@ under the License.
       <name>Human Readable Name for this Mirror.</name>
       <url>http://my.repository.com/repo/path</url>
     </mirror>
-     -->
+    
     <mirror>
       <id>maven-default-http-blocker</id>
       <mirrorOf>external:http:*</mirrorOf>
@@ -164,6 +164,7 @@ under the License.
       <url>http://0.0.0.0/</url>
       <blocked>false</blocked>
     </mirror>
+     -->
   </mirrors>
 
   <!-- profiles
