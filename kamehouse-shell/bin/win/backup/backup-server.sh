@@ -68,7 +68,7 @@ backupMysqlConfig() {
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
   checkCommandStatus "$?" "An error occurred creating directories"
   # Doesn't work if I double quote MYSQL_INI in the definition
-  local MYSQL_INI=/c/Program Files/MariaDB ${MARIADB_VERSION_WIN}/data/my.ini
+  local MYSQL_INI="/c/Program Files/MariaDB ${MARIADB_VERSION_WIN}/data/my.ini"
   if test -f "${MYSQL_INI}"; then
     cp -vrf "${MYSQL_INI}" ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
 	  checkCommandStatus "$?" "An error occurred during file copy"
