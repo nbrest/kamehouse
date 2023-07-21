@@ -154,10 +154,6 @@ loginCheck() {
 }
 
 executeIntegrationTestsLoop() {
-  log.info "Running integration tests script in background to update hibernate_sequence value..."
-  log.debug "Doing this because the first run always fails in create kamehouse user because the"
-  log.debug "sequence has value 1 which is already used as id in the initial test data"
-  executeIntegrationTests > /dev/null
   log.info "Executing integration tests in the ci docker container"
   NUM_INTEGRATION_TESTS_RETRIES=$((RETRIES))
   while [ ${NUM_INTEGRATION_TESTS_RETRIES} -gt 0 ]; do

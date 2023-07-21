@@ -46,4 +46,4 @@ CREATE TABLE `vlc_player` (
   UNIQUE KEY `UK_i5fi662e7geiplqi5dr86xk45` (`HOSTNAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `vlc_player` VALUES (10000,'localhost','1',8080,NULL);
+INSERT INTO `vlc_player` VALUES (1,'localhost','1',8080,NULL);
