@@ -20,6 +20,8 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+REMOVE_SERVER_KEY=false
+
 mainProcess() {
   log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
   if ${REMOVE_SERVER_KEY}; then
