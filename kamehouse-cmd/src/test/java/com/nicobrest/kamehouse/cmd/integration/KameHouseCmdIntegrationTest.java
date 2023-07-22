@@ -156,8 +156,7 @@ public class KameHouseCmdIntegrationTest {
    * Get jvncsender operation.
    */
   private String getJvncSenderOperation() {
-    String hostname = PropertiesUtils.getHostname();
-    return " -o jvncsender -host \"" + hostname + "\" -port 5900 -password \"d\" -text \"<ESC>\"";
+    return " -o jvncsender -host \"localhost\" -port 5900 -password \"d\" -text \"<ESC>\"";
   }
 
   /**
