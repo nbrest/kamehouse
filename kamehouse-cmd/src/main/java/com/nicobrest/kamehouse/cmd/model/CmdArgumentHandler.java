@@ -61,6 +61,7 @@ public class CmdArgumentHandler {
   }
 
   public CmdArgumentHandler(String[] args) {
+    logger.info("Parsing command line arguments");
     parse(args);
   }
 

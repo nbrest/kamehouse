@@ -2,6 +2,8 @@ package com.nicobrest.kamehouse.cmd.config;
 
 import com.nicobrest.kamehouse.cmd.executor.KameHouseCmdExecutor;
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -12,6 +14,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author nbrest
  */
 public class KameHouseCmd {
+
+  private static final Logger logger = LoggerFactory.getLogger(KameHouseCmd.class);
 
   private static ApplicationContext context;
 
@@ -24,13 +28,16 @@ public class KameHouseCmd {
 
   /** Start kamehouse cmd. */
   public static void execute(CmdArgumentHandler cmdArgumentHandler) {
+    logger.info("Started executing kamehouse-cmd execute");
     loadContext();
     getKameHouseCmdExecutor().execute(cmdArgumentHandler);
     closeContext();
+    logger.info("Finished executing kamehouse-cmd execute");
   }
 
   /** Load the application context. */
   private static void loadContext() {
+    logger.info("Loading application context");
     context = new ClassPathXmlApplicationContext("applicationContext.xml");
   }
 
@@ -41,6 +48,7 @@ public class KameHouseCmd {
 
   /** Get the main executor to process kamehouse commands. */
   private static KameHouseCmdExecutor getKameHouseCmdExecutor() {
+    logger.info("Getting KameHouseCmdExecutor bean");
     return (KameHouseCmdExecutor) context.getBean("kameHouseCmdExecutor");
   }
 }

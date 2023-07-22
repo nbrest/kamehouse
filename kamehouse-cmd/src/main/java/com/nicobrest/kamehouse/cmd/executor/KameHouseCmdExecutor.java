@@ -39,6 +39,7 @@ public class KameHouseCmdExecutor {
    * Delegate the execution of the command to the correct executor.
    */
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
+    logger.info("Started kamehouse-cmd-executor");
     checkVerboseMode(cmdArgumentHandler);
     Executor operationExecutor = getOperationExecutor(cmdArgumentHandler);
     logger.debug("Started executing command");
@@ -48,6 +49,7 @@ public class KameHouseCmdExecutor {
       logger.error("Error executing operation", e);
     }
     logger.debug("Finished executing command");
+    logger.info("Finished kamehouse-cmd-executor");
   }
 
   /**
@@ -73,6 +75,7 @@ public class KameHouseCmdExecutor {
    * Check if verbose mode is enabled and set logging to trace.
    */
   private void checkVerboseMode(CmdArgumentHandler cmdArgumentHandler) {
+    logger.info("Setting log level");
     if (cmdArgumentHandler.hasArgument("v")) {
       logLevelManagerService.setLogLevel(TRACE, "com.nicobrest.kamehouse");
       logLevelManagerService.setLogLevel(TRACE, "com.nicobrest.kamehouse.cmd");
