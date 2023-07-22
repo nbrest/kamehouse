@@ -37,7 +37,7 @@ public class TennisWorldUser implements KameHouseEntity<TennisWorldUserDto>,
   private String email;
 
   @Masked
-  @Column(name = "password", unique = false, nullable = false)
+  @Column(name = "password", unique = false, nullable = false, columnDefinition = "BLOB")
   @Lob
   private byte[] password;
 
