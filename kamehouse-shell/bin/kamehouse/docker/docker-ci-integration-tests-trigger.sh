@@ -113,7 +113,7 @@ startCiDockerContainer() {
 }
 
 waitForTomcatStartup() {
-  local SECONDS=240
+  local SECONDS=180
   log.info "Waiting ${SECONDS} seconds for tomcat startup"
   sleep ${SECONDS}
   log.info "Checking if tomcat startup completed"
