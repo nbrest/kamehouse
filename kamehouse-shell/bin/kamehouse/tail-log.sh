@@ -73,6 +73,20 @@ setTailLogParameters() {
   "apache-error")
     addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/error.log"
     ;;
+  "build")
+    local BUILD_LOG=${USER_HOME}/logs/build-kamehouse.log
+    if [ ! -f "${BUILD_LOG}" ]; then
+      touch ${BUILD_LOG}
+    fi
+    addFileToLogFiles ${BUILD_LOG}
+    ;;
+  "deploy")
+    local DEPLOY_LOG=${USER_HOME}/logs/deploy-kamehouse.log
+    if [ ! -f "${DEPLOY_LOG}" ]; then
+      touch ${DEPLOY_LOG}
+    fi
+    addFileToLogFiles ${DEPLOY_LOG}
+    ;;
   "intellij")
     setIntellijLogFiles
     ;;
@@ -214,6 +228,8 @@ setFileArg() {
   local LOGS_REGEX=^logs/.*\.log$
   if [ "${FILE_ARG}" != "apache" ] &&
     [ "${FILE_ARG}" != "apache-error" ] &&
+    [ "${FILE_ARG}" != "build" ] &&
+    [ "${FILE_ARG}" != "deploy" ] &&
     [ "${FILE_ARG}" != "eclipse" ] &&
     [ "${FILE_ARG}" != "intellij" ] &&
     [ "${FILE_ARG}" != "kamehouse" ] &&
@@ -268,7 +284,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|apache-error|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail" "r"
+  addHelpOption "-f (apache|apache-error|build|deploy|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail" "r"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption
