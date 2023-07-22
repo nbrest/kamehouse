@@ -154,8 +154,8 @@
     <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
     <mockito.version>3.12.4</mockito.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <mysql.connector.java.version>8.0.26</mysql.connector.java.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/07 -->
+    <mysql.connector.java.version>8.1.0</mysql.connector.java.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
     <quartz.version>2.3.2</quartz.version>
@@ -363,8 +363,8 @@
 
     <!-- MySql database driver -->
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
       <version>${mysql.connector.java.version}</version>
     </dependency>
 
