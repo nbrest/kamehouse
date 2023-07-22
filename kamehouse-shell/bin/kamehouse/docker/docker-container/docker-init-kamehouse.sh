@@ -23,10 +23,14 @@ main() {
   restartSshService
   startHttpd
   startMysql
-  startTomcat
+  if [ "${BUILD_ON_STARTUP}" == "true" ]; then
+    pullKameHouse
+    deployKameHouse
+    startTomcat
+  else
+    startTomcat
+  fi
   configGitDevDir
-  pullKameHouse
-  deployKameHouse
   cloneGitRepoToRoot
   printEnv
   keepContainerAlive
@@ -120,10 +124,8 @@ configGitDevDir() {
 }
 
 pullKameHouse() {
-  if [ "${BUILD_ON_STARTUP}" == "true" ]; then
-    log.info "Pulling latest KameHouse dev branch"
-    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git pull origin dev"
-  fi
+  log.info "Pulling latest KameHouse dev branch"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git pull origin dev"
 }
 
 cloneGitRepoToRoot() {
@@ -145,11 +147,9 @@ cloneGitRepoToRoot() {
 }
 
 deployKameHouse() {
-  if [ "${BUILD_ON_STARTUP}" == "true" ]; then
-    log.info "Deploying latest version of KameHouse"
-    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker"
-    log.info "Finished deploying latest version of KameHouse"
-  fi
+  log.info "Deploying latest version of KameHouse"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker"
+  log.info "Finished deploying latest version of KameHouse"
 }
 
 startTomcat() {
