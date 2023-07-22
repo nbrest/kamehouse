@@ -88,7 +88,7 @@
     <!-- Updated : 2023/07 | Dependency version date: 2015/03 (discontinued) -->
     <findbugs.version>3.0.1</findbugs.version>
 
-    <!-- Updated : 2023/07 | Dependency version date:  -->
+    <!-- Updated : 2023/07 | Dependency version date: 2018/03 (upgrading further breaks build) -->
     <glassfish.jaxb.version>2.3.1</glassfish.jaxb.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2019/10 -->
@@ -124,8 +124,8 @@
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <jakarta.websocket.version>2.1.1</jakarta.websocket.version>
 
-    <!-- Updated : 2023/07 | Dependency version date:  -->
-    <jakarta.xml.bind.version>3.0.0</jakarta.xml.bind.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2022/04 -->
+    <jakarta.xml.bind.version>4.0.0</jakarta.xml.bind.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2022/09 -->
     <jar.plugin.version>3.3.0</jar.plugin.version>
@@ -174,9 +174,6 @@
 
     <!-- Updated : 2023/07 | Dependency version date: 2023/03 -->
     <slf4j.version>2.0.7</slf4j.version>
-
-    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
-    <sun.xml.bind.version>4.0.3</sun.xml.bind.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <surefire.plugin.version>3.1.2</surefire.plugin.version>
@@ -285,13 +282,6 @@
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
       <version>${glassfish.jaxb.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>${sun.xml.bind.version}</version>
-      <scope>runtime</scope>
     </dependency>
 
     <!-- Apache -->
