@@ -22,13 +22,28 @@ fi
 
 mainProcess() {
   log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
-  log.warn "If I get an error that the server key changed, execute the script ${COL_RED}docker-server-key-remove.sh -p ${DOCKER_PROFILE}"
+  if ${REMOVE_SERVER_KEY}; then
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-server-key-remove.sh -p ${DOCKER_PROFILE}
+  else
+    log.warn "If I get an error that the server key changed, execute this script with ${COL_RED}-r"
+  fi
+
   log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost"
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost
 }
 
 parseArguments() {
   parseDockerProfile "$@"
+    while getopts ":p:r" OPT; do
+    case $OPT in 
+    ("r")
+      REMOVE_SERVER_KEY=true
+      ;;      
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
 }
 
 setEnvFromArguments() {
@@ -37,6 +52,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   printDockerProfileOption
+  addHelpOption "-r" "remove server key from known hosts. Use when docker container ssh keys change"
 }
 
 main "$@"
