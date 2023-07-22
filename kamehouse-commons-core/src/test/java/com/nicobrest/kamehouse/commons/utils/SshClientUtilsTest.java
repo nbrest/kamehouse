@@ -15,7 +15,6 @@ import java.util.Arrays;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.channel.ChannelShell;
-import org.apache.sshd.client.channel.ClientChannel;
 import org.apache.sshd.client.future.AuthFuture;
 import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.future.OpenFuture;
@@ -52,6 +51,9 @@ public class SshClientUtilsTest {
   private ConnectFuture connectFutureMock;
 
   @Mock
+  private ConnectFuture connectFutureMock1;
+
+  @Mock
   private AuthFuture authFutureMock;
 
   @Mock
@@ -75,12 +77,13 @@ public class SshClientUtilsTest {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     sshClient = Mockito.mockStatic(SshClient.class);
     MockitoAnnotations.openMocks(this);
-    Mockito.reset(sshClientMock, clientSessionMock, connectFutureMock, authFutureMock,
-        openFutureMock, outputStreamMock, channelShellMock, channelExecMock);
+    Mockito.reset(sshClientMock, clientSessionMock, connectFutureMock, connectFutureMock1,
+        authFutureMock, openFutureMock, outputStreamMock, channelShellMock, channelExecMock);
     when(SshClient.setUpDefaultClient()).thenReturn(sshClientMock);
     when(sshClientMock.connect(any(), any(), anyInt())).thenReturn(connectFutureMock);
-    when(connectFutureMock.verify(anyLong(), any())).thenReturn(connectFutureMock);
-    when(connectFutureMock.getSession()).thenReturn(clientSessionMock);
+    when(connectFutureMock.verify(anyLong(), any())).thenReturn(connectFutureMock1);
+    when(connectFutureMock.verify(anyLong(), any(), any())).thenReturn(connectFutureMock1);
+    when(connectFutureMock1.getSession()).thenReturn(clientSessionMock);
     when(clientSessionMock.auth()).thenReturn(authFutureMock);
     when(clientSessionMock.createShellChannel(any(), any())).thenReturn(channelShellMock);
     when(clientSessionMock.createExecChannel(any())).thenReturn(channelExecMock);

@@ -20,6 +20,7 @@ import org.apache.commons.codec.Charsets;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ClientChannel;
 import org.apache.sshd.client.channel.ClientChannelEvent;
+import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.channel.PtyChannelConfiguration;
@@ -75,10 +76,12 @@ public class SshClientUtils {
     client.setServerKeyVerifier(AcceptAllServerKeyVerifier.INSTANCE);
     ClientChannel channel = null;
 
-    try (ClientSession session = client.connect(username, host, SSH_SERVER_PORT)
-        .verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS).getSession();
-        ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+    try (ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
         ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
+      ConnectFuture connectFuture = client.connect(username, host, SSH_SERVER_PORT);
+      ConnectFuture connectFuture1 =
+          connectFuture.verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS, null);
+      ClientSession session = connectFuture1.getSession();
       session.addPublicKeyIdentity(getKeyPair());
       session.auth().verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);
       channel = getChannel(session, useShellChannel, command);
@@ -118,7 +121,7 @@ public class SshClientUtils {
       SystemCommand systemCommand, boolean isWindowsShell) {
     return execute(host, username, systemCommand, true, isWindowsShell);
   }
-  
+
   /**
    * Get the channel to execute the commands over it.
    */

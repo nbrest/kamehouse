@@ -46,68 +46,68 @@
     <sonar.organization>nbrest</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     
-    <!-- Updated : 2021/09 | Dependency version date: 2020/04 -->
-    <assembly.plugin.version>3.3.0</assembly.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
+    <assembly.plugin.version>3.6.0</assembly.plugin.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/06 -->
-    <bouncy.castle.version>1.69</bouncy.castle.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2021/12 -->
+    <bouncy.castle.version>1.70</bouncy.castle.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/01 -->
-    <checkstyle.version>3.1.2</checkstyle.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
+    <checkstyle.version>3.3.0</checkstyle.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
-    <checkstyle.puppycrawl.version>8.45.1</checkstyle.puppycrawl.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <checkstyle.puppycrawl.version>10.12.1</checkstyle.puppycrawl.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2017/03 -->
-    <commons.cli.version>1.4</commons.cli.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2021/10 -->
+    <commons.cli.version>1.5.0</commons.cli.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <commons.io.version>2.11.0</commons.io.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <commons.io.version>2.13.0</commons.io.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/03 -->
+    <!-- Updated : 2023/07 | Dependency version date: 2021/03 -->
     <commons.lang3.version>3.12.0</commons.lang3.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <commons.text.version>1.9</commons.text.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2022/09 -->
+    <commons.text.version>1.10.0</commons.text.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
-    <compiler.plugin.version>3.8.1</compiler.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/02 -->
+    <compiler.plugin.version>3.11.0</compiler.plugin.version>
 
-    <!-- Updated : 2016/02 | Dependency version date: 2021/06 -->
-    <dependency.plugin.version>3.2.0</dependency.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
+    <dependency.plugin.version>3.6.0</dependency.plugin.version>
 
-    <!-- Updated : 2021/11 | Dependency version date: 2018/05 -->
+    <!-- Updated : 2023/07 | Dependency version date: 2018/05 -->
     <eddsa.version>0.3.0</eddsa.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2022/11 -->
     <ehcache.version>3.10.8</ehcache.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2020/06 -->
-    <failsafe.plugin.version>3.0.0-M5</failsafe.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <failsafe.plugin.version>3.1.2</failsafe.plugin.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2015/03 (discontinued) -->
+    <!-- Updated : 2023/07 | Dependency version date: 2015/03 (discontinued) -->
     <findbugs.version>3.0.1</findbugs.version>
 
     <!-- Updated : 2023/07 | Dependency version date:  -->
     <glassfish.jaxb.version>2.3.1</glassfish.jaxb.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
+    <!-- Updated : 2023/07 | Dependency version date: 2019/10 -->
     <hamcrest.version>2.2</hamcrest.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <hibernate.version>6.2.6.Final</hibernate.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/04 -->
-    <hsql.version>2.6.0</hsql.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
+    <hsql.version>2.7.2</hsql.version>
 
     <!-- Updated : 2021/09 | Dependency version date: 2020/10 -->
     <httpclient.version>4.5.13</httpclient.version>
 
-    <!-- Updated : 2019/09 | Dependency version date: 2021/08 -->
-    <jackson.version>2.12.5</jackson.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
+    <jackson.version>2.15.2</jackson.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/05 -->
-    <jacoco.version>0.8.7</jacoco.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/04 -->
+    <jacoco.version>0.8.10</jacoco.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2022/06 -->
     <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
@@ -127,41 +127,38 @@
     <!-- Updated : 2023/07 | Dependency version date:  -->
     <jakarta.xml.bind.version>3.0.0</jakarta.xml.bind.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
-    <jar.plugin.version>3.2.0</jar.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2022/09 -->
+    <jar.plugin.version>3.3.0</jar.plugin.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2018/10 -->
-    <javax.xml.bind.version>2.3.1</javax.xml.bind.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <json.version>20230618</json.version>
 
-    <!-- Updated : 2023/03 | Dependency version date: 2023/02 -->
-    <json.version>20230227</json.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/04 -->
+    <jsoup.version>1.16.1</jsoup.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
-    <jsoup.version>1.14.2</jsoup.version>
-
-    <!-- Updated : 2021/09 | Dependency version date: 2015/05 -->
+    <!-- Updated : 2023/07 | Dependency version date: 2011/06 -->
     <jstl.version>1.2</jstl.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/02 -->
-    <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/07 -->
+    <junit.jupiter.version>5.10.0-RC2</junit.jupiter.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/09 -->
+    <!-- Updated : 2023/07 | Dependency version date: 2021/09 -->
     <jvncsender.version>1.00</jvncsender.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <logback.version>1.2.5</logback.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <logback.version>1.4.8</logback.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/08 -->
-    <mockito.version>3.12.4</mockito.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/03 -->
+    <mockito.version>5.2.0</mockito.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
     <mariadb.java.client.version>3.1.4</mariadb.java.client.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
-    <quartz.version>2.3.2</quartz.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/04 -->
+    <quartz.version>2.5.0-rc1</quartz.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2021/07 -->
-    <spotbugs.version>4.3.0</spotbugs.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <spotbugs.version>4.7.3.5</spotbugs.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2023/07 -->
     <spring.version>6.0.11</spring.version>
@@ -172,20 +169,20 @@
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <spring.security.version>6.1.1</spring.security.version>
 
-    <!-- Updated : 2021/11 | Dependency version date: 2021/05 -->
-    <sshd.plugin.version>2.7.0</sshd.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/05 -->
+    <sshd.plugin.version>2.10.0</sshd.plugin.version>
 
-    <!-- Updated : 2021/11 | Dependency version date: 2021/07 -->
-    <slf4j.version>1.7.32</slf4j.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/03 -->
+    <slf4j.version>2.0.7</slf4j.version>
 
-    <!-- Updated : 2023/07 | Dependency version date:  -->
-    <sun.xml.bind.version>3.0.0</sun.xml.bind.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <sun.xml.bind.version>4.0.3</sun.xml.bind.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
-    <surefire.plugin.version>2.22.2</surefire.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <surefire.plugin.version>3.1.2</surefire.plugin.version>
 
-    <!-- Updated : 2021/09 | Dependency version date: 2020/07 -->
-    <war.plugin.version>3.3.1</war.plugin.version>
+    <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
+    <war.plugin.version>3.4.0</war.plugin.version>
 
   </properties>
 
@@ -278,8 +275,8 @@
     </dependency>
 
     <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>jstl-api</artifactId>
       <version>${jstl.version}</version>
     </dependency>
 
@@ -302,30 +299,60 @@
       <groupId>commons-cli</groupId>
       <artifactId>commons-cli</artifactId>
       <version>${commons.cli.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons.io.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang3.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
       <version>${commons.text.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>${httpclient.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -373,6 +400,12 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
       <version>${spring.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -474,18 +507,36 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>${slf4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Cache dependencies -->
@@ -582,7 +633,6 @@
             <phase>compile</phase>
             <configuration>
               <configLocation>google_checks.xml</configLocation>
-              <encoding>${project.build.sourceEncoding}</encoding>
               <consoleOutput>true</consoleOutput>
               <failsOnError>true</failsOnError>
               <failOnViolation>true</failOnViolation>
