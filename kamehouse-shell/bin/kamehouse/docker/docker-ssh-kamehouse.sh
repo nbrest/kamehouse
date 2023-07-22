@@ -27,7 +27,7 @@ mainProcess() {
   if ${REMOVE_SERVER_KEY}; then
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-server-key-remove.sh -p ${DOCKER_PROFILE}
   else
-    log.warn "If I get an error that the server key changed, execute this script with ${COL_RED}-r"
+    log.warn "If I get an error that the server key changed, execute this script with ${COL_RED}docker-ssh-kamehouse.sh -p ${DOCKER_PROFILE} -r"
   fi
 
   log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost"
