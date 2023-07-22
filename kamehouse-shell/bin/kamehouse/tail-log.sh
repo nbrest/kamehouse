@@ -80,6 +80,13 @@ setTailLogParameters() {
     fi
     addFileToLogFiles ${BUILD_LOG}
     ;;
+  "cmd")
+    local CMD_LOG=${USER_HOME}/logs/kamehouse-cmd.log
+    if [ ! -f "${CMD_LOG}" ]; then
+      touch ${CMD_LOG}
+    fi
+    addFileToLogFiles ${CMD_LOG}
+    ;;  
   "deploy")
     local DEPLOY_LOG=${USER_HOME}/logs/deploy-kamehouse.log
     if [ ! -f "${DEPLOY_LOG}" ]; then
@@ -229,6 +236,7 @@ setFileArg() {
   if [ "${FILE_ARG}" != "apache" ] &&
     [ "${FILE_ARG}" != "apache-error" ] &&
     [ "${FILE_ARG}" != "build" ] &&
+    [ "${FILE_ARG}" != "cmd" ] &&
     [ "${FILE_ARG}" != "deploy" ] &&
     [ "${FILE_ARG}" != "eclipse" ] &&
     [ "${FILE_ARG}" != "intellij" ] &&
@@ -284,7 +292,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|apache-error|build|deploy|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail" "r"
+  addHelpOption "-f (apache|apache-error|build|cmd|deploy|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail" "r"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption

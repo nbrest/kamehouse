@@ -9,72 +9,93 @@
     </filter>
   </appender>
 
+  <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+    <File>${user.home}/logs/kamehouse-cmd.log</File>
+    <append>false</append>
+    <encoder>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+    </encoder>
+  </appender>
+
   <root>
     <level value="INFO" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </root>
   
   <logger name="com.nicobrest.kamehouse" additivity="false">
     <level value="INFO" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <logger name="com.nicobrest.kamehouse.cmd" additivity="false">
     <level value="INFO" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <logger name="com.nicobrest.kamehouse.commons" additivity="false">
     <level value="INFO" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <!-- apache packages -->
   <logger name="org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier" additivity="false">
     <level value="ERROR" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <logger name="org.apache.sshd.client.session.ClientConnectionService" additivity="false">
     <level value="ERROR" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <!-- spring packages -->
   <logger name="org.springframework" additivity="false">
     <level value="WARN" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <logger name="org.springframework.security" additivity="false">
     <level value="WARN" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <logger name="org.springframework.web.socket.config.WebSocketMessageBrokerStats" additivity="false">
     <level value="WARN" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <!-- hibernate packages -->
   <logger name="org.hibernate" additivity="false">
     <level value="WARN" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
   
   <logger name="org.hibernate.hql.internal.QueryTranslatorFactoryInitiator" additivity="false">
     <level value="WARN" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
   
   <logger name="org.hsqldb" additivity="false">
     <level value="WARN" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 
   <!-- other -->
   <logger name="ch.qos.logback" additivity="false">
     <level value="ERROR" />
     <appender-ref ref="consoleAppender" />
+    <appender-ref ref="fileAppender" />
   </logger>
 </configuration>
