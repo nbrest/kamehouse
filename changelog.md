@@ -7,12 +7,11 @@
 
 #### v8.20
 
-- Upgraded project to Java 17
-- Upgraded project to tomcat 10
-- Upgraded maven to version 3.9.3
+- **Upgraded project to Java 17, tomcat 10 and maven 3.9.3**
 - Upgraded maven dependencies to latest versions
 - Removed maven profiles dev (h2) and qa (oracle)
 - Updated login and logout buttons to work on mobile as they work on desktop
+- Added logo on header while loading session
 - Fixed bugs
 
 #### v8.19
@@ -488,7 +487,7 @@
 
 #### v6.05
 
-* Upgraded project to java 11 and tomcat 9 and latest maven version
+* **Upgraded project to java 11 and tomcat 9 and latest maven version**
 * Upgraded to latest spring, hibernate and junit versions
 * Upgraded to latest versions of all other dependencies
 * Replaced findbugs with spotbugs
