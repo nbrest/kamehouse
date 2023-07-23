@@ -10,7 +10,7 @@
   <parent>
     <groupId>com.nicobrest</groupId>
     <artifactId>kamehouse-parent</artifactId>
-    <version>8.19.1-KAMEHOUSE-SNAPSHOT</version>
+    <version>8.20.1-KAMEHOUSE-SNAPSHOT</version>
   </parent>
 
   <name>KameHouse - Commons Test</name>
