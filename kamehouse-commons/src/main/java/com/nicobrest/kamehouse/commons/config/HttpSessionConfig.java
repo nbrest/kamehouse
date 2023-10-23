@@ -15,7 +15,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * Class to enable jdbc http session to store sessions in the database. This allows me to share the
  * sessions between the different modules/services of kamehouse.
  *
- * <p>I need to manually create the spring session schema in kamehouse mysql db from:
+ * <p>I need to manually create the spring session schema in kamehouse mariadb from:
  * <a
  * href="https://github.com/spring-projects/spring-session/blob/main/spring-session-jdbc/src/main/resources/org/springframework/session/jdbc/schema-mysql.sql">spring
  * session</a>

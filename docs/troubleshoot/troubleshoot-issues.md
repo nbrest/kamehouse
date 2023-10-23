@@ -118,7 +118,7 @@ certbot -d www.nicobrest.com,kame.nicobrest.com,docker-demo.nicobrest.com --expa
 
 ## Enable CORS on media server:
 
-- to be able to test it's connectivity from js in kamehouse-mobile:
+- To be able to test it's connectivity from js in kamehouse-mobile:
 - Add the following line to conf/kamehouse/http.conf: `Header add Access-Control-Allow-Origin *`
 - Restart httpd
 - Don't do this if the server is exposed to internet
@@ -146,7 +146,7 @@ ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
 
 *********************
 
-## Add jar to local maven repository
+## Add jar to local maven repository (deprecated)
 
 - From the root of the project
 ```sh

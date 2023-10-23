@@ -23,7 +23,7 @@ PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql
 mainProcess() {
   log.info "Setting up kamehouse database"
   log.info "Executing setup-kamehouse.sql"
-  setSudoKameHouseCommand "mysql"
+  setSudoKameHouseCommand "mariadb"
   ${SUDO_KAMEHOUSE_COMMAND} -v < ${PATH_SQL}/setup-kamehouse.sql
   checkCommandStatus "$?" "Error running setup-kamehouse.sql"
 

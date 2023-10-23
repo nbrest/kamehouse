@@ -109,7 +109,7 @@ I have a sample docker container running at https://docker-demo.nicobrest.com/ka
 
 # Target Devices:
 
-The responsive layout was developed and tested for Samsung S8, Note8+ (and Pixel 2 using chrome dev tools). It's neither tested nor supported in other mobile devices. It was also tested mainly on Chrome and Firefox on desktop. It most certainly needs several more breakpoints and fixes for other devices and browsers.
+The responsive layout and mobile app layout was developed and tested for several android phones. It was also tested mainly on Chrome and Firefox on desktop. It most certainly needs several more breakpoints and fixes for other devices and browsers.
 
 *********************
 

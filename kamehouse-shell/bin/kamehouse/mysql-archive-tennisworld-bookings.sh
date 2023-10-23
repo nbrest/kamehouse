@@ -15,7 +15,7 @@ MYSQL_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql/arch
 
 mainProcess() {
   log.info "Archiving old tennis world bookings"
-  mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_ARCHIVE_FILE}
+  mariadb -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_ARCHIVE_FILE}
   checkCommandStatus "$?"
 }
 

@@ -73,7 +73,7 @@ resettingBackupDir() {
 }
 
 exportMysqlData() {
-	log.info "Exporting mysql data from mysql server"
+	log.info "Exporting mariadb data from mariadb server"
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/mysql-csv-kamehouse.sh
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse.sh
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse-docker.sh -p prod
@@ -190,7 +190,7 @@ copyApacheDevFolders() {
 }
 
 backupMysqlConfig() {
-	log.info "Backing up mysql config"
+	log.info "Backing up mariadb config"
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/etc/mysql/
 	sudo cp -vrf /etc/mysql/* ${PROJECT_DIR}/${HOSTNAME}/etc/mysql/
   checkCommandStatus "$?" "An error occurred during file copy"

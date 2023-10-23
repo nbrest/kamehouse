@@ -27,19 +27,16 @@ removeRemotes() {
   git remote remove all
   git remote remove origin
 
-  # Bitbucket
-  git remote remove bitbucket-ssh
-  git remote remove bitbucket-https
-  
-  # Github
-  git remote remove github-ssh
-  git remote remove github-https
-
   ### Legacy remotes:
   git remote remove bitbucket
   git remote remove bitbucketssh
+  git remote remove bitbucket-ssh
+  git remote remove bitbucket-https
+  
   git remote remove github
   git remote remove githubssh
+  git remote remove github-ssh
+  git remote remove github-https
 }
 
 addRemotes() {
@@ -53,20 +50,10 @@ addRemotes() {
   fi
 
   # Origin
-  if ${IS_GITHUB_REPOSITORY}; then 
-    git remote add origin https://github.com/nbrest/${REPOSITORY_NAME}.git
+  if ${IS_GITHUB_REPOSITORY}; then
+    git remote add origin git@github.com:nbrest/${REPOSITORY_NAME}.git
   else
-    git remote add origin https://bitbucket.org/nbrest/${REPOSITORY_NAME}.git
-  fi
-
-  # Bitbucket
-  git remote add bitbucket-ssh git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
-  git remote add bitbucket-https https://${BITBUCKET_HTTPS_USER}@bitbucket.org/nbrest/${REPOSITORY_NAME}.git
-
-  # Github
-  if ${IS_GITHUB_REPOSITORY}; then 
-    git remote add github-ssh git@github.com:nbrest/${REPOSITORY_NAME}.git
-    git remote add github-https https://${GITHUB_HTTPS_USER}@github.com/nbrest/${REPOSITORY_NAME}.git
+    git remote add origin git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
   fi
 }
 

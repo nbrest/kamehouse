@@ -43,7 +43,7 @@ restartSshService() {
 }
 
 startMysql() {
-  log.info "Starting mysql/mariadb"
+  log.info "Starting mariadb"
   service mariadb start
 }
 

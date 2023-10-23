@@ -15,9 +15,9 @@ MYSQL_DUMP_FILE=${HOME}/home-synced/mysql/dump/dump-kamehouse.sql
 mainProcess() {
   if [ -f "${MYSQL_DUMP_FILE}" ]; then
     log.info "Restoring kamehouse database from ${MYSQL_DUMP_FILE}"
-    mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE}
+    mariadb -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE}
     checkCommandStatus "$?"
-    log.info "mysql restore command completed successfully"
+    log.info "mariadb restore command completed successfully"
   else
     log.error "${MYSQL_DUMP_FILE} doesn't exist."
     exitProcess 1

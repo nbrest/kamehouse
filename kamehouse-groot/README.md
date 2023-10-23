@@ -23,7 +23,7 @@ Also copy [public/index.html](public/index.html) to the root of the web server d
 
 # Login:
 
-- KameHouse GRoot runs in apache httpd. The users are authenticated using php mysql extension to query the kamehouse users in the databse directly from php, so even if tomcat is down you can still login to groot to restart tomcat.
+- KameHouse GRoot runs in apache httpd. The users are authenticated using php mariadb extension to query the kamehouse users in the databse directly from php, so even if tomcat is down you can still login to groot to restart tomcat.
 
 # Install:
 

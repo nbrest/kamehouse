@@ -33,6 +33,7 @@ main() {
   configGitDevDir
   cloneGitRepoToRoot
   printEnv
+  printStartupMessage
   keepContainerAlive
 }
 
@@ -174,7 +175,7 @@ restartSshService() {
 }
 
 startMysql() {
-  log.info "Starting mysql/mariadb"
+  log.info "Starting mariadb"
   service mariadb start
 }
 
@@ -184,21 +185,37 @@ startHttpd() {
   service apache2 start
 }
 
-keepContainerAlive() {
+printStartupMessage() {
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
   echo ""
-  echo -e "   ${KAMEHOUSE} ${COL_NORMAL}docker init script ${COL_RED}finished${COL_NORMAL}"
+  echo -e "   ${KAMEHOUSE} ${COL_NORMAL}docker container init script ${COL_RED}finished${COL_NORMAL}"
   echo ""
-  echo -e "${COL_BLUE} - ${COL_NORMAL}Open another terminal and execute ${COL_PURPLE}'tail-log.sh -f tomcat'${COL_NORMAL} to check the logs"
-  echo -e "${COL_NORMAL} until the deployment finishes"
+
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Ssh into the container from another terminal:"
+  echo -e "     ${COL_PURPLE}docker-ssh-kamehouse.sh -p ${DOCKER_PROFILE}${COL_NORMAL}"
   echo ""
-  echo -e "${COL_BLUE} - ${COL_NORMAL}Check ${COL_BLUE}https://github.com/nbrest/kamehouse/blob/dev/docker-setup.md${COL_NORMAL}"
-  echo -e " for details on how to login to kamehouse and execute its functionality" 
+
+  echo -e "${COL_BLUE} - ${COL_NORMAL}From the container's shell check the logs until the deployment finishes:"
+  echo -e "     ${COL_PURPLE}tail-log.sh -f tomcat${COL_NORMAL}"
   echo ""
+
+  echo -e "${COL_BLUE} - ${COL_NORMAL}For details on how to login to kamehouse and execute its functionality open:" 
+  echo -e "     ${COL_BLUE}https://github.com/nbrest/kamehouse/blob/dev/docs/docker/docker-setup.md${COL_NORMAL}"
+  echo ""
+
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Enter KameHouse at: ${COL_BLUE}http://localhost:${DOCKER_PORT_HTTP}/kame-house/${COL_NORMAL}"
+  echo ""
+
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Stop the container from another terminal:"
+  echo -e "     ${COL_PURPLE}docker-stop-kamehouse.sh -p ${DOCKER_PROFILE}${COL_NORMAL}"
+  echo ""
+
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
   echo -e "${COL_RED}         Keep this terminal open while the container is running${COL_NORMAL}"
   echo -e "${COL_RED}*********************************************************************************${COL_NORMAL}"
+}
 
+keepContainerAlive() {
   echo "" > /root/.docker-init-script.lock
   tail -f /root/.docker-init-script.lock
   read 

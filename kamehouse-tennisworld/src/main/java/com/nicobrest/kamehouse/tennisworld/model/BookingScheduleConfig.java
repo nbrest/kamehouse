@@ -84,7 +84,7 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
    * this is set, the day property will be ignored. The time will still be taken from the time
    * property. If bookingDate is '1984-10-15', this configuration will be activated recurrently for
    * the specified day and time. I had to add the default value of '1984-10-15' instead of null,
-   * otherwise the @UniqueConstraint defined above doesn't get picked up in mysql.
+   * otherwise the @UniqueConstraint defined above doesn't get picked up in mariadb.
    */
   @Column(name = "booking_date", unique = false, nullable = false)
   @ColumnDefault(value = "'1984-10-15'")

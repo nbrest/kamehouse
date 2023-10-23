@@ -44,6 +44,7 @@ COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
 COPY docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
 COPY docker/apache2/robots.txt /var/www/html/
 
+# When updating versions here, also update in /docs/versions/versions.md
 ENV MAVEN_TOP_LEVEL_VERSION=3
 ENV MAVEN_VERSION=3.9.3
 ENV TOMCAT_TOP_LEVEL_VERSION=10
@@ -158,14 +159,14 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # Httpd root index.html
   rm /var/www/html/index.html ; \
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html ; \
-  # Open mysqldb to external connections and intial dump of mysql data
+  # Open mariadb to external connections and intial dump of mariadb data
   sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mariadb start ; \
   sleep 5 ; \
-  mysql < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
-  mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
-  mysql kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
-  mysql -e"set @nikoLqsPass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MYSQL_PASS_NIKOLQS | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
+  mariadb < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql ; \
+  mariadb kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql ; \
+  mariadb kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql ; \
+  mariadb -e"set @nikoLqsPass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MYSQL_PASS_NIKOLQS | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mysql/add-mysql-user-nikolqs.sql`"
 
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/
 

@@ -47,13 +47,13 @@ cyclePreviousBackups() {
 
 executeBackup() {
   log.info "Executing database backup"
-  mysqldump -v -i -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse --dump-date --triggers --add-drop-database --add-drop-table --log-error=${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp --result-file=${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp
+  mariadb-dump -v -i -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse --dump-date --triggers --add-drop-database --add-drop-table --log-error=${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp --result-file=${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp
   checkCommandStatus "$?"
   mv -v -f ${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp ${PATH_DUMP_FILE}/${LOG_FILENAME}
   checkCommandStatus "$?"
   mv -v -f ${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp ${PATH_DUMP_FILE}/${DUMP_FILENAME}
   checkCommandStatus "$?"
-  log.info "Mysql dump commands executed successfully"
+  log.info "mariadb dump commands executed successfully"
 }
 
 listGeneratedFiles() {

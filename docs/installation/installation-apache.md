@@ -5,7 +5,7 @@
 
 # Installation Apache Httpd:
 
-- Currently using apache 2.4
+- Download and install apache httpd [(versions)](/docs/versions/versions.md)
 
 ## Configuration files: 
 
@@ -32,7 +32,7 @@
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
-- Enable mysql extension on php. Update `php.ini`:
+- Enable mariadb extension on php. Update `php.ini`:
   - Set with full path `extension_dir = "C:/Users/[USERNAME]/programs/php/ext"`
   - Uncomment: `extension=mysqli`
   - Uncomment: `extension=pdo_mysql`
@@ -60,7 +60,7 @@ mklink /D "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver\kame-hous
 
 - Install apache httpd from the package manager
 - Install php from the package manager
-- Install php mysql: 
+- Install php mariadb: 
 ```
 sudo apt-get install php-mysql libapache2-mod-php
 ```

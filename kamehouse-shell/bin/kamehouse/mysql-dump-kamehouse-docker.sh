@@ -36,7 +36,7 @@ checkIfContainerIsRunning() {
 }
 
 exportMysqlDataOnDocker() {
-	log.info "Exporting mysql data from mysql server on docker container"
+	log.info "Exporting mariadb data from mariadb server on docker container"
   log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/binkamehouse/mysql-csv-kamehouse.sh\""
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/binkamehouse/mysql-csv-kamehouse.sh"
   

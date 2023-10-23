@@ -9,13 +9,13 @@
 
 ## To install natively without docker:
 
-* Install java jdk 11
+* Install java JDK [(versions)](/docs/versions/versions.md)
 
-* Install maven (minimum version 3)
+* Install maven [(versions)](/docs/versions/versions.md)
 
 * Install git (and git bash on windows)
 
-* Install mysql server version 8
+* Install mariadb server [(versions)](/docs/versions/versions.md)
 
   - Update server configuration:
     - Windows:
@@ -26,12 +26,12 @@
       ```
     - linux:
       - The config files are in /etc/mysql
-      - The file to update depends on the mysql version you are using. It could be mysqld.conf, 50-server.conf
+      - The file to update depends on the mariadb version you are using. It could be mysqld.conf, 50-server.conf
       ```
       default-time-zone='+10:00'
       secure-file-priv=""
       ```
-      
+
   - Execute the sql scripts:
     - [setup-kamehouse.sql](/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql)
     - [spring-session.sql](/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql)
@@ -77,7 +77,7 @@ chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
 ```
 - Run with -p to remove all configuration files as well
 - Run with -s to uninstall only kamehouse-shell
-- This script doesn't remove the database contents. To do that, login to mysql and execute 
+- This script doesn't remove the database contents. To do that, login to mariadb and execute 
 ```sql
 DROP SCHEMA IF EXISTS kameHouse;
 ```

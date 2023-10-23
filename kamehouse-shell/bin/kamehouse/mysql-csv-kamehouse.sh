@@ -8,7 +8,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # Troubleshoot issues:
-# - Start mysql server with secure-file-priv="" (my.ini or my.conf)
+# - Start mariadb server with secure-file-priv="" (my.ini or my.conf)
 # - Make sure ${PATH_CSV} is writable by everyone in windows
 
 source ${HOME}/.kamehouse/.shell/.cred
@@ -47,7 +47,7 @@ executeExport() {
   else
     OUT_FILE_BASE="C:/Users/"${USER}"/home-synced/mysql/csv/"
   fi
-  mysql -u nikolqs -p${MYSQL_PASS_NIKOLQS} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
+  mariadb -u nikolqs -p${MYSQL_PASS_NIKOLQS} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
   checkCommandStatus "$?"
   if ${IS_LINUX_HOST}; then
     log.info "Moving generated csv files from ${TMP_EXPORT_DIR} to ${PATH_CSV}"

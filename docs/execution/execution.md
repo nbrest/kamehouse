@@ -45,7 +45,7 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 
 - Use the `build-kamehouse.sh` script to build all kamehouse modules. Run it in the root of a git kamehouse repo
 
-## Mysql:
+## Mariadb:
 
 - Use `mysql-status-kamehouse.sh` to have a quick overview of the status of the database
 - Use `mysql-dump-kamehouse.sh` and `mysql-restore-kamehouse.sh` scripts to backup and restore the database

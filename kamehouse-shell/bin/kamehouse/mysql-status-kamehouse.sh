@@ -20,7 +20,7 @@ SQL_FILE=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql/status-kamehou
 
 mainProcess() {
   log.info "KameHouse database status"
-  mysql --force --table -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${SQL_FILE}
+  mariadb --force --table -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${SQL_FILE}
 }
 
 main "$@"

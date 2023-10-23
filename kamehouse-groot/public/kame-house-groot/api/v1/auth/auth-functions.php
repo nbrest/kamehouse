@@ -201,7 +201,7 @@ function endSession($username) {
 /**
  * Checks if the specified login credentials are valid executing a shell script to validate the user
  * with the .htpasswd file.
- * @deprecated. Moved to mysql auth.
+ * @deprecated. Moved to mariadb auth.
  */
 function authorizeUserDeprecated() {
   if(!isValidInputForShell($username)) {

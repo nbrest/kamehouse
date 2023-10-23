@@ -64,7 +64,7 @@ backupApacheHttpd() {
 }
 
 backupMysqlConfig() {
-  log.info "Backing up mysql config"
+  log.info "Backing up mariadb config"
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
   checkCommandStatus "$?" "An error occurred creating directories"
   # Doesn't work if I double quote MYSQL_INI in the definition

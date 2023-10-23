@@ -17,7 +17,7 @@ CREATE USER 'kameHouseUser'@'localhost' identified by 'kameHousePwd';
 -- Grant privileges:
 GRANT ALL PRIVILEGES ON kameHouse.* TO 'kameHouseUser'@'localhost';
 
--- Export table creation script in mysql:
+-- Export table creation script in mariadb:
 -- show create table dragonball_user;
 -- show create table hibernate_sequence;
 

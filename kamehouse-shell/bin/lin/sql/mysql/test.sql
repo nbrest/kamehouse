@@ -1,6 +1,6 @@
--- execute using: mysql> \. test.sql
--- or: shell> mysql db_name < text_file (if use db_name; not 1st line in sql file)
--- or: shell> mysql < text_file
+-- execute using: mariadb> \. test.sql
+-- or: shell> mariadb db_name < text_file (if use db_name; not 1st line in sql file)
+-- or: shell> mariadb < text_file
 
 use test;
 
@@ -11,7 +11,7 @@ CREATE PROCEDURE test()
 
    BEGIN
 -- DECLARE VARIABLES --------------------------------------
--- parece que en mysql no puedo setear variables con @ adentro de un SP
+-- parece que en mariadb no puedo setear variables con @ adentro de un SP
 
       DECLARE goku INT;
       DECLARE x  INT;

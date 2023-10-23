@@ -116,17 +116,17 @@ reinitHomeSynced() {
     log.info "Skipping setup of home-synced/mysql"
     ;;
   "docker-init")
-    log.info "Resetting mysql dump data from initial docker container data"
+    log.info "Resetting mariadb dump data from initial docker container data"
     log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/home-synced/mysql/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mysql/dump\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/home-synced/mysql/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mysql/dump"
     ;;
   "docker-backup")
-    log.info "Exporting mysql data from ${HOME}/home-synced/docker/mysql to the container"
+    log.info "Exporting mariadb data from ${HOME}/home-synced/docker/mysql to the container"
     log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
     scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
     ;;
   "host-backup")
-    log.info "Exporting mysql data from ${HOME}/home-synced/mysql to the container"
+    log.info "Exporting mariadb data from ${HOME}/home-synced/mysql to the container"
     log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
     scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
     ;;
@@ -137,10 +137,10 @@ reinitHomeSynced() {
 reinitMysql() {
   case ${DATA_SOURCE} in
   "none")
-    log.info "Skipping mysql data reinit"
+    log.info "Skipping mariadb data reinit"
     ;;
   "docker-init"|"docker-backup"|"host-backup")
-    log.info "Re-init mysql kamehouse db from dump"
+    log.info "Re-init mariadb kamehouse db from dump"
     
     log.debug "ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh ; \
     /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-setup-kamehouse.sh ; \

@@ -158,7 +158,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo RELEASE_VERSION=${RELEASE_VERSION} 
   /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin/mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2 ; \
   /home/${KAMEHOUSE_USERNAME}/bin/create-sample-video-playlists.sh" ; \
-  # intial dump of mysql data
+  # intial dump of mariadb data
   /home/${KAMEHOUSE_USERNAME}/bin/mysql-init.sh ; \
   ln -s /home/${KAMEHOUSE_USERNAME}/git /home/nbrest/git
 

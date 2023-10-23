@@ -5,7 +5,7 @@
 
 ## Install Tomcat:
 
-- Currently using tomcat 8.5 or 9
+- Download tomcat from apache website [(versions)](/docs/versions/versions.md)
 - **Run tomcat through a startup script, not as a system service**. Some commands like vlc start and stop won't work otherwise
 
 *********************

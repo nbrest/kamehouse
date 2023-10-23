@@ -22,8 +22,8 @@ LOG_PROCESS_TO_FILE=true
 PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql
 
 mainProcess() {
-  log.info "Adding user nikolqs to mysql db"
-  setSudoKameHouseCommand "mysql"
+  log.info "Adding user nikolqs to mariadb"
+  setSudoKameHouseCommand "mariadb"
   ${SUDO_KAMEHOUSE_COMMAND} -e"set @nikoLqsPass = '${MYSQL_PASS_NIKOLQS}'; `cat ${PATH_SQL}/add-mysql-user-nikolqs.sql`"
 }
 
