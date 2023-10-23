@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.21
+
+- Updated mysql references to mariadb
+
 #### v8.20
 
 - **Upgraded project to Java 17, tomcat 10 and maven 3.9.3**
