@@ -69,6 +69,7 @@ defineVariables() {
   PATH_PRINCE_OF_TENNIS_PLS=${PATH_ANIME_PLS}/prince_of_tennis
   PATH_RANMA_PLS=${PATH_ANIME_PLS}/ranma
   PATH_SAINT_SEIYA_PLS=${PATH_ANIME_PLS}/saint_seiya
+  PATH_SLAM_DUNK_PLS=${PATH_ANIME_PLS}/slam_dunk
 
   ############################
   ### Cartoon Playlists Paths
@@ -231,9 +232,9 @@ createAnimeAllMoviesMix() {
 createAnimeBestMix() {
   # This playlist CAN run in backround. Doesn't depend on other playlists generated in this script
 
-  ##############################################################################
-  ### captain tsubasa - dragonball - saint seiya - prince of tennis - ranma mix
-  ##############################################################################
+  ##########################################################################################
+  ### captain tsubasa - dragonball - saint seiya - slam dunk - prince of tennis - ranma mix
+  ##########################################################################################
   log.info "Creating playlist: ${COL_PURPLE}${FILE_MIX_ANIME_BEST_PLS}" 
 
   cat ${PATH_DRAGONBALL_PLS}*.m3u > ${FILE_MIX_ANIME_BEST_PLS} 
@@ -250,14 +251,17 @@ createAnimeBestMix() {
   
   cat ${PATH_RANMA_PLS}*.m3u >> ${FILE_MIX_ANIME_BEST_PLS}
   checkCommandStatus "$?"
+
+  cat ${PATH_SLAM_DUNK_PLS}*.m3u >> ${FILE_MIX_ANIME_BEST_PLS}
+  checkCommandStatus "$?"
 }
 
 createAnimeBestConanMix() {
   # This playlist CAN run in backround. Doesn't depend on other playlists generated in this script
 
-  #####################################################################################
-  ### captain tsubasa - dragonball - saint seiya - prince of tennis - ranma - conan mix
-  #####################################################################################
+  ##################################################################################################
+  ### captain tsubasa - dragonball - saint seiya - slam dunk - prince of tennis - ranma - conan mix
+  ##################################################################################################
   log.info "Creating playlist: ${COL_PURPLE}${FILE_MIX_ANIME_BEST_DETECTIVE_CONAN_PLS}" 
 
   cat ${PATH_DRAGONBALL_PLS}*.m3u > ${FILE_MIX_ANIME_BEST_DETECTIVE_CONAN_PLS} 
@@ -273,6 +277,9 @@ createAnimeBestConanMix() {
   checkCommandStatus "$?"
   
   cat ${PATH_RANMA_PLS}*.m3u >> ${FILE_MIX_ANIME_BEST_DETECTIVE_CONAN_PLS}
+  checkCommandStatus "$?"
+
+  cat ${PATH_SLAM_DUNK_PLS}*.m3u >> ${FILE_MIX_ANIME_BEST_DETECTIVE_CONAN_PLS}
   checkCommandStatus "$?"
 
   cat ${PATH_DETECTIVE_CONAN_PLS}*.m3u >> ${FILE_MIX_ANIME_BEST_DETECTIVE_CONAN_PLS}
