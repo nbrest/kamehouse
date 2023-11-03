@@ -439,7 +439,7 @@ exportBuildDate() {
 }
 
 buildMavenCommand() {
-  MAVEN_COMMAND="mvn clean install -P ${MAVEN_PROFILE}"
+  MAVEN_COMMAND="mvn clean install -Dstyle.color=always -P ${MAVEN_PROFILE}"
 
   if ${FAST_BUILD}; then
     log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
