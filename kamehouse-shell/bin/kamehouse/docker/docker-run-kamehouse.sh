@@ -269,7 +269,15 @@ setEnvFromArguments() {
   setEnvForIde
   setEnvForDockerProfile
   configureDockerProfile
-  overrideDefaultValues  
+  overrideDefaultValues
+
+  if [ "${DOCKER_PROFILE}" == "tag" ]; then
+    if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
+      log.error "Set a valid -t [tag] when selecting docker profile -p tag"
+      printHelp
+      exitProcess 1
+    fi
+  fi
 }
 
 printHelpOptions() {

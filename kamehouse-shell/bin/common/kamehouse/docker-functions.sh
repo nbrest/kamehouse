@@ -205,7 +205,7 @@ setEnvForDockerTag() {
     PLATFORM="linux/amd64"
     ACTION="--load"
     # Set the tag profile when running an image
-    log.debug "Overriding DOCKER_PROFILE to tag"
+    log.info "Overriding docker profile to tag"
     DOCKER_PROFILE="tag"
   fi
 }
