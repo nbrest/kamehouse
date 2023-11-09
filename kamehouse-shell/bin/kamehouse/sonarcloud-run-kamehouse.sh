@@ -18,9 +18,9 @@ source ${HOME}/.kamehouse/.shell/.cred
 LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
-  log.info "Running sonarcloud scan"
+  log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
   log.trace "SONAR_TOKEN=${SONAR_TOKEN}"
-  mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nbrest_kamehouse
+  mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nbrest_kamehouse
 }
 
 main "$@"
