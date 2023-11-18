@@ -14,6 +14,7 @@
 - Added validation to docker run when running with tags
 - Updated documentation
 - Updated mysql references to mariadb
+- Removed git pull all from deploy all servers script
 - Fixed links at the end of docker init script
 
 #### v8.20
