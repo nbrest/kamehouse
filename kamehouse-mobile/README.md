@@ -17,6 +17,8 @@ This module handles the following functionality:
 
 * A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/downloads)
 
+- The android build requires Java JDK 11
+
 # Android build requirements on a windows host:
 
 - Install gradle (currently v5.6.2)
