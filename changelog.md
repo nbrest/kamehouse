@@ -7,7 +7,14 @@
 
 #### v8.21
 
+- Updated github actions build
+- Added sonar maven plugin
+- Added sonarcloud scan to jenkins build
+- Added color to maven build logs
+- Added validation to docker run when running with tags
+- Updated documentation
 - Updated mysql references to mariadb
+- Fixed links at the end of docker init script
 
 #### v8.20
 
