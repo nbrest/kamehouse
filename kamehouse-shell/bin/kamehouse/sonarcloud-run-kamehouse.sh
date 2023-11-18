@@ -20,7 +20,7 @@ LOG_PROCESS_TO_FILE=true
 mainProcess() {
   log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
   log.trace "SONAR_TOKEN=${SONAR_TOKEN}"
-  mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nbrest_kamehouse -Dsonar.organization=nbrest
+  mvn clean verify sonar:sonar -Dstyle.color=always -Dsonar.projectKey=nbrest_kamehouse -Dsonar.organization=nbrest -Dsonar.token=${SONAR_TOKEN}
 }
 
 main "$@"

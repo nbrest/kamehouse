@@ -178,6 +178,9 @@
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <surefire.plugin.version>3.1.2</surefire.plugin.version>
 
+    <!-- Updated : 2023/11 | Dependency version date: 2023/09 -->
+    <sonar.plugin.version>3.10.0.2594</sonar.plugin.version>
+
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <war.plugin.version>3.4.0</war.plugin.version>
 
@@ -600,6 +603,12 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.sonarsource.scanner.maven</groupId>
+      <artifactId>sonar-maven-plugin</artifactId>
+      <version>${sonar.plugin.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -695,6 +704,13 @@
             <include>**/*IntegrationTest</include>
           </includes>
         </configuration>
+      </plugin>
+
+      <!-- sonar maven plugin -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>${sonar.plugin.version}</version>
       </plugin>
 
     </plugins>
