@@ -60,21 +60,9 @@ deployInServer() {
   local IS_DOCKER_DEMO=$4
   local IS_HTTPS=$5
   log.info "Started deployInServer ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
-  gitPullAll ${SERVER} ${PORT} ${HOST_OS} ${IS_DOCKER_DEMO} ${IS_HTTPS} &
   deployKamehouse ${SERVER} ${PORT} ${IS_DOCKER_DEMO} ${IS_HTTPS} &
   wait
   log.info "${COL_RED}Finished deployInServer ${COL_CYAN}${SERVER}:${PORT}:${HOST_OS}"
-}
-
-gitPullAll() {
-  local SERVER=$1
-  local PORT=$2
-  local HOST_OS=$3
-  local IS_DOCKER_DEMO=$4
-  local IS_HTTPS=$5
-  log.info "Started gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
-  executeScriptInServer ${SERVER} ${PORT} ${IS_DOCKER_DEMO} "${HOST_OS}/git/git-pull-all.sh" ${IS_HTTPS}
-  log.info "Finished gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
 }
 
 deployKamehouse() {
@@ -123,21 +111,6 @@ executeScriptInServer() {
   log.info "Executing request: ${COL_BLUE}${URL}"
   RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
   log.trace "${RESPONSE}"
-}
-
-urlencode() {
-  # urlencode <string>
-  old_lc_collate=$LC_COLLATE
-  LC_COLLATE=C
-  local length="${#1}"
-  for (( i = 0; i < length; i++ )); do
-    local c="${1:$i:1}"
-    case $c in
-        [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
-        *) printf '%%%02X' "'$c" ;;
-    esac
-  done
-  LC_COLLATE=$old_lc_collate
 }
 
 parseArguments() {
