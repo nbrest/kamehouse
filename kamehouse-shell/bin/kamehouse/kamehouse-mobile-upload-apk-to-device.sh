@@ -15,7 +15,7 @@ if [ "$?" != "0" ]; then
 fi
 source ${HOME}/.kamehouse/.shell/.cred
 
-ANDROID_IP="192.168.0.92"
+ANDROID_IP="192.168.0.91"
 ANDROID_PORT=2222
 SKIP_BUILD_MOBILE=false
 SD_CARD_APK_PATH=/0/Download
@@ -77,7 +77,7 @@ parseArguments() {
 printHelpOptions() {
   addHelpOption "-i [ip]" "android sftp server ip"
   addHelpOption "-p [port]" "android sftp server port"
-  addHelpOption "-r" "refresh cordova plugins. disabled by default"
+  addHelpOption "-r" "refresh cordova plugins. disabled by default. ${COL_YELLOW}USE WITH CAUTION!!"
   addHelpOption "-s" "skip build kamehouse-mobile module before uploading. By default it rebuilds the apk"
 }
 
