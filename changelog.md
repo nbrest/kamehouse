@@ -15,6 +15,7 @@
 - Updated documentation
 - Updated mysql references to mariadb
 - Removed git pull all from deploy all servers script
+- Updated docker host's subnet to use host's public ip for ssh
 - Fixed links at the end of docker init script
 
 #### v8.20

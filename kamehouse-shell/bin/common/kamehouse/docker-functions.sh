@@ -60,8 +60,8 @@ let DOCKER_TAG_MINIMUM_VER_NUMBER=815
 DOCKER_IMAGE_BASE="ubuntu:22.04"
 DOCKER_IMAGE_TAG="latest"
 
-# This may not give me the correct host ip address if there's another adapter with address 172.xxx.xxx.xxx
-DOCKER_HOST_DEFAULT_SUBNET="172\.[0-9]\+\.[0-9]\+\.[0-9]\+"
+# This may not give me the correct host ip address if there's another adapter within the same subnet
+DOCKER_HOST_DEFAULT_SUBNET="192\.168\.0\.[0-9]\+"
 #DOCKER_HOST_DEFAULT_SUBNET="192\.168\.56\.[0-9]\+"
 
 # Get the ip address of the host running kamehouse in a docker container
