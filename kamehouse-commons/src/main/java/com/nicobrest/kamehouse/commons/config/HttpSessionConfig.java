@@ -19,7 +19,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * <a
  * href="https://github.com/spring-projects/spring-session/blob/main/spring-session-jdbc/src/main/resources/org/springframework/session/jdbc/schema-mysql.sql">spring
  * session</a>
- * or the one I have defined in /scripts/sql/mysql/spring-session.sql
+ * or the one I have defined in /scripts/sql/mariadb/spring-session.sql
  *
  * <p>maxInactiveIntervalInSeconds = 2629746 : 1 month in seconds
  */

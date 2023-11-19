@@ -163,7 +163,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo RELEASE_VERSION=${RELEASE_VERSION} 
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2 ; \
   /home/${KAMEHOUSE_USERNAME}/bin/create-sample-video-playlists.sh" ; \
   # intial dump of mariadb data
-  /home/${KAMEHOUSE_USERNAME}/bin/mysql-init.sh ; \
+  /home/${KAMEHOUSE_USERNAME}/bin/mariadb-init.sh ; \
   ln -s /home/${KAMEHOUSE_USERNAME}/git /home/nbrest/git
 
 # Set timezone (breaks webapps deployment on v6.04)

@@ -36,7 +36,7 @@ mainProcess() {
     reinitSsh
     reinitKameHouseFolder
     reinitHomeSynced
-    reinitMysql
+    reinitMariadb
   fi
 }
 
@@ -113,28 +113,28 @@ reinitHomeSynced() {
   
   case ${DATA_SOURCE} in
   "none")
-    log.info "Skipping setup of home-synced/mysql"
+    log.info "Skipping setup of home-synced/mariadb"
     ;;
   "docker-init")
     log.info "Resetting mariadb dump data from initial docker container data"
-    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/home-synced/mysql/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mysql/dump\""
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/home-synced/mysql/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mysql/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mysql/dump"
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/home-synced/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mariadb/dump\""
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/home-synced/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mariadb/dump"
     ;;
   "docker-backup")
-    log.info "Exporting mariadb data from ${HOME}/home-synced/docker/mysql to the container"
-    log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
-    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
+    log.info "Exporting mariadb data from ${HOME}/home-synced/docker/mariadb to the container"
+    log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mariadb ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
+    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/docker/mariadb ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
     ;;
   "host-backup")
-    log.info "Exporting mariadb data from ${HOME}/home-synced/mysql to the container"
-    log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
-    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mysql ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
+    log.info "Exporting mariadb data from ${HOME}/home-synced/mariadb to the container"
+    log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mariadb ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/"
+    scp -C -r -P ${DOCKER_PORT_SSH} ${HOME}/home-synced/mariadb ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/
     ;;
   *) ;;
   esac
 }
 
-reinitMysql() {
+reinitMariadb() {
   case ${DATA_SOURCE} in
   "none")
     log.info "Skipping mariadb data reinit"
@@ -142,12 +142,12 @@ reinitMysql() {
   "docker-init"|"docker-backup"|"host-backup")
     log.info "Re-init mariadb kamehouse db from dump"
     
-    log.debug "ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh ; \
-    /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-setup-kamehouse.sh ; \
-    /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-restore-kamehouse.sh\""
-    ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mysql/add-mysql-user-nikolqs.sh ; \
-      /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-setup-kamehouse.sh ; \
-      /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-restore-kamehouse.sh"
+    log.debug "ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mariadb/add-mariadb-user-nikolqs.sh ; \
+    /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh ; \
+    /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh\""
+    ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mariadb/add-mariadb-user-nikolqs.sh ; \
+      /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh ; \
+      /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh"
     ;;
   *) ;;
   esac

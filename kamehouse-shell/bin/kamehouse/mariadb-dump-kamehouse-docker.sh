@@ -22,7 +22,7 @@ fi
 
 mainProcess() {
   checkIfContainerIsRunning
-  exportMysqlDataOnDocker
+  exportMariadbDataOnDocker
   copyDataFromContainerToHost
 }
 
@@ -35,21 +35,21 @@ checkIfContainerIsRunning() {
   fi
 }
 
-exportMysqlDataOnDocker() {
+exportMariadbDataOnDocker() {
 	log.info "Exporting mariadb data from mariadb server on docker container"
-  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/binkamehouse/mysql-csv-kamehouse.sh\""
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/binkamehouse/mysql-csv-kamehouse.sh"
+  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh\""
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh"
   
-  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse.sh\""
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse.sh"
+  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh\""
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh"
 }
 
 copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
-  mkdir -p ${HOME}/home-synced/docker/mysql
-  rm -rf ${HOME}/home-synced/docker/mysql
-  log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/mysql ${HOME}/home-synced/docker/mysql"
-  scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/mysql ${HOME}/home-synced/docker/mysql
+  mkdir -p ${HOME}/home-synced/docker/mariadb
+  rm -rf ${HOME}/home-synced/docker/mariadb
+  log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/mariadb ${HOME}/home-synced/docker/mariadb"
+  scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/home-synced/mariadb ${HOME}/home-synced/docker/mariadb
 }
 
 parseArguments() {

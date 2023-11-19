@@ -55,7 +55,7 @@ docker run --rm -h kamehouse-docker-demo \
   --env DOCKER_PORT_HTTPS=12443 \
   --env DOCKER_PORT_TOMCAT_DEBUG=12000 \
   --env DOCKER_PORT_TOMCAT=12090 \
-  --env DOCKER_PORT_MYSQL=12306 \
+  --env DOCKER_PORT_MARIADB=12306 \
   --env DOCKER_PORT_SSH=12022 \
   --env IS_DOCKER_CONTAINER=false \
   --env EXPORT_NATIVE_HTTPD=false \

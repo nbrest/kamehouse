@@ -16,16 +16,16 @@ DOCKER_CONTAINER_USERNAME=`ls /home | grep -v "nbrest"`
 . /home/${DOCKER_CONTAINER_USERNAME}/.env
 
 main() {
-  log.info "Init mysql for kamehouse java8-release"
+  log.info "Init mariadb for kamehouse java8-release"
   service mariadb start
   sleep 5
-  mysql < /home/${DOCKER_CONTAINER_USERNAME}/sql/setup-kamehouse.sql
-  mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/hibernate_sequence.sql
-  mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/spring-session.sql
-  mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/application_user.sql
-  mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/kamehouse_user.sql
-  mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/dragonball_user.sql
-  mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/vlc_player.sql
+  mariadb < /home/${DOCKER_CONTAINER_USERNAME}/sql/setup-kamehouse.sql
+  mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/hibernate_sequence.sql
+  mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/spring-session.sql
+  mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/application_user.sql
+  mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/kamehouse_user.sql
+  mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/dragonball_user.sql
+  mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/vlc_player.sql
 }
 
 log.info() {

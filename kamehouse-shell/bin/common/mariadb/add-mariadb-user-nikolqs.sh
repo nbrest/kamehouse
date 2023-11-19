@@ -19,12 +19,12 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 LOG_PROCESS_TO_FILE=true
-PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql
+PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mariadb
 
 mainProcess() {
   log.info "Adding user nikolqs to mariadb"
   setSudoKameHouseCommand "mariadb"
-  ${SUDO_KAMEHOUSE_COMMAND} -e"set @nikoLqsPass = '${MYSQL_PASS_NIKOLQS}'; `cat ${PATH_SQL}/add-mysql-user-nikolqs.sql`"
+  ${SUDO_KAMEHOUSE_COMMAND} -e"set @nikoLqsPass = '${MARIADB_PASS_NIKOLQS}'; `cat ${PATH_SQL}/add-mariadb-user-nikolqs.sql`"
 }
 
 main "$@"

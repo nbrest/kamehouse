@@ -24,7 +24,7 @@ main() {
   echo -e "${COL_CYAN}*********************************************************************************${COL_NORMAL}"
   restartSshService
   startHttpd
-  startMysql
+  startMariadb
   startTomcat
   fixEolMyScripts
   fixGitConfig
@@ -42,8 +42,8 @@ restartSshService() {
   service ssh restart
 }
 
-startMysql() {
-  log.info "Starting mysql/mariadb"
+startMariadb() {
+  log.info "Starting mariadb"
   service mariadb start
 }
 

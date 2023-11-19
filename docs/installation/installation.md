@@ -26,16 +26,16 @@
       ```
     - linux:
       - The config files are in /etc/mysql
-      - The file to update depends on the mariadb version you are using. It could be mysqld.conf, 50-server.conf
+      - The file to update depends on the mariadb version you are using. It could be mariadb.conf, 50-server.conf
       ```
       default-time-zone='+10:00'
       secure-file-priv=""
       ```
 
   - Execute the sql scripts:
-    - [setup-kamehouse.sql](/kamehouse-shell/bin/kamehouse/sql/mysql/setup-kamehouse.sql)
-    - [spring-session.sql](/kamehouse-shell/bin/kamehouse/sql/mysql/spring-session.sql)
-    - [dump-kamehouse.sql](/docker/mysql/dump-kamehouse.sql) (optional to setup initial users mentioned in [docker-setup.md](/docs/docker/docker-setup.md))
+    - [setup-kamehouse.sql](/kamehouse-shell/bin/kamehouse/sql/mariadb/setup-kamehouse.sql)
+    - [spring-session.sql](/kamehouse-shell/bin/kamehouse/sql/mariadb/spring-session.sql)
+    - [dump-kamehouse.sql](/docker/mariadb/dump-kamehouse.sql) (optional to setup initial users mentioned in [docker-setup.md](/docs/docker/docker-setup.md))
 
 * Install tomcat following [installation-tomcat.md](/docs/installation/installation-tomcat.md)
 

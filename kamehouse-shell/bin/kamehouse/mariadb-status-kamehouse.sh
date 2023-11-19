@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if (( $EUID == 0 )); then
-  HOME="/var/www"
-fi
-
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -17,20 +13,14 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+source ${HOME}/.kamehouse/.shell/.cred
+
 LOG_PROCESS_TO_FILE=true
-PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql
+SQL_FILE=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mariadb/status-kamehouse.sql
 
 mainProcess() {
-  log.info "Setting up kamehouse database"
-  log.info "Executing setup-kamehouse.sql"
-  setSudoKameHouseCommand "mariadb"
-  ${SUDO_KAMEHOUSE_COMMAND} -v < ${PATH_SQL}/setup-kamehouse.sql
-  checkCommandStatus "$?" "Error running setup-kamehouse.sql"
-
-  log.info "Executing spring-session.sql"
-  ${SUDO_KAMEHOUSE_COMMAND} kameHouse < ${PATH_SQL}/spring-session.sql 
-  checkCommandStatus "$?" "Error running spring-session.sql"
-  log.info "Finished setting up kamehouse database"
+  log.info "KameHouse database status"
+  mariadb --force --table -u nikolqs -p${MARIADB_PASS_NIKOLQS} kameHouse < ${SQL_FILE}
 }
 
 main "$@"

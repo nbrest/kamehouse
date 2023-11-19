@@ -11,7 +11,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 # Global variables
 LOG_PROCESS_TO_FILE=true
-PATH_DUMP_FILE=${HOME}/home-synced/mysql/dump 
+PATH_DUMP_FILE=${HOME}/home-synced/mariadb/dump 
 NUMBER_OF_EXPORTS=3
 DUMP_FILENAME=dump-kamehouse.sql
 LOG_FILENAME=dump-kamehouse.log
@@ -47,7 +47,7 @@ cyclePreviousBackups() {
 
 executeBackup() {
   log.info "Executing database backup"
-  mariadb-dump -v -i -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse --dump-date --triggers --add-drop-database --add-drop-table --log-error=${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp --result-file=${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp
+  mariadb-dump -v -i -u nikolqs -p${MARIADB_PASS_NIKOLQS} kameHouse --dump-date --triggers --add-drop-database --add-drop-table --log-error=${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp --result-file=${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp
   checkCommandStatus "$?"
   mv -v -f ${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp ${PATH_DUMP_FILE}/${LOG_FILENAME}
   checkCommandStatus "$?"

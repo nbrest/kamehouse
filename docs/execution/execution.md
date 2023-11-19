@@ -47,8 +47,8 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 
 ## Mariadb:
 
-- Use `mysql-status-kamehouse.sh` to have a quick overview of the status of the database
-- Use `mysql-dump-kamehouse.sh` and `mysql-restore-kamehouse.sh` scripts to backup and restore the database
+- Use `mariadb-status-kamehouse.sh` to have a quick overview of the status of the database
+- Use `mariadb-dump-kamehouse.sh` and `mariadb-restore-kamehouse.sh` scripts to backup and restore the database
  
 ## Versions:
 

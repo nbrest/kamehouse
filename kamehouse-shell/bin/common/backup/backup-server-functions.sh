@@ -14,11 +14,11 @@ mainProcess() {
 
   pullChangesFromGit
   resettingBackupDir
-  exportMysqlData
+  exportMariadbData
   backupApacheHttpd
   backupTomcat
   backupTomcatDev
-  backupMysqlConfig
+  backupMariadbConfig
   backupHomeFiles
   backupHomeFolders
   backupStartupScripts
@@ -72,11 +72,11 @@ resettingBackupDir() {
   checkCommandStatus "${REMOVE_RESPONSE}" "An error occurred resetting directories"
 }
 
-exportMysqlData() {
+exportMariadbData() {
 	log.info "Exporting mariadb data from mariadb server"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mysql-csv-kamehouse.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mysql-dump-kamehouse-docker.sh -p prod
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse-docker.sh -p prod
 }
 
 backupApacheHttpd() {
@@ -189,7 +189,7 @@ copyApacheDevFolders() {
   fi
 }
 
-backupMysqlConfig() {
+backupMariadbConfig() {
 	log.info "Backing up mariadb config"
   mkdir -p ${PROJECT_DIR}/${HOSTNAME}/etc/mysql/
 	sudo cp -vrf /etc/mysql/* ${PROJECT_DIR}/${HOSTNAME}/etc/mysql/

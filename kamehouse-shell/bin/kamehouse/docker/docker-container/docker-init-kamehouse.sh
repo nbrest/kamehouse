@@ -22,7 +22,7 @@ main() {
   loadEnv
   restartSshService
   startHttpd
-  startMysql
+  startMariadb
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     pullKameHouse
     deployKameHouse
@@ -61,7 +61,7 @@ loadEnv() {
   echo "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}" >> ${CONTAINER_ENV}
-  echo "DOCKER_PORT_MYSQL=${DOCKER_PORT_MYSQL}" >> ${CONTAINER_ENV}
+  echo "DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_SSH=${DOCKER_PORT_SSH}" >> ${CONTAINER_ENV}
@@ -86,7 +86,7 @@ printEnv() {
   log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
   log.info "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}"
   log.info "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}"
-  log.info "DOCKER_PORT_MYSQL=${DOCKER_PORT_MYSQL}"
+  log.info "DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB}"
   log.info "DOCKER_PORT_SSH=${DOCKER_PORT_SSH}"
   log.info "DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG}"
   log.info "DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT}"
@@ -174,7 +174,7 @@ restartSshService() {
   service ssh restart
 }
 
-startMysql() {
+startMariadb() {
   log.info "Starting mariadb"
   service mariadb start
 }

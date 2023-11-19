@@ -10,16 +10,16 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 LOG_PROCESS_TO_FILE=true
-MYSQL_DUMP_FILE=${HOME}/home-synced/mysql/dump/dump-kamehouse.sql
+MARIADB_DUMP_FILE=${HOME}/home-synced/mariadb/dump/dump-kamehouse.sql
 
 mainProcess() {
-  if [ -f "${MYSQL_DUMP_FILE}" ]; then
-    log.info "Restoring kamehouse database from ${MYSQL_DUMP_FILE}"
-    mariadb -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_DUMP_FILE}
+  if [ -f "${MARIADB_DUMP_FILE}" ]; then
+    log.info "Restoring kamehouse database from ${MARIADB_DUMP_FILE}"
+    mariadb -u nikolqs -p${MARIADB_PASS_NIKOLQS} kameHouse < ${MARIADB_DUMP_FILE}
     checkCommandStatus "$?"
     log.info "mariadb restore command completed successfully"
   else
-    log.error "${MYSQL_DUMP_FILE} doesn't exist."
+    log.error "${MARIADB_DUMP_FILE} doesn't exist."
     exitProcess 1
   fi
 }

@@ -1,5 +1,5 @@
 ### Database credentials:
-MYSQL_PASS_NIKOLQS=mysql-pwd
+MARIADB_PASS_NIKOLQS=mariadb-pwd
 
 ### GRoot/Shell API basic auth
 GROOT_API_BASIC_AUTH=c2VpeWE6aWtraQ==

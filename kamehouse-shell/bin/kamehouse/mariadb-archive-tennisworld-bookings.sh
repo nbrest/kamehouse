@@ -11,11 +11,11 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 # Global variables
 LOG_PROCESS_TO_FILE=true
-MYSQL_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mysql/archive-tennisworld-bookings.sql
+MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mariadb/archive-tennisworld-bookings.sql
 
 mainProcess() {
   log.info "Archiving old tennis world bookings"
-  mariadb -u nikolqs -p${MYSQL_PASS_NIKOLQS} kameHouse < ${MYSQL_ARCHIVE_FILE}
+  mariadb -u nikolqs -p${MARIADB_PASS_NIKOLQS} kameHouse < ${MARIADB_ARCHIVE_FILE}
   checkCommandStatus "$?"
 }
 

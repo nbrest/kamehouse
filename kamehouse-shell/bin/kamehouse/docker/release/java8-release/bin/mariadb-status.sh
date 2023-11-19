@@ -16,9 +16,9 @@ DOCKER_CONTAINER_USERNAME=`ls /home | grep -v "nbrest"`
 . /home/${DOCKER_CONTAINER_USERNAME}/.env
 
 main() {
-  log.info "mysql status"
-  sudo mysql kameHouse -e "show full tables;"
-  sudo mysql kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/status-kamehouse.sql
+  log.info "mariadb status"
+  sudo mariadb kameHouse -e "show full tables;"
+  sudo mariadb kameHouse < /home/${DOCKER_CONTAINER_USERNAME}/sql/status-kamehouse.sql
 }
 
 log.info() {

@@ -63,17 +63,17 @@ backupApacheHttpd() {
   checkCommandStatus "$?" "An error occurred during file copy"
 }
 
-backupMysqlConfig() {
+backupMariadbConfig() {
   log.info "Backing up mariadb config"
-  mkdir -p ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
+  mkdir -p ${PROJECT_DIR}/${HOSTNAME}/mariadb-config/
   checkCommandStatus "$?" "An error occurred creating directories"
-  # Doesn't work if I double quote MYSQL_INI in the definition
-  local MYSQL_INI="/c/Program Files/MariaDB ${MARIADB_VERSION_WIN}/data/my.ini"
-  if test -f "${MYSQL_INI}"; then
-    cp -vrf "${MYSQL_INI}" ${PROJECT_DIR}/${HOSTNAME}/mysql-config/
+  # Doesn't work if I double quote MARIADB_INI in the definition
+  local MARIADB_INI="/c/Program Files/MariaDB ${MARIADB_VERSION_WIN}/data/my.ini"
+  if test -f "${MARIADB_INI}"; then
+    cp -vrf "${MARIADB_INI}" ${PROJECT_DIR}/${HOSTNAME}/mariadb-config/
 	  checkCommandStatus "$?" "An error occurred during file copy"
   else
-    log.warn "${MYSQL_INI} doesn't exist"
+    log.warn "${MARIADB_INI} doesn't exist"
   fi  
 }
 

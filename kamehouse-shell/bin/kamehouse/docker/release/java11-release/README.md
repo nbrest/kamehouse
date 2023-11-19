@@ -51,7 +51,7 @@ release-version.sh
 
 - Database status
 ```sh
-mysql-status.sh
+mariadb-status.sh
 ```
 
 # Releases status:

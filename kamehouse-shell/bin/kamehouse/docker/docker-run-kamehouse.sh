@@ -77,7 +77,7 @@ printEnv() {
   log.info "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}"
   log.info "DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG}"
   log.info "DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT}"
-  log.info "DOCKER_PORT_MYSQL=${DOCKER_PORT_MYSQL}"
+  log.info "DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB}"
   log.info "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}"
   log.info "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   log.info "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
@@ -105,7 +105,7 @@ runDockerImage() {
       --env DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS} \
       --env DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG} \
       --env DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT} \
-      --env DOCKER_PORT_MYSQL=${DOCKER_PORT_MYSQL} \
+      --env DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB} \
       --env DOCKER_PORT_SSH=${DOCKER_PORT_SSH} \
       --env IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER} \
       --env IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST} \
@@ -117,7 +117,7 @@ runDockerImage() {
       -p ${DOCKER_PORT_HTTPS}:443 \
       -p ${DOCKER_PORT_TOMCAT_DEBUG}:${TOMCAT_DEBUG_PORT} \
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
-      -p ${DOCKER_PORT_MYSQL}:3306 \
+      -p ${DOCKER_PORT_MARIADB}:3306 \
       "
   if ${EXPORT_NATIVE_HTTPD}; then
     log.info "Exporting ports 80 and 443 from the container"
@@ -128,9 +128,9 @@ runDockerImage() {
   fi
 
   if ${USE_VOLUMES}; then
-    log.info "Container data will be persisted in volumes: mysql-data-${DOCKER_PROFILE}, home-kamehouse-${DOCKER_PROFILE}, home-home-synced-${DOCKER_PROFILE}, home-ssh-${DOCKER_PROFILE}"
+    log.info "Container data will be persisted in volumes: mariadb-data-${DOCKER_PROFILE}, home-kamehouse-${DOCKER_PROFILE}, home-home-synced-${DOCKER_PROFILE}, home-ssh-${DOCKER_PROFILE}"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -v mysql-data-${DOCKER_PROFILE}:/var/lib/mysql \
+    -v mariadb-data-${DOCKER_PROFILE}:/var/lib/mysql \
     -v home-kamehouse-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/.kamehouse \
     -v home-home-synced-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/home-synced \
     -v home-ssh-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/.ssh \
