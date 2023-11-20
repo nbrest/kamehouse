@@ -389,7 +389,7 @@ public class PerfectGymBookingServiceTest {
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.setStatus(Status.INTERNAL_ERROR);
-    expected.setMessage("Book class response from PerfectGym doesn't contain a Tickets entry");
+    expected.setMessage("Book class response from PerfectGym doesnt contain a Tickets entry");
     BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
 
     BookingResponse response = perfectGymBookingServiceSpy.book(request);
