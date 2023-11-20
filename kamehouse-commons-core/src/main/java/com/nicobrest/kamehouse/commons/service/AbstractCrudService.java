@@ -3,7 +3,6 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
-import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

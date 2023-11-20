@@ -4,9 +4,8 @@ import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import com.nicobrest.kamehouse.commons.service.CrudService;
 import com.nicobrest.kamehouse.commons.service.TestEntityCrudService;
-import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
-import org.junit.jupiter.api.Test;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -84,7 +83,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    */
   public static ResponseEntity<TestEntity> generateGetResponseEntity(TestEntity entity,
       boolean logResponse) {
-    return AbstractController.generateGetResponseEntity(entity,logResponse);
+    return AbstractController.generateGetResponseEntity(entity, logResponse);
   }
 
   /**
