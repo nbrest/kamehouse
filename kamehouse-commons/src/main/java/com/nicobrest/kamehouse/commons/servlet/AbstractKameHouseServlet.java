@@ -88,7 +88,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
     try {
       String value = StringUtils.sanitizeInput(request.getParameter(paramName));
       if (value != null) {
-        return URLDecoder.decode(request.getParameter(paramName), StandardCharsets.UTF_8.name());
+        return URLDecoder.decode(value, StandardCharsets.UTF_8.name());
       }
     } catch (UnsupportedEncodingException e) {
       throw new KameHouseBadRequestException("Error getting url parameter " + paramName, e);
