@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingResponseService;
@@ -70,7 +71,7 @@ public class BookingResponseController extends
       @RequestParam(value = "sortColumn", required = false, defaultValue = "") String sortColumn,
       @RequestParam(value = "sortAscending", required = false, defaultValue = "true")
       Boolean sortAscending) {
-    return super.readAll(maxRows, sortColumn, sortAscending);
+    return super.readAll(maxRows, StringUtils.sanitizeInput(sortColumn), sortAscending);
   }
 
   /**

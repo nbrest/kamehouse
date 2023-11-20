@@ -2,9 +2,9 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,10 +33,11 @@ public class EhCacheController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<KameHouseCache>> read(
       @RequestParam(value = "name", required = false) String cacheName) {
+    String cacheNameSanitized = StringUtils.sanitizeInput(cacheName);
     List<KameHouseCache> cacheList;
-    if (!StringUtils.isBlank(cacheName)) {
+    if (!StringUtils.isEmpty(cacheNameSanitized)) {
       cacheList = new ArrayList<>();
-      KameHouseCache kameHouseCache = ehCacheService.get(cacheName);
+      KameHouseCache kameHouseCache = ehCacheService.get(cacheNameSanitized);
       if (kameHouseCache != null) {
         cacheList.add(kameHouseCache);
       }
@@ -52,8 +53,9 @@ public class EhCacheController extends AbstractController {
   @DeleteMapping
   public ResponseEntity<Void> clear(
       @RequestParam(value = "name", required = false) String cacheName) {
-    if (!StringUtils.isBlank(cacheName)) {
-      ehCacheService.clear(cacheName);
+    String cacheNameSanitized = StringUtils.sanitizeInput(cacheName);
+    if (!StringUtils.isEmpty(cacheNameSanitized)) {
+      ehCacheService.clear(cacheNameSanitized);
     } else {
       ehCacheService.clearAll();
     }

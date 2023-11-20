@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,8 @@ public class KameHouseUserController extends
   @GetMapping(path = "/users/username/{username:.+}")
   @ResponseBody
   public ResponseEntity<KameHouseUser> loadUserByUsername(@PathVariable String username) {
-    KameHouseUser kameHouseUser = kameHouseUserService.loadUserByUsername(username);
+    KameHouseUser kameHouseUser = kameHouseUserService.loadUserByUsername(
+        StringUtils.sanitizeInput(username));
     return generatePasswordLessResponseEntity(generateGetResponseEntity(kameHouseUser));
   }
 }

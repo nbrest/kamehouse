@@ -155,7 +155,7 @@ public class HttpClientUtils {
     try {
       return UriUtils.encodeQuery(parameter, Charsets.UTF_8);
     } catch (IllegalArgumentException e) {
-      LOGGER.error("Failed to encode parameter: " + parameter, e);
+      LOGGER.error("Failed to encode parameter: {}", parameter, e);
       return null;
     }
   }
@@ -215,7 +215,7 @@ public class HttpClientUtils {
    */
   public static void logResponseBody(String responseBody) {
     if (!StringUtils.isEmpty(responseBody)) {
-      LOGGER.trace("Response body: {}", responseBody);
+      LOGGER.trace("Response body: {}", StringUtils.sanitizeInput(responseBody));
     }
   }
 
@@ -238,7 +238,7 @@ public class HttpClientUtils {
    */
   public static void logRequestBody(String requestBody) {
     if (!StringUtils.isEmpty(requestBody)) {
-      LOGGER.trace("Request body: {}", requestBody);
+      LOGGER.trace("Request body: {}", StringUtils.sanitizeInput(requestBody));
     }
   }
 }

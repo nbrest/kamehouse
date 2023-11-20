@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.ui.controller;
 
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,11 @@ public class SampleController {
   @GetMapping(path = "/dragonball/model-and-view")
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
+    String nameSanitized = StringUtils.sanitizeInput(name);
     String message = "mada mada dane";
     ModelAndView mv = new ModelAndView("/jsp/test-module/dragonball/model-and-view");
     mv.addObject("message", message);
-    mv.addObject("name", name);
+    mv.addObject("name", nameSanitized);
     return mv;
   }
 }

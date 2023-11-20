@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.media.video.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
 import java.util.List;
@@ -41,7 +42,7 @@ public class VideoPlaylistController extends AbstractController {
   @ResponseBody
   public ResponseEntity<Playlist> getPlaylist(
       @RequestParam(value = "path", required = true) String path) {
-    Playlist playlist = videoPlaylistService.getPlaylist(path, true);
+    Playlist playlist = videoPlaylistService.getPlaylist(StringUtils.sanitizeInput(path), true);
     return generateGetResponseEntity(playlist);
   }
 }

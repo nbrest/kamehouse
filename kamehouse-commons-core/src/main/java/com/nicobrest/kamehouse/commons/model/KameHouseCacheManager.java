@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.commons.model;
 
-import static com.nicobrest.kamehouse.commons.utils.StringUtils.sanitizeInput;
-
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import java.util.ArrayList;
@@ -67,7 +65,7 @@ public class KameHouseCacheManager {
     logger.trace("clear {}", cacheName);
     Cache cache = getCache(cacheName);
     cache.clear();
-    logger.trace("clear {} successfully", sanitizeInput(cacheName));
+    logger.trace("clear {} successfully", cacheName);
   }
 
   /**

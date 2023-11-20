@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.controller;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -95,7 +96,8 @@ public class LogLevelManagerController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<String>> getLogLevel(
       @RequestParam(value = "package", required = false) String packageName) {
-    List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
+    String packageNameSanitized = StringUtils.sanitizeInput(packageName);
+    List<String> logLevelList = logLevelManagerService.getLogLevel(packageNameSanitized);
     return generateGetResponseEntity(logLevelList);
   }
 
@@ -107,13 +109,15 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    if (packageName == null) {
+    String levelSanitized = StringUtils.sanitizeInput(level);
+    String packageNameSanitized = StringUtils.sanitizeInput(packageName);
+    if (packageNameSanitized == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
-      packageName = DEFAULT_PACKAGE;
+      packageNameSanitized = DEFAULT_PACKAGE;
     }
-    logLevelManagerService.validateLogLevel(level);
-    logLevelManagerService.setLogLevel(level, packageName);
-    List<String> logLevelList = logLevelManagerService.getLogLevel(packageName);
+    logLevelManagerService.validateLogLevel(levelSanitized);
+    logLevelManagerService.setLogLevel(levelSanitized, packageNameSanitized);
+    List<String> logLevelList = logLevelManagerService.getLogLevel(packageNameSanitized);
     return generatePutResponseEntity(logLevelList);
   }
 

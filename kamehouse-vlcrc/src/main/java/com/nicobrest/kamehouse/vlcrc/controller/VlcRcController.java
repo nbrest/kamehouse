@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
@@ -36,7 +37,8 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/{hostname}/status")
   @ResponseBody
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String hostname) {
-    VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostname);
+    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostnameSanitized);
     return generateGetResponseEntity(vlcRcStatus, false);
   }
 
@@ -47,7 +49,9 @@ public class VlcRcController extends AbstractController {
   @ResponseBody
   public ResponseEntity<VlcRcStatus> execCommand(
       @RequestBody VlcRcCommand vlcRcCommand, @PathVariable String hostname) {
-    VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostname);
+    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    sanitizeEntity(vlcRcCommand);
+    VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostnameSanitized);
     return generatePostResponseEntity(vlcRcStatus, false);
   }
 
@@ -57,7 +61,8 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/{hostname}/playlist")
   @ResponseBody
   public ResponseEntity<List<VlcRcPlaylistItem>> getPlaylist(@PathVariable String hostname) {
-    List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostname);
+    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostnameSanitized);
     return generateGetResponseEntity(vlcPlaylist, false);
   }
 
@@ -68,7 +73,9 @@ public class VlcRcController extends AbstractController {
   @ResponseBody
   public ResponseEntity<List<VlcRcFileListItem>> browse(
       @RequestParam(value = "uri", required = false) String uri, @PathVariable String hostname) {
-    List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uri, hostname);
+    String uriSanitized = StringUtils.sanitizeInput(uri);
+    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uriSanitized, hostnameSanitized);
     return generateGetResponseEntity(vlcRcFileList, false);
   }
 }

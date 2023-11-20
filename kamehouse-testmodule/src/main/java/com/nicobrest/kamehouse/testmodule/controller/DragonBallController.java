@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.service.DragonBallUserService;
@@ -70,7 +71,8 @@ public class DragonBallController extends
   public ResponseEntity<List<DragonBallUser>> readAll(
       @RequestParam(value = "action", required = false, defaultValue = "goku") String action) {
     // switch to test parameters and exception handlers
-    switch (action) {
+    String actionSanitized = StringUtils.sanitizeInput(action);
+    switch (actionSanitized) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
       case "KameHouseConflictException":
@@ -117,8 +119,9 @@ public class DragonBallController extends
   public ResponseEntity<DragonBallUser> getByUsername(@PathVariable String username) {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
-    // part following the first dot
-    DragonBallUser dbUser = dragonBallUserService.getByUsername(username);
+    // part following the first
+    String usernameSanitized = StringUtils.sanitizeInput(username);
+    DragonBallUser dbUser = dragonBallUserService.getByUsername(usernameSanitized);
     return generateGetResponseEntity(dbUser);
   }
 
@@ -130,7 +133,8 @@ public class DragonBallController extends
   @ResponseBody
   public ResponseEntity<DragonBallUser> getByEmail(
       @RequestParam(value = "email", required = true) String email) {
-    DragonBallUser dbUser = dragonBallUserService.getByEmail(email);
+    String emailSanitized = StringUtils.sanitizeInput(email);
+    DragonBallUser dbUser = dragonBallUserService.getByEmail(emailSanitized);
     return generateGetResponseEntity(dbUser);
   }
 }

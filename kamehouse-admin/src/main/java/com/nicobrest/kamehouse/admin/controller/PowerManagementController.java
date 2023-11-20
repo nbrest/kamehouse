@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandControlle
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -122,13 +123,16 @@ public class PowerManagementController extends AbstractSystemCommandController {
       @RequestParam(value = "server", required = false) String server,
       @RequestParam(value = "mac", required = false) String mac,
       @RequestParam(value = "broadcast", required = false) String broadcast) {
+    String serverSanitized = StringUtils.sanitizeInput(server);
+    String macSanitized = StringUtils.sanitizeInput(mac);
+    String broadcastSanitized = StringUtils.sanitizeInput(broadcast);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
-    if (server != null) {
-      powerManagementService.wakeOnLan(server);
-      response.setMessage("WOL packet sent to " + server);
-    } else if (mac != null && broadcast != null) {
-      powerManagementService.wakeOnLan(mac, broadcast);
-      response.setMessage("WOL packet sent to " + mac + " over " + broadcast);
+    if (serverSanitized != null) {
+      powerManagementService.wakeOnLan(serverSanitized);
+      response.setMessage("WOL packet sent to " + serverSanitized);
+    } else if (macSanitized != null && broadcastSanitized != null) {
+      powerManagementService.wakeOnLan(macSanitized, broadcastSanitized);
+      response.setMessage("WOL packet sent to " + macSanitized + " over " + broadcastSanitized);
     } else {
       throw new KameHouseBadRequestException("server OR mac and broadcast parameters are required");
     }

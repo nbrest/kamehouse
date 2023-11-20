@@ -1949,11 +1949,6 @@ function KameHouseCoreFunctions() {
       const regex = new RegExp(bashColor,"g");
       htmlOutput = htmlOutput.replace(regex, htmlColor)
     });
-    // Remove the special character added in my bash color mappings
-    htmlOutput = htmlOutput.replace(/""/g, "");
-    htmlOutput = htmlOutput.replace(/\x1B/g, "");
-    htmlOutput = htmlOutput.replace(/\x1b/g, "");
-
     return htmlOutput;
   }
 
@@ -2351,7 +2346,7 @@ function KameHouseCoreFunctions() {
     if (kameHouse.core.isEmpty(message)) {
       return;
     }
-    const emptyOrWhiteSpaces = "(|\\s)*";
+    const emptyOrWhiteSpaces = "(\\s)*";
     const anythingButDoubleQuote = '[^"]*';
     const passwordsRegex = new RegExp('"[p|P]assword"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"' + anythingButDoubleQuote + '"',"g");
     const basicAuthRegex = new RegExp('"[a|A]uthorization"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"Basic ' + anythingButDoubleQuote + '"',"g");

@@ -35,6 +35,7 @@ public class BookingController extends AbstractController {
   @ResponseBody
   public ResponseEntity<BookingResponse> bookings(
       @RequestBody BookingRequestDto bookingRequestDto) {
+    sanitizeEntity(bookingRequestDto);
     bookingRequestDto.setScheduled(false);
     BookingResponse bookingResponse = bookingService.book(bookingRequestDto.buildEntity());
     switch (bookingResponse.getStatus()) {

@@ -104,7 +104,7 @@ public class VideoPlaylistService {
     Path playlistPath = Paths.get(playlistFilename);
     if (!isValidPlaylist(playlistPath)) {
       logger.error(
-          "Invalid playlist path specified. Check the validations for supported " + "playlists");
+          "Invalid playlist path specified. Check the validations for supported playlists");
       return null;
     }
     Playlist playlist = null;

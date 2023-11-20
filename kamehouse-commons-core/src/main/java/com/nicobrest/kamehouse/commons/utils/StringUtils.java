@@ -19,7 +19,7 @@ public class StringUtils {
     if (input == null) {
       return null;
     }
-    return input.replaceAll("[\n|\r|\t]", "");
+    return input.replaceAll("[\n|\r|\t|\"|\'|<|>|(|)|`|^|&]", "");
   }
 
   /**

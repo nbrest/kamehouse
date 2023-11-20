@@ -53,10 +53,9 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
 
   @Override
   public List<E> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
-    String sanitizedSortColumn = StringUtils.sanitizeInput(sortColumn);
     logger.trace("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows,
-        sanitizedSortColumn, sortAscending);
-    List<E> returnedEntities = getCrudDao().readAll(maxRows, sanitizedSortColumn, sortAscending);
+        sortColumn, sortAscending);
+    List<E> returnedEntities = getCrudDao().readAll(maxRows, sortColumn, sortAscending);
     logger.trace("ReadAll response {}", returnedEntities);
     return returnedEntities;
   }

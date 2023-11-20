@@ -3,6 +3,8 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import java.lang.reflect.Field;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,6 +132,56 @@ public abstract class AbstractController {
       STATIC_LOGGER.error(errorMessage);
       throw new KameHouseBadRequestException(errorMessage);
     }
+  }
+
+  /**
+   * Sanitize String fields in input entity.
+   */
+  protected static <T> void sanitizeEntity(T entity) {
+    STATIC_LOGGER.trace("Sanitizing entity");
+    if (entity == null) {
+      return;
+    }
+    Field[] fields = entity.getClass().getDeclaredFields();
+    for (Field field : fields) {
+      if (String.class.equals(field.getType())) {
+        try {
+          boolean currentAccessibility = field.trySetAccessible();
+          field.setAccessible(true);
+          field.set(entity, StringUtils.sanitizeInput((String) field.get(entity)));
+          field.setAccessible(currentAccessibility);
+        } catch (IllegalAccessException e) {
+          STATIC_LOGGER.trace("Error sanitizing. Field: {}", field.getName());
+        }
+      }
+      if (hasSubFields(field)) {
+        try {
+          field.setAccessible(true);
+          Object fieldValue = field.get(entity);
+          sanitizeEntity(fieldValue);
+        } catch (IllegalAccessException e) {
+          STATIC_LOGGER.trace("Error accessing object field to sanitize. Field: {}",
+              field.getName());
+        }
+      }
+    }
+  }
+
+  /**
+   * Check if the field has subfields.
+   */
+  private static boolean hasSubFields(Field field) {
+    if (!field.getType().getCanonicalName().contains("com.nicobrest.kamehouse")) {
+      return false;
+    }
+    if (field.getType().isEnum()) {
+      return false;
+    }
+    Field[] subfields = field.getType().getDeclaredFields();
+    if (subfields != null && subfields.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   /**

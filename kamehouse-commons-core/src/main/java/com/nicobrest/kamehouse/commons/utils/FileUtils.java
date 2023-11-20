@@ -66,7 +66,7 @@ public class FileUtils {
     if (filename == null) {
       return false;
     }
-    File file = new File(StringUtils.sanitizeInput(filename));
+    File file = new File(filename);
     return file.exists();
   }
 

@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudController;
 import com.nicobrest.kamehouse.commons.service.CrudService;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.service.VlcPlayerService;
@@ -92,7 +93,8 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
   @GetMapping(path = "/players/hostname/{hostname}")
   @ResponseBody
   public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
-    VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostname);
+    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostnameSanitized);
     return generateGetResponseEntity(vlcPlayer);
   }
 }

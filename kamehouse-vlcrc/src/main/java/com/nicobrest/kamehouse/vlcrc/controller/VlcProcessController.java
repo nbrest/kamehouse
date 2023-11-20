@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
@@ -31,7 +32,8 @@ public class VlcProcessController extends AbstractSystemCommandController {
   @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> startVlcPlayer(
       @RequestParam(value = "file", required = false) String file) {
-    return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(file));
+    String fileSanitized = StringUtils.sanitizeInput(file);
+    return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(fileSanitized));
   }
 
   /**
