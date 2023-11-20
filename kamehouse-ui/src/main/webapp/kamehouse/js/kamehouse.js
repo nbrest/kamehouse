@@ -1949,6 +1949,11 @@ function KameHouseCoreFunctions() {
       const regex = new RegExp(bashColor,"g");
       htmlOutput = htmlOutput.replace(regex, htmlColor)
     });
+    // Remove the special character added in my bash color mappings
+    htmlOutput = htmlOutput.replace(/""/g, "");
+    htmlOutput = htmlOutput.replace(/\x1B/g, "");
+    htmlOutput = htmlOutput.replace(/\x1b/g, "");
+
     return htmlOutput;
   }
 
