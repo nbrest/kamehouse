@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
@@ -35,7 +36,7 @@ public class BookingController extends AbstractController {
   @ResponseBody
   public ResponseEntity<BookingResponse> bookings(
       @RequestBody BookingRequestDto bookingRequestDto) {
-    sanitizeEntity(bookingRequestDto);
+    StringUtils.sanitizeEntity(bookingRequestDto);
     bookingRequestDto.setScheduled(false);
     BookingResponse bookingResponse = bookingService.book(bookingRequestDto.buildEntity());
     switch (bookingResponse.getStatus()) {

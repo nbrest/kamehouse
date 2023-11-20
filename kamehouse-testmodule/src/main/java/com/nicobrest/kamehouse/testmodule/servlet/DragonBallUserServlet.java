@@ -59,7 +59,7 @@ public class DragonBallUserServlet extends AbstractKameHouseServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) {
     try {
-      String username = request.getParameter("username");
+      String username = StringUtils.sanitizeInput(request.getParameter("username"));
       if (!StringUtils.isEmpty(username)) {
         DragonBallUser dragonBallUser = getDragonBallUserService().getByUsername(username);
         setResponseBody(response, JsonUtils.toJsonString(dragonBallUser));

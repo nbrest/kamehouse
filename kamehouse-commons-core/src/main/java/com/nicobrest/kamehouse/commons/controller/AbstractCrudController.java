@@ -22,7 +22,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Creates a new entity in the repository from the DTO.
    */
   protected ResponseEntity<Long> create(D dto) {
-    sanitizeEntity(dto);
+    StringUtils.sanitizeEntity(dto);
     logger.debug("Create {}", dto.getClass().getSimpleName());
     Long createdId = getCrudService().create(dto);
     return generatePostResponseEntity(createdId);
@@ -60,7 +60,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Updates an entity in the repository for the specified id and dto.
    */
   protected ResponseEntity<Void> update(Long id, D dto) {
-    sanitizeEntity(dto);
+    StringUtils.sanitizeEntity(dto);
     logger.debug("Update {}", id);
     Identifiable identifiableDto = (Identifiable) dto;
     validatePathAndRequestBodyIds(id, identifiableDto.getId());

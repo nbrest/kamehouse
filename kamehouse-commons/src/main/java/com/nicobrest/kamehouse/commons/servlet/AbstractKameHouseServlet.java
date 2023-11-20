@@ -86,7 +86,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
    */
   public String getUrlDecodedParam(HttpServletRequest request, String paramName) {
     try {
-      String value = request.getParameter(paramName);
+      String value = StringUtils.sanitizeInput(request.getParameter(paramName));
       if (value != null) {
         return URLDecoder.decode(request.getParameter(paramName), StandardCharsets.UTF_8.name());
       }
@@ -101,7 +101,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
    */
   public Long getLongUrlDecodedParam(HttpServletRequest request, String paramName) {
     try {
-      String value = getUrlDecodedParam(request, paramName);
+      String value = StringUtils.sanitizeInput(getUrlDecodedParam(request, paramName));
       return Long.parseLong(value);
     } catch (NumberFormatException e) {
       throw new KameHouseBadRequestException("Error getting url parameter " + paramName, e);

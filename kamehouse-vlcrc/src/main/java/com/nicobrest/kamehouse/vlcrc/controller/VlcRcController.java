@@ -50,7 +50,7 @@ public class VlcRcController extends AbstractController {
   public ResponseEntity<VlcRcStatus> execCommand(
       @RequestBody VlcRcCommand vlcRcCommand, @PathVariable String hostname) {
     String hostnameSanitized = StringUtils.sanitizeInput(hostname);
-    sanitizeEntity(vlcRcCommand);
+    StringUtils.sanitizeEntity(vlcRcCommand);
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostnameSanitized);
     return generatePostResponseEntity(vlcRcStatus, false);
   }
