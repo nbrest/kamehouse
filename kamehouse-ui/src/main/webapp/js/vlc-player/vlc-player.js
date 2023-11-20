@@ -916,6 +916,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           startLoop = false;
           break;
         }
+        if (MAX_RETRIES < 1) { // fix sonar bug
+          syncVlcPlayerHttpLoopCount = 0;
+        }
       }
       if (startLoop) {
         syncVlcPlayerHttpLoop();
@@ -932,6 +935,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           kameHouse.logger.info("too many attempts to restart syncVlcRcStatusLoop. It seems to be running already. Skipping restart");
           startLoop = false;
           break;
+        }
+        if (MAX_RETRIES < 1) { // fix sonar bug
+          vlcRcStatusLoopCount = 0;
         }
       }
       if (startLoop) {
@@ -951,6 +957,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           startLoop = false;
           break;
         }
+        if (MAX_RETRIES < 1) { // fix sonar bug
+          vlcPlaylistLoopCount = 0;
+        }
       }
       if (startLoop) {
         reconnectPlaylist();
@@ -968,6 +977,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           kameHouse.logger.info("too many attempts to restart keepAliveWebSocketsLoop. It seems to be running already. Skipping restart");
           startLoop = false;
           break;
+        }
+        if (MAX_RETRIES < 1) { // fix sonar bug
+          keepAliveWebSocketLoopCount = 0;
         }
       }
       if (startLoop) {
