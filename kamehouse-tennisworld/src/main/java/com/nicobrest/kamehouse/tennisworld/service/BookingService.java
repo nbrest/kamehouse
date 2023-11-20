@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.utils.ThreadUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
@@ -126,6 +127,7 @@ public abstract class BookingService {
     request.setPassword(null);
     request.setCardDetails(null);
     bookingResponse.setRequest(request);
+    StringUtils.sanitizeEntity(bookingResponse);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
       logger.error(BOOKING_FINISHED, bookingResponse);
     } else {
