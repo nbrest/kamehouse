@@ -17,6 +17,7 @@
 - Removed git pull all from deploy all servers script
 - Updated docker host's subnet to use host's public ip for ssh
 - Fixed links at the end of docker init script
+- Fixed sonar bugs
 
 #### v8.20
 
