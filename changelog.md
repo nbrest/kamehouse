@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.22
+
+- Fixed sonar bugs
+
 #### v8.21
 
 - Updated github actions build
