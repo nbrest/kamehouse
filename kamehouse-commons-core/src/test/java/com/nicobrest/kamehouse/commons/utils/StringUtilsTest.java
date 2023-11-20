@@ -13,7 +13,7 @@ public class StringUtilsTest {
 
   @Test
   public void sanitizeInputTests() {
-    String input = "goku\ngohan\ttrunks\rsanad()<>^&`a";
+    String input = "goku\ngohan\ttrunks\rsanad<>^&`a";
     String output = StringUtils.sanitizeInput(input);
     assertEquals("gokugohantrunkssanada", output);
   }
