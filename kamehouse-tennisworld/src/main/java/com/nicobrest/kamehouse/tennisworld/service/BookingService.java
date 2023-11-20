@@ -84,6 +84,7 @@ public abstract class BookingService {
     validateRequest(bookingRequest);
     Long requestId = persistBookingRequest(bookingRequest);
     setThreadName(requestId);
+    StringUtils.sanitizeEntity(bookingRequest);
     logger.info("Booking tennis world request: {}", bookingRequest);
     return executeBookingRequest(bookingRequest);
   }
