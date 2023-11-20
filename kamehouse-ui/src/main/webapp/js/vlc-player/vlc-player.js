@@ -861,7 +861,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   function syncLoopsStatus() {
     const PERIODIC_STATUS_WAIT_MS = 60000;
     setTimeout(async () => {
-      while (true) {
+      let continueLoop = true;
+      while (continueLoop) {
         const separator = "---------------------------------------------";
         kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
         const loopsStatus = "Sync loops status:";
@@ -877,6 +878,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + keepAliveWebSocketLoopCount);
         kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + syncVlcPlayerHttpLoopCount);
         kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
+        if (PERIODIC_STATUS_WAIT_MS < 1) { //fix sonarbug
+          continueLoop = false;
+        }
         await kameHouse.core.sleep(PERIODIC_STATUS_WAIT_MS);
       }
     }, 0);

@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.utils.VlcRcStatusBuilder;
 import jakarta.persistence.Column;
@@ -256,7 +257,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
     HttpClient client = HttpClientUtils.getClient(username, password);
     HttpGet request = HttpClientUtils.httpGet(url);
     HttpResponse response;
-    LOGGER.trace("Request to VLC: {}", url);
+    LOGGER.trace("Request to VLC: {}", StringUtils.sanitizeInput(url));
     try {
       response = HttpClientUtils.execRequest(client, request);
       try (InputStream resInStream = HttpClientUtils.getInputStream(response);
