@@ -263,8 +263,9 @@ class PowerManagementServiceTest {
   void suspendShutdownSuccessTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
 
-    powerManagementService.scheduleSuspend(5400);
-    // no exception thrown expected
+    Assertions.assertDoesNotThrow(() -> {
+      powerManagementService.scheduleSuspend(5400);
+    });
   }
 
   /**
