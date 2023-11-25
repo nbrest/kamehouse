@@ -27,7 +27,7 @@ import org.quartz.TriggerKey;
  *
  * @author nbrest
  */
-public class PowerManagementServiceTest {
+class PowerManagementServiceTest {
 
   @InjectMocks
   private PowerManagementService powerManagementService;
@@ -45,7 +45,7 @@ public class PowerManagementServiceTest {
    * WOL server successful test.
    */
   @Test
-  public void wakeOnLanServerTest() {
+  void wakeOnLanServerTest() {
     try {
       powerManagementService.wakeOnLan("media.server");
     } catch (KameHouseBadRequestException e) {
@@ -58,7 +58,7 @@ public class PowerManagementServiceTest {
    * WOL invalid server test.
    */
   @Test
-  public void wakeOnLanInvalidServerTest() {
+  void wakeOnLanInvalidServerTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -70,7 +70,7 @@ public class PowerManagementServiceTest {
    * WOL invalid mac address test.
    */
   @Test
-  public void wakeOnLanInvalidMacAddressLengthTest() {
+  void wakeOnLanInvalidMacAddressLengthTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -82,7 +82,7 @@ public class PowerManagementServiceTest {
    * WOL invalid mac address test.
    */
   @Test
-  public void wakeOnLanInvalidMacAddressNumberFormatTest() {
+  void wakeOnLanInvalidMacAddressNumberFormatTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -94,7 +94,7 @@ public class PowerManagementServiceTest {
    * WOL invalid broadcast address test.
    */
   @Test
-  public void wakeOnLanInvalidBroadcastTest() {
+  void wakeOnLanInvalidBroadcastTest() {
     assertThrows(
         KameHouseException.class,
         () -> {
@@ -106,7 +106,7 @@ public class PowerManagementServiceTest {
    * WOL mac and broadcast successful test.
    */
   @Test
-  public void wakeOnLanMacAndBroadcastTest() throws KameHouseBadRequestException {
+  void wakeOnLanMacAndBroadcastTest() throws KameHouseBadRequestException {
     powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9");
     // no exception thrown expected
   }
@@ -115,7 +115,7 @@ public class PowerManagementServiceTest {
    * Shutdown server successful test.
    */
   @Test
-  public void scheduleShutdownSuccessTest() {
+  void scheduleShutdownSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
 
     powerManagementService.scheduleShutdown(5400);
@@ -126,7 +126,7 @@ public class PowerManagementServiceTest {
    * Shutdown server exception test.
    */
   @Test
-  public void scheduleShutdownExceptionTest() {
+  void scheduleShutdownExceptionTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -141,7 +141,7 @@ public class PowerManagementServiceTest {
    * Shutdown server reschedule test.
    */
   @Test
-  public void scheduleShutdownRescheduleTest() throws SchedulerException {
+  void scheduleShutdownRescheduleTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenReturn(true);
 
@@ -153,7 +153,7 @@ public class PowerManagementServiceTest {
    * Shutdown server scheduler exception test.
    */
   @Test
-  public void scheduleShutdownSchedulerExceptionTest() throws SchedulerException {
+  void scheduleShutdownSchedulerExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -170,7 +170,7 @@ public class PowerManagementServiceTest {
    * Shutdown server trigger won't fire test.
    */
   @Test
-  public void scheduleShutdownTriggerWontFireTest() throws SchedulerException {
+  void scheduleShutdownTriggerWontFireTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException(PowerManagementService.TRIGGER_WONT_FIRE));
@@ -182,7 +182,7 @@ public class PowerManagementServiceTest {
    * Get shutdown server status successful test.
    */
   @Test
-  public void getShutdownStatusSuccessTest() {
+  void getShutdownStatusSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
 
     String status = powerManagementService.getShutdownStatus();
@@ -193,7 +193,7 @@ public class PowerManagementServiceTest {
    * Get Shutdown server status successful scheduled test.
    */
   @Test
-  public void getShutdownStatusSuccessScheduledTest() throws SchedulerException {
+  void getShutdownStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
     Trigger trigger = Mockito.mock(Trigger.class);
     when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
@@ -207,7 +207,7 @@ public class PowerManagementServiceTest {
    * Get Shutdown server status exception test.
    */
   @Test
-  public void getShutdownStatusExceptionTest() {
+  void getShutdownStatusExceptionTest() {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -224,7 +224,7 @@ public class PowerManagementServiceTest {
    * Cancel shutdown server successful test.
    */
   @Test
-  public void cancelScheduledShutdownSuccessTest() {
+  void cancelScheduledShutdownSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
 
     String status = powerManagementService.cancelScheduledShutdown();
@@ -235,7 +235,7 @@ public class PowerManagementServiceTest {
    * Cancel shutdown server successful cancelled test.
    */
   @Test
-  public void cancelScheduledShutdownSuccessCancelledTest() throws SchedulerException {
+  void cancelScheduledShutdownSuccessCancelledTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
     when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class))).thenReturn(true);
 
@@ -247,7 +247,7 @@ public class PowerManagementServiceTest {
    * Cancel shutdown server exception test.
    */
   @Test
-  public void cancelScheduledShutdownExceptionTest() throws SchedulerException {
+  void cancelScheduledShutdownExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -264,7 +264,7 @@ public class PowerManagementServiceTest {
    * Suspend server successful test.
    */
   @Test
-  public void suspendShutdownSuccessTest() {
+  void suspendShutdownSuccessTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
 
     powerManagementService.scheduleSuspend(5400);
@@ -275,7 +275,7 @@ public class PowerManagementServiceTest {
    * Suspend server exception test.
    */
   @Test
-  public void scheduleSuspendExceptionTest() {
+  void scheduleSuspendExceptionTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -289,7 +289,7 @@ public class PowerManagementServiceTest {
    * Suspend server reschedule test.
    */
   @Test
-  public void scheduleSuspendRescheduleTest() throws SchedulerException {
+  void scheduleSuspendRescheduleTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenReturn(true);
 
@@ -301,7 +301,7 @@ public class PowerManagementServiceTest {
    * Suspend server scheduler exception test.
    */
   @Test
-  public void scheduleSuspendSchedulerExceptionTest() throws SchedulerException {
+  void scheduleSuspendSchedulerExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -317,7 +317,7 @@ public class PowerManagementServiceTest {
    * Suspend server trigger won't fire test.
    */
   @Test
-  public void scheduleSuspendTriggerWontFireTest() throws SchedulerException {
+  void scheduleSuspendTriggerWontFireTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException(PowerManagementService.TRIGGER_WONT_FIRE));
@@ -329,7 +329,7 @@ public class PowerManagementServiceTest {
    * Get Suspend server status successful not scheduled test.
    */
   @Test
-  public void getSuspendStatusSuccessNotScheduledTest() {
+  void getSuspendStatusSuccessNotScheduledTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
 
     String status = powerManagementService.getSuspendStatus();
@@ -340,7 +340,7 @@ public class PowerManagementServiceTest {
    * Get Suspend server status successful scheduled test.
    */
   @Test
-  public void getSuspendStatusSuccessScheduledTest() throws SchedulerException {
+  void getSuspendStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
     Trigger trigger = Mockito.mock(Trigger.class);
     when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
@@ -354,7 +354,7 @@ public class PowerManagementServiceTest {
    * Get Suspend server status exception test.
    */
   @Test
-  public void getSuspendStatusExceptionTest() throws SchedulerException {
+  void getSuspendStatusExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -370,7 +370,7 @@ public class PowerManagementServiceTest {
    * Cancel Suspend server successful not scheduled test.
    */
   @Test
-  public void cancelScheduledSuspendSuccessNotScheduledTest() {
+  void cancelScheduledSuspendSuccessNotScheduledTest() {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
 
     String status = powerManagementService.cancelScheduledSuspend();
@@ -381,7 +381,7 @@ public class PowerManagementServiceTest {
    * Cancel Suspend server successful cancelled test.
    */
   @Test
-  public void cancelScheduledSuspendSuccessCancelledTest() throws SchedulerException {
+  void cancelScheduledSuspendSuccessCancelledTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
     when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class))).thenReturn(true);
 
@@ -393,7 +393,7 @@ public class PowerManagementServiceTest {
    * Cancel Suspend server exception test.
    */
   @Test
-  public void cancelScheduledSuspendExceptionTest() throws SchedulerException {
+  void cancelScheduledSuspendExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {

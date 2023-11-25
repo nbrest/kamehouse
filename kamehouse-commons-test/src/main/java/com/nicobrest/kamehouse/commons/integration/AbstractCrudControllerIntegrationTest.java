@@ -147,7 +147,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(4)
-  public void readAllTest() throws IOException {
+  void readAllTest() throws IOException {
     logger.info("Running readAllTest");
 
     HttpResponse response = get(getCrudUrl());
@@ -160,7 +160,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(5)
-  public void updateTest() throws IOException {
+  void updateTest() throws IOException {
     logger.info("Running updateTest with id {}", createdId);
     updateDto(dto);
     dto.setId(createdId);
@@ -192,7 +192,7 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   @Test
   @Order(7)
-  public void updateNotFoundExceptionTest() throws IOException {
+  void updateNotFoundExceptionTest() throws IOException {
     Long invalidId = createdId * 2;
     logger.info("Running updateNotFoundExceptionTest with id {}", invalidId);
     dto.setId(invalidId);

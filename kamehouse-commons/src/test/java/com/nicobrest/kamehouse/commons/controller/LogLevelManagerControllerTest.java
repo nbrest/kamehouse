@@ -55,7 +55,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Resets mock objects.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     Mockito.reset(logLevelManagerService);
     mockMvc = MockMvcBuilders.standaloneSetup(logLevelManagerController).build();
@@ -65,7 +65,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests getting the log level for a specific package.
    */
   @Test
-  public void getLogLevelSinglePackageSuccessTest() throws Exception {
+  void getLogLevelSinglePackageSuccessTest() throws Exception {
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse"))
         .thenReturn(logLevelSingleElement);
 
@@ -83,7 +83,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests getting the log level for all packages with log level set.
    */
   @Test
-  public void getLogLevelSuccessTest() throws Exception {
+  void getLogLevelSuccessTest() throws Exception {
     when(logLevelManagerService.getLogLevel(null)).thenReturn(logLevelMultipleElements);
 
     MockHttpServletResponse response = doGet("/api/v1/commons/log-level");
@@ -99,7 +99,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests setting the log level for a specific package.
    */
   @Test
-  public void setLogLevelSuccessTest() throws Exception {
+  void setLogLevelSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setLogLevel("TRACE", "com.nicobrest.kamehouse");
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse"))
         .thenReturn(logLevelSingleElement);
@@ -120,7 +120,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests setting the log level for the default package.
    */
   @Test
-  public void setLogLevelDefaultPackageSuccessTest() throws Exception {
+  void setLogLevelDefaultPackageSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setLogLevel("TRACE", "com.nicobrest.kamehouse");
     when(logLevelManagerService.getLogLevel("com.nicobrest.kamehouse"))
         .thenReturn(logLevelSingleElement);
@@ -140,7 +140,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests setting an invalid log level for the default package.
    */
   @Test
-  public void setLogLevelInvalidLogLevelTest() throws Exception {
+  void setLogLevelInvalidLogLevelTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -156,7 +156,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests setting the log level for all kamehouse packages to INFO.
    */
   @Test
-  public void setKamehouseLogLevelsToInfoSuccessTest() throws Exception {
+  void setKamehouseLogLevelsToInfoSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToInfo();
 
     MockHttpServletResponse response = doPut("/api/v1/commons/log-level/info");
@@ -171,7 +171,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests setting the log level for all kamehouse packages to DEBUG.
    */
   @Test
-  public void setKamehouseLogLevelsToDebugSuccessTest() throws Exception {
+  void setKamehouseLogLevelsToDebugSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
 
     MockHttpServletResponse response = doPut("/api/v1/commons/log-level/debug");
@@ -186,7 +186,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests setting the log level for all kamehouse packages to TRACE.
    */
   @Test
-  public void setKamehouseLogLevelsToTraceSuccessTest() throws Exception {
+  void setKamehouseLogLevelsToTraceSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).setKamehouseLogLevelsToTrace();
 
     MockHttpServletResponse response = doPut("/api/v1/commons/log-level/trace");
@@ -201,7 +201,7 @@ public class LogLevelManagerControllerTest extends AbstractControllerTest<List<S
    * Tests resetting all the log levels to their default value.
    */
   @Test
-  public void resetLogLevelsSuccessTest() throws Exception {
+  void resetLogLevelsSuccessTest() throws Exception {
     doNothing().when(logLevelManagerService).resetLogLevels();
 
     MockHttpServletResponse response = doDelete("/api/v1/commons/log-level");

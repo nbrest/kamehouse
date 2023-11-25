@@ -49,7 +49,7 @@ public class DragonBallUserServiceTest
    * Tests calling the service to get a single DragonBallUser in the repository by username.
    */
   @Test
-  public void getByUsernameTest() {
+  void getByUsernameTest() {
     DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     when(dragonBallUserDaoMock.getByUsername(dragonBallUser.getUsername()))
         .thenReturn(dragonBallUser);
@@ -64,7 +64,7 @@ public class DragonBallUserServiceTest
    * Tests calling the service to get a single DragonBallUser in the repository by its email.
    */
   @Test
-  public void getByEmailTest() {
+  void getByEmailTest() {
     DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     when(dragonBallUserDaoMock.getByEmail(dragonBallUser.getEmail())).thenReturn(dragonBallUser);
 

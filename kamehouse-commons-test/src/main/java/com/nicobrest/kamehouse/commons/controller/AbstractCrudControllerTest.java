@@ -70,7 +70,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Resets mock objects.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = getTestUtils();
     testUtils.initTestData();
     testUtils.setIds();
@@ -84,7 +84,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Creates entity test.
    */
   @Test
-  public void createTest() throws Exception {
+  void createTest() throws Exception {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
     Identifiable identifiableEntity = (Identifiable) entity;
@@ -103,7 +103,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Creates entity ConflictException test.
    */
   @Test
-  public void createConflictExceptionTest() {
+  void createConflictExceptionTest() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
         ServletException.class,
@@ -119,7 +119,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Reads entity test.
    */
   @Test
-  public void readTest() throws Exception {
+  void readTest() throws Exception {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(getCrudService().read(identifiableEntity.getId())).thenReturn(entity);
@@ -135,7 +135,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Reads all entities test.
    */
   @Test
-  public void readAllTest() throws Exception {
+  void readAllTest() throws Exception {
     List<E> entityList = testUtils.getTestDataList();
     when(getCrudService().readAll()).thenReturn(entityList);
     when(getCrudService().readAll(any(), any(), any())).thenReturn(entityList);
@@ -154,7 +154,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Updates entity test.
    */
   @Test
-  public void updateTest() throws Exception {
+  void updateTest() throws Exception {
     D dto = testUtils.getTestDataDto();
     Identifiable identifiableDto = (Identifiable) dto;
     Mockito.doNothing().when(getCrudService()).update(dto);
@@ -186,7 +186,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Updates entity not found test.
    */
   @Test
-  public void updateNotFoundExceptionTest() {
+  void updateNotFoundExceptionTest() {
     D dto = testUtils.getTestDataDto();
     assertThrows(
         ServletException.class,
@@ -202,7 +202,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Deletes entity test.
    */
   @Test
-  public void deleteTest() throws Exception {
+  void deleteTest() throws Exception {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(getCrudService().delete(identifiableEntity.getId())).thenReturn(entity);
@@ -219,7 +219,7 @@ public abstract class AbstractCrudControllerTest<E, D> extends AbstractControlle
    * Deletes entity not found test.
    */
   @Test
-  public void deleteNotFoundExceptionTest() {
+  void deleteNotFoundExceptionTest() {
     assertThrows(
         ServletException.class,
         () -> {

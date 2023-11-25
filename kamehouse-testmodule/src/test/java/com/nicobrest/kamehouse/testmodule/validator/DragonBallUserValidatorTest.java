@@ -10,17 +10,17 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class DragonBallUserValidatorTest {
+class DragonBallUserValidatorTest {
 
   /** Tests valid positive value. Should execute without throwing exceptions. */
   @Test
-  public void validatePositiveValueTest() {
+  void validatePositiveValueTest() {
     DragonBallUserValidator.validatePositiveValue(9);
   }
 
   /** Tests the failure flow of validatePositiveValue. */
   @Test
-  public void validatePositiveValueExceptionTest() {
+  void validatePositiveValueExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {

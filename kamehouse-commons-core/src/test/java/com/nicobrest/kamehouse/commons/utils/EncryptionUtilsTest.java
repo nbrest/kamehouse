@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class EncryptionUtilsTest {
+class EncryptionUtilsTest {
 
   private static final String TEST_RESOURCES_PATH = "src/test/resources/commons/";
   private static final String SAMPLE_CERT = TEST_RESOURCES_PATH + "keys/sample.crt";
@@ -33,7 +33,7 @@ public class EncryptionUtilsTest {
    * Test encrypt and decrypt strings.
    */
   @Test
-  public void encryptAndDecryptStringsTest() {
+  void encryptAndDecryptStringsTest() {
     String inputString = "mada mada dane echizen kun";
     byte[] encryptedData = EncryptionUtils.encrypt(inputString.getBytes(Charsets.UTF_8),
         getSampleCertificate());
@@ -48,7 +48,7 @@ public class EncryptionUtilsTest {
    * Test encrypt a decrypted file.
    */
   @Test
-  public void encryptDecryptedFileTest() throws IOException {
+  void encryptDecryptedFileTest() throws IOException {
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_DECRYPTED_FILE));
     String inputString = new String(inputBytes, StandardCharsets.UTF_8);
 
@@ -63,7 +63,7 @@ public class EncryptionUtilsTest {
    * Test decrypt an encrypted file.
    */
   @Test
-  public void decryptEncryptedFileTest() throws IOException {
+  void decryptEncryptedFileTest() throws IOException {
     String expectedDecrypted = "mada mada dane - pegasus seiya";
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_FILE));
     String inputString = new String(inputBytes, StandardCharsets.UTF_8);
@@ -79,7 +79,7 @@ public class EncryptionUtilsTest {
    * Test decrypt an encrypted empty file.
    */
   @Test
-  public void decryptEncryptedEmptyFileTest() throws IOException {
+  void decryptEncryptedEmptyFileTest() throws IOException {
     String expectedDecrypted = "";
     byte[] inputBytes = FileUtils.readFileToByteArray(new File(SAMPLE_ENCRYPTED_EMPTY_FILE));
     String inputString = new String(inputBytes, StandardCharsets.UTF_8);
@@ -95,7 +95,7 @@ public class EncryptionUtilsTest {
    * Test decrypt error flow with invalid file.
    */
   @Test
-  public void decryptInvalidFileTest() {
+  void decryptInvalidFileTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -107,7 +107,7 @@ public class EncryptionUtilsTest {
    * Test decrypt error flow with empty data.
    */
   @Test
-  public void decryptEmptyDataTest() {
+  void decryptEmptyDataTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -119,7 +119,7 @@ public class EncryptionUtilsTest {
    * Test decrypt error flow with empty private key.
    */
   @Test
-  public void decryptEmptyPrivateKeyTest() {
+  void decryptEmptyPrivateKeyTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -131,7 +131,7 @@ public class EncryptionUtilsTest {
    * Test encrypt error flow with empty data.
    */
   @Test
-  public void encryptEmptyDataTest() {
+  void encryptEmptyDataTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -143,7 +143,7 @@ public class EncryptionUtilsTest {
    * Test encrypt error flow with empty certificate.
    */
   @Test
-  public void decryptEmptyCertificateTest() {
+  void decryptEmptyCertificateTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -155,7 +155,7 @@ public class EncryptionUtilsTest {
    * Test encrypt error flow with empty certificate.
    */
   @Test
-  public void kameHouseKeysTest() {
+  void kameHouseKeysTest() {
     try {
       X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
       assertNotNull(cert);

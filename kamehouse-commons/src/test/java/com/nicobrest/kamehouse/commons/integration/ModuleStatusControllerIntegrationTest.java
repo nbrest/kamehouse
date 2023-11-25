@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class ModuleStatusControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class ModuleStatusControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/commons/module/status";
 
@@ -19,7 +19,7 @@ public class ModuleStatusControllerIntegrationTest extends AbstractControllerInt
   }
 
   @Test
-  public void moduleStatusTest() throws Exception {
+  void moduleStatusTest() throws Exception {
     logger.info("Running moduleStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);

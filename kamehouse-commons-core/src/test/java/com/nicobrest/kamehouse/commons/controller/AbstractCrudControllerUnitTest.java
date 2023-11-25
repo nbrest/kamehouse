@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class AbstractCrudControllerUnitTest {
+class AbstractCrudControllerUnitTest {
 
   private static final String API_TEST_ENTITY = "/api/v1/unit-tests/test-entity";
   private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class AbstractCrudControllerUnitTest {
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testEntity = new TestEntity();
     testEntity.setId(1L);
     testEntity.setName("goku");
@@ -66,7 +66,7 @@ public class AbstractCrudControllerUnitTest {
    * create entity test.
    */
   @Test
-  public void createTest() throws Exception {
+  void createTest() throws Exception {
     byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
     MockHttpServletResponse response = doPost(API_TEST_ENTITY, requestPayload);
 
@@ -77,7 +77,7 @@ public class AbstractCrudControllerUnitTest {
    * read entity test.
    */
   @Test
-  public void readTest() throws Exception {
+  void readTest() throws Exception {
     MockHttpServletResponse response = doGet(API_TEST_ENTITY + "/1");
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class AbstractCrudControllerUnitTest {
    * read all entities test.
    */
   @Test
-  public void readAllTest() throws Exception {
+  void readAllTest() throws Exception {
     MockHttpServletResponse response = doGet(API_TEST_ENTITY);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -97,7 +97,7 @@ public class AbstractCrudControllerUnitTest {
    * update entity test.
    */
   @Test
-  public void updateTest() throws Exception {
+  void updateTest() throws Exception {
     byte[] requestPayload = JsonUtils.toJsonByteArray(testEntityDto);
     MockHttpServletResponse response = doPut(API_TEST_ENTITY + "/1", requestPayload);
 
@@ -108,7 +108,7 @@ public class AbstractCrudControllerUnitTest {
    * update entity error test.
    */
   @Test
-  public void updatePathIdNotValidTest() {
+  void updatePathIdNotValidTest() {
     assertThrows(
         ServletException.class,
         () -> {
@@ -122,7 +122,7 @@ public class AbstractCrudControllerUnitTest {
    * delete entity test.
    */
   @Test
-  public void deleteTest() throws Exception {
+  void deleteTest() throws Exception {
     MockHttpServletResponse response = doDelete(API_TEST_ENTITY + "/1");
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -132,7 +132,7 @@ public class AbstractCrudControllerUnitTest {
    * generateGetResponseEntity successful test.
    */
   @Test
-  public void generateGetResponseEntityTest() {
+  void generateGetResponseEntityTest() {
     ResponseEntity<TestEntity> responseEntity =
         TestEntityCrudController.generateGetResponseEntity(testEntity, true);
 
@@ -144,7 +144,7 @@ public class AbstractCrudControllerUnitTest {
    * generateGetResponseEntity not found test.
    */
   @Test
-  public void generateGetResponseEntityNotFoundTest() {
+  void generateGetResponseEntityNotFoundTest() {
     ResponseEntity<TestEntity> responseEntity =
         TestEntityCrudController.generateGetResponseEntity(null, true);
 
@@ -155,7 +155,7 @@ public class AbstractCrudControllerUnitTest {
    * generatePutResponseEntity success test.
    */
   @Test
-  public void generatePutResponseEntityTest() {
+  void generatePutResponseEntityTest() {
     ResponseEntity<Void> responseEntity = TestEntityCrudController.generatePutResponseEntity();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -165,7 +165,7 @@ public class AbstractCrudControllerUnitTest {
    * generatePostResponseEntity success test.
    */
   @Test
-  public void generatePostResponseEntityTest() {
+  void generatePostResponseEntityTest() {
     ResponseEntity responseEntity = TestEntityCrudController.generatePostResponseEntity(
         testEntity, true);
 
@@ -177,7 +177,7 @@ public class AbstractCrudControllerUnitTest {
    * generatePasswordLessResponseEntity success test.
    */
   @Test
-  public void generatePasswordLessResponseEntityWrapperTest() {
+  void generatePasswordLessResponseEntityWrapperTest() {
     ResponseEntity initialResponseEntity = TestEntityCrudController.generatePostResponseEntity(
         testEntity, true);
     ResponseEntity responseEntity =
@@ -191,7 +191,7 @@ public class AbstractCrudControllerUnitTest {
    * validatePathAndRequestBodyIds null path id test.
    */
   @Test
-  public void validatePathAndRequestBodyIdsNullPathIdTest() {
+  void validatePathAndRequestBodyIdsNullPathIdTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -203,7 +203,7 @@ public class AbstractCrudControllerUnitTest {
    * validatePathAndRequestBodyIds mismatching ids test.
    */
   @Test
-  public void validatePathAndRequestBodyIdsMismatchOfIdsTest() {
+  void validatePathAndRequestBodyIdsMismatchOfIdsTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {

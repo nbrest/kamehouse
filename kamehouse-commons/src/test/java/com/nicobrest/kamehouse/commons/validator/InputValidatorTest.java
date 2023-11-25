@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class InputValidatorTest {
+class InputValidatorTest {
 
   /** Tests valid string length. Should finish without throwing exceptions. */
   @Test
@@ -20,7 +20,7 @@ public class InputValidatorTest {
 
   /** Tests the failure flow of validateStringLength. */
   @Test
-  public void validateStringLengthExceptionTest() {
+  void validateStringLengthExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {

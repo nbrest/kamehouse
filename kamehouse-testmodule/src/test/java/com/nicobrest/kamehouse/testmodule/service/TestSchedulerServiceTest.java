@@ -20,7 +20,7 @@ import org.quartz.SchedulerException;
  *
  * @author nbrest
  */
-public class TestSchedulerServiceTest {
+class TestSchedulerServiceTest {
 
   @InjectMocks private TestSchedulerService testSchedulerService;
 
@@ -34,7 +34,7 @@ public class TestSchedulerServiceTest {
 
   /** Sample job successful test. */
   @Test
-  public void scheduleSampleJobSuccessTest() {
+  void scheduleSampleJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
     testSchedulerService.scheduleSampleJob(5400);
@@ -43,7 +43,7 @@ public class TestSchedulerServiceTest {
 
   /** Sample job exception test. */
   @Test
-  public void scheduleSampleJobExceptionTest() throws SchedulerException {
+  void scheduleSampleJobExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -57,7 +57,7 @@ public class TestSchedulerServiceTest {
 
   /** Sample job exception trigger won't fire test. */
   @Test
-  public void scheduleSampleJobExceptionTriggerWontFireTest() throws SchedulerException {
+  void scheduleSampleJobExceptionTriggerWontFireTest() throws SchedulerException {
     when(scheduler.scheduleJob(any()))
         .thenThrow(new SchedulerException(TestSchedulerService.TRIGGER_WONT_FIRE));
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
@@ -68,7 +68,7 @@ public class TestSchedulerServiceTest {
 
   /** Get job status successful test. */
   @Test
-  public void getJobStatusSuccessTest() {
+  void getJobStatusSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
     String status = testSchedulerService.getSampleJobStatus();
@@ -77,7 +77,7 @@ public class TestSchedulerServiceTest {
 
   /** Cancel job successful test. */
   @Test
-  public void cancelJobSuccessTest() {
+  void cancelJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
     String status = testSchedulerService.cancelScheduledSampleJob();

@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  *
  * @author nbrest
  */
-public class LogLevelManagerControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class LogLevelManagerControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/commons/log-level";
 
@@ -21,7 +21,7 @@ public class LogLevelManagerControllerIntegrationTest extends AbstractController
   }
 
   @Test
-  public void logLevelStatusTest() throws Exception {
+  void logLevelStatusTest() throws Exception {
     logger.info("Running logLevelStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);
@@ -30,7 +30,7 @@ public class LogLevelManagerControllerIntegrationTest extends AbstractController
   }
 
   @Test
-  public void logLevelDeleteTest() throws Exception {
+  void logLevelDeleteTest() throws Exception {
     logger.info("Running logLevelDeleteTest");
 
     HttpResponse response = delete(getWebappUrl() + API_URL);
@@ -40,7 +40,7 @@ public class LogLevelManagerControllerIntegrationTest extends AbstractController
 
   @ParameterizedTest
   @ValueSource(strings = {"/debug", "?level=TRACE", "/trace", "/info"})
-  public void logLevelTest(String suffix) throws Exception {
+  void logLevelTest(String suffix) throws Exception {
     logger.info("Running logLevelTest with parameter {}", suffix);
 
     HttpResponse response = put(getWebappUrl() + API_URL + suffix);
@@ -55,7 +55,7 @@ public class LogLevelManagerControllerIntegrationTest extends AbstractController
       "client-info?logClientInfo=true",
       "query-string?logQueryString=true"
   })
-  public void requestLoggerTest(String suffix) throws Exception {
+  void requestLoggerTest(String suffix) throws Exception {
     logger.info("Running requestLoggerTest with parameter {}", suffix);
     String url = getWebappUrl() + API_URL + "/request-logger/" + suffix;
 

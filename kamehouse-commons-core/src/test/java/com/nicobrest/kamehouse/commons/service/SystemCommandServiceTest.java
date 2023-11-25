@@ -31,7 +31,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class SystemCommandServiceTest {
+class SystemCommandServiceTest {
 
   private SystemCommandService systemCommandService;
   private SystemCommandOutputTestUtils testUtils = new SystemCommandOutputTestUtils();
@@ -72,7 +72,7 @@ public class SystemCommandServiceTest {
    * Executes process successful test.
    */
   @Test
-  public void execKameHouseSystemCommandTest() throws Exception {
+  void execKameHouseSystemCommandTest() throws Exception {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
 
@@ -91,7 +91,7 @@ public class SystemCommandServiceTest {
    * Executes process successful for linux test.
    */
   @Test
-  public void execLinuxCommandTest() throws Exception {
+  void execLinuxCommandTest() throws Exception {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
@@ -107,7 +107,7 @@ public class SystemCommandServiceTest {
    * Executes process with failing VncDo command test.
    */
   @Test
-  public void execVncDoFailedTest() throws Exception {
+  void execVncDoFailedTest() throws Exception {
     List<String> errorStream = Arrays.asList("no errors");
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), errorStream.get(0));
     when(ProcessUtils.getExitValue(any())).thenReturn(1);
@@ -124,7 +124,7 @@ public class SystemCommandServiceTest {
    * Executes daemon process successful test.
    */
   @Test
-  public void execDaemonTest() throws Exception {
+  void execDaemonTest() throws Exception {
     setupProcessStreamMocks("", "");
     SystemCommand systemCommand = new TestDaemonCommand("9");
 
@@ -138,7 +138,7 @@ public class SystemCommandServiceTest {
    * Executes process throwing an IOException test.
    */
   @Test
-  public void execIoExceptionTest() throws IOException {
+  void execIoExceptionTest() throws IOException {
     when(ProcessUtils.getInputStream(any())).thenThrow(IOException.class);
 
     List<String> errorStream =
@@ -156,7 +156,7 @@ public class SystemCommandServiceTest {
    * Execute command on docker host success test.
    */
   @Test
-  public void executeOnDockerHostSuccessTest() {
+  void executeOnDockerHostSuccessTest() {
     when(DockerUtils.shouldExecuteOnDockerHost(any())).thenReturn(true);
     when(DockerUtils.executeOnDockerHost(any())).thenReturn(testUtils.getSingleTestData());
     KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
@@ -172,7 +172,7 @@ public class SystemCommandServiceTest {
    * Execute successful test with sleep set in one of the commands.
    */
   @Test
-  public void executeWithSleepTimeTest() throws IOException {
+  void executeWithSleepTimeTest() throws IOException {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
     kameHouseSystemCommand.getSystemCommands().get(0).setSleepTime(1);

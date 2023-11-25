@@ -34,7 +34,7 @@ import org.quartz.impl.JobDetailImpl;
  *
  * @author nbrest
  */
-public class SchedulerServiceTest {
+class SchedulerServiceTest {
 
   @InjectMocks private SchedulerService schedulerService;
 
@@ -68,7 +68,7 @@ public class SchedulerServiceTest {
 
   /** Get all jobs status successful test. */
   @Test
-  public void getAllJobsStatusSuccessTest() {
+  void getAllJobsStatusSuccessTest() {
     KameHouseJob expectedKameHouseJob = new KameHouseJob();
     expectedKameHouseJob.setJobClass(
         "com.nicobrest.kamehouse.commons.service.SchedulerServiceTest.SampleTestJob");
@@ -103,7 +103,7 @@ public class SchedulerServiceTest {
 
   /** Cancel scheduled job successful test. */
   @Test
-  public void cancelScheduledJobSuccessTest() throws SchedulerException {
+  void cancelScheduledJobSuccessTest() throws SchedulerException {
     when(scheduler.unscheduleJob(any())).thenReturn(true);
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
@@ -113,7 +113,7 @@ public class SchedulerServiceTest {
 
   /** Schedule job successful test. */
   @Test
-  public void scheduleJobSuccessTest() {
+  void scheduleJobSuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
     JobDetailImpl jobDetail = new JobDetailImpl();
     jobDetail.setJobClass(SampleTestJob.class);
@@ -126,7 +126,7 @@ public class SchedulerServiceTest {
 
   /** Schedule job successful test. */
   @Test
-  public void scheduleJobJobKeySuccessTest() {
+  void scheduleJobJobKeySuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
     schedulerService.scheduleJob(jobKey, 2);
@@ -135,7 +135,7 @@ public class SchedulerServiceTest {
 
   /** Schedule job exception flow test. */
   @Test
-  public void scheduleJobJobKeyExceptionTest() throws SchedulerException {
+  void scheduleJobJobKeyExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -149,7 +149,7 @@ public class SchedulerServiceTest {
 
   /** Schedule job exception flow test. */
   @Test
-  public void scheduleJobGetJobDetailExceptionTest() throws SchedulerException {
+  void scheduleJobGetJobDetailExceptionTest() throws SchedulerException {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -163,7 +163,7 @@ public class SchedulerServiceTest {
 
   /** Reschedule job successful test. */
   @Test
-  public void rescheduleJobSuccessTest() throws SchedulerException {
+  void rescheduleJobSuccessTest() throws SchedulerException {
     when(scheduler.checkExists(any(TriggerKey.class))).thenReturn(true);
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
     JobDetailImpl jobDetail = new JobDetailImpl();

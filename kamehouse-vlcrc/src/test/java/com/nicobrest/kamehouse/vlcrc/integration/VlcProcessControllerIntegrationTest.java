@@ -17,7 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class VlcProcessControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class VlcProcessControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/vlc-rc/vlc-process";
 
@@ -28,7 +28,7 @@ public class VlcProcessControllerIntegrationTest extends AbstractControllerInteg
 
   @Test
   @Order(1)
-  public void vlcProcessStartTest() throws Exception {
+  void vlcProcessStartTest() throws Exception {
     logger.info("Running vlcProcessStartTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL);
@@ -38,7 +38,7 @@ public class VlcProcessControllerIntegrationTest extends AbstractControllerInteg
 
   @Test
   @Order(2)
-  public void vlcProcessStatusTest() throws Exception {
+  void vlcProcessStatusTest() throws Exception {
     logger.info("Running vlcProcessStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);
@@ -48,7 +48,7 @@ public class VlcProcessControllerIntegrationTest extends AbstractControllerInteg
 
   @Test
   @Order(3)
-  public void vlcProcessStopTest() throws Exception {
+  void vlcProcessStopTest() throws Exception {
     logger.info("Running vlcProcessStopTest");
 
     HttpResponse response = delete(getWebappUrl() + API_URL);

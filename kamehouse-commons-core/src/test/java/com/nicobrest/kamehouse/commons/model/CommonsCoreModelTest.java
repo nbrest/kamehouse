@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests the model objects in kamehouse commons core module.
  */
-public class CommonsCoreModelTest {
+class CommonsCoreModelTest {
 
   private static String message = "goku";
   private static Exception cause = new NullPointerException();
@@ -34,7 +34,7 @@ public class CommonsCoreModelTest {
    * Test kamehouse core models.
    */
   @Test
-  public void baseModelClassesTest() {
+  void baseModelClassesTest() {
     validateKameHouseGenericResponse();
     validateKameHouseRoleDto();
     validateKameHouseUserDto();
@@ -47,7 +47,7 @@ public class CommonsCoreModelTest {
    * Test kamehouse exceptions.
    */
   @Test
-  public void exceptionClassesTest() {
+  void exceptionClassesTest() {
     validateKameHouseBadRequestException();
     validateKameHouseConflictException();
     validateKameHouseException();

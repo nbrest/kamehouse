@@ -36,7 +36,7 @@ import jakarta.servlet.ServletException;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
+class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks
   private PowerManagementController powerManagementController;
@@ -45,7 +45,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
   protected PowerManagementService powerManagementService;
 
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(powerManagementController).build();
   }
@@ -54,7 +54,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Sets shutdown successful test.
    */
   @Test
-  public void setShutdownTest() throws Exception {
+  void setShutdownTest() throws Exception {
     MockHttpServletResponse response = doPost("/api/v1/admin/power-management/shutdown?delay=5400");
     KameHouseGenericResponse responseBody =
         getResponseBody(response, KameHouseGenericResponse.class);
@@ -69,7 +69,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Sets shutdown exception test.
    */
   @Test
-  public void setShutdownExceptionTest() throws Exception {
+  void setShutdownExceptionTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -85,7 +85,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Cancels shutdown successful test.
    */
   @Test
-  public void cancelShutdownTest() throws Exception {
+  void cancelShutdownTest() throws Exception {
     when(powerManagementService.cancelScheduledShutdown()).thenReturn("Shutdown cancelled");
 
     MockHttpServletResponse response = doDelete("/api/v1/admin/power-management/shutdown");
@@ -101,7 +101,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Cancels shutdown server error test.
    */
   @Test
-  public void cancelShutdownServerErrorTest() throws Exception {
+  void cancelShutdownServerErrorTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -117,7 +117,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Shutdowns status successful test.
    */
   @Test
-  public void statusShutdownTest() throws Exception {
+  void statusShutdownTest() throws Exception {
     when(powerManagementService.getShutdownStatus()).thenReturn("Shutdown not scheduled");
 
     MockHttpServletResponse response = doGet("/api/v1/admin/power-management/shutdown");
@@ -133,7 +133,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Sets suspend successful test.
    */
   @Test
-  public void setSuspendTest() throws Exception {
+  void setSuspendTest() throws Exception {
     MockHttpServletResponse response = doPost("/api/v1/admin/power-management/suspend?delay=5400");
     KameHouseGenericResponse responseBody =
         getResponseBody(response, KameHouseGenericResponse.class);
@@ -148,7 +148,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Sets suspend exception test.
    */
   @Test
-  public void setSuspendExceptionTest() throws Exception {
+  void setSuspendExceptionTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -164,7 +164,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Cancels suspend successful test.
    */
   @Test
-  public void cancelSuspendTest() throws Exception {
+  void cancelSuspendTest() throws Exception {
     when(powerManagementService.cancelScheduledSuspend()).thenReturn("Suspend cancelled");
 
     MockHttpServletResponse response = doDelete("/api/v1/admin/power-management/suspend");
@@ -180,7 +180,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Cancels suspend server error test.
    */
   @Test
-  public void cancelSuspendServerErrorTest() throws Exception {
+  void cancelSuspendServerErrorTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -196,7 +196,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * Suspend status successful test.
    */
   @Test
-  public void statusSuspendTest() throws Exception {
+  void statusSuspendTest() throws Exception {
     when(powerManagementService.getSuspendStatus()).thenReturn("Suspend not scheduled");
 
     MockHttpServletResponse response = doGet("/api/v1/admin/power-management/suspend");
@@ -212,7 +212,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * reboot server successful test.
    */
   @Test
-  public void rebootSuccessfulTest() throws Exception {
+  void rebootSuccessfulTest() throws Exception {
     execPostKameHouseSystemCommandTest(
         "/api/v1/admin/power-management/reboot", RebootKameHouseSystemCommand.class);
   }
@@ -221,7 +221,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * WOL server successful test.
    */
   @Test
-  public void wolServerTest() throws Exception {
+  void wolServerTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString(), anyString());
 
     MockHttpServletResponse response =
@@ -234,7 +234,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * WOL mac and broadcast successful test.
    */
   @Test
-  public void wolMacAndBroadcastTest() throws Exception {
+  void wolMacAndBroadcastTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString(), anyString());
 
     MockHttpServletResponse response =
@@ -249,7 +249,7 @@ public class PowerManagementControllerTest extends AbstractKameHouseSystemComman
    * WOL invalid request test.
    */
   @Test
-  public void wolInvalidRequestTest() throws Exception {
+  void wolInvalidRequestTest() throws Exception {
     doNothing().when(powerManagementService).wakeOnLan(anyString());
     assertThrows(
         ServletException.class,

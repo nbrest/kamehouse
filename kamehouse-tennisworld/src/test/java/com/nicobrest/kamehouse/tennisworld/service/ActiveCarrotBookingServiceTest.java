@@ -35,7 +35,7 @@ import org.springframework.http.HttpStatus;
  * @author nbrest`
  */
 @Deprecated(since = "v8.01")
-public class ActiveCarrotBookingServiceTest {
+class ActiveCarrotBookingServiceTest {
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
   private BookingResponseTestUtils bookingResponseTestUtils = new BookingResponseTestUtils();
@@ -123,7 +123,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request success flow.
    */
   @Test
-  public void bookFacilityOverlayRequestSuccessTest() throws Exception {
+  void bookFacilityOverlayRequestSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -140,7 +140,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request dry run flow.
    */
   @Test
-  public void bookFacilityOverlayRequestDryRunTest() throws Exception {
+  void bookFacilityOverlayRequestDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -159,7 +159,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request invalid login step 1.1 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidLoginStep1p1ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidLoginStep1p1ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_1_1_ERROR_RESPONSES);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
@@ -178,7 +178,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request invalid login step 1.2 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestStep1p2ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestStep1p2ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_1_2_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -196,7 +196,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request invalid login step 1.3 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestStep1p3ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestStep1p3ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_1_3_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -215,7 +215,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request invalid date Step 2 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidDateStep2ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidDateStep2ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -234,7 +234,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request invalid time Step 3 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidTimeStep3ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidTimeStep3ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -253,7 +253,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request Step 4 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidTimeStep4ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidTimeStep4ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_4_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -272,7 +272,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request Step 5 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidTimeStep5ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidTimeStep5ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_5_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -291,7 +291,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request Step 6 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidTimeStep6ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidTimeStep6ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_6_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -310,7 +310,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request Step 7 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestInvalidTimeStep7ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestInvalidTimeStep7ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_7_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -329,7 +329,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a facility overlay request error confirming pay step 8 error flow.
    */
   @Test
-  public void bookFacilityOverlayRequestErrorConfirmingPayStep8ErrorTest() throws Exception {
+  void bookFacilityOverlayRequestErrorConfirmingPayStep8ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_FACILITY_OVERLAY_STEP_8_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
@@ -350,7 +350,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request success flow.
    */
   @Test
-  public void bookSessionOverlayRequestSuccessTest() throws Exception {
+  void bookSessionOverlayRequestSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -367,7 +367,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request dry run flow.
    */
   @Test
-  public void bookSessionOverlayRequestDryRunTest() throws Exception {
+  void bookSessionOverlayRequestDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -386,7 +386,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request invalid login step 1.1 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestInvalidLoginStep1p1ErrorTest() throws Exception {
+  void bookSessionOverlayRequestInvalidLoginStep1p1ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_1_1_ERROR_RESPONSES);
     when(HttpClientUtils.getStatusCode(any())).thenReturn(HttpStatus.OK.value());
@@ -405,7 +405,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request invalid login step 1.2 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep1p2ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep1p2ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_1_2_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -423,7 +423,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request invalid login step 1.3 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep1p3ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep1p3ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_1_3_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -442,7 +442,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request invalid date Step 2 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestInvalidDateStep2ErrorTest() throws Exception {
+  void bookSessionOverlayRequestInvalidDateStep2ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STANDARD_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -461,7 +461,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay request step 3 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep3ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep3ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_3_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -480,7 +480,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay with step 4 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep4ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep4ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_4_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -499,7 +499,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay with step 5 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep5ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep5ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_5_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -518,7 +518,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay with step 6 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep6ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep6ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_6_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -537,7 +537,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test booking a session overlay with step 7 error flow.
    */
   @Test
-  public void bookSessionOverlayRequestStep7ErrorTest() throws Exception {
+  void bookSessionOverlayRequestStep7ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         ActiveCarrotResponses.BOOK_SESSION_OVERLAY_STEP_7_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -558,7 +558,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test unhandled session type error flow.
    */
   @Test
-  public void bookUnknownSessionTypeErrorTest() {
+  void bookUnknownSessionTypeErrorTest() {
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     request.setSessionType(SessionType.UNKNOWN);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
@@ -576,7 +576,7 @@ public class ActiveCarrotBookingServiceTest {
    * Test IOException error.
    */
   @Test
-  public void bookIoExceptionTest() throws IOException {
+  void bookIoExceptionTest() throws IOException {
     when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);

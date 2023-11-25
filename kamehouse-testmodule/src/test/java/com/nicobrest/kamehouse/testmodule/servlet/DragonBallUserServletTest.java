@@ -26,7 +26,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
  *
  * @author nbrest
  */
-public class DragonBallUserServletTest {
+class DragonBallUserServletTest {
 
   private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
   private DragonBallUser dragonBallUser;
@@ -57,7 +57,7 @@ public class DragonBallUserServletTest {
    * Tests the method to get a DragonBallUser from the system through a servlet.
    */
   @Test
-  public void doGetTest() {
+  void doGetTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     List<DragonBallUser> dragonBallUsers = new ArrayList<>();
     dragonBallUsers.add(dragonBallUser);
@@ -72,7 +72,7 @@ public class DragonBallUserServletTest {
    * Tests the method to add a DragonBallUser from the system through the servlet.
    */
   @Test
-  public void doPostTest() {
+  void doPostTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     setDragonBallUserRequestParameters();
     when(dragonBallUserServiceMock.create(any())).thenReturn(dragonBallUser.getId());
@@ -86,7 +86,7 @@ public class DragonBallUserServletTest {
    * Tests the method to edit a DragonBallUser from the system through the servlet.
    */
   @Test
-  public void doPutTest() {
+  void doPutTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     setIdRequestParameter();
     setDragonBallUserRequestParameters();
@@ -101,7 +101,7 @@ public class DragonBallUserServletTest {
    * Tests the method to delete a DragonBallUser from the system through the servlet.
    */
   @Test
-  public void doDeleteTest() {
+  void doDeleteTest() {
     DragonBallUserServlet.setDragonBallUserService(dragonBallUserServiceMock);
     setIdRequestParameter();
     when(dragonBallUserServiceMock.delete(dragonBallUser.getId())).thenReturn(dragonBallUser);

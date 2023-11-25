@@ -30,7 +30,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class AbstractCrudDaoJpaUnitTest {
+class AbstractCrudDaoJpaUnitTest {
 
   @Autowired
   private TestEntityCrudDaoJpa testEntityCrudDaoJpa;
@@ -58,7 +58,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * create entity test.
    */
   @Test
-  public void createTest() {
+  void createTest() {
     TestEntity testEntity = new TestEntity();
     testEntity.setName("gohan");
 
@@ -70,7 +70,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * create entity conflict test.
    */
   @Test
-  public void createConflictExceptionTest() {
+  void createConflictExceptionTest() {
     assertThrows(
         KameHouseConflictException.class,
         () -> {
@@ -85,7 +85,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * find by attribute test.
    */
   @Test
-  public void findByAttributeTest() {
+  void findByAttributeTest() {
     TestEntity testEntity = testEntityCrudDaoJpa.findByAttribute(TestEntity.class, "name", "goku");
     assertNotNull(testEntity);
   }
@@ -94,7 +94,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * read entity test.
    */
   @Test
-  public void readTest() {
+  void readTest() {
     TestEntity testEntity = testEntityCrudDaoJpa.read(999999L);
     assertNotNull(testEntity);
   }
@@ -103,7 +103,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * read not found test.
    */
   @Test
-  public void readNotFoundTest() {
+  void readNotFoundTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -115,7 +115,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * read all test.
    */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     List<TestEntity> testEntities = testEntityCrudDaoJpa.readAll();
     assertEquals(1, testEntities.size());
   }
@@ -124,7 +124,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * read all with filter params test.
    */
   @Test
-  public void readAllWithFilterParamsTest() {
+  void readAllWithFilterParamsTest() {
     List<TestEntity> testEntities = testEntityCrudDaoJpa.readAll(30, "id", false);
     assertEquals(1, testEntities.size());
   }
@@ -133,7 +133,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * update entity test.
    */
   @Test
-  public void updateTest() {
+  void updateTest() {
     TestEntity testEntity = new TestEntity();
     testEntity.setId(999999L);
     testEntity.setName("goku");
@@ -146,7 +146,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * update entity not found test.
    */
   @Test
-  public void updateNotFoundTest() {
+  void updateNotFoundTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -162,7 +162,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * delete entity test.
    */
   @Test
-  public void deleteTest() {
+  void deleteTest() {
     TestEntity testEntity = testEntityCrudDaoJpa.delete(999999L);
     assertNotNull(testEntity);
   }
@@ -171,7 +171,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * delete entity not found test.
    */
   @Test
-  public void deleteNotFoundTest() {
+  void deleteNotFoundTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -183,7 +183,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * findAll PersistenceException test.
    */
   @Test
-  public void findAllPersistenceExceptionTest() {
+  void findAllPersistenceExceptionTest() {
     setupEntityManagerMock();
     persistenceException.initCause(
         new org.hibernate.exception.ConstraintViolationException("", new SQLException(), ""));
@@ -200,7 +200,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * findById PersistenceException test.
    */
   @Test
-  public void findByIdPersistenceExceptionTest() {
+  void findByIdPersistenceExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
 
@@ -215,7 +215,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * findById IllegalArgumentException test.
    */
   @Test
-  public void findByIdIllegalArgumentExceptionTest() {
+  void findByIdIllegalArgumentExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(illegalArgumentException);
 
@@ -230,7 +230,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * findByUsername IllegalArgumentException test. TestEntity doesn't have a username attribute.
    */
   @Test
-  public void findByUsernameIllegalArgumentExceptionTest() {
+  void findByUsernameIllegalArgumentExceptionTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -242,7 +242,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * findByEmail IllegalArgumentException test. TestEntity doesn't have an email attribute.
    */
   @Test
-  public void findByEmailIllegalArgumentExceptionTest() {
+  void findByEmailIllegalArgumentExceptionTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -254,7 +254,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * findByAttribute PersistenceException test.
    */
   @Test
-  public void findByAttributePersistenceExceptionTest() {
+  void findByAttributePersistenceExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
 
@@ -269,7 +269,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * mergeEntityInRepository test.
    */
   @Test
-  public void mergeEntityInRepositoryTest() {
+  void mergeEntityInRepositoryTest() {
     TestEntity entity = testEntityCrudDaoJpa.mergeEntityInRepository(
         testEntityCrudDaoJpa.findAll(TestEntity.class).get(0));
 
@@ -281,7 +281,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * updateEntityInRepository PersistenceException test.
    */
   @Test
-  public void updateEntityInRepositoryPersistenceExceptionTest() {
+  void updateEntityInRepositoryPersistenceExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
 
@@ -296,7 +296,7 @@ public class AbstractCrudDaoJpaUnitTest {
    * updateEntityInRepository IllegalArgumentException test.
    */
   @Test
-  public void updateEntityInRepositoryIllegalArgumentExceptionTest() {
+  void updateEntityInRepositoryIllegalArgumentExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(illegalArgumentException);
 

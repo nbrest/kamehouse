@@ -44,7 +44,7 @@ public class ModuleStatusControllerTest extends AbstractControllerTest<Object, O
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
 
@@ -63,7 +63,7 @@ public class ModuleStatusControllerTest extends AbstractControllerTest<Object, O
 
   /** Get module status test. */
   @Test
-  public void getModuleStatusTest() throws Exception {
+  void getModuleStatusTest() throws Exception {
     MockHttpServletResponse response = doGet(MODULE_STATUS_API);
     Map<String, String> responseBody = getResponseBody(response, Map.class);
 

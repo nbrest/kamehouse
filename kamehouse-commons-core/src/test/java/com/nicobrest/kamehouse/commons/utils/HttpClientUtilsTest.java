@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class HttpClientUtilsTest {
+class HttpClientUtilsTest {
 
   private StatusLine statusLine = new BasicStatusLine(new ProtocolVersion("http", 1, 1), 200, "OK");
   private HttpResponse response = new BasicHttpResponse(statusLine);
@@ -39,7 +39,7 @@ public class HttpClientUtilsTest {
    * Tests getting an http client.
    */
   @Test
-  public void getClientTest() {
+  void getClientTest() {
     HttpClient client = HttpClientUtils.getClient("goku", "trunks");
     assertNotNull(client);
   }
@@ -48,7 +48,7 @@ public class HttpClientUtilsTest {
    *
    */
   @Test
-  public void getClientNullParametersTest() {
+  void getClientNullParametersTest() {
     HttpClient client = HttpClientUtils.getClient(null, null);
     assertNotNull(client);
   }
@@ -57,7 +57,7 @@ public class HttpClientUtilsTest {
    * Tests encoding successfully a url parameter.
    */
   @Test
-  public void urlEncodeSuccessTest() {
+  void urlEncodeSuccessTest() {
     String nonEncodedParam = "pegasus seiya <$1>/?";
     String encodedParam = HttpClientUtils.urlEncode(nonEncodedParam);
     String expectedOutput = "pegasus%20seiya%20%3C$1%3E/?";
@@ -68,7 +68,7 @@ public class HttpClientUtilsTest {
    * Tests returning null when failing to encode the url parameter.
    */
   @Test
-  public void urlEncodeErrorEncodingTest() {
+  void urlEncodeErrorEncodingTest() {
     String encodedParam = HttpClientUtils.urlEncode(null);
     assertNull(encodedParam, "Expected null from urlEncode");
   }
@@ -77,7 +77,7 @@ public class HttpClientUtilsTest {
    * Tests decoding successfully a url parameter.
    */
   @Test
-  public void urlDecodeSuccessTest() {
+  void urlDecodeSuccessTest() {
     String encodedParam = "pegasus%20seiya%20%3C$1%3E/?";
     String nonEncodedParam = HttpClientUtils.urlDecode(encodedParam);
     String expectedOutput = "pegasus seiya <$1>/?";
@@ -88,7 +88,7 @@ public class HttpClientUtilsTest {
    * Tests returning null when failing to decode the url parameter.
    */
   @Test
-  public void urlDecodeErrorDecodingTest() {
+  void urlDecodeErrorDecodingTest() {
     String decodedParam = HttpClientUtils.urlDecode(null);
     assertNull(decodedParam, "Expected null from urlDecode");
   }
@@ -97,7 +97,7 @@ public class HttpClientUtilsTest {
    * urlDecode IllegalArgumentException test.
    */
   @Test
-  public void urlDecodeIllegalArgumentExceptionTest() {
+  void urlDecodeIllegalArgumentExceptionTest() {
     String encodedParam = "pegasus%X0seiya";
     assertNull(HttpClientUtils.urlDecode(encodedParam));
   }
@@ -106,7 +106,7 @@ public class HttpClientUtilsTest {
    * getInputStream test.
    */
   @Test
-  public void getInputStreamTest() throws IOException {
+  void getInputStreamTest() throws IOException {
     InputStream inputStream = new ByteArrayInputStream("mada".getBytes(Charsets.UTF_8));
     BasicHttpEntity httpEntity = new BasicHttpEntity();
     httpEntity.setContent(inputStream);
@@ -119,7 +119,7 @@ public class HttpClientUtilsTest {
    * getStatusLine test.
    */
   @Test
-  public void getStatusLineTest() {
+  void getStatusLineTest() {
     StatusLine returnedStatusLine = HttpClientUtils.getStatusLine(response);
 
     assertNotNull(returnedStatusLine);
@@ -131,7 +131,7 @@ public class HttpClientUtilsTest {
    * getStatusCode test.
    */
   @Test
-  public void getStatusCodeTest() {
+  void getStatusCodeTest() {
     assertEquals(200, HttpClientUtils.getStatusCode(response));
   }
 
@@ -139,7 +139,7 @@ public class HttpClientUtilsTest {
    * getHeader test.
    */
   @Test
-  public void getHeaderTest() {
+  void getHeaderTest() {
     response.setHeader("ContentType", "application/json");
 
     assertEquals("application/json", HttpClientUtils.getHeader(response, "ContentType"));
@@ -149,7 +149,7 @@ public class HttpClientUtilsTest {
    * hasHeaders and getAllHeaders test.
    */
   @Test
-  public void hasHeaderTest() {
+  void hasHeaderTest() {
     response.setHeaders(null);
     assertEquals(false, HttpClientUtils.hasHeaders(response));
 
@@ -167,7 +167,7 @@ public class HttpClientUtilsTest {
    * getHeader unset value test.
    */
   @Test
-  public void getHeaderEmptyValueTest() {
+  void getHeaderEmptyValueTest() {
     assertEquals(null, HttpClientUtils.getHeader(response, "ContentType"));
   }
 
@@ -175,7 +175,7 @@ public class HttpClientUtilsTest {
    * hasResponseBody test.
    */
   @Test
-  public void hasResponseBodyTest() throws IOException {
+  void hasResponseBodyTest() throws IOException {
     assertEquals(false, HttpClientUtils.hasResponseBody(response));
 
     BasicHttpEntity entity = new BasicHttpEntity();
@@ -188,7 +188,7 @@ public class HttpClientUtilsTest {
    * httpGet test.
    */
   @Test
-  public void httpGetTest() {
+  void httpGetTest() {
     HttpGet httpGet = HttpClientUtils.httpGet("http://kamehouse.unlimited.com/kamehameha");
 
     assertEquals("kamehouse.unlimited.com", httpGet.getURI().getHost());
@@ -200,7 +200,7 @@ public class HttpClientUtilsTest {
    * execRequest test.
    */
   @Test
-  public void execRequestTest() {
+  void execRequestTest() {
     HttpGet httpGet = HttpClientUtils.httpGet(
         "hs://kamehouse.unlimited.com/kamehameha/this-site-should-never-exist.mp4xv3");
     HttpClient httpClient = HttpClientUtils.getClient("", "");
@@ -216,7 +216,7 @@ public class HttpClientUtilsTest {
    * addUrlParameters test.
    */
   @Test
-  public void addUrlParametersTest() throws URISyntaxException {
+  void addUrlParametersTest() throws URISyntaxException {
     HttpGet httpGet = HttpClientUtils.httpGet("http://www.dbz.com");
     Map<String, String> parameters = new HashMap<>();
     parameters.put("name", "goku");

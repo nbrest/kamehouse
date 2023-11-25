@@ -61,7 +61,7 @@ public class DragonBallUserControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByUsernameTest() throws Exception {
+  void loadUserByUsernameTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
     String username = getDto().getUsername();
 
@@ -75,7 +75,7 @@ public class DragonBallUserControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
+  void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
     String invalidUsername = "invalid-" + getDto().getUsername();
 
@@ -90,7 +90,7 @@ public class DragonBallUserControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByEmailTest() throws Exception {
+  void loadUserByEmailTest() throws Exception {
     logger.info("Running loadUserByEmailTest");
     String email = getDto().getEmail();
 
@@ -104,7 +104,7 @@ public class DragonBallUserControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByEmailNotFoundExceptionTest() throws Exception {
+  void loadUserByEmailNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByEmailNotFoundExceptionTest");
     String invalidEmail = "invalid-" + getDto().getEmail();
 

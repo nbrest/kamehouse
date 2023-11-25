@@ -20,13 +20,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class PasswordUtilsTest {
+class PasswordUtilsTest {
 
   /**
    * Tests the hashed password generation and it's validation with the plain text password.
    */
   @Test
-  public void validateGenerateHashedPasswordTest() {
+  void validateGenerateHashedPasswordTest() {
     String plainTextPassword = "SonGoku1234";
 
     String hashedPassword = PasswordUtils.generateHashedPassword(plainTextPassword);
@@ -40,7 +40,7 @@ public class PasswordUtilsTest {
    * Tests removing the password from entities.
    */
   @Test
-  public void unsetPasswordTest() {
+  void unsetPasswordTest() {
     List<TestUserEntity> userEntityList = new ArrayList<>();
     TestUserEntity entity = new TestUserEntity();
     entity.setName("gohan");
@@ -59,7 +59,7 @@ public class PasswordUtilsTest {
    * Tests removing the password from entities.
    */
   @Test
-  public void unsetPasswordByteArrayTest() {
+  void unsetPasswordByteArrayTest() {
     List<PasswordEntity> userEntityList = new ArrayList<>();
     PasswordEntity<byte[]> entity = new PasswordEntity<>() {
       private byte[] password;
@@ -89,7 +89,7 @@ public class PasswordUtilsTest {
    * Generate null password test.
    */
   @Test
-  public void nullPasswordTest() {
+  void nullPasswordTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -101,7 +101,7 @@ public class PasswordUtilsTest {
    * Checks isValid null password test.
    */
   @Test
-  public void isValidNullPasswordTest() {
+  void isValidNullPasswordTest() {
     assertFalse(PasswordUtils.isValidPassword("", "gohan"));
   }
 }

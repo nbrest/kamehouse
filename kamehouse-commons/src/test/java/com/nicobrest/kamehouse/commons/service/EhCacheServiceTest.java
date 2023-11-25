@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class EhCacheServiceTest {
+class EhCacheServiceTest {
 
   @Autowired
   private EhCacheService ehCacheService;
@@ -29,7 +29,7 @@ public class EhCacheServiceTest {
    * Tests retrieving all caches.
    */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     List<KameHouseCache> cacheList = ehCacheService.getAll();
 
     assertEquals(1, cacheList.size());
@@ -39,7 +39,7 @@ public class EhCacheServiceTest {
    * Tests clearing all caches. Should fail if an exception clearing caches is thrown.
    */
   @Test
-  public void clearAllCachesTest() {
+  void clearAllCachesTest() {
     List<String> emptyList = new ArrayList<>();
 
     ehCacheService.clearAll();
@@ -55,7 +55,7 @@ public class EhCacheServiceTest {
    * Tests clearing an invalid cache. Should fail silently without throwing exception.
    */
   @Test
-  public void clearInvalidCacheTest() {
+  void clearInvalidCacheTest() {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {

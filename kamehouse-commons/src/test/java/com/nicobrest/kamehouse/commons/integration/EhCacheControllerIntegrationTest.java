@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class EhCacheControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class EhCacheControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/commons/ehcache";
 
@@ -23,7 +23,7 @@ public class EhCacheControllerIntegrationTest extends AbstractControllerIntegrat
   }
 
   @Test
-  public void ehcacheStatusTest() throws Exception {
+  void ehcacheStatusTest() throws Exception {
     logger.info("Running ehcacheStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);
@@ -32,7 +32,7 @@ public class EhCacheControllerIntegrationTest extends AbstractControllerIntegrat
   }
 
   @Test
-  public void ehcacheDeleteTest() throws Exception {
+  void ehcacheDeleteTest() throws Exception {
     logger.info("Running ehcacheDeleteTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);

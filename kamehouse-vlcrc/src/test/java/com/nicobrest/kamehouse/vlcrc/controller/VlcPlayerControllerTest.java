@@ -58,7 +58,7 @@ public class VlcPlayerControllerTest extends AbstractCrudControllerTest<VlcPlaye
    * Tests getting a specific VLC Player.
    */
   @Test
-  public void getByHostnameTest() throws Exception {
+  void getByHostnameTest() throws Exception {
     VlcPlayer vlcPlayer = testUtils.getSingleTestData();
     when(vlcPlayerServiceMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 

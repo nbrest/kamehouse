@@ -41,14 +41,14 @@ public class TestSchedulerControllerTest
   @Mock protected TestSchedulerService testSchedulerService;
 
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(testSchedulerController).build();
   }
 
   /** Set sample job schedule successful test. */
   @Test
-  public void setSampleJobTest() throws Exception {
+  void setSampleJobTest() throws Exception {
     MockHttpServletResponse response =
         doPost("/api/v1/test-module/test-scheduler/sample-job" + "?delay=5400");
     KameHouseGenericResponse responseBody =
@@ -62,7 +62,7 @@ public class TestSchedulerControllerTest
 
   /** Cancels sample job successful test. */
   @Test
-  public void cancelSampleJobTest() throws Exception {
+  void cancelSampleJobTest() throws Exception {
     when(testSchedulerService.cancelScheduledSampleJob()).thenReturn("Sample job cancelled");
 
     MockHttpServletResponse response = doDelete("/api/v1/test-module/test-scheduler/sample-job");
@@ -76,7 +76,7 @@ public class TestSchedulerControllerTest
 
   /** Cancels sample job error test. */
   @Test
-  public void cancelSampleJobServerErrorTest() throws Exception {
+  void cancelSampleJobServerErrorTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -90,7 +90,7 @@ public class TestSchedulerControllerTest
 
   /** Sample job status successful test. */
   @Test
-  public void statusSampleJobTest() throws Exception {
+  void statusSampleJobTest() throws Exception {
     when(testSchedulerService.getSampleJobStatus()).thenReturn("Sample job not scheduled");
 
     MockHttpServletResponse response = doGet("/api/v1/test-module/test-scheduler/sample-job");

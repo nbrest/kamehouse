@@ -60,7 +60,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    * Tests getting a single VlcPlayer in the repository by hostname.
    */
   @Test
-  public void getByHostnameTest() {
+  void getByHostnameTest() {
     VlcPlayer vlcPlayer = testUtils.getSingleTestData();
     persistEntityInRepository(vlcPlayer);
 
@@ -73,7 +73,7 @@ public class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPl
    * Tests getting a single VlcPlayer in the repository Exception flows.
    */
   @Test
-  public void getByHostnameNotFoundExceptionTest() {
+  void getByHostnameNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {

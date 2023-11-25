@@ -48,7 +48,7 @@ public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, Vlc
    * Tests calling the service to get a single VlcPlayer in the repository by hostname.
    */
   @Test
-  public void getByHostnameTest() {
+  void getByHostnameTest() {
     VlcPlayer vlcPlayer = testUtils.getSingleTestData();
     when(vlcPlayerDaoMock.getByHostname(vlcPlayer.getHostname())).thenReturn(vlcPlayer);
 

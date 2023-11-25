@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author nbrest
  */
-public class DateUtilsTest {
+class DateUtilsTest {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -31,7 +31,7 @@ public class DateUtilsTest {
    * Tests the several methods to get a cron expression.
    */
   @Test
-  public void toCronExpressionTest() {
+  void toCronExpressionTest() {
     Date date = new GregorianCalendar(2020, Calendar.OCTOBER, 15).getTime();
     String output = DateUtils.toCronExpression(date);
     assertEquals("0 0 0 15 10 ? 2020", output);
@@ -49,7 +49,7 @@ public class DateUtilsTest {
    * Tests adding seconds to a date.
    */
   @Test
-  public void addSecondsTest() {
+  void addSecondsTest() {
     Date date = new GregorianCalendar(2020, Calendar.OCTOBER, 15).getTime();
     Date output = DateUtils.addSeconds(date, 60);
     // format: Xxx Xxx 99 99:99:99 XXXX 9999
@@ -63,7 +63,7 @@ public class DateUtilsTest {
    * Test getCurrentDate.
    */
   @Test
-  public void getCurrentDateTest() {
+  void getCurrentDateTest() {
     assertNotNull(DateUtils.getCurrentDate());
   }
 
@@ -71,7 +71,7 @@ public class DateUtilsTest {
    * Test getTwoWeeksFrom.
    */
   @Test
-  public void getTwoWeeksFromTest() {
+  void getTwoWeeksFromTest() {
     assertNotNull(DateUtils.getTwoWeeksFrom(new Date()));
   }
 
@@ -79,7 +79,7 @@ public class DateUtilsTest {
    * Test getDateFromToday.
    */
   @Test
-  public void getDateFromTodayTest() {
+  void getDateFromTodayTest() {
     assertNotNull(DateUtils.getDateFromToday(2));
   }
 
@@ -87,7 +87,7 @@ public class DateUtilsTest {
    * Test getDate.
    */
   @Test
-  public void getDateTest() {
+  void getDateTest() {
     Date date = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
     assertTrue(
         date.toString().startsWith("Mon Oct 15 00:00:00"), "Date doesn't match the expected value");
@@ -101,7 +101,7 @@ public class DateUtilsTest {
    * Test getFormattedDate.
    */
   @Test
-  public void getFormattedDateTest() {
+  void getFormattedDateTest() {
     String expectedDateRegex = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
     String formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD);
@@ -117,7 +117,7 @@ public class DateUtilsTest {
    * Test getCurrentDayOfWeek.
    */
   @Test
-  public void getCurrentDayOfWeekTest() {
+  void getCurrentDayOfWeekTest() {
     int currentDayOfWeek = DateUtils.getCurrentDayOfWeek();
     assertTrue(
         currentDayOfWeek >= 1 && currentDayOfWeek <= 7, "currentDayOfWeek has an invalid value");
@@ -127,7 +127,7 @@ public class DateUtilsTest {
    * Test getDayOfWeek.
    */
   @Test
-  public void getDayOfWeekTest() {
+  void getDayOfWeekTest() {
     String dayOfWeek = DateUtils.getDayOfWeek(Calendar.SUNDAY);
     assertEquals("Sunday", dayOfWeek);
     dayOfWeek = DateUtils.getDayOfWeek(Calendar.MONDAY);
@@ -148,7 +148,7 @@ public class DateUtilsTest {
    * Test getDaysBetweenDates.
    */
   @Test
-  public void getDaysBetweenDatesTest() {
+  void getDaysBetweenDatesTest() {
     assertEquals(0, DateUtils.getDaysBetweenDates(new Date(), new Date()));
   }
 
@@ -156,7 +156,7 @@ public class DateUtilsTest {
    * Test isOnOrAfter.
    */
   @Test
-  public void isOnOrAfterTest() {
+  void isOnOrAfterTest() {
     assertEquals(true, DateUtils.isOnOrAfter(new Date(), new Date()));
   }
 
@@ -173,7 +173,7 @@ public class DateUtilsTest {
       "20:15,08:15pm," + DateUtils.HH_MM_24HS + "," + DateUtils.HH_MMAM_PM + ",true",
       "08:15pm,20:15," + DateUtils.HH_MMAM_PM + "," + DateUtils.HH_MM_24HS + ",false"
   })
-  public void convertTimeTest(String input, String expected, String inFormat, String outFormat,
+  void convertTimeTest(String input, String expected, String inFormat, String outFormat,
       String lowerCaseOutStr) {
     try {
       boolean lowerCaseOut = Boolean.valueOf(lowerCaseOutStr);
@@ -190,7 +190,7 @@ public class DateUtilsTest {
    * Test convertTime exception.
    */
   @Test
-  public void convertTimeExceptionTest() {
+  void convertTimeExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -202,7 +202,7 @@ public class DateUtilsTest {
    * Test isOnOrAfter exception test.
    */
   @Test
-  public void isOnOrAfterExceptionTest() {
+  void isOnOrAfterExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -214,7 +214,7 @@ public class DateUtilsTest {
    * Test getLocalDateTime.
    */
   @Test
-  public void getLocalDateTimeTest() {
+  void getLocalDateTimeTest() {
     assertNotNull(DateUtils.getLocalDateTime(new Date()));
   }
 
@@ -222,7 +222,7 @@ public class DateUtilsTest {
    * Test getDay.
    */
   @Test
-  public void getDayTest() {
+  void getDayTest() {
     assertNotNull(DateUtils.getDay(new Date()));
   }
 
@@ -244,7 +244,7 @@ public class DateUtilsTest {
       "Sat Nov 26 19:47:48 AEDT 2022,2022-11-26 19:47:48",
       "Sat Dec 26 19:47:48 AEDT 2022,2022-12-26 19:47:48"
   })
-  public void getFormattedBuildDateTest(String input, String expectedOutput) {
+  void getFormattedBuildDateTest(String input, String expectedOutput) {
     assertEquals(expectedOutput, DateUtils.getFormattedBuildDate(input));
   }
 
@@ -252,7 +252,7 @@ public class DateUtilsTest {
    * Test getFormattedBuildDate unmatched regex.
    */
   @Test
-  public void getFormattedBuildDateUnmatchedRegexTest() {
+  void getFormattedBuildDateUnmatchedRegexTest() {
     String input = "Sat Mar 26 19:47:48 AEDTAA 2022";
     assertEquals(input, DateUtils.getFormattedBuildDate(input));
   }
@@ -261,7 +261,7 @@ public class DateUtilsTest {
    * Test getFormattedBuildDate invalid month.
    */
   @Test
-  public void getFormattedBuildDateInvalidMonthTest() {
+  void getFormattedBuildDateInvalidMonthTest() {
     String input = "Sat Xxx 26 19:47:48 AEDT 2022";
     assertEquals(input, DateUtils.getFormattedBuildDate(input));
   }
@@ -270,7 +270,7 @@ public class DateUtilsTest {
    * Test getFormattedBuildDate null input.
    */
   @Test
-  public void getFormattedBuildDateNullInputTest() {
+  void getFormattedBuildDateNullInputTest() {
     assertNull(DateUtils.getFormattedBuildDate(null));
   }
 }

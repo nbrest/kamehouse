@@ -49,7 +49,7 @@ public class KameHouseUserServiceTest
    * Tests calling the service to get a single KameHouseUser in the repository by username.
    */
   @Test
-  public void loadUserByUsernameTest() {
+  void loadUserByUsernameTest() {
     KameHouseUser kameHouseUser = testUtils.getSingleTestData();
     when(kameHouseUserDaoMock.loadUserByUsername(kameHouseUser.getUsername()))
         .thenReturn(kameHouseUser);

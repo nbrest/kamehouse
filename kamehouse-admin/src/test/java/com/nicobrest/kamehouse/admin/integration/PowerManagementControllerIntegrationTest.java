@@ -19,7 +19,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class PowerManagementControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class PowerManagementControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/admin/power-management";
 
@@ -30,7 +30,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(1)
-  public void shutdownTest() throws Exception {
+  void shutdownTest() throws Exception {
     logger.info("Running shutdownTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/shutdown?delay=999999");
@@ -40,7 +40,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(2)
-  public void shutdownStatusTest() throws Exception {
+  void shutdownStatusTest() throws Exception {
     logger.info("Running shutdownStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/shutdown");
@@ -50,7 +50,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(3)
-  public void shutdownCancelTest() throws Exception {
+  void shutdownCancelTest() throws Exception {
     logger.info("Running shutdownCancelTest");
 
     HttpResponse response = delete(getWebappUrl() + API_URL + "/shutdown");
@@ -60,7 +60,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(4)
-  public void suspendTest() throws Exception {
+  void suspendTest() throws Exception {
     logger.info("Running suspendTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/suspend?delay=999999");
@@ -70,7 +70,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(5)
-  public void suspendStatusTest() throws Exception {
+  void suspendStatusTest() throws Exception {
     logger.info("Running suspendStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/suspend");
@@ -80,7 +80,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(6)
-  public void suspendCancelTest() throws Exception {
+  void suspendCancelTest() throws Exception {
     logger.info("Running suspendCancelTest");
 
     HttpResponse response = delete(getWebappUrl() + API_URL + "/suspend");
@@ -91,7 +91,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
   @Test
   @Order(7)
   @Disabled("Enabling this will reboot the system running the test!")
-  public void rebootTest() throws Exception {
+  void rebootTest() throws Exception {
     logger.info("Running rebootTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/reboot");
@@ -101,7 +101,7 @@ public class PowerManagementControllerIntegrationTest extends AbstractController
 
   @Test
   @Order(8)
-  public void wolTest() throws Exception {
+  void wolTest() throws Exception {
     logger.info("Running suspendTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/wol?server=media.server");

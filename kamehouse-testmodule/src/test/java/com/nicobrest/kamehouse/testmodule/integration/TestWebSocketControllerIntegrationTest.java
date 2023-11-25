@@ -9,7 +9,7 @@ import com.nicobrest.kamehouse.testmodule.model.TestWebSocketResponseMessage;
  *
  * @author nbrest
  */
-public class TestWebSocketControllerIntegrationTest extends AbstractWebSocketIntegrationTest {
+class TestWebSocketControllerIntegrationTest extends AbstractWebSocketIntegrationTest {
 
   @Override
   public Class<?> getResponseClass() {

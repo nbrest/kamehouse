@@ -16,7 +16,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class CmdArgumentHandlerTest {
+class CmdArgumentHandlerTest {
 
   private MockedStatic<ProcessUtils> processUtilsMockedStatic;
 
@@ -34,7 +34,7 @@ public class CmdArgumentHandlerTest {
    * Tests parsing the arguments successfully for operation encrypt.
    */
   @Test
-  public void encryptSuccessfulTest() {
+  void encryptSuccessfulTest() {
     String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -47,7 +47,7 @@ public class CmdArgumentHandlerTest {
    * Tests error parsing the arguments for operation encrypt.
    */
   @Test
-  public void encryptErrorTest() {
+  void encryptErrorTest() {
     String[] args = new String[]{"-o", "encrypt", "-if", "in.txt"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -60,7 +60,7 @@ public class CmdArgumentHandlerTest {
    * Tests parsing the arguments successfully for operation decrypt.
    */
   @Test
-  public void decryptSuccessfulTest() {
+  void decryptSuccessfulTest() {
     String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.txt"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -74,7 +74,7 @@ public class CmdArgumentHandlerTest {
    * Tests parsing the arguments successfully for operation jvncsender.
    */
   @Test
-  public void jvncSenderSuccessfulTest() {
+  void jvncSenderSuccessfulTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
         "gokupass", "-port", "5900", "-text", "madamadadane"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
@@ -90,7 +90,7 @@ public class CmdArgumentHandlerTest {
    * Tests parsing the arguments successfully for operation wol.
    */
   @Test
-  public void wolSuccessfulTest() {
+  void wolSuccessfulTest() {
     String[] args = new String[]{"-o", "wol", "-mac", "aa:bb:cc:dd:ee", "-broadcast",
         "192.168.29.255"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
@@ -104,7 +104,7 @@ public class CmdArgumentHandlerTest {
    * Tests parsing the arguments for help.
    */
   @Test
-  public void helpTest() {
+  void helpTest() {
     String[] args = new String[]{"-h"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -117,7 +117,7 @@ public class CmdArgumentHandlerTest {
    * Tests an invalid operation.
    */
   @Test
-  public void invalidOperationTest() {
+  void invalidOperationTest() {
     String[] args = new String[]{"-o", "dinner-out"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);

@@ -37,7 +37,7 @@ import org.mockito.stubbing.OngoingStubbing;
  *
  * @author nbrest
  */
-public class PerfectGymBookingServiceTest {
+class PerfectGymBookingServiceTest {
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
   private BookingResponseTestUtils bookingResponseTestUtils = new BookingResponseTestUtils();
@@ -136,7 +136,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class success flow.
    */
   @Test
-  public void bookClassSuccessTest() throws Exception {
+  void bookClassSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_CLASS_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
@@ -152,7 +152,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class dry run flow.
    */
   @Test
-  public void bookClassDryRunTest() throws Exception {
+  void bookClassDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_CLASS_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     request.setDryRun(true);
@@ -170,7 +170,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 1 error invalid user/pass flow.
    */
   @Test
-  public void bookClassStep1ErrorInvalidUserPassTest() throws Exception {
+  void bookClassStep1ErrorInvalidUserPassTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_1_ERROR_INVALID_USER_PASS_RESPONSES);
     when(HttpClientUtils.getStatusLine(any())).thenReturn(STATUS_LINE_499);
@@ -191,7 +191,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 1 perfectgym server error flow.
    */
   @Test
-  public void bookClassStep1PerfectGymServerErrorTest() throws Exception {
+  void bookClassStep1PerfectGymServerErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_1_ERROR_INVALID_USER_PASS_RESPONSES);
     when(HttpClientUtils.getStatusLine(any())).thenReturn(STATUS_LINE_500);
@@ -212,7 +212,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 1 error invalid json flow.
    */
   @Test
-  public void bookClassStep1ErrorInvalidJsonTest() throws Exception {
+  void bookClassStep1ErrorInvalidJsonTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_1_ERROR_INVALID_JSON_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -231,7 +231,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 1 error empty response flow.
    */
   @Test
-  public void bookClassStep1ErrorEmptyTest() throws Exception {
+  void bookClassStep1ErrorEmptyTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_CLASS_STEP_1_ERROR_EMPTY_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
@@ -249,7 +249,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 1 error no user response flow.
    */
   @Test
-  public void bookClassStep1ErrorNoUserTest() throws Exception {
+  void bookClassStep1ErrorNoUserTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_1_ERROR_NO_USER_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -268,7 +268,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 2 error invalid json array flow.
    */
   @Test
-  public void bookClassStep2ErrorInvalidJsonArrayTest() throws Exception {
+  void bookClassStep2ErrorInvalidJsonArrayTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_2_ERROR_INVALID_JSON_ARRAY_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -287,7 +287,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 2 error no club id flow.
    */
   @Test
-  public void bookClassStep2ErrorNoClubIdTest() throws Exception {
+  void bookClassStep2ErrorNoClubIdTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_2_ERROR_NO_CLUB_ID_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -307,7 +307,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 3 error invalid json flow.
    */
   @Test
-  public void bookClassStep3ErrorInvalidJsonTest() throws Exception {
+  void bookClassStep3ErrorInvalidJsonTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_3_ERROR_INVALID_JSON_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -326,7 +326,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 4 error invalid json flow.
    */
   @Test
-  public void bookClassStep4ErrorInvalidJsonTest() throws Exception {
+  void bookClassStep4ErrorInvalidJsonTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_4_ERROR_INVALID_JSON_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -345,7 +345,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 4 error no class id found flow.
    */
   @Test
-  public void bookClassStep4ErrorNoClassIdFoundTest() throws Exception {
+  void bookClassStep4ErrorNoClassIdFoundTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_4_ERROR_NO_CLASS_ID_FOUND_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -364,7 +364,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 5 error invalid json flow.
    */
   @Test
-  public void bookClassStep5ErrorInvalidJsonTest() throws Exception {
+  void bookClassStep5ErrorInvalidJsonTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_5_ERROR_INVALID_JSON_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -383,7 +383,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a class step 5 error no tickets found flow.
    */
   @Test
-  public void bookClassStep5ErrorNoTicketsFoundTest() throws Exception {
+  void bookClassStep5ErrorNoTicketsFoundTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_5_ERROR_NO_TICKETS_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCardioTennisBookingRequest();
@@ -402,7 +402,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court success flow.
    */
   @Test
-  public void bookCourtSuccessTest() throws Exception {
+  void bookCourtSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -419,7 +419,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking court dry run flow.
    */
   @Test
-  public void bookCourtDryRunTest() throws Exception {
+  void bookCourtDryRunTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -438,7 +438,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court with a custom court number success flow.
    */
   @Test
-  public void bookCourtCustomCourtNumberSuccessTest() throws Exception {
+  void bookCourtCustomCourtNumberSuccessTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -456,7 +456,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 1 error flow.
    */
   @Test
-  public void bookCourtStep1ErrorTest() throws Exception {
+  void bookCourtStep1ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_1_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -475,7 +475,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 2 error flow.
    */
   @Test
-  public void bookCourtStep2ErrorTest() throws Exception {
+  void bookCourtStep2ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_2_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -494,7 +494,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 3 error flow.
    */
   @Test
-  public void bookCourtStep3ErrorTest() throws Exception {
+  void bookCourtStep3ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_3_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -513,7 +513,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 3 no zoneTypeId error flow.
    */
   @Test
-  public void bookCourtStep3ErrorNoZoneTypeIdTest() throws Exception {
+  void bookCourtStep3ErrorNoZoneTypeIdTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_COURT_STEP_3_ERROR_NO_ZONETYPEID_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -533,7 +533,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 4 error flow.
    */
   @Test
-  public void bookCourtStep4ErrorTest() throws Exception {
+  void bookCourtStep4ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_4_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -552,7 +552,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 5 error flow.
    */
   @Test
-  public void bookCourtStep5ErrorTest() throws Exception {
+  void bookCourtStep5ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_5_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -571,7 +571,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 5 no zoneId error flow.
    */
   @Test
-  public void bookCourtStep5ErrorNoZoneIdTest() throws Exception {
+  void bookCourtStep5ErrorNoZoneIdTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_COURT_STEP_5_ERROR_NO_ZONEID_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -591,7 +591,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 5 no userId error flow.
    */
   @Test
-  public void bookCourtStep5ErrorNoUserIdTest() throws Exception {
+  void bookCourtStep5ErrorNoUserIdTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_COURT_STEP_5_ERROR_NO_USERID_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -611,7 +611,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 5 no session id error flow.
    */
   @Test
-  public void bookCourtStep5ErrorNoSessionIdTest() throws Exception {
+  void bookCourtStep5ErrorNoSessionIdTest() throws Exception {
     when(HttpClientUtils.getHeader(httpResponseMock,
         PerfectGymBookingService.CP_BOOK_FACILITY_SESSION_ID_HEADER)).thenReturn(null);
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
@@ -632,7 +632,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 5 build request url error flow.
    */
   @Test
-  public void bookCourtStep5ErrorBuildUrlErrorTest() throws Exception {
+  void bookCourtStep5ErrorBuildUrlErrorTest() throws Exception {
     when(HttpClientUtils.addUrlParameters(any(), anyMap())).thenThrow(URISyntaxException.class);
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -652,7 +652,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 6 error flow.
    */
   @Test
-  public void bookCourtStep6ErrorTest() throws Exception {
+  void bookCourtStep6ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_6_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -671,7 +671,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 6 no ruleId error flow.
    */
   @Test
-  public void bookCourtStep6ErrorNoRuleIdTest() throws Exception {
+  void bookCourtStep6ErrorNoRuleIdTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_COURT_STEP_6_ERROR_NO_RULEID_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -691,7 +691,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 7 error flow.
    */
   @Test
-  public void bookCourtStep7ErrorTest() throws Exception {
+  void bookCourtStep7ErrorTest() throws Exception {
     setupHttpResponseInputStreamMocks(PerfectGymResponses.BOOK_COURT_STEP_7_ERROR_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
     request.setSessionType(SessionType.NTC_CLAY_COURTS);
@@ -710,7 +710,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking a court step 7 no facilityBooking error flow.
    */
   @Test
-  public void bookCourtStep7ErrorNoFacilityBookingTest() throws Exception {
+  void bookCourtStep7ErrorNoFacilityBookingTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_COURT_STEP_7_ERROR_NO_FACILITYBOOKING_RESPONSES);
     BookingRequest request = bookingRequestTestUtils.getCourtBookingRequest();
@@ -731,7 +731,7 @@ public class PerfectGymBookingServiceTest {
    * Test booking an unknown session type flow.
    */
   @Test
-  public void bookUnknownSessionTypeTest() throws Exception {
+  void bookUnknownSessionTypeTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_2_ERROR_INVALID_JSON_ARRAY_RESPONSES);
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
@@ -751,7 +751,7 @@ public class PerfectGymBookingServiceTest {
    * Test IOException error in login.
    */
   @Test
-  public void bookIoExceptionInLoginTest() throws IOException {
+  void bookIoExceptionInLoginTest() throws IOException {
     when(HttpClientUtils.execRequest(any(), any())).thenThrow(new IOException("IO Error"));
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(1);
@@ -768,7 +768,7 @@ public class PerfectGymBookingServiceTest {
    * Test IOException error in booking steps.
    */
   @Test
-  public void bookIoExceptionInBookingTest() throws Exception {
+  void bookIoExceptionInBookingTest() throws Exception {
     setupHttpResponseInputStreamMocks(
         PerfectGymResponses.BOOK_CLASS_STEP_2_ERROR_INVALID_JSON_ARRAY_RESPONSES);
     OngoingStubbing<HttpResponse> ongoingStubbing = when(HttpClientUtils.execRequest(any(), any()));

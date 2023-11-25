@@ -17,7 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  *
  * @author nbrest
  */
-public class AddSecurityContextFilterTest {
+class AddSecurityContextFilterTest {
 
   @Mock
   private AddSecurityContextFilter addSecurityContextFilter;
@@ -31,7 +31,7 @@ public class AddSecurityContextFilterTest {
    * Tests the filter to add the logged in username on each request as a parameter.
    */
   @Test
-  public void doFilterTest() throws Exception {
+  void doFilterTest() throws Exception {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain chain = new MockFilterChain();

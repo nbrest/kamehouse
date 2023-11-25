@@ -13,11 +13,11 @@ import org.quartz.impl.JobDetailImpl;
  *
  * @author nbrest
  */
-public class SchedulerUtilsTest {
+class SchedulerUtilsTest {
 
   /** Tests getting a Trigger to schedule a job. */
   @Test
-  public void getTriggerTest() {
+  void getTriggerTest() {
     JobDetailImpl jobDetail = new JobDetailImpl();
     jobDetail.setJobClass(SampleTestJob.class);
     jobDetail.setName("sampleJob");

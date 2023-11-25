@@ -114,7 +114,7 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
    * Default test that sends 2 messages to the websocket and counts the responses.
    */
   @Test
-  public void defaultWebSocketTest() {
+  void defaultWebSocketTest() {
     logger.info("Running defaultWebSocketTest");
     for (int i = 0; i < expectedMessageCount; i++) {
       send();

@@ -58,7 +58,7 @@ public class KameHouseUserDaoJpaTest
    * Test for getting a single KameHouseUser in the repository by username.
    */
   @Test
-  public void loadUserByUsernameTest() {
+  void loadUserByUsernameTest() {
     KameHouseUser kameHouseUser = testUtils.getSingleTestData();
     mergeEntityInRepository(kameHouseUser);
 
@@ -73,7 +73,7 @@ public class KameHouseUserDaoJpaTest
    * Test for getting a single KameHouseUser in the repository Exception flows.
    */
   @Test
-  public void loadUserByUsernameNotFoundExceptionTest() {
+  void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {

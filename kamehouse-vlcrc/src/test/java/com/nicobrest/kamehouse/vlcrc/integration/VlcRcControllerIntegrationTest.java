@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class VlcRcControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class VlcRcControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/vlc-rc/players/localhost";
 
@@ -24,7 +24,7 @@ public class VlcRcControllerIntegrationTest extends AbstractControllerIntegratio
   }
 
   @Test
-  public void vlcRcStatusTest() throws Exception {
+  void vlcRcStatusTest() throws Exception {
     logger.info("Running vlcRcStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/status");
@@ -33,7 +33,7 @@ public class VlcRcControllerIntegrationTest extends AbstractControllerIntegratio
   }
 
   @Test
-  public void vlcRcPlaylistTest() throws Exception {
+  void vlcRcPlaylistTest() throws Exception {
     logger.info("Running vlcRcPlaylistTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/playlist");
@@ -42,7 +42,7 @@ public class VlcRcControllerIntegrationTest extends AbstractControllerIntegratio
   }
 
   @Test
-  public void vlcRcBrowseTest() throws Exception {
+  void vlcRcBrowseTest() throws Exception {
     logger.info("Running vlcRcBrowseTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/browse");
@@ -51,7 +51,7 @@ public class VlcRcControllerIntegrationTest extends AbstractControllerIntegratio
   }
 
   @Test
-  public void vlcRcCommandsTest() throws Exception {
+  void vlcRcCommandsTest() throws Exception {
     logger.info("Running vlcRcCommandsTest");
     VlcRcCommand command = new VlcRcCommand();
     command.setName("pl_next");

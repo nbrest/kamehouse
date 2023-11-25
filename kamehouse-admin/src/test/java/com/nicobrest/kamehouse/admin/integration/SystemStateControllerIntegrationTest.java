@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  *
  * @author nbrest
  */
-public class SystemStateControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class SystemStateControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/admin/system-state";
 
@@ -24,7 +24,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
 
   @ParameterizedTest
   @ValueSource(strings = {"uptime", "free", "df", "httpd"})
-  public void systemStateTest(String suffix) throws Exception {
+  void systemStateTest(String suffix) throws Exception {
     logger.info("Running systemStateTest with parameter {}", suffix);
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/" + suffix);
@@ -34,7 +34,7 @@ public class SystemStateControllerIntegrationTest extends AbstractControllerInte
 
   @Test
   @Disabled("It breaks the connection when triggering the integration tests on docker through http")
-  public void httpdRestartTest() {
+  void httpdRestartTest() {
     logger.info("Disabled:httpdRestartTest");
 
     //HttpResponse response = post(getWebappUrl() + API_URL + "/httpd");

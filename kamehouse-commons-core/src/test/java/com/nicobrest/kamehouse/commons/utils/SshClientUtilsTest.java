@@ -32,7 +32,7 @@ import org.mockito.MockitoAnnotations;
  *
  * @author nbrest
  */
-public class SshClientUtilsTest {
+class SshClientUtilsTest {
 
   private MockedStatic<EncryptionUtils> encryptionUtils;
   private MockedStatic<PropertiesUtils> propertiesUtils;
@@ -113,7 +113,7 @@ public class SshClientUtilsTest {
    * Execute a successful ssh command test.
    */
   @Test
-  public void executeSuccessTest() {
+  void executeSuccessTest() {
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
         new TestDaemonCommand("1"));
 
@@ -129,7 +129,7 @@ public class SshClientUtilsTest {
    * Execute an ssh command throwing a IOException test.
    */
   @Test
-  public void executeIOExceptionTest() throws IOException {
+  void executeIOExceptionTest() throws IOException {
     when(channelExecMock.open()).thenThrow(new IOException("Test Exception"));
 
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",

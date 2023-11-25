@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.cache.CacheManager;
 
-public class KameHouseCacheManagerTest {
+class KameHouseCacheManagerTest {
 
   @InjectMocks
   private KameHouseCacheManager kameHouseCacheManager = new KameHouseCacheManager();
@@ -49,7 +49,7 @@ public class KameHouseCacheManagerTest {
    * Get all cache names test.
    */
   @Test
-  public void getAllCacheNamesTest() {
+  void getAllCacheNamesTest() {
     List<String> output = kameHouseCacheManager.getAllCacheNames();
 
     assertEquals(List.of("cache1", "cache2"), output);
@@ -59,7 +59,7 @@ public class KameHouseCacheManagerTest {
    * Get kamehouse cache test.
    */
   @Test
-  public void getKameHouseCacheTest() {
+  void getKameHouseCacheTest() {
     KameHouseCache output = kameHouseCacheManager.getKameHouseCache("cache1");
 
     assertEquals("cache1", output.getName());
@@ -70,7 +70,7 @@ public class KameHouseCacheManagerTest {
    * Clear kamehouse cache test.
    */
   @Test
-  public void clearCacheTest() {
+  void clearCacheTest() {
     kameHouseCacheManager.clearCache("cache1");
 
     //no exceptions thrown.

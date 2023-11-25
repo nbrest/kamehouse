@@ -10,23 +10,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class UserValidatorTest {
+class UserValidatorTest {
 
   /** Tests valid username format. Should finish without throwing exceptions. */
   @Test
-  public void validateUsernameFormatTest() {
+  void validateUsernameFormatTest() {
     UserValidator.validateUsernameFormat("niko9enzo");
   }
 
   /** Tests valid email format. Should finish without throwing exceptions. */
   @Test
-  public void validateEmailFormatTest() {
+  void validateEmailFormatTest() {
     UserValidator.validateEmailFormat("niko9enzo@dbz.com");
   }
 
   /** Tests the failure flow of validateUsernameFormat. */
   @Test
-  public void validateUsernameFormatExceptionTest() {
+  void validateUsernameFormatExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -36,7 +36,7 @@ public class UserValidatorTest {
 
   /** Tests the failure flow of validateEmailFormat. */
   @Test
-  public void validateEmailFormatExceptionTest() {
+  void validateEmailFormatExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {

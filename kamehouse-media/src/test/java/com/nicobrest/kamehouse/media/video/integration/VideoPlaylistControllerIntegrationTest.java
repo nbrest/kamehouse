@@ -19,7 +19,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class VideoPlaylistControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class VideoPlaylistControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/media/video";
   private Playlist playlist = null;
@@ -31,7 +31,7 @@ public class VideoPlaylistControllerIntegrationTest extends AbstractControllerIn
 
   @Test
   @Order(1)
-  public void playlistsTest() throws Exception {
+  void playlistsTest() throws Exception {
     logger.info("Running playlistsTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/playlists");
@@ -42,7 +42,7 @@ public class VideoPlaylistControllerIntegrationTest extends AbstractControllerIn
 
   @Test
   @Order(2)
-  public void playlistTest() throws Exception {
+  void playlistTest() throws Exception {
     logger.info("Running playlistTest");
     String path = HttpClientUtils.urlEncode(playlist.getPath());
 

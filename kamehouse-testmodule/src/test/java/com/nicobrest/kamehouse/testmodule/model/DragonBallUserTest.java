@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class DragonBallUserTest {
+class DragonBallUserTest {
 
   private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
 
@@ -26,7 +26,7 @@ public class DragonBallUserTest {
 
   /** Tests attack and recover. */
   @Test
-  public void attackAndRecoverTest() {
+  void attackAndRecoverTest() {
     DragonBallUser goku = testUtils.getTestDataList().get(0);
     DragonBallUser gohan = testUtils.getTestDataList().get(1);
     assertEquals(1000, goku.getStamina());

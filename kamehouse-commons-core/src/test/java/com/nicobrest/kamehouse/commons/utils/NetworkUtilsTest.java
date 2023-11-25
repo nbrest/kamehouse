@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class NetworkUtilsTest {
+class NetworkUtilsTest {
 
   /**
    * Tests wakeOnLan success.
    */
   @Test
-  public void wakeOnLanSuccessTest() {
+  void wakeOnLanSuccessTest() {
     String mac = "aa:bb:cc:dd:ee:ff";
     String broadcast = "192.168.1.255";
     NetworkUtils.wakeOnLan(mac, broadcast);
@@ -27,7 +27,7 @@ public class NetworkUtilsTest {
    * Tests wakeOnLan UnknownHostException.
    */
   @Test
-  public void wakeOnLanUnknownHostExceptionTest() {
+  void wakeOnLanUnknownHostExceptionTest() {
     String mac = "aa:bb:cc:dd:ee:ff";
     String broadcast = "259.259.259.259";
     assertThrows(
@@ -41,7 +41,7 @@ public class NetworkUtilsTest {
    * Tests wakeOnLan invalid mac.
    */
   @Test
-  public void wakeOnLanInvalidMacTest() {
+  void wakeOnLanInvalidMacTest() {
     String mac = "aa:bb:cc:dd:ee:ffgggg";
     String broadcast = "192.168.1.255";
     assertThrows(
@@ -55,7 +55,7 @@ public class NetworkUtilsTest {
    * Tests wakeOnLan invalid mac.
    */
   @Test
-  public void wakeOnLanInvalidMac2Test() {
+  void wakeOnLanInvalidMac2Test() {
     String mac = "aa:bb:cc:dd:ee:ff:gg";
     String broadcast = "192.168.1.255";
     assertThrows(

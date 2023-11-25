@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class ThreadUtilsTest {
+class ThreadUtilsTest {
 
   /** Test get and set the current thread name. */
   @Test

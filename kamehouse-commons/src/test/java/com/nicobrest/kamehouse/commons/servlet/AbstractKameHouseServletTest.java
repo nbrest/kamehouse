@@ -43,7 +43,7 @@ import org.springframework.session.SessionRepository;
  *
  * @author nbrest
  */
-public class AbstractKameHouseServletTest {
+class AbstractKameHouseServletTest {
 
   private MockHttpServletRequest request = new MockHttpServletRequest();
   private MockHttpServletResponse response = new MockHttpServletResponse();
@@ -84,7 +84,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample doGet reading a request url parameter and writing it to the response body.
    */
   @Test
-  public void doGetTest() throws ServletException, IOException {
+  void doGetTest() throws ServletException, IOException {
     request.setParameter("my-param", "mada mada dane");
     request.setParameter("my-long-param", "22");
 
@@ -99,7 +99,7 @@ public class AbstractKameHouseServletTest {
    * Tests error getting a parameter that's not set.
    */
   @Test
-  public void doGetErrorTest() throws ServletException, IOException {
+  void doGetErrorTest() throws ServletException, IOException {
     sampleKameHouseServlet.doGet(request, response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -112,7 +112,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: bad request.
    */
   @Test
-  public void doBadRequestTest() throws IOException {
+  void doBadRequestTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseBadRequestException("bad request"), response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -124,7 +124,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: conflict.
    */
   @Test
-  public void doConflictTest() throws IOException {
+  void doConflictTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseConflictException("conflict"), response);
 
     assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
@@ -136,7 +136,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: forbidden.
    */
   @Test
-  public void doForbiddenTest() throws IOException {
+  void doForbiddenTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseForbiddenException("forbidden"), response);
 
     assertEquals(HttpStatus.FORBIDDEN.value(), response.getStatus());
@@ -148,7 +148,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: invalid command.
    */
   @Test
-  public void doInvalidCommandTest() throws IOException {
+  void doInvalidCommandTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseInvalidCommandException("invalid command"),
         response);
 
@@ -161,7 +161,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: invalid data.
    */
   @Test
-  public void doInvalidDataTest() throws IOException {
+  void doInvalidDataTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseInvalidDataException("invalid data"), response);
 
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -173,7 +173,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: not found.
    */
   @Test
-  public void doNotFoundTest() throws IOException {
+  void doNotFoundTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseNotFoundException("not found"), response);
 
     assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
@@ -185,7 +185,7 @@ public class AbstractKameHouseServletTest {
    * Tests exception handler: server error.
    */
   @Test
-  public void doServerErrorTest() throws IOException {
+  void doServerErrorTest() throws IOException {
     sampleKameHouseServlet.doException(new KameHouseServerErrorException("server error"), response);
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
@@ -197,7 +197,7 @@ public class AbstractKameHouseServletTest {
    * Tests setResponseBody error.
    */
   @Test
-  public void setResponseBodyExceptionTest() throws IOException {
+  void setResponseBodyExceptionTest() throws IOException {
     doThrow(new IOException("mock exception")).when(responseMock).getWriter();
     assertThrows(
         KameHouseServerErrorException.class,
@@ -210,7 +210,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() no session cookie unauthorized.
    */
   @Test
-  public void authorizeNoSessionCookieUnauthorizedTest() {
+  void authorizeNoSessionCookieUnauthorizedTest() {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
@@ -229,7 +229,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() invalid session cookie unauthorized.
    */
   @Test
-  public void authorizeInvalidSessionCookieUnauthorizedTest() {
+  void authorizeInvalidSessionCookieUnauthorizedTest() {
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, "invalid-value"));
     assertThrows(
         KameHouseForbiddenException.class,
@@ -242,7 +242,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() no authorities (roles) unauthorized.
    */
   @Test
-  public void authorizeNoAuthoritiesUnauthorizedTest() {
+  void authorizeNoAuthoritiesUnauthorizedTest() {
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
         KameHouseForbiddenException.class,
@@ -255,7 +255,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() no session repository unauthorized.
    */
   @Test
-  public void authorizeNoSessionRepositoryUnauthorizedTest() {
+  void authorizeNoSessionRepositoryUnauthorizedTest() {
     doCallRealMethod().when(sampleKameHouseServlet).getSessionRepository(any());
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
@@ -269,7 +269,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() no session unauthorized.
    */
   @Test
-  public void authorizeNoSessionUnauthorizedTest() {
+  void authorizeNoSessionUnauthorizedTest() {
     doReturn(null).when(sessionRepository).findById(any());
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
@@ -283,7 +283,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() session expired unauthorized.
    */
   @Test
-  public void authorizeSessionExpiredUnauthorizedTest() {
+  void authorizeSessionExpiredUnauthorizedTest() {
     doReturn(Instant.now().minus(Duration.ofDays(30))).when(session).getLastAccessedTime();
     doReturn(Duration.ofMinutes(1)).when(session).getMaxInactiveInterval();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
@@ -298,7 +298,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() no security context unauthorized.
    */
   @Test
-  public void authorizeNoSecurityContextUnauthorizedTest() {
+  void authorizeNoSecurityContextUnauthorizedTest() {
     doReturn(null).when(session).getAttribute(any());
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
@@ -312,7 +312,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() no authentication (user) unauthorized.
    */
   @Test
-  public void authorizeNoAuthenticationUnauthorizedTest() {
+  void authorizeNoAuthenticationUnauthorizedTest() {
     doReturn(null).when(securityContext).getAuthentication();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
     assertThrows(
@@ -326,7 +326,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() user without needed role unauthorized.
    */
   @Test
-  public void authorizeUnauthorizedTest() {
+  void authorizeUnauthorizedTest() {
     doReturn("ROLE_INVALID").when(grantedAuthority).getAuthority();
     doReturn(List.of(grantedAuthority)).when(authentication).getAuthorities();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
@@ -341,7 +341,7 @@ public class AbstractKameHouseServletTest {
    * Tests a sample authorize() success.
    */
   @Test
-  public void authorizeSuccessTest() {
+  void authorizeSuccessTest() {
     doReturn("ROLE_KAMISAMA").when(grantedAuthority).getAuthority();
     doReturn(List.of(grantedAuthority)).when(authentication).getAuthorities();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));

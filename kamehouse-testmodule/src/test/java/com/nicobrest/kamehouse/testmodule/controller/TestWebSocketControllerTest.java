@@ -27,7 +27,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class TestWebSocketControllerTest {
+class TestWebSocketControllerTest {
 
   @InjectMocks
   private TestWebSocketController testWebSocketController;
@@ -39,7 +39,7 @@ public class TestWebSocketControllerTest {
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     Mockito.reset(testWebSocketServiceMock);
   }
@@ -48,7 +48,7 @@ public class TestWebSocketControllerTest {
    * Tests getting a TestWebSocketResponseMessage.
    */
   @Test
-  public void generateTestWebSocketResponseMessageTest() {
+  void generateTestWebSocketResponseMessageTest() {
     TestWebSocketRequestMessage request = new TestWebSocketRequestMessage();
     TestWebSocketResponseMessage response = new TestWebSocketResponseMessage();
     response.setMessage("mada mada dane");

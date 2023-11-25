@@ -50,7 +50,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
    * Resets mock objects and initializes test repository.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = getTestUtils();
     testUtils.initTestData();
 
@@ -63,7 +63,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
    * Creates entity test.
    */
   @Test
-  public void createTest() {
+  void createTest() {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
     Identifiable identifiableEntity = (Identifiable) entity;
@@ -79,7 +79,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
    * Reads entity test.
    */
   @Test
-  public void readTest() {
+  void readTest() {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(getCrudDao().read(identifiableEntity.getId())).thenReturn(entity);
@@ -94,7 +94,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
    * Reads all entities test.
    */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     List<E> entityList = testUtils.getTestDataList();
     when(getCrudDao().readAll()).thenReturn(entityList);
     when(getCrudDao().readAll(any(), any(), any())).thenReturn(entityList);
@@ -109,7 +109,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
    * Updates entity test.
    */
   @Test
-  public void updateTest() {
+  void updateTest() {
     E entity = testUtils.getSingleTestData();
     D dto = testUtils.getTestDataDto();
     Mockito.doNothing().when(getCrudDao()).update(entity);
@@ -123,7 +123,7 @@ public abstract class AbstractCrudServiceTest<E, D> {
    * Deletes entity test.
    */
   @Test
-  public void deleteTest() {
+  void deleteTest() {
     E entity = testUtils.getSingleTestData();
     Identifiable identifiableEntity = (Identifiable) entity;
     when(getCrudDao().delete(identifiableEntity.getId())).thenReturn(entity);

@@ -19,7 +19,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class MainAppTest {
+class MainAppTest {
 
   private MockedStatic<ProcessUtils> processUtilsMockedStatic;
   private MockedStatic<EncryptionUtils> encryptionUtilsMockedStatic;
@@ -49,7 +49,7 @@ public class MainAppTest {
    * Tests running kamehouse-cmd with operation decrypt.
    */
   @Test
-  public void decryptSuccessfulTest() throws IOException {
+  void decryptSuccessfulTest() throws IOException {
     String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.dec"};
     MainApp.main(args);
     // no exceptions thrown
@@ -63,7 +63,7 @@ public class MainAppTest {
    * Tests running kamehouse-cmd with operation encrypt.
    */
   @Test
-  public void encryptSuccessfulTest() throws IOException {
+  void encryptSuccessfulTest() throws IOException {
     String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc", "-v"};
     MainApp.main(args);
     // no exceptions thrown
@@ -77,7 +77,7 @@ public class MainAppTest {
    * Tests running kamehouse-cmd with operation jvncsender.
    */
   @Test
-  public void jVncSenderUnknownHostTest() {
+  void jVncSenderUnknownHostTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
         "-password", "", "-text", "<ESC>"};
     MainApp.main(args);
@@ -88,7 +88,7 @@ public class MainAppTest {
    * Tests running kamehouse-cmd with operation wol.
    */
   @Test
-  public void wolTest() {
+  void wolTest() {
     String[] args = new String[]{"-o", "wol", "-mac", "AA:BB:CC:DD:EE:FF", "-broadcast",
         "192.168.29.255"};
     MainApp.main(args);

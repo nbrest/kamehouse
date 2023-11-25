@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author nbrest
  */
-public class KameHouseCmdIntegrationTest {
+class KameHouseCmdIntegrationTest {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
   private static final String KAMEHOUSE_CMD_WIN = PropertiesUtils.getUserHome()
@@ -38,7 +38,7 @@ public class KameHouseCmdIntegrationTest {
    * Execute encrypt and decrypt operations.
    */
   @Test
-  public void encryptAndDecryptTest() throws IOException, InterruptedException {
+  void encryptAndDecryptTest() throws IOException, InterruptedException {
     // encrypt file
     if (!DECRYPTED_FILE.exists()) {
       DECRYPTED_FILE.createNewFile();
@@ -67,7 +67,7 @@ public class KameHouseCmdIntegrationTest {
    * Execute jvncsender operation.
    */
   @Test
-  public void jVncSenderTest() throws IOException, InterruptedException {
+  void jVncSenderTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderCommand();
     execute(command, List.of(0, 255));
 

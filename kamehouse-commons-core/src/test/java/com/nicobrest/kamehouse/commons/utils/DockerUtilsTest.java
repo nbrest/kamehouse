@@ -22,7 +22,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class DockerUtilsTest {
+class DockerUtilsTest {
 
   private SystemCommandOutputTestUtils testUtils = new SystemCommandOutputTestUtils();
   private MockedStatic<PropertiesUtils> propertiesUtils;
@@ -51,7 +51,7 @@ public class DockerUtilsTest {
    * Execute command on docker host successful test.
    */
   @Test
-  public void executeOnDockerHostTest() {
+  void executeOnDockerHostTest() {
     when(SshClientUtils.execute(any(), any(), any())).thenReturn(testUtils.getSingleTestData());
 
     Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand("1"));
@@ -63,7 +63,7 @@ public class DockerUtilsTest {
    * shouldExecuteOnDockerHost test.
    */
   @Test
-  public void shouldExecuteOnDockerHostTest() {
+  void shouldExecuteOnDockerHostTest() {
     when(PropertiesUtils.getBooleanProperty("IS_DOCKER_CONTAINER")).thenReturn(true);
     when(PropertiesUtils.getBooleanProperty("DOCKER_CONTROL_HOST")).thenReturn(true);
 
@@ -74,7 +74,7 @@ public class DockerUtilsTest {
    * isWindowsDockerHost test.
    */
   @Test
-  public void isWindowsDockerHostTest() {
+  void isWindowsDockerHostTest() {
     when(PropertiesUtils.getProperty("DOCKER_HOST_OS")).thenReturn("windows");
 
     assertTrue(DockerUtils.isWindowsDockerHost());
@@ -84,7 +84,7 @@ public class DockerUtilsTest {
    * isDockerContainer test.
    */
   @Test
-  public void isDockerContainerTest() {
+  void isDockerContainerTest() {
     when(PropertiesUtils.getBooleanProperty("IS_DOCKER_CONTAINER")).thenReturn(true);
 
     assertTrue(DockerUtils.isDockerContainer());
@@ -94,7 +94,7 @@ public class DockerUtilsTest {
    * isDockerControlHostEnabled test.
    */
   @Test
-  public void isDockerControlHostEnabledTest() {
+  void isDockerControlHostEnabledTest() {
     when(PropertiesUtils.getBooleanProperty("DOCKER_CONTROL_HOST")).thenReturn(true);
 
     assertTrue(DockerUtils.isDockerControlHostEnabled());
@@ -104,7 +104,7 @@ public class DockerUtilsTest {
    * getDockerHostIp test.
    */
   @Test
-  public void getDockerHostIpTest() {
+  void getDockerHostIpTest() {
     when(PropertiesUtils.getProperty("DOCKER_HOST_IP")).thenReturn("192.168.0.99");
 
     assertEquals("192.168.0.99", DockerUtils.getDockerHostIp());
@@ -114,7 +114,7 @@ public class DockerUtilsTest {
    * getDockerHostUsername test.
    */
   @Test
-  public void getDockerHostUsernameTest() {
+  void getDockerHostUsernameTest() {
     when(PropertiesUtils.getProperty("DOCKER_HOST_USERNAME")).thenReturn("goku");
 
     assertEquals("goku", DockerUtils.getDockerHostUsername());
@@ -124,7 +124,7 @@ public class DockerUtilsTest {
    * getDockerContainerProperties test.
    */
   @Test
-  public void getDockerContainerPropertiesTest() {
+  void getDockerContainerPropertiesTest() {
     //TODO mock user home to load the file from test resources as I did in other tests
     Properties properties = DockerUtils.getDockerContainerProperties();
 

@@ -13,26 +13,26 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class LogLevelManagerServiceTest {
+class LogLevelManagerServiceTest {
 
   private LogLevelManagerService logLevelManagerService;
 
   /** Resets mock objects. */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     logLevelManagerService = new LogLevelManagerService();
   }
 
   /** Tests validating the specified log level. */
   @Test
-  public void validateLogLevelSuccessfulTest() {
+  void validateLogLevelSuccessfulTest() {
     logLevelManagerService.validateLogLevel("TRACE");
     // expect no exception thrown.
   }
 
   /** Tests validating an invalid log level. */
   @Test
-  public void validateLogLevelInvalidLevelTest() {
+  void validateLogLevelInvalidLevelTest() {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -42,7 +42,7 @@ public class LogLevelManagerServiceTest {
 
   /** Tests getting the log level for the specified package. */
   @Test
-  public void getLogLevelSuccessfulTest() {
+  void getLogLevelSuccessfulTest() {
     List<String> logLevel = logLevelManagerService.getLogLevel("com.nicobrest.kamehouse");
     assertEquals(1, logLevel.size());
     assertEquals("com.nicobrest.kamehouse:INFO", logLevel.get(0));
@@ -50,14 +50,14 @@ public class LogLevelManagerServiceTest {
 
   /** Tests getting the log level for all packages that have it set. */
   @Test
-  public void getLogLevelAllPackagesSuccessfulTest() {
+  void getLogLevelAllPackagesSuccessfulTest() {
     List<String> logLevel = logLevelManagerService.getLogLevel(null);
     assertEquals(10, logLevel.size());
   }
 
   /** Tests getting the log level for an invalid package. */
   @Test
-  public void getLogLevelInvalidPackageTest() {
+  void getLogLevelInvalidPackageTest() {
     List<String> logLevel = logLevelManagerService.getLogLevel("com.invalid.package");
     assertEquals(1, logLevel.size());
     assertEquals("com.invalid.package: Log level not set for this package", logLevel.get(0));
@@ -65,7 +65,7 @@ public class LogLevelManagerServiceTest {
 
   /** Tests setting the specified log level. */
   @Test
-  public void setLogLevelSuccessfulTest() {
+  void setLogLevelSuccessfulTest() {
     logLevelManagerService.setLogLevel("WARN", "com.nicobrest.kamehouse");
     List<String> logLevel = logLevelManagerService.getLogLevel("com.nicobrest.kamehouse");
     assertEquals(1, logLevel.size());
@@ -74,7 +74,7 @@ public class LogLevelManagerServiceTest {
 
   /** Tests resetting the log levels to the default values. */
   @Test
-  public void resetLogLevelsSuccessfulTest() {
+  void resetLogLevelsSuccessfulTest() {
     logLevelManagerService.resetLogLevels();
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);
@@ -87,7 +87,7 @@ public class LogLevelManagerServiceTest {
 
   /** Tests setting kamehouse log levels to TRACE. */
   @Test
-  public void setKamehouseLogLevelsToTraceSuccessfulTest() {
+  void setKamehouseLogLevelsToTraceSuccessfulTest() {
     logLevelManagerService.setKamehouseLogLevelsToTrace();
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);
@@ -100,7 +100,7 @@ public class LogLevelManagerServiceTest {
 
   /** Tests setting kamehouse log levels to DEBUG. */
   @Test
-  public void setKamehouseLogLevelsToDebugSuccessfulTest() {
+  void setKamehouseLogLevelsToDebugSuccessfulTest() {
     logLevelManagerService.setKamehouseLogLevelsToDebug();
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);
@@ -113,7 +113,7 @@ public class LogLevelManagerServiceTest {
 
   /** Tests setting kamehouse log levels to INFO. */
   @Test
-  public void setKamehouseLogLevelsToInfoSuccessfulTest() {
+  void setKamehouseLogLevelsToInfoSuccessfulTest() {
     logLevelManagerService.setKamehouseLogLevelsToInfo();
 
     List<String> logLevels = logLevelManagerService.getLogLevel(null);

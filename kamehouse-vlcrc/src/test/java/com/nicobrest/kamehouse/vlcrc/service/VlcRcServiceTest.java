@@ -27,7 +27,7 @@ import org.mockito.MockitoAnnotations;
  *
  * @author nbrest
  */
-public class VlcRcServiceTest {
+class VlcRcServiceTest {
 
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
@@ -48,7 +48,7 @@ public class VlcRcServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
@@ -66,7 +66,7 @@ public class VlcRcServiceTest {
 
   /** Tests getting the status information of the VLC Player passed through the URL. */
   @Test
-  public void getVlcRcStatusTest() {
+  void getVlcRcStatusTest() {
     when(vlcPlayer.getVlcRcStatus()).thenReturn(vlcRcStatus);
 
     VlcRcStatus returnedStatus = vlcRcService.getVlcRcStatus("niko-nba");
@@ -77,7 +77,7 @@ public class VlcRcServiceTest {
 
   /** Tests Executing a command in the selected VLC Player. */
   @Test
-  public void executeCommandTest() {
+  void executeCommandTest() {
     when(vlcPlayer.execute(any())).thenReturn(vlcRcStatus);
     VlcRcCommand vlcRcCommand = vlcRcCommandTestUtils.getSingleTestData();
 
@@ -89,7 +89,7 @@ public class VlcRcServiceTest {
 
   /** Tests getting the playlist from the VLC Player. */
   @Test
-  public void getPlaylistTest() {
+  void getPlaylistTest() {
     when(vlcPlayer.getPlaylist()).thenReturn(vlcRcPlaylist);
 
     List<VlcRcPlaylistItem> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
@@ -100,7 +100,7 @@ public class VlcRcServiceTest {
 
   /** Tests browsing files in the VLC Player. */
   @Test
-  public void browseTest() {
+  void browseTest() {
     when(vlcPlayer.browse(any())).thenReturn(vlcRcFileList);
 
     List<VlcRcFileListItem> returnedFiles = vlcRcService.browse(null, "niko-nba");

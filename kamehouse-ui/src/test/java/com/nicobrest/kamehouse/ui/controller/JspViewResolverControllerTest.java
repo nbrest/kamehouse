@@ -36,7 +36,7 @@ public class JspViewResolverControllerTest extends AbstractControllerTest<ModelA
 
   /** Resets mock objects. */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
     viewResolver.setPrefix("/WEB-INF/jsp");
     viewResolver.setSuffix(".jsp");
@@ -50,7 +50,7 @@ public class JspViewResolverControllerTest extends AbstractControllerTest<ModelA
 
   /** Tests jsp urls. */
   @Test
-  public void jspTest() throws Exception {
+  void jspTest() throws Exception {
     jspUrlTest("/jsp/test-module/", "/jsp/test-module/index");
     jspUrlTest("/jsp/test-module/trunks", "/jsp/test-module/trunks");
   }

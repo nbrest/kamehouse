@@ -58,7 +58,7 @@ public class DragonBallUserDaoJpaTest
    * Tests getting a single DragonBallUser in the repository by username.
    */
   @Test
-  public void getByUsernameTest() {
+  void getByUsernameTest() {
     DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     persistEntityInRepository(dragonBallUser);
 
@@ -71,7 +71,7 @@ public class DragonBallUserDaoJpaTest
    * Tests getting a single DragonBallUser in the repository Exception flows.
    */
   @Test
-  public void getByUsernameNotFoundExceptionTest() {
+  void getByUsernameNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -83,7 +83,7 @@ public class DragonBallUserDaoJpaTest
    * Tests getting a single DragonBallUser in the repository by its email.
    */
   @Test
-  public void getByEmailTest() {
+  void getByEmailTest() {
     DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     persistEntityInRepository(dragonBallUser);
 
@@ -96,7 +96,7 @@ public class DragonBallUserDaoJpaTest
    * Tests getting a single DragonBallUser in the repository by its email Exception flows.
    */
   @Test
-  public void getByEmailNotFoundExceptionTest() {
+  void getByEmailNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {

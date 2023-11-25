@@ -44,7 +44,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache
 
   /** Resets mock objects. */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = new KameHouseCacheTestUtils();
     testUtils.initTestData();
     kameHouseCache = testUtils.getSingleTestData();
@@ -57,7 +57,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache
 
   /** Tests getting all caches. */
   @Test
-  public void readAllTest() throws Exception {
+  void readAllTest() throws Exception {
     when(ehCacheServiceMock.getAll()).thenReturn(kameHouseCacheList);
 
     MockHttpServletResponse response = doGet("/api/v1/commons/ehcache");
@@ -71,7 +71,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache
 
   /** Tests getting a single cache. */
   @Test
-  public void readSingleCacheTest() throws Exception {
+  void readSingleCacheTest() throws Exception {
     when(ehCacheServiceMock.get("dragonBallUsers")).thenReturn(kameHouseCache);
 
     MockHttpServletResponse response = doGet("/api/v1/commons/ehcache?name=dragonBallUsers");
@@ -86,7 +86,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache
 
   /** Tests clearing all caches. */
   @Test
-  public void clearAllTest() throws Exception {
+  void clearAllTest() throws Exception {
     MockHttpServletResponse response = doDelete("/api/v1/commons/ehcache");
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -96,7 +96,7 @@ public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache
 
   /** Tests clearing a single cache. */
   @Test
-  public void clearSingleCacheTest() throws Exception {
+  void clearSingleCacheTest() throws Exception {
     MockHttpServletResponse response = doDelete("/api/v1/commons/ehcache?name=dragonBallUsers");
 
     verifyResponseStatus(response, HttpStatus.OK);

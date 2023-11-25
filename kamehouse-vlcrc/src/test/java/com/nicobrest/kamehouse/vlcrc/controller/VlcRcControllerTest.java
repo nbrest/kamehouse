@@ -33,7 +33,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  *
  * @author nbrest
  */
-public class VlcRcControllerTest extends AbstractControllerTest {
+class VlcRcControllerTest extends AbstractControllerTest {
 
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
@@ -52,7 +52,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     vlcRcStatusTestUtils.initTestData();
     vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
@@ -69,7 +69,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
    * Tests getting the status information of the VLC Player passed through the URL.
    */
   @Test
-  public void getVlcRcStatusTest() throws Exception {
+  void getVlcRcStatusTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatus);
 
@@ -86,7 +86,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
    * Tests getting 404 not found when the server can't reach the specified vlc player.
    */
   @Test
-  public void getVlcRcStatusNotFoundTest() throws Exception {
+  void getVlcRcStatusNotFoundTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
 
@@ -101,7 +101,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
    * Tests Executing a command in the selected VLC Player.
    */
   @Test
-  public void execCommandTest() throws Exception {
+  void execCommandTest() throws Exception {
     VlcRcCommand vlcRcCommand = new VlcRcCommand();
     vlcRcCommand.setName("fullscreen");
     Mockito.reset(vlcRcServiceMock);
@@ -121,7 +121,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
    * Tests getting the playlist from the VLC Player.
    */
   @Test
-  public void getPlaylistTest() throws Exception {
+  void getPlaylistTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
 
@@ -137,7 +137,7 @@ public class VlcRcControllerTest extends AbstractControllerTest {
    * Tests browsing files in the VLC Player.
    */
   @Test
-  public void browseTest() throws Exception {
+  void browseTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
     when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
 

@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class TestWebSocketServiceTest {
+class TestWebSocketServiceTest {
 
   @Test
-  public void generateTestWebSocketResponseMessageTest() {
+  void generateTestWebSocketResponseMessageTest() {
     String expectedMessage = "まだまだだね, Son Goku";
     TestWebSocketRequestMessage testWebSocketRequestMessage = new TestWebSocketRequestMessage();
     testWebSocketRequestMessage.setFirstName("Goku");

@@ -49,7 +49,7 @@ import org.mockito.MockitoAnnotations;
  *
  * @author nbrest
  */
-public class AbstractBookingServiceTest {
+class AbstractBookingServiceTest {
 
   private BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
   private BookingResponseTestUtils bookingResponseTestUtils = new BookingResponseTestUtils();
@@ -152,7 +152,7 @@ public class AbstractBookingServiceTest {
    * Test booking success flow.
    */
   @Test
-  public void bookSuccessTest() {
+  void bookSuccessTest() {
     BookingRequest request = bookingRequestTestUtils.getSingleTestData();
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     BookingResponseTestUtils.updateResponseWithRequestData(request, expected);
@@ -167,7 +167,7 @@ public class AbstractBookingServiceTest {
    * Test booking error flow.
    */
   @Test
-  public void bookErrorTest() throws IOException {
+  void bookErrorTest() throws IOException {
     when(HttpClientUtils.hasResponseBody(any())).thenReturn(false);
     when(HttpClientUtils.hasHeaders(any(HttpRequest.class))).thenCallRealMethod();
     when(HttpClientUtils.getAllHeaders(any(HttpRequest.class))).thenCallRealMethod();
@@ -186,7 +186,7 @@ public class AbstractBookingServiceTest {
    * Test booking a recurring scheduled session.
    */
   @Test
-  public void bookRecurringScheduledSessionSuccessTest() {
+  void bookRecurringScheduledSessionSuccessTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -221,7 +221,7 @@ public class AbstractBookingServiceTest {
    * Test booking a one off scheduled session success flow.
    */
   @Test
-  public void bookOneOffScheduledSessionSuccessTest() {
+  void bookOneOffScheduledSessionSuccessTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -257,7 +257,7 @@ public class AbstractBookingServiceTest {
    * Test booking a one off scheduled session error flow.
    */
   @Test
-  public void bookOneOffScheduledSessionErrorTest() {
+  void bookOneOffScheduledSessionErrorTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -295,7 +295,7 @@ public class AbstractBookingServiceTest {
    * booking schedule request should be skipped.
    */
   @Test
-  public void bookOneOffScheduledSessionValidDateBeforeSessionTimeTest() {
+  void bookOneOffScheduledSessionValidDateBeforeSessionTimeTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 0, 15, 30);
     Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
@@ -329,7 +329,7 @@ public class AbstractBookingServiceTest {
    * Test booking a session that has been already successfully booked that same day.
    */
   @Test
-  public void bookAlreadySuccessfullyBookedSessionTest() {
+  void bookAlreadySuccessfullyBookedSessionTest() {
     Date currentDate = DateUtils.getDate(2020, Calendar.JULY, 28, 20, 15, 30);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     BookingResponse successfulBookingResponse = bookingResponseTestUtils.getSingleTestData();
@@ -355,7 +355,7 @@ public class AbstractBookingServiceTest {
    * Test booking empty scheduled sessions.
    */
   @Test
-  public void bookEmptyScheduledSessionTest() {
+  void bookEmptyScheduledSessionTest() {
     when(bookingScheduleConfigService.readAll()).thenReturn(null);
 
     List<BookingResponse> response = sampleBookingService.bookScheduledSessions();
@@ -367,7 +367,7 @@ public class AbstractBookingServiceTest {
    * Test booking a disabled scheduled session.
    */
   @Test
-  public void bookDisabledScheduledSessionTest() {
+  void bookDisabledScheduledSessionTest() {
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
 
@@ -386,7 +386,7 @@ public class AbstractBookingServiceTest {
    * request.
    */
   @Test
-  public void bookInvalidScheduledSessionTest() {
+  void bookInvalidScheduledSessionTest() {
     Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 59, 59);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
 
@@ -450,7 +450,7 @@ public class AbstractBookingServiceTest {
    * Test booking with invalid session type flow.
    */
   @Test
-  public void bookInvalidSessionTypeTest() {
+  void bookInvalidSessionTypeTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -465,7 +465,7 @@ public class AbstractBookingServiceTest {
    * Test booking with invalid date flow.
    */
   @Test
-  public void bookInvalidDateTest() {
+  void bookInvalidDateTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -480,7 +480,7 @@ public class AbstractBookingServiceTest {
    * Test booking with invalid time flow.
    */
   @Test
-  public void bookInvalidTimeTest() {
+  void bookInvalidTimeTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -504,7 +504,7 @@ public class AbstractBookingServiceTest {
    * Test booking with invalid date flow.
    */
   @Test
-  public void bookInvalidSiteTest() {
+  void bookInvalidSiteTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -519,7 +519,7 @@ public class AbstractBookingServiceTest {
    * Test booking with invalid username flow.
    */
   @Test
-  public void bookInvalidUsernameTest() {
+  void bookInvalidUsernameTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {

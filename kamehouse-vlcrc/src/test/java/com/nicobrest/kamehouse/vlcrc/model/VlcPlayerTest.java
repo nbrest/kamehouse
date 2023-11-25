@@ -28,7 +28,7 @@ import org.mockito.MockitoAnnotations;
  *
  * @author nbrest
  */
-public class VlcPlayerTest {
+class VlcPlayerTest {
 
   private VlcPlayerTestUtils vlcPlayerTestUtils = new VlcPlayerTestUtils();
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
@@ -79,7 +79,7 @@ public class VlcPlayerTest {
 
   /** Executes a command in the VLC Player and return it's status. */
   @Test
-  public void executeTest() throws Exception {
+  void executeTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status.json");
     VlcRcCommand vlcRcCommand = vlcRcCommandTestUtils.getSingleTestData();
 
@@ -90,7 +90,7 @@ public class VlcPlayerTest {
 
   /** Executes a command in the VLC Player and return it's status. */
   @Test
-  public void executeCommandWithAllParametersTest() throws Exception {
+  void executeCommandWithAllParametersTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status-equalizer.json");
     VlcRcCommand commandWithAllParameters = vlcRcCommandTestUtils.getTestDataList().get(1);
 
@@ -104,7 +104,7 @@ public class VlcPlayerTest {
 
   /** Executes a command in the VLC Player with an invalid requestUrl. */
   @Test
-  public void executeNullCommandTest() {
+  void executeNullCommandTest() {
     VlcRcStatus vlcRcStatus = vlcPlayer.execute(new VlcRcCommand());
 
     assertEquals(null, vlcRcStatus);
@@ -112,7 +112,7 @@ public class VlcPlayerTest {
 
   /** Gets the status information of the VLC Player. */
   @Test
-  public void getVlcRcStatusTest() throws Exception {
+  void getVlcRcStatusTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-status.json");
 
     VlcRcStatus returnedVlcRcStatus = vlcPlayer.getVlcRcStatus();
@@ -122,7 +122,7 @@ public class VlcPlayerTest {
 
   /** Gets the current playlist of the VLC Player. */
   @Test
-  public void getVlcRcPlaylistTest() throws Exception {
+  void getVlcRcPlaylistTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-playlist.json");
 
     List<VlcRcPlaylistItem> returnedPlaylist = vlcPlayer.getPlaylist();
@@ -132,7 +132,7 @@ public class VlcPlayerTest {
 
   /** Browses files in the VLC Player server. */
   @Test
-  public void browseTest() throws Exception {
+  void browseTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-filelist.json");
 
     List<VlcRcFileListItem> returnedFilelist = vlcPlayer.browse("C:/");
@@ -142,7 +142,7 @@ public class VlcPlayerTest {
 
   /** Browses files in the VLC Player server. */
   @Test
-  public void browseEmptyParameterTest() throws Exception {
+  void browseEmptyParameterTest() throws Exception {
     setupInputStreamMock("vlcrc/vlc-rc-filelist.json");
 
     List<VlcRcFileListItem> returnedFilelist = vlcPlayer.browse(null);

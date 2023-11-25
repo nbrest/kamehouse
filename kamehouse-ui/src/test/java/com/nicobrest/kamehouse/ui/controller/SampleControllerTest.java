@@ -22,13 +22,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class SampleControllerTest extends AbstractControllerTest {
+class SampleControllerTest extends AbstractControllerTest {
 
   private SampleController sampleController = new SampleController();
 
   /** Resets mock objects and test data. */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(sampleController).build();
   }
@@ -38,7 +38,7 @@ public class SampleControllerTest extends AbstractControllerTest {
    * respond with HTTP status 200 OK and a view defined in dragonball/model-and-view.jsp.
    */
   @Test
-  public void getModelAndViewTest() throws Exception {
+  void getModelAndViewTest() throws Exception {
     MockHttpServletResponse response = doGet("/api/v1/ui/sample/dragonball/model-and-view");
 
     verifyResponseStatus(response, HttpStatus.OK);

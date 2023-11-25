@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class ProcessUtilsTest {
+class ProcessUtilsTest {
 
   /**
    * Execute process through the process utils test. I can modify the command in this test to test
    * other commands I expect to execute through the ProcessUtils.
    */
   @Test
-  public void executeProcessTest() throws IOException, InterruptedException {
+  void executeProcessTest() throws IOException, InterruptedException {
     List<String> command;
     if (PropertiesUtils.isWindowsHost()) {
       command = Arrays.asList("cmd.exe", "/c", "start", "exit");

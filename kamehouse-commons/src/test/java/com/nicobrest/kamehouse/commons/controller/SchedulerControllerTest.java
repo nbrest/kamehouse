@@ -36,7 +36,7 @@ import jakarta.servlet.ServletException;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class SchedulerControllerTest extends AbstractControllerTest {
+class SchedulerControllerTest extends AbstractControllerTest {
 
   private static final String SCHEDULER_JOBS_API = "/api/v1/commons/scheduler/jobs";
 
@@ -48,7 +48,7 @@ public class SchedulerControllerTest extends AbstractControllerTest {
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     Mockito.reset(schedulerService);
     mockMvc = MockMvcBuilders.standaloneSetup(schedulerController).build();
@@ -57,7 +57,7 @@ public class SchedulerControllerTest extends AbstractControllerTest {
 
   /** Schedule job successful test. */
   @Test
-  public void scheduleJobTest() throws Exception {
+  void scheduleJobTest() throws Exception {
     MockHttpServletResponse response =
         doPost(SCHEDULER_JOBS_API + "?delay=5400&name=jobName" + "&group=DEFAULT");
     List<KameHouseJob> responseBody = getResponseBodyList(response, KameHouseJob.class);
@@ -69,7 +69,7 @@ public class SchedulerControllerTest extends AbstractControllerTest {
 
   /** Cancels job schedule successful test. */
   @Test
-  public void cancelScheduledJobTest() throws Exception {
+  void cancelScheduledJobTest() throws Exception {
     MockHttpServletResponse response = doDelete(SCHEDULER_JOBS_API + "?name=jobName&group=DEFAULT");
     List<KameHouseJob> responseBody = getResponseBodyList(response, KameHouseJob.class);
 
@@ -80,7 +80,7 @@ public class SchedulerControllerTest extends AbstractControllerTest {
 
   /** Cancels scheduled job error test. */
   @Test
-  public void cancelScheduledJobServerErrorTest() throws Exception {
+  void cancelScheduledJobServerErrorTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -94,7 +94,7 @@ public class SchedulerControllerTest extends AbstractControllerTest {
 
   /** Get all jobs status successful test. */
   @Test
-  public void getAllJobsStatusTest() throws Exception {
+  void getAllJobsStatusTest() throws Exception {
     MockHttpServletResponse response = doGet(SCHEDULER_JOBS_API);
     List<KameHouseJob> responseBody = getResponseBodyList(response, KameHouseJob.class);
 

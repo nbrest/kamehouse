@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class BookingControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class BookingControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/tennis-world";
 
@@ -27,7 +27,7 @@ public class BookingControllerIntegrationTest extends AbstractControllerIntegrat
   }
 
   @Test
-  public void bookingsTest() throws Exception {
+  void bookingsTest() throws Exception {
     logger.info("Running bookingsTest");
     BookingRequestTestUtils bookingRequestTestUtils = new BookingRequestTestUtils();
     bookingRequestTestUtils.initTestData();
@@ -42,7 +42,7 @@ public class BookingControllerIntegrationTest extends AbstractControllerIntegrat
   }
 
   @Test
-  public void scheduledBookingsTest() throws Exception {
+  void scheduledBookingsTest() throws Exception {
     logger.info("Running scheduledBookingsTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/scheduled-bookings");

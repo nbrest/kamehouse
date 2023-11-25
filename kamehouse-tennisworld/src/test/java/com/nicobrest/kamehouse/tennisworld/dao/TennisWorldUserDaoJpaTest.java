@@ -57,7 +57,7 @@ public class TennisWorldUserDaoJpaTest
    * Tests getting a single TennisWorldUser in the repository by its email.
    */
   @Test
-  public void getByEmailTest() {
+  void getByEmailTest() {
     TennisWorldUser tennisWorldUser = testUtils.getSingleTestData();
     persistEntityInRepository(tennisWorldUser);
 
@@ -70,7 +70,7 @@ public class TennisWorldUserDaoJpaTest
    * Tests getting a single TennisWorldUser in the repository by its email Exception flows.
    */
   @Test
-  public void getByEmailNotFoundExceptionTest() {
+  void getByEmailNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {

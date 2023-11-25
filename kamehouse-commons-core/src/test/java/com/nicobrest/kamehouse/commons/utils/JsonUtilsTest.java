@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class JsonUtilsTest {
+class JsonUtilsTest {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
   private JsonNode jsonNode;
@@ -47,7 +47,7 @@ public class JsonUtilsTest {
    * Tests getting the byte array from an object and compares it's string representation.
    */
   @Test
-  public void toJsonByteArraySuccessTest() throws IOException {
+  void toJsonByteArraySuccessTest() throws IOException {
     byte[] output = JsonUtils.toJsonByteArray(jsonNode);
     String expectedOutput = JsonUtils.toJsonString(jsonNode);
     assertEquals(expectedOutput, new String(output, Charsets.UTF_8));
@@ -57,7 +57,7 @@ public class JsonUtilsTest {
    * Tests toJsonString with masked fields.
    */
   @Test
-  public void toJsonStringWithMaskedFieldsTest() {
+  void toJsonStringWithMaskedFieldsTest() {
     String[] maskedFields = {"textField", "doubleField"};
     String output = JsonUtils.toJsonString(jsonNode, null, maskedFields);
     String expectedOutput = "{"
@@ -75,7 +75,7 @@ public class JsonUtilsTest {
    * Tests toJsonString with masked annotated fields.
    */
   @Test
-  public void toJsonStringMaskedAnnotatedFieldsTest() {
+  void toJsonStringMaskedAnnotatedFieldsTest() {
     TestClass testClass = new TestClass();
     testClass.setId(1L);
     testClass.setName("goku");
@@ -110,7 +110,7 @@ public class JsonUtilsTest {
   // list or map with Masked and mask the entire list, when some property in an object of the list
   // needs to be hidden
   @Test
-  public void toJsonStringMaskedAnnotatedNestedFieldsTest() {
+  void toJsonStringMaskedAnnotatedNestedFieldsTest() {
     TestClass testClass = new TestClass();
     testClass.setId(1L);
     testClass.setName("goku");
@@ -171,7 +171,7 @@ public class JsonUtilsTest {
    * Tests toJsonString with masked fields in subnode.
    */
   @Test
-  public void toJsonStringWithMaskedFieldsInSubNodeTest() {
+  void toJsonStringWithMaskedFieldsInSubNodeTest() {
     String[] maskedFields = {"textField", "doubleField", "user.password"};
     String output = JsonUtils.toJsonString(jsonNodeWithSubNode, null, maskedFields);
     String expectedOutput = "{"
@@ -193,7 +193,7 @@ public class JsonUtilsTest {
    * Tests toJsonString without any masked fields.
    */
   @Test
-  public void toJsonStringWithoutMaskedFieldsTest() {
+  void toJsonStringWithoutMaskedFieldsTest() {
     String output = JsonUtils.toJsonString(jsonNodeWithSubNode, null, true);
     String expectedOutput = "{"
         + "  \"textField\":\"goku\","
@@ -215,7 +215,7 @@ public class JsonUtilsTest {
    * Tests toJsonString returning a custom default value.
    */
   @Test
-  public void toJsonStringWithDefaultValueTest() {
+  void toJsonStringWithDefaultValueTest() {
     String defaultValue = "{\"msg\":\"my custom default\"}";
     String output = JsonUtils.toJsonString(new Object(), defaultValue);
     assertEquals(defaultValue, output);
@@ -225,7 +225,7 @@ public class JsonUtilsTest {
    * Tests toJsonString returning the standard default value.
    */
   @Test
-  public void toJsonStringWithoutDefaultValueTest() {
+  void toJsonStringWithoutDefaultValueTest() {
     String output = JsonUtils.toJsonString(new Object());
     assertEquals(JsonUtils.DEFAULT_VALUE, output);
   }
@@ -234,7 +234,7 @@ public class JsonUtilsTest {
    * Tests the getText method from a jsonNode.
    */
   @Test
-  public void getTextTest() {
+  void getTextTest() {
     String validKeyOutput = JsonUtils.getText(jsonNode, "textField");
     assertEquals("goku", validKeyOutput);
 
@@ -249,7 +249,7 @@ public class JsonUtilsTest {
    * Tests the getInt method from a jsonNode.
    */
   @Test
-  public void getIntTest() {
+  void getIntTest() {
     Integer validKeyOutput = JsonUtils.getInt(jsonNode, "intField");
     assertEquals(Integer.valueOf(128), validKeyOutput);
 
@@ -264,7 +264,7 @@ public class JsonUtilsTest {
    * Tests the getDouble method from a jsonNode.
    */
   @Test
-  public void getLongTest() {
+  void getLongTest() {
     Long validKeyOutput = JsonUtils.getLong(jsonNode, "longField");
     assertEquals(Long.valueOf(250), validKeyOutput);
 
@@ -279,7 +279,7 @@ public class JsonUtilsTest {
    * Tests the getDouble method from a jsonNode.
    */
   @Test
-  public void getDoubleTest() {
+  void getDoubleTest() {
     Double validKeyOutput = JsonUtils.getDouble(jsonNode, "doubleField");
     assertEquals(Double.valueOf(255), validKeyOutput);
 
@@ -294,7 +294,7 @@ public class JsonUtilsTest {
    * Tests the getBoolean method from a jsonNode.
    */
   @Test
-  public void getBooleanTest() {
+  void getBooleanTest() {
     Boolean validKeyOutput = JsonUtils.getBoolean(jsonNode, "booleanField");
     assertEquals(true, validKeyOutput);
 
@@ -309,7 +309,7 @@ public class JsonUtilsTest {
    * Tests an empty array check.
    */
   @Test
-  public void isJsonNodeArrayEmptyTest() {
+  void isJsonNodeArrayEmptyTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(emptyJsonArray);
     assertEquals(true, output);
   }
@@ -318,7 +318,7 @@ public class JsonUtilsTest {
    * Tests a on empty array check.
    */
   @Test
-  public void isJsonNodeArrayEmptyNonEmptyTest() {
+  void isJsonNodeArrayEmptyNonEmptyTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(jsonArray);
     assertEquals(false, output);
   }
@@ -327,7 +327,7 @@ public class JsonUtilsTest {
    * Tests a non array check.
    */
   @Test
-  public void isJsonNodeArrayEmptyNonArrayTest() {
+  void isJsonNodeArrayEmptyNonArrayTest() {
     boolean output = JsonUtils.isJsonNodeArrayEmpty(jsonNode);
     assertEquals(true, output);
   }
@@ -336,7 +336,7 @@ public class JsonUtilsTest {
    * Tests toJson.
    */
   @Test
-  public void toJsonTest() {
+  void toJsonTest() {
     String jsonString = "{}";
     JsonNode output = JsonUtils.toJson(jsonString);
     assertNotNull(output);
@@ -353,7 +353,7 @@ public class JsonUtilsTest {
    * Tests toJson with Date field in the object.
    */
   @Test
-  public void toJsonDateObjectTest() {
+  void toJsonDateObjectTest() {
     TestDateClass testDateClass = new TestDateClass();
     testDateClass.setDateField(DateUtils.getDate(1984, Calendar.OCTOBER, 15, 10, 11, 12));
     testDateClass.setId(1);
@@ -368,7 +368,7 @@ public class JsonUtilsTest {
    * Tests toJsonArray.
    */
   @Test
-  public void toJsonArrayTest() {
+  void toJsonArrayTest() {
     String jsonString = "[{\"name\":\"goku\"},{\"name\":\"gohan\"}]";
     JsonNode[] output = JsonUtils.toJsonArray(jsonString);
     assertNotNull(output);
@@ -386,7 +386,7 @@ public class JsonUtilsTest {
    * Tests isJsonObject.
    */
   @Test
-  public void isJsonObjectTest() {
+  void isJsonObjectTest() {
     String jsonString = "{\"name\":\"goku\"}";
     assertTrue(JsonUtils.isJsonObject(jsonString));
 
@@ -400,7 +400,7 @@ public class JsonUtilsTest {
    * Tests isJsonArray.
    */
   @Test
-  public void isJsonArrayTest() {
+  void isJsonArrayTest() {
     String jsonArrayString = "[{\"name\":\"goku\"},{\"name\":\"gohan\"}]";
     assertTrue(JsonUtils.isJsonArray(jsonArrayString));
 

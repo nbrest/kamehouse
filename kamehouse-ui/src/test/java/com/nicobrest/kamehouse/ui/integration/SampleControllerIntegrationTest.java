@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class SampleControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class SampleControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/ui/sample/dragonball/model-and-view";
 
@@ -20,7 +20,7 @@ public class SampleControllerIntegrationTest extends AbstractControllerIntegrati
   }
 
   @Test
-  public void sampleTest() throws Exception {
+  void sampleTest() throws Exception {
     logger.info("Running sampleTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);

@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  *
  * @author nbrest
  */
-public class KameHouseUserDaoInMemoryTest {
+class KameHouseUserDaoInMemoryTest {
 
   private TestUtils<KameHouseUser, KameHouseUserDto> testUtils;
   private KameHouseUser kameHouseUser;
@@ -34,7 +34,7 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests creating a KameHouseUser in the repository. */
   @Test
-  public void createTest() {
+  void createTest() {
     kameHouseUserDao.create(kameHouseUser);
 
     KameHouseUser createdUser = kameHouseUserDao.loadUserByUsername(kameHouseUser.getUsername());
@@ -44,13 +44,13 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests getting all the KameHouseUser in the repository. */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     assertEquals(4, kameHouseUserDao.readAll().size());
   }
 
   /** Tests updating an existing user in the repository. */
   @Test
-  public void updateTest() {
+  void updateTest() {
     KameHouseUser originalUser = kameHouseUserDao.loadUserByUsername("admin");
     kameHouseUser.setId(originalUser.getId());
     kameHouseUser.setUsername(originalUser.getUsername());
@@ -63,7 +63,7 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests updating an existing user in the repository Exception flows. */
   @Test
-  public void updateNotFoundExceptionTest() {
+  void updateNotFoundExceptionTest() {
     kameHouseUser.setUsername(KameHouseUserTestUtils.INVALID_USERNAME);
     assertThrows(
         UsernameNotFoundException.class,
@@ -74,7 +74,7 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests deleting an existing user from the repository. */
   @Test
-  public void deleteTest() {
+  void deleteTest() {
     KameHouseUser userToDelete = kameHouseUserDao.loadUserByUsername("admin");
 
     KameHouseUser deletedUser = kameHouseUserDao.delete(userToDelete.getId());
@@ -84,7 +84,7 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests deleting an existing user from the repository Exception flows. */
   @Test
-  public void deleteNotFoundExceptionTest() {
+  void deleteNotFoundExceptionTest() {
     assertThrows(
         UsernameNotFoundException.class,
         () -> {
@@ -94,7 +94,7 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests getting a single KameHouseUser in the repository by its username. */
   @Test
-  public void loadUserByUsernameTest() {
+  void loadUserByUsernameTest() {
     KameHouseUser user = kameHouseUserDao.loadUserByUsername("admin");
 
     assertNotNull(user);
@@ -103,7 +103,7 @@ public class KameHouseUserDaoInMemoryTest {
 
   /** Tests getting a single KameHouseUser in the repository Exception flows. */
   @Test
-  public void loadUserByUsernameNotFoundExceptionTest() {
+  void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(
         UsernameNotFoundException.class,
         () -> {

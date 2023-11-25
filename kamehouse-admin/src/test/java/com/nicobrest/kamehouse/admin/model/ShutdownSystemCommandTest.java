@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 /** Test for the ShutdownSystemCommand. */
-public class ShutdownSystemCommandTest {
+class ShutdownSystemCommandTest {
 
   private MockedStatic<PropertiesUtils> propertiesUtils;
 
@@ -31,7 +31,7 @@ public class ShutdownSystemCommandTest {
   }
 
   @Test
-  public void shutdownSystemCommandWindowsTest() {
+  void shutdownSystemCommandWindowsTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
 
     ShutdownSystemCommand command = new ShutdownSystemCommand(180);
@@ -40,7 +40,7 @@ public class ShutdownSystemCommandTest {
   }
 
   @Test
-  public void shutdownSystemCommandLinuxTest() {
+  void shutdownSystemCommandLinuxTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     when(PropertiesUtils.getUserHome()).thenReturn(null);
 

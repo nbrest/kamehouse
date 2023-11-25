@@ -65,7 +65,7 @@ public class TennisWorldUserServiceTest
    * Tests calling the service to get a single TennisWorldUser in the repository by its email.
    */
   @Test
-  public void getByEmailTest() {
+  void getByEmailTest() {
     TennisWorldUser tennisWorldUser = testUtils.getSingleTestData();
     when(tennisWorldUserDaoMock.getByEmail(tennisWorldUser.getEmail())).thenReturn(tennisWorldUser);
 

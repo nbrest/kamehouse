@@ -27,7 +27,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class VideoPlaylistServiceTest {
+class VideoPlaylistServiceTest {
 
   private static VideoPlaylistService videoPlaylistService;
   private final VideoPlaylistTestUtils videoPlaylistTestUtils = new VideoPlaylistTestUtils();
@@ -78,7 +78,7 @@ public class VideoPlaylistServiceTest {
    * Gets all video playlists successful test.
    */
   @Test
-  public void getAllLocalMediaServerTest() {
+  void getAllLocalMediaServerTest() {
     videoPlaylistTestUtils.clearFiles();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
 
@@ -91,7 +91,7 @@ public class VideoPlaylistServiceTest {
    * Gets all video playlists from remote media server successful test.
    */
   @Test
-  public void getAllRemoteMediaServerTest() {
+  void getAllRemoteMediaServerTest() {
     when(PropertiesUtils.getHostname()).thenReturn("niko-kh-client");
     when(DockerUtils.getHostname()).thenReturn("niko-kh-client");
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenCallRealMethod();
@@ -110,7 +110,7 @@ public class VideoPlaylistServiceTest {
    * Gets all video playlists successful fetching playlist content test.
    */
   @Test
-  public void getAllWithContentTest() {
+  void getAllWithContentTest() {
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll(true);
@@ -122,7 +122,7 @@ public class VideoPlaylistServiceTest {
    * Gets all video playlists successful fetching playlist content test on docker host.
    */
   @Test
-  public void getAllWithContentOnWindowsDockerHostTest() {
+  void getAllWithContentOnWindowsDockerHostTest() {
     videoPlaylistTestUtils.setWindowsPaths();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     when(DockerUtils.getDockerHostIp()).thenReturn("1.2.3.4");
@@ -158,7 +158,7 @@ public class VideoPlaylistServiceTest {
    * Gets all video playlists successful fetching playlist content test on docker host.
    */
   @Test
-  public void getAllWithContentOnLinuxDockerHostTest() {
+  void getAllWithContentOnLinuxDockerHostTest() {
     videoPlaylistTestUtils.setLinuxPaths();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     when(DockerUtils.getDockerHostIp()).thenReturn("1.2.3.4");
@@ -194,7 +194,7 @@ public class VideoPlaylistServiceTest {
    * Get a single video playlist successful test.
    */
   @Test
-  public void getPlaylistTest() {
+  void getPlaylistTest() {
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(expectedPlaylist.getPath(), true);
 
     videoPlaylistTestUtils.assertEqualsAllAttributes(expectedPlaylist, returnedPlaylist);
@@ -204,7 +204,7 @@ public class VideoPlaylistServiceTest {
    * Get a single video playlist without fetching content successful test.
    */
   @Test
-  public void getPlaylistWithoutContentTest() {
+  void getPlaylistWithoutContentTest() {
     videoPlaylistTestUtils.clearFiles();
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(expectedPlaylist.getPath(), false);
@@ -216,7 +216,7 @@ public class VideoPlaylistServiceTest {
    * Get a single video playlist invalid path test.
    */
   @Test
-  public void getPlaylistInvalidPathTest() {
+  void getPlaylistInvalidPathTest() {
     String invalidPath = expectedPlaylist.getPath() + File.separator + "invalidFile.m3u";
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
@@ -228,7 +228,7 @@ public class VideoPlaylistServiceTest {
    * Get a single video playlist non supported extension test.
    */
   @Test
-  public void getPlaylistNonSupportedExtensionTest() {
+  void getPlaylistNonSupportedExtensionTest() {
     String invalidExtension = expectedPlaylist.getPath().replace(".m3u", ".pdf");
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidExtension, true);
@@ -240,7 +240,7 @@ public class VideoPlaylistServiceTest {
    * Get a single video playlist path with non supported .. jumps test.
    */
   @Test
-  public void getPlaylistNonSupportedPathJumpsTest() {
+  void getPlaylistNonSupportedPathJumpsTest() {
     String invalidPath =
         expectedPlaylist
             .getPath()

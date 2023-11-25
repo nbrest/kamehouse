@@ -21,33 +21,33 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest {
+class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
   @InjectMocks private ScreenController screenController;
 
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     kameHouseSystemCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(screenController).build();
   }
 
   /** Locks screen successful test. */
   @Test
-  public void lockScreenSuccessfulTest() throws Exception {
+  void lockScreenSuccessfulTest() throws Exception {
     execPostKameHouseSystemCommandTest(
         "/api/v1/admin/screen/lock", ScreenLockKameHouseSystemCommand.class);
   }
 
   /** Unlocks screen successful test. */
   @Test
-  public void unlockScreenSuccessfulTest() throws Exception {
+  void unlockScreenSuccessfulTest() throws Exception {
     execPostKameHouseSystemCommandTest(
         "/api/v1/admin/screen/unlock", ScreenUnlockKameHouseSystemCommand.class);
   }
 
   /** Wakes Up screen successful test. */
   @Test
-  public void wakeUpScreenSuccessfulTest() throws Exception {
+  void wakeUpScreenSuccessfulTest() throws Exception {
     execPostKameHouseSystemCommandTest(
         "/api/v1/admin/screen/wake-up", ScreenWakeUpKameHouseSystemCommand.class);
   }

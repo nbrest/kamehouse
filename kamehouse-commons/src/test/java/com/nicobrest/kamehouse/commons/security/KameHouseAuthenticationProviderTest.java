@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
  *
  * @author nbrest
  */
-public class KameHouseAuthenticationProviderTest {
+class KameHouseAuthenticationProviderTest {
 
   private KameHouseUserTestUtils testUtils = new KameHouseUserTestUtils();
   private KameHouseUser kameHouseUser;
@@ -38,7 +38,7 @@ public class KameHouseAuthenticationProviderTest {
 
   /** Resets mock objects and initializes test repository. */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils.initTestData();
     kameHouseUser = testUtils.getSingleTestData();
     badUsernameKameHouseUser = testUtils.getBadUsernameKameHouseUser();
@@ -50,7 +50,7 @@ public class KameHouseAuthenticationProviderTest {
 
   /** Tests a successful authentication. */
   @Test
-  public void authenticateTest() {
+  void authenticateTest() {
     UsernamePasswordAuthenticationToken authentication =
         new UsernamePasswordAuthenticationToken(
             kameHouseUser.getUsername(), kameHouseUser.getPassword());
@@ -66,7 +66,7 @@ public class KameHouseAuthenticationProviderTest {
 
   /** Tests failing authentication with an invalid username. */
   @Test
-  public void authenticateBadUsernameTest() {
+  void authenticateBadUsernameTest() {
     assertThrows(
         BadCredentialsException.class,
         () -> {
@@ -83,7 +83,7 @@ public class KameHouseAuthenticationProviderTest {
 
   /** Tests failing authentication with an invalid password. */
   @Test
-  public void authenticateBadPasswordTest() {
+  void authenticateBadPasswordTest() {
     assertThrows(
         BadCredentialsException.class,
         () -> {

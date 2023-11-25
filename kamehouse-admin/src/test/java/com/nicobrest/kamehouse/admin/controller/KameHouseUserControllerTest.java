@@ -66,7 +66,7 @@ public class KameHouseUserControllerTest
    * Gets an kamehouse user.
    */
   @Test
-  public void loadUserByUsernameTest() throws Exception {
+  void loadUserByUsernameTest() throws Exception {
     KameHouseUser kameHouseUser = testUtils.getSingleTestData();
     when(kameHouseUserServiceMock.loadUserByUsername(kameHouseUser.getUsername()))
         .thenReturn(kameHouseUser);
@@ -83,7 +83,7 @@ public class KameHouseUserControllerTest
    * Tests get user not found exception.
    */
   @Test
-  public void loadUserByUsernameNotFoundExceptionTest() {
+  void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(
         ServletException.class,
         () -> {

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class AbstractCrudServiceUnitTest {
+class AbstractCrudServiceUnitTest {
 
   @Autowired
   private TestEntityCrudService testEntityCrudService;
@@ -27,7 +27,7 @@ public class AbstractCrudServiceUnitTest {
    * read entity test.
    */
   @Test
-  public void readTest() {
+  void readTest() {
     TestEntity testEntity = testEntityCrudService.read(1L);
     assertNotNull(testEntity);
   }
@@ -36,7 +36,7 @@ public class AbstractCrudServiceUnitTest {
    * read all entities test.
    */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     List<TestEntity> testEntities = testEntityCrudService.readAll();
     assertNotNull(testEntities);
   }
@@ -45,7 +45,7 @@ public class AbstractCrudServiceUnitTest {
    * create entity test.
    */
   @Test
-  public void createTest() {
+  void createTest() {
     TestEntityDto testEntityDto = new TestEntityDto();
     testEntityDto.setName("goku");
 
@@ -57,7 +57,7 @@ public class AbstractCrudServiceUnitTest {
    * update entity test.
    */
   @Test
-  public void updateTest() {
+  void updateTest() {
     TestEntityDto testEntityDto = new TestEntityDto();
     testEntityDto.setName("goku");
 
@@ -69,7 +69,7 @@ public class AbstractCrudServiceUnitTest {
    * delete entity test.
    */
   @Test
-  public void deleteTest() {
+  void deleteTest() {
     TestEntity testEntity = testEntityCrudService.delete(1L);
     assertNotNull(testEntity);
   }

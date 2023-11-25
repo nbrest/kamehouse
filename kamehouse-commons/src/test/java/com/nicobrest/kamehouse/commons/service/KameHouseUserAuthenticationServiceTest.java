@@ -21,7 +21,7 @@ import org.mockito.MockitoAnnotations;
  *
  * @author nbrest
  */
-public class KameHouseUserAuthenticationServiceTest {
+class KameHouseUserAuthenticationServiceTest {
 
   private TestUtils<KameHouseUser, KameHouseUserDto> testUtils;
   private KameHouseUser kameHouseUser;
@@ -36,7 +36,7 @@ public class KameHouseUserAuthenticationServiceTest {
    * Resets mock objects and initializes test repository.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
     kameHouseUser = testUtils.getSingleTestData();
@@ -49,7 +49,7 @@ public class KameHouseUserAuthenticationServiceTest {
    * Tests calling the service to get a single KameHouseUser in the repository by username.
    */
   @Test
-  public void loadUserByUsernameTest() {
+  void loadUserByUsernameTest() {
     when(kameHouseUserDaoMock.loadUserByUsername(kameHouseUser.getUsername()))
         .thenReturn(kameHouseUser);
 

@@ -56,7 +56,7 @@ public class BookingControllerTest
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = new BookingResponseTestUtils();
     testUtils.initTestData();
     bookingRequestTestUtils.initTestData();
@@ -68,7 +68,7 @@ public class BookingControllerTest
 
   /** Tests a successful tennis world booking. */
   @Test
-  public void bookingsSuccessfulTest() throws Exception {
+  void bookingsSuccessfulTest() throws Exception {
     when(bookingService.book(any())).thenReturn(testUtils.getSingleTestData());
     BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
@@ -84,7 +84,7 @@ public class BookingControllerTest
 
   /** Tests a successful tennis world scheduled booking. */
   @Test
-  public void scheduledBookingsSuccessfulTest() throws Exception {
+  void scheduledBookingsSuccessfulTest() throws Exception {
     when(bookingService.bookScheduledSessions()).thenReturn(testUtils.getTestDataList());
     List<BookingRequest> requestBody = bookingRequestTestUtils.getTestDataList();
     byte[] requestPayload = JsonUtils.toJsonByteArray(requestBody);
@@ -101,7 +101,7 @@ public class BookingControllerTest
 
   /** Tests a client error tennis world booking. */
   @Test
-  public void bookingsClientErrorTest() throws Exception {
+  void bookingsClientErrorTest() throws Exception {
     BookingResponse expectedResponse = testUtils.getTestDataList().get(1);
     when(bookingService.book(any())).thenReturn(expectedResponse);
     BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();
@@ -118,7 +118,7 @@ public class BookingControllerTest
 
   /** Tests a server error tennis world booking. */
   @Test
-  public void bookingsServerErrorTest() throws Exception {
+  void bookingsServerErrorTest() throws Exception {
     BookingResponse expectedResponse = testUtils.getTestDataList().get(2);
     when(bookingService.book(any())).thenReturn(expectedResponse);
     BookingRequest requestBody = bookingRequestTestUtils.getSingleTestData();

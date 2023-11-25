@@ -61,7 +61,7 @@ public class VlcPlayerControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByHostnameTest() throws Exception {
+  void loadUserByHostnameTest() throws Exception {
     logger.info("Running loadUserByHostnameTest");
     String hostname = getDto().getHostname();
 
@@ -75,7 +75,7 @@ public class VlcPlayerControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByHostnameNotFoundExceptionTest() throws Exception {
+  void loadUserByHostnameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByHostnameNotFoundExceptionTest");
     String invalidHostname = "invalid-" + getDto().getHostname();
 

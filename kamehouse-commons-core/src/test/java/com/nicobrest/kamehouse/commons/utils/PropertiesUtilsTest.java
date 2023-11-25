@@ -19,7 +19,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class PropertiesUtilsTest {
+class PropertiesUtilsTest {
 
   private MockedStatic<PropertiesUtils> propertiesUtils;
 
@@ -44,7 +44,7 @@ public class PropertiesUtilsTest {
    * getProperty test.
    */
   @Test
-  public void getPropertyTest() {
+  void getPropertyTest() {
     String expectedPropertyValue = "mada mada dane";
 
     String returnedPropertyValue = PropertiesUtils.getProperty("my.test.property");
@@ -56,7 +56,7 @@ public class PropertiesUtilsTest {
    * Test getting the home directory.
    */
   @Test
-  public void getUserHomeTest() {
+  void getUserHomeTest() {
     when(PropertiesUtils.getUserHome()).thenCallRealMethod();
 
     String home = PropertiesUtils.getUserHome();
@@ -68,7 +68,7 @@ public class PropertiesUtilsTest {
    * Test getting the hostname in a windows server.
    */
   @Test
-  public void getHostnameWindowsTest() {
+  void getHostnameWindowsTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     when(PropertiesUtils.getHostname()).thenCallRealMethod();
 
@@ -81,7 +81,7 @@ public class PropertiesUtilsTest {
    * Test getting the hostname in a linux server.
    */
   @Test
-  public void getHostnameLinuxTest() {
+  void getHostnameLinuxTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     when(PropertiesUtils.getHostname()).thenCallRealMethod();
 
@@ -94,7 +94,7 @@ public class PropertiesUtilsTest {
    * Test getting the module name.
    */
   @Test
-  public void getModuleNameTest() {
+  void getModuleNameTest() {
     when(PropertiesUtils.getModuleName()).thenCallRealMethod();
 
     String moduleName = PropertiesUtils.getModuleName();
@@ -106,7 +106,7 @@ public class PropertiesUtilsTest {
    * Get default value test.
    */
   @Test
-  public void getPropertyDefaultValueTest() {
+  void getPropertyDefaultValueTest() {
     when(PropertiesUtils.getProperty(any(), any())).thenCallRealMethod();
 
     String value = PropertiesUtils.getProperty("", "DEFAULT_MADA");
@@ -118,7 +118,7 @@ public class PropertiesUtilsTest {
    * Get boolean property test.
    */
   @Test
-  public void getBooleanPropertyTest() {
+  void getBooleanPropertyTest() {
     when(PropertiesUtils.getBooleanProperty(any())).thenCallRealMethod();
 
     boolean value = PropertiesUtils.getBooleanProperty("invalid-property");

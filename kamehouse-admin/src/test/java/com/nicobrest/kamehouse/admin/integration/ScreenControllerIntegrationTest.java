@@ -17,7 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/admin/screen";
 
@@ -28,7 +28,7 @@ public class ScreenControllerIntegrationTest extends AbstractControllerIntegrati
 
   @Test
   @Order(1)
-  public void lockTest() throws Exception {
+  void lockTest() throws Exception {
     logger.info("Running lockTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/lock");
@@ -38,7 +38,7 @@ public class ScreenControllerIntegrationTest extends AbstractControllerIntegrati
 
   @Test
   @Order(2)
-  public void wakeUpTest() throws Exception {
+  void wakeUpTest() throws Exception {
     logger.info("Running wakeUpTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/wake-up");
@@ -48,7 +48,7 @@ public class ScreenControllerIntegrationTest extends AbstractControllerIntegrati
 
   @Test
   @Order(3)
-  public void unlockTest() throws Exception {
+  void unlockTest() throws Exception {
     logger.info("Running unlockTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/unlock");

@@ -31,7 +31,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  */
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class SessionStatusServiceTest {
+class SessionStatusServiceTest {
 
   private SessionStatusTestUtils testUtils = new SessionStatusTestUtils();
   private SessionStatus sessionStatus;
@@ -63,7 +63,7 @@ public class SessionStatusServiceTest {
    * Tests getting the current session information.
    */
   @Test
-  public void getSessionStatusTest() {
+  void getSessionStatusTest() {
     SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
@@ -80,7 +80,7 @@ public class SessionStatusServiceTest {
    * Tests getting the current session information.
    */
   @Test
-  public void getSessionStatusNullHttpSessionTest() {
+  void getSessionStatusNullHttpSessionTest() {
     SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
@@ -96,7 +96,7 @@ public class SessionStatusServiceTest {
    * Tests getting the current session with user not found.
    */
   @Test
-  public void getSessionStatusUserNotFoundTest() {
+  void getSessionStatusUserNotFoundTest() {
     SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))

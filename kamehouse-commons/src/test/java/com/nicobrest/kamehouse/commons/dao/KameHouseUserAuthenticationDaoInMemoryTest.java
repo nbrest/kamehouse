@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  *
  * @author nbrest
  */
-public class KameHouseUserAuthenticationDaoInMemoryTest {
+class KameHouseUserAuthenticationDaoInMemoryTest {
 
   private TestUtils<KameHouseUser, KameHouseUserDto> testUtils;
   private KameHouseUserAuthenticationDaoInMemory kameHouseUserAuthenticationDao;
@@ -32,7 +32,7 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
 
   /** Tests getting a single KameHouseUser in the repository by its username. */
   @Test
-  public void loadUserByUsernameTest() {
+  void loadUserByUsernameTest() {
     KameHouseUser user = kameHouseUserAuthenticationDao.loadUserByUsername("admin");
 
     assertNotNull(user);
@@ -41,7 +41,7 @@ public class KameHouseUserAuthenticationDaoInMemoryTest {
 
   /** Tests getting a single KameHouseUser in the repository Exception flows. */
   @Test
-  public void loadUserByUsernameNotFoundExceptionTest() {
+  void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(
         UsernameNotFoundException.class,
         () -> {

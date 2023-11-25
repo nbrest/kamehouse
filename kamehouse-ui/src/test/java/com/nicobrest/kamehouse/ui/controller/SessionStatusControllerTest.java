@@ -46,7 +46,7 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
    * Resets mock objects.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = new SessionStatusTestUtils();
     testUtils.initTestData();
     sessionStatus = testUtils.getSingleTestData();
@@ -60,7 +60,7 @@ public class SessionStatusControllerTest extends AbstractControllerTest<SessionS
    * Tests getting the current session information.
    */
   @Test
-  public void getSessionStatusTest() throws Exception {
+  void getSessionStatusTest() throws Exception {
     when(sessionStatusServiceMock.get(any())).thenReturn(sessionStatus);
 
     MockHttpServletResponse response = doGet("/api/v1/ui/session/status");

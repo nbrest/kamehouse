@@ -25,7 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class DragonBallUserDaoInMemoryTest {
+class DragonBallUserDaoInMemoryTest {
 
   private TestUtils<DragonBallUser, DragonBallUserDto> testUtils;
   private DragonBallUser dragonBallUser;
@@ -45,7 +45,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests the autowired beans. */
   @Test
-  public void autoWiredBeansTest() {
+  void autoWiredBeansTest() {
     DragonBallUser gohan = dragonBallUserDao.getGohanDragonBallUser();
     DragonBallUser goten = dragonBallUserDao.getGotenDragonBallUser();
 
@@ -57,7 +57,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests creating a DragonBallUser in the repository. */
   @Test
-  public void createTest() {
+  void createTest() {
     Long createdId = dragonBallUserDao.create(dragonBallUser);
 
     DragonBallUser createdUser = dragonBallUserDao.read(createdId);
@@ -67,7 +67,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests creating a DragonBallUser in the repository Exception flows. */
   @Test
-  public void createConflictExceptionTest() {
+  void createConflictExceptionTest() {
     assertThrows(
         KameHouseConflictException.class,
         () -> {
@@ -79,7 +79,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests getting a single DragonBallUser in the repository by its id. */
   @Test
-  public void readTest() {
+  void readTest() {
     DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
 
     DragonBallUser userById = dragonBallUserDao.read(userByUsername.getId());
@@ -90,13 +90,13 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests getting all the DragonBallUsers in the repository. */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     assertEquals(3, dragonBallUserDao.readAll().size());
   }
 
   /** Tests updating an existing user in the repository. */
   @Test
-  public void updateTest() {
+  void updateTest() {
     DragonBallUser originalUser = dragonBallUserDao.getByUsername("goku");
     originalUser.setEmail("gokuUpdated@dbz.com");
 
@@ -108,7 +108,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests updating an existing user in the repository Exception flows. */
   @Test
-  public void updateNotFoundExceptionTest() {
+  void updateNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -120,7 +120,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests deleting an existing user from the repository. */
   @Test
-  public void deleteTest() {
+  void deleteTest() {
     dragonBallUserDao.create(dragonBallUser);
 
     DragonBallUser deletedUser = dragonBallUserDao.delete(dragonBallUser.getId());
@@ -130,7 +130,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests deleting an existing user from the repository Exception flows. */
   @Test
-  public void deleteNotFoundExceptionTest() {
+  void deleteNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -140,7 +140,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests getting a single DragonBallUser in the repository by its username. */
   @Test
-  public void getByUsernameTest() {
+  void getByUsernameTest() {
     DragonBallUser userByUsername = dragonBallUserDao.getByUsername("goku");
 
     assertNotNull(userByUsername);
@@ -149,7 +149,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests getting a single DragonBallUser in the repository Exception flows. */
   @Test
-  public void getByUsernameNotFoundExceptionTest() {
+  void getByUsernameNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -159,7 +159,7 @@ public class DragonBallUserDaoInMemoryTest {
 
   /** Tests getting a single DragonBallUser in the repository by email. */
   @Test
-  public void getByEmailTest() {
+  void getByEmailTest() {
     assertThrows(
         UnsupportedOperationException.class,
         () -> {

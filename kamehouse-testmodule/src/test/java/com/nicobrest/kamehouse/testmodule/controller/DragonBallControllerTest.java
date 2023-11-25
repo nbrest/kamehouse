@@ -71,7 +71,7 @@ public class DragonBallControllerTest
    * Actions to perform once before all tests.
    */
   @BeforeAll
-  public static void beforeClassTest() {
+  static void beforeClassTest() {
     /* Initialization tasks that happen once for all tests. */
   }
 
@@ -79,7 +79,7 @@ public class DragonBallControllerTest
    * Clean up after each test.
    */
   @AfterEach
-  public void afterTest() {
+  void afterTest() {
     /* Actions to perform after each test */
 
   }
@@ -88,7 +88,7 @@ public class DragonBallControllerTest
    * Cleanup after all tests have executed.
    */
   @AfterAll
-  public static void afterClassTest() {
+  static void afterClassTest() {
     /* Actions to perform ONCE after all tests in the class */
   }
 
@@ -105,7 +105,7 @@ public class DragonBallControllerTest
       "IndexOutOfBoundsException",
       "RuntimeException"
   })
-  public void readAllKameHouseExceptionTest(String exception) throws Exception {
+  void readAllKameHouseExceptionTest(String exception) throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -117,7 +117,7 @@ public class DragonBallControllerTest
    * Tests getting a specific user from the repository.
    */
   @Test
-  public void getByUsernameTest() throws Exception {
+  void getByUsernameTest() throws Exception {
     DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     when(dragonBallUserServiceMock.getByUsername(dragonBallUser.getUsername()))
         .thenReturn(dragonBallUser);
@@ -134,7 +134,7 @@ public class DragonBallControllerTest
    * Tests user not found when getting a specific user from the repository.
    */
   @Test
-  public void getByUsernameNotFoundExceptionTest() throws Exception {
+  void getByUsernameNotFoundExceptionTest() throws Exception {
     assertThrows(
         ServletException.class,
         () -> {
@@ -150,7 +150,7 @@ public class DragonBallControllerTest
    * Tests getting a specific user from the repository by email.
    */
   @Test
-  public void getByEmailTest() throws Exception {
+  void getByEmailTest() throws Exception {
     DragonBallUser dragonBallUser = testUtils.getSingleTestData();
     when(dragonBallUserServiceMock.getByEmail(dragonBallUser.getEmail()))
         .thenReturn(dragonBallUser);
@@ -166,7 +166,7 @@ public class DragonBallControllerTest
   /*
    * @Ignore("Disabled test example")
    *
-   * @Test public void disabledTest() { // @Ignore disables the execution of the
+   * @Test void disabledTest() { // @Ignore disables the execution of the
    * test assertEquals("disabledTest not yet implemented", 0, 0);
    *
    * // Assert statements:

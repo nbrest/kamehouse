@@ -23,7 +23,7 @@ import org.springframework.web.context.request.WebRequest;
  *
  * @author nbrest
  */
-public class ExceptionHandlerControllerTest {
+class ExceptionHandlerControllerTest {
 
   private static final String MOCK_MESSAGE = "mock message";
   private ExceptionHandlerController exceptionHandlerController = new ExceptionHandlerController();
@@ -32,7 +32,7 @@ public class ExceptionHandlerControllerTest {
   private WebRequest webRequest = new ServletWebRequest(request, response);
 
   @Test
-  public void handleBadRequestTest() {
+  void handleBadRequestTest() {
     ResponseEntity<Object> responseEntity =
         exceptionHandlerController.handleBadRequest(
             new KameHouseBadRequestException(MOCK_MESSAGE), webRequest);
@@ -45,7 +45,7 @@ public class ExceptionHandlerControllerTest {
   }
 
   @Test
-  public void handleConflictTest() {
+  void handleConflictTest() {
     ResponseEntity<Object> responseEntity =
         exceptionHandlerController.handleConflict(new KameHouseConflictException(MOCK_MESSAGE),
             webRequest);
@@ -58,7 +58,7 @@ public class ExceptionHandlerControllerTest {
   }
 
   @Test
-  public void handleForbiddenTest() {
+  void handleForbiddenTest() {
     ResponseEntity<Object> responseEntity =
         exceptionHandlerController.handleForbidden(new KameHouseForbiddenException(MOCK_MESSAGE),
             webRequest);
@@ -71,7 +71,7 @@ public class ExceptionHandlerControllerTest {
   }
 
   @Test
-  public void handleNotFoundTest() {
+  void handleNotFoundTest() {
     ResponseEntity<Object> responseEntity =
         exceptionHandlerController.handleNotFound(new KameHouseNotFoundException(MOCK_MESSAGE),
             webRequest);
@@ -84,7 +84,7 @@ public class ExceptionHandlerControllerTest {
   }
 
   @Test
-  public void handleServerErrorTest() {
+  void handleServerErrorTest() {
     ResponseEntity<Object> responseEntity =
         exceptionHandlerController.handleServerError(
             new KameHouseServerErrorException(MOCK_MESSAGE), webRequest);
@@ -97,7 +97,7 @@ public class ExceptionHandlerControllerTest {
   }
 
   @Test
-  public void handleGenericExceptionTest() {
+  void handleGenericExceptionTest() {
     ResponseEntity<Object> responseEntity =
         exceptionHandlerController.handleGenericException(new NullPointerException(MOCK_MESSAGE),
             webRequest);

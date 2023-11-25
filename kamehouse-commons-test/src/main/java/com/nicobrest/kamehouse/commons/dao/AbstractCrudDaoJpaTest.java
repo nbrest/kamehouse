@@ -72,7 +72,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Clears data from the repository before each test.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils = getTestUtils();
     testUtils.initTestData();
     testUtils.removeIds();
@@ -87,7 +87,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Creates entity test.
    */
   @Test
-  public void createTest() {
+  void createTest() {
     E entity = testUtils.getSingleTestData();
 
     Long createdId = getCrudDao().create(entity);
@@ -101,7 +101,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Creates entity ConflictException test.
    */
   @Test
-  public void createConflictExceptionTest() {
+  void createConflictExceptionTest() {
     if (!hasUniqueConstraints()) {
       logger.info("Skipping createConflictExceptionTest");
       return;
@@ -121,7 +121,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Reads entity test.
    */
   @Test
-  public void readTest() {
+  void readTest() {
     E entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
 
@@ -134,7 +134,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Reads all entities test.
    */
   @Test
-  public void readAllTest() {
+  void readAllTest() {
     List<E> entitiesList = testUtils.getTestDataList();
     for (E entity : entitiesList) {
       persistEntityInRepository(entity);
@@ -149,7 +149,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Updates entity test.
    */
   @Test
-  public void updateTest() {
+  void updateTest() {
     E entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
     updateEntity(entity);
@@ -164,7 +164,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Updates entity NotFoundException test.
    */
   @Test
-  public void updateNotFoundExceptionTest() {
+  void updateNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
@@ -179,7 +179,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Tests updating an existing user in the repository Exception flows.
    */
   @Test
-  public void updateServerErrorExceptionTest() {
+  void updateServerErrorExceptionTest() {
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -195,7 +195,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Deletes entity test.
    */
   @Test
-  public void deleteTest() {
+  void deleteTest() {
     E entity = testUtils.getSingleTestData();
     persistEntityInRepository(entity);
 
@@ -208,7 +208,7 @@ public abstract class AbstractCrudDaoJpaTest
    * Deletes entity NotFoundException test.
    */
   @Test
-  public void deleteNotFoundExceptionTest() {
+  void deleteNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {

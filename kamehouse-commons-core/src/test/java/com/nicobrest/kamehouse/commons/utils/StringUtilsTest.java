@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class StringUtilsTest {
+class StringUtilsTest {
 
   @Test
   public void sanitizeInputTests() {

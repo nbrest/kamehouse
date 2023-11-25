@@ -18,21 +18,21 @@ import org.springframework.mock.web.MockHttpServletRequest;
  *
  * @author nbrest
  */
-public class ErrorControllerTest {
+class ErrorControllerTest {
 
   private ErrorController errorController = new ErrorController();
   @Mock
   private MockHttpServletRequest request = new MockHttpServletRequest();
 
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     MockitoAnnotations.openMocks(this);
     when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("404"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("mock message");
   }
 
   @Test
-  public void handleErrorsTest() {
+  void handleErrorsTest() {
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);
     assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
@@ -42,7 +42,7 @@ public class ErrorControllerTest {
   }
 
   @Test
-  public void handleErrors400Test() {
+  void handleErrors400Test() {
     when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("400"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
@@ -54,7 +54,7 @@ public class ErrorControllerTest {
   }
 
   @Test
-  public void handleErrors401Test() {
+  void handleErrors401Test() {
     when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("401"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
@@ -66,7 +66,7 @@ public class ErrorControllerTest {
   }
 
   @Test
-  public void handleErrors403Test() {
+  void handleErrors403Test() {
     when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("403"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);

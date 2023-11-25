@@ -10,23 +10,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class KameHouseUserValidatorTest {
+class KameHouseUserValidatorTest {
 
   /** Tests valid first name format. Should finish without throwing exceptions. */
   @Test
-  public void validateFirstNameFormatTest() {
+  void validateFirstNameFormatTest() {
     KameHouseUserValidator.validateFirstNameFormat("Yukimura");
   }
 
   /** Tests valid last name format. Should finish without throwing exceptions. */
   @Test
-  public void validateLastNameFormatTest() {
+  void validateLastNameFormatTest() {
     KameHouseUserValidator.validateLastNameFormat("Seichi");
   }
 
   /** Tests the failure flow of validateFirstNameFormat. */
   @Test
-  public void validateFirstNameFormatExceptionTest() {
+  void validateFirstNameFormatExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -36,7 +36,7 @@ public class KameHouseUserValidatorTest {
 
   /** Tests the failure flow of validateLastNameFormat. */
   @Test
-  public void validateLastNameFormatExceptionTest() {
+  void validateLastNameFormatExceptionTest() {
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {

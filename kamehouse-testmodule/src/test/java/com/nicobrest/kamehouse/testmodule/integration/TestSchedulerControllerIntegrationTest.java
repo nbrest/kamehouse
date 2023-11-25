@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class TestSchedulerControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class TestSchedulerControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
   private static final String API_URL = "/api/v1/test-module/test-scheduler/sample-job";
 
@@ -20,7 +20,7 @@ public class TestSchedulerControllerIntegrationTest extends AbstractControllerIn
   }
 
   @Test
-  public void sampleJobScheduleTest() throws Exception {
+  void sampleJobScheduleTest() throws Exception {
     logger.info("Running sampleJobScheduleTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "?delay=2");
@@ -29,7 +29,7 @@ public class TestSchedulerControllerIntegrationTest extends AbstractControllerIn
   }
 
   @Test
-  public void sampleJobStatusTest() throws Exception {
+  void sampleJobStatusTest() throws Exception {
     logger.info("Running sampleJobStatusTest");
 
     HttpResponse response = get(getWebappUrl() + API_URL);
@@ -38,7 +38,7 @@ public class TestSchedulerControllerIntegrationTest extends AbstractControllerIn
   }
 
   @Test
-  public void sampleJobCancelTest() throws Exception {
+  void sampleJobCancelTest() throws Exception {
     logger.info("Running sampleJobCancelTest");
 
     HttpResponse response = delete(getWebappUrl() + API_URL);

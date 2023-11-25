@@ -59,7 +59,7 @@ public class KameHouseUserControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByUsernameTest() throws Exception {
+  void loadUserByUsernameTest() throws Exception {
     logger.info("Running loadUserByUsernameTest");
     String username = getDto().getUsername();
 
@@ -73,7 +73,7 @@ public class KameHouseUserControllerIntegrationTest
    */
   @Test
   @Order(5)
-  public void loadUserByUsernameNotFoundExceptionTest() throws Exception {
+  void loadUserByUsernameNotFoundExceptionTest() throws Exception {
     logger.info("Running loadUserByUsernameNotFoundExceptionTest");
     String invalidUsername = "invalid-" + getDto().getUsername();
 

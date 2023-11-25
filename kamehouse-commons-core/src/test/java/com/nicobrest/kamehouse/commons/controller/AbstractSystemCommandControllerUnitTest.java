@@ -27,7 +27,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class AbstractSystemCommandControllerUnitTest {
+class AbstractSystemCommandControllerUnitTest {
 
   private static final String API_TEST_ENTITY = "/api/v1/unit-tests/system-command";
   private MockMvc mockMvc;
@@ -41,7 +41,7 @@ public class AbstractSystemCommandControllerUnitTest {
    * Tests setup.
    */
   @BeforeEach
-  public void beforeTest() {
+  void beforeTest() {
     testUtils.initTestData();
     MockitoAnnotations.openMocks(this);
     mockMvc = MockMvcBuilders.standaloneSetup(testSystemCommandController).build();
@@ -49,7 +49,7 @@ public class AbstractSystemCommandControllerUnitTest {
 
   /** execute system command test. */
   @Test
-  public void executeSystemCommandTest() throws Exception {
+  void executeSystemCommandTest() throws Exception {
     Mockito.when(systemCommandService.execute(Mockito.any(KameHouseSystemCommand.class)))
         .thenReturn(testUtils.getTestDataList());
 
