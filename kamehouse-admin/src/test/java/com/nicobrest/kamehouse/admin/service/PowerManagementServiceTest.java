@@ -11,6 +11,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import java.net.UnknownHostException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -107,8 +108,9 @@ class PowerManagementServiceTest {
    */
   @Test
   void wakeOnLanMacAndBroadcastTest() throws KameHouseBadRequestException {
-    powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9");
-    // no exception thrown expected
+    Assertions.assertDoesNotThrow(() -> {
+      powerManagementService.wakeOnLan("AA:BB:CC:DD:EE:FF", "10.10.9.9");
+    });
   }
 
   /**
@@ -118,8 +120,9 @@ class PowerManagementServiceTest {
   void scheduleShutdownSuccessTest() {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
 
-    powerManagementService.scheduleShutdown(5400);
-    // no exception thrown expected
+    Assertions.assertDoesNotThrow(() -> {
+      powerManagementService.scheduleShutdown(5400);
+    });
   }
 
   /**
@@ -143,8 +146,9 @@ class PowerManagementServiceTest {
     powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenReturn(true);
 
-    powerManagementService.scheduleShutdown(5400);
-    // no exception thrown expected
+    Assertions.assertDoesNotThrow(() -> {
+      powerManagementService.scheduleShutdown(5400);
+    });
   }
 
   /**
