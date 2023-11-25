@@ -11,7 +11,7 @@ import java.util.List;
  */
 public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements CrudDao<E> {
 
-  public AbstractCrudDaoJpa(EntityManagerFactory entityManagerFactory) {
+  protected AbstractCrudDaoJpa(EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
   }
 

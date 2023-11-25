@@ -42,7 +42,7 @@ public abstract class AbstractDaoJpa<E> {
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public AbstractDaoJpa(EntityManagerFactory entityManagerFactory) {
+  protected AbstractDaoJpa(EntityManagerFactory entityManagerFactory) {
     this.entityManagerFactory = entityManagerFactory;
   }
 
