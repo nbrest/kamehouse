@@ -71,12 +71,11 @@ class AbstractCrudDaoJpaUnitTest {
    */
   @Test
   void createConflictExceptionTest() {
+    TestEntity testEntity = new TestEntity();
+    testEntity.setName("goku");
     assertThrows(
         KameHouseConflictException.class,
         () -> {
-          TestEntity testEntity = new TestEntity();
-          testEntity.setName("goku");
-
           testEntityCrudDaoJpa.create(testEntity);
         });
   }
@@ -147,13 +146,12 @@ class AbstractCrudDaoJpaUnitTest {
    */
   @Test
   void updateNotFoundTest() {
+    TestEntity testEntity = new TestEntity();
+    testEntity.setId(888888L);
+    testEntity.setName("goku");
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
-          TestEntity testEntity = new TestEntity();
-          testEntity.setId(888888L);
-          testEntity.setName("goku");
-
           testEntityCrudDaoJpa.update(testEntity);
         });
   }

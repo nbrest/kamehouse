@@ -451,12 +451,11 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookInvalidSessionTypeTest() {
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    request.setSessionType(null);
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setSessionType(null);
-
           sampleBookingService.book(request);
         });
   }
@@ -466,12 +465,11 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookInvalidDateTest() {
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    request.setDate(null);
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setDate(null);
-
           sampleBookingService.book(request);
         });
   }
@@ -481,22 +479,20 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookInvalidTimeTest() {
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    request.setTime(null);
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setTime(null);
-
           sampleBookingService.book(request);
         });
 
+    BookingRequest request2 = bookingRequestTestUtils.getSingleTestData();
+    request2.setTime("00:001");
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setTime("00:001");
-
-          sampleBookingService.book(request);
+          sampleBookingService.book(request2);
         });
   }
 
@@ -505,12 +501,11 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookInvalidSiteTest() {
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    request.setSite(null);
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setSite(null);
-
           sampleBookingService.book(request);
         });
   }
@@ -520,12 +515,11 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookInvalidUsernameTest() {
+    BookingRequest request = bookingRequestTestUtils.getSingleTestData();
+    request.setUsername(null);
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          BookingRequest request = bookingRequestTestUtils.getSingleTestData();
-          request.setUsername(null);
-
           sampleBookingService.book(request);
         });
   }

@@ -68,11 +68,10 @@ class DragonBallUserDaoInMemoryTest {
   /** Tests creating a DragonBallUser in the repository Exception flows. */
   @Test
   void createConflictExceptionTest() {
+    dragonBallUserDao.create(dragonBallUser);
     assertThrows(
         KameHouseConflictException.class,
         () -> {
-          dragonBallUserDao.create(dragonBallUser);
-
           dragonBallUserDao.create(dragonBallUser);
         });
   }
@@ -109,11 +108,10 @@ class DragonBallUserDaoInMemoryTest {
   /** Tests updating an existing user in the repository Exception flows. */
   @Test
   void updateNotFoundExceptionTest() {
+    dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
     assertThrows(
         KameHouseNotFoundException.class,
         () -> {
-          dragonBallUser.setId(DragonBallUserTestUtils.INVALID_ID);
-
           dragonBallUserDao.update(dragonBallUser);
         });
   }

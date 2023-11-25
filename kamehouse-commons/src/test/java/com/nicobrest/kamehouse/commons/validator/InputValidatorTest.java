@@ -25,15 +25,14 @@ class InputValidatorTest {
    */
   @Test
   void validateStringLengthExceptionTest() {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 70; i++) {
+      sb.append("goku");
+    }
+    String username = sb.toString();
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < 70; i++) {
-            sb.append("goku");
-          }
-          String username = sb.toString();
-
           InputValidator.validateStringLength(username);
         });
   }

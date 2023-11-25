@@ -203,10 +203,11 @@ class DateUtilsTest {
    */
   @Test
   void isOnOrAfterExceptionTest() {
+    Date date = new Date();
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          DateUtils.isOnOrAfter(null, new Date());
+          DateUtils.isOnOrAfter(null, date);
         });
   }
 

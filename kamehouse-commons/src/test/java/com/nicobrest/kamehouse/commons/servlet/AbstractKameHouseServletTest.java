@@ -48,6 +48,7 @@ class AbstractKameHouseServletTest {
   private MockHttpServletRequest request = new MockHttpServletRequest();
   private MockHttpServletResponse response = new MockHttpServletResponse();
   private SampleKameHouseServlet sampleKameHouseServlet;
+  private List roles = List.of("ROLE_KAMISAMA");
   private static final String SESSION_ID = "Y2VkODlmZTktYmFlZi00Njg5LTljN2MtYzI3NzYxZTQ0ZDM3";
 
   @Mock
@@ -214,14 +215,14 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
 
     request.setCookies(new Cookie("invalid-key", "invalid-value"));
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -234,7 +235,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -247,7 +248,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -261,7 +262,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -275,7 +276,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -290,7 +291,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -304,7 +305,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -318,7 +319,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -333,7 +334,7 @@ class AbstractKameHouseServletTest {
     assertThrows(
         KameHouseForbiddenException.class,
         () -> {
-          sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+          sampleKameHouseServlet.authorize(request, roles);
         });
   }
 
@@ -346,7 +347,7 @@ class AbstractKameHouseServletTest {
     doReturn(List.of(grantedAuthority)).when(authentication).getAuthorities();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
 
-    sampleKameHouseServlet.authorize(request, List.of("ROLE_KAMISAMA"));
+    sampleKameHouseServlet.authorize(request, roles);
     // no exception thrown, so it's authorized
   }
 

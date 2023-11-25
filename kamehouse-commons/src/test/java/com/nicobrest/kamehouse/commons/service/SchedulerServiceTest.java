@@ -136,13 +136,11 @@ class SchedulerServiceTest {
   /** Schedule job exception flow test. */
   @Test
   void scheduleJobJobKeyExceptionTest() throws SchedulerException {
+    when(scheduler.scheduleJob(any(Trigger.class))).thenThrow(new SchedulerException("mada"));
+    JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
-          when(scheduler.scheduleJob(any(Trigger.class))).thenThrow(new SchedulerException("mada"));
-
-          JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
-
           schedulerService.scheduleJob(jobKey, 2);
         });
   }
@@ -150,13 +148,11 @@ class SchedulerServiceTest {
   /** Schedule job exception flow test. */
   @Test
   void scheduleJobGetJobDetailExceptionTest() throws SchedulerException {
+    when(scheduler.getJobDetail(any())).thenThrow(new SchedulerException("mada"));
+    JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
-          when(scheduler.getJobDetail(any())).thenThrow(new SchedulerException("mada"));
-
-          JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
-
           schedulerService.scheduleJob(jobKey, 2);
         });
   }

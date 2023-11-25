@@ -96,10 +96,11 @@ class EncryptionUtilsTest {
    */
   @Test
   void decryptInvalidFileTest() {
+    PrivateKey privateKey = getSamplePrivateKey();
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          EncryptionUtils.decryptFileToString("", getSamplePrivateKey());
+          EncryptionUtils.decryptFileToString("", privateKey);
         });
   }
 
@@ -108,10 +109,11 @@ class EncryptionUtilsTest {
    */
   @Test
   void decryptEmptyDataTest() {
+    PrivateKey privateKey = getSamplePrivateKey();
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          EncryptionUtils.decrypt(null, getSamplePrivateKey());
+          EncryptionUtils.decrypt(null, privateKey);
         });
   }
 
@@ -132,10 +134,11 @@ class EncryptionUtilsTest {
    */
   @Test
   void encryptEmptyDataTest() {
+    X509Certificate certificate = getSampleCertificate();
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
-          EncryptionUtils.encrypt(null, getSampleCertificate());
+          EncryptionUtils.encrypt(null, certificate);
         });
   }
 

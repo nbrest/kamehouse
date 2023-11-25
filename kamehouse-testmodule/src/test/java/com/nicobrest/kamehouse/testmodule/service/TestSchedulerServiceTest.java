@@ -22,7 +22,8 @@ import org.quartz.SchedulerException;
  */
 class TestSchedulerServiceTest {
 
-  @InjectMocks private TestSchedulerService testSchedulerService;
+  @InjectMocks
+  private TestSchedulerService testSchedulerService;
 
   @Mock(name = "scheduler")
   private Scheduler scheduler;
@@ -32,7 +33,9 @@ class TestSchedulerServiceTest {
     MockitoAnnotations.openMocks(this);
   }
 
-  /** Sample job successful test. */
+  /**
+   * Sample job successful test.
+   */
   @Test
   void scheduleSampleJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
@@ -41,21 +44,23 @@ class TestSchedulerServiceTest {
     // no exception thrown expected
   }
 
-  /** Sample job exception test. */
+  /**
+   * Sample job exception test.
+   */
   @Test
   void scheduleSampleJobExceptionTest() throws SchedulerException {
+    when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
+    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
-          when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
-          testSchedulerService.setSampleJobJobDetail(
-              new TestModuleSchedulerConfig().sampleJobDetail());
-
           testSchedulerService.scheduleSampleJob(5400);
         });
   }
 
-  /** Sample job exception trigger won't fire test. */
+  /**
+   * Sample job exception trigger won't fire test.
+   */
   @Test
   void scheduleSampleJobExceptionTriggerWontFireTest() throws SchedulerException {
     when(scheduler.scheduleJob(any()))
@@ -66,7 +71,9 @@ class TestSchedulerServiceTest {
     // No exception thrown from the service
   }
 
-  /** Get job status successful test. */
+  /**
+   * Get job status successful test.
+   */
   @Test
   void getJobStatusSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
@@ -75,7 +82,9 @@ class TestSchedulerServiceTest {
     assertEquals("Sample job not scheduled", status);
   }
 
-  /** Cancel job successful test. */
+  /**
+   * Cancel job successful test.
+   */
   @Test
   void cancelJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
