@@ -282,11 +282,11 @@ class AbstractCrudDaoJpaUnitTest {
   void updateEntityInRepositoryPersistenceExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(persistenceException);
-
+    TestEntity testEntity = new TestEntity();
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
-          testEntityCrudDaoJpa.updateEntityInRepository(TestEntity.class, new TestEntity(), 1L);
+          testEntityCrudDaoJpa.updateEntityInRepository(TestEntity.class, testEntity, 1L);
         });
   }
 
@@ -297,11 +297,11 @@ class AbstractCrudDaoJpaUnitTest {
   void updateEntityInRepositoryIllegalArgumentExceptionTest() {
     setupEntityManagerMock();
     when(entityManagerMock.getTransaction()).thenThrow(illegalArgumentException);
-
+    TestEntity testEntity = new TestEntity();
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
-          testEntityCrudDaoJpa.updateEntityInRepository(TestEntity.class, new TestEntity(), 1L);
+          testEntityCrudDaoJpa.updateEntityInRepository(TestEntity.class, testEntity, 1L);
         });
   }
 
