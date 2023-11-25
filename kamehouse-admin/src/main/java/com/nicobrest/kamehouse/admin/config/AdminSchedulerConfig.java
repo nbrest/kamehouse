@@ -24,9 +24,16 @@ public class AdminSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired private Scheduler scheduler;
+  private Scheduler scheduler;
 
-  /** Init AdminSchedulerConfig. */
+  @Autowired
+  public AdminSchedulerConfig(Scheduler scheduler) {
+    this.scheduler = scheduler;
+  }
+
+  /**
+   * Init AdminSchedulerConfig.
+   */
   @PostConstruct
   public void init() {
     logger.info("init AdminSchedulerConfig");
@@ -38,7 +45,9 @@ public class AdminSchedulerConfig {
     }
   }
 
-  /** shutdownJobDetail bean. */
+  /**
+   * shutdownJobDetail bean.
+   */
   @Bean(name = "shutdownJobDetail")
   public JobDetail shutdownJobDetail() {
     logger.info("Setting up shutdownJobDetail");
@@ -50,7 +59,9 @@ public class AdminSchedulerConfig {
         .build();
   }
 
-  /** suspendJobDetail bean. */
+  /**
+   * suspendJobDetail bean.
+   */
   @Bean(name = "suspendJobDetail")
   public JobDetail suspendJobDetail() {
     logger.info("Setting up suspendJobDetail");

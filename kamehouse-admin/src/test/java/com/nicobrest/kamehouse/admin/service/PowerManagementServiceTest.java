@@ -118,7 +118,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleShutdownSuccessTest() {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
 
     Assertions.assertDoesNotThrow(() -> {
       powerManagementService.scheduleShutdown(5400);
@@ -130,7 +131,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleShutdownExceptionTest() {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -143,7 +145,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleShutdownRescheduleTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenReturn(true);
 
     Assertions.assertDoesNotThrow(() -> {
@@ -156,7 +159,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleShutdownSchedulerExceptionTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException());
     assertThrows(
@@ -171,7 +175,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleShutdownTriggerWontFireTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException(PowerManagementService.TRIGGER_WONT_FIRE));
 
@@ -183,7 +188,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void getShutdownStatusSuccessTest() {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
 
     String status = powerManagementService.getShutdownStatus();
     assertEquals("Shutdown not scheduled", status);
@@ -194,7 +200,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void getShutdownStatusSuccessScheduledTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     Trigger trigger = Mockito.mock(Trigger.class);
     when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class))).thenReturn(trigger);
@@ -208,7 +215,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void getShutdownStatusExceptionTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException());
     assertThrows(
@@ -223,7 +231,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void cancelScheduledShutdownSuccessTest() {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
 
     String status = powerManagementService.cancelScheduledShutdown();
     assertEquals("Shutdown was not scheduled, so no need to cancel", status);
@@ -234,7 +243,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void cancelScheduledShutdownSuccessCancelledTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class))).thenReturn(true);
 
     String status = powerManagementService.cancelScheduledShutdown();
@@ -246,7 +256,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void cancelScheduledShutdownExceptionTest() throws SchedulerException {
-    powerManagementService.setShutdownJobDetail(new AdminSchedulerConfig().shutdownJobDetail());
+    powerManagementService.setShutdownJobDetail(
+        new AdminSchedulerConfig(scheduler).shutdownJobDetail());
     when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException());
     assertThrows(
@@ -261,7 +272,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void suspendShutdownSuccessTest() {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
 
     Assertions.assertDoesNotThrow(() -> {
       powerManagementService.scheduleSuspend(5400);
@@ -273,7 +285,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleSuspendExceptionTest() {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
@@ -286,7 +299,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleSuspendRescheduleTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenReturn(true);
 
     Assertions.assertDoesNotThrow(() -> {
@@ -299,7 +313,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleSuspendSchedulerExceptionTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException());
     assertThrows(
@@ -314,7 +329,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void scheduleSuspendTriggerWontFireTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException(PowerManagementService.TRIGGER_WONT_FIRE));
 
@@ -326,7 +342,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void getSuspendStatusSuccessNotScheduledTest() {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
 
     String status = powerManagementService.getSuspendStatus();
     assertEquals("Suspend not scheduled", status);
@@ -337,7 +354,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void getSuspendStatusSuccessScheduledTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     Trigger trigger = Mockito.mock(Trigger.class);
     when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class))).thenReturn(trigger);
@@ -351,7 +369,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void getSuspendStatusExceptionTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException());
     assertThrows(
@@ -366,7 +385,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void cancelScheduledSuspendSuccessNotScheduledTest() {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
 
     String status = powerManagementService.cancelScheduledSuspend();
     assertEquals("Suspend was not scheduled, so no need to cancel", status);
@@ -377,7 +397,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void cancelScheduledSuspendSuccessCancelledTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class))).thenReturn(true);
 
     String status = powerManagementService.cancelScheduledSuspend();
@@ -389,7 +410,8 @@ class PowerManagementServiceTest {
    */
   @Test
   void cancelScheduledSuspendExceptionTest() throws SchedulerException {
-    powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
+    powerManagementService.setSuspendJobDetail(
+        new AdminSchedulerConfig(scheduler).suspendJobDetail());
     when(scheduler.unscheduleJob(Mockito.any(TriggerKey.class)))
         .thenThrow(new SchedulerException());
     assertThrows(
