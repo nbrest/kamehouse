@@ -31,7 +31,7 @@ class SchedulerUtilsTest {
   }
 
   /** Dummy sample job test class for unit tests. */
-  public class SampleTestJob implements Job {
+  class SampleTestJob implements Job {
 
     /** Dummy sample execute method for unit tests. */
     public void execute(JobExecutionContext context) {}

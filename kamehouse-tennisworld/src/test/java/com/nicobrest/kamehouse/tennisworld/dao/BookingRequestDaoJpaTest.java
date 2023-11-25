@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author nbrest
  */
-public class BookingRequestDaoJpaTest
+class BookingRequestDaoJpaTest
     extends AbstractCrudDaoJpaTest<BookingRequest, BookingRequestDto> {
 
   @Autowired

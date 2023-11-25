@@ -12,7 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * @author nbrest
  */
-public class BookingRequestControllerIntegrationTest
+class BookingRequestControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<BookingRequest, BookingRequestDto> {
 
   @Override

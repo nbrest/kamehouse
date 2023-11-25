@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class SessionStatusControllerTest extends AbstractControllerTest<SessionStatus, Object> {
+class SessionStatusControllerTest extends AbstractControllerTest<SessionStatus, Object> {
 
   private SessionStatus sessionStatus;
 

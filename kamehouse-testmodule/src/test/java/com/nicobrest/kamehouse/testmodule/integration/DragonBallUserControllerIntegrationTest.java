@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class DragonBallUserControllerIntegrationTest
+class DragonBallUserControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<DragonBallUser, DragonBallUserDto> {
 
   @Override

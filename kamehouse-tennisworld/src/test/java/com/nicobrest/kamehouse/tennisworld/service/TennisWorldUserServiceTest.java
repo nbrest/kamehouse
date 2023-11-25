@@ -25,7 +25,7 @@ import org.mockito.Mockito;
  *
  * @author nbrest
  */
-public class TennisWorldUserServiceTest
+class TennisWorldUserServiceTest
     extends AbstractCrudServiceTest<TennisWorldUser, TennisWorldUserDto> {
 
   @InjectMocks

@@ -16,7 +16,7 @@ import org.mockito.Mock;
  *
  * @author nbrest
  */
-public class BookingScheduleConfigControllerTest
+class BookingScheduleConfigControllerTest
     extends AbstractCrudControllerTest<BookingScheduleConfig, BookingScheduleConfigDto> {
 
   @InjectMocks

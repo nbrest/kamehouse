@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author nbrest
  */
-public class KameHouseUserDaoJpaTest
+class KameHouseUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<KameHouseUser, KameHouseUserDto> {
 
   @Autowired

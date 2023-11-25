@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class VlcPlayerControllerIntegrationTest
+class VlcPlayerControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<VlcPlayer, VlcPlayerDto> {
 
   @Override

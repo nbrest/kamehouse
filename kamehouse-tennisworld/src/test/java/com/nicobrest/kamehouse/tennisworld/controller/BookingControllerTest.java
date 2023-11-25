@@ -38,7 +38,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class BookingControllerTest
+class BookingControllerTest
     extends AbstractControllerTest<BookingResponse, BookingResponseDto> {
 
   private static final String API_V1_TENNISWORLD_BOOKINGS =

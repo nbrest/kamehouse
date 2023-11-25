@@ -16,7 +16,7 @@ import org.mockito.Mock;
  *
  * @author nbrest
  */
-public class TennisWorldUserControllerTest
+class TennisWorldUserControllerTest
     extends AbstractCrudControllerTest<TennisWorldUser, TennisWorldUserDto> {
 
   @InjectMocks

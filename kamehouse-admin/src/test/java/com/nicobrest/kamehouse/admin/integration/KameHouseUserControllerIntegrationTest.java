@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class KameHouseUserControllerIntegrationTest
+class KameHouseUserControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<KameHouseUser, KameHouseUserDto> {
 
   @Override

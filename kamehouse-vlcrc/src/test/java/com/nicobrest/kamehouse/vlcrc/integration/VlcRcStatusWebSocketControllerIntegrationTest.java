@@ -8,7 +8,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
  *
  * @author nbrest
  */
-public class VlcRcStatusWebSocketControllerIntegrationTest extends
+class VlcRcStatusWebSocketControllerIntegrationTest extends
     AbstractWebSocketIntegrationTest {
 
   @Override

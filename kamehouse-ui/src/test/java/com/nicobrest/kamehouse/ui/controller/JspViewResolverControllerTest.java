@@ -28,7 +28,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class JspViewResolverControllerTest extends AbstractControllerTest<ModelAndView, Object> {
+class JspViewResolverControllerTest extends AbstractControllerTest<ModelAndView, Object> {
 
   private MockHttpServletResponse response = new MockHttpServletResponse();
 

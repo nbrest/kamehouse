@@ -21,7 +21,7 @@ import org.mockito.Mock;
  *
  * @author nbrest
  */
-public class DragonBallUserServiceTest
+class DragonBallUserServiceTest
     extends AbstractCrudServiceTest<DragonBallUser, DragonBallUserDto> {
 
   @InjectMocks

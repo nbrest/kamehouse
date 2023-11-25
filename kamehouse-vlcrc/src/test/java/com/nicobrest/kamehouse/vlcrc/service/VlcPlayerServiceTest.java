@@ -21,7 +21,7 @@ import org.mockito.Mock;
  *
  * @author nbrest
  */
-public class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, VlcPlayerDto> {
+class VlcPlayerServiceTest extends AbstractCrudServiceTest<VlcPlayer, VlcPlayerDto> {
 
   @InjectMocks
   private VlcPlayerService vlcPlayerService;

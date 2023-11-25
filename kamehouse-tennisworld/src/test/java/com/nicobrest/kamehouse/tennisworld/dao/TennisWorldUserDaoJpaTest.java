@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author nbrest
  */
-public class TennisWorldUserDaoJpaTest
+class TennisWorldUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<TennisWorldUser, TennisWorldUserDto> {
 
   @Autowired

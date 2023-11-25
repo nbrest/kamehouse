@@ -21,7 +21,7 @@ import org.mockito.Mock;
  *
  * @author nbrest
  */
-public class KameHouseUserServiceTest
+class KameHouseUserServiceTest
     extends AbstractCrudServiceTest<KameHouseUser, KameHouseUserDto> {
 
   @InjectMocks

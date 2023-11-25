@@ -25,7 +25,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
  *
  * @author nbrest
  */
-public class KameHouseUserControllerTest
+class KameHouseUserControllerTest
     extends AbstractCrudControllerTest<KameHouseUser, KameHouseUserDto> {
 
   private static final String API_V1_ADMIN_KAMEHOUSE_USERS =

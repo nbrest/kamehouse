@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache, Object> {
+class EhCacheControllerTest extends AbstractControllerTest<KameHouseCache, Object> {
 
   private KameHouseCache kameHouseCache;
   private List<KameHouseCache> kameHouseCacheList;

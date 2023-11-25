@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class StringUtilsTest {
 
   @Test
-  public void sanitizeInputTests() {
+  void sanitizeInputTest() {
     String input = "goku\ngohan\ttrunks\rsanad<>^&`a";
     String output = StringUtils.sanitizeInput(input);
     assertEquals("gokugohantrunkssanada", output);

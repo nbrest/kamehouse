@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class BookingResponseControllerIntegrationTest
+class BookingResponseControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<BookingResponse, BookingResponseDto> {
 
   private BookingRequestControllerIntegrationTest bookingRequestControllerIntegrationTest =

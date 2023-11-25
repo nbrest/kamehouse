@@ -30,7 +30,7 @@ import jakarta.servlet.ServletException;
  *
  * @author nbrest
  */
-public class DragonBallControllerTest
+class DragonBallControllerTest
     extends AbstractCrudControllerTest<DragonBallUser, DragonBallUserDto> {
 
   private static final String API_V1_DRAGONBALL_USERS =

@@ -36,7 +36,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class LogLevelManagerControllerTest extends AbstractControllerTest<List<String>, Object> {
+class LogLevelManagerControllerTest extends AbstractControllerTest<List<String>, Object> {
 
   private List<String> logLevelSingleElement = Arrays.asList("com.nicobrest.kamehouse:TRACE");
   private List<String> logLevelMultipleElements =

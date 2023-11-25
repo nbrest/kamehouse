@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
+class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
 
   private static final String API_V1_MEDIA_VIDEO_PLAYLISTS =
       VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLISTS;
@@ -84,7 +84,7 @@ public class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist
    * Tests getting a specific video playlist.
    */
   @Test
-  public void getPlaylist() throws Exception {
+  void getPlaylistTest() throws Exception {
     Playlist expectedPlaylist = testUtils.getSingleTestData();
     when(videoPlaylistService.getPlaylist(anyString(), anyBoolean())).thenReturn(expectedPlaylist);
 

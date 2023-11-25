@@ -12,7 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * @author nbrest
  */
-public class TennisWorldUserControllerIntegrationTest
+class TennisWorldUserControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<TennisWorldUser, TennisWorldUserDto> {
 
   @Override

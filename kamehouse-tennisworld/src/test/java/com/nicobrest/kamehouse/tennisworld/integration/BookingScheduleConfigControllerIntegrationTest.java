@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author nbrest
  */
-public class BookingScheduleConfigControllerIntegrationTest
+class BookingScheduleConfigControllerIntegrationTest
     extends AbstractCrudControllerIntegrationTest<BookingScheduleConfig, BookingScheduleConfigDto> {
 
   TennisWorldUserControllerIntegrationTest tennisWorldUserControllerIntegrationTest =

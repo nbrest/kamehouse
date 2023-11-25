@@ -12,13 +12,17 @@ import org.junit.jupiter.api.Test;
  */
 class InputValidatorTest {
 
-  /** Tests valid string length. Should finish without throwing exceptions. */
+  /**
+   * Tests valid string length. Should finish without throwing exceptions.
+   */
   @Test
-  public void validateStringLength() {
+  void validateStringLengthTest() {
     InputValidator.validateStringLength("mada mada dane");
   }
 
-  /** Tests the failure flow of validateStringLength. */
+  /**
+   * Tests the failure flow of validateStringLength.
+   */
   @Test
   void validateStringLengthExceptionTest() {
     assertThrows(

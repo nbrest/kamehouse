@@ -15,7 +15,7 @@ import org.mockito.Mock;
  *
  * @author nbrest
  */
-public class BookingResponseServiceTest extends
+class BookingResponseServiceTest extends
     AbstractCrudServiceTest<BookingResponse, BookingResponseDto> {
 
   @InjectMocks

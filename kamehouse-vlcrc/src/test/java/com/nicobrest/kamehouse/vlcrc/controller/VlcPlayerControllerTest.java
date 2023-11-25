@@ -21,7 +21,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
  *
  * @author nbrest
  */
-public class VlcPlayerControllerTest extends AbstractCrudControllerTest<VlcPlayer, VlcPlayerDto> {
+class VlcPlayerControllerTest extends AbstractCrudControllerTest<VlcPlayer, VlcPlayerDto> {
 
   @InjectMocks
   private VlcPlayerController vlcPlayerController;

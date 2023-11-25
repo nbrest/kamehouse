@@ -33,7 +33,7 @@ import jakarta.servlet.ServletException;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-public class TestSchedulerControllerTest
+class TestSchedulerControllerTest
     extends AbstractControllerTest<KameHouseGenericResponse, Object> {
 
   @InjectMocks private TestSchedulerController testSchedulerController;

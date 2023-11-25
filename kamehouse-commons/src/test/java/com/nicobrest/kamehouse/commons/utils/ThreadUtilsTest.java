@@ -13,7 +13,7 @@ class ThreadUtilsTest {
 
   /** Test get and set the current thread name. */
   @Test
-  public void getAndSetCurrentThreadName() {
+  void getAndSetCurrentThreadNameTest() {
     String newThreadName = "pegasus-seiya-yukimura";
     ThreadUtils.setCurrentThreadName(newThreadName);
     assertEquals(newThreadName, ThreadUtils.getCurrentThreadName());
