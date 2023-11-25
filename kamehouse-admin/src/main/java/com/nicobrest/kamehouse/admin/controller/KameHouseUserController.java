@@ -30,8 +30,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class KameHouseUserController extends
     AbstractCrudController<KameHouseUser, KameHouseUserDto> {
 
-  @Autowired
   private KameHouseUserService kameHouseUserService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseUserController(KameHouseUserService kameHouseUserService) {
+    this.kameHouseUserService = kameHouseUserService;
+  }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
