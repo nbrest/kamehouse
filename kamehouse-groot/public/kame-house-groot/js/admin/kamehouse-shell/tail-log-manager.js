@@ -81,14 +81,9 @@ function TailLogManager() {
     if ((responseCode == "0" && responseDescription == "timeout") || responseCode == "-4") {
       kameHouse.logger.warn("Tail log request timed out");
     } else {
-      const $tailLogOutputTableBody = $('#tail-log-output-table-body');
-      const tbody = getTailLogOutputTbody();
-      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("Error response from the backend"));
-      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseBody : " + responseBody));
-      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseCode : " + responseCode));
-      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr("responseDescription : " + responseDescription));
-      kameHouse.util.dom.empty($tailLogOutputTableBody);
-      kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
+      const tbody = $("#tail-log-output-table-body");
+      const errorMessage = kameHouse.logger.getCyanText(kameHouse.util.time.getTimestamp()) + " - [" + kameHouse.logger.getRedText("ERROR") + "] - " + kameHouse.logger.getRedText("Error response from the backend. responseCode : '" + responseCode + "'. responseBody : '" + responseBody + "'. responseDescription : '" + responseDescription + "'");
+      kameHouse.util.dom.append(tbody, getTailLogOutputErrorTr(errorMessage));
     }
 
     if (kameHouse.core.isFunction(callback)) {

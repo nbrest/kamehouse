@@ -8,6 +8,7 @@
 #### v8.22
 
 - Added build-kamehouse log to groot tail logs
+- Updated error view on tail log errors on groot
 - Fixed sonar bugs
 
 #### v8.21
