@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.web.filter;
 
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -31,7 +32,7 @@ class AddSecurityContextFilterTest {
    * Tests the filter to add the logged in username on each request as a parameter.
    */
   @Test
-  void doFilterTest() throws Exception {
+  void doFilterTest() {
     MockHttpServletRequest request = new MockHttpServletRequest();
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain chain = new MockFilterChain();
@@ -40,8 +41,8 @@ class AddSecurityContextFilterTest {
     when(addSecurityContextFilterSpy.getAuthentication())
         .thenReturn(new UsernamePasswordAuthenticationToken("goku", "gohan"));
 
-    addSecurityContextFilterSpy.doFilter(request, response, chain);
-
-    // no exception thrown
+    Assertions.assertDoesNotThrow(() -> {
+      addSecurityContextFilterSpy.doFilter(request, response, chain);
+    });
   }
 }

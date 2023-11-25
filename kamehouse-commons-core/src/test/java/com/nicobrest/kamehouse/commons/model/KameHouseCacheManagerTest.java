@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.Iterator;
 import java.util.List;
 import javax.cache.Cache;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -71,8 +72,8 @@ class KameHouseCacheManagerTest {
    */
   @Test
   void clearCacheTest() {
-    kameHouseCacheManager.clearCache("cache1");
-
-    //no exceptions thrown.
+    Assertions.assertDoesNotThrow(() -> {
+      kameHouseCacheManager.clearCache("cache1");
+    });
   }
 }

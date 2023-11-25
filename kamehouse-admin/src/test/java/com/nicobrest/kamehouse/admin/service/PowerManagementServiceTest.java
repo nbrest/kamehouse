@@ -288,8 +288,9 @@ class PowerManagementServiceTest {
     powerManagementService.setSuspendJobDetail(new AdminSchedulerConfig().suspendJobDetail());
     when(scheduler.checkExists(Mockito.any(TriggerKey.class))).thenReturn(true);
 
-    powerManagementService.scheduleSuspend(5400);
-    // no exception thrown expected
+    Assertions.assertDoesNotThrow(() -> {
+      powerManagementService.scheduleSuspend(5400);
+    });
   }
 
   /**

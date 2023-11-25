@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.utils;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -19,8 +20,9 @@ class NetworkUtilsTest {
   void wakeOnLanSuccessTest() {
     String mac = "aa:bb:cc:dd:ee:ff";
     String broadcast = "192.168.1.255";
-    NetworkUtils.wakeOnLan(mac, broadcast);
-    // no exception thrown -> success
+    Assertions.assertDoesNotThrow(() -> {
+      NetworkUtils.wakeOnLan(mac, broadcast);
+    });
   }
 
   /**

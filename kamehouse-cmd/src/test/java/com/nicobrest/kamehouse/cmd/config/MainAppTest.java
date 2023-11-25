@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import java.io.IOException;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -51,12 +52,14 @@ class MainAppTest {
   @Test
   void decryptSuccessfulTest() throws IOException {
     String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.dec"};
-    MainApp.main(args);
-    // no exceptions thrown
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
 
     when(FileUtils.readFileToByteArray(any())).thenCallRealMethod();
-    MainApp.main(args);
-    // no exceptions thrown
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
   }
 
   /**
@@ -65,12 +68,14 @@ class MainAppTest {
   @Test
   void encryptSuccessfulTest() throws IOException {
     String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc", "-v"};
-    MainApp.main(args);
-    // no exceptions thrown
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
 
     when(FileUtils.readFileToByteArray(any())).thenCallRealMethod();
-    MainApp.main(args);
-    // no exceptions thrown
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
   }
 
   /**
@@ -80,8 +85,9 @@ class MainAppTest {
   void jVncSenderUnknownHostTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
         "-password", "", "-text", "<ESC>"};
-    MainApp.main(args);
-    // no exceptions thrown
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
   }
 
   /**
@@ -91,7 +97,8 @@ class MainAppTest {
   void wolTest() {
     String[] args = new String[]{"-o", "wol", "-mac", "AA:BB:CC:DD:EE:FF", "-broadcast",
         "192.168.29.255"};
-    MainApp.main(args);
-    // no exceptions thrown
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
   }
 }

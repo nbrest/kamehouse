@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,9 @@ class AbstractCrudServiceUnitTest {
     TestEntityDto testEntityDto = new TestEntityDto();
     testEntityDto.setName("goku");
 
-    testEntityCrudService.update(testEntityDto);
-    // No exception thrown
+    Assertions.assertDoesNotThrow(() -> {
+      testEntityCrudService.update(testEntityDto);
+    });
   }
 
   /**

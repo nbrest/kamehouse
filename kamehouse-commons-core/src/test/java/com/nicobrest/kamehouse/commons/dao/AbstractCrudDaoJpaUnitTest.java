@@ -10,11 +10,12 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
-import java.sql.SQLException;
-import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
+import java.sql.SQLException;
+import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -137,8 +138,9 @@ class AbstractCrudDaoJpaUnitTest {
     testEntity.setId(999999L);
     testEntity.setName("goku");
 
-    testEntityCrudDaoJpa.update(testEntity);
-    // no exception expected
+    Assertions.assertDoesNotThrow(() -> {
+      testEntityCrudDaoJpa.update(testEntity);
+    });
   }
 
   /**

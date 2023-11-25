@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.testmodule.config.TestModuleSchedulerConfig;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,8 +41,9 @@ class TestSchedulerServiceTest {
   void scheduleSampleJobSuccessTest() {
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
-    testSchedulerService.scheduleSampleJob(5400);
-    // no exception thrown expected
+    Assertions.assertDoesNotThrow(() -> {
+      testSchedulerService.scheduleSampleJob(5400);
+    });
   }
 
   /**
@@ -67,8 +69,9 @@ class TestSchedulerServiceTest {
         .thenThrow(new SchedulerException(TestSchedulerService.TRIGGER_WONT_FIRE));
     testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
 
-    testSchedulerService.scheduleSampleJob(5400);
-    // No exception thrown from the service
+    Assertions.assertDoesNotThrow(() -> {
+      testSchedulerService.scheduleSampleJob(5400);
+    });
   }
 
   /**

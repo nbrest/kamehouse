@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,7 +37,8 @@ import org.quartz.impl.JobDetailImpl;
  */
 class SchedulerServiceTest {
 
-  @InjectMocks private SchedulerService schedulerService;
+  @InjectMocks
+  private SchedulerService schedulerService;
 
   @Mock(name = "scheduler")
   private Scheduler scheduler;
@@ -66,7 +68,9 @@ class SchedulerServiceTest {
     }
   }
 
-  /** Get all jobs status successful test. */
+  /**
+   * Get all jobs status successful test.
+   */
   @Test
   void getAllJobsStatusSuccessTest() {
     KameHouseJob expectedKameHouseJob = new KameHouseJob();
@@ -83,7 +87,7 @@ class SchedulerServiceTest {
     jobKey.setName("sampleJob");
     jobKey.setGroup("DEFAULT");
     expectedKameHouseJob.setKey(jobKey);
-    expectedKameHouseJob.setSchedules(Arrays.asList(new KameHouseJob.Schedule[] {schedule}));
+    expectedKameHouseJob.setSchedules(Arrays.asList(new KameHouseJob.Schedule[]{schedule}));
 
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
     assertEquals(1, jobs.size());
@@ -101,17 +105,22 @@ class SchedulerServiceTest {
         expectedKameHouseJob.getSchedules().hashCode(), returnedJob.getSchedules().hashCode());
   }
 
-  /** Cancel scheduled job successful test. */
+  /**
+   * Cancel scheduled job successful test.
+   */
   @Test
   void cancelScheduledJobSuccessTest() throws SchedulerException {
     when(scheduler.unscheduleJob(any())).thenReturn(true);
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
-    schedulerService.cancelScheduledJob(jobKey);
-    // no exception thrown
+    Assertions.assertDoesNotThrow(() -> {
+      schedulerService.cancelScheduledJob(jobKey);
+    });
   }
 
-  /** Schedule job successful test. */
+  /**
+   * Schedule job successful test.
+   */
   @Test
   void scheduleJobSuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
@@ -120,20 +129,26 @@ class SchedulerServiceTest {
     jobDetail.setName("sampleJob");
     jobDetail.setKey(jobKey);
 
-    schedulerService.scheduleJob(jobDetail, 2);
-    // no exception thrown
+    Assertions.assertDoesNotThrow(() -> {
+      schedulerService.scheduleJob(jobDetail, 2);
+    });
   }
 
-  /** Schedule job successful test. */
+  /**
+   * Schedule job successful test.
+   */
   @Test
   void scheduleJobJobKeySuccessTest() {
     JobKey jobKey = new JobKey("sampleJob", "DEFAULT");
 
-    schedulerService.scheduleJob(jobKey, 2);
-    // no exception thrown
+    Assertions.assertDoesNotThrow(() -> {
+      schedulerService.scheduleJob(jobKey, 2);
+    });
   }
 
-  /** Schedule job exception flow test. */
+  /**
+   * Schedule job exception flow test.
+   */
   @Test
   void scheduleJobJobKeyExceptionTest() throws SchedulerException {
     when(scheduler.scheduleJob(any(Trigger.class))).thenThrow(new SchedulerException("mada"));
@@ -145,7 +160,9 @@ class SchedulerServiceTest {
         });
   }
 
-  /** Schedule job exception flow test. */
+  /**
+   * Schedule job exception flow test.
+   */
   @Test
   void scheduleJobGetJobDetailExceptionTest() throws SchedulerException {
     when(scheduler.getJobDetail(any())).thenThrow(new SchedulerException("mada"));
@@ -157,7 +174,9 @@ class SchedulerServiceTest {
         });
   }
 
-  /** Reschedule job successful test. */
+  /**
+   * Reschedule job successful test.
+   */
   @Test
   void rescheduleJobSuccessTest() throws SchedulerException {
     when(scheduler.checkExists(any(TriggerKey.class))).thenReturn(true);
@@ -171,10 +190,15 @@ class SchedulerServiceTest {
     // no exception thrown
   }
 
-  /** Dummy sample job test class for unit tests. */
+  /**
+   * Dummy sample job test class for unit tests.
+   */
   class SampleTestJob implements Job {
 
-    /** Dummy sample execute method for unit tests. */
-    public void execute(JobExecutionContext context) {}
+    /**
+     * Dummy sample execute method for unit tests.
+     */
+    public void execute(JobExecutionContext context) {
+    }
   }
 }

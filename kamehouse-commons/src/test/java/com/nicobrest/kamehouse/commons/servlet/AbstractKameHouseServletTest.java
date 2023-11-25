@@ -15,15 +15,16 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandExceptio
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 import org.apache.http.entity.ContentType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -347,8 +348,9 @@ class AbstractKameHouseServletTest {
     doReturn(List.of(grantedAuthority)).when(authentication).getAuthorities();
     request.setCookies(new Cookie(AbstractKameHouseServlet.KAMEHOUSE_SESSION_ID, SESSION_ID));
 
-    sampleKameHouseServlet.authorize(request, roles);
-    // no exception thrown, so it's authorized
+    Assertions.assertDoesNotThrow(() -> {
+      sampleKameHouseServlet.authorize(request, roles);
+    });
   }
 
   /**
