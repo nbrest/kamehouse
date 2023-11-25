@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.ui.model.SessionStatus;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,14 @@ public class SessionStatusService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public SessionStatusService(
+      KameHouseUserAuthenticationService kameHouseUserAuthenticationService) {
+    this.kameHouseUserAuthenticationService = kameHouseUserAuthenticationService;
+  }
 
   public void setKameHouseUserAuthenticationService(
       KameHouseUserAuthenticationService kameHouseUserAuthenticationService) {

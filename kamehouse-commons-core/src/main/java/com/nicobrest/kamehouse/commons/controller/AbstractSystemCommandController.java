@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,13 @@ import org.springframework.http.ResponseEntity;
  */
 public class AbstractSystemCommandController extends AbstractController {
 
-  @Autowired
   private SystemCommandService systemCommandService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public AbstractSystemCommandController(SystemCommandService systemCommandService) {
+    this.systemCommandService = systemCommandService;
+  }
 
   /**
    * Executes the specified admin command and returns the sytem command ouputs list.

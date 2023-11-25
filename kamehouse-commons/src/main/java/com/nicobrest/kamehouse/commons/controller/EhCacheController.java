@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/commons/ehcache")
 public class EhCacheController extends AbstractController {
 
-  @Autowired
   private EhCacheService ehCacheService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public EhCacheController(EhCacheService ehCacheService) {
+    this.ehCacheService = ehCacheService;
+  }
 
   /**
    * Returns the status of all the ehcaches or the cache specified as a parameter.

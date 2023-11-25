@@ -50,9 +50,6 @@ class PerfectGymBookingServiceTest {
   private static final StatusLine STATUS_LINE_500 = new BasicStatusLine(
       new ProtocolVersion("http", 1, 1), 500, "Server Error");
 
-  @InjectMocks
-  private PerfectGymBookingService perfectGymBookingServiceSpy;
-
   @Mock
   private BookingScheduleConfigService bookingScheduleConfigService;
 
@@ -68,6 +65,9 @@ class PerfectGymBookingServiceTest {
   @Mock
   HttpResponse httpResponseMock;
 
+  @InjectMocks
+  private PerfectGymBookingService perfectGymBookingServiceSpy;
+
   private MockedStatic<HttpClientUtils> httpClientUtilsMock;
   private MockedStatic<DateUtils> dateUtilsMock;
   private MockedStatic<EncryptionUtils> encryptionUtilsMock;
@@ -78,7 +78,8 @@ class PerfectGymBookingServiceTest {
   @BeforeEach
   public void init() throws Exception {
     bookingRequestTestUtils.initTestData();
-    PerfectGymBookingService perfectGymBookingService = new PerfectGymBookingService();
+    PerfectGymBookingService perfectGymBookingService = new PerfectGymBookingService(
+        bookingScheduleConfigService, bookingRequestService, bookingResponseService);
     perfectGymBookingServiceSpy = Mockito.spy(perfectGymBookingService);
     PerfectGymBookingService.setSleepMs(0);
     PerfectGymBookingService.setRetrySleepMs(0);

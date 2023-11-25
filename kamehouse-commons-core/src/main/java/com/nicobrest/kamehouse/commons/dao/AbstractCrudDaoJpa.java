@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.dao;
 
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 
 /**
@@ -9,6 +10,10 @@ import java.util.List;
  * @author nbrest
  */
 public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements CrudDao<E> {
+
+  public AbstractCrudDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   /**
    * Get the entity class.

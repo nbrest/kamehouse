@@ -6,6 +6,8 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,16 @@ class KameHouseUserAuthenticationDaoJpaTest
     extends AbstractDaoJpaTest<KameHouseUser, KameHouseUserDto> {
 
   private KameHouseUser kameHouseUser;
+  private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa;
 
   @Autowired
-  private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseUserAuthenticationDaoJpaTest(
+      EntityManagerFactory entityManagerFactory,
+      KameHouseUserAuthenticationDao kameHouseUserAuthenticationDaoJpa) {
+    super(entityManagerFactory);
+    this.kameHouseUserAuthenticationDaoJpa = kameHouseUserAuthenticationDaoJpa;
+  }
 
   /**
    * Clear data from the repository before each test.

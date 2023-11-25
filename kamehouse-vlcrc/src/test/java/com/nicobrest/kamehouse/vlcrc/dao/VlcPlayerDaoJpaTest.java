@@ -9,6 +9,8 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManagerFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 class VlcPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<VlcPlayer, VlcPlayerDto> {
 
-  @Autowired
   private VlcPlayerDao vlcPlayerDaoJpa;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public VlcPlayerDaoJpaTest(VlcPlayerDao vlcPlayerDaoJpa,
+      EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+    this.vlcPlayerDaoJpa = vlcPlayerDaoJpa;
+  }
 
   @Override
   public Class<VlcPlayer> getEntityClass() {

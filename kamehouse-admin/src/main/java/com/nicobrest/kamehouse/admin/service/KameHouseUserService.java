@@ -25,13 +25,16 @@ import org.springframework.stereotype.Service;
 public class KameHouseUserService extends AbstractCrudService<KameHouseUser, KameHouseUserDto>
     implements UserDetailsService {
 
-  @Autowired
-  @Qualifier("kameHouseUserDaoJpa")
   private KameHouseUserDao kameHouseUserDao;
+  private KameHouseUser anonymousUser;
 
   @Autowired
-  @Qualifier("anonymousUser")
-  private KameHouseUser anonymousUser;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseUserService(@Qualifier("kameHouseUserDaoJpa") KameHouseUserDao kameHouseUserDao,
+      @Qualifier("anonymousUser") KameHouseUser anonymousUser) {
+    this.kameHouseUserDao = kameHouseUserDao;
+    this.anonymousUser = anonymousUser;
+  }
 
   @Override
   public CrudDao<KameHouseUser> getCrudDao() {

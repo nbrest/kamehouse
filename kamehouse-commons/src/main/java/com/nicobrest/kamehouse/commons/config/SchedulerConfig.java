@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.Properties;
 import org.quartz.Scheduler;
@@ -30,8 +31,13 @@ public class SchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private ApplicationContext applicationContext;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public SchedulerConfig(ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
 
   /**
    * Workaround to add autowiring support to SpringBeanJobFactory.

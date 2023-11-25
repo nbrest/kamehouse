@@ -38,8 +38,13 @@ public abstract class AbstractDaoJpa<E> {
   protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractDaoJpa.class);
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private EntityManagerFactory entityManagerFactory;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public AbstractDaoJpa(EntityManagerFactory entityManagerFactory) {
+    this.entityManagerFactory = entityManagerFactory;
+  }
 
   public EntityManager getEntityManager() {
     return entityManagerFactory.createEntityManager();

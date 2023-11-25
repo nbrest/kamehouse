@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.security;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -21,8 +22,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class KameHouseAuthenticationProvider implements AuthenticationProvider {
 
-  @Autowired
   private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseAuthenticationProvider(
+      KameHouseUserAuthenticationService kameHouseUserAuthenticationService) {
+    this.kameHouseUserAuthenticationService = kameHouseUserAuthenticationService;
+  }
 
   @Override
   public Authentication authenticate(Authentication authentication) {

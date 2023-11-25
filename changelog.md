@@ -9,6 +9,7 @@
 
 - Added build-kamehouse log to groot tail logs
 - Updated error view on tail log errors on groot
+- Added more colors to maven builds
 - Fixed sonar bugs
 
 #### v8.21

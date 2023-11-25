@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,9 +27,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingController extends AbstractController {
 
-  @Autowired
-  @Qualifier("perfectGymBookingService")
   private BookingService bookingService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public BookingController(@Qualifier("perfectGymBookingService") BookingService bookingService) {
+    this.bookingService = bookingService;
+  }
 
   /**
    * Process a tennis world booking request.

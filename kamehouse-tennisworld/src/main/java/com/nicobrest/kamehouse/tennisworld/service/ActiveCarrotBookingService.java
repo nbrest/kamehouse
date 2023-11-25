@@ -72,6 +72,11 @@ public class ActiveCarrotBookingService extends BookingService {
   private static final String ID_ERROR_STACK = "error-stack";
   private static final String ID_ERROR_MESSAGE = "error-message";
 
+  public ActiveCarrotBookingService(BookingScheduleConfigService bookingScheduleConfigService,
+      BookingRequestService bookingRequestService, BookingResponseService bookingResponseService) {
+    super(bookingScheduleConfigService, bookingRequestService, bookingResponseService);
+  }
+
   @Override
   protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {
     updateTimeFormatForActiveCarrot(bookingRequest);

@@ -9,6 +9,8 @@ import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseUserTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,8 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 class KameHouseUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<KameHouseUser, KameHouseUserDto> {
 
-  @Autowired
   private KameHouseUserDao kameHouseUserDaoJpa;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseUserDaoJpaTest(KameHouseUserDao kameHouseUserDaoJpa,
+      EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+    this.kameHouseUserDaoJpa = kameHouseUserDaoJpa;
+  }
 
   @Override
   public Class<KameHouseUser> getEntityClass() {

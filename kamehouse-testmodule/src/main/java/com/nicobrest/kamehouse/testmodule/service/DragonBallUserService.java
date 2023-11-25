@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.validator.DragonBallUserValidator;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,14 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
   private static final String GET_DRAGONBALLUSER_RESPONSE = "Get DragonBallUser: {} response {}";
 
-  @Autowired
-  @Qualifier("dragonBallUserDaoJpa")
   private DragonBallUserDao dragonBallUserDao;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public DragonBallUserService(
+      @Qualifier("dragonBallUserDaoJpa") DragonBallUserDao dragonBallUserDao) {
+    this.dragonBallUserDao = dragonBallUserDao;
+  }
 
   @Override
   public CrudDao<DragonBallUser> getCrudDao() {

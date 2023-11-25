@@ -30,8 +30,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TennisWorldUserController extends
     AbstractCrudController<TennisWorldUser, TennisWorldUserDto> {
 
-  @Autowired
   private TennisWorldUserService tennisWorldUserService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public TennisWorldUserController(TennisWorldUserService tennisWorldUserService) {
+    this.tennisWorldUserService = tennisWorldUserService;
+  }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")

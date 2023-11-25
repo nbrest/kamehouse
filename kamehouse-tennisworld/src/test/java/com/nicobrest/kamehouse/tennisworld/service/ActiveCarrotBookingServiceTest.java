@@ -70,7 +70,8 @@ class ActiveCarrotBookingServiceTest {
   @BeforeEach
   public void init() throws Exception {
     bookingRequestTestUtils.initTestData();
-    ActiveCarrotBookingService activeCarrotBookingService = new ActiveCarrotBookingService();
+    ActiveCarrotBookingService activeCarrotBookingService = new ActiveCarrotBookingService(
+        bookingScheduleConfigService, bookingRequestService, bookingResponseService);
     activeCarrotBookingServiceSpy = Mockito.spy(activeCarrotBookingService);
     ActiveCarrotBookingService.setSleepMs(0);
     bookingResponseTestUtils.initTestData();

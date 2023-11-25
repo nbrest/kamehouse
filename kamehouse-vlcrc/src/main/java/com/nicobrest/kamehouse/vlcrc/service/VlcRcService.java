@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +21,13 @@ public class VlcRcService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private VlcPlayerService vlcPlayerService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public VlcRcService(VlcPlayerService vlcPlayerService) {
+    this.vlcPlayerService = vlcPlayerService;
+  }
 
   /**
    * Gets the status information of the specified VLC Player.

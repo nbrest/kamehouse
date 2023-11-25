@@ -28,14 +28,18 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
 
-  @Autowired private DragonBallUser gohanDragonBallUser;
-
-  @Autowired
-  @Qualifier("gotenDragonBallUser")
-  // @Resource(name = "gotenDragonBallUser")
+  private DragonBallUser gohanDragonBallUser;
   private DragonBallUser gotenDragonBallUser;
 
-  public DragonBallUserDaoInMemory() {
+  /**
+   * Autowired constructor.
+   */
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public DragonBallUserDaoInMemory(DragonBallUser gohanDragonBallUser,
+      @Qualifier("gotenDragonBallUser") DragonBallUser gotenDragonBallUser) {
+    this.gohanDragonBallUser = gohanDragonBallUser;
+    this.gotenDragonBallUser = gotenDragonBallUser;
     initRepository();
   }
 
@@ -49,7 +53,9 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
     return this.gotenDragonBallUser;
   }
 
-  /** Initializes In-Memory repository. */
+  /**
+   * Initializes In-Memory repository.
+   */
   public static void initRepository() {
     repository = new HashMap<>();
     usernamesById = new HashMap<>();
@@ -157,14 +163,19 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
         "This functionality is not implemented for the DragonBallUserInMemory repository.");
   }
 
-  /** Static inner class that generates Ids. */
+  /**
+   * Static inner class that generates Ids.
+   */
   private static class IdGenerator {
 
     private static final AtomicInteger sequence = new AtomicInteger(1);
 
-    private IdGenerator() {}
+    private IdGenerator() {
+    }
 
-    /** Returns next number in the sequence. */
+    /**
+     * Returns next number in the sequence.
+     */
     public static Long getId() {
       return Long.valueOf(sequence.getAndIncrement());
     }

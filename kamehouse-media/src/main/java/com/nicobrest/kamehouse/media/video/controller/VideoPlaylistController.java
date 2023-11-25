@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/media/video")
 public class VideoPlaylistController extends AbstractController {
 
-  @Autowired
   private VideoPlaylistService videoPlaylistService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public VideoPlaylistController(VideoPlaylistService videoPlaylistService) {
+    this.videoPlaylistService = videoPlaylistService;
+  }
 
   /**
    * Gets all video playlists.

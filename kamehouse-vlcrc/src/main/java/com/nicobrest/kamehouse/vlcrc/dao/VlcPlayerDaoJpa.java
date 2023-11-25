@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Repository;
 public class VlcPlayerDaoJpa extends AbstractCrudDaoJpa<VlcPlayer> implements VlcPlayerDao {
 
   private static final String VLC_PLAYER_CACHE = "vlcPlayer";
+
+  public VlcPlayerDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   @Override
   public Class<VlcPlayer> getEntityClass() {

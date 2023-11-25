@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.service;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,8 +30,13 @@ public class SchedulerService {
       "Based on configured schedule, the given " + "trigger will never fire";
   private static final String TRIGGER = "-trigger";
 
-  @Autowired
   private Scheduler scheduler;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public SchedulerService(Scheduler scheduler) {
+    this.scheduler = scheduler;
+  }
 
   /**
    * Schedule a job based on the supplied delay.

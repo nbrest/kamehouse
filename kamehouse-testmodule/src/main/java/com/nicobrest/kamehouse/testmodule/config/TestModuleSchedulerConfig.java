@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.config;
 
 import com.nicobrest.kamehouse.testmodule.model.scheduler.job.SampleJob;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -29,8 +30,13 @@ public class TestModuleSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private Scheduler scheduler;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public TestModuleSchedulerConfig(Scheduler scheduler) {
+    this.scheduler = scheduler;
+  }
 
   /**
    * Init TestModuleSchedulerConfig.

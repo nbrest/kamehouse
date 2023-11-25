@@ -29,8 +29,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BookingRequestController extends
     AbstractCrudController<BookingRequest, BookingRequestDto> {
 
-  @Autowired
   private BookingRequestService bookingRequestService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public BookingRequestController(BookingRequestService bookingRequestService) {
+    this.bookingRequestService = bookingRequestService;
+  }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")

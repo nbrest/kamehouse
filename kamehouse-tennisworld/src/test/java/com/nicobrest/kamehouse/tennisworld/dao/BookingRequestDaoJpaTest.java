@@ -6,6 +6,8 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingRequestTestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -16,8 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 class BookingRequestDaoJpaTest
     extends AbstractCrudDaoJpaTest<BookingRequest, BookingRequestDto> {
 
-  @Autowired
   private CrudDao<BookingRequest> bookingRequestDaoJpa;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public BookingRequestDaoJpaTest(CrudDao<BookingRequest> bookingRequestDaoJpa,
+      EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+    this.bookingRequestDaoJpa = bookingRequestDaoJpa;
+  }
 
   @Override
   public boolean hasUniqueConstraints() {

@@ -6,7 +6,9 @@ import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandControlle
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +29,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController extends AbstractSystemCommandController {
 
+  private PowerManagementService powerManagementService;
+
   @Autowired
-  PowerManagementService powerManagementService;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public PowerManagementController(PowerManagementService powerManagementService,
+      SystemCommandService systemCommandService) {
+    super(systemCommandService);
+    this.powerManagementService = powerManagementService;
+  }
 
   /**
    * Shutdowns the local server with the specified delay in seconds.

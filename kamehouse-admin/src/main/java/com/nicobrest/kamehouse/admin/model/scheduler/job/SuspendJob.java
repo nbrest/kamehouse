@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.model.scheduler.job;
 
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.SuspendKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -18,8 +19,13 @@ public class SuspendJob implements Job {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private SystemCommandService systemCommandService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public SuspendJob(SystemCommandService systemCommandService) {
+    this.systemCommandService = systemCommandService;
+  }
 
   public void execute(JobExecutionContext context) {
     logger.debug("Suspending the system now");

@@ -6,6 +6,8 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -16,8 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 class BookingScheduleConfigDaoJpaTest
     extends AbstractCrudDaoJpaTest<BookingScheduleConfig, BookingScheduleConfigDto> {
 
-  @Autowired
   private CrudDao<BookingScheduleConfig> bookingScheduleConfigDaoJpa;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public BookingScheduleConfigDaoJpaTest(CrudDao<BookingScheduleConfig> bookingScheduleConfigDaoJpa,
+      EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+    this.bookingScheduleConfigDaoJpa = bookingScheduleConfigDaoJpa;
+  }
 
   @Override
   public void initBeforeTest() {

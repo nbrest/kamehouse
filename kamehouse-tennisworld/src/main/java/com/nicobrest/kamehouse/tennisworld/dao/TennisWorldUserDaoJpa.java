@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TennisWorldUserDaoJpa extends AbstractCrudDaoJpa<TennisWorldUser>
     implements TennisWorldUserDao {
+
+  public TennisWorldUserDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   @Override
   public Class<TennisWorldUser> getEntityClass() {

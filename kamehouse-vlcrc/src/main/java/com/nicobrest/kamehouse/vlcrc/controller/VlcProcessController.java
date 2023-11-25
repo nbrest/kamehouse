@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
@@ -24,6 +25,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcProcessController extends AbstractSystemCommandController {
+
+  public VlcProcessController(
+      SystemCommandService systemCommandService) {
+    super(systemCommandService);
+  }
 
   /**
    * Starts a vlc player in the local server.

@@ -34,8 +34,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DragonBallController extends
     AbstractCrudController<DragonBallUser, DragonBallUserDto> {
 
-  @Autowired
   private DragonBallUserService dragonBallUserService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public DragonBallController(DragonBallUserService dragonBallUserService) {
+    this.dragonBallUserService = dragonBallUserService;
+  }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")

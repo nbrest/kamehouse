@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -36,9 +37,16 @@ class PowerManagementServiceTest {
   @Mock(name = "scheduler")
   private Scheduler scheduler;
 
+  @Mock(name = "shutdownJobDetail")
+  private JobDetail shutdownJobDetail;
+
+  @Mock(name = "suspendJobDetail")
+  private JobDetail suspendJobDetail;
+
   @BeforeEach
   public void before() {
-    powerManagementService = new PowerManagementService();
+    powerManagementService = new PowerManagementService(scheduler, shutdownJobDetail,
+        suspendJobDetail);
     MockitoAnnotations.openMocks(this);
   }
 

@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.config;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,13 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 @PropertySource("classpath:jdbc.properties")
 public class DataSourceConfig {
 
-  @Autowired
   private Environment env;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public DataSourceConfig(Environment env) {
+    this.env = env;
+  }
 
   /**
    * Default DataSource.

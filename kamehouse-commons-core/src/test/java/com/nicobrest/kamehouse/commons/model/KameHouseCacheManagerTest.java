@@ -17,9 +17,6 @@ import org.springframework.cache.CacheManager;
 
 class KameHouseCacheManagerTest {
 
-  @InjectMocks
-  private KameHouseCacheManager kameHouseCacheManager = new KameHouseCacheManager();
-
   @Mock
   private CacheManager cacheManager;
 
@@ -31,6 +28,9 @@ class KameHouseCacheManagerTest {
 
   @Mock
   private Iterator iterator;
+
+  @InjectMocks
+  private KameHouseCacheManager kameHouseCacheManager = new KameHouseCacheManager(cacheManager);
 
   /**
    * Tests setup.

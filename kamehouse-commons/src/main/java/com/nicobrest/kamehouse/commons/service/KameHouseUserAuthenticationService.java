@@ -22,13 +22,18 @@ public class KameHouseUserAuthenticationService implements UserDetailsService {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  @Qualifier("kameHouseUserAuthenticationDaoJpa")
   private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDao;
+  private KameHouseUser anonymousUser;
 
   @Autowired
-  @Qualifier("anonymousUser")
-  private KameHouseUser anonymousUser;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseUserAuthenticationService(
+      @Qualifier("kameHouseUserAuthenticationDaoJpa") KameHouseUserAuthenticationDao
+          kameHouseUserAuthenticationDao,
+      @Qualifier("anonymousUser") KameHouseUser anonymousUser) {
+    this.kameHouseUserAuthenticationDao = kameHouseUserAuthenticationDao;
+    this.anonymousUser = anonymousUser;
+  }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")

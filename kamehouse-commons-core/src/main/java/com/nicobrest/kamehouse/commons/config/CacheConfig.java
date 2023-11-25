@@ -22,8 +22,8 @@ public class CacheConfig {
    * KameHouseCacheManager instance.
    */
   @Bean
-  public KameHouseCacheManager kameHouseCacheManager() {
-    return new KameHouseCacheManager();
+  public KameHouseCacheManager kameHouseCacheManager(CacheManager cacheManager) {
+    return new KameHouseCacheManager(cacheManager);
   }
 
   /**

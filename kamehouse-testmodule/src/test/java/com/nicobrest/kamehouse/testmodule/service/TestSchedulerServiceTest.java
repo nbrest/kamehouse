@@ -39,7 +39,8 @@ class TestSchedulerServiceTest {
    */
   @Test
   void scheduleSampleJobSuccessTest() {
-    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    testSchedulerService.setSampleJobJobDetail(
+        new TestModuleSchedulerConfig(scheduler).sampleJobDetail());
 
     Assertions.assertDoesNotThrow(() -> {
       testSchedulerService.scheduleSampleJob(5400);
@@ -52,7 +53,8 @@ class TestSchedulerServiceTest {
   @Test
   void scheduleSampleJobExceptionTest() throws SchedulerException {
     when(scheduler.scheduleJob(any())).thenThrow(new SchedulerException("mada mada dane"));
-    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    testSchedulerService.setSampleJobJobDetail(
+        new TestModuleSchedulerConfig(scheduler).sampleJobDetail());
     assertThrows(
         KameHouseServerErrorException.class,
         () -> {
@@ -67,7 +69,8 @@ class TestSchedulerServiceTest {
   void scheduleSampleJobExceptionTriggerWontFireTest() throws SchedulerException {
     when(scheduler.scheduleJob(any()))
         .thenThrow(new SchedulerException(TestSchedulerService.TRIGGER_WONT_FIRE));
-    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    testSchedulerService.setSampleJobJobDetail(
+        new TestModuleSchedulerConfig(scheduler).sampleJobDetail());
 
     Assertions.assertDoesNotThrow(() -> {
       testSchedulerService.scheduleSampleJob(5400);
@@ -79,7 +82,8 @@ class TestSchedulerServiceTest {
    */
   @Test
   void getJobStatusSuccessTest() {
-    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    testSchedulerService.setSampleJobJobDetail(
+        new TestModuleSchedulerConfig(scheduler).sampleJobDetail());
 
     String status = testSchedulerService.getSampleJobStatus();
     assertEquals("Sample job not scheduled", status);
@@ -90,7 +94,8 @@ class TestSchedulerServiceTest {
    */
   @Test
   void cancelJobSuccessTest() {
-    testSchedulerService.setSampleJobJobDetail(new TestModuleSchedulerConfig().sampleJobDetail());
+    testSchedulerService.setSampleJobJobDetail(
+        new TestModuleSchedulerConfig(scheduler).sampleJobDetail());
 
     String status = testSchedulerService.cancelScheduledSampleJob();
     assertEquals("Sample job was not scheduled, so no need to cancel", status);

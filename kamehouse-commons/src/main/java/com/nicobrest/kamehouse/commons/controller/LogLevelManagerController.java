@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.commons.service.LogLevelManagerService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,13 @@ public class LogLevelManagerController extends AbstractController {
 
   private static final String DEFAULT_PACKAGE = "com.nicobrest.kamehouse";
 
-  @Autowired
   private LogLevelManagerService logLevelManagerService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public LogLevelManagerController(LogLevelManagerService logLevelManagerService) {
+    this.logLevelManagerService = logLevelManagerService;
+  }
 
   /**
    * Sets whether the request logger should include the payload or not.

@@ -23,11 +23,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
  */
 class VlcPlayerControllerTest extends AbstractCrudControllerTest<VlcPlayer, VlcPlayerDto> {
 
-  @InjectMocks
-  private VlcPlayerController vlcPlayerController;
-
   @Mock(name = "vlcPlayerService")
   private VlcPlayerService vlcPlayerServiceMock;
+
+  @InjectMocks
+  private VlcPlayerController vlcPlayerController;
 
   @Override
   public String getCrudUrl() {

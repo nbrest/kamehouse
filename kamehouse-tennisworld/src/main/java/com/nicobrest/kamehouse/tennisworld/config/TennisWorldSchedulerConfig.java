@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.config;
 
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.annotation.PostConstruct;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
@@ -29,8 +30,13 @@ public class TennisWorldSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private Scheduler scheduler;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public TennisWorldSchedulerConfig(Scheduler scheduler) {
+    this.scheduler = scheduler;
+  }
 
   /**
    * Init TennisWorldSchedulerConfig.

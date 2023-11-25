@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/vlc-rc/players")
 public class VlcRcController extends AbstractController {
 
-  @Autowired
   private VlcRcService vlcRcService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public VlcRcController(VlcRcService vlcRcService) {
+    this.vlcRcService = vlcRcService;
+  }
 
   /**
    * Gets the status information of the VLC Player passed through the URL.

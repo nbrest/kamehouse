@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,10 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
 
   public static final Date DEFAULT_BOOKING_DATE = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
   public static final String DEFAULT_BOOKING_DATE_STR = "1984-10-15";
+
+  public BookingScheduleConfigDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   @Override
   public Class<BookingScheduleConfig> getEntityClass() {

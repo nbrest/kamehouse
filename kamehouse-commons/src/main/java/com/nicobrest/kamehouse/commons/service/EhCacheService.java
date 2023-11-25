@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.service;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import com.nicobrest.kamehouse.commons.model.KameHouseCacheManager;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -20,9 +21,14 @@ public class EhCacheService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  @Qualifier("kameHouseCacheManager")
   private KameHouseCacheManager kameHouseCacheManager;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public EhCacheService(
+      @Qualifier("kameHouseCacheManager") KameHouseCacheManager kameHouseCacheManager) {
+    this.kameHouseCacheManager = kameHouseCacheManager;
+  }
 
   /**
    * Returns the cache information of the cache specified as a parameter.

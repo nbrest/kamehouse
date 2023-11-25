@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.tennisworld.dao.TennisWorldUserDao;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,14 @@ import org.springframework.stereotype.Service;
 public class TennisWorldUserService
     extends AbstractCrudService<TennisWorldUser, TennisWorldUserDto> {
 
-  @Autowired
-  @Qualifier("tennisWorldUserDaoJpa")
   private TennisWorldUserDao tennisWorldUserDao;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public TennisWorldUserService(
+      @Qualifier("tennisWorldUserDaoJpa") TennisWorldUserDao tennisWorldUserDao) {
+    this.tennisWorldUserDao = tennisWorldUserDao;
+  }
 
   @Override
   public CrudDao<TennisWorldUser> getCrudDao() {

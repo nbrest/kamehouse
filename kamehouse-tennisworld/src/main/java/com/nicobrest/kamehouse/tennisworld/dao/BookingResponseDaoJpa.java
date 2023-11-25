@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.dao;
 
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class BookingResponseDaoJpa extends AbstractCrudDaoJpa<BookingResponse> {
+
+  public BookingResponseDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   @Override
   public Class<BookingResponse> getEntityClass() {

@@ -9,6 +9,8 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import com.nicobrest.kamehouse.testmodule.testutils.DragonBallUserTestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,8 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 class DragonBallUserDaoJpaTest
     extends AbstractCrudDaoJpaTest<DragonBallUser, DragonBallUserDto> {
 
-  @Autowired
   private DragonBallUserDao dragonBallUserDaoJpa;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public DragonBallUserDaoJpaTest(DragonBallUserDao dragonBallUserDaoJpa,
+      EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+    this.dragonBallUserDaoJpa = dragonBallUserDaoJpa;
+  }
 
   @Override
   public Class<DragonBallUser> getEntityClass() {

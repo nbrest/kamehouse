@@ -6,6 +6,7 @@ import ch.qos.logback.classic.LoggerContext;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.web.filter.logger.CustomRequestLoggingFilter;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,8 +35,13 @@ public class LogLevelManagerService {
   protected static final Map<String, String> KAMEHOUSE_PACKAGES_LOG_LEVEL;
   protected static final Map<String, String> EXTERNAL_PACKAGES_LOG_LEVEL;
 
+  private CustomRequestLoggingFilter customRequestLoggingFilter;
+
   @Autowired
-  CustomRequestLoggingFilter customRequestLoggingFilter;
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public LogLevelManagerService(CustomRequestLoggingFilter customRequestLoggingFilter) {
+    this.customRequestLoggingFilter = customRequestLoggingFilter;
+  }
 
   static {
     Map<String, String> kamehousePackages = new HashMap<>();

@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.admin.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.Iterator;
 import java.util.Set;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa<KameHouseUser>
     implements KameHouseUserDao {
+
+  public KameHouseUserDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   @Override
   public Class<KameHouseUser> getEntityClass() {

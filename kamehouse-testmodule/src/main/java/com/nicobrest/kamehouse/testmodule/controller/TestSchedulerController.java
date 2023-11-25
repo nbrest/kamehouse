@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.testmodule.controller;
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import com.nicobrest.kamehouse.testmodule.service.TestSchedulerService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/v1/test-module/test-scheduler")
 public class TestSchedulerController extends AbstractController {
 
-  @Autowired TestSchedulerService testSchedulerService;
+  private TestSchedulerService testSchedulerService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public TestSchedulerController(TestSchedulerService testSchedulerService) {
+    this.testSchedulerService = testSchedulerService;
+  }
 
   /**
-   * Schedules the sample job at the specified delay, or at a fixed schedule, if no delay specified.
+   * Schedules the sample job at the specified delay, or at a fixed schedule, if no delay
+   * specified.
    */
   @PostMapping(path = "/sample-job")
   @ResponseBody
@@ -41,7 +49,9 @@ public class TestSchedulerController extends AbstractController {
     return generatePostResponseEntity(response);
   }
 
-  /** Gets the status of a sample-job command. */
+  /**
+   * Gets the status of a sample-job command.
+   */
   @GetMapping(path = "/sample-job")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
@@ -51,7 +61,9 @@ public class TestSchedulerController extends AbstractController {
     return generateGetResponseEntity(response);
   }
 
-  /** Cancels a sample-job scheduled command. */
+  /**
+   * Cancels a sample-job scheduled command.
+   */
   @DeleteMapping(path = "/sample-job")
   @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {

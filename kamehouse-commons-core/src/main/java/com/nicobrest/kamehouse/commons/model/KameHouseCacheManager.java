@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,8 +23,13 @@ public class KameHouseCacheManager {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private CacheManager cacheManager;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public KameHouseCacheManager(CacheManager cacheManager) {
+    this.cacheManager = cacheManager;
+  }
 
   public CacheManager getCacheManager() {
     return cacheManager;

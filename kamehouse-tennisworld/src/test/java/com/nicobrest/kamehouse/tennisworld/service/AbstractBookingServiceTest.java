@@ -59,9 +59,6 @@ class AbstractBookingServiceTest {
       new ProtocolVersion("http", 1, 1), 200, "OK");
   private static final String RESPONSE_BODY = "{\"response\":\"dane\"}";
 
-  @InjectMocks
-  private SampleBookingService sampleBookingService;
-
   @Mock
   private BookingScheduleConfigService bookingScheduleConfigService;
 
@@ -77,6 +74,9 @@ class AbstractBookingServiceTest {
   @Mock
   HttpResponse httpResponseMock;
 
+  @InjectMocks
+  private SampleBookingService sampleBookingService;
+
   private MockedStatic<HttpClientUtils> httpClientUtilsMock;
   private MockedStatic<DateUtils> dateUtilsMock;
   private MockedStatic<EncryptionUtils> encryptionUtilsMock;
@@ -87,7 +87,8 @@ class AbstractBookingServiceTest {
   @BeforeEach
   public void init() throws Exception {
     bookingRequestTestUtils.initTestData();
-    SampleBookingService bookingService = new SampleBookingService();
+    SampleBookingService bookingService = new SampleBookingService(bookingScheduleConfigService,
+        bookingRequestService, bookingResponseService);
     sampleBookingService = Mockito.spy(bookingService);
     SampleBookingService.setSleepMs(0);
     bookingResponseTestUtils.initTestData();
@@ -527,6 +528,12 @@ class AbstractBookingServiceTest {
   private static class SampleBookingService extends BookingService {
 
     private static final String REQUEST = "{\"request\":\"mada mada\"}";
+
+    public SampleBookingService(BookingScheduleConfigService bookingScheduleConfigService,
+        BookingRequestService bookingRequestService,
+        BookingResponseService bookingResponseService) {
+      super(bookingScheduleConfigService, bookingRequestService, bookingResponseService);
+    }
 
     @Override
     protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {

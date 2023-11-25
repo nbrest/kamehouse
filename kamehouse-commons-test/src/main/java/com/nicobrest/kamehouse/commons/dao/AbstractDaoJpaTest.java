@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,6 +23,10 @@ public abstract class AbstractDaoJpaTest<E extends KameHouseEntity<D>, D extends
     extends AbstractDaoJpa<E> {
 
   protected TestUtils<E, D> testUtils;
+
+  public AbstractDaoJpaTest(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   /**
    * Set testUtils.

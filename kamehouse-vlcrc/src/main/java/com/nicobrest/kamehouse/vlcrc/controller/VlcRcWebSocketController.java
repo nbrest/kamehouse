@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -23,8 +24,13 @@ public class VlcRcWebSocketController {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
   private VlcRcService vlcRcService;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public VlcRcWebSocketController(VlcRcService vlcRcService) {
+    this.vlcRcService = vlcRcService;
+  }
 
   /**
    * Processes the websocket input request for vlc player status.

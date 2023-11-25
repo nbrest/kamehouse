@@ -72,6 +72,11 @@ public class PerfectGymBookingService extends BookingService {
       ROOT_URL + "/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next";
   private static final long INVALID_ID = -9999L;
 
+  public PerfectGymBookingService(BookingScheduleConfigService bookingScheduleConfigService,
+      BookingRequestService bookingRequestService, BookingResponseService bookingResponseService) {
+    super(bookingScheduleConfigService, bookingRequestService, bookingResponseService);
+  }
+
   @Override
   protected BookingResponse executeBookingRequest(BookingRequest bookingRequest) {
     SessionType sessionType = bookingRequest.getSessionType();

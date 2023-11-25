@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.NetworkUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -36,16 +37,22 @@ public class PowerManagementService {
   private static final String KAMEHOUSE_CMD_LIN = DockerUtils.getDockerHostUserHome()
       + "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
 
-  @Autowired
   private Scheduler scheduler;
-
-  @Autowired
-  @Qualifier("shutdownJobDetail")
   private JobDetail shutdownJobDetail;
-
-  @Autowired
-  @Qualifier("suspendJobDetail")
   private JobDetail suspendJobDetail;
+
+  /**
+   * Autowired Constructor.
+   */
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public PowerManagementService(Scheduler scheduler,
+      @Qualifier("shutdownJobDetail") JobDetail shutdownJobDetail,
+      @Qualifier("suspendJobDetail") JobDetail suspendJobDetail) {
+    this.scheduler = scheduler;
+    this.shutdownJobDetail = shutdownJobDetail;
+    this.suspendJobDetail = suspendJobDetail;
+  }
 
   /**
    * Getters and Setters.

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.dao;
 
 import com.nicobrest.kamehouse.commons.model.TestEntity;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,6 +9,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class TestEntityCrudDaoJpa extends AbstractCrudDaoJpa<TestEntity> {
+
+  public TestEntityCrudDaoJpa(EntityManagerFactory entityManagerFactory) {
+    super(entityManagerFactory);
+  }
 
   @Override
   public Class<TestEntity> getEntityClass() {

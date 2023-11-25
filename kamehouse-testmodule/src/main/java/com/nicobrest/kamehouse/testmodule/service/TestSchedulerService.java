@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.service;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -26,16 +27,22 @@ public class TestSchedulerService {
       + "trigger will never fire";
   private static final String SAMPLE_JOB_TRIGGER = "sampleJobTrigger";
 
-  @Autowired
   private Scheduler scheduler;
-
-  @Autowired
-  @Qualifier("sampleJobDetail")
   private JobDetail sampleJobDetail;
-
-  @Autowired
-  @Qualifier("sampleTrigger")
   private Trigger sampleTrigger;
+
+  /**
+   * Autowired constructor.
+   */
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public TestSchedulerService(Scheduler scheduler,
+      @Qualifier("sampleJobDetail") JobDetail sampleJobDetail,
+      @Qualifier("sampleTrigger") Trigger sampleTrigger) {
+    this.scheduler = scheduler;
+    this.sampleJobDetail = sampleJobDetail;
+    this.sampleTrigger = sampleTrigger;
+  }
 
   /**
    * Getters and Setters.

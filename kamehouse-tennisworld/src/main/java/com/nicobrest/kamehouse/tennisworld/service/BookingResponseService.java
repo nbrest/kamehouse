@@ -18,9 +18,14 @@ import org.springframework.stereotype.Service;
 public class BookingResponseService
     extends AbstractCrudService<BookingResponse, BookingResponseDto> {
 
-  @Autowired
-  @Qualifier("bookingResponseDaoJpa")
   private CrudDao<BookingResponse> bookingResponseDao;
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public BookingResponseService(
+      @Qualifier("bookingResponseDaoJpa") CrudDao<BookingResponse> bookingResponseDao) {
+    this.bookingResponseDao = bookingResponseDao;
+  }
 
   @Override
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")

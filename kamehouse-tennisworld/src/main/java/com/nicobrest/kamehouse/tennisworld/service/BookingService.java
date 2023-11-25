@@ -14,6 +14,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.perfectgym.RequestBody;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,14 +50,21 @@ public abstract class BookingService {
   private static int sleepMs = 500;
   private static int retrySleepMs = 5000;
 
-  @Autowired
   private BookingScheduleConfigService bookingScheduleConfigService;
-
-  @Autowired
   private BookingRequestService bookingRequestService;
-
-  @Autowired
   private BookingResponseService bookingResponseService;
+
+  /**
+   * Autowired constructor.
+   */
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public BookingService(BookingScheduleConfigService bookingScheduleConfigService,
+      BookingRequestService bookingRequestService, BookingResponseService bookingResponseService) {
+    this.bookingScheduleConfigService = bookingScheduleConfigService;
+    this.bookingRequestService = bookingRequestService;
+    this.bookingResponseService = bookingResponseService;
+  }
 
   /**
    * Build and send the booking response to the active tennis world implementation.
