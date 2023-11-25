@@ -448,9 +448,9 @@ buildMavenCommand() {
 
   if ${INTEGRATION_TESTS}; then
     if ${CONTINUE_INTEGRATION_TESTS_ON_ERRORS}; then
-      MAVEN_COMMAND="mvn test-compile failsafe:integration-test -P ${MAVEN_PROFILE}"
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test -Dstyle.color=always -P ${MAVEN_PROFILE}"
     else
-      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify -P ${MAVEN_PROFILE}"
+      MAVEN_COMMAND="mvn test-compile failsafe:integration-test failsafe:verify -Dstyle.color=always -P ${MAVEN_PROFILE}"
     fi
   fi
 

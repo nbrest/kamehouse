@@ -41,7 +41,7 @@ main() {
 }
 
 buildKameHouse() {
-  mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true
+  mvn clean install -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dfindbugs.skip=true -Dstyle.color=always
 }
 
 deployStandaloneWar() {
