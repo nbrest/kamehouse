@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.config;
 
 import com.nicobrest.kamehouse.admin.model.scheduler.job.ShutdownJob;
 import com.nicobrest.kamehouse.admin.model.scheduler.job.SuspendJob;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -27,6 +28,7 @@ public class AdminSchedulerConfig {
   private Scheduler scheduler;
 
   @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public AdminSchedulerConfig(Scheduler scheduler) {
     this.scheduler = scheduler;
   }
