@@ -89,10 +89,10 @@ $(document).ready(() => {
 
 function buildKameHouseUserEntity(element) {
   kameHouse.logger.debug("Building kamehouse user role entity");
-  for (let i = 0; i < element.options.length; ++i) {
-    if (element.options[i].selected == true && element.options[i].value != "") {
+  for (const option of element.options) {
+    if (option.selected == true && option.value != "") {
       const role = {
-        name: element.options[i].value
+        name: option.value
       };
       const id = element.getAttribute("data-kamehouse-id");
       if (!kameHouse.core.isEmpty(id)) {
@@ -110,11 +110,11 @@ function buildKameHouseUserFormField(baseRoleSelectElement, roleEntity) {
   const formField = kameHouse.util.dom.cloneNode(baseRoleSelectElement, true);
   kameHouse.util.dom.classListAdd(formField, "m-5-t-d-kh");
   kameHouse.util.dom.setAttribute(formField, "data-kamehouse-id", "");
-  for (let i = 0; i < formField.options.length; ++i) {
-    if (formField.options[i].value == roleEntity.name) {
-      formField.options[i].selected = true;
+  for (const option of formField.options) {
+    if (option.value == roleEntity.name) {
+      option.selected = true;
     } else {
-      formField.options[i].selected = false;
+      option.selected = false;
     }
   }
   if (!kameHouse.core.isEmpty(roleEntity.id)) {

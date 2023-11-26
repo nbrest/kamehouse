@@ -76,9 +76,9 @@ function KameHouseDebugger() {
     const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
     const logLevel = logLevelDropdown.value;
     let logLevelName = "";
-    for (let i = 0; i < logLevelDropdown.options.length; ++i) {
-      if (logLevelDropdown.options[i].selected === true) {
-        logLevelName = logLevelDropdown.options[i].textContent;
+    for (const option of logLevelDropdown.options) {
+      if (option.selected === true) {
+        logLevelName = option.textContent;
       }
     }
 
@@ -189,11 +189,11 @@ function KameHouseDebugger() {
     const currentLogLevel = kameHouse.logger.getLogLevel();
     kameHouse.logger.debug("Updating debugger console log level dropdown to " + currentLogLevel);
     const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
-    for (let i = 0; i < logLevelDropdown.options.length; ++i) {
-      if (logLevelDropdown.options[i].value == currentLogLevel) {
-        logLevelDropdown.options[i].selected = true;
+    for (const option of logLevelDropdown.options) {
+      if (option.value == currentLogLevel) {
+        option.selected = true;
       } else {
-        logLevelDropdown.options[i].selected = false;
+        option.selected = false;
       }
     }
   }

@@ -58,11 +58,11 @@ function KameHouseSlideshow() {
     if (chosenSlideIndex < 1) {
       slideIndex = slides.length;
     }
-    for (let i = 0; i < slides.length; i++) {
-      kameHouse.util.dom.setDisplay(slides[i], "none");
+    for (const slide of slides) {
+      kameHouse.util.dom.setDisplay(slide, "none");
     }
-    for (let i = 0; i < dots.length; i++) {
-      kameHouse.util.dom.classListRemove(dots[i], "kamehouse-slideshow-dot-active")
+    for (const dot of dots) {
+      kameHouse.util.dom.classListRemove(dot, "kamehouse-slideshow-dot-active")
     }
     kameHouse.util.dom.setDisplay(slides[slideIndex-1], "block");
     kameHouse.util.dom.classListAdd(dots[slideIndex-1], "kamehouse-slideshow-dot-active");
