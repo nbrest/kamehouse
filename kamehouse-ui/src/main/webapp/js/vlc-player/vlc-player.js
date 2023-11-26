@@ -800,16 +800,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       isRunningSyncPlaylistLoop = true;
       vlcPlaylistLoopCount++;
       const PLAYLIST_WAIT_MS = 5000;
-      let playlistLoopWaitMs = PLAYLIST_WAIT_MS;
       while (isRunningSyncPlaylistLoop) {
-        kameHouse.logger.trace("syncPlaylistLoop");
-        playlistLoopWaitMs = PLAYLIST_WAIT_MS;
-        if (playlistWebSocket.isConnected()) {
-          // poll playlist from the websocket.
-          playlistWebSocket.poll();
-          vlcPlayer.reloadPlaylist();
-        }        
-        await kameHouse.core.sleep(playlistLoopWaitMs);
+        syncPlaylistLoopRun();
+        await kameHouse.core.sleep(PLAYLIST_WAIT_MS);
         if (vlcPlaylistLoopCount > 1) {
           kameHouse.logger.info("syncPlaylistLoop: Running multiple syncPlaylistLoop, exiting this loop");
           break;
@@ -821,6 +814,15 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       vlcPlaylistLoopCount--;
       kameHouse.logger.info("Finished syncPlaylistLoop");
     }, 0);
+  }
+
+  function syncPlaylistLoopRun() {
+    kameHouse.logger.trace("syncPlaylistLoop");
+    if (playlistWebSocket.isConnected()) {
+      // poll playlist from the websocket.
+      playlistWebSocket.poll();
+      vlcPlayer.reloadPlaylist();
+    }
   }
 
   /** 
@@ -881,30 +883,40 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       }
       isRunningSyncVlcPlayerHttpLoop = true;
       syncVlcPlayerHttpLoopCount++;
-      const WEB_SOCKETS_CONNECTED_WAIT_MS = 10000;
-      const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
-      let syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
+      let syncVlcPlayerHttpWaitMs = 10000;
       while (isRunningSyncVlcPlayerHttpLoop) {
-        if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
-          kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
-          vlcPlayer.loadStateFromApi();
-          syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
-        } else {
-          kameHouse.logger.trace("syncVlcPlayerHttpLoop: Websockets connected. Skipping synchronization through http requests");
-          syncVlcPlayerHttpWaitMs = WEB_SOCKETS_CONNECTED_WAIT_MS;
-        }
+        syncVlcPlayerHttpWaitMs = getSyncVlcPlayerHttpWaitMs();
+        loadStateFromApiSyncVlcPlayerHttpLoop();
         await kameHouse.core.sleep(syncVlcPlayerHttpWaitMs);
         if (syncVlcPlayerHttpLoopCount > 1) {
           kameHouse.logger.info("syncVlcPlayerHttpLoop: Running multiple syncVlcPlayerHttpLoop, exiting this loop");
           break;
         }
-        if (WEB_SOCKETS_CONNECTED_WAIT_MS < -10000) { // fix sonar bug
+        if (syncVlcPlayerHttpWaitMs < -10000) { // fix sonar bug
           isRunningSyncVlcPlayerHttpLoop = false;
         }
       }
       syncVlcPlayerHttpLoopCount--;
       kameHouse.logger.info("Finished syncVlcPlayerHttpLoop");
     }, 0);
+  }
+
+  function getSyncVlcPlayerHttpWaitMs() {
+    const WEB_SOCKETS_CONNECTED_WAIT_MS = 10000;
+    const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
+    if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
+      return WEB_SOCKETS_DISCONNECTED_WAIT_MS;
+    }
+    return WEB_SOCKETS_CONNECTED_WAIT_MS;
+  }
+
+  function loadStateFromApiSyncVlcPlayerHttpLoop() {
+    if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
+      kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
+      vlcPlayer.loadStateFromApi();
+    } else {
+      kameHouse.logger.trace("syncVlcPlayerHttpLoop: Websockets connected. Skipping synchronization through http requests");
+    }
   }
 
   function syncLoopsStatus() {
