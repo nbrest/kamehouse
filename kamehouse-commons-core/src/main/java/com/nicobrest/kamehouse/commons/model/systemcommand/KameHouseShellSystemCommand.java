@@ -21,7 +21,7 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
   /**
    * Build the kamehouse-shell system command.
    */
-  public KameHouseShellSystemCommand() {
+  protected KameHouseShellSystemCommand() {
     executeOnDockerHost = executeOnDockerHost();
     sleepTime = getSleepTime();
     isDaemon = isDaemon();

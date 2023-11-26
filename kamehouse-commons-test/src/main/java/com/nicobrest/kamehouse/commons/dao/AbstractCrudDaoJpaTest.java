@@ -24,7 +24,7 @@ public abstract class AbstractCrudDaoJpaTest
 
   public static final Long INVALID_ID = 987987L;
 
-  public AbstractCrudDaoJpaTest(EntityManagerFactory entityManagerFactory) {
+  protected AbstractCrudDaoJpaTest(EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
   }
 

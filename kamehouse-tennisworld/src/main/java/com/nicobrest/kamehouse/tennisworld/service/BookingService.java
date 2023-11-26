@@ -59,7 +59,7 @@ public abstract class BookingService {
    */
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public BookingService(BookingScheduleConfigService bookingScheduleConfigService,
+  protected BookingService(BookingScheduleConfigService bookingScheduleConfigService,
       BookingRequestService bookingRequestService, BookingResponseService bookingResponseService) {
     this.bookingScheduleConfigService = bookingScheduleConfigService;
     this.bookingRequestService = bookingRequestService;

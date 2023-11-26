@@ -24,7 +24,7 @@ public abstract class AbstractDaoJpaTest<E extends KameHouseEntity<D>, D extends
 
   protected TestUtils<E, D> testUtils;
 
-  public AbstractDaoJpaTest(EntityManagerFactory entityManagerFactory) {
+  protected AbstractDaoJpaTest(EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
   }
 
