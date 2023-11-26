@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -220,7 +219,7 @@ public abstract class BookingService {
     if (configs != null) {
       return configs.stream()
           .sorted((o1, o2) -> o2.getTime().compareTo(o1.getTime())) // sort reverse by time
-          .collect(Collectors.toList());
+          .toList();
     }
     return null;
   }
@@ -244,7 +243,7 @@ public abstract class BookingService {
               br.getRequest().getCreationDate());
           return currentDate.equals(creationDate);
         })
-        .collect(Collectors.toList());
+        .toList();
     if (successfulBookingResponses.isEmpty()) {
       logger.debug("No successfully executed booking requests scheduled today");
     } else {

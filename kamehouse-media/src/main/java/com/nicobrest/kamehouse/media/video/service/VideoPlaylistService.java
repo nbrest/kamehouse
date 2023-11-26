@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -171,7 +170,7 @@ public class VideoPlaylistService {
       List<String> playlistFilePaths = Arrays.stream(sshShellOutput.split("\r\n"))
           .filter(e -> e.contains(".m3u"))
           .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
-          .collect(Collectors.toList());
+          .toList();
       logger.trace(playlistFilePaths.toString());
       return playlistFilePaths;
     } else {
@@ -179,7 +178,7 @@ public class VideoPlaylistService {
       List<String> playlistFilePaths = Arrays.stream(sshShellOutput.split("\n"))
           .filter(e -> e.contains(".m3u"))
           .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
-          .collect(Collectors.toList());
+          .toList();
       logger.trace(playlistFilePaths.toString());
       return playlistFilePaths;
     }
@@ -327,7 +326,7 @@ public class VideoPlaylistService {
               .filter(file -> !file.startsWith("#"))
               // Remove empty lines
               .filter(file -> !file.trim().isEmpty())
-              .collect(Collectors.toList());
+              .toList();
     } catch (IOException e) {
       logger.error("Error reading {} content", playlistFilename, e);
     }
@@ -368,7 +367,7 @@ public class VideoPlaylistService {
         .filter(file -> !file.contains("conhost.exe"))
         .filter(file -> !file.trim().endsWith("logout"))
         .map(file -> removeCharactersPastFileExtension(file))
-        .collect(Collectors.toList());
+        .toList();
     logger.trace("Playlist content: {}", playlistContent);
     return playlistContent;
   }
