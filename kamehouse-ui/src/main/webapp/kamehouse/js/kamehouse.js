@@ -1937,6 +1937,7 @@ function KameHouseCoreFunctions() {
       '\\[0;1;32m' : '', // remove these in-the-middle-of green span symbols on build-kamehouse
       '\\[0;33m' : '<span style="color:yellow">',
       '\\[1;33m' : '<span style="color:yellow">',
+      '\\[0;1;33m' : '', // remove these in-the-middle-of yellow span symbols on build-kamehouse
       '\\[0;34m' : '<span style="color:#3996ff">',
       '\\[1;34m' : '<span style="color:#3996ff">',
       '\\[0;35m' : '<span style="color:purple">',
