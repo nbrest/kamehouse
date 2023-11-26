@@ -43,25 +43,23 @@ public abstract class AbstractDaoJpaTest<E extends KameHouseEntity<D>, D extends
    */
   protected static String getInsertQuery(String table, String columns, String values) {
     String columnsI = columns.replace(" ", " I.");
-    String insertQuery =
-        "MERGE INTO "
-            + table
-            + " USING (VALUES "
-            + values
-            + " ) "
-            + " I ( "
-            + columns
-            + " ) ON ( "
-            + table
-            + ".ID = I.id ) "
-            + " WHEN NOT MATCHED THEN "
-            + " INSERT ( "
-            + columns
-            + " ) "
-            + " VALUES ( I."
-            + columnsI
-            + " )";
-    return insertQuery;
+    return "MERGE INTO "
+        + table
+        + " USING (VALUES "
+        + values
+        + " ) "
+        + " I ( "
+        + columns
+        + " ) ON ( "
+        + table
+        + ".ID = I.id ) "
+        + " WHEN NOT MATCHED THEN "
+        + " INSERT ( "
+        + columns
+        + " ) "
+        + " VALUES ( I."
+        + columnsI
+        + " )";
   }
 
   /**

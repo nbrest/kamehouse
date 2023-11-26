@@ -16,8 +16,7 @@ public class SpringSecurityConfig {
    */
   @Bean
   public CustomEntryPoint customEntryPoint() {
-    CustomEntryPoint customEntryPoint = new CustomEntryPoint("/login");
-    return customEntryPoint;
+    return new CustomEntryPoint("/login");
   }
 
   /**

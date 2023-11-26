@@ -147,9 +147,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     ObjectMapper mapper = new ObjectMapper();
     String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
         Charsets.UTF_8);
-    List<T> responseBody = mapper.readValue(responseBodyString,
+    return mapper.readValue(responseBodyString,
         mapper.getTypeFactory().constructCollectionType(List.class, clazz));
-    return responseBody;
   }
 
 
@@ -228,7 +227,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       loginCredentialsArray = loginCredentials.split(":");
     } else {
       logger.debug("Login credentials not found from file, setting default values for ci");
-      loginCredentialsArray = new String[]{ "seiya", "ikki" };
+      loginCredentialsArray = new String[]{"seiya", "ikki"};
     }
     List<NameValuePair> loginBody = new ArrayList<>();
     loginBody.add(new BasicNameValuePair("username", loginCredentialsArray[0]));

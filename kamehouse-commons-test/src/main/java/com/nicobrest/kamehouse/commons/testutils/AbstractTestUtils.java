@@ -24,8 +24,7 @@ public abstract class AbstractTestUtils<T, D> implements TestUtils<T, D> {
    */
   public static InputStream getInputStream(String resourceName) {
     ClassLoader classLoader = AbstractTestUtils.class.getClassLoader();
-    InputStream inputStream = classLoader.getResourceAsStream(resourceName);
-    return inputStream;
+    return classLoader.getResourceAsStream(resourceName);
   }
 
   @Override

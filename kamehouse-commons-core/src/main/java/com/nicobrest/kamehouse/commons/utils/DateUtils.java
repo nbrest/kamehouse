@@ -145,8 +145,7 @@ public class DateUtils {
       return null;
     }
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-    String formattedDate = simpleDateFormat.format(date);
-    return formattedDate;
+    return simpleDateFormat.format(date);
   }
 
   /**
@@ -291,8 +290,7 @@ public class DateUtils {
     String day = inputDate.substring(8, 10);
     String year = inputDate.substring(inputDate.length() - 4);
     String time = inputDate.substring(11, 19);
-    String buildDate = year + "-" + month.getNumber() + "-" + day + " " + time;
-    return buildDate;
+    return year + "-" + month.getNumber() + "-" + day + " " + time;
   }
 
   /**
@@ -376,8 +374,7 @@ public class DateUtils {
     SEP("09"),
     OCT("10"),
     NOV("11"),
-    DEC("12")
-    ;
+    DEC("12");
 
     private String number;
 

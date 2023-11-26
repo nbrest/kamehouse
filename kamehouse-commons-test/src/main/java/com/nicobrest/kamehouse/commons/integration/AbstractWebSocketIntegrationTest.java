@@ -156,7 +156,7 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
    * Get the stomp session handler.
    */
   private StompSessionHandler getStompSessionHandler() {
-    StompSessionHandler sessionHandler = new StompSessionHandlerAdapter() {
+    return new StompSessionHandlerAdapter() {
       @Override
       public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         logger.info("New session established : {}", session.getSessionId());
@@ -184,6 +184,5 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
         logger.error("handleTransportError: Got an exception", exception);
       }
     };
-    return sessionHandler;
   }
 }

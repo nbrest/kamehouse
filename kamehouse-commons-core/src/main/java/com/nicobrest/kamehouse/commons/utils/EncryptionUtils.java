@@ -164,8 +164,7 @@ public class EncryptionUtils {
     try (FileInputStream fis = new FileInputStream(certPath)) {
       Security.addProvider(new BouncyCastleProvider());
       CertificateFactory certFactory = CertificateFactory.getInstance(X509, BC);
-      X509Certificate certificate = (X509Certificate) certFactory.generateCertificate(fis);
-      return certificate;
+      return (X509Certificate) certFactory.generateCertificate(fis);
     } catch (CertificateException | NoSuchProviderException | IOException e) {
       LOGGER.error(ERROR_GETTING_CERTIFICATE, e);
       throw new KameHouseInvalidDataException(ERROR_GETTING_CERTIFICATE);
@@ -180,7 +179,7 @@ public class EncryptionUtils {
       return kamehousePrivateKey;
     }
     String keyStorePath = PropertiesUtils.getUserHome() + File.separator
-            + PropertiesUtils.getProperty("kamehouse.pkcs12");
+        + PropertiesUtils.getProperty("kamehouse.pkcs12");
     kamehousePrivateKey = getPrivateKey(keyStorePath, PKCS12, null, "1", null);
     return kamehousePrivateKey;
   }
@@ -193,10 +192,9 @@ public class EncryptionUtils {
     try (FileInputStream fis = new FileInputStream(keyStorePath)) {
       KeyStore keystore = KeyStore.getInstance(keyStoreType);
       keystore.load(fis, keyStorePassword);
-      PrivateKey privateKey = (PrivateKey) keystore.getKey(keyAlias, keyPassword);
-      return privateKey;
+      return (PrivateKey) keystore.getKey(keyAlias, keyPassword);
     } catch (KeyStoreException | CertificateException | UnrecoverableKeyException
-        | NoSuchAlgorithmException | IOException e) {
+             | NoSuchAlgorithmException | IOException e) {
       LOGGER.error(ERROR_GETTING_PRIVATE_KEY, e);
       throw new KameHouseInvalidDataException(ERROR_GETTING_PRIVATE_KEY);
     }

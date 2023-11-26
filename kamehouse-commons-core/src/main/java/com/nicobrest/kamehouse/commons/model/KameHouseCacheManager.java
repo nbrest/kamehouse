@@ -83,8 +83,7 @@ public class KameHouseCacheManager {
       logger.error("Cache {} not found", cacheName);
       throw new KameHouseServerErrorException("Cache " + cacheName + " not found");
     }
-    Cache<?, ?> cache = (Cache) springCache.getNativeCache();
-    return cache;
+    return (Cache) springCache.getNativeCache();
   }
 
   /**
