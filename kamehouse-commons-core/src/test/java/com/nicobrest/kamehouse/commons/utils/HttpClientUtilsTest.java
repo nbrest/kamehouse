@@ -22,6 +22,7 @@ import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicStatusLine;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -227,5 +228,65 @@ class HttpClientUtilsTest {
 
     assertEquals("http://www.dbz.com?lastName=son&planet=vegita&name=goku",
         httpGet.getURI().toString());
+  }
+
+  /**
+   * logRequestBody test.
+   */
+  @Test
+  void logRequestBodyTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logRequestBody(null);
+    });
+
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logRequestBody("{'mada':'mada dane'}");
+    });
+  }
+
+  /**
+   * logResponseBody test.
+   */
+  @Test
+  void logResponseBodyTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logResponseBody(null);
+    });
+
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logResponseBody("{'mada':'mada dane'}");
+    });
+  }
+
+  /**
+   * logHttpResponseCode test.
+   */
+  @Test
+  void logHttpResponseCodeTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logHttpResponseCode(response);
+    });
+  }
+
+  /**
+   * logRequestHeaders test.
+   */
+  @Test
+  void logRequestHeadersTest() {
+    request.setHeader("goku", "gohan");
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logRequestHeaders(request);
+    });
+  }
+
+  /**
+   * logResponseHeaders test.
+   */
+  @Test
+  void logResponseHeadersTest() {
+    response.setHeader("goku", "gohan");
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logResponseHeaders(response);
+    });
   }
 }
