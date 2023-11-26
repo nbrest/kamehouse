@@ -12,6 +12,7 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
+import org.quartz.simpl.SimpleJobFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +65,7 @@ public class TennisWorldSchedulerConfig {
    */
   @Bean(name = "scheduledBookingJobDetail")
   public JobDetail scheduledBookingJobDetail() {
-    return JobBuilder.newJob()
-        .ofType(ScheduledBookingJob.class)
+    return JobBuilder.newJob(ScheduledBookingJob.class)
         .storeDurably()
         .withIdentity(JobKey.jobKey("scheduledBookingJobDetail"))
         .withDescription("Scheduled booking job")

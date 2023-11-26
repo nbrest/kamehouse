@@ -56,8 +56,7 @@ public class TestModuleSchedulerConfig {
    */
   @Bean(name = "sampleJobDetail")
   public JobDetail sampleJobDetail() {
-    return JobBuilder.newJob()
-        .ofType(SampleJob.class)
+    return JobBuilder.newJob(SampleJob.class)
         .storeDurably()
         .withIdentity(JobKey.jobKey("sampleJobDetail"))
         .withDescription("Sample job")

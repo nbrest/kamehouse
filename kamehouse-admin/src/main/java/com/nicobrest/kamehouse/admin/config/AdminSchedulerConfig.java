@@ -53,8 +53,7 @@ public class AdminSchedulerConfig {
   @Bean(name = "shutdownJobDetail")
   public JobDetail shutdownJobDetail() {
     logger.info("Setting up shutdownJobDetail");
-    return JobBuilder.newJob()
-        .ofType(ShutdownJob.class)
+    return JobBuilder.newJob(ShutdownJob.class)
         .storeDurably()
         .withIdentity(JobKey.jobKey("shutdownJobDetail"))
         .withDescription("Shutdown the server")
@@ -67,8 +66,7 @@ public class AdminSchedulerConfig {
   @Bean(name = "suspendJobDetail")
   public JobDetail suspendJobDetail() {
     logger.info("Setting up suspendJobDetail");
-    return JobBuilder.newJob()
-        .ofType(SuspendJob.class)
+    return JobBuilder.newJob(SuspendJob.class)
         .storeDurably()
         .withIdentity(JobKey.jobKey("suspendJobDetail"))
         .withDescription("Suspend the server")

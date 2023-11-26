@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Job to schedule a server suspend.
  *
  * @author nbrest
- *
  */
 public class SuspendJob implements Job {
 
@@ -24,6 +23,20 @@ public class SuspendJob implements Job {
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public SuspendJob(SystemCommandService systemCommandService) {
+    this.systemCommandService = systemCommandService;
+  }
+
+  public SuspendJob() {
+    // empty constructor
+  }
+
+  public SystemCommandService getSystemCommandService() {
+    return systemCommandService;
+  }
+
+  @Autowired
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setSystemCommandService(SystemCommandService systemCommandService) {
     this.systemCommandService = systemCommandService;
   }
 

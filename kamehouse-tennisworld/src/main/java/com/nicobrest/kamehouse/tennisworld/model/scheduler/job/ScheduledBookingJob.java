@@ -26,9 +26,25 @@ public class ScheduledBookingJob implements Job {
     this.bookingService = bookingService;
   }
 
+  public ScheduledBookingJob() {
+    // empty constructor
+  }
+
+  public BookingService getBookingService() {
+    return bookingService;
+  }
+
+  @Autowired
+  @Qualifier("perfectGymBookingService")
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setBookingService(BookingService bookingService) {
+    this.bookingService = bookingService;
+  }
+
   /**
    * Execute the ScheduledBookingJob.
    */
+  @Override
   public void execute(JobExecutionContext context) {
     logger.info("Job {} fired @ {}", context.getJobDetail().getKey().getName(),
         context.getFireTime());

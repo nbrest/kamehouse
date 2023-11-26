@@ -18,6 +18,7 @@ public class SampleJob implements Job {
   /**
    * Execute the sample job.
    */
+  @Override
   public void execute(JobExecutionContext context) {
     logger.info("Job {} fired @ {}", context.getJobDetail().getKey().getName(),
         context.getFireTime());
