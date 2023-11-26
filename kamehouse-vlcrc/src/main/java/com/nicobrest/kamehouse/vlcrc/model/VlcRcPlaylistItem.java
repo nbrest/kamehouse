@@ -68,8 +68,7 @@ public class VlcRcPlaylistItem implements Serializable {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof VlcRcPlaylistItem) {
-      final VlcRcPlaylistItem other = (VlcRcPlaylistItem) obj;
+    if (obj instanceof VlcRcPlaylistItem other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(name, other.getName())

@@ -60,8 +60,8 @@ public class PasswordUtils {
       return;
     }
     for (T entity : entities) {
-      if (entity instanceof PasswordEntity) {
-        unsetPassword((PasswordEntity) entity);
+      if (entity instanceof PasswordEntity passwordEntity) {
+        unsetPassword(passwordEntity);
       }
     }
   }

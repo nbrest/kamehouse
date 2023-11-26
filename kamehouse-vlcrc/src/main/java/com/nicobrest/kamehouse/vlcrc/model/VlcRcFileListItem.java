@@ -126,8 +126,7 @@ public class VlcRcFileListItem implements Serializable {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof VlcRcFileListItem) {
-      final VlcRcFileListItem other = (VlcRcFileListItem) obj;
+    if (obj instanceof VlcRcFileListItem other) {
       return new EqualsBuilder()
           .append(type, other.getType())
           .append(name, other.getName())

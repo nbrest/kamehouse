@@ -390,8 +390,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof VlcPlayer) {
-      final VlcPlayer other = (VlcPlayer) obj;
+    if (obj instanceof VlcPlayer other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(hostname, other.getHostname())

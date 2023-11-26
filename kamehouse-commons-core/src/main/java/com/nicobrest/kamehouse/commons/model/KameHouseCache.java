@@ -62,8 +62,7 @@ public class KameHouseCache {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof KameHouseCache) {
-      final KameHouseCache other = (KameHouseCache) obj;
+    if (obj instanceof KameHouseCache other) {
       return new EqualsBuilder()
           .append(name, other.getName())
           .append(status, other.getStatus())

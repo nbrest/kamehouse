@@ -80,8 +80,7 @@ public class VlcRcCommand {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof VlcRcCommand) {
-      final VlcRcCommand other = (VlcRcCommand) obj;
+    if (obj instanceof VlcRcCommand other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(input, other.getInput())

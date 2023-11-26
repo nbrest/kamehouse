@@ -107,8 +107,7 @@ public class DragonBallUserDto implements KameHouseDto<DragonBallUser>, Serializ
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof DragonBallUserDto) {
-      final DragonBallUserDto other = (DragonBallUserDto) obj;
+    if (obj instanceof DragonBallUserDto other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())

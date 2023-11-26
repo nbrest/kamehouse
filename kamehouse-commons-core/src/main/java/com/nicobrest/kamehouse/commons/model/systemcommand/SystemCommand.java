@@ -210,8 +210,7 @@ public abstract class SystemCommand {
 
     @Override
     public boolean equals(final Object obj) {
-      if (obj instanceof Output) {
-        final Output other = (Output) obj;
+      if (obj instanceof Output other) {
         return new EqualsBuilder()
             .append(command, other.getCommand())
             .append(exitCode, other.getExitCode())

@@ -276,8 +276,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof BookingRequest) {
-      final BookingRequest other = (BookingRequest) obj;
+    if (obj instanceof BookingRequest other) {
       String dateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, date);
       String otherDateFormatted = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, other.getDate());
       return new EqualsBuilder()
@@ -377,8 +376,7 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
 
     @Override
     public boolean equals(final Object obj) {
-      if (obj instanceof CardDetails) {
-        final CardDetails other = (CardDetails) obj;
+      if (obj instanceof CardDetails other) {
         return new EqualsBuilder()
             .append(name, other.getName())
             .append(number, other.getNumber())

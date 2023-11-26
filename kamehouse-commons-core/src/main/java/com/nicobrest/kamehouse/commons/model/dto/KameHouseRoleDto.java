@@ -68,8 +68,7 @@ public class KameHouseRoleDto implements KameHouseDto<KameHouseRole>, Serializab
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof KameHouseRoleDto) {
-      final KameHouseRoleDto other = (KameHouseRoleDto) obj;
+    if (obj instanceof KameHouseRoleDto other) {
       return new EqualsBuilder().append(name, other.getName()).isEquals();
     } else {
       return false;

@@ -183,8 +183,7 @@ public class KameHouseUserDto implements KameHouseDto<KameHouseUser>, Serializab
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof KameHouseUserDto) {
-      final KameHouseUserDto other = (KameHouseUserDto) obj;
+    if (obj instanceof KameHouseUserDto other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())

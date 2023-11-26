@@ -97,8 +97,7 @@ public class KameHouseRole implements KameHouseEntity<KameHouseRoleDto>, Granted
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof KameHouseRole) {
-      final KameHouseRole other = (KameHouseRole) obj;
+    if (obj instanceof KameHouseRole other) {
       return new EqualsBuilder().append(name, other.getName()).isEquals();
     } else {
       return false;

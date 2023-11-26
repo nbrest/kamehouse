@@ -209,8 +209,7 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof BookingRequestDto) {
-      final BookingRequestDto other = (BookingRequestDto) obj;
+    if (obj instanceof BookingRequestDto other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())

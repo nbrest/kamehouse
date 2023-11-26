@@ -74,8 +74,7 @@ public class Playlist implements Serializable, Comparable<Playlist> {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof Playlist) {
-      final Playlist other = (Playlist) obj;
+    if (obj instanceof Playlist other) {
       return new EqualsBuilder()
           .append(name, other.getName())
           .append(path, other.getPath())

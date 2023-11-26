@@ -107,11 +107,11 @@ public abstract class AbstractController {
   protected static <T> ResponseEntity<T> generatePasswordLessResponseEntity(
       ResponseEntity<T> responseEntity) {
     T responseBody = responseEntity.getBody();
-    if (responseBody instanceof PasswordEntity) {
-      PasswordUtils.unsetPassword((PasswordEntity) responseBody);
+    if (responseBody instanceof PasswordEntity passwordEntity) {
+      PasswordUtils.unsetPassword(passwordEntity);
     }
-    if (responseBody instanceof List) {
-      PasswordUtils.unsetPassword((List<T>) responseBody);
+    if (responseBody instanceof List list) {
+      PasswordUtils.unsetPassword(list);
     }
     return responseEntity;
   }

@@ -95,8 +95,7 @@ public class SessionStatus {
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof SessionStatus) {
-      final SessionStatus other = (SessionStatus) obj;
+    if (obj instanceof SessionStatus other) {
       return new EqualsBuilder().append(username, other.getUsername()).append(firstName, other
           .getFirstName()).append(lastName, other.getLastName()).isEquals();
     } else {

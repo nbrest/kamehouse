@@ -254,8 +254,7 @@ public class KameHouseUser implements PasswordEntity<String>, KameHouseEntity<Ka
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof KameHouseUser) {
-      final KameHouseUser other = (KameHouseUser) obj;
+    if (obj instanceof KameHouseUser other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())

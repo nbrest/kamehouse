@@ -154,8 +154,7 @@ public class DragonBallUser implements KameHouseEntity<DragonBallUserDto>, Seria
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj instanceof DragonBallUser) {
-      final DragonBallUser other = (DragonBallUser) obj;
+    if (obj instanceof DragonBallUser other) {
       return new EqualsBuilder()
           .append(id, other.getId())
           .append(username, other.getUsername())
