@@ -720,7 +720,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           kameHouse.logger.info("syncVlcRcStatusLoop: Running multiple syncVlcRcStatusLoop, exiting this loop");
           break;
         }
-        if (vlcRcStatusPullWaitTimeMs < -1) { // fix sonar bug
+        if (vlcRcStatusPullWaitTimeMs < -10000) { // fix sonar bug
           isRunningSyncVlcRcStatusLoop = false;
         }
       }
@@ -813,7 +813,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           kameHouse.logger.info("syncPlaylistLoop: Running multiple syncPlaylistLoop, exiting this loop");
           break;
         }
-        if (PLAYLIST_WAIT_MS < 1) { // fix sonar bug
+        if (PLAYLIST_WAIT_MS < -10000) { // fix sonar bug
           isRunningSyncPlaylistLoop = false;
         }
       }
@@ -855,7 +855,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           kameHouse.logger.info("keepAliveWebSocketsLoop: Running multiple keepAliveWebSocketsLoop, exiting this loop");
           break;
         }
-        if (KEEP_ALIVE_WAIT_MS < 1) { // fix sonar bug
+        if (KEEP_ALIVE_WAIT_MS < -10000) { // fix sonar bug
           isRunningKeepAliveWebSocketLoop = false;
         }
       }
@@ -895,7 +895,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
           kameHouse.logger.info("syncVlcPlayerHttpLoop: Running multiple syncVlcPlayerHttpLoop, exiting this loop");
           break;
         }
-        if (WEB_SOCKETS_CONNECTED_WAIT_MS < 1) { // fix sonar bug
+        if (WEB_SOCKETS_CONNECTED_WAIT_MS < -10000) { // fix sonar bug
           isRunningSyncVlcPlayerHttpLoop = false;
         }
       }
