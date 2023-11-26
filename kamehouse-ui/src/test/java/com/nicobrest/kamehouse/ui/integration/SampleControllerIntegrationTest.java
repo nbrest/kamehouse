@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.ui.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
-import com.nicobrest.kamehouse.ui.model.SessionStatus;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,7 @@ class SampleControllerIntegrationTest extends AbstractControllerIntegrationTest 
 
     HttpResponse response = get(getWebappUrl() + API_URL);
 
-    verifySuccessfulResponse(response, String.class);
+    verifySuccessfulResponse(response, String.class, false);
   }
 }
 

@@ -167,12 +167,21 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   /**
    * Verify the response status is OK and it contains a response body.
    */
-  public <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz)
-      throws IOException {
+  public <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz) throws IOException {
+    return verifySuccessfulResponse(response, clazz, true);
+  }
+
+  /**
+   * Verify the response status is OK and it contains a response body.
+   */
+  public <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz,
+      boolean logResponseBody) throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
     assertNotNull(responseBody);
-    logger.info(RESPONSE_BODY, responseBody);
+    if (logResponseBody) {
+      logger.info(RESPONSE_BODY, responseBody);
+    }
     return responseBody;
   }
 
