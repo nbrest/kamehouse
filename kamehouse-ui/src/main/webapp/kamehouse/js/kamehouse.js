@@ -1922,7 +1922,8 @@ function KameHouseCoreFunctions() {
       '\\[1;31m' : '<span style="color:red">', 
       '\\[0;32m' : '<span style="color:green">', 
       '\\[00;32m' : '<span style="color:green">',   
-      '\\[1;32m' : '<span style="color:green">',   
+      '\\[1;32m' : '<span style="color:green">',
+      '\\[0;1;32m' : '', // remove these in-the-middle-of green span symbols on build-kamehouse
       '\\[0;33m' : '<span style="color:yellow">',
       '\\[1;33m' : '<span style="color:yellow">',
       '\\[0;34m' : '<span style="color:#3996ff">',
