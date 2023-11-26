@@ -273,6 +273,10 @@ class HttpClientUtilsTest {
    */
   @Test
   void logRequestHeadersTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logRequestHeaders(request);
+    });
+    
     request.setHeader("goku", "gohan");
     Assertions.assertDoesNotThrow(() -> {
       HttpClientUtils.logRequestHeaders(request);
@@ -284,6 +288,10 @@ class HttpClientUtilsTest {
    */
   @Test
   void logResponseHeadersTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      HttpClientUtils.logResponseHeaders(response);
+    });
+
     response.setHeader("goku", "gohan");
     Assertions.assertDoesNotThrow(() -> {
       HttpClientUtils.logResponseHeaders(response);
