@@ -710,7 +710,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         failedCount : 0,
         skipResetViewCount : 10,
         vlcRcStatusPullWaitTimeMs : 1000
-      }
+      };
       while (isRunningSyncVlcRcStatusLoop) {
         kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
         setFailedCountSyncVlcRcStatusLoop(config);
@@ -882,16 +882,18 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       }
       isRunningSyncVlcPlayerHttpLoop = true;
       syncVlcPlayerHttpLoopCount++;
-      let syncVlcPlayerHttpWaitMs = 10000;
+      const config = {
+        syncVlcPlayerHttpWaitMs : 10000
+      };
       while (isRunningSyncVlcPlayerHttpLoop) {
-        syncVlcPlayerHttpWaitMs = getSyncVlcPlayerHttpWaitMs();
+        setSyncVlcPlayerHttpWaitMs(config);
         loadStateFromApiSyncVlcPlayerHttpLoop();
-        await kameHouse.core.sleep(syncVlcPlayerHttpWaitMs);
+        await kameHouse.core.sleep(config.syncVlcPlayerHttpWaitMs);
         if (syncVlcPlayerHttpLoopCount > 1) {
           kameHouse.logger.info("syncVlcPlayerHttpLoop: Running multiple syncVlcPlayerHttpLoop, exiting this loop");
           break;
         }
-        if (syncVlcPlayerHttpWaitMs < -10000) { // fix sonar bug
+        if (config.syncVlcPlayerHttpWaitMs < -10000) { // fix sonar bug
           isRunningSyncVlcPlayerHttpLoop = false;
         }
       }
@@ -900,13 +902,14 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }, 0);
   }
 
-  function getSyncVlcPlayerHttpWaitMs() {
+  function setSyncVlcPlayerHttpWaitMs(config) {
     const WEB_SOCKETS_CONNECTED_WAIT_MS = 10000;
     const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
     if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
-      return WEB_SOCKETS_DISCONNECTED_WAIT_MS;
+      config.syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
+      return;
     }
-    return WEB_SOCKETS_CONNECTED_WAIT_MS;
+    config.syncVlcPlayerHttpWaitMs = WEB_SOCKETS_CONNECTED_WAIT_MS;
   }
 
   function loadStateFromApiSyncVlcPlayerHttpLoop() {
