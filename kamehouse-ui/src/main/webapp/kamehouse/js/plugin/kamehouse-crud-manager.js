@@ -1226,23 +1226,23 @@ function CrudManager() {
   function buildArrayElementValue(column, arrayElement) {
     const arrayType = column.arrayType;
     const name = column.name;
-    if (!kameHouse.core.isEmpty(arrayElement.value)) {
-      if (isObjectField(arrayType)) {
-        return kameHouse.json.parse(arrayElement.value);
-      }
-      if (isSelectField(arrayType)) {
-        if (kameHouse.core.isFunction(column.buildEntity)) {
-          const entityArrayElement = column.buildEntity(arrayElement);
-          if (!kameHouse.core.isEmpty(entityArrayElement)) {
-            return entityArrayElement;
-          }
-        } else {
-          kameHouse.logger.warn("No buildEntity function defined in config for " + name);
-        }
-      }
-      return arrayElement.value;
+    if (kameHouse.core.isEmpty(arrayElement.value)) {
+      return null;
     }
-    return null;
+    if (isObjectField(arrayType)) {
+      return kameHouse.json.parse(arrayElement.value);
+    }
+    if (isSelectField(arrayType)) {
+      if (kameHouse.core.isFunction(column.buildEntity)) {
+        const entityArrayElement = column.buildEntity(arrayElement);
+        if (!kameHouse.core.isEmpty(entityArrayElement)) {
+          return entityArrayElement;
+        }
+      } else {
+        kameHouse.logger.warn("No buildEntity function defined in config for " + name);
+      }
+    }
+    return arrayElement.value;
   }
 
   /**
