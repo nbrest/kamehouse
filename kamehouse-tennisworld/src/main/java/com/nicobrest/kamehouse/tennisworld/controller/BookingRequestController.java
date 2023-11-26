@@ -9,7 +9,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller class for the tennis world booking requests.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingRequestController extends
     AbstractCrudController<BookingRequest, BookingRequestDto> {
@@ -47,7 +46,6 @@ public class BookingRequestController extends
    * Creates a new entity in the repository.
    */
   @PostMapping(path = "/booking-requests")
-  @ResponseBody
   @Override
   public ResponseEntity<Long> create(@RequestBody BookingRequestDto dto) {
     return super.create(dto);
@@ -57,7 +55,6 @@ public class BookingRequestController extends
    * Returns a specific entity from the repository based on the id.
    */
   @GetMapping(path = "/booking-requests/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<BookingRequest> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.read(id));
@@ -67,7 +64,6 @@ public class BookingRequestController extends
    * Returns all entities.
    */
   @GetMapping(path = "/booking-requests")
-  @ResponseBody
   @Override
   public ResponseEntity<List<BookingRequest>> readAll() {
     return generatePasswordLessResponseEntity(super.readAll());
@@ -77,7 +73,6 @@ public class BookingRequestController extends
    * Updates an entity in the repository.
    */
   @PutMapping(path = "/booking-requests/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody BookingRequestDto dto) {
     return super.update(id, dto);
@@ -87,7 +82,6 @@ public class BookingRequestController extends
    * Deletes an entity from the repository.
    */
   @DeleteMapping(path = "/booking-requests/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<BookingRequest> delete(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.delete(id));

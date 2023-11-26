@@ -10,7 +10,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller to manage the VLC Players registered in the application.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPlayerDto> {
 
@@ -47,7 +46,6 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    * Creates a VLC Player.
    */
   @PostMapping(path = "/players")
-  @ResponseBody
   @Override
   public ResponseEntity<Long> create(@RequestBody VlcPlayerDto dto) {
     return super.create(dto);
@@ -57,7 +55,6 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    * Reads a VLC Player by it's id.
    */
   @GetMapping(path = "/players/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<VlcPlayer> read(@PathVariable Long id) {
     return super.read(id);
@@ -67,7 +64,6 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    * Reads all VLC Players registered in the application.
    */
   @GetMapping(path = "/players")
-  @ResponseBody
   @Override
   public ResponseEntity<List<VlcPlayer>> readAll() {
     return super.readAll();
@@ -86,7 +82,6 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    * Deletes the VLC Player passed as a URL parameter.
    */
   @DeleteMapping(path = "/players/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<VlcPlayer> delete(@PathVariable Long id) {
     return super.delete(id);
@@ -96,7 +91,6 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    * Gets the VLC Player passed as a URL parameter.
    */
   @GetMapping(path = "/players/hostname/{hostname}")
-  @ResponseBody
   public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
     String hostnameSanitized = StringUtils.sanitizeInput(hostname);
     VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostnameSanitized);

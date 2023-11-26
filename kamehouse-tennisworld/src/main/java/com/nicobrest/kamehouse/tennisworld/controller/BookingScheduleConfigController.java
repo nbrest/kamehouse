@@ -10,7 +10,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller class for the tennis world booking schedule config.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingScheduleConfigController extends
     AbstractCrudController<BookingScheduleConfig, BookingScheduleConfigDto> {
@@ -49,7 +48,6 @@ public class BookingScheduleConfigController extends
    * Creates a new entity in the repository.
    */
   @PostMapping(path = "/booking-schedule-configs")
-  @ResponseBody
   @Override
   public ResponseEntity<Long> create(@RequestBody BookingScheduleConfigDto dto) {
     return super.create(dto);
@@ -59,7 +57,6 @@ public class BookingScheduleConfigController extends
    * Returns a specific entity from the repository based on the id.
    */
   @GetMapping(path = "/booking-schedule-configs/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<BookingScheduleConfig> read(@PathVariable Long id) {
     return generatePasswordLessResponse(super.read(id));
@@ -69,7 +66,6 @@ public class BookingScheduleConfigController extends
    * Returns all entities.
    */
   @GetMapping(path = "/booking-schedule-configs")
-  @ResponseBody
   @Override
   public ResponseEntity<List<BookingScheduleConfig>> readAll() {
     return generatePasswordLessResponseList(super.readAll());
@@ -79,7 +75,6 @@ public class BookingScheduleConfigController extends
    * Updates an entity in the repository.
    */
   @PutMapping(path = "/booking-schedule-configs/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<Void> update(
       @PathVariable Long id, @RequestBody BookingScheduleConfigDto dto) {
@@ -90,7 +85,6 @@ public class BookingScheduleConfigController extends
    * Deletes an entity from the repository.
    */
   @DeleteMapping(path = "/booking-schedule-configs/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<BookingScheduleConfig> delete(@PathVariable Long id) {
     return generatePasswordLessResponse(super.delete(id));

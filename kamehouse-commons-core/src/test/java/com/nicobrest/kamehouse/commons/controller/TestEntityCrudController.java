@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Test controller to test AbstractCrudController and AbstractController.
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/unit-tests")
 public class TestEntityCrudController extends AbstractCrudController<TestEntity, TestEntityDto> {
 
@@ -37,7 +36,6 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Create a TestEntity.
    */
   @PostMapping(path = "/test-entity")
-  @ResponseBody
   public ResponseEntity<Long> create(@RequestBody TestEntityDto dto, HttpServletRequest request) {
     return super.create(dto);
   }
@@ -46,7 +44,6 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Read a TestEntity.
    */
   @GetMapping(path = "/test-entity/{id}")
-  @ResponseBody
   public ResponseEntity<TestEntity> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.read(id));
   }
@@ -55,7 +52,6 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Read all TestEntities.
    */
   @GetMapping(path = "/test-entity")
-  @ResponseBody
   public ResponseEntity<List<TestEntity>> readAll() {
     return super.readAll();
   }
@@ -64,7 +60,6 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Update a TestEntity.
    */
   @PutMapping(path = "/test-entity/{id}")
-  @ResponseBody
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TestEntityDto dto) {
     return super.update(id, dto);
   }
@@ -73,7 +68,6 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Delete a TestEntity.
    */
   @DeleteMapping(path = "/test-entity/{id}")
-  @ResponseBody
   public ResponseEntity<TestEntity> delete(@PathVariable Long id) {
     return super.delete(id);
   }

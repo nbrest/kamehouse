@@ -8,17 +8,16 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller to execute commands to control the screen.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/admin/screen")
 public class ScreenController extends AbstractSystemCommandController {
 
@@ -31,7 +30,6 @@ public class ScreenController extends AbstractSystemCommandController {
    * Locks screen in the server running the application.
    */
   @PostMapping(path = "/lock")
-  @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> lockScreen() {
     return execKameHouseSystemCommand(new ScreenLockKameHouseSystemCommand());
   }
@@ -40,7 +38,6 @@ public class ScreenController extends AbstractSystemCommandController {
    * Unlocks screen in the server running the application.
    */
   @PostMapping(path = "/unlock")
-  @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> unlockScreen() {
     return execKameHouseSystemCommand(new ScreenUnlockKameHouseSystemCommand());
   }
@@ -49,7 +46,6 @@ public class ScreenController extends AbstractSystemCommandController {
    * Wakes up the screen. Run it when the screen goes dark after being idle for a while.
    */
   @PostMapping(path = "/wake-up")
-  @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> wakeUpScreen() {
     return execKameHouseSystemCommand(new ScreenWakeUpKameHouseSystemCommand());
   }

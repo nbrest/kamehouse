@@ -12,20 +12,19 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller class for the power management commands.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController extends AbstractSystemCommandController {
 
@@ -43,7 +42,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Shutdowns the local server with the specified delay in seconds.
    */
   @PostMapping(path = "/shutdown")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> setShutdown(
       @RequestParam(value = "delay", required = true) Integer delay) {
     powerManagementService.scheduleShutdown(delay);
@@ -56,7 +54,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Gets the status of a shutdown command.
    */
   @GetMapping(path = "/shutdown")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> statusShutdown() {
     String suspendStatus = powerManagementService.getShutdownStatus();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
@@ -68,7 +65,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Cancels a shutdown command.
    */
   @DeleteMapping(path = "/shutdown")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelShutdown() {
     String cancelSuspendStatus = powerManagementService.cancelScheduledShutdown();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
@@ -81,7 +77,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * command doesn't natively support scheduling/delay in windows.
    */
   @PostMapping(path = "/suspend")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> setSuspend(
       @RequestParam(value = "delay", required = true) Integer delay) {
     powerManagementService.scheduleSuspend(delay);
@@ -94,7 +89,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Gets the status of a scheduled suspend.
    */
   @GetMapping(path = "/suspend")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> getSuspend() {
     String suspendStatus = powerManagementService.getSuspendStatus();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
@@ -106,7 +100,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Cancel a scheduled suspend.
    */
   @DeleteMapping(path = "/suspend")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> cancelSuspend() {
     String cancelSuspendStatus = powerManagementService.cancelScheduledSuspend();
     KameHouseGenericResponse response = new KameHouseGenericResponse();
@@ -118,7 +111,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Reboot the server.
    */
   @PostMapping(path = "/reboot")
-  @ResponseBody
   public ResponseEntity<List<SystemCommand.Output>> reboot() {
     return execKameHouseSystemCommand(new RebootKameHouseSystemCommand());
   }
@@ -127,7 +119,6 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Wake on lan the specified server or mac address.
    */
   @PostMapping(path = "/wol")
-  @ResponseBody
   public ResponseEntity<KameHouseGenericResponse> wakeOnLan(
       @RequestParam(value = "server", required = false) String server,
       @RequestParam(value = "mac", required = false) String mac,

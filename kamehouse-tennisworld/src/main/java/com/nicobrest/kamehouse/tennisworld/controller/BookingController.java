@@ -12,18 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller to do bookings to tennis world.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingController extends AbstractController {
 
@@ -39,7 +38,6 @@ public class BookingController extends AbstractController {
    * Process a tennis world booking request.
    */
   @PostMapping(path = "/bookings")
-  @ResponseBody
   public ResponseEntity<BookingResponse> bookings(
       @RequestBody BookingRequestDto bookingRequestDto) {
     bookingRequestDto.setScheduled(false);
@@ -63,7 +61,6 @@ public class BookingController extends AbstractController {
    * Trigger an execution to process all the scheduled bookings configured in the database.
    */
   @PostMapping(path = "/scheduled-bookings")
-  @ResponseBody
   public ResponseEntity<List<BookingResponse>> scheduledBookings() {
     List<BookingResponse> responses = bookingService.bookScheduledSessions();
     return generatePostResponseEntity(responses);

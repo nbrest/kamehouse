@@ -4,10 +4,9 @@ import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller class to get the status of the current module. Being able to deploy each module
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/commons/module")
 public class ModuleStatusController extends AbstractController {
 
@@ -24,7 +23,6 @@ public class ModuleStatusController extends AbstractController {
    * Gets the status of the current module.
    */
   @GetMapping(path = "/status")
-  @ResponseBody
   public ResponseEntity<Map<String, String>> getModuleStatus() {
     Map<String, String> responseBody = new HashMap<>();
     responseBody.put("buildVersion", PropertiesUtils.getProperty("kamehouse.build.version"));

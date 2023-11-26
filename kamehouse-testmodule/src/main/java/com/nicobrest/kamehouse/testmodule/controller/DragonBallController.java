@@ -13,7 +13,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,14 +21,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller class for the test endpoint /dragonball.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/test-module/dragonball")
 public class DragonBallController extends
     AbstractCrudController<DragonBallUser, DragonBallUserDto> {
@@ -52,7 +51,6 @@ public class DragonBallController extends
    * Creates a new DragonBallUser in the repository.
    */
   @PostMapping(path = "/users")
-  @ResponseBody
   @Override
   public ResponseEntity<Long> create(@RequestBody DragonBallUserDto dto) {
     return super.create(dto);
@@ -62,7 +60,6 @@ public class DragonBallController extends
    * Returns a specific DragonBallUser from the repository based on the id.
    */
   @GetMapping(path = "/users/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<DragonBallUser> read(@PathVariable Long id) {
     return super.read(id);
@@ -72,7 +69,6 @@ public class DragonBallController extends
    * Returns all DragonBallUsers.
    */
   @GetMapping(path = "/users")
-  @ResponseBody
   public ResponseEntity<List<DragonBallUser>> readAll(
       @RequestParam(value = "action", required = false, defaultValue = "goku") String action) {
     // switch to test parameters and exception handlers
@@ -100,7 +96,6 @@ public class DragonBallController extends
    * Updates a user in the repository.
    */
   @PutMapping(path = "/users/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody DragonBallUserDto dto) {
     return super.update(id, dto);
@@ -110,7 +105,6 @@ public class DragonBallController extends
    * Deletes an existing user from the repository.
    */
   @DeleteMapping(path = "/users/{id}")
-  @ResponseBody
   @Override
   public ResponseEntity<DragonBallUser> delete(@PathVariable Long id) {
     return super.delete(id);
@@ -120,7 +114,6 @@ public class DragonBallController extends
    * Returns a specific DragonBallUser from the repository based on the username.
    */
   @GetMapping(path = "/users/username/{username:.+}")
-  @ResponseBody
   public ResponseEntity<DragonBallUser> getByUsername(@PathVariable String username) {
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
@@ -135,7 +128,6 @@ public class DragonBallController extends
    * UTF-8).
    */
   @GetMapping(path = "/users/emails")
-  @ResponseBody
   public ResponseEntity<DragonBallUser> getByEmail(
       @RequestParam(value = "email", required = true) String email) {
     String emailSanitized = StringUtils.sanitizeInput(email);

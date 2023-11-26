@@ -11,21 +11,20 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller to manage the VLC Players registered in the application.
  *
  * @author nbrest
  */
-@Controller
+@RestController
 @RequestMapping(value = "/api/v1/vlc-rc/players")
 public class VlcRcController extends AbstractController {
 
@@ -41,7 +40,6 @@ public class VlcRcController extends AbstractController {
    * Gets the status information of the VLC Player passed through the URL.
    */
   @GetMapping(path = "/{hostname}/status")
-  @ResponseBody
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String hostname) {
     String hostnameSanitized = StringUtils.sanitizeInput(hostname);
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostnameSanitized);
@@ -52,7 +50,6 @@ public class VlcRcController extends AbstractController {
    * Executes a command in the selected VLC Player.
    */
   @PostMapping(path = "/{hostname}/commands")
-  @ResponseBody
   public ResponseEntity<VlcRcStatus> execCommand(
       @RequestBody VlcRcCommand vlcRcCommand, @PathVariable String hostname) {
     String hostnameSanitized = StringUtils.sanitizeInput(hostname);
@@ -65,7 +62,6 @@ public class VlcRcController extends AbstractController {
    * Gets the current playlist from the selected VLC Player.
    */
   @GetMapping(path = "/{hostname}/playlist")
-  @ResponseBody
   public ResponseEntity<List<VlcRcPlaylistItem>> getPlaylist(@PathVariable String hostname) {
     String hostnameSanitized = StringUtils.sanitizeInput(hostname);
     List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostnameSanitized);
@@ -76,7 +72,6 @@ public class VlcRcController extends AbstractController {
    * Browses the VLC Player server's file system.
    */
   @GetMapping(path = "/{hostname}/browse")
-  @ResponseBody
   public ResponseEntity<List<VlcRcFileListItem>> browse(
       @RequestParam(value = "uri", required = false) String uri, @PathVariable String hostname) {
     String uriSanitized = StringUtils.sanitizeInput(uri);
