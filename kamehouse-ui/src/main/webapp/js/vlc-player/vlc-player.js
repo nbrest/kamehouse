@@ -706,21 +706,23 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       }
       isRunningSyncVlcRcStatusLoop = true;
       vlcRcStatusLoopCount++;
-      let failedCount = 0;
-      let skipResetViewCount = 10;
-      let vlcRcStatusPullWaitTimeMs = 1000;
+      const config = {
+        failedCount : 0,
+        skipResetViewCount : 10,
+        vlcRcStatusPullWaitTimeMs : 1000
+      }
       while (isRunningSyncVlcRcStatusLoop) {
         kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
-        failedCount = getFailedCountSyncVlcRcStatusLoop(failedCount);
-        vlcRcStatusPullWaitTimeMs = getVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(failedCount);
-        skipResetViewCount = getSkipResetViewCountSyncVlcRcStatusLoop(skipResetViewCount);
-        updateViewSyncVlcRcStatusLoop(skipResetViewCount, vlcRcStatusPullWaitTimeMs);
-        await kameHouse.core.sleep(vlcRcStatusPullWaitTimeMs);
+        setFailedCountSyncVlcRcStatusLoop(config);
+        setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config);
+        setSkipResetViewCountSyncVlcRcStatusLoop(config);
+        updateViewSyncVlcRcStatusLoop(config);
+        await kameHouse.core.sleep(config.vlcRcStatusPullWaitTimeMs);
         if (breakSyncVlcRcStatusLoop()) {
           kameHouse.logger.info("syncVlcRcStatusLoop: Running multiple syncVlcRcStatusLoop, exiting this loop");
           break;
         }
-        if (vlcRcStatusPullWaitTimeMs < -10000) { // fix sonar bug
+        if (config.vlcRcStatusPullWaitTimeMs < -10000) { // fix sonar bug
           isRunningSyncVlcRcStatusLoop = false;
         }
       }
@@ -737,49 +739,46 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     return vlcRcStatusLoopCount > 1; 
   }
 
-  function getFailedCountSyncVlcRcStatusLoop(failedCount) {
+  function setFailedCountSyncVlcRcStatusLoop(config) {
     if (vlcRcStatusWebSocket.isConnected() && kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information)) {
-      return failedCount++;
+      config.failedCount++;
     }
-    return failedCount;
   }
 
-  function getVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(failedCount) {
+  function setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config) {
     const VLC_STATUS_CONNECTED_SUCCESS_MS = 1000;
     const VLC_STATUS_CONNECTED_FAIL_MS = 7000;
     const VLC_STATUS_DISCONNECTED_MS = 3000;
-    if (vlcRcStatusWebSocket.isConnected()) {
-      if (!kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information)) {
-        return VLC_STATUS_CONNECTED_SUCCESS_MS;
-      } else {
-        if (failedCount >= 10) {
-          return VLC_STATUS_CONNECTED_FAIL_MS;
-        }
-      }
+    if (!vlcRcStatusWebSocket.isConnected()) {
+      config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_DISCONNECTED_MS;
+      return;
     }
-    return VLC_STATUS_DISCONNECTED_MS;
+    if (kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information) && config.failedCount >= 10) {
+      config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_FAIL_MS;
+      return;
+    }
+    config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_SUCCESS_MS;
   }
 
-  function getSkipResetViewCountSyncVlcRcStatusLoop(skipResetViewCount) {
-    if (!vlcRcStatusWebSocket.isConnected() && skipResetViewCount > 0) {
-      return skipResetViewCount - 1;
+  function setSkipResetViewCountSyncVlcRcStatusLoop(config) {
+    if (!vlcRcStatusWebSocket.isConnected() && config.skipResetViewCount > 0) {
+      config.skipResetViewCount--;
     }
-    if (vlcRcStatusWebSocket.isConnected() && skipResetViewCount <= 0) {
-      return 10;
+    if (vlcRcStatusWebSocket.isConnected() && config.skipResetViewCount <= 0) {
+      config.skipResetViewCount = 10;
     }
-    return skipResetViewCount;
   }
 
-  function updateViewSyncVlcRcStatusLoop(skipResetViewCount, vlcRcStatusPullWaitTimeMs) {
+  function updateViewSyncVlcRcStatusLoop(config) {
     if (vlcRcStatusWebSocket.isConnected()) {
       // poll VlcRcStatus from the websocket.
       vlcRcStatusWebSocket.poll();
       vlcPlayer.updateView();
     } else {
-      if (skipResetViewCount > 0) {
+      if (config.skipResetViewCount > 0) {
         kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Skipping reset view on this loop count");
       } else  {
-        kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
+        kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + config.vlcRcStatusPullWaitTimeMs + " ms to sync again.");
         vlcPlayer.resetView();
       }
     }
