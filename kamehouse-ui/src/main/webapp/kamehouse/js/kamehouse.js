@@ -1376,67 +1376,78 @@ function KameHouseTableUtils() {
     setTimeout(() => {
       const table = document.getElementById(tableId);
       const rows = table.rows;
-      const MAX_SORTING_CYCLES = 100000;
       const compareFunction = getComparatorFunction(dataType);
-
-      let numSortingCycles = 0;
-      let sorting = true;
-      let swapRows = false;
-      let swapCount = 0;
-      let currentRowIndex;
-      let currentRow = null;
-      let nextRow = null;
-      let sortDirection = initSortDirection(initialSortDirection);
-      let directionSwitchCount = 0;
-      kameHouse.logger.trace("Sort table: [ tableId: " + tableId + ", columnNumber: " + columnNumber + ", dataType: " + dataType + ", initialSortDirection: " + initialSortDirection + ", sortDirection: " + sortDirection);  
+      const sortConfig = {
+        numSortingCycles : 0,
+        sorting : true,
+        swapRows : false,
+        swapCount : 0,
+        currentRowIndex : null,
+        currentRow : null,
+        nextRow : null,
+        sortDirection : initSortDirection(initialSortDirection),
+        directionSwitchCount : 0
+      };
+      kameHouse.logger.trace("Sort table: [ tableId: " + tableId + ", columnNumber: " + columnNumber + ", dataType: " + dataType + ", initialSortDirection: " + initialSortDirection + ", sortDirection: " + sortConfig.sortDirection);  
       kameHouse.logger.trace("Started sorting process");
-      while (sorting) {
-        sorting = false;
-        
-        if (sortDirection != null) {
-          for (currentRowIndex = 2; currentRowIndex < (rows.length - 1); currentRowIndex++) {
-            swapRows = false;
-            currentRow = rows[currentRowIndex].getElementsByTagName("td")[columnNumber];
-            nextRow = rows[currentRowIndex + 1].getElementsByTagName("td")[columnNumber];
-            if (shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction)) {
-              swapRows = true;
-              break;
-            }
-          }
-        }
-  
-        if (swapRows) {
-          kameHouse.util.dom.insertBefore(rows[currentRowIndex].parentNode, rows[currentRowIndex + 1], rows[currentRowIndex]);
-          sorting = true;
-          swapCount++;
-        } else {
-          if (directionSwitchCount < 2) {
-            if (shouldSwapDirection(swapCount, sortDirection, initialSortDirection)) {
-              // if no sorting was done, swap sort direction, and sort reversely.
-              if (sortDirection == "asc") {
-                sortDirection = "desc";
-              } else {
-                sortDirection = "asc";
-              }
-              kameHouse.logger.trace("No sorting was done, swap sort direction, and sort reversely. sortDirection is now " + sortDirection);
-              directionSwitchCount++;
-              sorting = true;
-            }
-          }
-        }
-        if (numSortingCycles > MAX_SORTING_CYCLES) {
-          sorting = false;
-          const message = "Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting";
-          kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        }
-        numSortingCycles++;
+      while (sortConfig.sorting) {
+        sortConfig.sorting = false;
+        processSortDirection(sortConfig, rows, columnNumber, compareFunction);
+        processSwapRows(sortConfig, rows, initialSortDirection);
+        processNumSortingCycles(sortConfig);
       }
       kameHouse.plugin.modal.loadingWheelModal.close();
-      kameHouse.logger.trace("Finished sorting process. Sorting cycles: " + numSortingCycles + "; Swap count: " + swapCount);
+      kameHouse.logger.trace("Finished sorting process. Sorting cycles: " + sortConfig.numSortingCycles + "; Swap count: " + sortConfig.swapCount);
       if (kameHouse.core.isFunction(callback)) {
         callback();
       }
     }, 50);
+  }
+
+  function processSortDirection(sortConfig, rows, columnNumber, compareFunction) {
+    if (sortConfig.sortDirection != null) {
+      for (sortConfig.currentRowIndex = 2; sortConfig.currentRowIndex < (rows.length - 1); sortConfig.currentRowIndex++) {
+        sortConfig.swapRows = false;
+        sortConfig.currentRow = rows[sortConfig.currentRowIndex].getElementsByTagName("td")[columnNumber];
+        sortConfig.nextRow = rows[sortConfig.currentRowIndex + 1].getElementsByTagName("td")[columnNumber];
+        if (shouldSwapRows(sortConfig.currentRow, sortConfig.nextRow, sortConfig.sortDirection, compareFunction)) {
+          sortConfig.swapRows = true;
+          break;
+        }
+      }
+    }
+  }
+
+  function processSwapRows(sortConfig, rows, initialSortDirection) {
+    if (sortConfig.swapRows) {
+      kameHouse.util.dom.insertBefore(rows[sortConfig.currentRowIndex].parentNode, rows[sortConfig.currentRowIndex + 1], rows[sortConfig.currentRowIndex]);
+      sortConfig.sorting = true;
+      sortConfig.swapCount++;
+    } else {
+      if (sortConfig.directionSwitchCount < 2) {
+        if (shouldSwapDirection(sortConfig.swapCount, sortConfig.sortDirection, initialSortDirection)) {
+          // if no sorting was done, swap sort direction, and sort reversely.
+          if (sortConfig.sortDirection == "asc") {
+            sortConfig.sortDirection = "desc";
+          } else {
+            sortConfig.sortDirection = "asc";
+          }
+          kameHouse.logger.trace("No sorting was done, swap sort direction, and sort reversely. sortDirection is now " + sortConfig.sortDirection);
+          sortConfig.directionSwitchCount++;
+          sortConfig.sorting = true;
+        }
+      }
+    }
+  }
+
+  function processNumSortingCycles(sortConfig) {
+    const MAX_SORTING_CYCLES = 100000;
+    if (sortConfig.numSortingCycles > MAX_SORTING_CYCLES) {
+      sortConfig.sorting = false;
+      const message = "Ending sorting after " + MAX_SORTING_CYCLES + " sorting cycles. Something is VERY likely off with the sorting function. Breaking either infinite loop or a very inefficient sorting";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+    }
+    sortConfig.numSortingCycles++;
   }
 
   /**
