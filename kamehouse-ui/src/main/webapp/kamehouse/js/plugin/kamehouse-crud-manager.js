@@ -1213,29 +1213,36 @@ function CrudManager() {
   function getArrayFieldValue(column, formFieldsId) {
     const name = column.name;
     const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
-    const arrayType = column.arrayType;
     const arrayVal = [];
     for (const arrayElement of array) {
-      if (!kameHouse.core.isEmpty(arrayElement.value)) {
-        if (isObjectField(arrayType)) {
-          arrayVal.push(kameHouse.json.parse(arrayElement.value));
-          continue;
-        }
-        if (isSelectField(arrayType)) {
-          if (kameHouse.core.isFunction(column.buildEntity)) {
-            const entityArrayElement = column.buildEntity(arrayElement);
-            if (!kameHouse.core.isEmpty(entityArrayElement)) {
-              arrayVal.push(entityArrayElement);
-            }
-            continue;
-          } else {
-            kameHouse.logger.warn("No buildEntity function defined in config for " + name);
-          }
-        }
-        arrayVal.push(arrayElement.value);
+      let arrayElementValue = buildArrayElementValue(column, arrayElement);
+      if (arrayElementValue) {
+        arrayVal.push(arrayElementValue);
       }
     }
     return arrayVal;
+  }
+
+  function buildArrayElementValue(column, arrayElement) {
+    const arrayType = column.arrayType;
+    const name = column.name;
+    if (!kameHouse.core.isEmpty(arrayElement.value)) {
+      if (isObjectField(arrayType)) {
+        return kameHouse.json.parse(arrayElement.value);
+      }
+      if (isSelectField(arrayType)) {
+        if (kameHouse.core.isFunction(column.buildEntity)) {
+          const entityArrayElement = column.buildEntity(arrayElement);
+          if (!kameHouse.core.isEmpty(entityArrayElement)) {
+            return entityArrayElement;
+          }
+        } else {
+          kameHouse.logger.warn("No buildEntity function defined in config for " + name);
+        }
+      }
+      return arrayElement.value;
+    }
+    return null;
   }
 
   /**
