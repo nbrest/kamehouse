@@ -102,10 +102,7 @@ public @interface Masked {
       }
       Class<?> clazz = object.getClass();
       Field[] fields = clazz.getDeclaredFields();
-      if (fields == null || fields.length <= 0) {
-        return false;
-      }
-      return true;
+      return fields != null && fields.length > 0;
     }
 
     /**
@@ -113,10 +110,7 @@ public @interface Masked {
      */
     private static boolean hasSubFields(Field field) {
       Field[] subfields = field.getType().getDeclaredFields();
-      if (subfields != null && subfields.length > 0) {
-        return true;
-      }
-      return false;
+      return subfields != null && subfields.length > 0;
     }
 
     /**
@@ -131,11 +125,8 @@ public @interface Masked {
         return true;
       }
       String packageName = fieldClass.getPackage().getName();
-      if (!packageName.startsWith(KAMEHOUSE_PACKAGE)) {
-        // Only iterate recursively over fields that are KameHouse defined objects.
-        return true;
-      }
-      return false;
+      // Only iterate recursively over fields that are KameHouse defined objects.
+      return !packageName.startsWith(KAMEHOUSE_PACKAGE);
     }
   }
 }

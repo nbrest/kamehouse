@@ -115,9 +115,6 @@ public class StringUtils {
       return false;
     }
     Field[] subfields = field.getType().getDeclaredFields();
-    if (subfields != null && subfields.length > 0) {
-      return true;
-    }
-    return false;
+    return subfields != null && subfields.length > 0;
   }
 }

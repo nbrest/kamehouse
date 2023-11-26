@@ -311,10 +311,7 @@ public class VideoPlaylistService {
       return false;
     }
     // Check that the playlist path doesn't contain double dots, to jump out of the root path
-    if (playlistPathString.contains(File.separator + ".." + File.separator)) {
-      return false;
-    }
-    return true;
+    return !playlistPathString.contains(File.separator + ".." + File.separator);
   }
 
   /**
