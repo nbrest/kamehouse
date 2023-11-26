@@ -487,51 +487,62 @@ function CrudManager() {
         updateEditFormFieldValues(entity[name], column.columns, parentNodeChain + name);
         continue;
       }
-      const inputFieldId = EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
-      const inputField = $(document.getElementById(inputFieldId));
-      kameHouse.util.dom.setVal(inputField, entity[name]); 
+      updateEditFormFieldValue(entity, column, parentNodeChain);
+    }
+  }
 
-      if (isDateField(type)) {
-        kameHouse.util.dom.setVal(inputField, getFormattedDateFieldValue(entity[name]));
+  function updateEditFormFieldValue(entity, column, parentNodeChain) {
+    const type = column.type;
+    const name = column.name;
+    const inputFieldId = EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
+    const inputField = $(document.getElementById(inputFieldId));
+    kameHouse.util.dom.setVal(inputField, entity[name]); 
+
+    if (isDateField(type)) {
+      kameHouse.util.dom.setVal(inputField, getFormattedDateFieldValue(entity[name]));
+    }
+    if (isArrayField(type)) {
+      updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField);
+    }
+    if (isBooleanField(type)) {
+      if (entity[name]) {
+        kameHouse.util.dom.setAttr(inputField, "checked", "true"); 
       }
-      if (isArrayField(type)) {
-        const arrayType = column.arrayType;
-        kameHouse.util.dom.setVal(inputField, null);
-        const array = entity[name];
-        const arraySourceNode = document.getElementById(inputFieldId);
-        let i = 0;
-        for (const arrayElement of array) {
-          if (arrayType == "select") {
-            if (kameHouse.core.isFunction(column.buildFormField)) {
-              const formField = column.buildFormField(arraySourceNode, arrayElement);
-              if (!kameHouse.core.isEmpty(formField)) {
-                kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, formField, arraySourceNode.nextSibling);
-              } else {
-                kameHouse.logger.warn("Unable to build form field from entity " + kameHouse.json.stringify(arrayElement));
-              }
-              i++;
-              continue;
-            } else {
-              kameHouse.logger.warn("No buildFormField function defined for column " + name);
-            }
-          } 
-          const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
-          kameHouse.util.dom.setValue(newNode, kameHouse.json.stringify(arrayElement, null, 4));
-          kameHouse.util.dom.setId(newNode, arraySourceNode.id + "-" + i);
-          kameHouse.util.dom.classListAdd(newNode, "m-5-t-d-kh");
-          kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+    }
+  }
+
+  function updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField) {
+    const name = column.name;
+    const arrayType = column.arrayType;
+    kameHouse.util.dom.setVal(inputField, null);
+    const array = entity[name];
+    const arraySourceNode = document.getElementById(inputFieldId);
+    let i = 0;
+    for (const arrayElement of array) {
+      if (arrayType == "select") {
+        if (kameHouse.core.isFunction(column.buildFormField)) {
+          const formField = column.buildFormField(arraySourceNode, arrayElement);
+          if (!kameHouse.core.isEmpty(formField)) {
+            kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, formField, arraySourceNode.nextSibling);
+          } else {
+            kameHouse.logger.warn("Unable to build form field from entity " + kameHouse.json.stringify(arrayElement));
+          }
           i++;
-        }
-        if (i > 0) {
-          // Only remove the arraySourceNode when the entity's array from the backend came with data
-          kameHouse.util.dom.removeChild(arraySourceNode.parentNode, arraySourceNode);
-        }
-      }
-      if (isBooleanField(type)) {
-        if (entity[name]) {
-          kameHouse.util.dom.setAttr(inputField, "checked", "true"); 
+          continue;
+        } else {
+          kameHouse.logger.warn("No buildFormField function defined for column " + name);
         }
       }
+      const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
+      kameHouse.util.dom.setValue(newNode, kameHouse.json.stringify(arrayElement, null, 4));
+      kameHouse.util.dom.setId(newNode, arraySourceNode.id + "-" + i);
+      kameHouse.util.dom.classListAdd(newNode, "m-5-t-d-kh");
+      kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
+      i++;
+    }
+    if (i > 0) {
+      // Only remove the arraySourceNode when the entity's array from the backend came with data
+      kameHouse.util.dom.removeChild(arraySourceNode.parentNode, arraySourceNode);
     }
   }
 
