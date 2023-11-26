@@ -706,15 +706,15 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       }
       isRunningSyncVlcRcStatusLoop = true;
       vlcRcStatusLoopCount++;
-      let vlcRcStatusPullWaitTimeMs = 1000;
       let failedCount = 0;
       let skipResetViewCount = 10;
+      let vlcRcStatusPullWaitTimeMs = 1000;
       while (isRunningSyncVlcRcStatusLoop) {
         kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
         failedCount = getFailedCountSyncVlcRcStatusLoop(failedCount);
         vlcRcStatusPullWaitTimeMs = getVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(failedCount);
-        skipResetViewCount = getSkipResetViewCountSyncVlcRcStatusLoop(failedCount);
-        skipResetViewCount = updateViewSyncVlcRcStatusLoop(skipResetViewCount, vlcRcStatusPullWaitTimeMs);
+        skipResetViewCount = getSkipResetViewCountSyncVlcRcStatusLoop(skipResetViewCount);
+        updateViewSyncVlcRcStatusLoop(skipResetViewCount, vlcRcStatusPullWaitTimeMs);
         await kameHouse.core.sleep(vlcRcStatusPullWaitTimeMs);
         if (breakSyncVlcRcStatusLoop()) {
           kameHouse.logger.info("syncVlcRcStatusLoop: Running multiple syncVlcRcStatusLoop, exiting this loop");
@@ -762,7 +762,10 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   function getSkipResetViewCountSyncVlcRcStatusLoop(skipResetViewCount) {
     if (!vlcRcStatusWebSocket.isConnected() && skipResetViewCount > 0) {
-        return skipResetViewCount - 1;
+      return skipResetViewCount - 1;
+    }
+    if (vlcRcStatusWebSocket.isConnected() && skipResetViewCount <= 0) {
+      return 10;
     }
     return skipResetViewCount;
   }
@@ -775,11 +778,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     } else {
       if (skipResetViewCount > 0) {
         kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Skipping reset view on this loop count");
-        return skipResetViewCount;
       } else  {
         kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + vlcRcStatusPullWaitTimeMs + " ms to sync again.");
         vlcPlayer.resetView();
-        return 10;
       }
     }
   }
@@ -838,19 +839,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       kameHouse.logger.info("Started keepAliveWebSocketsLoop with initial 15 seconds delay");
       await kameHouse.core.sleep(15000);
       const KEEP_ALIVE_WAIT_MS = 5000;
-      let keepAliveWaitWebSocketsMs = KEEP_ALIVE_WAIT_MS;
       while (isRunningKeepAliveWebSocketLoop) {
-        kameHouse.logger.trace("keepAliveWebSocketsLoop");
-        keepAliveWaitWebSocketsMs = KEEP_ALIVE_WAIT_MS;
-        if (!vlcRcStatusWebSocket.isConnected()) {
-          kameHouse.logger.trace("keepAliveWebSocketsLoop: VlcRcStatus webSocket not connected. Reconnecting.");
-          reconnectVlcRcStatus();
-        }
-        if (!playlistWebSocket.isConnected()) {
-          kameHouse.logger.trace("keepAliveWebSocketsLoop: Playlist webSocket not connected. Reconnecting.");
-          reconnectPlaylist();
-        }
-        await kameHouse.core.sleep(keepAliveWaitWebSocketsMs);
+        keepAliveWebSocketsLoopRun();
+        await kameHouse.core.sleep(KEEP_ALIVE_WAIT_MS);
         if (keepAliveWebSocketLoopCount > 1) {
           kameHouse.logger.info("keepAliveWebSocketsLoop: Running multiple keepAliveWebSocketsLoop, exiting this loop");
           break;
@@ -862,6 +853,18 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       keepAliveWebSocketLoopCount--;
       kameHouse.logger.info("Finished keepAliveWebSocketsLoop");
     }, 0);
+  }
+
+  function keepAliveWebSocketsLoopRun() {
+    kameHouse.logger.trace("keepAliveWebSocketsLoop");
+    if (!vlcRcStatusWebSocket.isConnected()) {
+      kameHouse.logger.trace("keepAliveWebSocketsLoop: VlcRcStatus webSocket not connected. Reconnecting.");
+      reconnectVlcRcStatus();
+    }
+    if (!playlistWebSocket.isConnected()) {
+      kameHouse.logger.trace("keepAliveWebSocketsLoop: Playlist webSocket not connected. Reconnecting.");
+      reconnectPlaylist();
+    }
   }
 
   /** 
