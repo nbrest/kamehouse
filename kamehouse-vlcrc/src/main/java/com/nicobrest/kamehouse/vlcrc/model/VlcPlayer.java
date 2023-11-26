@@ -201,7 +201,9 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
     }
     String vlcServerResponse = execRequestToVlcServer(browseUrl.toString());
     List<VlcRcFileListItem> filelist = buildVlcRcFilelist(vlcServerResponse);
-    LOGGER.trace("browse {} in {} filelist size {}", uri, geVlcServerHostname(), filelist.size());
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("browse {} in {} filelist size {}", uri, geVlcServerHostname(), filelist.size());
+    }
     return filelist;
   }
 
@@ -257,7 +259,9 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
     HttpClient client = HttpClientUtils.getClient(username, password);
     HttpGet request = HttpClientUtils.httpGet(url);
     HttpResponse response;
-    LOGGER.trace("Request to VLC: {}", StringUtils.sanitizeInput(url));
+    if (LOGGER.isTraceEnabled()) {
+      LOGGER.trace("Request to VLC: {}", StringUtils.sanitizeInput(url));
+    }
     try {
       response = HttpClientUtils.execRequest(client, request);
       try (InputStream resInStream = HttpClientUtils.getInputStream(response);

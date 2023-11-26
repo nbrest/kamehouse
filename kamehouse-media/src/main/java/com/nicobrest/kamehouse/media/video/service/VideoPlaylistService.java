@@ -171,7 +171,9 @@ public class VideoPlaylistService {
           .filter(e -> e.contains(".m3u"))
           .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
           .toList();
-      logger.trace(playlistFilePaths.toString());
+      if (logger.isTraceEnabled()) {
+        logger.trace(playlistFilePaths.toString());
+      }
       return playlistFilePaths;
     } else {
       logger.trace("Linux shell");
@@ -179,7 +181,9 @@ public class VideoPlaylistService {
           .filter(e -> e.contains(".m3u"))
           .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
           .toList();
-      logger.trace(playlistFilePaths.toString());
+      if (logger.isTraceEnabled()) {
+        logger.trace(playlistFilePaths.toString());
+      }
       return playlistFilePaths;
     }
   }
