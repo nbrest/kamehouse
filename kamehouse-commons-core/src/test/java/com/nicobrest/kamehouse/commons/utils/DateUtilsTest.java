@@ -54,7 +54,7 @@ class DateUtilsTest {
     Date output = DateUtils.addSeconds(date, 60);
     // format: Xxx Xxx 99 99:99:99 XXXX 9999
     String expectedDateRegex =
-        "[A-Za-z]{3} [A-Za-z]{3} [0-9]{1,2} [0-9]{2}:[0-9]{2}:[0-9]{2} " + "[A-Za-z]+ [0-9]{4}";
+        "[A-Za-z]{3} [A-Za-z]{3} \\d{1,2} \\d{2}:\\d{2}:\\d{2} " + "[A-Za-z]+ \\d{4}";
     Assertions.assertTrue(
         output.toString().matches(expectedDateRegex), "Date doesn't match expected format");
   }

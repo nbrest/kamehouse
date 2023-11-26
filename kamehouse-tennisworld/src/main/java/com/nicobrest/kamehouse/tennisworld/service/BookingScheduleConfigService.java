@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 public class BookingScheduleConfigService
     extends AbstractCrudService<BookingScheduleConfig, BookingScheduleConfigDto> {
 
-  private static final Pattern TIME_PATTERN = Pattern.compile("[0-9]{2}:[0-9]{2}");
-  private static final Pattern DURATION_PATTERN = Pattern.compile("[0-9]{1,3}");
+  private static final Pattern TIME_PATTERN = Pattern.compile("\\d{2}:\\d{2}");
+  private static final Pattern DURATION_PATTERN = Pattern.compile("\\d{1,3}");
 
   private CrudDao<BookingScheduleConfig> bookingScheduleConfigDao;
   private TennisWorldUserService tennisWorldUserService;

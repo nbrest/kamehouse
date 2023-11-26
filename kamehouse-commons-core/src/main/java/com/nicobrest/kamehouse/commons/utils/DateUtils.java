@@ -272,7 +272,7 @@ public class DateUtils {
       return inputDate;
     }
     String buildDateRegex =
-        "^[A-Za-z]{3} [A-Za-z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} .{3,5} [0-9]{4}";
+        "^[A-Za-z]{3} [A-Za-z]{3} \\d{2} \\d{2}:\\d{2}:\\d{2} .{3,5} \\d{4}";
     Pattern buildDatePattern = Pattern.compile(buildDateRegex);
     Matcher matcher = buildDatePattern.matcher(inputDate);
     if (!matcher.matches()) {

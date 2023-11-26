@@ -42,7 +42,7 @@ public abstract class BookingService {
   public static final String BOOKING_FINISHED = "Booking to tennis world finished: {}";
   public static final String NO_BOOKABLE_CLASS_FOUND =
       "No bookable class was found for this booking request";
-  public static final String TIME_PATTERN = "[0-9]{2}:[0-9]{2}";
+  public static final String TIME_PATTERN = "\\d{2}:\\d{2}";
   public static final int MAX_BOOKING_RETRIES = 30;
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
