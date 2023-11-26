@@ -88,53 +88,11 @@ public class PerfectGymBookingService extends BookingService {
     }
     HttpClient httpClient = HttpClientUtils.getClient(null, null);
     try {
-      loginToTennisWorld(httpClient, bookingRequest);
-      for (int i = 0; i <= retries; i++) {
-        if (bookingResponse != null && Status.SUCCESS.equals(bookingResponse.getStatus())) {
-          break;
-        }
-        if (i > 0) {
-          logger.info("Executing booking request - retry number {}", i);
-        } else {
-          logger.info("Executing booking request");
-        }
-        try {
-          switch (sessionType) {
-            case ADULT_MATCH_PLAY_DOUBLES:
-            case ADULT_MATCH_PLAY_SINGLES:
-            case ADULT_SOCIAL_PLAY:
-            case CARDIO:
-            case CARDIO_ACTIV8:
-              bookingResponse = bookClass(httpClient, bookingRequest);
-              break;
-            case NTC_CLAY_COURTS:
-            case NTC_INDOOR:
-            case NTC_OUTDOOR:
-            case ROD_LAVER_OUTDOOR_EASTERN:
-            case ROD_LAVER_OUTDOOR_WESTERN:
-            case ROD_LAVER_SHOW_COURTS:
-              bookingResponse = bookCourt(httpClient, bookingRequest);
-              break;
-            case UNKNOWN:
-            default:
-              bookingResponse = buildResponse(
-                  Status.INTERNAL_ERROR,
-                  "Unhandled sessionType: " + sessionType.name(),
-                  bookingRequest);
-              break;
-          }
-        } catch (KameHouseBadRequestException e) {
-          bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
-        } catch (KameHouseServerErrorException e) {
-          bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
-        } catch (IOException e) {
-          logger.error(e.getMessage(), e);
-          bookingResponse = buildResponse(
-              Status.INTERNAL_ERROR,
-              "Error executing booking request to tennis world Message: " + e.getMessage(),
-              bookingRequest);
-        }
-        retrySleep();
+      bookingResponse = processBookingRequest(bookingRequest, sessionType, retries, httpClient);
+      if (bookingResponse == null) {
+        bookingResponse = buildResponse(Status.INTERNAL_ERROR,
+            "Error executing booking request to tennis world. Unable to build response",
+            bookingRequest);
       }
     } catch (KameHouseBadRequestException e) {
       // Login error
@@ -144,6 +102,80 @@ public class PerfectGymBookingService extends BookingService {
       bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
     }
     storeBookingResponse(bookingResponse);
+    return bookingResponse;
+  }
+
+  /**
+   * Process the booking request with retries.
+   */
+  private BookingResponse processBookingRequest(BookingRequest bookingRequest,
+      SessionType sessionType, int retries, HttpClient httpClient) {
+    BookingResponse bookingResponse = null;
+    loginToTennisWorld(httpClient, bookingRequest);
+    for (int i = 0; i <= retries; i++) {
+      if (isSuccessfulBookingResponse(bookingResponse)) {
+        break;
+      }
+      if (i > 0) {
+        logger.info("Executing booking request - retry number {}", i);
+      } else {
+        logger.info("Executing booking request");
+      }
+      try {
+        bookingResponse = processBookingRequestSessionType(bookingRequest, sessionType, httpClient);
+      } catch (KameHouseBadRequestException e) {
+        bookingResponse = buildResponse(Status.ERROR, e.getMessage(), bookingRequest);
+      } catch (KameHouseServerErrorException e) {
+        bookingResponse = buildResponse(Status.INTERNAL_ERROR, e.getMessage(), bookingRequest);
+      } catch (IOException e) {
+        logger.error(e.getMessage(), e);
+        bookingResponse = buildResponse(
+            Status.INTERNAL_ERROR,
+            "Error executing booking request to tennis world Message: " + e.getMessage(),
+            bookingRequest);
+      }
+      retrySleep();
+    }
+    return bookingResponse;
+  }
+
+  /**
+   * Checks if the booking response was successful.
+   */
+  private boolean isSuccessfulBookingResponse(BookingResponse bookingResponse) {
+    return bookingResponse != null && Status.SUCCESS.equals(bookingResponse.getStatus());
+  }
+
+  /**
+   * Process the booking request session type.
+   */
+  private BookingResponse processBookingRequestSessionType(BookingRequest bookingRequest,
+      SessionType sessionType, HttpClient httpClient) throws IOException {
+    BookingResponse bookingResponse = null;
+    switch (sessionType) {
+      case ADULT_MATCH_PLAY_DOUBLES:
+      case ADULT_MATCH_PLAY_SINGLES:
+      case ADULT_SOCIAL_PLAY:
+      case CARDIO:
+      case CARDIO_ACTIV8:
+        bookingResponse = bookClass(httpClient, bookingRequest);
+        break;
+      case NTC_CLAY_COURTS:
+      case NTC_INDOOR:
+      case NTC_OUTDOOR:
+      case ROD_LAVER_OUTDOOR_EASTERN:
+      case ROD_LAVER_OUTDOOR_WESTERN:
+      case ROD_LAVER_SHOW_COURTS:
+        bookingResponse = bookCourt(httpClient, bookingRequest);
+        break;
+      case UNKNOWN:
+      default:
+        bookingResponse = buildResponse(
+            Status.INTERNAL_ERROR,
+            "Unhandled sessionType: " + sessionType.name(),
+            bookingRequest);
+        break;
+    }
     return bookingResponse;
   }
 
@@ -517,12 +549,12 @@ public class PerfectGymBookingService extends BookingService {
    * Get zoneId for the court booking request.
    */
   private long getZoneId(JsonNode response, Integer courtNumber) {
-    if (courtNumber != null && courtNumber != 0) {
+    if (hasCourtNumber(courtNumber)) {
       // Look for the zoneId of the specific court.
       logger.debug("Looking for zoneId for court number {}", courtNumber);
       String courtName = "Court " + courtNumber;
       AtomicLong zoneId = new AtomicLong(INVALID_ID);
-      if (response.get("Data") != null && response.get("Data").get("Zones") != null) {
+      if (hasZones(response)) {
         ArrayNode zones = (ArrayNode) response.get("Data").get("Zones");
         zones.forEach(zone -> {
           if (courtName.equals(zone.get("Name").asText())) {
@@ -536,11 +568,32 @@ public class PerfectGymBookingService extends BookingService {
     } else {
       // Return the default zoneId
       logger.debug("Looking for default zoneId");
-      if (response.get("Data") != null && response.get("Data").get("ZoneId") != null) {
+      if (hasZoneId(response)) {
         return response.get("Data").get("ZoneId").asLong();
       }
     }
     throw new KameHouseServerErrorException("Unable to determine zoneId");
+  }
+
+  /**
+   * Check if the response has court number.
+   */
+  private boolean hasCourtNumber(Integer courtNumber) {
+    return courtNumber != null && courtNumber != 0;
+  }
+
+  /**
+   * Check if the response has zones.
+   */
+  private boolean hasZones(JsonNode jsonNode) {
+    return jsonNode.get("Data") != null && jsonNode.get("Data").get("Zones") != null;
+  }
+
+  /**
+   * Check if the response has a zoneId.
+   */
+  private boolean hasZoneId(JsonNode jsonNode) {
+    return jsonNode.get("Data") != null && jsonNode.get("Data").get("ZoneId") != null;
   }
 
   /**

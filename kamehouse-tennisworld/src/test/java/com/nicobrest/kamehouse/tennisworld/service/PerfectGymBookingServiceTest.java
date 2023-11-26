@@ -60,10 +60,10 @@ class PerfectGymBookingServiceTest {
   private BookingResponseService bookingResponseService;
 
   @Mock
-  HttpClient httpClientMock;
+  private HttpClient httpClientMock;
 
   @Mock
-  HttpResponse httpResponseMock;
+  private HttpResponse httpResponseMock;
 
   @InjectMocks
   private PerfectGymBookingService perfectGymBookingServiceSpy;
