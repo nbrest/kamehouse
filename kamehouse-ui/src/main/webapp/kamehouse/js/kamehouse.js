@@ -66,8 +66,6 @@ function KameHouse() {
     this.core.loadKameHouseModal();
     this.core.loadKameHouseDebugger();
     this.util.cursor.loadSpinningWheelMobile();
-    //kameHouse.util.test.testLogLevel();
-    //kameHouse.util.test.testSleep();
     this.logger.info("Finished initializing kamehouse.js");
   }
 
