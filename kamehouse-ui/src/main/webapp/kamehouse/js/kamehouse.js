@@ -153,8 +153,6 @@ function KameHouseBannerUtils() {
     }
   ];
 
-  const preloadedBannerImages = [];
-
   function getBannerCategories() {
     const allCategories = [];
     BANNERS_LIST.forEach((banner) => {
@@ -295,6 +293,7 @@ function KameHouseBannerUtils() {
   /** Preload banner images */
   function preloadBannerImages(banerCategory, bannerArray) {
     setTimeout(() => {
+      const preloadedBannerImages = [];
       const message = "Preloading " + banerCategory + " banners";
       const coloredMessage = "Preloading " + kameHouse.logger.getCyanText(banerCategory) + " banners";
       kameHouse.logger.debug(message, coloredMessage);
@@ -304,6 +303,7 @@ function KameHouseBannerUtils() {
         });
         preloadedBannerImages.push(img);
       });
+      kameHouse.logger.trace("Preloaded " + preloadedBannerImages.length + " banners");
     }, PRELOAD_BANNERS_WAIT_MS);
   }
 }
