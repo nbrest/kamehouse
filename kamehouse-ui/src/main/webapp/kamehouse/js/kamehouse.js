@@ -1164,9 +1164,7 @@ function KameHouseModuleUtils() {
     const WAIT_FOR_MODULES_MS = 20;
     let areAllModulesLoaded = false;
     let loopCount = 0;
-    let waitForModulesMs = WAIT_FOR_MODULES_MS;
     while (!areAllModulesLoaded) {
-      waitForModulesMs = WAIT_FOR_MODULES_MS;
       if (loopCount >= 150) {
         message = "Waiting waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(modules);
         kameHouse.logger.trace(message);
@@ -1184,7 +1182,7 @@ function KameHouseModuleUtils() {
       }
       loopCount++;
       // SLEEP IS IN MS!!
-      await kameHouse.core.sleep(waitForModulesMs);
+      await kameHouse.core.sleep(WAIT_FOR_MODULES_MS);
     }
     message = "*** Finished  waitForModules " + kameHouse.json.stringify(moduleNames) + " ***. modules status: " + kameHouse.json.stringify(modules);
     kameHouse.logger.trace(message);
