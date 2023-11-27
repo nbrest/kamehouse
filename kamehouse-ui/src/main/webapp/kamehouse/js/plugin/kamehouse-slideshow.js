@@ -35,7 +35,8 @@ function KameHouseSlideshow() {
    * Add or substract the specified value to the slide index and update the slide.
    */
   function changeSlide(indexValueToAdd) {
-    updateSlide(slideIndex += indexValueToAdd);
+    slideIndex += indexValueToAdd;
+    updateSlide(slideIndex);
   }
   
   /**
