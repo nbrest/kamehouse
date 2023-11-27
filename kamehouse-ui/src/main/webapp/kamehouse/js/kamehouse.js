@@ -1753,7 +1753,6 @@ function KameHouseCoreFunctions() {
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
-      return;
     }
   }
 
@@ -2366,7 +2365,7 @@ function KameHouseCoreFunctions() {
     const anythingButDoubleQuote = '[^"]*';
     const passwordsRegex = new RegExp('"[p|P]assword"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"' + anythingButDoubleQuote + '"',"g");
     const basicAuthRegex = new RegExp('"[a|A]uthorization"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"Basic ' + anythingButDoubleQuote + '"',"g");
-    const cvvRegex = new RegExp('"[c|C][v|V][v|V]"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"[0-9]{1,3}"',"g");
+    const cvvRegex = new RegExp('"[c|C][v|V][v|V]"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"\\d{1,3}"',"g");
     return message.replace(passwordsRegex, '"password": "****"')
                   .replace(basicAuthRegex, '"Authorization": "Basic ****"')
                   .replace(cvvRegex, '"cvv": "***"');
