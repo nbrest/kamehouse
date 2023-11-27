@@ -35,7 +35,6 @@
 .mobile-build-version-table {
   width:100%;
   margin:auto;
-  color: #494848;
 }
 
 .mobile-build-version-table tbody {
@@ -75,7 +74,6 @@
 .reset-cfg-btn-kh {
   border: 1px solid #272727;
   background: #210000;
-  color: #3f3f3f;
   width: 40%;
   min-width: 180px;
   max-width: 240px;
