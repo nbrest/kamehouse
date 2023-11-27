@@ -5,7 +5,7 @@
  * 
  * @author nbrest
  */
-var App = angular.module('myApp', [ "ngRoute" ]);
+const App = angular.module('myApp', [ "ngRoute" ]);
 
 /**
  * Configure routes.
