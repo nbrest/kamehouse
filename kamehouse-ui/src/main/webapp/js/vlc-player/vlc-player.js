@@ -714,23 +714,27 @@ function VlcPlayerSynchronizer(vlcPlayer) {
         vlcRcStatusPullWaitTimeMs : 1000
       };
       while (syncLoopsConfig.isRunningSyncVlcRcStatusLoop) {
-        kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
-        setFailedCountSyncVlcRcStatusLoop(config);
-        setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config);
-        setSkipResetViewCountSyncVlcRcStatusLoop(config);
-        updateViewSyncVlcRcStatusLoop(config);
-        await kameHouse.core.sleep(config.vlcRcStatusPullWaitTimeMs);
+        await syncVlcRcStatusLoopRun(config);
         if (breakSyncVlcRcStatusLoop()) {
           kameHouse.logger.info("syncVlcRcStatusLoop: Running multiple syncVlcRcStatusLoop, exiting this loop");
           break;
-        }
-        if (config.vlcRcStatusPullWaitTimeMs < -10000) { // fix sonar bug
-          syncLoopsConfig.isRunningSyncVlcRcStatusLoop = false;
         }
       }
       syncLoopsConfig.vlcRcStatusLoopCount--;
       kameHouse.logger.info("Finished syncVlcRcStatusLoop");
     }, 0);
+  }
+
+  async function syncVlcRcStatusLoopRun(config) {
+    kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
+    setFailedCountSyncVlcRcStatusLoop(config);
+    setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config);
+    setSkipResetViewCountSyncVlcRcStatusLoop(config);
+    updateViewSyncVlcRcStatusLoop(config);
+    await kameHouse.core.sleep(config.vlcRcStatusPullWaitTimeMs);
+    if (config.vlcRcStatusPullWaitTimeMs < -10000) { // fix sonar bug
+      syncLoopsConfig.isRunningSyncVlcRcStatusLoop = false;
+    }
   }
 
   function isSyncVlcRcStatusLoopActive() {
@@ -798,16 +802,11 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       }
       syncLoopsConfig.isRunningSyncPlaylistLoop = true;
       syncLoopsConfig.vlcPlaylistLoopCount++;
-      const PLAYLIST_WAIT_MS = 5000;
       while (syncLoopsConfig.isRunningSyncPlaylistLoop) {
-        syncPlaylistLoopRun();
-        await kameHouse.core.sleep(PLAYLIST_WAIT_MS);
+        await syncPlaylistLoopRun();
         if (syncLoopsConfig.vlcPlaylistLoopCount > 1) {
           kameHouse.logger.info("syncPlaylistLoop: Running multiple syncPlaylistLoop, exiting this loop");
           break;
-        }
-        if (PLAYLIST_WAIT_MS < -10000) { // fix sonar bug
-          syncLoopsConfig.isRunningSyncPlaylistLoop = false;
         }
       }
       syncLoopsConfig.vlcPlaylistLoopCount--;
@@ -815,12 +814,17 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }, 0);
   }
 
-  function syncPlaylistLoopRun() {
+  async function syncPlaylistLoopRun() {
+    const PLAYLIST_WAIT_MS = 5000;
     kameHouse.logger.trace("syncPlaylistLoop");
     if (playlistWebSocket.isConnected()) {
       // poll playlist from the websocket.
       playlistWebSocket.poll();
       vlcPlayer.reloadPlaylist();
+    }
+    await kameHouse.core.sleep(PLAYLIST_WAIT_MS);
+    if (PLAYLIST_WAIT_MS < -10000) { // fix sonar bug
+      syncLoopsConfig.isRunningSyncPlaylistLoop = false;
     }
   }
 
@@ -839,16 +843,11 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       syncLoopsConfig.keepAliveWebSocketLoopCount++;
       kameHouse.logger.info("Started keepAliveWebSocketsLoop with initial 15 seconds delay");
       await kameHouse.core.sleep(15000);
-      const KEEP_ALIVE_WAIT_MS = 4000;
       while (syncLoopsConfig.isRunningKeepAliveWebSocketLoop) {
-        keepAliveWebSocketsLoopRun();
-        await kameHouse.core.sleep(KEEP_ALIVE_WAIT_MS);
+        await keepAliveWebSocketsLoopRun();
         if (syncLoopsConfig.keepAliveWebSocketLoopCount > 1) {
           kameHouse.logger.info("keepAliveWebSocketsLoop: Running multiple keepAliveWebSocketsLoop, exiting this loop");
           break;
-        }
-        if (KEEP_ALIVE_WAIT_MS < -10000) { // fix sonar bug
-          syncLoopsConfig.isRunningKeepAliveWebSocketLoop = false;
         }
       }
       syncLoopsConfig.keepAliveWebSocketLoopCount--;
@@ -856,7 +855,8 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }, 0);
   }
 
-  function keepAliveWebSocketsLoopRun() {
+  async function keepAliveWebSocketsLoopRun() {
+    const KEEP_ALIVE_WAIT_MS = 5000;
     kameHouse.logger.trace("keepAliveWebSocketsLoop");
     if (!vlcRcStatusWebSocket.isConnected()) {
       kameHouse.logger.trace("keepAliveWebSocketsLoop: VlcRcStatus webSocket not connected. Reconnecting.");
@@ -865,6 +865,10 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     if (!playlistWebSocket.isConnected()) {
       kameHouse.logger.trace("keepAliveWebSocketsLoop: Playlist webSocket not connected. Reconnecting.");
       reconnectPlaylist();
+    }
+    await kameHouse.core.sleep(KEEP_ALIVE_WAIT_MS);
+    if (KEEP_ALIVE_WAIT_MS < -10000) { // fix sonar bug
+      syncLoopsConfig.isRunningKeepAliveWebSocketLoop = false;
     }
   }
 
@@ -883,18 +887,13 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop = true;
       syncLoopsConfig.syncVlcPlayerHttpLoopCount++;
       const config = {
-        syncVlcPlayerHttpWaitMs : 10000
+        syncVlcPlayerHttpWaitMs : 7000
       };
       while (syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop) {
-        setSyncVlcPlayerHttpWaitMs(config);
-        loadStateFromApiSyncVlcPlayerHttpLoop();
-        await kameHouse.core.sleep(config.syncVlcPlayerHttpWaitMs);
+        await syncVlcPlayerHttpLoopRun(config);
         if (syncLoopsConfig.syncVlcPlayerHttpLoopCount > 1) {
           kameHouse.logger.info("syncVlcPlayerHttpLoop: Running multiple syncVlcPlayerHttpLoop, exiting this loop");
           break;
-        }
-        if (config.syncVlcPlayerHttpWaitMs < -10000) { // fix sonar bug
-          syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop = false;
         }
       }
       syncLoopsConfig.syncVlcPlayerHttpLoopCount--;
@@ -902,8 +901,17 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }, 0);
   }
 
+  async function syncVlcPlayerHttpLoopRun(config) {
+    setSyncVlcPlayerHttpWaitMs(config);
+    loadStateFromApiSyncVlcPlayerHttpLoop();
+    await kameHouse.core.sleep(config.syncVlcPlayerHttpWaitMs);
+    if (config.syncVlcPlayerHttpWaitMs < -10000) { // fix sonar bug
+      syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop = false;
+    }
+  }
+
   function setSyncVlcPlayerHttpWaitMs(config) {
-    const WEB_SOCKETS_CONNECTED_WAIT_MS = 5000;
+    const WEB_SOCKETS_CONNECTED_WAIT_MS = 7000;
     const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
     if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
       config.syncVlcPlayerHttpWaitMs = WEB_SOCKETS_DISCONNECTED_WAIT_MS;
