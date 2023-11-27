@@ -40,7 +40,7 @@ import org.springframework.session.SessionRepository;
  */
 public abstract class AbstractKameHouseServlet extends HttpServlet {
 
-  protected transient final Logger logger = LoggerFactory.getLogger(getClass());
+  protected final transient Logger logger = LoggerFactory.getLogger(getClass());
   public static final String KAMEHOUSE_SESSION_ID = "KAMEHOUSE-SESSION-ID";
   private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
   private static final String SESSION_REPOSITORY_CLASS =
