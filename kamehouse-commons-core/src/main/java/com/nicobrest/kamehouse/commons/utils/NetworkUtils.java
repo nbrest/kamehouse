@@ -46,9 +46,16 @@ public class NetworkUtils {
       datagramSocket.close();
       logger.debug("WOL packet sent to {} on broadcast {}", macAddress, broadcastAddress);
     } catch (IOException e) {
-      logger.error("Error sending WOL packet to {}. Message: {}", macAddress, e.getMessage());
-      throw new KameHouseException(e);
+      handleWakeOnLanIoException(e, macAddress);
     }
+  }
+
+  /**
+   * Handle IOException.
+   */
+  private static void handleWakeOnLanIoException(IOException exception, String macAddress) {
+    logger.error("Error sending WOL packet to {}. Message: {}", macAddress, exception.getMessage());
+    throw new KameHouseException(exception);
   }
 
   /**

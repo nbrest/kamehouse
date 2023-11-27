@@ -77,8 +77,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
       response.getWriter().write(responseBody);
       response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
     } catch (IOException e) {
-      logger.error("Error occurred processing request. Message: {}", e.getMessage());
-      throw new KameHouseServerErrorException(e.getMessage(), e);
+      handleIoException(e);
     }
   }
 
@@ -118,6 +117,14 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
         exception.getMessage());
     setResponseBody(response, responseBody.toString());
     response.setStatus(statusCode);
+  }
+
+  /**
+   * Handle IOException.
+   */
+  private void handleIoException(IOException exception) {
+    logger.error("Error occurred processing request. Message: {}", exception.getMessage());
+    throw new KameHouseServerErrorException(exception.getMessage(), exception);
   }
 
   /**

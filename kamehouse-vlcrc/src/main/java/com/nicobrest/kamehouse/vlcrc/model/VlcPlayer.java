@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
@@ -302,11 +303,18 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
           }
         }
       }
-      return vlcRcPlaylist;
     } catch (IOException e) {
-      LOGGER.error("Unable to build VlcRC playlist. Message: {}", e.getMessage());
-      throw new KameHouseException(e.getMessage(), e);
+      handleBuildVlcRcPlaylistIoException(e);
     }
+    return vlcRcPlaylist;
+  }
+
+  /**
+   * Handle IOException.
+   */
+  private void handleBuildVlcRcPlaylistIoException(IOException exception) {
+    LOGGER.error("Unable to build VlcRC playlist. Message: {}", exception.getMessage());
+    throw new KameHouseException(exception.getMessage(), exception);
   }
 
   /**
@@ -365,11 +373,18 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
           vlcRcFilelist.add(fileListItem);
         }
       }
-      return vlcRcFilelist;
     } catch (IOException e) {
-      LOGGER.error("Unable to build VlcRC file list. Message {}", e.getMessage());
-      throw new KameHouseException(e.getMessage(), e);
+      handleBuildVlcRcFilelistIoException(e);
     }
+    return vlcRcFilelist;
+  }
+
+  /**
+   * Handle IOException.
+   */
+  private void handleBuildVlcRcFilelistIoException(IOException exception) {
+    LOGGER.error("Unable to build VlcRC file list. Message {}", exception.getMessage());
+    throw new KameHouseException(exception.getMessage(), exception);
   }
 
   /**
