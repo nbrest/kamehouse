@@ -1693,10 +1693,7 @@ function KameHouseCoreFunctions() {
    */
   function pageRequiresAuthorization() {
     const authorizedRoles = getStringKameHouseData("authorized-roles");
-    if (isEmpty(authorizedRoles)) {
-      return false;
-    }
-    return true;
+    return !isEmpty(authorizedRoles);
   }
 
   /**
