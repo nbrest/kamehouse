@@ -1593,7 +1593,7 @@ function KameHouseTimeUtils() {
 
   /** Convert input in seconds to hh:mm:ss output. */
   function convertSecondsToHsMsSs(seconds) { 
-    return new Date(seconds * 1000).toISOString().substr(11, 8); 
+    return new Date(seconds * 1000).toISOString().substring(11, 19); 
   }
 
   /**
