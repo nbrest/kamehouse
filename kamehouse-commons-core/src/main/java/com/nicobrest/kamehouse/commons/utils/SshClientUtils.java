@@ -24,6 +24,7 @@ import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.channel.PtyChannelConfiguration;
+import org.apache.sshd.common.future.CancelOption;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
@@ -80,7 +81,8 @@ public class SshClientUtils {
         ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
       ConnectFuture connectFuture = client.connect(username, host, SSH_SERVER_PORT);
       ConnectFuture connectFuture1 =
-          connectFuture.verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS, null);
+          connectFuture.verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS,
+              (CancelOption) null);
       ClientSession session = connectFuture1.getSession();
       session.addPublicKeyIdentity(getKeyPair());
       session.auth().verify(SSH_CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS);

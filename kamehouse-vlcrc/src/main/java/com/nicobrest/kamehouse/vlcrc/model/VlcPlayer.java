@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
-import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
