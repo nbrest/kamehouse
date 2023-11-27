@@ -709,7 +709,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       syncLoopsConfig.isRunningSyncVlcRcStatusLoop = true;
       syncLoopsConfig.vlcRcStatusLoopCount++;
       const config = {
-        skipResetViewCount : 10,
         vlcRcStatusPullWaitTimeMs : 1000
       };
       while (syncLoopsConfig.isRunningSyncVlcRcStatusLoop) {
@@ -726,19 +725,18 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   async function syncVlcRcStatusLoopRun(config) {
     kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
-    setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config);
-    setSkipResetViewCountSyncVlcRcStatusLoop(config);
-    updateViewSyncVlcRcStatusLoop(config);
+    setVlcRcStatusPullWaitTimeMs(config);
+    updateViewSyncVlcRcStatusLoop();
     await kameHouse.core.sleep(config.vlcRcStatusPullWaitTimeMs);
     if (config.vlcRcStatusPullWaitTimeMs < -10000) { // fix sonar bug
       syncLoopsConfig.isRunningSyncVlcRcStatusLoop = false;
     }
   }
 
-  function setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config) {
+  function setVlcRcStatusPullWaitTimeMs(config) {
     const VLC_STATUS_CONNECTED_PLAYING_MS = 1000;
     const VLC_STATUS_CONNECTED_NOT_PLAYING_MS = 5000;
-    const VLC_STATUS_DISCONNECTED_MS = 3000;
+    const VLC_STATUS_DISCONNECTED_MS = 5000;
     if (!vlcRcStatusWebSocket.isConnected()) {
       config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_DISCONNECTED_MS;
       return;
@@ -750,26 +748,11 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_PLAYING_MS;
   }
 
-  function setSkipResetViewCountSyncVlcRcStatusLoop(config) {
-    if (!vlcRcStatusWebSocket.isConnected() && config.skipResetViewCount > 0) {
-      config.skipResetViewCount--;
-      return;
-    }
-    if (vlcRcStatusWebSocket.isConnected() && config.skipResetViewCount <= 0) {
-      config.skipResetViewCount = 10;
-    }
-  }
-
-  function updateViewSyncVlcRcStatusLoop(config) {
+  function updateViewSyncVlcRcStatusLoop() {
     if (vlcRcStatusWebSocket.isConnected()) {
       // poll VlcRcStatus from the websocket.
       vlcRcStatusWebSocket.poll();
       vlcPlayer.updateView();
-    } else if (config.skipResetViewCount > 0) {
-      kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Skipping reset view on this loop count");
-    } else  {
-      kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + config.vlcRcStatusPullWaitTimeMs + " ms to sync again.");
-      vlcPlayer.resetView();
     }
   }
 
