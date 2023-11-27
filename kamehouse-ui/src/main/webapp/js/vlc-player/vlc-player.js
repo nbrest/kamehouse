@@ -1382,7 +1382,7 @@ function VlcPlayerDebugger(vlcPlayer) {
 
   /** Get the playlist from an http api call instead of from the websocket. */
   function getPlaylistFromApi() { 
-    vlcPlayer.getRestClient().get(playlistApiUrl, null, null, false, getPlaylistApiSuccessCallback, null); 
+    vlcPlayer.getRestClient().get(playlistApiUrl, null, null, false, getPlaylistApiSuccessCallback, getPlaylistApiErrorCallback); 
   }
 
   /** Update the main player view. */
@@ -1392,10 +1392,12 @@ function VlcPlayerDebugger(vlcPlayer) {
     vlcPlayer.updateView();
   }
 
-  /** Don't update anything if there's an error getting the vlcRcStatus. */
+  /** Reset view if there's an error getting the vlcRcStatus from the api. */
   function getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.util.cursor.setCursorDefault();
     kameHouse.logger.warn("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
+    vlcPlayer.setVlcRcStatus({});
+    vlcPlayer.updateView();
   }
 
   /** Update the playlist view. */
@@ -1404,6 +1406,15 @@ function VlcPlayerDebugger(vlcPlayer) {
     vlcPlayer.getPlaylist().setUpdatedPlaylist(responseBody);
     vlcPlayer.getPlaylist().reload();
   }
+
+  /** Reset playlist view if there's an error getting the playlist from the api. */
+  function getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
+    kameHouse.util.cursor.setCursorDefault();
+    kameHouse.logger.warn("Unable to get the playlist from an API call. This can happen if vlc player process isn't running");
+    vlcPlayer.getPlaylist().setUpdatedPlaylist(null);
+    vlcPlayer.getPlaylist().reload();
+  }
+  
 } // End VlcPlayerDebugger
 
 $(document).ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
