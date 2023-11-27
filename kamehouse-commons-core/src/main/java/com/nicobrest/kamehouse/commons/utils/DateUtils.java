@@ -299,6 +299,18 @@ public class DateUtils {
   }
 
   /**
+   * Get local time for the specified input and inFormat.
+   */
+  public static LocalTime getLocalTime(String input, String inFormat) {
+    try {
+      return LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
+    } catch (DateTimeParseException e) {
+      return LocalTime.parse(input.toLowerCase(Locale.getDefault()),
+          DateTimeFormatter.ofPattern(inFormat));
+    }
+  }
+
+  /**
    * Get the day of the week as a string from an int. Pass the value as Calendar.SUNDAY for example
    * to get the string Sunday. Expects values 1 to 7.
    */
@@ -378,18 +390,6 @@ public class DateUtils {
 
     public String getNumber() {
       return number;
-    }
-  }
-
-  /**
-   * Get local time.
-   */
-  private static LocalTime getLocalTime(String input, String inFormat) {
-    try {
-      return LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
-    } catch (DateTimeParseException e) {
-      input = input.toLowerCase(Locale.getDefault());
-      return LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
     }
   }
 }
