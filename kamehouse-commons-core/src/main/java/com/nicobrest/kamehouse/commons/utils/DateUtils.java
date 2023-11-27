@@ -288,17 +288,6 @@ public class DateUtils {
   }
 
   /**
-   * Return the day of the week as {@link Day} for the specified date.
-   */
-  public static Day getDay(Date date) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(date);
-    calendar.set(Calendar.MILLISECOND, 0);
-    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-    return getDay(dayOfWeek);
-  }
-
-  /**
    * Get local time for the specified input and inFormat.
    */
   public static LocalTime getLocalTime(String input, String inFormat) {
@@ -308,6 +297,17 @@ public class DateUtils {
       return LocalTime.parse(input.toLowerCase(Locale.getDefault()),
           DateTimeFormatter.ofPattern(inFormat));
     }
+  }
+
+  /**
+   * Return the day of the week as {@link Day} for the specified date.
+   */
+  public static Day getDay(Date date) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    calendar.set(Calendar.MILLISECOND, 0);
+    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+    return getDay(dayOfWeek);
   }
 
   /**
