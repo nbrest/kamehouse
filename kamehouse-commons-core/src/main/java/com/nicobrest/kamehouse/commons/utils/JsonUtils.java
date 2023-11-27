@@ -78,11 +78,6 @@ public class JsonUtils {
       for (String maskedField : maskedFields) {
         maskField(objectNode, maskedField);
       }
-      /*
-        If I ever need output with pretty print, create a new method
-        toJsonStringPrettyPrint that uses the pretty print writer;
-        new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
-      */
       return MAPPER.writer().writeValueAsString(objectNode);
     } catch (IllegalArgumentException | IOException e) {
       LOGGER.error("Error formatting object as json", e);

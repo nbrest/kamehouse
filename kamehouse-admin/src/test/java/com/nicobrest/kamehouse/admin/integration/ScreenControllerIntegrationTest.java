@@ -4,11 +4,11 @@ import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegration
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Integration tests for the ScreenController class.
@@ -26,32 +26,16 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
     return "kame-house-admin";
   }
 
-  @Test
-  @Order(1)
-  void lockTest() throws Exception {
-    logger.info("Running lockTest");
+  @ParameterizedTest
+  @CsvSource({
+      "lockTest, /lock",
+      "wakeUpTest, /wake-up",
+      "unlockTest, /unlock"
+  })
+  void screenControllerTest(String testName, String apiEndpoint) throws Exception {
+    logger.info("Running {}", testName);
 
-    HttpResponse response = post(getWebappUrl() + API_URL + "/lock");
-
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
-  }
-
-  @Test
-  @Order(2)
-  void wakeUpTest() throws Exception {
-    logger.info("Running wakeUpTest");
-
-    HttpResponse response = post(getWebappUrl() + API_URL + "/wake-up");
-
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
-  }
-
-  @Test
-  @Order(3)
-  void unlockTest() throws Exception {
-    logger.info("Running unlockTest");
-
-    HttpResponse response = post(getWebappUrl() + API_URL + "/unlock");
+    HttpResponse response = post(getWebappUrl() + API_URL + apiEndpoint);
 
     verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
