@@ -709,7 +709,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       syncLoopsConfig.isRunningSyncVlcRcStatusLoop = true;
       syncLoopsConfig.vlcRcStatusLoopCount++;
       const config = {
-        failedCount : 0,
         skipResetViewCount : 10,
         vlcRcStatusPullWaitTimeMs : 1000
       };
@@ -727,7 +726,6 @@ function VlcPlayerSynchronizer(vlcPlayer) {
 
   async function syncVlcRcStatusLoopRun(config) {
     kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
-    setFailedCountSyncVlcRcStatusLoop(config);
     setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config);
     setSkipResetViewCountSyncVlcRcStatusLoop(config);
     updateViewSyncVlcRcStatusLoop(config);
@@ -737,30 +735,25 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }
   }
 
-  function setFailedCountSyncVlcRcStatusLoop(config) {
-    if (vlcRcStatusWebSocket.isConnected() && kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information)) {
-      config.failedCount++;
-    }
-  }
-
   function setVlcRcStatusPullWaitTimeMsSyncVlcRcStatusLoop(config) {
-    const VLC_STATUS_CONNECTED_SUCCESS_MS = 1000;
-    const VLC_STATUS_CONNECTED_FAIL_MS = 5000;
+    const VLC_STATUS_CONNECTED_PLAYING_MS = 1000;
+    const VLC_STATUS_CONNECTED_NOT_PLAYING_MS = 5000;
     const VLC_STATUS_DISCONNECTED_MS = 3000;
     if (!vlcRcStatusWebSocket.isConnected()) {
       config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_DISCONNECTED_MS;
       return;
     }
-    if (kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information) && config.failedCount >= 10) {
-      config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_FAIL_MS;
+    if (kameHouse.core.isEmpty(vlcPlayer.getVlcRcStatus().information)) {
+      config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_NOT_PLAYING_MS;
       return;
     }
-    config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_SUCCESS_MS;
+    config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_PLAYING_MS;
   }
 
   function setSkipResetViewCountSyncVlcRcStatusLoop(config) {
     if (!vlcRcStatusWebSocket.isConnected() && config.skipResetViewCount > 0) {
       config.skipResetViewCount--;
+      return;
     }
     if (vlcRcStatusWebSocket.isConnected() && config.skipResetViewCount <= 0) {
       config.skipResetViewCount = 10;
