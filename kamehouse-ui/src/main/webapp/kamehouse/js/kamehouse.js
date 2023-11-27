@@ -1645,6 +1645,7 @@ function KameHouseJson() {
 function KameHouseCoreFunctions() {
 
   this.isEmpty = isEmpty;
+  this.isEmptyDeprecated = isEmptyDeprecated;
   this.isFunction = isFunction;
   this.initAuthorizeUser = initAuthorizeUser;
   
