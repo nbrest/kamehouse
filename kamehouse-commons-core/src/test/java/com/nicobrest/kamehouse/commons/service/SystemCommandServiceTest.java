@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.model.TestKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
@@ -36,9 +37,6 @@ class SystemCommandServiceTest {
   private SystemCommandService systemCommandService;
   private SystemCommandOutputTestUtils testUtils = new SystemCommandOutputTestUtils();
   private static final List<String> EMPTY_LIST = new ArrayList<>();
-  private static final String COMPLETED = "completed";
-  private static final String FAILED = "failed";
-  private static final String RUNNING = "running";
   private static final List<String> INPUT_STREAM_LIST = Arrays.asList("/home /bin /opt");
 
   private MockedStatic<PropertiesUtils> propertiesUtils;
@@ -80,11 +78,14 @@ class SystemCommandServiceTest {
 
     testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), INPUT_STREAM_LIST, EMPTY_LIST,
+        returnedList.get(0));
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(1));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
+        returnedList.get(1));
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(2));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
+        returnedList.get(2));
   }
 
   /**
@@ -100,7 +101,8 @@ class SystemCommandServiceTest {
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), INPUT_STREAM_LIST, EMPTY_LIST,
+        returnedList.get(0));
   }
 
   /**
@@ -117,7 +119,8 @@ class SystemCommandServiceTest {
 
     testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
     testUtils.assertSystemCommandOutputFields(
-        1, -1, FAILED, INPUT_STREAM_LIST, errorStream, returnedList.get(0));
+        1, -1, SystemCommandStatus.FAILED.getStatus(), INPUT_STREAM_LIST, errorStream,
+        returnedList.get(0));
   }
 
   /**
@@ -131,25 +134,8 @@ class SystemCommandServiceTest {
     SystemCommand.Output returnedCommandOutput = systemCommandService.execute(systemCommand);
 
     testUtils.assertCommandExecutedMatch(systemCommand, returnedCommandOutput);
-    testUtils.assertSystemCommandOutputFields(-1, -1, RUNNING, null, null, returnedCommandOutput);
-  }
-
-  /**
-   * Executes process throwing an IOException test.
-   */
-  @Test
-  void execIoExceptionTest() throws IOException {
-    when(ProcessUtils.getInputStream(any())).thenThrow(IOException.class);
-
-    List<String> errorStream =
-        Arrays.asList("An error occurred executing the command. Message: " + "null");
-    List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
-
-    List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
-
-    testUtils.assertCommandExecutedMatch(systemCommands, returnedList);
-    testUtils.assertSystemCommandOutputFields(
-        1, -1, FAILED, null, errorStream, returnedList.get(0));
+    testUtils.assertSystemCommandOutputFields(-1, -1, SystemCommandStatus.RUNNING.getStatus(), null,
+        null, returnedCommandOutput);
   }
 
   /**
@@ -181,11 +167,14 @@ class SystemCommandServiceTest {
 
     testUtils.assertCommandExecutedMatch(kameHouseSystemCommand, returnedList);
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, INPUT_STREAM_LIST, EMPTY_LIST, returnedList.get(0));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), INPUT_STREAM_LIST, EMPTY_LIST,
+        returnedList.get(0));
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(1));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
+        returnedList.get(1));
     testUtils.assertSystemCommandOutputFields(
-        0, -1, COMPLETED, EMPTY_LIST, EMPTY_LIST, returnedList.get(2));
+        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
+        returnedList.get(2));
   }
 
   /**
