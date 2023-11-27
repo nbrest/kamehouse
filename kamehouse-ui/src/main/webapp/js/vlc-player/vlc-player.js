@@ -333,7 +333,7 @@ function VlcPlayer(hostname) {
     const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
     getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
   }
-}
+} // End VlcPlayer
 
 /** 
  * Handles the execution of vlc commands, such as play, stop, next, close, etc.
@@ -383,7 +383,7 @@ function VlcPlayerCommandExecutor(vlcPlayer) {
   function close() {
     vlcPlayer.getRestClient().delete(vlcPlayerProcessControlUrl, null, null);
   }
-}
+} // End VlcPlayerCommandExecutor
 
 /** 
  * Handles the updates to the VlcPlayer main view elements. It consists of
@@ -545,7 +545,7 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     const currentVolume = document.getElementById("current-volume");
     kameHouse.util.dom.setInnerHtml(currentVolume, volumePercentaje + "%");
   }
-}
+} // End VlcPlayerMainViewUpdater
 
 /** 
  * Represents a media button that has state (pressed/unpressed).
@@ -589,7 +589,7 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
     kameHouse.util.dom.removeClass($('#' + id), btnPrefixClass + '-pressed');
     kameHouse.util.dom.addClass($('#' + id), btnPrefixClass + '-unpressed');
   }
-}
+} // End StatefulMediaButton
 
 /** 
  * Manages the websocket connection, synchronization and keep alive loops. 
@@ -967,110 +967,111 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     playlistWebSocket.disconnect(); 
     const RESTART_LOOPS_WAIT_MS = 1000;
     const MAX_RETRIES = 30;
-    restartSyncVlcPlayerHttpLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS, syncLoopsConfig, syncVlcPlayerHttpLoop);
-    restartSyncVlcRcStatusLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS, syncLoopsConfig, reconnectVlcRcStatus, syncVlcRcStatusLoop);
-    restartSyncPlaylistLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS, syncLoopsConfig, reconnectPlaylist, syncPlaylistLoop);
-    restartKeepAliveWebSocketsLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS, syncLoopsConfig, keepAliveWebSocketsLoop);
+    restartSyncVlcPlayerHttpLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS);
+    restartSyncVlcRcStatusLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS);
+    restartSyncPlaylistLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS);
+    restartKeepAliveWebSocketsLoop(MAX_RETRIES, RESTART_LOOPS_WAIT_MS);
   }
-}
 
-function restartSyncVlcPlayerHttpLoop(maxRetries, restartLoopWaitMs, syncLoopsConfig, syncVlcPlayerHttpLoop) {
-  setTimeout(async () => {
-    kameHouse.logger.info("Restarting syncVlcPlayerHttpLoop");
-    let retriesLeft = maxRetries;
-    let startLoop = true;
-    while (syncLoopsConfig.syncVlcPlayerHttpLoopCount > 0) {
-      retriesLeft--;
-      kameHouse.logger.trace("waiting for syncVlcPlayerHttpLoop to finish before restarting");
-      await kameHouse.core.sleep(restartLoopWaitMs);
-      if (retriesLeft <= 0) {
-        kameHouse.logger.info("too many attempts to restart syncVlcPlayerHttpLoop. It seems to be running already. Skipping restart");
-        startLoop = false;
-        break;
+  function restartSyncVlcPlayerHttpLoop(maxRetries, restartLoopWaitMs) {
+    setTimeout(async () => {
+      kameHouse.logger.info("Restarting syncVlcPlayerHttpLoop");
+      let retriesLeft = maxRetries;
+      let startLoop = true;
+      while (syncLoopsConfig.syncVlcPlayerHttpLoopCount > 0) {
+        retriesLeft--;
+        kameHouse.logger.trace("waiting for syncVlcPlayerHttpLoop to finish before restarting");
+        await kameHouse.core.sleep(restartLoopWaitMs);
+        if (retriesLeft <= 0) {
+          kameHouse.logger.info("too many attempts to restart syncVlcPlayerHttpLoop. It seems to be running already. Skipping restart");
+          startLoop = false;
+          break;
+        }
+        if (maxRetries < -10000) { // fix sonar bug
+          syncLoopsConfig.syncVlcPlayerHttpLoopCount = 0;
+        }
       }
-      if (maxRetries < -10000) { // fix sonar bug
-        syncLoopsConfig.syncVlcPlayerHttpLoopCount = 0;
+      if (startLoop) {
+        syncVlcPlayerHttpLoop();
       }
-    }
-    if (startLoop) {
-      syncVlcPlayerHttpLoop();
-    }
-  }, 50);
-}
+    }, 50);
+  }
 
-function restartSyncVlcRcStatusLoop(maxRetries, restartLoopWaitMs, syncLoopsConfig, reconnectVlcRcStatus, syncVlcRcStatusLoop) {
-  setTimeout(async () => {
-    kameHouse.logger.info("Restarting vlcRcStatusLoop");
-    let retriesLeft = maxRetries;
-    let startLoop = true;
-    while (syncLoopsConfig.vlcRcStatusLoopCount > 0) {
-      retriesLeft--;
-      kameHouse.logger.trace("waiting for syncVlcRcStatusLoop to finish before restarting");
-      await kameHouse.core.sleep(restartLoopWaitMs);
-      if (retriesLeft <= 0) {
-        kameHouse.logger.info("too many attempts to restart syncVlcRcStatusLoop. It seems to be running already. Skipping restart");
-        startLoop = false;
-        break;
+  function restartSyncVlcRcStatusLoop(maxRetries, restartLoopWaitMs) {
+    setTimeout(async () => {
+      kameHouse.logger.info("Restarting vlcRcStatusLoop");
+      let retriesLeft = maxRetries;
+      let startLoop = true;
+      while (syncLoopsConfig.vlcRcStatusLoopCount > 0) {
+        retriesLeft--;
+        kameHouse.logger.trace("waiting for syncVlcRcStatusLoop to finish before restarting");
+        await kameHouse.core.sleep(restartLoopWaitMs);
+        if (retriesLeft <= 0) {
+          kameHouse.logger.info("too many attempts to restart syncVlcRcStatusLoop. It seems to be running already. Skipping restart");
+          startLoop = false;
+          break;
+        }
+        if (maxRetries < -10000) { // fix sonar bug
+          syncLoopsConfig.vlcRcStatusLoopCount = 0;
+        }
       }
-      if (maxRetries < -10000) { // fix sonar bug
-        syncLoopsConfig.vlcRcStatusLoopCount = 0;
+      if (startLoop) {
+        reconnectVlcRcStatus();
+        syncVlcRcStatusLoop();
       }
-    }
-    if (startLoop) {
-      reconnectVlcRcStatus();
-      syncVlcRcStatusLoop();
-    }
-  }, 1000);
-}
+    }, 1000);
+  }
 
-function restartSyncPlaylistLoop(maxRetries, restartLoopWaitMs, syncLoopsConfig, reconnectPlaylist, syncPlaylistLoop) {
-  setTimeout(async () => {
-    kameHouse.logger.info("Restarting vlcPlaylistLoop");
-    let retriesLeft = maxRetries;
-    let startLoop = true;
-    while (syncLoopsConfig.vlcPlaylistLoopCount > 0) {
-      retriesLeft--;
-      kameHouse.logger.trace("waiting for syncPlaylistLoop to finish before restarting");
-      await kameHouse.core.sleep(restartLoopWaitMs);
-      if (retriesLeft <= 0) {
-        kameHouse.logger.info("too many attempts to restart syncPlaylistLoop. It seems to be running already. Skipping restart");
-        startLoop = false;
-        break;
+  function restartSyncPlaylistLoop(maxRetries, restartLoopWaitMs) {
+    setTimeout(async () => {
+      kameHouse.logger.info("Restarting vlcPlaylistLoop");
+      let retriesLeft = maxRetries;
+      let startLoop = true;
+      while (syncLoopsConfig.vlcPlaylistLoopCount > 0) {
+        retriesLeft--;
+        kameHouse.logger.trace("waiting for syncPlaylistLoop to finish before restarting");
+        await kameHouse.core.sleep(restartLoopWaitMs);
+        if (retriesLeft <= 0) {
+          kameHouse.logger.info("too many attempts to restart syncPlaylistLoop. It seems to be running already. Skipping restart");
+          startLoop = false;
+          break;
+        }
+        if (maxRetries < -10000) { // fix sonar bug
+          syncLoopsConfig.vlcPlaylistLoopCount = 0;
+        }
       }
-      if (maxRetries < -10000) { // fix sonar bug
-        syncLoopsConfig.vlcPlaylistLoopCount = 0;
+      if (startLoop) {
+        reconnectPlaylist();
+        syncPlaylistLoop();
       }
-    }
-    if (startLoop) {
-      reconnectPlaylist();
-      syncPlaylistLoop();
-    }
-  }, 1000);
-}
+    }, 1000);
+  }
 
-function restartKeepAliveWebSocketsLoop(maxRetries, restartLoopWaitMs, syncLoopsConfig, keepAliveWebSocketsLoop) {
-  setTimeout(async () => {
-    kameHouse.logger.info("Restarting keepAliveWebSocketLoop");
-    let retriesLeft = maxRetries;
-    let startLoop = true;
-    while (syncLoopsConfig.keepAliveWebSocketLoopCount > 0) {
-      retriesLeft--;
-      kameHouse.logger.trace("waiting for keepAliveWebSocketsLoop to finish before restarting");
-      await kameHouse.core.sleep(restartLoopWaitMs);
-      if (retriesLeft <= 0) {
-        kameHouse.logger.info("too many attempts to restart keepAliveWebSocketsLoop. It seems to be running already. Skipping restart");
-        startLoop = false;
-        break;
+  function restartKeepAliveWebSocketsLoop(maxRetries, restartLoopWaitMs) {
+    setTimeout(async () => {
+      kameHouse.logger.info("Restarting keepAliveWebSocketLoop");
+      let retriesLeft = maxRetries;
+      let startLoop = true;
+      while (syncLoopsConfig.keepAliveWebSocketLoopCount > 0) {
+        retriesLeft--;
+        kameHouse.logger.trace("waiting for keepAliveWebSocketsLoop to finish before restarting");
+        await kameHouse.core.sleep(restartLoopWaitMs);
+        if (retriesLeft <= 0) {
+          kameHouse.logger.info("too many attempts to restart keepAliveWebSocketsLoop. It seems to be running already. Skipping restart");
+          startLoop = false;
+          break;
+        }
+        if (maxRetries < -10000) { // fix sonar bug
+          syncLoopsConfig.keepAliveWebSocketLoopCount = 0;
+        }
       }
-      if (maxRetries < -10000) { // fix sonar bug
-        syncLoopsConfig.keepAliveWebSocketLoopCount = 0;
+      if (startLoop) {
+        keepAliveWebSocketsLoop();
       }
-    }
-    if (startLoop) {
-      keepAliveWebSocketsLoop();
-    }
-  }, 2000);
-}
+    }, 2000);
+  }
+
+} // End VlcPlayerSynchronizer
 
 /** 
  * Represents the Playlist component in vlc-player page. 
@@ -1298,7 +1299,7 @@ function VlcPlayerPlaylist(vlcPlayer) {
       click: clickEventOnPlaylistRow
     });
   }
-}
+} // End VlcPlayerPlaylist
 
 /** 
  * Represents an internal rest client for the VlcPlayer to split functionality. 
@@ -1379,7 +1380,7 @@ function VlcPlayerRestClient(vlcPlayer) {
       kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     }
   }
-}
+} // End VlcPlayerRestClient
 
 /** 
  * Handles the debugger functionality of vlc player in the debugger's custom area.
@@ -1427,6 +1428,6 @@ function VlcPlayerDebugger(vlcPlayer) {
     vlcPlayer.getPlaylist().setUpdatedPlaylist(responseBody);
     vlcPlayer.getPlaylist().reload();
   }
-}
+} // End VlcPlayerDebugger
 
 $(document).ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
