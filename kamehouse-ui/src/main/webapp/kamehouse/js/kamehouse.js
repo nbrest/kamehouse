@@ -172,7 +172,7 @@ function KameHouseBannerUtils() {
   function getAllBanners() {
     const allBanners = [];
     BANNERS_LIST.forEach((banner) => {
-      allBanners.push.apply(allBanners, banner.banners);
+      allBanners.push(...banner.banners);
     });
     return allBanners;
   }
