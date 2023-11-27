@@ -122,13 +122,13 @@ public class JsonUtils {
    */
   public static JsonNode[] toJsonArray(String jsonArrayString) {
     if (jsonArrayString == null) {
-      return null;
+      return new JsonNode[0];
     }
     try {
       return MAPPER.readValue(jsonArrayString, JsonNode[].class);
     } catch (JsonProcessingException e) {
       LOGGER.error("Error converting string to json array. {}", e.getMessage());
-      return null;
+      return new JsonNode[0];
     }
   }
 

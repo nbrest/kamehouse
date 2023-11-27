@@ -221,7 +221,7 @@ public abstract class BookingService {
           .sorted((o1, o2) -> o2.getTime().compareTo(o1.getTime())) // sort reverse by time
           .toList();
     }
-    return null;
+    return new ArrayList<>();
   }
 
   /**
@@ -233,7 +233,7 @@ public abstract class BookingService {
         DateUtils.getCurrentDate());
     if (bookingResponses == null || bookingResponses.isEmpty()) {
       logger.debug("No booking responses stored in the system yet");
-      return null;
+      return new ArrayList<>();
     }
     List<BookingResponse> successfulBookingResponses = bookingResponses.stream()
         .filter(br -> br.getRequest().isScheduled())

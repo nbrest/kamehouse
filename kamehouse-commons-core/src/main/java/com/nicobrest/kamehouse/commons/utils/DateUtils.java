@@ -239,13 +239,7 @@ public class DateUtils {
     }
     try {
       input = input.toUpperCase(Locale.getDefault());
-      LocalTime localTime;
-      try {
-        localTime = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
-      } catch (DateTimeParseException e) {
-        input = input.toLowerCase(Locale.getDefault());
-        localTime = LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
-      }
+      LocalTime localTime = getLocalTime(input, inFormat);
       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(outFormat);
       String result = localTime.format(dateTimeFormatter);
       if (lowerCaseOut) {
@@ -384,6 +378,18 @@ public class DateUtils {
 
     public String getNumber() {
       return number;
+    }
+  }
+
+  /**
+   * Get local time.
+   */
+  private static LocalTime getLocalTime(String input, String inFormat) {
+    try {
+      return LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
+    } catch (DateTimeParseException e) {
+      input = input.toLowerCase(Locale.getDefault());
+      return LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
     }
   }
 }

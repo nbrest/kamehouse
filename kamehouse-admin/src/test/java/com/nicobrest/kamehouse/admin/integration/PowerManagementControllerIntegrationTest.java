@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.admin.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -102,7 +101,7 @@ class PowerManagementControllerIntegrationTest extends AbstractControllerIntegra
   @Test
   @Order(8)
   void wolTest() throws Exception {
-    logger.info("Running suspendTest");
+    logger.info("Running wolTest");
 
     HttpResponse response = post(getWebappUrl() + API_URL + "/wol?server=media.server");
 

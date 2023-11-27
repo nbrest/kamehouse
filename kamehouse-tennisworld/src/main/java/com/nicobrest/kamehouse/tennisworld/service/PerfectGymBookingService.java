@@ -70,6 +70,8 @@ public class PerfectGymBookingService extends BookingService {
       + "/ClientPortal2/FacilityBookings/WizardSteps/SetFacilityBookingDetailsWizardStep/Next";
   private static final String FINALIZE_COURT_BOOKING_URL =
       ROOT_URL + "/ClientPortal2/FacilityBookings/WizardSteps/ChooseBookingRuleStep/Next";
+  private static final String USERS = "Users";
+  private static final String DATA = "Data";
   private static final long INVALID_ID = -9999L;
 
   public PerfectGymBookingService(BookingScheduleConfigService bookingScheduleConfigService,
@@ -153,19 +155,12 @@ public class PerfectGymBookingService extends BookingService {
       SessionType sessionType, HttpClient httpClient) throws IOException {
     BookingResponse bookingResponse = null;
     switch (sessionType) {
-      case ADULT_MATCH_PLAY_DOUBLES:
-      case ADULT_MATCH_PLAY_SINGLES:
-      case ADULT_SOCIAL_PLAY:
-      case CARDIO:
-      case CARDIO_ACTIV8:
+      case ADULT_MATCH_PLAY_DOUBLES, ADULT_MATCH_PLAY_SINGLES, ADULT_SOCIAL_PLAY, CARDIO,
+          CARDIO_ACTIV8:
         bookingResponse = bookClass(httpClient, bookingRequest);
         break;
-      case NTC_CLAY_COURTS:
-      case NTC_INDOOR:
-      case NTC_OUTDOOR:
-      case ROD_LAVER_OUTDOOR_EASTERN:
-      case ROD_LAVER_OUTDOOR_WESTERN:
-      case ROD_LAVER_SHOW_COURTS:
+      case NTC_CLAY_COURTS, NTC_INDOOR, NTC_OUTDOOR, ROD_LAVER_OUTDOOR_EASTERN,
+          ROD_LAVER_OUTDOOR_WESTERN, ROD_LAVER_SHOW_COURTS:
         bookingResponse = bookCourt(httpClient, bookingRequest);
         break;
       case UNKNOWN:
@@ -374,18 +369,18 @@ public class PerfectGymBookingService extends BookingService {
     AtomicLong classId = new AtomicLong(INVALID_ID);
     String bookingRequestClassType = bookingRequest.getSessionType().getPerfectGymName();
     String bookingRequestTime = bookingRequest.getTime();
-    dailyClasses.get("CalendarData").forEach(node -> {
-      node.get("Classes").forEach(clubClass -> {
-        String status = clubClass.get("Status").asText();
-        String classType = clubClass.get("Name").asText();
-        String classTime = clubClass.get("StartTime").asText();
-        if ("Bookable".equals(status) && bookingRequestClassType.equals(classType)
-            && classTime != null && classTime.contains(bookingRequestTime)) {
-          logger.debug("classId to book: {}", clubClass.get("Id").asLong());
-          classId.set(clubClass.get("Id").asLong());
-        }
-      });
-    });
+    dailyClasses.get("CalendarData").forEach(node ->
+        node.get("Classes").forEach(clubClass -> {
+          String status = clubClass.get("Status").asText();
+          String classType = clubClass.get("Name").asText();
+          String classTime = clubClass.get("StartTime").asText();
+          if ("Bookable".equals(status) && bookingRequestClassType.equals(classType)
+              && classTime != null && classTime.contains(bookingRequestTime)) {
+            logger.debug("classId to book: {}", clubClass.get("Id").asLong());
+            classId.set(clubClass.get("Id").asLong());
+          }
+        })
+    );
     if (classId.get() == INVALID_ID) {
       logger.error(NO_BOOKABLE_CLASS_FOUND);
       throw new KameHouseBadRequestException(NO_BOOKABLE_CLASS_FOUND);
@@ -466,10 +461,10 @@ public class PerfectGymBookingService extends BookingService {
    * Get the zone type id from the club.
    */
   private static long getZoneTypeId(BookingRequest bookingRequest, JsonNode clubZoneTypes) {
-    String bookingZone = bookingRequest.getSessionType().getPerfectGymName().replaceAll(" ", "");
+    String bookingZone = bookingRequest.getSessionType().getPerfectGymName().replace(" ", "");
     AtomicLong zoneTypeId = new AtomicLong(INVALID_ID);
     clubZoneTypes.forEach(node -> {
-      if (bookingZone.equals(node.get("Name").asText().replaceAll(" ", ""))) {
+      if (bookingZone.equals(node.get("Name").asText().replace(" ", ""))) {
         zoneTypeId.set(node.get("Id").asLong());
       }
     });
@@ -555,7 +550,7 @@ public class PerfectGymBookingService extends BookingService {
       String courtName = "Court " + courtNumber;
       AtomicLong zoneId = new AtomicLong(INVALID_ID);
       if (hasZones(response)) {
-        ArrayNode zones = (ArrayNode) response.get("Data").get("Zones");
+        ArrayNode zones = (ArrayNode) response.get(DATA).get("Zones");
         zones.forEach(zone -> {
           if (courtName.equals(zone.get("Name").asText())) {
             zoneId.set(zone.get("Id").asLong());
@@ -569,7 +564,7 @@ public class PerfectGymBookingService extends BookingService {
       // Return the default zoneId
       logger.debug("Looking for default zoneId");
       if (hasZoneId(response)) {
-        return response.get("Data").get("ZoneId").asLong();
+        return response.get(DATA).get("ZoneId").asLong();
       }
     }
     throw new KameHouseServerErrorException("Unable to determine zoneId");
@@ -586,24 +581,24 @@ public class PerfectGymBookingService extends BookingService {
    * Check if the response has zones.
    */
   private boolean hasZones(JsonNode jsonNode) {
-    return jsonNode.get("Data") != null && jsonNode.get("Data").get("Zones") != null;
+    return jsonNode.get(DATA) != null && jsonNode.get(DATA).get("Zones") != null;
   }
 
   /**
    * Check if the response has a zoneId.
    */
   private boolean hasZoneId(JsonNode jsonNode) {
-    return jsonNode.get("Data") != null && jsonNode.get("Data").get("ZoneId") != null;
+    return jsonNode.get(DATA) != null && jsonNode.get(DATA).get("ZoneId") != null;
   }
 
   /**
    * Get userId for the court booking request.
    */
   private static long getUserId(JsonNode response) {
-    if (response.get("Data") != null
-        && response.get("Data").get("Users") != null
-        && response.get("Data").get("Users").isArray()) {
-      ArrayNode users = (ArrayNode) response.get("Data").get("Users");
+    if (response.get(DATA) != null
+        && response.get(DATA).get(USERS) != null
+        && response.get(DATA).get(USERS).isArray()) {
+      ArrayNode users = (ArrayNode) response.get(DATA).get(USERS);
       if (users.get(0) != null && users.get(0).get("UserId") != null) {
         return users.get(0).get("UserId").asLong();
       }
@@ -645,8 +640,8 @@ public class PerfectGymBookingService extends BookingService {
    * Get ruleId to finalize court booking request.
    */
   private static long getRuleId(JsonNode rules) {
-    if (rules.get("Data") != null && rules.get("Data").get("RuleId") != null) {
-      return rules.get("Data").get("RuleId").asLong();
+    if (rules.get(DATA) != null && rules.get(DATA).get("RuleId") != null) {
+      return rules.get(DATA).get("RuleId").asLong();
     }
     throw new KameHouseServerErrorException("Unable to determine ruleId");
   }
@@ -676,8 +671,8 @@ public class PerfectGymBookingService extends BookingService {
           "Invalid finalize court booking response from PerfectGym");
     }
     JsonNode responseBodyJson = JsonUtils.toJson(responseBody);
-    if (responseBodyJson.get("Data") == null
-        || responseBodyJson.get("Data").get("FacilityBooking") == null) {
+    if (responseBodyJson.get(DATA) == null
+        || responseBodyJson.get(DATA).get("FacilityBooking") == null) {
       throw new KameHouseServerErrorException(
           "Error finalizing court booking. No FacilityBooking element in the response");
     }

@@ -125,14 +125,13 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
   }
 
   /**
-   * Get the stomp session and subscripbe to a topic.
+   * Get the stomp session and subscribe to a topic.
    */
   private StompSession getStompSession() throws ExecutionException, InterruptedException {
     WebSocketStompClient stompClient = getStompClient();
     StompSessionHandler sessionHandler = getStompSessionHandler();
-    Future<StompSession> stompSessionFuture = stompClient.connect(
-        getWebappUrl() + getWebSocketUrl(),
-        sessionHandler);
+    Future<StompSession> stompSessionFuture = stompClient.connectAsync(
+        getWebappUrl() + getWebSocketUrl(), sessionHandler);
     StompSession stompSessionInstance = stompSessionFuture.get();
     if (getTopicUrl() != null) {
       stompSessionInstance.subscribe(getTopicUrl(), sessionHandler);

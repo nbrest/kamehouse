@@ -216,9 +216,8 @@ public abstract class AbstractCrudDaoJpaTest
   void deleteNotFoundExceptionTest() {
     assertThrows(
         KameHouseNotFoundException.class,
-        () -> {
-          getCrudDao().delete(INVALID_ID);
-        });
+        () -> getCrudDao().delete(INVALID_ID)
+    );
   }
 
   /**

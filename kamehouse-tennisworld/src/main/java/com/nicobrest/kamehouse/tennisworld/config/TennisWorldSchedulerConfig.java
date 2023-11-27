@@ -12,7 +12,6 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
-import org.quartz.simpl.SimpleJobFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +72,8 @@ public class TennisWorldSchedulerConfig {
   }
 
   /**
-   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes at 1 second of
-   * the minute.
+   * Trigger for the scheduledBookingJobDetail at the specified hour and minutes at 1 second of the
+   * minute.
    */
   private static Trigger scheduledBookingTrigger(
       JobDetail scheduledBookingJobDetail, int hour, int minute) {

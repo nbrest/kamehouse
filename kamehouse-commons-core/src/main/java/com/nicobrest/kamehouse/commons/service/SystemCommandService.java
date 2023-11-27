@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.service;
 
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
@@ -27,10 +28,6 @@ import org.springframework.stereotype.Service;
 public class SystemCommandService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
-  // TODO move these statuses to an Enum
-  private static final String COMPLETED = "completed";
-  private static final String FAILED = "failed";
-  private static final String RUNNING = "running";
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
 
@@ -80,26 +77,26 @@ public class SystemCommandService {
         int exitValue = ProcessUtils.getExitValue(process);
         commandOutput.setExitCode(exitValue);
         if (exitValue > 0) {
-          commandOutput.setStatus(FAILED);
+          commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
         } else {
-          commandOutput.setStatus(COMPLETED);
+          commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
         }
       } else {
         // Ongoing process
         commandOutput.setExitCode(-1); // process is still running.
-        commandOutput.setStatus(RUNNING);
+        commandOutput.setStatus(SystemCommandStatus.RUNNING.getStatus());
       }
     } catch (IOException e) {
       logger.error(EXCEPTION_EXECUTING_PROCESS, e);
       commandOutput.setExitCode(1);
-      commandOutput.setStatus(FAILED);
+      commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
       commandOutput.setStandardError(
           Arrays.asList("An error occurred executing the command. Message: " + e.getMessage()));
     } catch (InterruptedException e) {
       logger.error(EXCEPTION_EXECUTING_PROCESS, e);
       Thread.currentThread().interrupt();
     }
-    if (FAILED.equals(commandOutput.getStatus())) {
+    if (SystemCommandStatus.FAILED.getStatus().equals(commandOutput.getStatus())) {
       logger.error("execute {} response {}", commandOutput.getCommand(), commandOutput);
     } else {
       logger.trace("execute {} response {}", commandOutput.getCommand(), commandOutput);

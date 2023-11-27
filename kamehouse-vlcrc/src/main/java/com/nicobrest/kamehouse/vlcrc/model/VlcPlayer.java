@@ -304,7 +304,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
       }
       return vlcRcPlaylist;
     } catch (IOException e) {
-      LOGGER.error("Unable to build VlcRC playlist", e);
+      LOGGER.error("Unable to build VlcRC playlist. Message: {}", e.getMessage());
       throw new KameHouseException(e.getMessage(), e);
     }
   }
@@ -367,7 +367,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
       }
       return vlcRcFilelist;
     } catch (IOException e) {
-      LOGGER.error("Unable to build VlcRC file list", e);
+      LOGGER.error("Unable to build VlcRC file list. Message {}", e.getMessage());
       throw new KameHouseException(e.getMessage(), e);
     }
   }

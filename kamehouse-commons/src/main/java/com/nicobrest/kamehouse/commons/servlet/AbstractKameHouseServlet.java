@@ -40,12 +40,13 @@ import org.springframework.session.SessionRepository;
  */
 public abstract class AbstractKameHouseServlet extends HttpServlet {
 
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
+  protected transient final Logger logger = LoggerFactory.getLogger(getClass());
   public static final String KAMEHOUSE_SESSION_ID = "KAMEHOUSE-SESSION-ID";
   private static final String SPRING_SECURITY_CONTEXT = "SPRING_SECURITY_CONTEXT";
   private static final String SESSION_REPOSITORY_CLASS =
       "org.springframework.session.SessionRepository";
   private static final String UNAUTHORIZED = "Unauthorized user";
+  private static final String ERROR_URL_PARAM = "Error getting url parameter ";
   private static final long serialVersionUID = 1L;
 
   /**
@@ -76,7 +77,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
       response.getWriter().write(responseBody);
       response.setContentType(ContentType.APPLICATION_JSON.getMimeType());
     } catch (IOException e) {
-      logger.error("Error occurred processing request.", e);
+      logger.error("Error occurred processing request. Message: {}", e.getMessage());
       throw new KameHouseServerErrorException(e.getMessage(), e);
     }
   }
@@ -91,9 +92,9 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
         return URLDecoder.decode(value, StandardCharsets.UTF_8.name());
       }
     } catch (UnsupportedEncodingException e) {
-      throw new KameHouseBadRequestException("Error getting url parameter " + paramName, e);
+      throw new KameHouseBadRequestException(ERROR_URL_PARAM + paramName, e);
     }
-    throw new KameHouseBadRequestException("Error getting url parameter " + paramName);
+    throw new KameHouseBadRequestException(ERROR_URL_PARAM + paramName);
   }
 
   /**
@@ -104,7 +105,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
       String value = StringUtils.sanitizeInput(getUrlDecodedParam(request, paramName));
       return Long.parseLong(value);
     } catch (NumberFormatException e) {
-      throw new KameHouseBadRequestException("Error getting url parameter " + paramName, e);
+      throw new KameHouseBadRequestException(ERROR_URL_PARAM + paramName, e);
     }
   }
 

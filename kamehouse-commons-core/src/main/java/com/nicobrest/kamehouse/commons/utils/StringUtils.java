@@ -51,9 +51,11 @@ public class StringUtils {
       }
       if (hasSubFields(field)) {
         try {
+          boolean currentAccessibility = field.trySetAccessible();
           field.setAccessible(true);
           Object fieldValue = field.get(entity);
           sanitizeEntity(fieldValue);
+          field.setAccessible(currentAccessibility);
         } catch (IllegalAccessException e) {
           LOGGER.trace("Error accessing object field to sanitize. Field: {}",
               field.getName());

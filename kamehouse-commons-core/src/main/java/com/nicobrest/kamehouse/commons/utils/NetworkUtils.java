@@ -46,7 +46,7 @@ public class NetworkUtils {
       datagramSocket.close();
       logger.debug("WOL packet sent to {} on broadcast {}", macAddress, broadcastAddress);
     } catch (IOException e) {
-      logger.error("Error sending WOL packet to {}", macAddress, e);
+      logger.error("Error sending WOL packet to {}. Message: {}", macAddress, e.getMessage());
       throw new KameHouseException(e);
     }
   }

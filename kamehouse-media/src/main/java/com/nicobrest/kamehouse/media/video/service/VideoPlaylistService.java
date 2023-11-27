@@ -54,7 +54,7 @@ public class VideoPlaylistService {
   /**
    * Gets all video playlists specifying if it should get the contents of each playlist or not.
    */
-  public List<Playlist> getAll(Boolean fetchContent) {
+  public List<Playlist> getAll(boolean fetchContent) {
     logger.trace("getAll");
     if (DockerUtils.shouldControlDockerHost()) {
       return getAllFromDockerHost(fetchContent);
@@ -77,7 +77,7 @@ public class VideoPlaylistService {
   /**
    * Get the specified playlist from the docker host.
    */
-  private static Playlist getPlaylistFromDockerHost(String playlistFilename, Boolean fetchContent) {
+  private static Playlist getPlaylistFromDockerHost(String playlistFilename, boolean fetchContent) {
     logger.trace("getPlaylistFromDockerHost {}", playlistFilename);
     Path basePlaylistsPath = getBasePlaylistsPath();
     Playlist playlist = new Playlist();
@@ -98,7 +98,7 @@ public class VideoPlaylistService {
   /**
    * Get the specified playlist from the local filesystem.
    */
-  private static Playlist getPlaylistLocal(String playlistFilename, Boolean fetchContent) {
+  private static Playlist getPlaylistLocal(String playlistFilename, boolean fetchContent) {
     logger.trace("getPlaylistLocal {}", playlistFilename);
     Path playlistPath = Paths.get(playlistFilename);
     if (!isValidPlaylist(playlistPath)) {
@@ -127,7 +127,7 @@ public class VideoPlaylistService {
   /**
    * Get all playlists from the docker container host.
    */
-  private List<Playlist> getAllFromDockerHost(Boolean fetchContent) {
+  private List<Playlist> getAllFromDockerHost(boolean fetchContent) {
     logger.trace("getAllFromDockerHost");
     Path basePlaylistPath = getBasePlaylistsPath();
     SystemCommand listPlaylistsCommand = new SystemCommand() {
@@ -191,7 +191,7 @@ public class VideoPlaylistService {
   /**
    * Get all playlists from the local filesystem.
    */
-  private List<Playlist> getAllFromFileSystem(Boolean fetchContent) {
+  private List<Playlist> getAllFromFileSystem(boolean fetchContent) {
     logger.trace("getAllFromFileSystem");
     Path basePlaylistPath = getBasePlaylistsPath();
     List<Playlist> videoPlaylists = new ArrayList<>();

@@ -365,15 +365,16 @@ function KameHouseCookiesUtils() {
    * Get a cookie.
    */
   function getCookie(cookieName) {
+    kameHouse.logger.trace("Getting cookie " + cookieName);
     const name = cookieName + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
     const cookiesArray = decodedCookie.split(';');
     for (const cookieElement of cookiesArray) {
       let cookie = cookieElement;
-      while (cookie.charAt(0) == ' ') {
+      while (cookie.startsWith(' ')) {
         cookie = cookie.substring(1);
       }
-      if (cookie.indexOf(name) == 0) {
+      if (cookie.startsWith(name)) {
         return cookie.substring(name.length, cookie.length);
       }
     }
@@ -384,6 +385,7 @@ function KameHouseCookiesUtils() {
    * Set a cookie.
    */
   function setCookie(cookieName, cookieValue, expiryDays) {
+    kameHouse.logger.trace("Setting cookie " + cookieName + " to " + cookieValue);
     if (!kameHouse.core.isEmpty(expiryDays)) {
       const expiriyDate = new Date();
       expiriyDate.setTime(expiriyDate.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
@@ -1423,19 +1425,17 @@ function KameHouseTableUtils() {
       kameHouse.util.dom.insertBefore(rows[sortConfig.currentRowIndex].parentNode, rows[sortConfig.currentRowIndex + 1], rows[sortConfig.currentRowIndex]);
       sortConfig.sorting = true;
       sortConfig.swapCount++;
-    } else {
-      if (sortConfig.directionSwitchCount < 2) {
-        if (shouldSwapDirection(sortConfig.swapCount, sortConfig.sortDirection, initialSortDirection)) {
-          // if no sorting was done, swap sort direction, and sort reversely.
-          if (sortConfig.sortDirection == "asc") {
-            sortConfig.sortDirection = "desc";
-          } else {
-            sortConfig.sortDirection = "asc";
-          }
-          kameHouse.logger.trace("No sorting was done, swap sort direction, and sort reversely. sortDirection is now " + sortConfig.sortDirection);
-          sortConfig.directionSwitchCount++;
-          sortConfig.sorting = true;
+    } else if (sortConfig.directionSwitchCount < 2) {
+      if (shouldSwapDirection(sortConfig.swapCount, sortConfig.sortDirection, initialSortDirection)) {
+        // if no sorting was done, swap sort direction, and sort reversely.
+        if (sortConfig.sortDirection == "asc") {
+          sortConfig.sortDirection = "desc";
+        } else {
+          sortConfig.sortDirection = "asc";
         }
+        kameHouse.logger.trace("No sorting was done, swap sort direction, and sort reversely. sortDirection is now " + sortConfig.sortDirection);
+        sortConfig.directionSwitchCount++;
+        sortConfig.sorting = true;
       }
     }
   }

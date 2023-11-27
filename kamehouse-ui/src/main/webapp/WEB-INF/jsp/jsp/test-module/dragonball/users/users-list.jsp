@@ -69,28 +69,7 @@
       <table class="table-kh">
         <caption class="hidden-kh">DragonBall Users</caption>
         <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>
-        <tbody id="dragonball-users-tbody">
-        <!--
-          <c:forEach items="${dragonBallUsers}" var="dragonBallUser">
-            <tr>
-              <td>${dragonBallUser.getId()}</td>
-              <td>${dragonBallUser.getUsername()}</td>
-              <td>${dragonBallUser.getEmail()}</td>
-              <td>${dragonBallUser.getAge()}</td>
-              <td>${dragonBallUser.getPowerLevel()}</td>
-              <td>${dragonBallUser.getStamina()}</td>
-              <td>
-                <input type="button" value="edit"
-                  class="btn" onclick="window.location.href='users-edit?username=${dragonBallUser.getUsername()}'">
-                <form action="users-delete-action" method="post">
-                  <input type="hidden" name="id" value="${dragonBallUser.getId()}" />
-                  <input type="submit" value="delete" class="btn" />
-                </form>
-              </td>
-            </tr>
-          </c:forEach>
-          -->
-        </tbody>
+        <tbody id="dragonball-users-tbody"></tbody>
       </table>
       <br>
       <img class="img-btn-kh" onclick="window.location.href='users-add'"

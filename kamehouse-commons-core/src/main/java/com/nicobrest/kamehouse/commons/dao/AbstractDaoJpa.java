@@ -60,7 +60,7 @@ public abstract class AbstractDaoJpa<E> {
    *
    * @deprecated replaced by findAll(class, maxRows, sortColumn, sortAscending).
    */
-  @Deprecated
+  @Deprecated(since = "A long long time ago, in a galaxy far far away")
   protected List<E> findAll(Class<E> clazz) {
     return findAll(clazz, 0, null, true);
   }

@@ -90,7 +90,7 @@ $(document).ready(() => {
 function buildKameHouseUserEntity(element) {
   kameHouse.logger.debug("Building kamehouse user role entity");
   for (const option of element.options) {
-    if (option.selected == true && option.value != "") {
+    if (option.selected && option.value != "") {
       const role = {
         name: option.value
       };

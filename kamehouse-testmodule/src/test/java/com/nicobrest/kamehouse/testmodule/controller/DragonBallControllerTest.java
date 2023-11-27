@@ -102,8 +102,7 @@ class DragonBallControllerTest
       "KameHouseConflictException",
       "KameHouseNotFoundException",
       "NullPointerException",
-      "IndexOutOfBoundsException",
-      "RuntimeException"
+      "IndexOutOfBoundsException"
   })
   void readAllKameHouseExceptionTest(String exception) throws Exception {
     assertThrows(

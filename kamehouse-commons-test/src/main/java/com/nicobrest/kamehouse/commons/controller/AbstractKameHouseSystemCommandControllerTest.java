@@ -83,9 +83,8 @@ public abstract class AbstractKameHouseSystemCommandControllerTest
   protected void execPostInvalidKameHouseSystemCommandTest(String url) {
     assertThrows(
         ServletException.class,
-        () -> {
-          doPost(url);
-        });
+        () -> doPost(url)
+    );
   }
 
   /**

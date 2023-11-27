@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * Filter class to add the logged in username to each request. Functionality replaced by
  * {@link com.nicobrest.kamehouse.ui.controller.SessionStatusController}.
  *
+ * @deprecated replaced with SessionStatusController.
+ *
  * @author nbrest
  */
 @Deprecated(since = "A long long time ago, in a galaxy far far away")

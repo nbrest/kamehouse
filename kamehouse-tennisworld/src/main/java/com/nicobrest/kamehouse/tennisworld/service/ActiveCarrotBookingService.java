@@ -36,6 +36,8 @@ import org.springframework.stereotype.Service;
  * Service to execute tennis world bookings through ActiveCarrot. This integration was deprecated
  * Dec 2022 by TennisWorld in favor of PerfectGym integration.
  *
+ * @deprecated replaced with PerfectGymBookingService.
+ *
  * @author nbrest
  */
 @Deprecated(since = "v8.01")
@@ -87,11 +89,8 @@ public class ActiveCarrotBookingService extends BookingService {
         case CARDIO:
           bookingResponse = bookCardioSessionRequest(bookingRequest);
           break;
-        case NTC_CLAY_COURTS:
-        case NTC_OUTDOOR:
-        case ROD_LAVER_OUTDOOR_EASTERN:
-        case ROD_LAVER_OUTDOOR_WESTERN:
-        case ROD_LAVER_SHOW_COURTS:
+        case NTC_CLAY_COURTS, NTC_OUTDOOR, ROD_LAVER_OUTDOOR_EASTERN, ROD_LAVER_OUTDOOR_WESTERN,
+            ROD_LAVER_SHOW_COURTS:
           bookingResponse = bookFacilityOverlayRequest(bookingRequest);
           break;
         case UNKNOWN:

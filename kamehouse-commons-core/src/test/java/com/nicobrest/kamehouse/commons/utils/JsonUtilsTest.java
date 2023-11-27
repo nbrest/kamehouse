@@ -375,11 +375,11 @@ class JsonUtilsTest {
     assertEquals(2, output.length);
 
     output = JsonUtils.toJsonArray(null);
-    assertNull(output);
+    assertEquals(0, output.length);
 
     String invalidJsonArray = "[{invalid]";
     output = JsonUtils.toJsonArray(invalidJsonArray);
-    assertNull(output);
+    assertEquals(0, output.length);
   }
 
   /**

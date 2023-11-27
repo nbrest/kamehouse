@@ -84,8 +84,6 @@ public class DragonBallController extends
         throw new NullPointerException("*** NullPointerException in getUsers ***");
       case "IndexOutOfBoundsException":
         throw new IndexOutOfBoundsException("*** IndexOutOfBounds in getUsers ***");
-      case "RuntimeException":
-        throw new RuntimeException("*** RuntimeException in getUsers ***");
       default:
         break;
     }

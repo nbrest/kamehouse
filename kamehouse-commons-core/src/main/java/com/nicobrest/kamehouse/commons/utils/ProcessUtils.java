@@ -40,7 +40,7 @@ public class ProcessUtils {
   /**
    * Gets the input stream from the specified process.
    */
-  public static InputStream getInputStream(Process process) throws IOException {
+  public static InputStream getInputStream(Process process) {
     return process.getInputStream();
   }
 

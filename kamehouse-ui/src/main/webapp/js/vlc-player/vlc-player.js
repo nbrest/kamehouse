@@ -776,13 +776,11 @@ function VlcPlayerSynchronizer(vlcPlayer) {
       // poll VlcRcStatus from the websocket.
       vlcRcStatusWebSocket.poll();
       vlcPlayer.updateView();
-    } else {
-      if (config.skipResetViewCount > 0) {
-        kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Skipping reset view on this loop count");
-      } else  {
-        kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + config.vlcRcStatusPullWaitTimeMs + " ms to sync again.");
-        vlcPlayer.resetView();
-      }
+    } else if (config.skipResetViewCount > 0) {
+      kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Skipping reset view on this loop count");
+    } else  {
+      kameHouse.logger.trace("syncVlcRcStatusLoop: WebSocket is disconnected. Resetting view and waiting " + config.vlcRcStatusPullWaitTimeMs + " ms to sync again.");
+      vlcPlayer.resetView();
     }
   }
 
@@ -1170,11 +1168,8 @@ function VlcPlayerPlaylist(vlcPlayer) {
     let step = 0;
     if (currentPls.length <= MAX_COMPARISONS) {
       step = 1;
-    } else {
-      if ((currentPls.length > MAX_COMPARISONS) &&
-        (currentPls.length <= MAX_COMPARISONS * 2)) {
-        step = 2;
-      }
+    } else if ((currentPls.length > MAX_COMPARISONS) && (currentPls.length <= MAX_COMPARISONS * 2)) {
+      step = 2;
     }
     if (step == 0) {
       step = Math.round(currentPls.length / MAX_COMPARISONS);

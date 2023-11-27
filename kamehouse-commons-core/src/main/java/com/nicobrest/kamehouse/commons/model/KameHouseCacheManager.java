@@ -52,15 +52,12 @@ public class KameHouseCacheManager {
    * Populates the map that represents the cache with the cache information.
    */
   public KameHouseCache getKameHouseCache(String cacheName) {
-    KameHouseCache kameHouseCache = null;
     Cache<?, ?> cache = getCache(cacheName);
-    if (cache != null) {
-      kameHouseCache = new KameHouseCache();
-      kameHouseCache.setName(cache.getName());
-      kameHouseCache.setStatus("ACTIVE");
-      kameHouseCache.setKeys(getCacheKeys(cache).toString());
-      kameHouseCache.setValues(getCacheValues(cache));
-    }
+    KameHouseCache kameHouseCache = new KameHouseCache();
+    kameHouseCache.setName(cache.getName());
+    kameHouseCache.setStatus("ACTIVE");
+    kameHouseCache.setKeys(getCacheKeys(cache).toString());
+    kameHouseCache.setValues(getCacheValues(cache));
     return kameHouseCache;
   }
 
@@ -69,7 +66,7 @@ public class KameHouseCacheManager {
    */
   public void clearCache(String cacheName) {
     logger.trace("clear {}", cacheName);
-    Cache cache = getCache(cacheName);
+    Cache<?, ?> cache = getCache(cacheName);
     cache.clear();
     logger.trace("clear {} successfully", cacheName);
   }

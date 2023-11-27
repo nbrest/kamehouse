@@ -53,21 +53,4 @@ public class HttpSessionConfig extends AbstractHttpSessionApplicationInitializer
     anonymousUser.setAuthorities(kameHouseRoles);
     return anonymousUser;
   }
-
-  /*
-   * By default spring session sets a Cookie SESSION with the JSESSIONID and uses that to identify
-   * the session. Even though in the database I don't see that as the value stored as session id.
-   *
-   * <p>Defining a httpSessionIdResolver I can change the default behaviour to use any header as the
-   * session identifier. The problem with using a custom header is that when I do a GET to any page
-   * in the frontend from the browser or refresh a page, it doesn't send that header, so it doesn't
-   * detect the existing session. I think the only way to do that is to keep using a cookie, that is
-   * always being sent by the browser when it's set.
-   */
-  /*
-  @Bean
-  public HttpSessionIdResolver httpSessionIdResolver() {
-    return HeaderHttpSessionIdResolver.xAuthToken();
-  }
-  */
 }
