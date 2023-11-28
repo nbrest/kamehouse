@@ -1,0 +1,3 @@
+{
+  "include": ["kamehouse-ui/src/main/webapp/**/*", "kamehouse-groot/public/**/*", "kamehouse-mobile/www/kamehouse-mobile/**/*"]
+}
