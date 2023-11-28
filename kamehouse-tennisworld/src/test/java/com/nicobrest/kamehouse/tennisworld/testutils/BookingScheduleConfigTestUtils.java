@@ -64,7 +64,7 @@ public class BookingScheduleConfigTestUtils
   private void initSingleTestData() {
     singleTestData = new BookingScheduleConfig();
     singleTestData.setTennisWorldUser(tennisWorldUser);
-    singleTestData.setBookingDate(BookingScheduleConfigDaoJpa.DEFAULT_BOOKING_DATE);
+    singleTestData.setBookingDate(BookingScheduleConfigDaoJpa.getDefaultBookingDate());
     singleTestData.setBookAheadDays(1);
     singleTestData.setDay(DateUtils.Day.FRIDAY);
     singleTestData.setDuration("45");
@@ -78,7 +78,7 @@ public class BookingScheduleConfigTestUtils
   private void initTestDataDto() {
     testDataDto = new BookingScheduleConfigDto();
     testDataDto.setTennisWorldUser(tennisWorldUser);
-    testDataDto.setBookingDate(BookingScheduleConfigDaoJpa.DEFAULT_BOOKING_DATE);
+    testDataDto.setBookingDate(BookingScheduleConfigDaoJpa.getDefaultBookingDate());
     testDataDto.setBookAheadDays(1);
     testDataDto.setDay(DateUtils.Day.FRIDAY);
     testDataDto.setDuration("45");
@@ -92,7 +92,7 @@ public class BookingScheduleConfigTestUtils
   private void initTestDataList() {
     BookingScheduleConfig user2 = new BookingScheduleConfig();
     user2.setTennisWorldUser(tennisWorldUser);
-    user2.setBookingDate(BookingScheduleConfigDaoJpa.DEFAULT_BOOKING_DATE);
+    user2.setBookingDate(BookingScheduleConfigDaoJpa.getDefaultBookingDate());
     user2.setBookAheadDays(2);
     user2.setDay(DateUtils.Day.FRIDAY);
     user2.setDuration("45");
@@ -104,7 +104,7 @@ public class BookingScheduleConfigTestUtils
 
     BookingScheduleConfig user3 = new BookingScheduleConfig();
     user3.setTennisWorldUser(tennisWorldUser);
-    user3.setBookingDate(BookingScheduleConfigDaoJpa.DEFAULT_BOOKING_DATE);
+    user3.setBookingDate(BookingScheduleConfigDaoJpa.getDefaultBookingDate());
     user3.setBookAheadDays(3);
     user3.setDay(DateUtils.Day.FRIDAY);
     user3.setDuration("45");

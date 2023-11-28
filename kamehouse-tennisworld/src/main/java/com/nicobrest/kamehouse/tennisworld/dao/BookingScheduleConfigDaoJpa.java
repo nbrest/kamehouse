@@ -17,11 +17,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingScheduleConfig> {
 
-  public static final Date DEFAULT_BOOKING_DATE = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
   public static final String DEFAULT_BOOKING_DATE_STR = "1984-10-15";
 
   public BookingScheduleConfigDaoJpa(EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
+  }
+
+  /**
+   * Get default booking date.
+   */
+  public static Date getDefaultBookingDate() {
+    return DateUtils.getDate(1984, Calendar.OCTOBER, 15);
   }
 
   @Override
@@ -89,7 +95,7 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
   private void setDefaultBookingDate(BookingScheduleConfig entity) {
     if (entity.getBookingDate() == null) {
       logger.trace("Setting default booking date for entity {}", entity);
-      entity.setBookingDate(DEFAULT_BOOKING_DATE);
+      entity.setBookingDate(getDefaultBookingDate());
     }
   }
 

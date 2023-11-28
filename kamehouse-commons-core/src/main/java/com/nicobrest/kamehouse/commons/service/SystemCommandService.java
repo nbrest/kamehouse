@@ -71,7 +71,7 @@ public class SystemCommandService {
       process = ProcessUtils.start(processBuilder);
       if (!systemCommand.isDaemon()) {
         // Not an ongoing process. Wait until the process finishes and then read
-        // standard ouput and error streams.
+        // standard output and error streams.
         ProcessUtils.waitFor(process);
         getStreamsFromProcess(process, commandOutput);
         int exitValue = ProcessUtils.getExitValue(process);

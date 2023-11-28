@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class KameHouseShellSystemCommand extends SystemCommand {
 
-  private static final String KAMEHOUSE_SHELL_BASE_LINUX = PropertiesUtils.getUserHome()
+  private static final String KAMEHOUSE_SHELL_BASE = PropertiesUtils.getUserHome()
       + "/programs/kamehouse-shell/bin/";
 
   /**
@@ -71,7 +71,7 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
     if (isSudo()) {
       linuxCommand.append("sudo ");
     }
-    linuxCommand.append(KAMEHOUSE_SHELL_BASE_LINUX);
+    linuxCommand.append(KAMEHOUSE_SHELL_BASE);
     linuxCommand.append(getLinuxKameHouseShellScript());
     if (getLinuxKameHouseShellScriptArguments() != null) {
       linuxCommand.append(" ");
