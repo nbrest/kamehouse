@@ -80,9 +80,8 @@ public abstract class AbstractController {
     STATIC_LOGGER.debug("Building POST response");
     ResponseEntity<T> responseEntity = null;
     if (entity != null) {
-      if (logResponse) {
-        StringUtils.sanitizeEntity(entity);
-        STATIC_LOGGER.trace(RESPONSE_ENTITY, entity);
+      if (logResponse && STATIC_LOGGER.isTraceEnabled()) {
+        STATIC_LOGGER.trace(RESPONSE_ENTITY, StringUtils.sanitize(entity));
       }
       responseEntity = new ResponseEntity<>(entity, HttpStatus.CREATED);
     } else {

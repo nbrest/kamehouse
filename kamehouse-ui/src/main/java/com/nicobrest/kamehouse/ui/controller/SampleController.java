@@ -20,7 +20,7 @@ public class SampleController {
   @GetMapping(path = "/dragonball/model-and-view")
   public ModelAndView getModelAndView(@RequestParam(value = "name", required = false,
       defaultValue = "Goku") String name) {
-    String nameSanitized = StringUtils.sanitizeInput(name);
+    String nameSanitized = StringUtils.sanitize(name);
     String message = "mada mada dane";
     ModelAndView mv = new ModelAndView("/jsp/test-module/dragonball/model-and-view");
     mv.addObject("message", message);

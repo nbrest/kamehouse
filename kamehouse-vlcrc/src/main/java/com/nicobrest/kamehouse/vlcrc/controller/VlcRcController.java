@@ -41,7 +41,7 @@ public class VlcRcController extends AbstractController {
    */
   @GetMapping(path = "/{hostname}/status")
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String hostname) {
-    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    String hostnameSanitized = StringUtils.sanitize(hostname);
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostnameSanitized);
     return generateGetResponseEntity(vlcRcStatus, false);
   }
@@ -52,8 +52,7 @@ public class VlcRcController extends AbstractController {
   @PostMapping(path = "/{hostname}/commands")
   public ResponseEntity<VlcRcStatus> execCommand(
       @RequestBody VlcRcCommand vlcRcCommand, @PathVariable String hostname) {
-    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
-    StringUtils.sanitizeEntity(vlcRcCommand);
+    String hostnameSanitized = StringUtils.sanitize(hostname);
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostnameSanitized);
     return generatePostResponseEntity(vlcRcStatus, false);
   }
@@ -63,7 +62,7 @@ public class VlcRcController extends AbstractController {
    */
   @GetMapping(path = "/{hostname}/playlist")
   public ResponseEntity<List<VlcRcPlaylistItem>> getPlaylist(@PathVariable String hostname) {
-    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    String hostnameSanitized = StringUtils.sanitize(hostname);
     List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostnameSanitized);
     return generateGetResponseEntity(vlcPlaylist, false);
   }
@@ -74,8 +73,8 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/{hostname}/browse")
   public ResponseEntity<List<VlcRcFileListItem>> browse(
       @RequestParam(value = "uri", required = false) String uri, @PathVariable String hostname) {
-    String uriSanitized = StringUtils.sanitizeInput(uri);
-    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    String uriSanitized = StringUtils.sanitize(uri);
+    String hostnameSanitized = StringUtils.sanitize(hostname);
     List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uriSanitized, hostnameSanitized);
     return generateGetResponseEntity(vlcRcFileList, false);
   }

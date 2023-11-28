@@ -96,7 +96,7 @@ public class LogLevelManagerController extends AbstractController {
   @GetMapping(path = "/log-level")
   public ResponseEntity<List<String>> getLogLevel(
       @RequestParam(value = "package", required = false) String packageName) {
-    String packageNameSanitized = StringUtils.sanitizeInput(packageName);
+    String packageNameSanitized = StringUtils.sanitize(packageName);
     List<String> logLevelList = logLevelManagerService.getLogLevel(packageNameSanitized);
     return generateGetResponseEntity(logLevelList);
   }
@@ -108,8 +108,8 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<List<String>> setLogLevel(
       @RequestParam(value = "level", required = true) String level,
       @RequestParam(value = "package", required = false) String packageName) {
-    String levelSanitized = StringUtils.sanitizeInput(level);
-    String packageNameSanitized = StringUtils.sanitizeInput(packageName);
+    String levelSanitized = StringUtils.sanitize(level);
+    String packageNameSanitized = StringUtils.sanitize(packageName);
     if (packageNameSanitized == null) {
       logger.info("Using default package {}", DEFAULT_PACKAGE);
       packageNameSanitized = DEFAULT_PACKAGE;

@@ -57,8 +57,9 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
     logger.debug("Update {}", getEntityClass().getSimpleName());
     Identifiable identifiableEntity = (Identifiable) entity;
     updateEntityInRepository(getEntityClass(), entity, identifiableEntity.getId());
-    StringUtils.sanitizeEntity(entity);
-    logger.trace("Update {} completed successfully", entity);
+    if (logger.isTraceEnabled()) {
+      logger.trace("Update {} completed successfully", StringUtils.sanitize(entity));
+    }
   }
 
   @Override

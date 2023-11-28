@@ -37,7 +37,7 @@ public class EhCacheController extends AbstractController {
   @GetMapping
   public ResponseEntity<List<KameHouseCache>> read(
       @RequestParam(value = "name", required = false) String cacheName) {
-    String cacheNameSanitized = StringUtils.sanitizeInput(cacheName);
+    String cacheNameSanitized = StringUtils.sanitize(cacheName);
     List<KameHouseCache> cacheList;
     if (!StringUtils.isEmpty(cacheNameSanitized)) {
       cacheList = new ArrayList<>();
@@ -57,7 +57,7 @@ public class EhCacheController extends AbstractController {
   @DeleteMapping
   public ResponseEntity<Void> clear(
       @RequestParam(value = "name", required = false) String cacheName) {
-    String cacheNameSanitized = StringUtils.sanitizeInput(cacheName);
+    String cacheNameSanitized = StringUtils.sanitize(cacheName);
     if (!StringUtils.isEmpty(cacheNameSanitized)) {
       ehCacheService.clear(cacheNameSanitized);
     } else {

@@ -45,7 +45,7 @@ public class VideoPlaylistController extends AbstractController {
   @GetMapping(path = "/playlist")
   public ResponseEntity<Playlist> getPlaylist(
       @RequestParam(value = "path", required = true) String path) {
-    Playlist playlist = videoPlaylistService.getPlaylist(StringUtils.sanitizeInput(path), true);
+    Playlist playlist = videoPlaylistService.getPlaylist(StringUtils.sanitize(path), true);
     return generateGetResponseEntity(playlist);
   }
 }

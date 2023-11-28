@@ -22,7 +22,6 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Creates a new entity in the repository from the DTO.
    */
   protected ResponseEntity<Long> create(D dto) {
-    StringUtils.sanitizeEntity(dto);
     logger.debug("Create {}", dto.getClass().getSimpleName());
     Long createdId = getCrudService().create(dto);
     return generatePostResponseEntity(createdId);
@@ -49,7 +48,7 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    */
   protected ResponseEntity<List<E>> readAll(Integer maxRows, String sortColumn,
       Boolean sortAscending) {
-    String sanitizedSortColumn = StringUtils.sanitizeInput(sortColumn);
+    String sanitizedSortColumn = StringUtils.sanitize(sortColumn);
     logger.debug("Read all maxRows: {}, sortColumn: {}, sortAscending: {}", maxRows,
         sanitizedSortColumn, sortAscending);
     List<E> entitiesList = getCrudService().readAll(maxRows, sanitizedSortColumn, sortAscending);
@@ -60,7 +59,6 @@ public abstract class AbstractCrudController<E, D> extends AbstractController {
    * Updates an entity in the repository for the specified id and dto.
    */
   protected ResponseEntity<Void> update(Long id, D dto) {
-    StringUtils.sanitizeEntity(dto);
     logger.debug("Update {}", id);
     Identifiable identifiableDto = (Identifiable) dto;
     validatePathAndRequestBodyIds(id, identifiableDto.getId());

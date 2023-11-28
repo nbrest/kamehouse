@@ -36,7 +36,7 @@ public class VlcProcessController extends AbstractSystemCommandController {
   @PostMapping(path = "/vlc-process")
   public ResponseEntity<List<SystemCommand.Output>> startVlcPlayer(
       @RequestParam(value = "file", required = false) String file) {
-    String fileSanitized = StringUtils.sanitizeInput(file);
+    String fileSanitized = StringUtils.sanitize(file);
     return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(fileSanitized));
   }
 

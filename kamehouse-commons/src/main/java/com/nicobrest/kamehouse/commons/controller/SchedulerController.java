@@ -48,8 +48,8 @@ public class SchedulerController extends AbstractController {
   public ResponseEntity<List<KameHouseJob>> cancelJob(
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group) {
-    String nameSanitized = StringUtils.sanitizeInput(name);
-    String groupSanitized = StringUtils.sanitizeInput(group);
+    String nameSanitized = StringUtils.sanitize(name);
+    String groupSanitized = StringUtils.sanitize(group);
     JobKey jobKey = new JobKey(nameSanitized, groupSanitized);
     schedulerService.cancelScheduledJob(jobKey);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();
@@ -64,8 +64,8 @@ public class SchedulerController extends AbstractController {
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group,
       @RequestParam(value = "delay", required = true) Integer delay) {
-    String nameSanitized = StringUtils.sanitizeInput(name);
-    String groupSanitized = StringUtils.sanitizeInput(group);
+    String nameSanitized = StringUtils.sanitize(name);
+    String groupSanitized = StringUtils.sanitize(group);
     JobKey jobKey = new JobKey(nameSanitized, groupSanitized);
     schedulerService.scheduleJob(jobKey, delay);
     List<KameHouseJob> jobs = schedulerService.getAllJobsStatus();

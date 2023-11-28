@@ -30,12 +30,15 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
 
   @Override
   public Long create(D dto) {
-    StringUtils.sanitizeEntity(dto);
-    logger.trace("Create {}", dto);
+    if (logger.isTraceEnabled()) {
+      logger.trace("Create {}", StringUtils.sanitize(dto));
+    }
     E entity = dto.buildEntity();
     validate(entity);
     Long createdId = getCrudDao().create(entity);
-    logger.trace("Create {} response {}", dto, createdId);
+    if (logger.isTraceEnabled()) {
+      logger.trace("Create {} response {}", StringUtils.sanitize(dto), createdId);
+    }
     return createdId;
   }
 
@@ -63,12 +66,15 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
 
   @Override
   public void update(D dto) {
-    StringUtils.sanitizeEntity(dto);
-    logger.trace("Update {}", dto);
+    if (logger.isTraceEnabled()) {
+      logger.trace("Update {}", StringUtils.sanitize(dto));
+    }
     E entity = dto.buildEntity();
     validate(entity);
     getCrudDao().update(entity);
-    logger.trace("Update {} completed successfully", dto);
+    if (logger.isTraceEnabled()) {
+      logger.trace("Update {} completed successfully", StringUtils.sanitize(dto));
+    }
   }
 
   @Override

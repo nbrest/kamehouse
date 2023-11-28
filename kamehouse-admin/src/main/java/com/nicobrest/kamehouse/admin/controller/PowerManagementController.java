@@ -123,9 +123,9 @@ public class PowerManagementController extends AbstractSystemCommandController {
       @RequestParam(value = "server", required = false) String server,
       @RequestParam(value = "mac", required = false) String mac,
       @RequestParam(value = "broadcast", required = false) String broadcast) {
-    String serverSanitized = StringUtils.sanitizeInput(server);
-    String macSanitized = StringUtils.sanitizeInput(mac);
-    String broadcastSanitized = StringUtils.sanitizeInput(broadcast);
+    String serverSanitized = StringUtils.sanitize(server);
+    String macSanitized = StringUtils.sanitize(mac);
+    String broadcastSanitized = StringUtils.sanitize(broadcast);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     if (serverSanitized != null) {
       powerManagementService.wakeOnLan(serverSanitized);

@@ -92,7 +92,7 @@ public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPl
    */
   @GetMapping(path = "/players/hostname/{hostname}")
   public ResponseEntity<VlcPlayer> getByHostname(@PathVariable String hostname) {
-    String hostnameSanitized = StringUtils.sanitizeInput(hostname);
+    String hostnameSanitized = StringUtils.sanitize(hostname);
     VlcPlayer vlcPlayer = vlcPlayerService.getByHostname(hostnameSanitized);
     return generateGetResponseEntity(vlcPlayer);
   }

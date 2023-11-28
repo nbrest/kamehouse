@@ -94,7 +94,7 @@ public class KameHouseUserController extends
   @GetMapping(path = "/users/username/{username:.+}")
   public ResponseEntity<KameHouseUser> loadUserByUsername(@PathVariable String username) {
     KameHouseUser kameHouseUser = kameHouseUserService.loadUserByUsername(
-        StringUtils.sanitizeInput(username));
+        StringUtils.sanitize(username));
     return generatePasswordLessResponseEntity(generateGetResponseEntity(kameHouseUser));
   }
 }

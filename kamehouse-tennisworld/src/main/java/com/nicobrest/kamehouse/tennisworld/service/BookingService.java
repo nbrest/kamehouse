@@ -91,8 +91,9 @@ public abstract class BookingService {
     validateRequest(bookingRequest);
     Long requestId = persistBookingRequest(bookingRequest);
     setThreadName(requestId);
-    StringUtils.sanitizeEntity(bookingRequest);
-    logger.info("Booking tennis world request: {}", bookingRequest);
+    if (logger.isInfoEnabled()) {
+      logger.info("Booking tennis world request: {}", StringUtils.sanitize(bookingRequest));
+    }
     return executeBookingRequest(bookingRequest);
   }
 
@@ -135,11 +136,12 @@ public abstract class BookingService {
     request.setPassword(null);
     request.setCardDetails(null);
     bookingResponse.setRequest(request);
-    StringUtils.sanitizeEntity(bookingResponse);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
-      logger.error(BOOKING_FINISHED, bookingResponse);
+      logger.error(BOOKING_FINISHED, StringUtils.sanitize(bookingResponse));
     } else {
-      logger.info(BOOKING_FINISHED, bookingResponse);
+      if (logger.isInfoEnabled()) {
+        logger.info(BOOKING_FINISHED, StringUtils.sanitize(bookingResponse));
+      }
     }
     return bookingResponse;
   }

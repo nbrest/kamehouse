@@ -42,15 +42,13 @@ public class BookingController extends AbstractController {
       @RequestBody BookingRequestDto bookingRequestDto) {
     bookingRequestDto.setScheduled(false);
     BookingRequest bookingRequest = bookingRequestDto.buildEntity();
-    StringUtils.sanitizeEntity(bookingRequest);
     BookingResponse bookingResponse = bookingService.book(bookingRequest);
-    StringUtils.sanitizeEntity(bookingResponse);
     switch (bookingResponse.getStatus()) {
       case ERROR:
-        logger.error("Response {}", bookingResponse);
+        logger.error("Response {}", StringUtils.sanitize(bookingResponse));
         return new ResponseEntity<>(bookingResponse, HttpStatus.BAD_REQUEST);
       case INTERNAL_ERROR:
-        logger.error("Response {}", bookingResponse);
+        logger.error("Response {}", StringUtils.sanitize(bookingResponse));
         return new ResponseEntity<>(bookingResponse, HttpStatus.INTERNAL_SERVER_ERROR);
       default:
         return generatePostResponseEntity(bookingResponse);

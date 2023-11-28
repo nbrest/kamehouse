@@ -72,7 +72,7 @@ public class BookingResponseController extends
       @RequestParam(value = "sortColumn", required = false, defaultValue = "") String sortColumn,
       @RequestParam(value = "sortAscending", required = false, defaultValue = "true")
       Boolean sortAscending) {
-    return super.readAll(maxRows, StringUtils.sanitizeInput(sortColumn), sortAscending);
+    return super.readAll(maxRows, StringUtils.sanitize(sortColumn), sortAscending);
   }
 
   /**

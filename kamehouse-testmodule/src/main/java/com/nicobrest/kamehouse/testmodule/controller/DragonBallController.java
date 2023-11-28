@@ -72,7 +72,7 @@ public class DragonBallController extends
   public ResponseEntity<List<DragonBallUser>> readAll(
       @RequestParam(value = "action", required = false, defaultValue = "goku") String action) {
     // switch to test parameters and exception handlers
-    String actionSanitized = StringUtils.sanitizeInput(action);
+    String actionSanitized = StringUtils.sanitize(action);
     switch (actionSanitized) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");
@@ -116,7 +116,7 @@ public class DragonBallController extends
     // The :.+ on the endpoint mapping is to allow dots in the username,
     // otherwise it strips the
     // part following the first
-    String usernameSanitized = StringUtils.sanitizeInput(username);
+    String usernameSanitized = StringUtils.sanitize(username);
     DragonBallUser dbUser = dragonBallUserService.getByUsername(usernameSanitized);
     return generateGetResponseEntity(dbUser);
   }
@@ -128,7 +128,7 @@ public class DragonBallController extends
   @GetMapping(path = "/users/emails")
   public ResponseEntity<DragonBallUser> getByEmail(
       @RequestParam(value = "email", required = true) String email) {
-    String emailSanitized = StringUtils.sanitizeInput(email);
+    String emailSanitized = StringUtils.sanitize(email);
     DragonBallUser dbUser = dragonBallUserService.getByEmail(emailSanitized);
     return generateGetResponseEntity(dbUser);
   }

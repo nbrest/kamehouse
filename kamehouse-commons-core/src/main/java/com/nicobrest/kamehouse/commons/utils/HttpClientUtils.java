@@ -215,7 +215,7 @@ public class HttpClientUtils {
    */
   public static void logResponseBody(String responseBody) {
     if (!StringUtils.isEmpty(responseBody) && LOGGER.isTraceEnabled()) {
-      LOGGER.trace("Response body: {}", StringUtils.sanitizeInput(responseBody));
+      LOGGER.trace("Response body: {}", StringUtils.sanitize(responseBody));
     }
   }
 
@@ -238,7 +238,7 @@ public class HttpClientUtils {
    */
   public static void logRequestBody(String requestBody) {
     if (!StringUtils.isEmpty(requestBody) && LOGGER.isTraceEnabled()) {
-      LOGGER.trace("Request body: {}", StringUtils.sanitizeInput(requestBody));
+      LOGGER.trace("Request body: {}", StringUtils.sanitize(requestBody));
     }
   }
 }

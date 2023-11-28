@@ -1,9 +1,5 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import java.lang.reflect.Field;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Utility class to manipulate strings.
  *
@@ -11,57 +7,44 @@ import org.slf4j.LoggerFactory;
  */
 public class StringUtils {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(StringUtils.class);
+  private static final String DEFAULT_SANITIZE_REGEX = "[\n\r\t\"\'<>`^&]";
 
   private StringUtils() {
     throw new IllegalStateException("Utility class");
   }
 
   /**
-   * Removes potentially dangerous characters from external input. This method will need to be
-   * updated constantly.
+   * Removes potentially dangerous characters from external input.
    */
-  public static String sanitizeInput(String input) {
+  public static String sanitize(String input) {
+    return sanitize(input, DEFAULT_SANITIZE_REGEX);
+  }
+
+  /**
+   * Removes potentially dangerous characters from external input for the specified regex.
+   */
+  public static String sanitize(String input, String regex) {
     if (input == null) {
       return null;
     }
-    return input.replaceAll("[\n\r\t\"\'<>`^&]", "");
+    return input.replaceAll(regex, "");
   }
 
+  /**
+   * Removes potentially dangerous characters from external input for the specified regex.
+   */
+  public static <T> String sanitize(T entity) {
+    return sanitize(entity, DEFAULT_SANITIZE_REGEX);
+  }
 
   /**
-   * Sanitize String fields in input entity.
+   * Removes potentially dangerous characters from external input for the specified regex.
    */
-  public static <T> void sanitizeEntity(T entity) {
-    LOGGER.trace("Sanitizing entity");
+  public static <T> String sanitize(T entity, String regex) {
     if (entity == null) {
-      return;
+      return null;
     }
-    Field[] fields = entity.getClass().getDeclaredFields();
-    for (Field field : fields) {
-      if (String.class.equals(field.getType())) {
-        try {
-          boolean currentAccessibility = field.trySetAccessible();
-          field.setAccessible(true);
-          field.set(entity, StringUtils.sanitizeInput((String) field.get(entity)));
-          field.setAccessible(currentAccessibility);
-        } catch (IllegalAccessException e) {
-          LOGGER.trace("Error sanitizing. Field: {}", field.getName());
-        }
-      }
-      if (hasSubFields(field)) {
-        try {
-          boolean currentAccessibility = field.trySetAccessible();
-          field.setAccessible(true);
-          Object fieldValue = field.get(entity);
-          sanitizeEntity(fieldValue);
-          field.setAccessible(currentAccessibility);
-        } catch (IllegalAccessException e) {
-          LOGGER.trace("Error accessing object field to sanitize. Field: {}",
-              field.getName());
-        }
-      }
-    }
+    return sanitize(entity.toString(), regex);
   }
 
   /**
@@ -104,19 +87,5 @@ public class StringUtils {
    */
   public static int lastIndexOf(CharSequence source, CharSequence seq) {
     return org.apache.commons.lang3.StringUtils.lastIndexOf(source, seq);
-  }
-
-  /**
-   * Check if the field has subfields.
-   */
-  private static boolean hasSubFields(Field field) {
-    if (!field.getType().getCanonicalName().contains("com.nicobrest.kamehouse")) {
-      return false;
-    }
-    if (field.getType().isEnum()) {
-      return false;
-    }
-    Field[] subfields = field.getType().getDeclaredFields();
-    return subfields != null && subfields.length > 0;
   }
 }
