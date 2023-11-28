@@ -16,17 +16,20 @@ VLC_PORT=""
 mainProcess() {
   log.debug "VLC_PORT ${VLC_PORT}"
   log.info "Searching for vlc process with an http server"
-  netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
-  VLC_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
-  log.info "VLC_PID: ${VLC_PID}" 
+  netstat -nltp | grep ${VLC_PORT} | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1
+  VLC_PID=`netstat -nltp | grep ${VLC_PORT} | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1`
+  log.info "VLC_PID: ${VLC_PID}"
   if [ -z "${VLC_PID}" ]; then
     log.info "vlc is not running with an http server"
   else
     log.info "Killing process ${COL_PURPLE}${VLC_PID}"
-    cmd.exe "/c taskkill.exe /PID ${VLC_PID} /F"
+    kill -9 ${VLC_PID}
   fi
   log.info "Killing remaining vlc process"
-  cmd.exe "/c taskkill /im vlc.exe"
+  KILL_VLC_PID=`ps aux | grep vlc | grep -v grep | grep -v VlcProcessController | grep -v surefire | grep -v failsafe\\:integration-test | grep -v build-kamehouse\\.sh | awk '{print $2}'`
+  if [ -z "${KILL_VLC_PID}" ]; then
+    kill -9 ${KILL_VLC_PID}
+  fi
 }
 
 parseArguments() {
