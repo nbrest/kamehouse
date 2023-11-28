@@ -192,7 +192,7 @@ class AbstractCrudDaoJpaUnitTest {
     assertThrows(
         KameHouseConflictException.class,
         () -> {
-          testEntityCrudDaoJpa.findAll(TestEntity.class);
+          testEntityCrudDaoJpa.findAll(TestEntity.class, 0, null, null);
         });
   }
 
@@ -271,7 +271,7 @@ class AbstractCrudDaoJpaUnitTest {
   @Test
   void mergeEntityInRepositoryTest() {
     TestEntity entity = testEntityCrudDaoJpa.mergeEntityInRepository(
-        testEntityCrudDaoJpa.findAll(TestEntity.class).get(0));
+        testEntityCrudDaoJpa.findAll(TestEntity.class, 0, null, null).get(0));
 
     assertEquals(999999L, entity.getId());
     assertEquals("goku", entity.getName());

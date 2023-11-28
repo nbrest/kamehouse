@@ -56,16 +56,6 @@ public abstract class AbstractDaoJpa<E> {
   }
 
   /**
-   * Finds all objects of the specified class from the repository.
-   *
-   * @deprecated replaced by findAll(class, maxRows, sortColumn, sortAscending).
-   */
-  @Deprecated(since = "A long long time ago, in a galaxy far far away")
-  protected List<E> findAll(Class<E> clazz) {
-    return findAll(clazz, 0, null, true);
-  }
-
-  /**
    * Finds all objects of the specified class from the repository with the specified criteria.
    */
   protected List<E> findAll(Class<E> clazz, Integer maxRows, String sortColumn,
