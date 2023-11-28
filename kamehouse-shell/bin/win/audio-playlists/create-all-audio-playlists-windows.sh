@@ -52,8 +52,10 @@ printWarning() {
 }
 
 runItunesExport() {
-  log.debug "java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN"
-  java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-itunes-export.sh
+  "${JAVA_HOME}/bin/java" --version
+  log.debug "${JAVA_HOME}/bin/java -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN"
+  "${JAVA_HOME}/bin/java" -jar ${ITUNES_EXPORT_JAR} -outputDir=${PROJECT_DIR}/windows/ -separator=WIN
 }
 
 removeExtraPlaylists() {
