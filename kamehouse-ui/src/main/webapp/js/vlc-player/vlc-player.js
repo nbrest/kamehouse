@@ -73,11 +73,11 @@ function VlcPlayer(hostname) {
       synchronizer = new VlcPlayerSynchronizer(this);
       synchronizer.syncVlcPlayerHttpLoop();
       kameHouse.util.mobile.exec(
-        () => {startSynchronizerWebsockets();},
+        () => {startSynchronizerLoops();},
         () => {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-            // wait for the mobile config to be available before starting the websockets
-            startSynchronizerWebsockets();
+            // wait for the mobile config to be available before starting the websockets and sync loops
+            startSynchronizerLoops();
           });
         }
       );
@@ -85,15 +85,15 @@ function VlcPlayer(hostname) {
     });
   }
 
-  function startSynchronizerWebsockets() {
-    kameHouse.logger.info("Started initializing vlc player websockets");
+  function startSynchronizerLoops() {
+    kameHouse.logger.info("Started initializing vlc player websockets and sync loops");
     synchronizer.initWebSockets();
     synchronizer.connectVlcRcStatus();
     synchronizer.connectPlaylist();
     synchronizer.syncVlcRcStatusLoop();
     synchronizer.syncPlaylistLoop();
     synchronizer.keepAliveWebSocketsLoop();
-    synchronizer.syncLoopsStatus();
+    synchronizer.syncLoopsHealthCheck();
   }
 
   function stopVlcPlayerLoops() {
@@ -612,7 +612,7 @@ function VlcPlayerSynchronizer(vlcPlayer) {
   this.stopVlcPlayerLoops = stopVlcPlayerLoops;
   this.restartVlcPlayerLoops = restartVlcPlayerLoops;
   this.syncVlcPlayerHttpLoop = syncVlcPlayerHttpLoop;
-  this.syncLoopsStatus = syncLoopsStatus;
+  this.syncLoopsHealthCheck = syncLoopsHealthCheck;
 
   const vlcRcStatusWebSocket = new KameHouseWebSocket();
   const playlistWebSocket = new KameHouseWebSocket();
@@ -857,32 +857,57 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }
   }
 
-  function syncLoopsStatus() {
-    const PERIODIC_STATUS_WAIT_MS = 60000;
+  function syncLoopsHealthCheck() {
+    const PERIODIC_HEALTH_CHECK_WAIT_MS = 15000;
     setTimeout(async () => {
       let continueLoop = true;
+      let printLoopStatusCount = 0;
       while (continueLoop) {
-        const separator = "---------------------------------------------";
-        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
-        const loopsStatus = "Sync loops status:";
-        kameHouse.logger.trace(loopsStatus, kameHouse.logger.getYellowText(loopsStatus));
-        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
-        kameHouse.logger.trace("isRunningSyncVlcRcStatusLoop: " + syncLoopsConfig.isRunningSyncVlcRcStatusLoop);
-        kameHouse.logger.trace("isRunningSyncPlaylistLoop: " + syncLoopsConfig.isRunningSyncPlaylistLoop);
-        kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + syncLoopsConfig.isRunningKeepAliveWebSocketLoop);
-        kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop);
-        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
-        kameHouse.logger.trace("vlcRcStatusLoopCount: " + syncLoopsConfig.vlcRcStatusLoopCount);
-        kameHouse.logger.trace("vlcPlaylistLoopCount: " + syncLoopsConfig.vlcPlaylistLoopCount);
-        kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + syncLoopsConfig.keepAliveWebSocketLoopCount);
-        kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + syncLoopsConfig.syncVlcPlayerHttpLoopCount);        
-        kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
-        if (PERIODIC_STATUS_WAIT_MS < -10000) { // fix sonar bug
+        printLoopStatusCount++;
+        if (printLoopStatusCount >= 4) {
+          printLoopStatus();
+          printLoopStatusCount = 0;
+        }
+        
+        kameHouse.logger.trace("Checking state of sync loops");
+        if (syncLoopsConfig.vlcRcStatusLoopCount <= 0) {
+          restartSyncVlcRcStatusLoop(getRestartLoopConfig());
+        }
+        if (syncLoopsConfig.vlcPlaylistLoopCount <= 0) {
+          restartSyncPlaylistLoop(getRestartLoopConfig());
+        }
+        if (syncLoopsConfig.keepAliveWebSocketLoopCount <= 0) {
+          restartKeepAliveWebSocketsLoop(getRestartLoopConfig());
+        }
+        if (syncLoopsConfig.syncVlcPlayerHttpLoopCount <= 0) {
+          restartSyncVlcPlayerHttpLoop(getRestartLoopConfig());
+        }
+        
+        await kameHouse.core.sleep(PERIODIC_HEALTH_CHECK_WAIT_MS);
+
+        if (PERIODIC_HEALTH_CHECK_WAIT_MS < -10000) { // fix sonar bug
           continueLoop = false;
         }
-        await kameHouse.core.sleep(PERIODIC_STATUS_WAIT_MS);
       }
     }, 0);
+  }
+
+  function printLoopStatus() {
+    const separator = "---------------------------------------------";
+    kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
+    const loopsStatus = "Sync loops status:";
+    kameHouse.logger.trace(loopsStatus, kameHouse.logger.getYellowText(loopsStatus));
+    kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
+    kameHouse.logger.trace("isRunningSyncVlcRcStatusLoop: " + syncLoopsConfig.isRunningSyncVlcRcStatusLoop);
+    kameHouse.logger.trace("isRunningSyncPlaylistLoop: " + syncLoopsConfig.isRunningSyncPlaylistLoop);
+    kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + syncLoopsConfig.isRunningKeepAliveWebSocketLoop);
+    kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop);
+    kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
+    kameHouse.logger.trace("vlcRcStatusLoopCount: " + syncLoopsConfig.vlcRcStatusLoopCount);
+    kameHouse.logger.trace("vlcPlaylistLoopCount: " + syncLoopsConfig.vlcPlaylistLoopCount);
+    kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + syncLoopsConfig.keepAliveWebSocketLoopCount);
+    kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + syncLoopsConfig.syncVlcPlayerHttpLoopCount);        
+    kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
   }
 
   function stopVlcPlayerLoops() {
