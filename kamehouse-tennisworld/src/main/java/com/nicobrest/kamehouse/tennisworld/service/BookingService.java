@@ -137,7 +137,9 @@ public abstract class BookingService {
     request.setCardDetails(null);
     bookingResponse.setRequest(request);
     if (bookingResponse.getStatus() != Status.SUCCESS) {
-      logger.error(BOOKING_FINISHED, StringUtils.sanitize(bookingResponse));
+      if (logger.isErrorEnabled()) {
+        logger.error(BOOKING_FINISHED, StringUtils.sanitize(bookingResponse));
+      }
     } else {
       if (logger.isInfoEnabled()) {
         logger.info(BOOKING_FINISHED, StringUtils.sanitize(bookingResponse));

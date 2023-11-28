@@ -45,10 +45,14 @@ public class BookingController extends AbstractController {
     BookingResponse bookingResponse = bookingService.book(bookingRequest);
     switch (bookingResponse.getStatus()) {
       case ERROR:
-        logger.error("Response {}", StringUtils.sanitize(bookingResponse));
+        if (logger.isErrorEnabled()) {
+          logger.error("Response {}", StringUtils.sanitize(bookingResponse));
+        }
         return new ResponseEntity<>(bookingResponse, HttpStatus.BAD_REQUEST);
       case INTERNAL_ERROR:
-        logger.error("Response {}", StringUtils.sanitize(bookingResponse));
+        if (logger.isErrorEnabled()) {
+          logger.error("Response {}", StringUtils.sanitize(bookingResponse));
+        }
         return new ResponseEntity<>(bookingResponse, HttpStatus.INTERNAL_SERVER_ERROR);
       default:
         return generatePostResponseEntity(bookingResponse);
