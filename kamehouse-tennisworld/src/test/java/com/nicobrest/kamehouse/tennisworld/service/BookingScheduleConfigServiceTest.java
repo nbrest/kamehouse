@@ -104,4 +104,23 @@ class BookingScheduleConfigServiceTest
         () -> bookingScheduleConfigService.validate(bookingScheduleConfig)
     );
   }
+
+  /**
+   * Tests invalid tennisworld user in the configuration.
+   */
+  @Test
+  void invalidTennisWorldUserTest() {
+    BookingScheduleConfigDto bookingScheduleConfigDto = testUtils.getTestDataDto();
+    bookingScheduleConfigDto.getTennisWorldUser().setEmail(null);
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> bookingScheduleConfigService.create(bookingScheduleConfigDto)
+    );
+
+    bookingScheduleConfigDto.setTennisWorldUser(null);
+    assertThrows(
+        KameHouseInvalidDataException.class,
+        () -> bookingScheduleConfigService.create(bookingScheduleConfigDto)
+    );
+  }
 }
