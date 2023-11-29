@@ -48,6 +48,7 @@ function convertBashColorsToHtml($bashOutput) {
   $htmlOutput = str_replace(array_keys($colorMappings), $colorMappings, $bashOutput);
   // Remove the special character added in my bash color mappings
   $htmlOutput = str_replace("", "", $htmlOutput);
+  $htmlOutput = str_replace("</span>ain]", "[main]", $htmlOutput);
 
   return $htmlOutput;
 }

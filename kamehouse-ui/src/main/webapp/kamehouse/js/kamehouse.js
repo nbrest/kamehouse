@@ -1959,6 +1959,7 @@ function KameHouseCoreFunctions() {
     htmlOutput = htmlOutput.replace(/""/g, "");
     htmlOutput = htmlOutput.replace(/\x1B/g, "");
     htmlOutput = htmlOutput.replace(/\x1b/g, "");
+    htmlOutput = htmlOutput.replace(/"<\/span>ain\]"/g, "[main]");
 
     return htmlOutput;
   }
