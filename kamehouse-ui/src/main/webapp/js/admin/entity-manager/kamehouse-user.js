@@ -57,13 +57,13 @@ $(document).ready(() => {
           	"ROLE_NAMEKIAN"
           ],
           buildEntity: (element) => {
-            return buildKameHouseUserEntity(element);
+            return kameHouse.extension.kameHouseUserCrudManager.buildRolesEntity(element);
           },
           buildFormField: (baseRoleSelectElement, roleEntity) => {
-            return buildKameHouseUserFormField(baseRoleSelectElement, roleEntity);
+            return kameHouse.extension.kameHouseUserCrudManager.buildRolesFormField(baseRoleSelectElement, roleEntity);
           },
           buildListDisplay: (roles) => {
-            return buildKameHouseUserListDisplay(roles);
+            return kameHouse.extension.kameHouseUserCrudManager.buildRolesListDisplay(roles);
           }
         },
         { 
@@ -87,49 +87,79 @@ $(document).ready(() => {
   });
 });
 
-function buildKameHouseUserEntity(element) {
-  kameHouse.logger.debug("Building kamehouse user role entity");
-  for (const option of element.options) {
-    if (option.selected && option.value != "") {
-      const role = {
-        name: option.value
-      };
-      const id = element.getAttribute("data-kamehouse-id");
-      if (!kameHouse.core.isEmpty(id)) {
-        kameHouse.logger.trace("Building role from element with data-kamehouse-id: " + id);
+/**
+ * Functionality to manage CRUD operations on any entity in the backend.
+ */
+function KameHouseUserCrudManager() {
+
+  this.load = load;
+  this.buildRolesEntity = buildRolesEntity;
+  this.buildRolesFormField = buildRolesFormField;
+  this.buildRolesListDisplay = buildRolesListDisplay;
+
+  /**
+   * Load the extension.
+   */
+  function load() {
+    kameHouse.logger.info("Started initializing kameHouseUserCrudManager");
+  }
+
+  /**
+   * Build kamehouse user roles entity.
+   */
+  function buildRolesEntity(element) {
+    kameHouse.logger.debug("Building kamehouse user roles entity");
+    for (const option of element.options) {
+      if (option.selected && option.value != "") {
+        const role = {
+          name: option.value
+        };
+        const id = element.getAttribute("data-kamehouse-id");
+        if (!kameHouse.core.isEmpty(id)) {
+          kameHouse.logger.trace("Building role from element with data-kamehouse-id: " + id);
+        }
+        return role;
       }
-      return role;
     }
+    kameHouse.logger.warn("Unable to build kamehouse user role");
+    return null;
   }
-  kameHouse.logger.warn("Unable to build kamehouse user role");
-  return null;
+  
+  /**
+   * Build kamehouse user roles form field.
+   */
+  function buildRolesFormField(baseRoleSelectElement, roleEntity) {
+    kameHouse.logger.debug("Building kamehouse user roles form field");
+    const formField = kameHouse.util.dom.cloneNode(baseRoleSelectElement, true);
+    kameHouse.util.dom.classListAdd(formField, "m-5-t-d-kh");
+    kameHouse.util.dom.setAttribute(formField, "data-kamehouse-id", "");
+    for (const option of formField.options) {
+      if (option.value == roleEntity.name) {
+        option.selected = true;
+      } else {
+        option.selected = false;
+      }
+    }
+    if (!kameHouse.core.isEmpty(roleEntity.id)) {
+      kameHouse.util.dom.setAttribute(formField, "data-kamehouse-id", roleEntity.id);
+    }
+    return formField;
+  }
+  
+  /**
+   * Build kamehouse user roles list display.
+   */
+  function buildRolesListDisplay(roles) {
+    if (kameHouse.core.isEmpty(roles)) {
+      return "[]";
+    }
+    const rolesToPrint = [];
+    roles.forEach((role) => {
+      rolesToPrint.push(role.name);
+    });
+    return kameHouse.json.stringify(rolesToPrint);
+  }
+  
 }
 
-function buildKameHouseUserFormField(baseRoleSelectElement, roleEntity) {
-  kameHouse.logger.debug("Building kamehouse user role form field");
-  const formField = kameHouse.util.dom.cloneNode(baseRoleSelectElement, true);
-  kameHouse.util.dom.classListAdd(formField, "m-5-t-d-kh");
-  kameHouse.util.dom.setAttribute(formField, "data-kamehouse-id", "");
-  for (const option of formField.options) {
-    if (option.value == roleEntity.name) {
-      option.selected = true;
-    } else {
-      option.selected = false;
-    }
-  }
-  if (!kameHouse.core.isEmpty(roleEntity.id)) {
-    kameHouse.util.dom.setAttribute(formField, "data-kamehouse-id", roleEntity.id);
-  }
-  return formField;
-}
-
-function buildKameHouseUserListDisplay(roles) {
-  if (kameHouse.core.isEmpty(roles)) {
-    return "[]";
-  }
-  const rolesToPrint = [];
-  roles.forEach((role) => {
-    rolesToPrint.push(role.name);
-  });
-  return kameHouse.json.stringify(rolesToPrint);
-}
+$(document).ready(() => {kameHouse.addExtension("kameHouseUserCrudManager", new KameHouseUserCrudManager())});
