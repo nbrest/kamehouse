@@ -30,7 +30,7 @@ function KameHouse() {
     this.extension = {};
     this.util = {};
     
-    /** core modules */
+    /** core kamehouse elements */
     this.core = new KameHouseCoreFunctions();
     this.json = new KameHouseJson();
     this.logger = new KameHouseLogger();
@@ -52,7 +52,7 @@ function KameHouse() {
     this.util.time = new KameHouseTimeUtils();
 
     /**
-     * Init core modules and utils
+     * Init core elements and utils
      */
     this.logger.init();
     this.logger.info("Started initializing kamehouse.js");
@@ -1192,6 +1192,13 @@ function KameHouseMobileUtils() {
 
 /** 
  * Functionality to load different modules and control the dependencies between them.
+ * KameHouse modules are sections of code that perform functionality that is usually required by
+ * other separate parts of the code. Elements like kamehouse and groot sessions are modules.
+ * Most (or all) other modules are registered as plugins or extensions.
+ * For example the code to update the view on the header and footer needs to wait for the module
+ * kamehouse session so that the session data is available to update the view.
+ * A lot of code execution depends on waiting for the kamehouse debugger or kamehouse modal code
+ * to be loaded. The modules framework synchronizes those dependencies.
  */
 function KameHouseModuleUtils() {
 

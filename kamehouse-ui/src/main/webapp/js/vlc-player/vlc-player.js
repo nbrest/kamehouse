@@ -611,9 +611,17 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 
   const defaultBtnPrefixClass = 'media-btn';
 
-  if (kameHouse.core.isEmpty(btnPrefixClass)) {
-    btnPrefixClass = defaultBtnPrefixClass;
+  let buttonPrefixClass = btnPrefixClass;
+
+  /**
+   * StatefulMediaButton constructor.
+   */
+  function constructor() {
+    if (kameHouse.core.isEmpty(btnPrefixClass)) {
+      buttonPrefixClass = defaultBtnPrefixClass;
+    }
   }
+  constructor();
 
   /** Determines if the button is pressed or unpressed. */
   function isPressed() { return vlcPlayer.getVlcRcStatus()[pressedField] == pressedCondition; }
@@ -629,14 +637,14 @@ function StatefulMediaButton(vlcPlayer, id, pressedField, pressedCondition, btnP
 
   /** Set media button pressed */
   function setMediaButtonPressed() {
-    kameHouse.util.dom.removeClass($('#' + id), btnPrefixClass + '-unpressed');
-    kameHouse.util.dom.addClass($('#' + id), btnPrefixClass + '-pressed');
+    kameHouse.util.dom.removeClass($('#' + id), buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.addClass($('#' + id), buttonPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   function setMediaButtonUnpressed() {
-    kameHouse.util.dom.removeClass($('#' + id), btnPrefixClass + '-pressed');
-    kameHouse.util.dom.addClass($('#' + id), btnPrefixClass + '-unpressed');
+    kameHouse.util.dom.removeClass($('#' + id), buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.addClass($('#' + id), buttonPrefixClass + '-unpressed');
   }
 } // End StatefulMediaButton
 
