@@ -1,13 +1,14 @@
 /**
  * Functionality to add a sticky back to top button.
- */
-/**
  * Manager to handle the sticky button to go back to top.
  */
 function KameHouseStickyBackToTop() {
 
   this.load = load;
 
+  /**
+   * Load kamehouse sticky back to top plugin.
+   */
   function load() {
     kameHouse.logger.info("Started initializing sticky back to top");
     importCss();

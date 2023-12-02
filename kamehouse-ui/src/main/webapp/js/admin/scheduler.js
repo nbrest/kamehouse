@@ -1,7 +1,5 @@
 /** 
  * Functionality to list and manipulate scheduled jobs in the backend.
- */
-/**
  * Manager to get the scheduled jobs in the current server and cancel their scheduling.
  */
 function Scheduler() {
@@ -12,6 +10,9 @@ function Scheduler() {
   let jobs = [[]];
   let schedulerTableTemplate;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Started initializing scheduler");
     kameHouse.util.banner.setRandomAllBanner();

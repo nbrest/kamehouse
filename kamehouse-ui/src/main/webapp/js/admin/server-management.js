@@ -1,10 +1,8 @@
 /**
  * Admin Server Management functions.
+ * Manager to execute the admin commands in the current server.
  * 
  * @author nbrest
- */
-/**
- * Manager to execute the admin commands in the current server.
  */
 function ServerManager() {
 
@@ -33,6 +31,9 @@ function ServerManager() {
   const DF_URL = '/system-state/df';
   const HTTPD_URL = '/system-state/httpd';
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Started initializing server management");
     kameHouse.util.banner.setRandomAllBanner();
@@ -44,6 +45,9 @@ function ServerManager() {
     });
   }
   
+  /**
+   * Import css.
+   */
   function importServerManagementCss() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
   }
@@ -312,6 +316,9 @@ function ServerManager() {
     }, 5000);
   }
   
+  /**
+   * Get reboot server modal message.
+   */
   function getRebootServerModalMessage() {
     const rebootModalMessage = kameHouse.util.dom.getSpan({}, "Are you sure you want to reboot the server? ");
     kameHouse.util.dom.append(rebootModalMessage, kameHouse.util.dom.getBr());
@@ -319,6 +326,9 @@ function ServerManager() {
     return rebootModalMessage;
   }
 
+  /**
+   * Get reboot clickable image.
+   */
   function createRebootImg() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/shutdown-red.png",
@@ -330,6 +340,9 @@ function ServerManager() {
 
   /** 
    * --------------------------------------------------------------------------
+   */
+  /**
+   * Execute post http request.
    */
   function post(url, requestBody) {
     kameHouse.plugin.modal.loadingWheelModal.open();

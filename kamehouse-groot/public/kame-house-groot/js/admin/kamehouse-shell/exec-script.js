@@ -1,8 +1,14 @@
+/**
+ * Loader for kamehouse shell scripts.
+ */
 function ExecScriptLoader() {
   this.load = load;
   this.executeFromUrlParams = executeFromUrlParams;
   this.downloadBashScriptOutput = downloadBashScriptOutput;
 
+  /**
+   * Load the exec script loader extension.
+   */
   function load() {
     kameHouse.util.banner.setRandomAllBanner();
     setScriptNameAndArgsFromUrlParams();
@@ -11,6 +17,9 @@ function ExecScriptLoader() {
     });
   }
 
+  /**
+   * Execute script from url parameters.
+   */
   function executeFromUrlParams() {
     setScriptInProgressView();
     const urlParams = new URLSearchParams(window.location.search);
@@ -23,14 +32,23 @@ function ExecScriptLoader() {
     }); 
   }
 
+  /**
+   * Execute script success callback.
+   */
   function successCallback() {
     scriptExecCallback();
   }
 
+  /**
+   * Execute script error callback.
+   */
   function errorCallback() {
     scriptExecCallback();
   }
 
+  /**
+   * Execute script global callback.
+   */
   function scriptExecCallback() {
     updateScriptExecutionEndDate();
     kameHouse.util.dom.removeClass($('#kamehouse-shell-output-header'), "hidden-kh");
@@ -39,6 +57,9 @@ function ExecScriptLoader() {
     setBannerScriptStatus("finished!");
   }
 
+  /**
+   * Set script in progress view.
+   */
   function setScriptInProgressView() {
     updateScriptExecutionStartDate();
     kameHouse.util.dom.addClass($('#kamehouse-shell-output-header'), "hidden-kh");
@@ -47,6 +68,9 @@ function ExecScriptLoader() {
     setBannerScriptStatus("in progress...");
   }
 
+  /**
+   * Set banner script status.
+   */
   function setBannerScriptStatus(status) {
     kameHouse.util.dom.setHtml($("#banner-script-status"), status);
   }
@@ -106,6 +130,9 @@ function ExecScriptLoader() {
     kameHouse.util.dom.removeChild(document.body, downloadLink);
   }
 
+  /**
+   * Get download link.
+   */
   function getDownloadLink(timestamp) {
     return kameHouse.util.dom.getDomNode(kameHouse.util.dom.getA({
       href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(kameHouse.extension.kameHouseShell.getBashScriptOutput()),

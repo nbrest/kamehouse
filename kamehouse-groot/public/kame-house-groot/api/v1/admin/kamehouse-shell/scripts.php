@@ -11,6 +11,9 @@
 
 <?php
 
+  /**
+   * Main scripts function.
+   */
   function main() {
     init();
 
@@ -31,6 +34,9 @@
     setJsonResponseBody($kameHouseShellArray);
   }
 
+  /**
+   * Init scripts.
+   */
   function init() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);

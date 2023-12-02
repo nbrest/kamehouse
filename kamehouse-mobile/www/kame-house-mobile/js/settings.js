@@ -8,6 +8,9 @@ function KameHouseMobileSettings() {
 
   this.load = load;
   
+  /**
+   * Load the kamehouse mobile settings extension.
+   */
   function load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app settings page");
     kameHouse.util.banner.setRandomAllBanner();
@@ -22,6 +25,9 @@ function KameHouseMobileSettings() {
     });
   }
 
+  /**
+   * Handle settings url parameters.
+   */
   function handleUrlParams() {
     kameHouse.logger.debug("Settings query string: " + window.location.search);
     const urlParams = new URLSearchParams(window.location.search);

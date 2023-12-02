@@ -8,6 +8,9 @@ function KameHouseShellLoader() {
 
   const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script";
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
@@ -74,16 +77,25 @@ function KameHouseShellLoader() {
       (responseBody, responseCode, responseDescription, responseHeaders) => errorCallback(responseBody, responseCode, responseDescription, responseHeaders));
   }
   
+  /**
+   * Get all kamehouse shell scripts table body.
+   */
   function getAllKameHouseShellTbody() {
     return kameHouse.util.dom.getTbody({
       id: "all-kamehouse-shell-table-body"
     }, null);
   }
   
+  /**
+   * Get all kamehouse shell scripts table row.
+   */
   function getAllKameHouseShellTr(scriptName) {
     return kameHouse.util.dom.getTrTd(getTrBtn(scriptName));
   }
   
+  /**
+   * Get kamehouse shell script table row button.
+   */
   function getTrBtn(scriptName) {
     return kameHouse.util.dom.getButton({
       attr: {

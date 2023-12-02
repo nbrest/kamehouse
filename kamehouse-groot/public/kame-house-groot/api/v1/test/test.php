@@ -11,6 +11,9 @@
 
 <?php
 
+  /**
+   * Main test function.
+   */
   function main() {
     init();
   
@@ -37,6 +40,9 @@
     //phpinfo();
   }
 
+  /**
+   * Init test.
+   */
   function init() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);

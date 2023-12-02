@@ -25,6 +25,9 @@ function ServerManager() {
   let dockerControlHost = false;
   let isCommandRunningFlag = false;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading ServerManager");
     kameHouse.util.banner.setRandomAllBanner();
@@ -41,10 +44,16 @@ function ServerManager() {
     kameHouse.util.tab.openTabFromCookies('kh-groot-server-manager', 'tab-deployment');
   }
 
+  /**
+   * Set command running.
+   */
   function setCommandRunning() {
     isCommandRunningFlag = true;
   }
 
+  /**
+   * Set command not running.
+   */
   function setCommandNotRunning() {
     isCommandRunningFlag = false;
   }
@@ -162,6 +171,9 @@ function ServerManager() {
     kameHouse.extension.kameHouseShell.execute('win/video-playlists/create-all-video-playlists.sh', "", true, 600, completeCommandCallback, completeCommandCallback);
   }
 
+  /**
+   * Get reboot server modal message.
+   */
   function getRebootServerModalMessage() {
     const rebootModalMessage = kameHouse.util.dom.getSpan({}, "Are you sure you want to reboot the server? ");
     kameHouse.util.dom.append(rebootModalMessage, kameHouse.util.dom.getBr());
@@ -169,6 +181,9 @@ function ServerManager() {
     return rebootModalMessage;
   }
 
+  /**
+   * Create reboot clickable image.
+   */
   function createRebootImg() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/shutdown-red.png",
@@ -188,6 +203,9 @@ function GitManager() {
   this.pullAll = pullAll;
   this.pullAllAllServers = pullAllAllServers;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading GitManager");
     kameHouse.util.module.setModuleLoaded("gitManager");
@@ -245,6 +263,9 @@ function DeploymentManager() {
   const ECLIPSE_PORTS = ["9988", "9948"];
   const TOMCAT_DEV_PORT = "9980";
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading DeploymentManager");
     kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseModal", "kameHouseDebugger", "kameHouseGrootSession"], () => {
@@ -254,6 +275,9 @@ function DeploymentManager() {
     });
   }
 
+  /**
+   * Check if it's eclipse dev environment.
+   */
   function isEclipseEnvironment() {
     return kameHouse.util.mobile.exec(
       () => {
@@ -277,6 +301,9 @@ function DeploymentManager() {
     );
   }
 
+  /**
+   * Check if it's dev environment.
+   */
   function isDevEnvironment() {
     return kameHouse.util.mobile.exec(
       () => {
@@ -303,6 +330,9 @@ function DeploymentManager() {
     );
   }
 
+  /**
+   * Get dev tomcat port argument.
+   */
   function getDevTomcatPortArgument() {
     if (isDevEnvironment()) {
       return "-p " + TOMCAT_DEV_PORT;
@@ -595,18 +625,30 @@ function DeploymentManager() {
     }
   }
 
+  /**
+   * Create red status ball image.
+   */
   function createStatusBallRedImg() {
     return getStatusBallImg("red");
   }
 
+  /**
+   * Create green status ball image.
+   */
   function createStatusBallGreenImg() {
     return getStatusBallImg("green");
   }  
 
+  /**
+   * Create blue status ball image.
+   */
   function createStatusBallBlueImg() {
     return getStatusBallImg("blue");
   }
 
+  /**
+   * Get status ball image.
+   */
   function getStatusBallImg(color) {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/ball-" + color + ".png",
@@ -631,12 +673,18 @@ function TailLogManagerWrapper() {
   let tailLogCount = 0;
   let resume = false;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading TailLogManagerWrapper");
     kameHouse.util.module.setModuleLoaded("tailLogManagerWrapper");
     kameHouse.util.mobile.setMobileEventListeners(pauseTailLog, resumeTailLog);
   }
 
+  /**
+   * Pause tail log.
+   */
   function pauseTailLog() {
     if (isTailLogRunning) {
       kameHouse.logger.info("KameHouse sent to background. Pausing tail logs");
@@ -647,6 +695,9 @@ function TailLogManagerWrapper() {
     isTailLogRunning = false;
   }
 
+  /**
+   * Resume tail log.
+   */
   function resumeTailLog() {
     if (resume) {
       kameHouse.logger.info("KameHouse sent to foreground. Resuming tail logs");
@@ -712,6 +763,9 @@ function TailLogManagerWrapper() {
       tailLogScript == "common/logs/cat-git-pull-all-log.sh";
   }
 
+  /**
+   * Create start tail log image.
+   */
   function createStartImg() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",
@@ -722,6 +776,9 @@ function TailLogManagerWrapper() {
     });
   }
 
+  /**
+   * Create stop tail log image.
+   */
   function createStopImg() {
     return kameHouse.util.dom.getImgBtn({
       id: "toggle-tail-log-img",

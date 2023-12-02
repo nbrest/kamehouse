@@ -1,3 +1,6 @@
+/**
+ * Execute scheduled bookings on tennisworld. 
+ */
 function ScheduledBookingService() {
 
   this.load = load;
@@ -5,6 +8,9 @@ function ScheduledBookingService() {
 
   const SCHEDULED_BOOKINGS_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings';
 
+  /**
+   * Load the extension.
+   */  
   function load() {
     kameHouse.logger.info("Loading ScheduledBookingService");
     kameHouse.util.banner.setRandomAllBanner();

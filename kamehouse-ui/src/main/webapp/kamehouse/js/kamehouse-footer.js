@@ -38,6 +38,9 @@ function KameHouseFooter() {
     }
   }
 
+  /**
+   * Get footer container div.
+   */
   function getFooterContainerDiv() {
     return kameHouse.util.dom.getDiv({
       id: "kamehouse-footer-container"

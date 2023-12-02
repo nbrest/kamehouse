@@ -17,6 +17,9 @@ function BackendLogLevelUtils() {
   this.setRequestLoggerConfigQueryString = setRequestLoggerConfigQueryString;
   this.setRequestLoggerConfigClientInfo = setRequestLoggerConfigClientInfo;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Started initializing log-level");
     kameHouse.util.banner.setRandomAllBanner();
@@ -59,7 +62,9 @@ function BackendLogLevelUtils() {
     return getApiUrl(webapp) + "/request-logger";
   }
 
-  /** Get all current log levels */
+  /** 
+   * Get all current log levels 
+   */
   function getLogLevels(webapp, openModal) {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();

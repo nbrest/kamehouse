@@ -27,6 +27,9 @@ function KameHouseWebSocket() {
   let topicUrl = null;
   let pollUrl = null;
   
+  /**
+   * Set status url.
+   */
   function setStatusUrl(statusUrlParam) {
     kameHouse.util.mobile.exec(
       () => {
@@ -45,8 +48,14 @@ function KameHouseWebSocket() {
     );
   }
 
+  /**
+   * Set topic url.
+   */
   function setTopicUrl(topicUrlParam) { topicUrl = topicUrlParam; }
 
+  /**
+   * Set poll url.
+   */
   function setPollUrl(pollUrlParam) { pollUrl = pollUrlParam; }
  
   /** Checks if the websocket is connected. */

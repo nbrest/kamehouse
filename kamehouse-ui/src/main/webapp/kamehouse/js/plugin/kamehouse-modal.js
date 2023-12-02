@@ -14,6 +14,9 @@
 function KameHouseModal() {
   this.load = load;
 
+  /**
+   * Load the kamehouse modal plugin.
+   */
   async function load() {
     kameHouse.logger.info("Started initializing kamehouse modal framework");
     importKamehouseModalCss();
@@ -24,6 +27,9 @@ function KameHouseModal() {
     kameHouse.util.module.setModuleLoaded("kameHouseModal");
   }
 
+  /**
+   * Import css.
+   */
   function importKamehouseModalCss() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-modal.css">');
   }
@@ -65,6 +71,9 @@ function BasicKamehouseModal() {
     modalUtils.open(getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders));
   }
 
+  /**
+   * Get empty response body text.
+   */
   function getEmptyResponseBodyText() {
     const message = kameHouse.util.dom.getSpan({}, "Error executing the request.");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
@@ -72,6 +81,9 @@ function BasicKamehouseModal() {
     return message;
   }
   
+  /**
+   * Get error message.
+   */
   function getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders) {
     const message = kameHouse.util.dom.getSpan({}, "Error executing the request.");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
@@ -193,14 +205,23 @@ function ModalUtils(modalId) {
   /** Append the message to the modal */
   function appendHtml(message) { kameHouse.util.dom.append($("#" + modalId + "-text"), message); }
 
+  /**
+   * Check if it's an error message.
+   */
   function isErrorMessage() {
     return isErrorMessageValue;
   } 
 
+  /**
+   * Set error message.
+   */
   function setErrorMessage(val) {
     isErrorMessageValue = val;
   }
 
+  /**
+   * Reset modal contents.
+   */
   function reset() {
     setHtml("");
     setErrorMessage(false);

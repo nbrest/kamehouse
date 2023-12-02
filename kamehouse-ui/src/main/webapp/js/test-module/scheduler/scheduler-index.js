@@ -3,10 +3,9 @@
  * 
  * Dependencies: logger, kameHouse.plugin.debugger.http.
  * 
- * @author nbrest
- */
-/**
  * Manager to handle the scheduling of the sample job.
+ * 
+ * @author nbrest
  */
 function TestScheduler() {
 
@@ -18,6 +17,9 @@ function TestScheduler() {
   const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
   const SAMPLE_JOB_URL = '/test-scheduler/sample-job';
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading TestScheduler");
     kameHouse.util.banner.setRandomAllBanner();

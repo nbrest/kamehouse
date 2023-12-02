@@ -1,7 +1,5 @@
 /**
  * Kamehouse webapp tabs functions.
- */
-/**
  * Prototype to manage the kamehouse webapp tabs.
  */
 function KameHouseWebappTabsManager() {
@@ -14,6 +12,9 @@ function KameHouseWebappTabsManager() {
 
   let cookiePrefix = '';
 
+  /**
+   * Load kamehouse webapps tab manager plugin.
+   */
   function load() {
     importTabs();
   }

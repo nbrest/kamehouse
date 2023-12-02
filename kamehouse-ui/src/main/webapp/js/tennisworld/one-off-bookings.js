@@ -1,3 +1,6 @@
+/**
+ * Execute one of bookings on tennisworld. 
+ */
 function BookingService() {
 
   this.load = load;
@@ -8,6 +11,9 @@ function BookingService() {
 
   const BOOK_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/bookings';
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading BookingService");
     kameHouse.util.banner.setRandomAllBanner();

@@ -23,6 +23,9 @@ function EhCacheManager() {
   let ehcacheTableTemplate;
   let ehcacheErrorTableTemplate;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Started initializing ehcache");
     kameHouse.util.banner.setRandomAllBanner();

@@ -1,6 +1,12 @@
+/**
+ * Groot login manager. 
+ */
 function GrootLogin() {
   this.load = load;
 
+  /**
+   * Load the groot login manager extension.
+   */
   function load() {
     kameHouse.util.banner.setRandomAllBanner();
     const urlParams = new URLSearchParams(window.location.search);

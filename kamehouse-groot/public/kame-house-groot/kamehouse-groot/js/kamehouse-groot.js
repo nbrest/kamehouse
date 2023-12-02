@@ -11,6 +11,9 @@ function KameHouseGroot() {
   this.load = load;
   this.windowLocation = windowLocation;
 
+  /**
+   * Load the kamehouse groot extension.
+   */
   function load() {
     kameHouse.extension.groot.header = new GrootHeader();
     kameHouse.extension.groot.header.renderGrootMenu();
@@ -105,6 +108,9 @@ function GrootHeader() {
     });
   }
   
+  /**
+   * Get groot login button.
+   */
   function getLoginButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/login-gray-dark.png",
@@ -116,6 +122,9 @@ function GrootHeader() {
     });
   }
 
+  /**
+   * Get groot logout button.
+   */
   function getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/dbz/goku-gray-dark.png",
@@ -127,6 +136,9 @@ function GrootHeader() {
     });
   }
 
+  /**
+   * Get username header.
+   */
   function getUsernameHeader(username) {
     return kameHouse.util.dom.getSpan({
       class: "groot-header-login-status-text"
@@ -135,13 +147,14 @@ function GrootHeader() {
 }
 
 /** 
- * @deprecated
  * Refresh the page after the specified seconds. 
  * Simulating a loop by recursively calling the same function 
+ * @deprecated
  */
 var countdownCounter = 60;
 
 /** 
+ * Refresh the page periodically.
  * @deprecated
  */
 function refreshPageLoop() {

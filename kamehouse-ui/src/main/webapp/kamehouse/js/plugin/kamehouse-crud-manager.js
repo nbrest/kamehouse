@@ -36,7 +36,7 @@ function CrudManager() {
   let readAllSortAscending = null;
   
   /**
-   * Load the crud manager module.
+   * Load the crud manager plugin.
    */
   function load() {
     kameHouse.logger.info("Started initializing crudManager");
@@ -150,6 +150,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Set CRUD icon.
+   */
   function setIcon(config) {
     if (!kameHouse.core.isEmpty(config.icon)) {
       icon = kameHouse.util.dom.getImgBtn({
@@ -161,6 +164,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Set CRUD info image component.
+   */
   function setInfoImage(config) {
     if (!kameHouse.core.isEmpty(config.infoImage)) {
       kameHouse.util.dom.removeClass($("#crud-info-image"), "hidden-kh");
@@ -183,6 +189,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Get CRUD icon.
+   */
   function getIcon() {
     if (!kameHouse.core.isEmpty(icon)) {
       return kameHouse.util.dom.cloneNode(icon, false);
@@ -190,6 +199,9 @@ function CrudManager() {
     return "";
   }
 
+  /**
+   * Get CRUD list title.
+   */
   function getListTitle() {
     const span = kameHouse.util.dom.getSpan();
     kameHouse.util.dom.append(span, getIcon());
@@ -197,6 +209,9 @@ function CrudManager() {
     return span;
   }
 
+  /**
+   * Get CRUD add title.
+   */
   function getAddTitle() {
     const span = kameHouse.util.dom.getSpan();
     kameHouse.util.dom.append(span, getIcon());
@@ -204,6 +219,9 @@ function CrudManager() {
     return span;
   }
 
+  /**
+   * Get CRUD edit title.
+   */
   function getEditTitle() {
     const span = kameHouse.util.dom.getSpan();
     kameHouse.util.dom.append(span, getIcon());
@@ -222,6 +240,9 @@ function CrudManager() {
     kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), getEditTitle());
   }
 
+  /**
+   * Get CRUD banner title.
+   */
   function getBannerTitle() {
     if (kameHouse.core.isEmpty(entityNameJapanese)) {
       return getEntityNames();
@@ -321,6 +342,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Set read all data parameters.
+   */
   function setReadAllParameters(readAllParams) {
     if (kameHouse.core.isEmpty(readAllParams)) {
       return;
@@ -338,6 +362,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Load custom list sections.
+   */
   function loadCustomSections(config) {
     if (!kameHouse.core.isEmpty(config.customListSection)) {
       kameHouse.util.dom.load($("#custom-list-section"), config.customListSection);
@@ -491,6 +518,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Update edit form field value.
+   */
   function updateEditFormFieldValue(entity, column, parentNodeChain) {
     const type = column.type;
     const name = column.name;
@@ -511,6 +541,9 @@ function CrudManager() {
     }
   }
 
+  /**
+   * Update edit form field array value.
+   */
   function updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField) {
     const name = column.name;
     const arrayType = column.arrayType;
@@ -930,6 +963,9 @@ function CrudManager() {
     return kameHouse.util.dom.getInput(config, null);
   }
 
+  /**
+   * Get select field.
+   */
   function getSelectField(config, column) {
     const select = kameHouse.util.dom.getSelect(config, null);
     const values = column.values;
@@ -1050,6 +1086,9 @@ function CrudManager() {
     kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, newNode, arraySourceNode.nextSibling);
   }
 
+  /**
+   * Remove array input field element.
+   */
   function removeArrayInputFieldElement(buttonId, fieldId) {
     kameHouse.logger.debug("Removing array element");
     const arrayNodes = document.getElementsByName(fieldId + "[]");
@@ -1234,6 +1273,9 @@ function CrudManager() {
     return arrayVal;
   }
 
+  /**
+   * Build array element value.
+   */
   function buildArrayElementValue(column, arrayElement) {
     const arrayType = column.arrayType;
     const name = column.name;
@@ -1319,6 +1361,9 @@ function CrudManager() {
     kameHouse.util.table.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction, filterRows);
   }
 
+  /**
+   * Refresh view.
+   */
   function refreshView() {
     kameHouse.util.dom.setValue(document.getElementById('num-rows'), "");
     

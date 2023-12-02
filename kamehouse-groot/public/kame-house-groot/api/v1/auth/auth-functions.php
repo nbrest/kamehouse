@@ -148,6 +148,9 @@ function getRoles($username) {
   return $roles;
 }
 
+/**
+ * Get database configuration.
+ */
 function getDatabaseConfig() {
   return '{ 
     "server" : "localhost",

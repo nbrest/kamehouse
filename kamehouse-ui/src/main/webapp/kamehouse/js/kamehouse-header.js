@@ -28,6 +28,9 @@ function KameHouseHeader() {
     });
   }
 
+  /**
+   * Toggle debug mode.
+   */
   function toggleDebugMode() {
     const debugModeDiv = document.getElementById("debug-mode");
     if (debugModeDiv) {

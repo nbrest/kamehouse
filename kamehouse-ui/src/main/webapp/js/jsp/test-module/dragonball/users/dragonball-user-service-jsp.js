@@ -12,6 +12,9 @@ function DragonBallUserServiceJsp() {
 
   const SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading DragonBallUserServiceJsp");
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
@@ -155,10 +158,16 @@ function DragonBallUserServiceJsp() {
     kameHouse.util.dom.append($dragonBallUsersTbody, getErrorMessageTr(message));
   }
   
+  /**
+   * Get error message.
+   */
   function getErrorMessageTr(message) {
     return kameHouse.util.dom.getTrTd(message);
   }
 
+  /**
+   * Get dragonball user table row.
+   */
   function getDragonBallUserTableRow(dragonBallUser) {
     const tr = kameHouse.util.dom.getTr({}, null);
     kameHouse.util.dom.append(tr, getDragonBallUserTd(dragonBallUser.id));
@@ -171,10 +180,16 @@ function DragonBallUserServiceJsp() {
     return tr;
   }
 
+  /**
+   * Get dragonball user table row data.
+   */
   function getDragonBallUserTd(dataValue) {
     return kameHouse.util.dom.getTd({}, dataValue);
   }
 
+  /**
+   * Get action buttons table data.
+   */
   function getActionButtonsTd(username, id) {
     const td = kameHouse.util.dom.getTd({}, null);
     kameHouse.util.dom.append(td, getEditButton(username));
@@ -182,6 +197,9 @@ function DragonBallUserServiceJsp() {
     return td; 
   }
 
+  /**
+   * Get edit button.
+   */
   function getEditButton(username) {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/edit.png",
@@ -191,6 +209,9 @@ function DragonBallUserServiceJsp() {
     });
   }
 
+  /**
+   * Get delete button.
+   */
   function getDeleteButton(id) {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/delete.png",
@@ -200,6 +221,9 @@ function DragonBallUserServiceJsp() {
     });
   }
 
+  /**
+   * Get dragonball user table header.
+   */
   function getDragonBallUserTableHeader() {
     return kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/test-module/dragonball-users-table-header.html");
   }

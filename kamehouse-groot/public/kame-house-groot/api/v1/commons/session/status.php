@@ -10,6 +10,10 @@
 ?>
 
 <?php
+
+  /**
+   * Main session status function.
+   */
   function main() {
     init();
 
@@ -44,6 +48,9 @@
     setJsonResponseBody($sessionStatus);
   }
 
+  /**
+   * Init session status.
+   */
   function init() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);

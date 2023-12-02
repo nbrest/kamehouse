@@ -1,8 +1,13 @@
-
+/**
+ * Groot Home manager.
+ */
 function GrootHome() {
 
   this.load = load;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.util.banner.setRandomAllBanner();
   }

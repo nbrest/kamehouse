@@ -51,9 +51,10 @@ function VlcPlayer(hostname) {
 
   let vlcRcStatus = {};
 
-  /** Load VlcPlayer */
+  /** Load VlcPlayer extension. */
   function load() {
     kameHouse.logger.info("Started initializing VLC Player");
+    mainViewUpdater.setStatefulButtons();
     kameHouse.util.module.loadKameHouseWebSocket();
     loadStateFromCookies();
     playlist.init();
@@ -85,6 +86,9 @@ function VlcPlayer(hostname) {
     });
   }
 
+  /**
+   * Start synchronization loops.
+   */
   function startSynchronizerLoops() {
     kameHouse.logger.info("Started initializing vlc player websockets and sync loops");
     synchronizer.initWebSockets();
@@ -96,10 +100,16 @@ function VlcPlayer(hostname) {
     synchronizer.syncLoopsHealthCheck();
   }
 
+  /**
+   * Stop synchronization loops.
+   */
   function stopVlcPlayerLoops() {
     synchronizer.stopVlcPlayerLoops();
   }
 
+  /**
+   * Restart synchronization loops.
+   */
   function restartVlcPlayerLoops() {
     synchronizer.restartVlcPlayerLoops();
   }
@@ -136,6 +146,9 @@ function VlcPlayer(hostname) {
   /**
    * --------------------------------------------------------------------------
    * Tab manager
+   */
+  /**
+   * Open vlc player tab.
    */
   function openTab(vlcPlayerTabDivId) {
     // Set kh-vlc-player-current-tab cookie
@@ -264,17 +277,32 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Playlist functionality
    */
+  /**
+   * Set updated playlist.
+   */
   function setUpdatedPlaylist(updatedPlaylist) { playlist.setUpdatedPlaylist(updatedPlaylist); }
 
+  /**
+   * Reload playlist.
+   */
   function reloadPlaylist() { playlist.reload(); }
 
+  /**
+   * Scroll to currently playing item.
+   */
   function scrollToCurrentlyPlaying() { playlist.scrollToCurrentlyPlaying(); }
 
+  /**
+   * Filter playlist rows.
+   */
   function filterPlaylistRows() {
     const filterString = document.getElementById("playlist-filter-input").value;
     kameHouse.util.table.filterTableRows(filterString, 'playlist-table-body');
   }
 
+  /**
+   * Toggle expand/collapse playlist entries names.
+   */
   function toggleExpandPlaylistFilenames() { playlist.toggleExpandPlaylistFilenames(); }
 
   /**
@@ -294,11 +322,17 @@ function VlcPlayer(hostname) {
     playlist.resetView();
   }
 
+  /**
+   * Update current time view.
+   */
   function updateCurrentTimeView(value) {
     mainViewUpdater.setTimeSliderLocked(true);
     mainViewUpdater.updateCurrentTimeView(value);
   }
 
+  /**
+   * Update volume view.
+   */
   function updateVolumeView(value) {
     mainViewUpdater.setVolumeSliderLocked(true);
     mainViewUpdater.updateVolumeView(value);
@@ -308,12 +342,18 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Rest Client functionality
    */
-  // Use this getter internally from other components of VlcPlayer. Not externally.
+  /**
+   * Get REST client.
+   * Use this getter internally from other components of VlcPlayer. Not externally.
+   */
   function getRestClient() { return restClient; }
 
   /**
    * --------------------------------------------------------------------------
    * Debugger functionality
+   */
+  /**
+   * Get vlc player debugger.
    */
   function getDebugger() { return vlcPlayerDebugger; }
 
@@ -321,11 +361,17 @@ function VlcPlayer(hostname) {
    * --------------------------------------------------------------------------
    * Links to external resources
    */
+  /**
+   * Unlock screen.
+   */
   function unlockScreen() {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
     getRestClient().post(UNLOCK_SCREEN_API_URL, null, null);
   }
 
+  /**
+   * Wake on lan media server.
+   */
   function wolMediaServer() {
     const requestParam =  {
       "server" : "media.server"
@@ -403,12 +449,16 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
   this.resetView = resetView;
   this.updateCurrentTimeView = updateCurrentTimeView;
   this.updateVolumeView = updateVolumeView;
+  this.setStatefulButtons = setStatefulButtons;
 
   const statefulButtons = [];
 
   let timeSliderLocked = false;
   let volumeSliderLocked = false;
 
+  /**
+   * Set stateful buttons state.
+   */
   function setStatefulButtons() {
     statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-fullscreen', "fullscreen", true));
     statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-repeat-1', "repeat", true));
@@ -419,7 +469,6 @@ function VlcPlayerMainViewUpdater(vlcPlayer) {
     statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-16-9', "aspectRatio", "16:9"));
     statefulButtons.push(new StatefulMediaButton(vlcPlayer, 'media-btn-4-3', "aspectRatio", "4:3"));
   }
-  setStatefulButtons();
 
   /** Set time slider locked. */
   function setTimeSliderLocked(value) { timeSliderLocked = value; }
@@ -627,6 +676,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     syncVlcPlayerHttpLoopCount : 0
   };
 
+  /**
+   * Initialize web sockets.
+   */
   function initWebSockets() {
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
     const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
@@ -733,6 +785,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     syncLoopExecution(config, "syncVlcRcStatusLoop", syncVlcRcStatusLoopRun, "isRunningSyncVlcRcStatusLoop", "vlcRcStatusLoopCount");
   }
 
+  /**
+   * VlcRcStatus loop run.
+   */
   async function syncVlcRcStatusLoopRun(config) {
     kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(vlcPlayer.getVlcRcStatus()));
     setVlcRcStatusPullWaitTimeMs(config);
@@ -743,6 +798,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }
   }
 
+  /**
+   * Set VlcRcStatus pull wait time.
+   */
   function setVlcRcStatusPullWaitTimeMs(config) {
     const VLC_STATUS_CONNECTED_PLAYING_MS = 1000;
     const VLC_STATUS_CONNECTED_NOT_PLAYING_MS = 5000;
@@ -758,6 +816,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     config.vlcRcStatusPullWaitTimeMs = VLC_STATUS_CONNECTED_PLAYING_MS;
   }
 
+  /**
+   * Update vlc player view.
+   */
   function updateViewSyncVlcRcStatusLoop() {
     if (vlcRcStatusWebSocket.isConnected()) {
       // poll VlcRcStatus from the websocket.
@@ -777,6 +838,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     syncLoopExecution(config, "syncPlaylistLoop", syncPlaylistLoopRun, "isRunningSyncPlaylistLoop", "vlcPlaylistLoopCount");
   }
 
+  /**
+   * Playlist lopp run.
+   */
   async function syncPlaylistLoopRun(config) {
     kameHouse.logger.trace("syncPlaylistLoop");
     if (playlistWebSocket.isConnected()) {
@@ -802,6 +866,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     syncLoopExecution(config, "keepAliveWebSocketsLoop", keepAliveWebSocketsLoopRun, "isRunningKeepAliveWebSocketLoop", "keepAliveWebSocketLoopCount");
   }
 
+  /**
+   * Keep alive websockets loop run.
+   */
   async function keepAliveWebSocketsLoopRun(config) {
     kameHouse.logger.trace("keepAliveWebSocketsLoop");
     if (!vlcRcStatusWebSocket.isConnected()) {
@@ -829,6 +896,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     syncLoopExecution(config, "syncVlcPlayerHttpLoop", syncVlcPlayerHttpLoopRun, "isRunningSyncVlcPlayerHttpLoop", "syncVlcPlayerHttpLoopCount");
   }
 
+  /**
+   * Http fallback sync loop run.
+   */
   async function syncVlcPlayerHttpLoopRun(config) {
     setSyncVlcPlayerHttpWaitMs(config);
     loadStateFromApiSyncVlcPlayerHttpLoop();
@@ -838,6 +908,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }
   }
 
+  /**
+   * Set http fallback sync loop wait.
+   */
   function setSyncVlcPlayerHttpWaitMs(config) {
     const WEB_SOCKETS_CONNECTED_WAIT_MS = 7000;
     const WEB_SOCKETS_DISCONNECTED_WAIT_MS = 2000;
@@ -848,6 +921,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     config.syncVlcPlayerHttpWaitMs = WEB_SOCKETS_CONNECTED_WAIT_MS;
   }
 
+  /**
+   * Load vlc player state from http api.
+   */
   function loadStateFromApiSyncVlcPlayerHttpLoop() {
     if (!vlcRcStatusWebSocket.isConnected() || !playlistWebSocket.isConnected()) {
       kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
@@ -857,6 +933,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }
   }
 
+  /**
+   * Run periodic health checks on all sync loops.
+   */
   function syncLoopsHealthCheck() {
     const PERIODIC_HEALTH_CHECK_WAIT_MS = 15000;
     setTimeout(async () => {
@@ -877,6 +956,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }, 0);
   }
 
+  /**
+   * Print all sync loops statuses.
+   */
   function printLoopStatus() {
     const separator = "---------------------------------------------";
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
@@ -895,6 +977,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
   }
 
+  /**
+   * Execute health checks on all sync loops.
+   */
   function executeSyncLoopsHealthCheck() {
     kameHouse.logger.trace("Checking state of sync loops");
     if (syncLoopsConfig.vlcRcStatusLoopCount <= 0) {
@@ -911,6 +996,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }
   }
 
+  /**
+   * Stop all sync loops.
+   */
   function stopVlcPlayerLoops() {
     const message = "KameHouse sent to background. Stopping sync loops and disconnecting websockets";
     kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
@@ -922,6 +1010,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     playlistWebSocket.disconnect(); 
   }
 
+  /**
+   * Restart all sync loops.
+   */
   function restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
     kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
@@ -933,6 +1024,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     restartKeepAliveWebSocketsLoop(getRestartLoopConfig());
   }
 
+  /**
+   * Get restart loop default config.
+   */
   function getRestartLoopConfig() {
     const MAX_RETRIES = 30;
     const RESTART_LOOPS_WAIT_MS = 1000;
@@ -970,6 +1064,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     }, config.restartLoopDelayMs);
   }
 
+  /**
+   * Restart vlcRcStatus loop.
+   */
   function restartSyncVlcRcStatusLoop(config) {
     const firstRestartConfig = getRestartLoopConfig();
     firstRestartConfig.restartLoopDelayMs = 5000;
@@ -977,11 +1074,17 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     restartSyncLoopExecution(config, "vlcRcStatusLoop", vlcRcStatusRestartFunction, "vlcRcStatusLoopCount");
   }
 
+  /**
+   * VlcRcStatus loop restart function.
+   */
   function vlcRcStatusRestartFunction() {
     reconnectVlcRcStatus();
     syncVlcRcStatusLoop();
   }
 
+  /**
+   * Restart playlist loop.
+   */
   function restartSyncPlaylistLoop(config) {
     const firstRestartConfig = getRestartLoopConfig();
     firstRestartConfig.restartLoopDelayMs = 5000;
@@ -989,11 +1092,17 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     restartSyncLoopExecution(config, "vlcPlaylistLoop", playlistRestartFunction, "vlcPlaylistLoopCount");
   }
 
+  /**
+   * Playlist loop restart function.
+   */
   function playlistRestartFunction() {
     reconnectPlaylist();
     syncPlaylistLoop();
   }
 
+  /**
+   * Restart keep alive websockets loop.
+   */
   function restartKeepAliveWebSocketsLoop(config) {
     const firstRestartConfig = getRestartLoopConfig();
     firstRestartConfig.restartLoopDelayMs = 5000;
@@ -1001,6 +1110,9 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     restartSyncLoopExecution(config, "keepAliveWebSocketLoop", keepAliveWebSocketsLoop, "keepAliveWebSocketLoopCount");
   }
   
+  /**
+   * Restart http fallback sync loop.
+   */
   function restartSyncVlcPlayerHttpLoop(config) {
     const firstRestartConfig = getRestartLoopConfig();
     firstRestartConfig.restartLoopDelayMs = 2000;
@@ -1208,23 +1320,35 @@ function VlcPlayerPlaylist(vlcPlayer) {
     reload();
   }
 
+  /**
+   * Get empty playlist table row.
+   */
   function getEmptyPlaylistTr() {
     const madaMadaDane = 'まだまだだね';
     return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
   }
   
+  /**
+   * Get playlist table body.
+   */
   function getPlaylistTbody() {
     return kameHouse.util.dom.getTbody({
       id: "playlist-table-body"
     });
   }
 
+  /**
+   * Get playlist table row.
+   */
   function getPlaylistTr(displayName, playlistElementId) {
     return kameHouse.util.dom.getTr({
       id: "playlist-table-row-id-" + playlistElementId
     }, kameHouse.util.dom.getTd({}, getPlaylistTrBtn(displayName, playlistElementId)));
   }
 
+  /**
+   * Get playlist table row button.
+   */
   function getPlaylistTrBtn(displayName, playlistElementId) {
     return kameHouse.util.dom.getButton({
       attr: {

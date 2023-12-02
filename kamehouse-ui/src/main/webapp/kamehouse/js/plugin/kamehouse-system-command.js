@@ -1,10 +1,9 @@
 /** 
  * Handles the kamehouse system commands on the ui's side.
  * 
- * @author nbrest
- */
-/**
  * Handles the functionality for the kamehouse system commands.
+ * 
+ * @author nbrest
  */
 function SystemCommandManager() {
 
@@ -12,6 +11,9 @@ function SystemCommandManager() {
   this.renderCommandOutput = renderCommandOutput;
   this.renderErrorExecutingCommand = renderErrorExecutingCommand;
 
+  /**
+   * Load kamehouse system command manager plugin.
+   */
   function load() {
     kameHouse.logger.info("Started initializing systemCommandManager");
   }
@@ -64,6 +66,9 @@ function SystemCommandManager() {
     kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
   
+  /**
+   * Get command line.
+   */
   function getCommandLine(command) {
     const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
@@ -73,6 +78,9 @@ function SystemCommandManager() {
     return message;
   }
 
+  /**
+   * Get daemon running line.
+   */
   function getDaemonRunningLine(command) {
     const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
@@ -85,6 +93,9 @@ function SystemCommandManager() {
     return message;
   }
 
+  /**
+   * Get command error header line.
+   */
   function getCommandErrorHeaderLine() {
     const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"

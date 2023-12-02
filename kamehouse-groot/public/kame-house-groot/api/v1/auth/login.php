@@ -34,6 +34,9 @@
     } 
   }
 
+  /**
+   * Init login.
+   */
   function init() {
     require_once("../../../api/v1/commons/global.php");
     require_once("auth-functions.php");

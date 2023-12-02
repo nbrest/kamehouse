@@ -88,7 +88,7 @@ $(document).ready(() => {
 });
 
 /**
- * Functionality to manage CRUD operations on any entity in the backend.
+ * Custom build functions for kamehouse user CRUD.
  */
 function KameHouseUserCrudManager() {
 

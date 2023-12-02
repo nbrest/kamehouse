@@ -9,6 +9,9 @@ function TestWebSocket() {
   this.load = load;
   let websocket;
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Started initializing TestWebSocket");
     kameHouse.util.banner.setRandomAllBanner();
@@ -100,6 +103,9 @@ function TestWebSocket() {
     kameHouse.util.dom.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));
   }
 
+  /**
+   * Get websocket response table row.
+   */
   function getWebsocketResponseTr(date, message) {
     return kameHouse.util.dom.getTrTd(date.toLocaleString() + " : " + message);
   }

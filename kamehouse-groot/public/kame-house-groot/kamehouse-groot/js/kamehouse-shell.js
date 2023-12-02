@@ -10,11 +10,17 @@ function KameHouseShell() {
   const EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
   let bashScriptOutput = "Script output not set yet.";
 
+  /**
+   * Load the kamehouse shell extension.
+   */
   function load() {
     kameHouse.logger.info("Initialized kameHouseShell");
     kameHouse.util.module.setModuleLoaded("kameHouseShell");
   }
 
+  /**
+   * Get bash script output.
+   */
   function getBashScriptOutput() {
     return bashScriptOutput;
   }
@@ -120,20 +126,32 @@ function KameHouseShell() {
     }
   }
 
+  /**
+   * Get script output table body.
+   */
   function getScriptOutputTbody() {
     return kameHouse.util.dom.getTbody({
       id: "kamehouse-shell-output-table-body"
     }, null);
   }
 
+  /**
+   * Get script output errot table row.
+   */
   function getScriptOutputErrorTr(message) {
     return kameHouse.util.dom.getTrTd(message);
   }
 
+  /**
+   * Get script output table row.
+   */
   function getScriptOutputTr(htmlContent) {
     return kameHouse.util.dom.getTrTd(htmlContent);
   }
 
+  /**
+   * Get script is executing message.
+   */
   function getScriptExecutingMessage(scriptName, args, executeOnDockerHost) {
     const executingMessageSpan = kameHouse.util.dom.getSpan({}, "Executing script : ");
     const scriptNameSpan = kameHouse.util.dom.getSpan({

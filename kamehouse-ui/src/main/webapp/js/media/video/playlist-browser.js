@@ -24,7 +24,7 @@ function PlaylistBrowser() {
   let tbodyAbsolutePaths = null;
   let tbodyFilenames = null;
 
-  /** Load Playlist Browser. */
+  /** Load Playlist Browser extension. */
   function load() {
     kameHouse.logger.info("Started initializing playlist browser");
     kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
@@ -85,6 +85,9 @@ function PlaylistBrowser() {
       );
   }
 
+  /**
+   * Convert all words to upper case.
+   */
   function capitalizeAllWords(string) {
     if (kameHouse.core.isEmpty(string)) {
       return string;
@@ -179,7 +182,7 @@ function PlaylistBrowser() {
   /** Play the clicked element from the playlist. */
   function clickEventOnPlaylistBrowserRow(event) {
     const filename = event.data.filename;
-    kameHouse.logger.debug("Play selected playlist browser file : " + filename);
+    kameHouse.logger.info("Play selected playlist browser file : " + filename);
     kameHouse.extension.vlcPlayer.playFile(filename);
     kameHouse.extension.vlcPlayer.openTab('tab-playing');
   }
@@ -219,6 +222,9 @@ function PlaylistBrowser() {
     }
   }
 
+  /**
+   * Get initial dropdown option.
+   */
   function getInitialDropdownOption(optionText) {
     return kameHouse.util.dom.getOption({
       disabled: true,
@@ -226,32 +232,50 @@ function PlaylistBrowser() {
     }, optionText);
   }
 
+  /**
+   * Get playlist option.
+   */
   function getPlaylistOption(entry, category) {
     return kameHouse.util.dom.getOption({
       value: entry
     }, category);
   }
 
+  /**
+   * Get playlist category option.
+   */
   function getPlaylistCategoryOption(path, playlistName) {
     return kameHouse.util.dom.getOption({
       value: path
     }, playlistName);
   }
   
+  /**
+   * Get playlist browser table body.
+   */
   function getPlaylistBrowserTbody() {
     return kameHouse.util.dom.getTbody({
       id: "playlist-browser-table-body"
     }, null);
   }
 
+  /**
+   * Get empty playlist table row.
+   */
   function getEmptyPlaylistTr() {
     return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
   }
 
+  /**
+   * Get playlist browser table row.
+   */
   function getPlaylistBrowserTr(displayName, filePath) {
     return kameHouse.util.dom.getTrTd(getPlaylistBrowserTrButton(displayName, filePath));
   }
 
+  /**
+   * Get playlist browser table row button.
+   */
   function getPlaylistBrowserTrButton(displayName, filePath) {
     return kameHouse.util.dom.getButton({
       attr: {

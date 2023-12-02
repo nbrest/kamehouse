@@ -23,6 +23,9 @@ function KameHouseDebugger() {
 
   let debuggerHttpClientDivTemplate;  
   
+  /**
+   * Load kamehouse debugger plugin.
+   */
   async function load() {
     kameHouse.logger.info("Started initializing kameHouseDebugger");
     kameHouse.plugin.debugger.http = new DebuggerHttpClient();
@@ -31,6 +34,9 @@ function KameHouseDebugger() {
     renderDebugMode();
   }
 
+  /**
+   * Get toggle debugger modal html.
+   */
   function getDebuggerModalHtml() {
     const img = kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/debug-btn-success.png",
@@ -185,6 +191,9 @@ function KameHouseDebugger() {
     kameHouse.util.dom.empty($debuggerHttpClientDiv);
   }
 
+  /**
+   * Set console log level dropdown.
+   */
   function setConsoleLogLevelDropdown() {
     const currentLogLevel = kameHouse.logger.getLogLevel();
     kameHouse.logger.debug("Updating debugger console log level dropdown to " + currentLogLevel);

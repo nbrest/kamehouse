@@ -6,6 +6,9 @@ function TomcatModuleStatusManager() {
   this.load = load;
   this.getAllModulesStatus = getAllModulesStatus;
   
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       init();

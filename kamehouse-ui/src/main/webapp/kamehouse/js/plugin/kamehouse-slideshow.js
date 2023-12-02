@@ -12,6 +12,9 @@ function KameHouseSlideshow() {
 
   let slideIndex = 1;
 
+  /**
+   * Load kamehouse slideshow plugin.
+   */
   function load() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-slideshow.css">');
     kameHouse.util.module.setModuleLoaded("slideshow");

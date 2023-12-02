@@ -18,6 +18,9 @@
 
 <?php
 
+  /**
+   * Authorize api.
+   */
   function authorizeApi() {
     initAuthorizeApi();
 
@@ -40,6 +43,9 @@
     exitWithError(401, "Login as admin to /kame-house-groot to access this endpoint");
   }
 
+  /**
+   * Init authorize api.
+   */
   function initAuthorizeApi() {
     // global.php already imported by the callers of authorize-admin-api.php
     // require_once("../../../api/v1/commons/global.php");

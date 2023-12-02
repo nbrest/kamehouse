@@ -151,6 +151,9 @@ function KameHouseBannerUtils() {
     }
   ];
 
+  /**
+   * Get banner categories.
+   */
   function getBannerCategories() {
     const allCategories = [];
     BANNERS_LIST.forEach((banner) => {
@@ -159,6 +162,9 @@ function KameHouseBannerUtils() {
     return allCategories;
   }
 
+  /**
+   * Get banners for a category.
+   */
   function getBanners(bannerCategory) {
     let selectedBanners = [];
     BANNERS_LIST.forEach((banner) => {
@@ -169,6 +175,9 @@ function KameHouseBannerUtils() {
     return selectedBanners;
   }
 
+  /**
+   * Get all baners.
+   */
   function getAllBanners() {
     const allBanners = [];
     BANNERS_LIST.forEach((banner) => {
@@ -631,6 +640,9 @@ function KameHouseDomUtils() {
     }
   }
 
+  /**
+   * Remove element from dom.
+   */
   function removeElement(element) {
     if (element) {
       element.remove();
@@ -745,54 +757,93 @@ function KameHouseDomUtils() {
     $('.' + className).toggle();
   }
 
+  /**
+   * Get 'a' html element.
+   */
   function getA(attr, html) {
     return getElement('a', attr, html);
   }
 
+  /**
+   * Get 'br' html element.
+   */
   function getBr() {
     return getElement('br', null, null);
   }
 
+  /**
+   * Get 'div' html element.
+   */
   function getDiv(attr, html) {
     return getElement('div', attr, html);
   }
 
+  /**
+   * Get 'input' html element.
+   */
   function getInput(attr, html) {
     return getElement('input', attr, html);
   }
 
+  /**
+   * Get 'label' html element.
+   */
   function getLabel(attr, html) {
     return getElement('label', attr, html);
   }
 
+  /**
+   * Get 'li' html element.
+   */
   function getLi(attr, html) {
     return getElement('li', attr, html);
   }
   
+  /**
+   * Get 'option' html element.
+   */
   function getOption(attr, html) {
     return getElement('option', attr, html);
   }
 
+  /**
+   * Get 'p' html element.
+   */
   function getP(attr, html) {
     return getElement('p', attr, html);
   }
 
+  /**
+   * Get 'select' html element.
+   */
   function getSelect(attr, html) {
     return getElement('select', attr, html);
   }
 
+  /**
+   * Get 'span' html element.
+   */
   function getSpan(attr, html) {
     return getElement('span', attr, html);
   }
 
+  /**
+   * Get 'tbody' html element.
+   */
   function getTbody(attr, html) {
     return getElement('tbody', attr, html);
   }
 
+  /**
+   * Get 'textarea' html element.
+   */
   function getTextArea(attr, html) {
     return getElement('textarea', attr, html);
   }
 
+  /**
+   * Get 'td' html element.
+   */
   function getTd(attr, html) {
     return getElement('td', attr, html);
   }
@@ -957,6 +1008,9 @@ function KameHouseMobileUtils() {
 
   let isMobileAppStatus = false;
 
+  /**
+   * Init kamehouse mobile utils.
+   */
   function init() {
     loadCordovaModule();
     disableMobileOnlyElements();
@@ -973,10 +1027,16 @@ function KameHouseMobileUtils() {
     );
   }
 
+  /**
+   * Check if it's running on mobile app.
+   */
   function isMobileApp() {
     return isMobileAppStatus;
   }
   
+  /**
+   * Load cordova module.
+   */
   function loadCordovaModule() {
     const urlParams = new URLSearchParams(window.location.search);
     const mockCordova = urlParams.get('mockCordova');
@@ -995,6 +1055,9 @@ function KameHouseMobileUtils() {
     }
   }
 
+  /**
+   * Add cordova error handler.
+   */
   function addCordovaErrorHandler() {
     kameHouse.logger.info("Adding cordova error handler");
     window.addEventListener("cordovacallbackerror", (event) => {
@@ -1003,6 +1066,9 @@ function KameHouseMobileUtils() {
     });  
   }
 
+  /**
+   * Set mobile event listeners.
+   */
   function setMobileEventListeners(onPauseFunction, onResumeFunction) {
     exec(
       null,
@@ -1014,12 +1080,18 @@ function KameHouseMobileUtils() {
     )
   }
 
+  /**
+   * Run onPause function.
+   */
   function onPause(onPauseFunction) {
     if (kameHouse.core.isFunction(onPauseFunction)) {
       onPauseFunction();
     }
   }
 
+  /**
+   * Run onResume function.
+   */
   function onResume(onResumeFunction) {
     if (kameHouse.core.isFunction(onResumeFunction)) {
       onResumeFunction();
@@ -1036,6 +1108,9 @@ function KameHouseMobileUtils() {
     )
   }
 
+  /**
+   * Open url link.
+   */
   function windowOpen(url, targetWeb) {
     return exec(
       () => {window.open(url, targetWeb)},
@@ -1043,6 +1118,9 @@ function KameHouseMobileUtils() {
     )
   }
 
+  /**
+   * Disable mobile only elements on web.
+   */
   function disableMobileOnlyElements() {
     $(document).ready(() => {
       exec(
@@ -1059,6 +1137,9 @@ function KameHouseMobileUtils() {
     });
   }
 
+  /**
+   * Disable webapp only elements on mobile.
+   */
   function disableWebappOnlyElements() {
     exec(
       null,
@@ -1070,6 +1151,9 @@ function KameHouseMobileUtils() {
     );
   }
 
+  /**
+   * Load global mobile.
+   */
   function loadGlobalMobile() {
     exec(
       null,
@@ -1402,6 +1486,9 @@ function KameHouseTableUtils() {
     }, 50);
   }
 
+  /**
+   * Process sort direction in sort table.
+   */
   function processSortDirection(sortConfig, rows, columnNumber, compareFunction) {
     if (sortConfig.sortDirection != null) {
       for (sortConfig.currentRowIndex = 2; sortConfig.currentRowIndex < (rows.length - 1); sortConfig.currentRowIndex++) {
@@ -1416,6 +1503,9 @@ function KameHouseTableUtils() {
     }
   }
 
+  /**
+   * Process swap rows in sort table.
+   */
   function processSwapRows(sortConfig, rows, initialSortDirection) {
     if (sortConfig.swapRows) {
       kameHouse.util.dom.insertBefore(rows[sortConfig.currentRowIndex].parentNode, rows[sortConfig.currentRowIndex + 1], rows[sortConfig.currentRowIndex]);
@@ -1436,6 +1526,9 @@ function KameHouseTableUtils() {
     }
   }
 
+  /**
+   * Process number of sorting cycles in sort table.
+   */
   function processNumSortingCycles(sortConfig) {
     const MAX_SORTING_CYCLES = 100000;
     if (sortConfig.numSortingCycles > MAX_SORTING_CYCLES) {
@@ -1554,6 +1647,9 @@ function KameHouseTestUtils() {
     kameHouse.logger.trace("This is a TRACE message", kameHouse.logger.getCyanText("This is a TRACE message"));
   }
 
+  /**
+   * Test sleep function.
+   */
   async function testSleep() {
     kameHouse.logger.info("TEST SLEEP ------------- BEFORE " + new Date());
     await kameHouse.core.sleep(3000);
@@ -1617,6 +1713,9 @@ function KameHouseJson() {
   this.parse = parse;
   this.stringify = stringify;
   
+  /**
+   * Parse string into json object.
+   */
   function parse(string) {
     try {
       return JSON.parse(string);
@@ -1626,6 +1725,9 @@ function KameHouseJson() {
     return string;
   }
 
+  /**
+   * Convert json object into string.
+   */
   function stringify(object, replacer, identation) {
     try {
       return JSON.stringify(object, replacer, identation);
@@ -1768,12 +1870,18 @@ function KameHouseCoreFunctions() {
       || (responseCode == "-1" && responseBody.includes("Failed to connect to"));
   }
 
+  /**
+   * Open kamehouse splash screen.
+   */
   function openKameHouseSplashScreen() {
     kameHouse.util.dom.addClass($("body"), "hidden-kh");
     const kameHouseSplashScreen = getKameHouseSplashScreen();
     kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen.html());
   }
 
+  /**
+   * Get kamehouse splash screen.
+   */
   function getKameHouseSplashScreen() {
     const kameHouseSplashScreen = kameHouse.util.dom.getDiv({
       id: "kamehouse-splashscreen",
@@ -2187,6 +2295,9 @@ function KameHouseCoreFunctions() {
     }
   }
 
+  /**
+   * Build log entry for kamehouse debugger.
+   */
   function buildLogEntryForDebug(timestamp, logLevel, message, coloredMessage) {
     const logLineTemplate = getCyanText(timestamp) + getBlueText(" - ") + "[" + getLogLevelColored(logLevel) + "] " + getBlueText(" - ");
     if (!kameHouse.core.isEmpty(coloredMessage)) {
@@ -2195,6 +2306,9 @@ function KameHouseCoreFunctions() {
     return logLineTemplate + escapeHtml(message);
   }
 
+  /**
+   * Get log level colored.
+   */
   function getLogLevelColored(logLevel) {
     if (logLevel == "ERROR") {
       return getRedText(logLevel);
@@ -2214,50 +2328,86 @@ function KameHouseCoreFunctions() {
     return logLevel;
   }
   
+  /**
+   * Get red text.
+   */
   function getRedText(text) {
     return getSpanRed() + text + getSpanEnd();
   }
 
+  /**
+   * Get yellow text.
+   */
   function getYellowText(text) {
     return getSpanYellow() + text + getSpanEnd();
   }
 
+  /**
+   * Get blue text.
+   */
   function getBlueText(text) {
     return getSpanBlue() + text + getSpanEnd();
   }
 
+  /**
+   * Get green text.
+   */
   function getGreenText(text) {
     return getSpanGreen() + text + getSpanEnd();
   }
 
+  /**
+   * Get cyan text.
+   */
   function getCyanText(text) {
     return getSpanCyan() + text + getSpanEnd();
   }
 
+  /**
+   * Get span end.
+   */
   function getSpanEnd() {
     return "</span>";
   }
 
+  /**
+   * Get red span.
+   */
   function getSpanRed() {
     return "<span style='color:red'>";
   }
 
+  /**
+   * Get yellow span.
+   */
   function getSpanYellow() {
     return "<span style='color:yellow'>";
   }
 
+  /**
+   * Get blue span.
+   */
   function getSpanBlue() {
     return "<span style='color:#3996ff'>";
   }
 
+  /**
+   * Get green span.
+   */
   function getSpanGreen() {
     return "<span style='color:green'>";
   }
 
+  /**
+   * Get cyan span.
+   */
   function getSpanCyan() {
     return "<span style='color:#00b2b2'>";
   }
 
+  /**
+   * Escape html content.
+   */
   function escapeHtml(html) {
     return html.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
   }
@@ -2307,6 +2457,9 @@ function KameHouseCoreFunctions() {
     }, 100);
   }
   
+  /**
+   * Get log entry list item.
+   */
   function getLogEntryListItem(logEntry) {
     const li = kameHouse.util.dom.getLi({}, null);
     kameHouse.util.dom.setHtml(li, logEntry);
@@ -2439,6 +2592,9 @@ function KameHouseCoreFunctions() {
     );
   }
 
+  /**
+   * Execute http request on web.
+   */
   function webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     let requestTimeout = DEFAULT_TIMEOUT_MS;
     if (!kameHouse.core.isEmpty(config.timeout)) {
@@ -2479,6 +2635,9 @@ function KameHouseCoreFunctions() {
     });
   }
   
+  /**
+   * Execute http request on mobile.
+   */
   function mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
       kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
@@ -2494,6 +2653,9 @@ function KameHouseCoreFunctions() {
     }
   }
 
+  /**
+   * Get response headers.
+   */
   function getResponseHeaders(xhr) {
     return xhr.getAllResponseHeaders()
       .trim()
@@ -2506,6 +2668,9 @@ function KameHouseCoreFunctions() {
     );
   }
 
+  /**
+   * Get encoded url parameters.
+   */
   function urlEncodeParams(params) {
     let urlEncodeParams = [];
     for (const key in params)
@@ -2515,10 +2680,16 @@ function KameHouseCoreFunctions() {
     return urlEncodeParams.join("&");
   }
 
+  /**
+   * Encode url parameters.
+   */
   function urlEncode(param) {
     return encodeURIComponent(param);
   }
 
+  /**
+   * Check if it's url encoded request.
+   */
   function isUrlEncodedRequest(headers) {
     if (kameHouse.core.isEmpty(headers)) {
       return false;

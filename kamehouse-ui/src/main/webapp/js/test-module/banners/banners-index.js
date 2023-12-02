@@ -10,12 +10,18 @@ function TestBannerRenderer() {
 
   const TBODY_ID = "banners-table-body";
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Loading TestBannerRenderer");
     kameHouse.util.banner.setRandomAllBanner();
     setBannerCategoriesDropdown();
   }
 
+  /**
+   * Set banner categories dropdown.
+   */
   function setBannerCategoriesDropdown() {
     const bannerCategoryDropdown = $("#banner-category-dropdown");
     kameHouse.util.dom.empty(bannerCategoryDropdown);
@@ -28,6 +34,9 @@ function TestBannerRenderer() {
     });
   }
 
+  /**
+   * Get banner category option.
+   */
   function getBannerCategoryOption(bannerCategory) {
     return kameHouse.util.dom.getOption({
       value: bannerCategory
@@ -48,11 +57,17 @@ function TestBannerRenderer() {
     }
   }
 
+  /**
+   * Get selected banner category.
+   */
   function getSelectedBannerCategory() {
     const bannerCategoryDropdown = document.getElementById('banner-category-dropdown');
     return bannerCategoryDropdown.options[bannerCategoryDropdown.selectedIndex].value;
   }
 
+  /**
+   * Get banner image.
+   */
   function getBannerImage(bannerCategory, bannerName) {
     return kameHouse.util.dom.getImgBtn({
       src: '/kame-house/img/banners/' + bannerCategory + '/' + bannerName + '.jpg',

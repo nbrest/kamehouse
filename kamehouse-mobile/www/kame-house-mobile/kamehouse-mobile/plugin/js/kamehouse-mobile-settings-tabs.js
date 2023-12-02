@@ -1,7 +1,5 @@
 /**
  * Kamehouse mobile tabs functions.
- */
-/**
  * Prototype to manage the kamehouse mobile tabs.
  */
 function KameHouseMobileTabsManager() {
@@ -10,7 +8,7 @@ function KameHouseMobileTabsManager() {
   this.openTab = openTab;
 
   /**
-   * load module.
+   * load mobile tabs manager plugin.
    */
   function load() {
     kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-settings-tabs.html", () => {

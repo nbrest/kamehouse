@@ -8,6 +8,9 @@ function TailLogManager() {
 
   const KAMEHOUSE_SHELL_EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
 
+  /**
+   * Load the extension.
+   */
   function load() {
     kameHouse.logger.info("Initialized tailLogManager");
   }
@@ -36,6 +39,9 @@ function TailLogManager() {
     }
   }
 
+  /**
+   * Check if it's a valid script.
+   */
   function isValidScript(scriptName) {
     if (!kameHouse.core.isEmpty(scriptName)) { 
       if (scriptName.startsWith("common/logs/cat-") && scriptName.endsWith("-log.sh")) {
@@ -100,16 +106,25 @@ function TailLogManager() {
     kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
   }
 
+  /**
+   * Get tail log output table body.
+   */
   function getTailLogOutputTbody() {
     return kameHouse.util.dom.getTbody({
       id: "tail-log-output-table-body"
     }, null);
   }
 
+  /**
+   * Get tail log output error table row.
+   */
   function getTailLogOutputErrorTr(message) {
     return kameHouse.util.dom.getTrTd(message);
   }
 
+  /**
+   * Get tail log output table row.
+   */
   function getTailLogOutputTr(htmlContent) {
     return kameHouse.util.dom.getTrTd(htmlContent);
   }
