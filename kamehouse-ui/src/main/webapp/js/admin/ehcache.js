@@ -1,32 +1,24 @@
 /**
- * EhCache main function.
+ * EhCache main functionality.
  * 
  * Dependencies: timeUtils, logger, kameHouse.plugin.debugger.http.
  * 
+ * Manage ehcache in the current server.
+ * 
  * @author nbrest
  */
-/**
- * Manage ehcache in the current server.
- */
-function EhCacheManager() {
+class EhCacheManager {
 
-  this.load = load;
-  this.getAllCacheData = getAllCacheData;
-  this.clearCacheData = clearCacheData;
-  this.clearAllCaches = clearAllCaches;
-  this.toggleCacheView = toggleCacheView;
-  this.toggleAllCacheView = toggleAllCacheView;
-
-  const ehcacheToggleTableRowIds = [
+  #ehcacheToggleTableRowIds = [
     []
   ];
-  let ehcacheTableTemplate;
-  let ehcacheErrorTableTemplate;
+  #ehcacheTableTemplate;
+  #ehcacheErrorTableTemplate;
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing ehcache");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
@@ -34,35 +26,102 @@ function EhCacheManager() {
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "webappTabsManager"], () => {
-      init();
+      this.#init();
     });
+  }
+
+  /**
+   * Get all cache data.
+   */
+  getAllCacheData(webapp) {
+    kameHouse.logger.trace("getAllCacheData");
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, this.#getApiUrl(webapp), null, null,
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayCacheData(responseBody, webapp),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayErrorGettingCache(webapp));
+  }
+
+  /**
+   * Clear cache data.
+   */
+  clearCacheData(cacheName, webapp) {
+    const url = this.#getApiUrl(webapp);
+    const params = {
+      "name" : cacheName
+    };
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, url, kameHouse.http.getUrlEncodedHeaders(), params,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
+        this.getAllCacheData(webapp);
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        const message = "Error clearing cache " + cacheName;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing cache " + cacheName, 3000);
+        this.getAllCacheData(webapp);
+      });
+  }
+
+  /**
+   * Clear all caches.
+   */
+  clearAllCaches(webapp) {
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, this.#getApiUrl(webapp), null, null,
+      (responseBody, responseCode, responseDescription, responseHeaders) => { 
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("All caches cleared successfully", 3000);
+        this.getAllCacheData(webapp);
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        const message = "Error clearing all caches";
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing all caches", 3000);
+        this.getAllCacheData(webapp);
+      });
+  }
+
+  /**
+   * Toggle cache view (expand/collapse).
+   */
+  toggleCacheView(className) {
+    kameHouse.util.dom.toggle(className);
+  }
+
+  /**
+   * Toggle cache view for all caches (expand/collapse).
+   */
+  toggleAllCacheView(webapp) {
+    for (const className of this.#ehcacheToggleTableRowIds[webapp]) {
+      this.toggleCacheView(className);
+    }
   }
 
   /**
    * Load the templates and get the cache data.
    */
-  async function init() {
-    await loadEhCacheTableTemplate();
-    getAllCacheData('admin');
-    getAllCacheData('media');
-    getAllCacheData('tennisworld');
-    getAllCacheData('testmodule');
-    getAllCacheData('ui');
-    getAllCacheData('vlcrc');
+  async #init() {
+    await this.#loadEhCacheTableTemplate();
+    this.getAllCacheData('admin');
+    this.getAllCacheData('media');
+    this.getAllCacheData('tennisworld');
+    this.getAllCacheData('testmodule');
+    this.getAllCacheData('ui');
+    this.getAllCacheData('vlcrc');
   }
 
   /**
    * Loads the ehcache table html snippet into a variable to be reused as a template on render.
    */
-  async function loadEhCacheTableTemplate() {
-    ehcacheTableTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/html-snippets/ehcache-table.html');
-    ehcacheErrorTableTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/html-snippets/ehcache-error-table.html');
+  async #loadEhCacheTableTemplate() {
+    this.#ehcacheTableTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/html-snippets/ehcache-table.html');
+    this.#ehcacheErrorTableTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/html-snippets/ehcache-error-table.html');
   }
 
   /**
    * Get ehcache api url for each webapp.
    */
-  function getApiUrl(webapp) {
+  #getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/ehcache';
     } else {
@@ -71,25 +130,14 @@ function EhCacheManager() {
   }
 
   /**
-   * Get all cache data.
-   */
-  function getAllCacheData(webapp) {
-    kameHouse.logger.trace("getAllCacheData");
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => displayCacheData(responseBody, webapp),
-      (responseBody, responseCode, responseDescription, responseHeaders) => displayErrorGettingCache(webapp));
-  }
-
-  /**
    * Display cache data.
    */
-  function displayCacheData(caches, webapp) {
-    emptyCacheDataDiv(webapp);
-    ehcacheToggleTableRowIds[webapp] = [];
+  #displayCacheData(caches, webapp) {
+    this.#emptyCacheDataDiv(webapp);
+    this.#ehcacheToggleTableRowIds[webapp] = [];
     const $cacheData = $("#cache-data-" + webapp);
     caches.forEach((cache) => {
-      kameHouse.util.dom.append($cacheData, getEhCacheTableFromTemplate(cache.name));
+      kameHouse.util.dom.append($cacheData, this.#getEhCacheTableFromTemplate(cache.name));
       kameHouse.util.dom.append($cacheData, $(kameHouse.util.dom.getBr()));
 
       kameHouse.util.dom.setHtml($('#ehcache-table-' + cache.name + '-header'), cache.name);
@@ -98,22 +146,22 @@ function EhCacheManager() {
       kameHouse.util.dom.setHtml($('#ehcache-table-' + cache.name + '-values-val'), cache["values"]);
 
       kameHouse.util.dom.setClick($("#clear-ehcache-table-" + cache.name), null,
-        () => clearCacheData(cache.name, webapp)
+        () => this.clearCacheData(cache.name, webapp)
       );
       kameHouse.util.dom.setClick($("#toggle-view-ehcache-table-" + cache.name), null,
-        () => toggleCacheView("toggle-ehcache-table-" + cache.name)
+        () => this.toggleCacheView("toggle-ehcache-table-" + cache.name)
       );
       kameHouse.util.dom.toggle("toggle-ehcache-table-" + cache.name);
-      ehcacheToggleTableRowIds[webapp].push("toggle-ehcache-table-" + cache.name);
+      this.#ehcacheToggleTableRowIds[webapp].push("toggle-ehcache-table-" + cache.name);
     });
   }
 
   /**
    * Update the ids and classes of the template ehcache table just inserted to the dom.
    */
-  function getEhCacheTableFromTemplate(cacheName) {
+  #getEhCacheTableFromTemplate(cacheName) {
     // Create a wrapper div to insert the table template
-    const ehcacheTableDiv = kameHouse.util.dom.getElementFromTemplate(ehcacheTableTemplate);
+    const ehcacheTableDiv = kameHouse.util.dom.getElementFromTemplate(this.#ehcacheTableTemplate);
     
     // Update the ids and classes on the table generated from the template
     kameHouse.util.dom.setId(ehcacheTableDiv, "ehcache-table-" + cacheName);
@@ -138,13 +186,13 @@ function EhCacheManager() {
   /**
    * Display error getting cache data.
    */
-  function displayErrorGettingCache(webapp) {
+  #displayErrorGettingCache(webapp) {
     // Create a wrapper div to insert the error table template
-    const ehcacheErrorTableDiv = kameHouse.util.dom.getElementFromTemplate(ehcacheErrorTableTemplate);
+    const ehcacheErrorTableDiv = kameHouse.util.dom.getElementFromTemplate(this.#ehcacheErrorTableTemplate);
     // Update the id
     kameHouse.util.dom.setId(ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val'), "ehcache-table-" + webapp + "-error-val");
     // Attach the error table to the dom
-    emptyCacheDataDiv(webapp);
+    this.#emptyCacheDataDiv(webapp);
     const $cacheData = $("#cache-data-" + webapp);
     kameHouse.util.dom.append($cacheData, ehcacheErrorTableDiv);
     // Update the message
@@ -156,67 +204,11 @@ function EhCacheManager() {
   }
 
   /**
-   * Clear cache data.
-   */
-  function clearCacheData(cacheName, webapp) {
-    const url = getApiUrl(webapp);
-    const params = {
-      "name" : cacheName
-    };
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, url, kameHouse.http.getUrlEncodedHeaders(), params,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.plugin.modal.basicModal.openAutoCloseable("Cache " + cacheName + " cleared successfully", 3000);
-        getAllCacheData(webapp);
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        const message = "Error clearing cache " + cacheName;
-        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing cache " + cacheName, 3000);
-        getAllCacheData(webapp);
-      });
-  }
-
-  /**
-   * Clear all caches.
-   */
-  function clearAllCaches(webapp) {
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, getApiUrl(webapp), null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => { 
-        kameHouse.plugin.modal.basicModal.openAutoCloseable("All caches cleared successfully", 3000);
-        getAllCacheData(webapp);
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        const message = "Error clearing all caches";
-        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing all caches", 3000);
-        getAllCacheData(webapp);
-      });
-  }
-
-  /**
    * Empty cache data div.
    */
-  function emptyCacheDataDiv(webapp) {
+  #emptyCacheDataDiv(webapp) {
     const $cacheData = $("#cache-data-" + webapp);
     kameHouse.util.dom.empty($cacheData);
-  }
-
-  /**
-   * Toggle cache view (expand/collapse).
-   */
-  function toggleCacheView(className) {
-    kameHouse.util.dom.toggle(className);
-  }
-
-  /**
-   * Toggle cache view for all caches (expand/collapse).
-   */
-  function toggleAllCacheView(webapp) {
-    for (const className of ehcacheToggleTableRowIds[webapp]) {
-      toggleCacheView(className);
-    }
   }
 }
 
