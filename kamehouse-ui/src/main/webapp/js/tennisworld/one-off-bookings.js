@@ -1,5 +1,7 @@
 /**
  * Execute one of bookings on tennisworld. 
+ * 
+ * @author nbrest
  */
 function BookingService() {
 

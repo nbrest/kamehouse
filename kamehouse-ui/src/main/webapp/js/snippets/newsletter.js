@@ -1,5 +1,7 @@
 /**
  * Newsletter functions.
+ * 
+ * @author nbrest
  */
 class KameHouseNewsletter {
 
