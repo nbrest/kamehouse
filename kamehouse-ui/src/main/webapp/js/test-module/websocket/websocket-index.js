@@ -5,34 +5,34 @@
  * 
  * @author nbrest
  */
-function TestWebSocket() {
-  this.load = load;
-  let websocket;
+class TestWebSocket {
+  
+  #websocket = null;
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing TestWebSocket");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.loadKameHouseWebSocket();
     kameHouse.logger.setLogLevel(4);
     $("form").on('submit', (e) => e.preventDefault());
-    kameHouse.util.dom.setClick($("#connect"), null, () => connectWebSocket());
-    kameHouse.util.dom.setClick($("#disconnect"), null, () => disconnectWebSocket());
-    kameHouse.util.dom.setClick($("#send"), null, () => sendWebSocketRequest());
+    kameHouse.util.dom.setClick($("#connect"), null, () => this.#connectWebSocket());
+    kameHouse.util.dom.setClick($("#disconnect"), null, () => this.#disconnectWebSocket());
+    kameHouse.util.dom.setClick($("#send"), null, () => this.#sendWebSocketRequest());
     kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
-      websocket = new KameHouseWebSocket();
-      websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
-      websocket.setTopicUrl('/topic/test-module/websocket-out');
-      websocket.setPollUrl("/app/test-module/websocket-in");
+      this.#websocket = new KameHouseWebSocket();
+      this.#websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
+      this.#websocket.setTopicUrl('/topic/test-module/websocket-out');
+      this.#websocket.setPollUrl("/app/test-module/websocket-in");
     });
   }
 
   /**
    * Update the view based on the websocket being connected or disconnected.
    */
-  function setConnected(isConnected) {
+  #setConnected(isConnected) {
     if (isConnected) {
       kameHouse.util.dom.addClass($("#connect"), "hidden-kh");
       kameHouse.util.dom.removeClass($("#connected"), "hidden-kh");
@@ -56,17 +56,17 @@ function TestWebSocket() {
   /**
    * Connect the websocket.
    */
-  function connectWebSocket() {
+  #connectWebSocket() {
     kameHouse.plugin.modal.loadingWheelModal.open("Connecting websocket...");
-    websocket.connect((testWebSocketResponse) => showTestWebSocketResponse(kameHouse.json.parse(testWebSocketResponse.body)));
+    this.#websocket.connect((testWebSocketResponse) => this.#showTestWebSocketResponse(kameHouse.json.parse(testWebSocketResponse.body)));
     setTimeout(() => {
-      if (websocket.isConnected()) {
+      if (this.#websocket.isConnected()) {
         kameHouse.plugin.modal.loadingWheelModal.close();
-        setConnected(true);
+        this.#setConnected(true);
         kameHouse.logger.debug("Connected WebSocket");
       } else {
         kameHouse.plugin.modal.loadingWheelModal.close();
-        setConnected(false);
+        this.#setConnected(false);
         const message = "Error connecting websocket";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.open("Error connecting websocket");
@@ -77,36 +77,36 @@ function TestWebSocket() {
   /**
    * Disconnect the websocket.
    */
-  function disconnectWebSocket() {
-    websocket.disconnect();
-    setConnected(false);
+  #disconnectWebSocket() {
+    this.#websocket.disconnect();
+    this.#setConnected(false);
     kameHouse.logger.debug("Disconnected WebSocket");
   }
 
   /**
    * Send a message through the websocket.
    */
-  function sendWebSocketRequest() {
+  #sendWebSocketRequest() {
     const pollBody = kameHouse.json.stringify({
       'firstName': $("#firstName").val(),
       'lastName': $("#lastName").val()
     });
-    websocket.poll(pollBody);
+    this.#websocket.poll(pollBody);
   }
 
   /**
    * Update the view after getting a response from the websocket.
    */
-  function showTestWebSocketResponse(testWebSocketResponseBody) {
+  #showTestWebSocketResponse(testWebSocketResponseBody) {
     kameHouse.logger.trace("Received testWebSocketResponse from server: " + kameHouse.json.stringify(testWebSocketResponseBody));
     const date = kameHouse.util.time.getDateFromEpoch(testWebSocketResponseBody.date);
-    kameHouse.util.dom.append($("#websocket-responses"), getWebsocketResponseTr(date, testWebSocketResponseBody.message));
+    kameHouse.util.dom.append($("#websocket-responses"), this.#getWebsocketResponseTr(date, testWebSocketResponseBody.message));
   }
 
   /**
    * Get websocket response table row.
    */
-  function getWebsocketResponseTr(date, message) {
+  #getWebsocketResponseTr(date, message) {
     return kameHouse.util.dom.getTrTd(date.toLocaleString() + " : " + message);
   }
 }
