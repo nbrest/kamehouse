@@ -691,16 +691,16 @@ function VlcPlayerSynchronizer(vlcPlayer) {
     const vlcRcStatusWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/status';
     const vlcRcStatusWebSocketPollUrl = "/app/vlc-player/status-in";
     const vlcRcStatusWebSocketTopicUrl = '/topic/vlc-player/status-out';
-    vlcRcStatusWebSocket.setStatusUrl(vlcRcStatusWebSocketStatusUrl);
-    vlcRcStatusWebSocket.setPollUrl(vlcRcStatusWebSocketPollUrl);
-    vlcRcStatusWebSocket.setTopicUrl(vlcRcStatusWebSocketTopicUrl);
+    vlcRcStatusWebSocket.statusUrl(vlcRcStatusWebSocketStatusUrl);
+    vlcRcStatusWebSocket.pollUrl(vlcRcStatusWebSocketPollUrl);
+    vlcRcStatusWebSocket.topicUrl(vlcRcStatusWebSocketTopicUrl);
 
     const playlistWebSocketStatusUrl = '/kame-house-vlcrc/api/ws/vlc-player/playlist';
     const playlistWebSocketPollUrl = "/app/vlc-player/playlist-in";
     const playlistWebSocketTopicUrl = '/topic/vlc-player/playlist-out';
-    playlistWebSocket.setStatusUrl(playlistWebSocketStatusUrl);
-    playlistWebSocket.setPollUrl(playlistWebSocketPollUrl);
-    playlistWebSocket.setTopicUrl(playlistWebSocketTopicUrl);
+    playlistWebSocket.statusUrl(playlistWebSocketStatusUrl);
+    playlistWebSocket.pollUrl(playlistWebSocketPollUrl);
+    playlistWebSocket.topicUrl(playlistWebSocketTopicUrl);
   }
 
   /**

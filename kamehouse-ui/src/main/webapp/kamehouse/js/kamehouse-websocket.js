@@ -7,41 +7,30 @@
  * 
  * @author nbrest
  */
-function KameHouseWebSocket() {
+class KameHouseWebSocket {
 
-  this.setStatusUrl = setStatusUrl;
-  this.setTopicUrl = setTopicUrl;
-  this.setPollUrl = setPollUrl;
-  this.isConnected = isConnected;
-  this.connect = connect;
-  this.disconnect = disconnect;
-  this.poll = poll;
-  this.enableStompDebugMode = enableStompDebugMode;
-  this.disableStompDebugMode = disableStompDebugMode;
-
-  const stompClients = [];
-  
-  let stompClient = null;
-  let stompClientDebugFunction = null;
-  let statusUrl = null;
-  let topicUrl = null;
-  let pollUrl = null;
+  #stompClients = [];
+  #stompClient = null;
+  #stompClientDebugFunction = null;
+  #statusUrl = null;
+  #topicUrl = null;
+  #pollUrl = null;
   
   /**
    * Set status url.
    */
-  function setStatusUrl(statusUrlParam) {
+  statusUrl(statusUrlParam) {
     kameHouse.util.mobile.exec(
       () => {
-        statusUrl = statusUrlParam; 
+        this.#statusUrl = statusUrlParam; 
       },
       () => {
         // It's better to also waitForModule kameHouseMobile in the caller of this function so I get a synchronous set of the statusUrl and the connect call usually done inmediately after doesn't fail. See vlc-player.js
         if (kameHouse.util.module.isModuleLoaded("kameHouseMobile")) {
-          statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
+          this.#statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
         } else {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-            statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
+            this.#statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
           });
         }
       }
@@ -51,19 +40,19 @@ function KameHouseWebSocket() {
   /**
    * Set topic url.
    */
-  function setTopicUrl(topicUrlParam) { topicUrl = topicUrlParam; }
+  topicUrl(topicUrlParam) { this.#topicUrl = topicUrlParam; }
 
   /**
    * Set poll url.
    */
-  function setPollUrl(pollUrlParam) { pollUrl = pollUrlParam; }
+  pollUrl(pollUrlParam) { this.#pollUrl = pollUrlParam; }
  
   /** Checks if the websocket is connected. */
-  function isConnected(stompClientParam) {
+  isConnected(stompClientParam) {
     try {
       if (kameHouse.core.isEmpty(stompClientParam)) {
         // Check the current stompClient by default.
-        stompClientParam = stompClient;
+        stompClientParam = this.#stompClient;
       }
       if (!kameHouse.core.isEmpty(stompClientParam)) {
         return stompClientParam.connected;
@@ -76,11 +65,11 @@ function KameHouseWebSocket() {
   }
 
   /** Connect the websocket. */
-  function connect(topicResponseCallback) {
-    if (isConnected()) {
+  connect(topicResponseCallback) {
+    if (this.isConnected()) {
       kameHouse.logger.warn("WebSocket is already connected!");
     }
-    if (kameHouse.core.isEmpty(statusUrl) || kameHouse.core.isEmpty(topicUrl) || kameHouse.core.isEmpty(pollUrl)) {
+    if (kameHouse.core.isEmpty(this.#statusUrl) || kameHouse.core.isEmpty(this.#topicUrl) || kameHouse.core.isEmpty(this.#pollUrl)) {
       const message = "statusUrl or topicUrl are not set. Can't connect.";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
@@ -91,16 +80,16 @@ function KameHouseWebSocket() {
       return;
     }
     try {
-      disconnectPreviousConnections();
-      kameHouse.logger.trace("Attempting to connect websocket to " + statusUrl);
-      const socket = new SockJS(statusUrl);
-      stompClient = Stomp.over(socket);
-      stompClientDebugFunction = stompClient.debug;
-      disableStompDebugMode();
-      stompClient.connect({}, (frame) => {
+      this.#disconnectPreviousConnections();
+      kameHouse.logger.trace("Attempting to connect websocket to " + this.#statusUrl);
+      const socket = new SockJS(this.#statusUrl);
+      this.#stompClient = Stomp.over(socket);
+      this.#stompClientDebugFunction = this.#stompClient.debug;
+      this.disableStompDebugMode();
+      this.#stompClient.connect({}, (frame) => {
         try {
           kameHouse.logger.debug('Connected WebSocket: ' + frame);
-          stompClient.subscribe(topicUrl, (topicResponse) => { 
+          this.#stompClient.subscribe(this.#topicUrl, (topicResponse) => { 
             try {
               topicResponseCallback(topicResponse);
             } catch (error) {
@@ -115,20 +104,20 @@ function KameHouseWebSocket() {
         const message = "Error during stompClient.connect()";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       });
-      stompClients.push(stompClient);
+      this.#stompClients.push(this.#stompClient);
     } catch (error) {
       kameHouse.logger.error("Error connecting websocket: " + error);
     }
   }
 
   /** Disconnect the websocket. */
-  function disconnect(stompClientParam) {
+  disconnect(stompClientParam) {
     if (kameHouse.core.isEmpty(stompClientParam)) {
       // Disconnect the current connection.
-      stompClientParam = stompClient;
+      stompClientParam = this.#stompClient;
     }
     if (!kameHouse.core.isEmpty(stompClientParam)) {
-      if (!isConnected(stompClientParam)) {
+      if (!this.isConnected(stompClientParam)) {
         kameHouse.logger.debug("WebSocket is not connected. No need to disconnect but attempting anyway.");
       }
       try {
@@ -150,24 +139,16 @@ function KameHouseWebSocket() {
     }
   }
 
-  /** Clean up previous stompClient connections. */
-  function disconnectPreviousConnections() {
-    for (let i = stompClients.length - 1; i >= 0; i--) {
-      disconnect(stompClients[i]); 
-      stompClients.splice(i, 1);
-    }
-  }
-
   /** Poll for an updated from the server. */
-  function poll(pollBody, pollHeaders) {
+  poll(pollBody, pollHeaders) {
     // Setting this as trace as it executes every second in VlcPlayer 
     // so if I want to debug other stuff it's noisy.
-    if (kameHouse.core.isEmpty(pollUrl)) {
+    if (kameHouse.core.isEmpty(this.#pollUrl)) {
       const message = "pollUrl is not set. Can't poll";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
     }
-    if (!isConnected()) {
+    if (!this.isConnected()) {
       kameHouse.logger.warn("WebSocket is not connected. Can't poll");
     }
     if (kameHouse.core.isEmpty(pollBody)) {
@@ -177,15 +158,27 @@ function KameHouseWebSocket() {
       pollHeaders = {};
     }
     try {
-      stompClient.send(pollUrl, pollHeaders, pollBody);
+      this.#stompClient.send(this.#pollUrl, pollHeaders, pollBody);
     } catch (error) {
       kameHouse.logger.error("Error polling the websocket: " + error);
     }
   }
 
-  //Enable console messages for stomp. Only enable if I need to debug connection issues.
-  function enableStompDebugMode() { stompClient.debug = stompClientDebugFunction; }
+  /**
+   * Enable console messages for stomp. Only enable if I need to debug connection issues.
+   */
+  enableStompDebugMode() { this.#stompClient.debug = this.#stompClientDebugFunction; }
 
-  //Disable console messages for stomp. Only enable if I need to debug connection issues.
-  function disableStompDebugMode() { stompClient.debug = null; }
+  /**
+   * Disable console messages for stomp. Only enable if I need to debug connection issues.
+   */
+  disableStompDebugMode() { this.#stompClient.debug = null; }
+
+  /** Clean up previous stompClient connections. */
+  #disconnectPreviousConnections() {
+    for (let i = this.#stompClients.length - 1; i >= 0; i--) {
+      this.disconnect(this.#stompClients[i]); 
+      this.#stompClients.splice(i, 1);
+    }
+  }
 }

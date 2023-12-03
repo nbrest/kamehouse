@@ -23,9 +23,9 @@ class TestWebSocket {
     kameHouse.util.dom.setClick($("#send"), null, () => this.#sendWebSocketRequest());
     kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
       this.#websocket = new KameHouseWebSocket();
-      this.#websocket.setStatusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
-      this.#websocket.setTopicUrl('/topic/test-module/websocket-out');
-      this.#websocket.setPollUrl("/app/test-module/websocket-in");
+      this.#websocket.statusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
+      this.#websocket.topicUrl('/topic/test-module/websocket-out');
+      this.#websocket.pollUrl("/app/test-module/websocket-in");
     });
   }
 
