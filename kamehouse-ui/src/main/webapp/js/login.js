@@ -3,23 +3,21 @@
  * 
  * @author nbrest
  */
-function LoginManager() {
-
-  this.load = load;
+class LoginManager {
 
   /**
    * Load the login manager extension. 
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing LoginManager");
     kameHouse.util.banner.setRandomAllBanner();
-    setAlertMessages();
+    this.#setAlertMessages();
   }
 
   /**
    * Set alert messages.
    */
-  function setAlertMessages() {
+  #setAlertMessages() {
     const urlParams = new URLSearchParams(window.location.search);
     const unauthorizedPageAccess = urlParams.get('unauthorizedPageAccess');
     const error = urlParams.get('error');
