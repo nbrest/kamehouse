@@ -1,45 +1,42 @@
 /**
  * Manager to get the status of the tomcat modules in the current server.
  */
-function TomcatModuleStatusManager() {
+class TomcatModuleStatusManager {
 
-  this.load = load;
-  this.getAllModulesStatus = getAllModulesStatus;
-  
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      init();
+      this.#init();
       kameHouse.util.module.setModuleLoaded("moduleStatusManager");
       kameHouse.logger.info("Initialized moduleStatusManager");
     });
   }
 
   /**
-   * Get the data from the backend and import css.
+   * Get the data from the backend.
    */
-  function init() {
-    getAllModulesStatus();
+  getAllModulesStatus() {
+    this.#getModuleStatus('admin');
+    this.#getModuleStatus('media');
+    this.#getModuleStatus('tennisworld');
+    this.#getModuleStatus('testmodule');
+    this.#getModuleStatus('ui');
+    this.#getModuleStatus('vlcrc');
   }
 
   /**
-   * Get the data from the backend.
+   * Get the data from the backend and import css.
    */
-  function getAllModulesStatus() {
-    getModuleStatus('admin');
-    getModuleStatus('media');
-    getModuleStatus('tennisworld');
-    getModuleStatus('testmodule');
-    getModuleStatus('ui');
-    getModuleStatus('vlcrc');
+  #init() {
+    this.getAllModulesStatus();
   }
 
   /**
    * Get module status api url for each webapp.
    */
-  function getApiUrl(webapp) {
+  #getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/module/status';
     } else {
@@ -50,19 +47,19 @@ function TomcatModuleStatusManager() {
   /**
    * Get module status.
    */
-  function getModuleStatus(webapp) {
+  #getModuleStatus(webapp) {
     kameHouse.logger.trace("getModuleStatus");
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
-    kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => displayModuleStatus(responseBody),
-      (responseBody, responseCode, responseDescription, responseHeaders) => displayErrorGettingModuleStatus(webapp));
+    kameHouse.plugin.debugger.http.get(config, this.#getApiUrl(webapp), null, null,
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayModuleStatus(responseBody),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayErrorGettingModuleStatus(webapp));
   }
 
   /**
    * Display module status.
    */
-  function displayModuleStatus(moduleStatus) {
+  #displayModuleStatus(moduleStatus) {
     const webapp = moduleStatus["module"];
     kameHouse.util.dom.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
     kameHouse.util.dom.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
@@ -71,7 +68,7 @@ function TomcatModuleStatusManager() {
   /**
    * Display error getting data.
    */
-  function displayErrorGettingModuleStatus(webapp) {
+  #displayErrorGettingModuleStatus(webapp) {
     kameHouse.util.dom.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
     const message = "Error retrieving module status data for " + webapp + ". Please try again later.";
     kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
