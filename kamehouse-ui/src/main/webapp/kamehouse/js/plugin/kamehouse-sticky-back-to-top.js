@@ -1,6 +1,8 @@
 /**
  * Functionality to add a sticky back to top button.
  * Manager to handle the sticky button to go back to top.
+ * 
+ * @author nbrest
  */
 class KameHouseStickyBackToTop {
 

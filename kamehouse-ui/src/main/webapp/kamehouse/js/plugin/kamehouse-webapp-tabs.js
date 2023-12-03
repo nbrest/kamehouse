@@ -1,6 +1,8 @@
 /**
  * Kamehouse webapp tabs functions.
  * Prototype to manage the kamehouse webapp tabs.
+ * 
+ * @author nbrest
  */
 class KameHouseWebappTabsManager {
 

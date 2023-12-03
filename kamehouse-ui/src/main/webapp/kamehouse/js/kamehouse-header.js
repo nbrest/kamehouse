@@ -3,35 +3,43 @@
  * 
  * @author nbrest
  */
-function KameHouseHeader() {
-
-  this.load = load;
-  this.toggleHeaderNav = toggleHeaderNav;
-  this.toggleDebugMode = toggleDebugMode;
+class KameHouseHeader {
   
   /** Load the header */
-  function load() {
+  load() {
     kameHouse.logger.info("Loading header");
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     $(document).ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
-      kameHouse.util.dom.prepend($("body"), getHeaderContainerDiv());
+      kameHouse.util.dom.prepend($("body"), this.#getHeaderContainerDiv());
       kameHouse.util.dom.load($("#kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
         kameHouse.util.mobile.disableWebappOnlyElements();
         kameHouse.util.mobile.disableMobileOnlyElements();
-        updateActiveTab();
+        this.#updateActiveTab();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
-          updateSessionStatus();
+          this.#updateSessionStatus();
         });
         kameHouse.logger.info("Finished loading header");
       });
     });
   }
 
+  /** 
+   * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon. 
+   */
+  toggleHeaderNav() {
+    const headerMenu = document.getElementById("header-menu");
+    if (headerMenu.className === "header-nav") {
+      kameHouse.util.dom.classListAdd(headerMenu, "responsive");
+    } else {
+      kameHouse.util.dom.classListRemove(headerMenu, "responsive");
+    }
+  }  
+
   /**
    * Toggle debug mode.
    */
-  function toggleDebugMode() {
+  toggleDebugMode() {
     const debugModeDiv = document.getElementById("debug-mode");
     if (debugModeDiv) {
       kameHouse.plugin.debugger.toggleDebugMode();
@@ -44,14 +52,14 @@ function KameHouseHeader() {
   /**
    * Set active tab in the menu.
    */
-  function updateActiveTab() {
+  #updateActiveTab() {
     const pageUrl = window.location.pathname;
     $("#kamehouse-header-container header .default-layout #header-menu a").toArray().forEach((navElement) => {
       const navItem = $(navElement);
       kameHouse.util.dom.removeClass(navItem, "active");
       
       if (pageUrl == "/kame-house/" || pageUrl == "/kame-house/index.html") {
-        setActiveNavItem(navItem, "nav-home");
+        this.#setActiveNavItem(navItem, "nav-home");
       }
 
       const pages = {
@@ -68,7 +76,7 @@ function KameHouseHeader() {
       }
 
       for (const [urlSubstring, navId] of Object.entries(pages)) {
-        setActiveNavItemForPage(pageUrl, urlSubstring, navItem, navId);
+        this.#setActiveNavItemForPage(pageUrl, urlSubstring, navItem, navId);
       }
     });
   }
@@ -76,52 +84,40 @@ function KameHouseHeader() {
   /**
    * Set the active nav item if the page url matches the url substring.
    */
-  function setActiveNavItemForPage(pageUrl, urlSubstring, navItem, navId) {
+  #setActiveNavItemForPage(pageUrl, urlSubstring, navItem, navId) {
     if (pageUrl.includes(urlSubstring)) {
-      setActiveNavItem(navItem, navId);
+      this.#setActiveNavItem(navItem, navId);
     }
   }
 
   /**
    * Set active nav bar item.
    */
-  function setActiveNavItem(navItem, navId) {
+  #setActiveNavItem(navItem, navId) {
     if (navItem.attr("id") == navId) {
       kameHouse.util.dom.addClass(navItem, "active");
-    }
-  }
-
-  /** 
-   * Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon. 
-   */
-  function toggleHeaderNav() {
-    const headerMenu = document.getElementById("header-menu");
-    if (headerMenu.className === "header-nav") {
-      kameHouse.util.dom.classListAdd(headerMenu, "responsive");
-    } else {
-      kameHouse.util.dom.classListRemove(headerMenu, "responsive");
     }
   }
 
   /**
    * Update login status.
    */
-  function updateLoginStatus() {
+  #updateLoginStatus() {
     const $loginStatus = $("#login-status");
     kameHouse.util.dom.empty($loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.session.username) || kameHouse.session.username.trim() == "" ||
       kameHouse.session.username.trim() == "anonymousUser") {
-      kameHouse.util.dom.append($loginStatus, getLoginButton());
+      kameHouse.util.dom.append($loginStatus, this.#getLoginButton());
     } else {
-      kameHouse.util.dom.append($loginStatus, getUsernameHeader(kameHouse.session.username));
-      kameHouse.util.dom.append($loginStatus, getLogoutButton());        
+      kameHouse.util.dom.append($loginStatus, this.#getUsernameHeader(kameHouse.session.username));
+      kameHouse.util.dom.append($loginStatus, this.#getLogoutButton());        
     }
   }
 
   /**
    * Get header container.
    */
-  function getHeaderContainerDiv() {
+  #getHeaderContainerDiv() {
     return kameHouse.util.dom.getDiv({
       id: "kamehouse-header-container"
     });
@@ -130,7 +126,7 @@ function KameHouseHeader() {
   /**
    * Get login button.
    */
-  function getLoginButton() {
+  #getLoginButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/login-red-dark.png",
       className: "header-login-status-btn",
@@ -144,7 +140,7 @@ function KameHouseHeader() {
   /**
    * Get logout button.
    */
-  function getLogoutButton() {
+  #getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/dbz/goku.png",
       className: "header-login-status-btn",
@@ -158,7 +154,7 @@ function KameHouseHeader() {
   /**
    * Get username login status header span.
    */
-  function getUsernameHeader(username) {
+  #getUsernameHeader(username) {
     return kameHouse.util.dom.getSpan({
       class: "header-login-status-text"
     }, username);
@@ -167,9 +163,9 @@ function KameHouseHeader() {
   /**
    * update the session status.
    */
-  function updateSessionStatus() {
+  #updateSessionStatus() {
     kameHouse.logger.info("Updating header with session status");
-    updateLoginStatus();
+    this.#updateLoginStatus();
     kameHouse.util.banner.updateServerName();
   }  
 }
