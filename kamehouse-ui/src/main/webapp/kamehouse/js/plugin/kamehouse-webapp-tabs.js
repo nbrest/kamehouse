@@ -2,48 +2,42 @@
  * Kamehouse webapp tabs functions.
  * Prototype to manage the kamehouse webapp tabs.
  */
-function KameHouseWebappTabsManager() {
+class KameHouseWebappTabsManager {
 
-  this.load = load;
-  this.setCookiePrefix = setCookiePrefix;
-  this.loadStateFromCookies = loadStateFromCookies;
-  this.openTab = openTab;
-  this.importTabs = importTabs;
-
-  let cookiePrefix = '';
+  #cookiePrefix = '';
 
   /**
    * Load kamehouse webapps tab manager plugin.
    */
-  function load() {
-    importTabs();
+  load() {
+    this.importTabs();
   }
 
   /**
    * Set the cookie prefix for the tab manager.
    * For example use 'kh-admin-ehcache'.
    */
-  function setCookiePrefix(cookiePrefixParam) {
-    cookiePrefix = cookiePrefixParam;
+  cookiePrefix(cookiePrefixParam) {
+    this.#cookiePrefix = cookiePrefixParam;
   }
 
   /**
    * Load the current state from the cookies.
    */
-  function loadStateFromCookies() {
-    let currentTab = kameHouse.util.cookies.getCookie(cookiePrefix + '-current-tab');
+  loadStateFromCookies() {
+    let currentTab = kameHouse.util.cookies.getCookie(this.#cookiePrefix + '-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-admin';
     }
-    openTab(currentTab);
+    this.openTab(currentTab);
   }
 
   /**
    * Open the tab specified by its id.
    */
-  function openTab(selectedTabDivId) {
+  openTab(selectedTabDivId) {
     // Set current-tab cookie
-    kameHouse.util.cookies.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
+    kameHouse.util.cookies.setCookie(this.#cookiePrefix + '-current-tab', selectedTabDivId);
 
     // Update tab links
     const kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");
@@ -65,7 +59,7 @@ function KameHouseWebappTabsManager() {
   /**
    * Import tabs.
    */
-  function importTabs() {
+  importTabs() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-webapp-tabs.css">');
     kameHouse.util.dom.load($("#kh-webapp-tabs-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-webapp-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("webappTabsManager");

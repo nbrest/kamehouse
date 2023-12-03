@@ -14,7 +14,7 @@ class BackendLogLevelUtils {
     kameHouse.logger.info("Started initializing log-level");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
-      kameHouse.plugin.webappTabsManager.setCookiePrefix('kh-admin-log-level');
+      kameHouse.plugin.webappTabsManager.cookiePrefix('kh-admin-log-level');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "webappTabsManager"], () => {
