@@ -3,26 +3,37 @@
  * 
  * @author nbrest
  */
-function TestBannerRenderer() {
+class TestBannerRenderer {
 
-  this.load = load;
-  this.reloadBanners = reloadBanners;
-
-  const TBODY_ID = "banners-table-body";
+  static #TBODY_ID = "banners-table-body";
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Loading TestBannerRenderer");
     kameHouse.util.banner.setRandomAllBanner();
-    setBannerCategoriesDropdown();
+    this.#setBannerCategoriesDropdown();
+  }
+
+  /**
+   * Reload all banners from the selected banners list.
+   */
+  reloadBanners() {
+    kameHouse.logger.info("Reloading banners");
+    const bannersTbody = $('#' + TestBannerRenderer.#TBODY_ID);
+    kameHouse.util.dom.empty(bannersTbody);
+    const bannerCategory = this.#getSelectedBannerCategory();
+    const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
+    for (const bannerName of selectedBanners) {
+      kameHouse.util.dom.append(bannersTbody, this.#getBannerImage(bannerCategory, bannerName));
+    }
   }
 
   /**
    * Set banner categories dropdown.
    */
-  function setBannerCategoriesDropdown() {
+  #setBannerCategoriesDropdown() {
     const bannerCategoryDropdown = $("#banner-category-dropdown");
     kameHouse.util.dom.empty(bannerCategoryDropdown);
     const bannerCategories = kameHouse.util.banner.getBannerCategories();
@@ -30,37 +41,23 @@ function TestBannerRenderer() {
       value: ""
     }, "Banner Category"));
     bannerCategories.forEach((bannerCategory) => {
-      kameHouse.util.dom.append(bannerCategoryDropdown, getBannerCategoryOption(bannerCategory));
+      kameHouse.util.dom.append(bannerCategoryDropdown, this.#getBannerCategoryOption(bannerCategory));
     });
   }
 
   /**
    * Get banner category option.
    */
-  function getBannerCategoryOption(bannerCategory) {
+  #getBannerCategoryOption(bannerCategory) {
     return kameHouse.util.dom.getOption({
       value: bannerCategory
     }, bannerCategory);
   }
 
   /**
-   * Reload all banners from the selected banners list.
-   */
-  function reloadBanners() {
-    kameHouse.logger.info("Reloading banners");
-    const bannersTbody = $('#' + TBODY_ID);
-    kameHouse.util.dom.empty(bannersTbody);
-    const bannerCategory = getSelectedBannerCategory();
-    const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
-    for (const bannerName of selectedBanners) {
-      kameHouse.util.dom.append(bannersTbody, getBannerImage(bannerCategory, bannerName));
-    }
-  }
-
-  /**
    * Get selected banner category.
    */
-  function getSelectedBannerCategory() {
+  #getSelectedBannerCategory() {
     const bannerCategoryDropdown = document.getElementById('banner-category-dropdown');
     return bannerCategoryDropdown.options[bannerCategoryDropdown.selectedIndex].value;
   }
@@ -68,7 +65,7 @@ function TestBannerRenderer() {
   /**
    * Get banner image.
    */
-  function getBannerImage(bannerCategory, bannerName) {
+  #getBannerImage(bannerCategory, bannerName) {
     return kameHouse.util.dom.getImgBtn({
       src: '/kame-house/img/banners/' + bannerCategory + '/' + bannerName + '.jpg',
       className: "banners-table-entry",
