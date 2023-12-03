@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v8.23
+
+- Refactored all javascript code to use classes
+
 #### v8.22
 
 - Added build-kamehouse log to groot tail logs

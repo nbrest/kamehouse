@@ -90,24 +90,19 @@ $(document).ready(() => {
 /**
  * Custom build functions for kamehouse user CRUD.
  */
-function KameHouseUserCrudManager() {
-
-  this.load = load;
-  this.buildRolesEntity = buildRolesEntity;
-  this.buildRolesFormField = buildRolesFormField;
-  this.buildRolesListDisplay = buildRolesListDisplay;
+class KameHouseUserCrudManager {
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing kameHouseUserCrudManager");
   }
 
   /**
    * Build kamehouse user roles entity.
    */
-  function buildRolesEntity(element) {
+  buildRolesEntity(element) {
     kameHouse.logger.debug("Building kamehouse user roles entity");
     for (const option of element.options) {
       if (option.selected && option.value != "") {
@@ -128,7 +123,7 @@ function KameHouseUserCrudManager() {
   /**
    * Build kamehouse user roles form field.
    */
-  function buildRolesFormField(baseRoleSelectElement, roleEntity) {
+  buildRolesFormField(baseRoleSelectElement, roleEntity) {
     kameHouse.logger.debug("Building kamehouse user roles form field");
     const formField = kameHouse.util.dom.cloneNode(baseRoleSelectElement, true);
     kameHouse.util.dom.classListAdd(formField, "m-5-t-d-kh");
@@ -147,9 +142,10 @@ function KameHouseUserCrudManager() {
   }
   
   /**
-   * Build kamehouse user roles list display.
+   * Build kamehouse user roles display list.
    */
-  function buildRolesListDisplay(roles) {
+  buildRolesListDisplay(roles) {
+    kameHouse.logger.debug("Building kamehouse user roles display list");
     if (kameHouse.core.isEmpty(roles)) {
       return "[]";
     }
