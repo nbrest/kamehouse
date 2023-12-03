@@ -2,20 +2,17 @@
  * Functionality to update the slides view in a slideshow.
  * 
  * Look at downloads.html for an example on how to setup the html to render the slideshow.
+ * 
+ * @author nbrest
  */
-function KameHouseSlideshow() {
+class KameHouseSlideshow {
 
-  this.load = load;
-  this.prevSlide = prevSlide;
-  this.nextSlide = nextSlide;
-  this.setDotSlide = setDotSlide;
-
-  let slideIndex = 1;
+  #slideIndex = 1;
 
   /**
    * Load kamehouse slideshow plugin.
    */
-  function load() {
+  load() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-slideshow.css">');
     kameHouse.util.module.setModuleLoaded("slideshow");
   }
@@ -23,44 +20,44 @@ function KameHouseSlideshow() {
   /**
    * Show previous slide.
    */
-  function prevSlide() {
-    changeSlide(-1);
+  prevSlide() {
+    this.#changeSlide(-1);
   }
 
   /**
    * Show next slide.
    */
-  function nextSlide() {
-    changeSlide(1);
+  nextSlide() {
+    this.#changeSlide(1);
+  }
+
+  /**
+   * Show the slide of the specified dot index.
+   */
+  setDotSlide(dotNumber) {
+    this.#slideIndex = dotNumber;
+    this.#updateSlide(dotNumber);
   }
 
   /**
    * Add or substract the specified value to the slide index and update the slide.
    */
-  function changeSlide(indexValueToAdd) {
-    slideIndex += indexValueToAdd;
-    updateSlide(slideIndex);
-  }
-  
-  /**
-   * Show the slide of the specified dot index.
-   */
-  function setDotSlide(dotNumber) {
-    slideIndex = dotNumber;
-    updateSlide(dotNumber);
+  #changeSlide(indexValueToAdd) {
+    this.#slideIndex += indexValueToAdd;
+    this.#updateSlide(this.#slideIndex);
   }
   
   /**
    * Update the slide view with the specified slide index.
    */
-  function updateSlide(chosenSlideIndex) {
+  #updateSlide(chosenSlideIndex) {
     const slides = document.getElementsByClassName("kamehouse-slideshow-slide");
     const dots = document.getElementsByClassName("kamehouse-slideshow-dot");
     if (chosenSlideIndex > slides.length) {
-      slideIndex = 1;
+      this.#slideIndex = 1;
     }
     if (chosenSlideIndex < 1) {
-      slideIndex = slides.length;
+      this.#slideIndex = slides.length;
     }
     for (const slide of slides) {
       kameHouse.util.dom.setDisplay(slide, "none");
@@ -68,8 +65,8 @@ function KameHouseSlideshow() {
     for (const dot of dots) {
       kameHouse.util.dom.classListRemove(dot, "kamehouse-slideshow-dot-active")
     }
-    kameHouse.util.dom.setDisplay(slides[slideIndex-1], "block");
-    kameHouse.util.dom.classListAdd(dots[slideIndex-1], "kamehouse-slideshow-dot-active");
+    kameHouse.util.dom.setDisplay(slides[this.#slideIndex-1], "block");
+    kameHouse.util.dom.classListAdd(dots[this.#slideIndex-1], "kamehouse-slideshow-dot-active");
   }
 }
 
