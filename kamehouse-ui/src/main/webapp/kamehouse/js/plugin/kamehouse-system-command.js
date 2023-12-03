@@ -5,23 +5,19 @@
  * 
  * @author nbrest
  */
-function SystemCommandManager() {
-
-  this.load = load;
-  this.renderCommandOutput = renderCommandOutput;
-  this.renderErrorExecutingCommand = renderErrorExecutingCommand;
+class SystemCommandManager {
 
   /**
    * Load kamehouse system command manager plugin.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing systemCommandManager");
   }
 
   /**
    * Render the system command output.
    */
-  function renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
+  renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
     let systemCommandOutputDivSelector;
     if (!kameHouse.core.isEmpty(systemCommandOutputDivId)) {
       systemCommandOutputDivSelector = "#" + systemCommandOutputDivId;
@@ -32,7 +28,7 @@ function SystemCommandManager() {
     kameHouse.util.dom.empty(systemCommandOutputDiv);
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {
-        kameHouse.util.dom.append(systemCommandOutputDiv, getCommandLine(systemCommandOutput.command));
+        kameHouse.util.dom.append(systemCommandOutputDiv, this.#getCommandLine(systemCommandOutput.command));
       }
       if (!kameHouse.core.isEmpty(systemCommandOutput.standardOutput) && 
           systemCommandOutput.standardOutput.length > 0) {
@@ -43,14 +39,14 @@ function SystemCommandManager() {
       }
       if (!kameHouse.core.isEmpty(systemCommandOutput.standardError) && 
           systemCommandOutput.standardError.length > 0) {
-        kameHouse.util.dom.append(systemCommandOutputDiv, getCommandErrorHeaderLine());
+        kameHouse.util.dom.append(systemCommandOutputDiv, this.#getCommandErrorHeaderLine());
         systemCommandOutput.standardError.forEach((standardErrorLine) => {
           kameHouse.util.dom.append(systemCommandOutputDiv, standardErrorLine);
           kameHouse.util.dom.append(systemCommandOutputDiv, kameHouse.util.dom.getBr());
         });
       }
       if (systemCommandOutput.status == "running") {
-        kameHouse.util.dom.append(systemCommandOutputDiv, getDaemonRunningLine(systemCommandOutput.command));
+        kameHouse.util.dom.append(systemCommandOutputDiv, this.#getDaemonRunningLine(systemCommandOutput.command));
       }
     });
     kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
@@ -59,7 +55,7 @@ function SystemCommandManager() {
   /**
    * Display an error executing the system command.
    */
-  function renderErrorExecutingCommand() {
+  renderErrorExecutingCommand() {
     const systemCommandOutputDiv = $("#system-command-output");
     kameHouse.util.dom.empty(systemCommandOutputDiv);
     kameHouse.util.dom.append(systemCommandOutputDiv, "Error executing system command. Check the logs on the backend...");
@@ -69,7 +65,7 @@ function SystemCommandManager() {
   /**
    * Get command line.
    */
-  function getCommandLine(command) {
+  #getCommandLine(command) {
     const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, "command: " + command));
@@ -81,7 +77,7 @@ function SystemCommandManager() {
   /**
    * Get daemon running line.
    */
-  function getDaemonRunningLine(command) {
+  #getDaemonRunningLine(command) {
     const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, command));
@@ -96,7 +92,7 @@ function SystemCommandManager() {
   /**
    * Get command error header line.
    */
-  function getCommandErrorHeaderLine() {
+  #getCommandErrorHeaderLine() {
     const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
       class: "bold-kh"
     }, "errors:"));
