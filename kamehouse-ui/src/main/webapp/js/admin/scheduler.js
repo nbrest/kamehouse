@@ -1,6 +1,8 @@
 /** 
  * Functionality to list and manipulate scheduled jobs in the backend.
  * Manager to get the scheduled jobs in the current server and cancel their scheduling.
+ * 
+ * @author nbrest
  */
 class Scheduler {
 

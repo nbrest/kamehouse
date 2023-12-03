@@ -19,6 +19,9 @@
     <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
       method="DELETE" />
 
+    <intercept-url pattern="/jsp/test-module/**" access="permitAll"
+      method="GET" />
+
     <intercept-url pattern="/test-module/**" access="hasRole('ROLE_SAIYAJIN')"
       method="GET" />
 

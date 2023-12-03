@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.util.*"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,8 +17,7 @@
 <script src="/kame-house/js/jsp/test-module/dragonball/users/dragonball-users-edit.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-header.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/kamehouse/css/kamehouse-footer.css" />
+<link rel="stylesheet" href="/kame-house/css/test-module/test-module.css" />
 </head>
 <body> 
   <div class="main-body">

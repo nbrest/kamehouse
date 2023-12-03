@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.util.*"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,15 +55,6 @@
     <div class="default-layout p-15-m-kh">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">DragonBall Users</h3>
       <br>
-      <%
-          Enumeration<String> paramNames = request.getParameterNames();
-          while (paramNames.hasMoreElements()) {
-              String paramName = (String) paramNames.nextElement();
-              System.out.print(paramName + " : ");
-              String paramValue = request.getParameter(paramName);
-              System.out.println(paramValue);
-          }
-      %>
       <table class="table-kh">
         <caption class="hidden-kh">DragonBall Users</caption>
         <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>

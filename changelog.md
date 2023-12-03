@@ -8,6 +8,7 @@
 #### v8.23
 
 - Refactored all javascript code to use classes
+- Fixed bugs
 
 #### v8.22
 
