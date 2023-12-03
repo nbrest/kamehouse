@@ -4,80 +4,60 @@
  * 
  * @author nbrest
  */
-function PlaylistBrowser() {
+class PlaylistBrowser {
 
-  this.load = load;
-  this.filterPlaylistRows = filterPlaylistRows;
-  this.populateVideoPlaylistCategories = populateVideoPlaylistCategories;
-  this.populateVideoPlaylists = populateVideoPlaylists;
-  this.loadPlaylistContent = loadPlaylistContent;
-  this.playSelectedPlaylist = playSelectedPlaylist;
+  static #mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
+  static #mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
 
-  const mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
-  const mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
-  const dobleLeftImg = createDoubleArrowImg("left");
-  const dobleRightImg = createDoubleArrowImg("right");
+  #dobleLeftImg = null;
+  #dobleRightImg = null;
+  #videoPlaylists = [];
+  #videoPlaylistCategories = [];
+  #currentPlaylist = null;
+  #tbodyAbsolutePaths = null;
+  #tbodyFilenames = null;
 
-  let videoPlaylists = [];
-  let videoPlaylistCategories = [];
-  let currentPlaylist = null;
-  let tbodyAbsolutePaths = null;
-  let tbodyFilenames = null;
+  constructor() {
+    this.#dobleLeftImg = this.#createDoubleArrowImg("left");
+    this.#dobleRightImg = this.#createDoubleArrowImg("right");
+  }
 
   /** Load Playlist Browser extension. */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing playlist browser");
-    kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
+    kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), this.#dobleRightImg);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      populateVideoPlaylistCategories();
+      this.populateVideoPlaylistCategories();
       kameHouse.util.module.setModuleLoaded("playlistBrowser");
     });
   }
 
-  /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
-  function createDoubleArrowImg(direction) {
-    return kameHouse.util.dom.getImgBtn({
-      id: "toggle-playlist-browser-filenames-img",
-      src: "/kame-house/img/other/double-" + direction + "-green.png",
-      className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
-      alt: "Expand/Collapse Filename",
-      onClick: () => toggleExpandPlaylistFilenames()
-    });
-  }
-
   /** Filter playlist browser rows based on the search string. */
-  function filterPlaylistRows() {
+  filterPlaylistRows() {
     const filterString = document.getElementById("playlist-browser-filter-input").value;
     kameHouse.util.table.filterTableRows(filterString, 'playlist-browser-table-body');
   }
 
-  /** Returns the selected playlist from the dropdowns. */
-  function getSelectedPlaylist() {
-    const playlistSelected = document.getElementById("playlist-dropdown").value;
-    kameHouse.logger.debug("Playlist selected: " + playlistSelected);
-    return playlistSelected;
-  }
-
   /** Populate playlist categories dropdown. */
-  function populateVideoPlaylistCategories() {
+  populateVideoPlaylistCategories() {
     
-    resetPlaylistDropdown();
-    resetPlaylistCategoryDropdown();
+    this.#resetPlaylistDropdown();
+    this.#resetPlaylistCategoryDropdown();
 
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, mediaVideoAllPlaylistsUrl, null, null, 
+    kameHouse.plugin.debugger.http.get(config, PlaylistBrowser.#mediaVideoAllPlaylistsUrl, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        videoPlaylists = responseBody;
-        videoPlaylistCategories = [...new Set(videoPlaylists.map((playlist) => playlist.category))];
-        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(videoPlaylists));
-        kameHouse.logger.debug("Playlist categories: " + videoPlaylistCategories);
+        this.#videoPlaylists = responseBody;
+        this.#videoPlaylistCategories = [...new Set(this.#videoPlaylists.map((playlist) => playlist.category))];
+        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(this.#videoPlaylists));
+        kameHouse.logger.debug("Playlist categories: " + this.#videoPlaylistCategories);
         const playlistCategoryDropdown = $('#playlist-category-dropdown');
-        $.each(videoPlaylistCategories, (key, entry) => {
+        $.each(this.#videoPlaylistCategories, (key, entry) => {
           const category = entry;
           const categoryFormatted = category.replace(/\\/g, ' | ')
                                             .replace(/\//g, ' | ')
                                             .replace(/_/g, ' ');
-          kameHouse.util.dom.append(playlistCategoryDropdown, getPlaylistCategoryOption(entry, capitalizeAllWords(categoryFormatted)));
+          kameHouse.util.dom.append(playlistCategoryDropdown, this.#getPlaylistCategoryOption(entry, this.#capitalizeAllWords(categoryFormatted)));
         });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => 
@@ -85,10 +65,70 @@ function PlaylistBrowser() {
       );
   }
 
+  /** Populate video playlists dropdown when a playlist category is selected. */
+  populateVideoPlaylists() {
+    const playlistCategoriesList = document.getElementById('playlist-category-dropdown');
+    const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
+    kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
+    this.#resetPlaylistDropdown();
+    const playlistDropdown = $('#playlist-dropdown');
+    $.each(this.#videoPlaylists, (key, entry) => {
+      if (entry.category === selectedPlaylistCategory) {
+        const playlistName = entry.name.replace(/.m3u+$/, "")
+                                       .replace(/_/g, " ");
+        kameHouse.util.dom.append(playlistDropdown, this.#getPlaylistOption(entry.path, this.#capitalizeAllWords(playlistName)));
+      }
+    });
+  }
+
+  /** Load the selected playlist's content in the view */
+  loadPlaylistContent() {
+    const playlistFilename = this.#getSelectedPlaylist();
+    kameHouse.logger.debug("Getting content for " + playlistFilename);
+    const requestParam = {
+      "path" : playlistFilename
+    };
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, PlaylistBrowser.#mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#currentPlaylist = responseBody;
+        this.#populatePlaylistBrowserTable();
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) =>
+        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + kameHouse.json.stringify(responseBody), responseCode, responseDescription, responseHeaders)
+      );
+  }
+
+  /** Play selected file in the VlcPlayer */
+  playSelectedPlaylist() {
+    const playlist = this.#getSelectedPlaylist();
+    kameHouse.extension.vlcPlayer.playFile(playlist);
+    kameHouse.extension.vlcPlayer.openTab('tab-playlist');
+    kameHouse.extension.vlcPlayer.reloadPlaylist();
+  }
+
+  /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
+  #createDoubleArrowImg(direction) {
+    return kameHouse.util.dom.getImgBtn({
+      id: "toggle-playlist-browser-filenames-img",
+      src: "/kame-house/img/other/double-" + direction + "-green.png",
+      className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
+      alt: "Expand/Collapse Filename",
+      onClick: () => this.#toggleExpandPlaylistFilenames()
+    });
+  }
+
+  /** Returns the selected playlist from the dropdowns. */
+  #getSelectedPlaylist() {
+    const playlistSelected = document.getElementById("playlist-dropdown").value;
+    kameHouse.logger.debug("Playlist selected: " + playlistSelected);
+    return playlistSelected;
+  }
+
   /**
    * Convert all words to upper case.
    */
-  function capitalizeAllWords(string) {
+  #capitalizeAllWords(string) {
     if (kameHouse.core.isEmpty(string)) {
       return string;
     }
@@ -102,85 +142,43 @@ function PlaylistBrowser() {
   /**
    * Reset playlist dropdown view.
    */
-  function resetPlaylistDropdown() {
+  #resetPlaylistDropdown() {
     const playlistDropdown = $('#playlist-dropdown');
     kameHouse.util.dom.empty(playlistDropdown);
-    kameHouse.util.dom.append(playlistDropdown, getInitialDropdownOption("Playlist"));
+    kameHouse.util.dom.append(playlistDropdown, this.#getInitialDropdownOption("Playlist"));
   }
 
   /**
    * Reset playlist category dropdown view.
    */
-  function resetPlaylistCategoryDropdown() {
+  #resetPlaylistCategoryDropdown() {
     const playlistCategoryDropdown = $('#playlist-category-dropdown');
     kameHouse.util.dom.empty(playlistCategoryDropdown);
-    kameHouse.util.dom.append(playlistCategoryDropdown, getInitialDropdownOption("Playlist Category"));
-  }
-
-  /** Populate video playlists dropdown when a playlist category is selected. */
-  function populateVideoPlaylists() {
-    const playlistCategoriesList = document.getElementById('playlist-category-dropdown');
-    const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
-    kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
-    resetPlaylistDropdown();
-    const playlistDropdown = $('#playlist-dropdown');
-    $.each(videoPlaylists, (key, entry) => {
-      if (entry.category === selectedPlaylistCategory) {
-        const playlistName = entry.name.replace(/.m3u+$/, "")
-                                       .replace(/_/g, " ");
-        kameHouse.util.dom.append(playlistDropdown, getPlaylistOption(entry.path, capitalizeAllWords(playlistName)));
-      }
-    });
-  }
-
-  /** Load the selected playlist's content in the view */
-  function loadPlaylistContent() {
-    const playlistFilename = getSelectedPlaylist();
-    kameHouse.logger.debug("Getting content for " + playlistFilename);
-    const requestParam = {
-      "path" : playlistFilename
-    };
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        currentPlaylist = responseBody;
-        populatePlaylistBrowserTable();
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) =>
-        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + kameHouse.json.stringify(responseBody), responseCode, responseDescription, responseHeaders)
-      );
-  }
-
-  /** Play selected file in the VlcPlayer */
-  function playSelectedPlaylist() {
-    const playlist = getSelectedPlaylist();
-    kameHouse.extension.vlcPlayer.playFile(playlist);
-    kameHouse.extension.vlcPlayer.openTab('tab-playlist');
-    kameHouse.extension.vlcPlayer.reloadPlaylist();
+    kameHouse.util.dom.append(playlistCategoryDropdown, this.#getInitialDropdownOption("Playlist Category"));
   }
 
   /** Populate the playlist table for browsing. */
-  function populatePlaylistBrowserTable() {
+  #populatePlaylistBrowserTable() {
     const $playlistTableBody = $('#playlist-browser-table-body');
     kameHouse.util.dom.empty($playlistTableBody);
-    if (kameHouse.core.isEmpty(currentPlaylist)) {
-      kameHouse.util.dom.append($playlistTableBody, getEmptyPlaylistTr());
+    if (kameHouse.core.isEmpty(this.#currentPlaylist)) {
+      kameHouse.util.dom.append($playlistTableBody, this.#getEmptyPlaylistTr());
     } else {
-      tbodyFilenames = getPlaylistBrowserTbody();
-      tbodyAbsolutePaths = getPlaylistBrowserTbody();
-      for (const file of currentPlaylist.files) {
+      this.#tbodyFilenames = this.#getPlaylistBrowserTbody();
+      this.#tbodyAbsolutePaths = this.#getPlaylistBrowserTbody();
+      for (const file of this.#currentPlaylist.files) {
         const absolutePath = file;
         const filename = kameHouse.util.file.getShortFilename(absolutePath);
-        kameHouse.util.dom.append(tbodyFilenames, getPlaylistBrowserTr(filename, absolutePath));
-        kameHouse.util.dom.append(tbodyAbsolutePaths, getPlaylistBrowserTr(absolutePath, absolutePath));
+        kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistBrowserTr(filename, absolutePath));
+        kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistBrowserTr(absolutePath, absolutePath));
       }
-      kameHouse.util.dom.replaceWith($playlistTableBody, tbodyFilenames);
+      kameHouse.util.dom.replaceWith($playlistTableBody, this.#tbodyFilenames);
     }
-    filterPlaylistRows();
+    this.filterPlaylistRows();
   }
 
   /** Play the clicked element from the playlist. */
-  function clickEventOnPlaylistBrowserRow(event) {
+  #clickEventOnPlaylistBrowserRow(event) {
     const filename = event.data.filename;
     kameHouse.logger.info("Play selected playlist browser file : " + filename);
     kameHouse.extension.vlcPlayer.playFile(filename);
@@ -188,44 +186,44 @@ function PlaylistBrowser() {
   }
 
   /** Toggle expand or collapse filenames in the playlist */
-  function toggleExpandPlaylistFilenames() {
+  #toggleExpandPlaylistFilenames() {
     let isExpandedFilename = null;
-    const filenamesFirstFile = $(tbodyFilenames).children().first().text();
+    const filenamesFirstFile = $(this.#tbodyFilenames).children().first().text();
     const currentFirstFile = $('#playlist-browser-table-body tr:first').text();
     const $playlistTable = $('#playlist-browser-table');
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
-      if (!kameHouse.core.isEmpty(tbodyFilenames)) {
-        kameHouse.util.dom.detach(tbodyFilenames);
+      if (!kameHouse.core.isEmpty(this.#tbodyFilenames)) {
+        kameHouse.util.dom.detach(this.#tbodyFilenames);
       }
-      kameHouse.util.dom.append($playlistTable, tbodyAbsolutePaths);
+      kameHouse.util.dom.append($playlistTable, this.#tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
-      if (!kameHouse.core.isEmpty(tbodyAbsolutePaths)) {
-        kameHouse.util.dom.detach(tbodyAbsolutePaths);
+      if (!kameHouse.core.isEmpty(this.#tbodyAbsolutePaths)) {
+        kameHouse.util.dom.detach(this.#tbodyAbsolutePaths);
       }
-      kameHouse.util.dom.append($playlistTable, tbodyFilenames);
+      kameHouse.util.dom.append($playlistTable, this.#tbodyFilenames);
       isExpandedFilename = false;
     }
-    updateExpandPlaylistFilenamesIcon(isExpandedFilename);
-    filterPlaylistRows();
+    this.#updateExpandPlaylistFilenamesIcon(isExpandedFilename);
+    this.filterPlaylistRows();
   }
   
   /** Update the icon to expand or collapse the playlist filenames */
-  function updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
+  #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleLeftImg);
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), this.#dobleLeftImg);
     } else {
-      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), dobleRightImg);
+      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), this.#dobleRightImg);
     }
   }
 
   /**
    * Get initial dropdown option.
    */
-  function getInitialDropdownOption(optionText) {
+  #getInitialDropdownOption(optionText) {
     return kameHouse.util.dom.getOption({
       disabled: true,
       selected: true
@@ -235,7 +233,7 @@ function PlaylistBrowser() {
   /**
    * Get playlist option.
    */
-  function getPlaylistOption(entry, category) {
+  #getPlaylistOption(entry, category) {
     return kameHouse.util.dom.getOption({
       value: entry
     }, category);
@@ -244,7 +242,7 @@ function PlaylistBrowser() {
   /**
    * Get playlist category option.
    */
-  function getPlaylistCategoryOption(path, playlistName) {
+  #getPlaylistCategoryOption(path, playlistName) {
     return kameHouse.util.dom.getOption({
       value: path
     }, playlistName);
@@ -253,7 +251,7 @@ function PlaylistBrowser() {
   /**
    * Get playlist browser table body.
    */
-  function getPlaylistBrowserTbody() {
+  #getPlaylistBrowserTbody() {
     return kameHouse.util.dom.getTbody({
       id: "playlist-browser-table-body"
     }, null);
@@ -262,21 +260,21 @@ function PlaylistBrowser() {
   /**
    * Get empty playlist table row.
    */
-  function getEmptyPlaylistTr() {
+  #getEmptyPlaylistTr() {
     return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
   }
 
   /**
    * Get playlist browser table row.
    */
-  function getPlaylistBrowserTr(displayName, filePath) {
-    return kameHouse.util.dom.getTrTd(getPlaylistBrowserTrButton(displayName, filePath));
+  #getPlaylistBrowserTr(displayName, filePath) {
+    return kameHouse.util.dom.getTrTd(this.#getPlaylistBrowserTrButton(displayName, filePath));
   }
 
   /**
    * Get playlist browser table row button.
    */
-  function getPlaylistBrowserTrButton(displayName, filePath) {
+  #getPlaylistBrowserTrButton(displayName, filePath) {
     return kameHouse.util.dom.getButton({
       attr: {
         class: "playlist-browser-table-btn",
@@ -285,7 +283,7 @@ function PlaylistBrowser() {
       clickData: {
         filename: filePath
       },
-      click: clickEventOnPlaylistBrowserRow
+      click: this.#clickEventOnPlaylistBrowserRow
     });
   }
 }
