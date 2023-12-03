@@ -7,24 +7,19 @@
  * 
  * @author nbrest
  */
-function TestScheduler() {
+class TestScheduler {
 
-  this.load = load;
-  this.setSampleJob = setSampleJob;
-  this.cancelSampleJob = cancelSampleJob;
-  this.getSampleJobStatus = getSampleJobStatus;
-
-  const TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
-  const SAMPLE_JOB_URL = '/test-scheduler/sample-job';
+  static #TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
+  static #SAMPLE_JOB_URL = '/test-scheduler/sample-job';
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Loading TestScheduler");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      getSampleJobStatus(false);
+      this.getSampleJobStatus(false);
     });
   }
 
@@ -33,7 +28,7 @@ function TestScheduler() {
    * Sample Job functions
    */
   /** Set a sample job command */
-  function setSampleJob() {
+  setSampleJob() {
     const delay = document.getElementById("sample-job-delay-dropdown").value;
     kameHouse.logger.trace("Sample job delay: " + delay);
     const requestParam =  {
@@ -41,46 +36,50 @@ function TestScheduler() {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, processSuccessSampleJob, processErrorSampleJob);
+    kameHouse.plugin.debugger.http.post(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, this.#processSuccessSampleJob, this.#processErrorSampleJob);
   }
 
   /** Cancel a SampleJob command */
-  function cancelSampleJob() {
+  cancelSampleJob() {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJob, processErrorSampleJob);
+    kameHouse.plugin.debugger.http.delete(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, null, null, this.#processSuccessSampleJob, this.#processErrorSampleJob);
   }
 
   /** Get the SampleJob command status */
-  function getSampleJobStatus(openModal) {
+  getSampleJobStatus(openModal) {
     if (openModal) {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, TEST_MODULE_API_URL + SAMPLE_JOB_URL, null, null, processSuccessSampleJobStatus, processErrorSampleJobStatus);
+    kameHouse.plugin.debugger.http.get(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, null, null, this.#processSuccessSampleJobStatus, this.#processErrorSampleJobStatus);
   }
 
   /** Process the success response of a SampleJob command (set/cancel) */
-  function processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    getSampleJobStatus();
+    // Can't use this here because it's out of scope in this callback from an http request.
+    // Another way to do it would be to create a new instance of TestScheduler and call getSampleJobStatus.
+    kameHouse.extension.testScheduler.getSampleJobStatus(false);
   }
 
   /** Process the error response of a SampleJob command (set/cancel) */
-  function processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    getSampleJobStatus();
+    // Can't use this here because it's out of scope in this callback from an http request.
+    // Another way to do it would be to create a new instance of TestScheduler and call getSampleJobStatus.
+    kameHouse.extension.testScheduler.getSampleJobStatus(false);
   }
 
   /** Update the status of SampleJob command */
-  function processSuccessSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processSuccessSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.util.dom.setHtml($("#sample-job-status"), responseBody.message);
   }
 
   /** Update the status of SampleJob command with an error */
-  function processErrorSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processErrorSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.util.dom.setHtml($("#sample-job-status"), "Error getting the status of SampleJob command");
