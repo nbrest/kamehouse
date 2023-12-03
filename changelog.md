@@ -11,8 +11,12 @@
 - Updated error view on tail log errors on groot
 - Added more colors to maven builds
 - Refactored vlc player sync loops
+- Added periodic health check to vlc player loops
 - Updated mobile settings styles
+- Updated mobile config persistence functions
+- Added vscode jsconfig.json
 - Fixed most sonar bugs
+- Fixed bugs
 
 #### v8.21
 
