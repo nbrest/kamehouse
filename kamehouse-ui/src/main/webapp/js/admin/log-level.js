@@ -1,26 +1,16 @@
 /** 
  * Functionality to manipulate log levels in the backend. 
- */
-/**
+ *
  * Manage the log level of the backend on the current server.
+ * 
+ * @author nbrest
  */
-function BackendLogLevelUtils() {
-
-  this.load = load;
-  this.getLogLevels = getLogLevels;
-  this.resetLogLevels = resetLogLevels;
-  this.setKamehouseLogLevel = setKamehouseLogLevel;
-  this.setKamehouseLogLevelToDebug = setKamehouseLogLevelToDebug;
-  this.setKamehouseLogLevelToTrace = setKamehouseLogLevelToTrace;
-  this.setRequestLoggerConfigPayload = setRequestLoggerConfigPayload;
-  this.setRequestLoggerConfigHeaders = setRequestLoggerConfigHeaders;
-  this.setRequestLoggerConfigQueryString = setRequestLoggerConfigQueryString;
-  this.setRequestLoggerConfigClientInfo = setRequestLoggerConfigClientInfo;
+class BackendLogLevelUtils {
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing log-level");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
@@ -28,26 +18,96 @@ function BackendLogLevelUtils() {
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "webappTabsManager"], () => {
-      init();
+      this.#init();
     });
+  }
+
+  /** 
+   * Get all current log levels 
+   */
+  getLogLevels(webapp, openModal) {
+    if (openModal) {
+      kameHouse.plugin.modal.loadingWheelModal.open();
+    }
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, this.#getApiUrl(webapp), null, null,
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
+  }
+
+  /** Reset all log levels */
+  resetLogLevels(webapp) {
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, this.#getApiUrl(webapp), null, null,
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
+  }
+
+  /** Set Kamehouse log level */
+  setKamehouseLogLevel(webapp) {
+    const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, this.#getApiUrl(webapp) + logLevel, null, null, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
+  }
+
+  /** Set Kamehouse log levels to DEBUG */
+  setKamehouseLogLevelToDebug(webapp) {
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, this.#getApiUrl(webapp) + "/debug", null, null, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
+  }
+
+  /** Set Kamehouse log levels to TRACE */
+  setKamehouseLogLevelToTrace(webapp) {
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, this.#getApiUrl(webapp) + "/trace", null, null, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
+  }
+
+  /** Set request logger config payload */
+  setRequestLoggerConfigPayload(webapp) {
+    this.#setRequestLoggerConfig(webapp, "payload", "logPayload");
+  }
+
+  /** Set request logger config headers */
+  setRequestLoggerConfigHeaders(webapp) {
+    this.#setRequestLoggerConfig(webapp, "headers", "logHeaders");
+  }
+
+  /** Set request logger config query string */
+  setRequestLoggerConfigQueryString(webapp) {
+    this.#setRequestLoggerConfig(webapp, "query-string", "logQueryString");
+  }
+
+  /** Set request logger config client info */
+  setRequestLoggerConfigClientInfo(webapp) {
+    this.#setRequestLoggerConfig(webapp, "client-info", "logClientInfo");
   }
 
   /**
    * Load templates and initial data.
    */
-  function init() {
-    getLogLevels('admin', false);
-    getLogLevels('media', false);
-    getLogLevels('tennisworld', false);
-    getLogLevels('testmodule', false);
-    getLogLevels('ui', false);
-    getLogLevels('vlcrc', false);
+  #init() {
+    this.getLogLevels('admin', false);
+    this.getLogLevels('media', false);
+    this.getLogLevels('tennisworld', false);
+    this.getLogLevels('testmodule', false);
+    this.getLogLevels('ui', false);
+    this.getLogLevels('vlcrc', false);
   }
 
   /**
    * Get log-level api url for each webapp.
    */
-  function getApiUrl(webapp) {
+  #getApiUrl(webapp) {
     if (webapp == "ui") {
       return '/kame-house/api/v1/commons/log-level';
     } else {
@@ -58,93 +118,43 @@ function BackendLogLevelUtils() {
   /**
    * Get log-level request logger config api url for each webapp.
    */
-  function getRequestLoggerConfigApiUrl(webapp) {
-    return getApiUrl(webapp) + "/request-logger";
-  }
-
-  /** 
-   * Get all current log levels 
-   */
-  function getLogLevels(webapp, openModal) {
-    if (openModal) {
-      kameHouse.plugin.modal.loadingWheelModal.open();
-    }
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, getApiUrl(webapp), null, null,
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
-  }
-
-  /** Reset all log levels */
-  function resetLogLevels(webapp) {
-    kameHouse.plugin.modal.loadingWheelModal.open();
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, getApiUrl(webapp), null, null,
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
-  }
-
-  /** Set Kamehouse log level */
-  function setKamehouseLogLevel(webapp) {
-    const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
-    kameHouse.plugin.modal.loadingWheelModal.open();
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.put(config, getApiUrl(webapp) + logLevel, null, null, 
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
-  }
-
-  /** Set Kamehouse log levels to DEBUG */
-  function setKamehouseLogLevelToDebug(webapp) {
-    kameHouse.plugin.modal.loadingWheelModal.open();
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.put(config, getApiUrl(webapp) + "/debug", null, null, 
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
-  }
-
-  /** Set Kamehouse log levels to TRACE */
-  function setKamehouseLogLevelToTrace(webapp) {
-    kameHouse.plugin.modal.loadingWheelModal.open();
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.put(config, getApiUrl(webapp) + "/trace", null, null, 
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processError(responseBody, responseCode, responseDescription, responseHeaders, webapp); });
+  #getRequestLoggerConfigApiUrl(webapp) {
+    return this.#getApiUrl(webapp) + "/request-logger";
   }
 
   /** Update the log levels table content */
-  function updateLogLevelTable(logLevelsArray, webapp) {
-    addLogLevelTableHeader(webapp);
+  #updateLogLevelTable(logLevelsArray, webapp) {
+    this.#addLogLevelTableHeader(webapp);
     const $tableBody = $('#log-level-tbody-' + webapp);
     logLevelsArray.forEach((logLevelEntry) => {
       const logLevelEntryPair = logLevelEntry.split(":");
       const packageName = logLevelEntryPair[0];
       const logLevel = logLevelEntryPair[1];
-      kameHouse.util.dom.append($tableBody, getLogLevelTr(packageName, logLevel));
+      kameHouse.util.dom.append($tableBody, this.#getLogLevelTr(packageName, logLevel));
     });
   }
 
   /** Add log level table header */
-  function addLogLevelTableHeader(webapp) {
+  #addLogLevelTableHeader(webapp) {
     const $tableBody = $('#log-level-tbody-' + webapp);
     kameHouse.util.dom.empty($tableBody);
-    kameHouse.util.dom.append($tableBody, getLogLevelTh(webapp));
+    kameHouse.util.dom.append($tableBody, this.#getLogLevelTh(webapp));
   }
 
   /** Set log level table to error */
-  function updateLogLevelTableError(webapp) {
+  #updateLogLevelTableError(webapp) {
     const $tableBody = $('#log-level-tbody-' + webapp);
     kameHouse.util.dom.empty($tableBody);
-    kameHouse.util.dom.append($tableBody, getErrorTr());
+    kameHouse.util.dom.append($tableBody, this.#getErrorTr());
   }
 
   /** Get row for errot table */
-  function getErrorTr() {
+  #getErrorTr() {
     return kameHouse.util.dom.getTrTd("Error retrieving log levels from the backend");
   }
 
   /** Get data row for log level table */
-  function getLogLevelTr(packageName, logLevel) {
+  #getLogLevelTr(packageName, logLevel) {
     const tr = kameHouse.util.dom.getTr(null, null);
     kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd(null, packageName));
     kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd(null, logLevel));
@@ -152,7 +162,7 @@ function BackendLogLevelUtils() {
   }
 
   /** Get header row for log level table */
-  function getLogLevelTh(webapp) {
+  #getLogLevelTh(webapp) {
     const tr = kameHouse.util.dom.getTr({
       id: "log-level-thead-" + webapp,
       class: "table-kh-header"
@@ -163,59 +173,39 @@ function BackendLogLevelUtils() {
   }
 
   /** Process success response */
-  function processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
+  #processSuccess(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    updateLogLevelTable(responseBody, webapp);
+    this.#updateLogLevelTable(responseBody, webapp);
   }
 
   /** Process error response */
-  function processError(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
+  #processError(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    updateLogLevelTableError(webapp);
+    this.#updateLogLevelTableError(webapp);
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
-  /** Set request logger config payload */
-  function setRequestLoggerConfigPayload(webapp) {
-    setRequestLoggerConfig(webapp, "payload", "logPayload");
-  }
-
-  /** Set request logger config headers */
-  function setRequestLoggerConfigHeaders(webapp) {
-    setRequestLoggerConfig(webapp, "headers", "logHeaders");
-  }
-
-  /** Set request logger config query string */
-  function setRequestLoggerConfigQueryString(webapp) {
-    setRequestLoggerConfig(webapp, "query-string", "logQueryString");
-  }
-
-  /** Set request logger config client info */
-  function setRequestLoggerConfigClientInfo(webapp) {
-    setRequestLoggerConfig(webapp, "client-info", "logClientInfo");
-  }
-
   /** Set request logger config */
-  function setRequestLoggerConfig(webapp, propertyToSet, urlParamName) {
+  #setRequestLoggerConfig(webapp, propertyToSet, urlParamName) {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
-    const url = getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet;
+    const url = this.#getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet;
     const params = {};
     params[urlParamName] = propertyValue;
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, url,kameHouse.http.getUrlEncodedHeaders(), params, 
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
-    (responseBody, responseCode, responseDescription, responseHeaders) => { processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders); });
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp); },
+    (responseBody, responseCode, responseDescription, responseHeaders) => { this.#processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders); });
   }
 
   /** Process success response for request logger config */
-  function processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
+  #processSuccessRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders, webapp) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openAutoCloseable(webapp + " : " + responseBody.message, 7000);
   }
 
   /** Process error response for request logger config */
-  function processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processErrorRequestLoggerConfig(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
