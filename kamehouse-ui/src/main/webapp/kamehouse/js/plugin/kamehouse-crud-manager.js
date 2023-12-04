@@ -1,44 +1,33 @@
 /**
  * Functionality to manage CRUD operations on any entity in the backend.
+ * 
+ * @author nbrest
  */
-function CrudManager() {
+class CrudManager {
 
-  this.load = load;
-  this.init = init;
+  static #TBODY_ID = "crud-manager-tbody";
+  static #ADD_INPUT_FIELDS_ID = "crud-add-input-fields";
+  static #EDIT_INPUT_FIELDS_ID = "crud-edit-input-fields";
+  static #DEFAULT_BANNER = "banner-goku-ssj4-earth";
+  static #NO_DATA_ROW_ID = "no-data-from-backend-row";
 
-  this.read = read;
-  this.readAll = readAll;
-  this.create = create;
-  this.update = update;
-  this.delete = deleteEntity;
-
-  this.clearForm = clearForm;
-  this.filterRows = filterRows;
-  this.refreshView = refreshView; 
-
-  const TBODY_ID = "crud-manager-tbody";
-  const ADD_INPUT_FIELDS_ID = "crud-add-input-fields";
-  const EDIT_INPUT_FIELDS_ID = "crud-edit-input-fields";
-  const DEFAULT_BANNER = "banner-goku-ssj4-earth";
-  const NO_DATA_ROW_ID = "no-data-from-backend-row";
-
-  let entityName = "Set EntityName";
-  let entityNameJapanese = null;
-  let icon = null;
-  let url = "/kame-house-module/api/v1/override-url";
-  let columns = [];
-  let entities = [];
-  let readOnly = false;
-  let reverseDataOrder = false;
-  let defaultSorting = null;
-  let readAllMaxRows = null;
-  let readAllSortColumn = null;
-  let readAllSortAscending = null;
+  #entityName = "Set EntityName";
+  #entityNameJapanese = null;
+  #icon = null;
+  #url = "/kame-house-module/api/v1/override-url";
+  #columns = [];
+  #entities = [];
+  #readOnly = false;
+  #reverseDataOrder = false;
+  #defaultSorting = null;
+  #readAllMaxRows = null;
+  #readAllSortColumn = null;
+  #readAllSortAscending = null;
   
   /**
    * Load the crud manager plugin.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing crudManager");
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
     kameHouse.util.dom.load($("#crud-manager-body-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
@@ -118,34 +107,222 @@ function CrudManager() {
    * - values (select)
    * - sortType (select)
    */
-  function init(config) {
-    replaceBanner(config);
-    setIcon(config);
-    setInfoImage(config);
-    setEntityName(config.entityName);
-    setEntityNameJapanese(config.entityNameJapanese);
-    setUrl(config.url);
-    setColumns(config.columns);
-    setReadOnly(config.readOnly);
-    setDefaultSorting(config.defaultSorting);
-    setReverseDataOrder(config.reverseDataOrder);
-    setReadAllParameters(config.readAll);
-    loadCustomSections(config);
-    updateEntityNameInView();
-    loadStateFromCookies();
-    loadStateFromUrlParams();
-    disableEditFunctionalityForReadOnly();
+  init(config) {
+    this.#replaceBanner(config);
+    this.#setIcon(config);
+    this.#setInfoImage(config);
+    this.#setEntityName(config.entityName);
+    this.#setEntityNameJapanese(config.entityNameJapanese);
+    this.#setUrl(config.url);
+    this.#setColumns(config.columns);
+    this.#setReadOnly(config.readOnly);
+    this.#setDefaultSorting(config.defaultSorting);
+    this.#setReverseDataOrder(config.reverseDataOrder);
+    this.#setReadAllParameters(config.readAll);
+    this.#loadCustomSections(config);
+    this.#updateEntityNameInView();
+    this.#loadStateFromCookies();
+    this.#loadStateFromUrlParams();
+    this.#disableEditFunctionalityForReadOnly();
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      readAll();
+      this.readAll();
     });
+  }
+
+  /**
+   * Get an entity by it's id.
+   */
+  read(id) {
+    kameHouse.logger.info("read");
+    const getUrl = this.#url + "/" + id;
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, getUrl, null, null,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders);
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+      });
+  }
+
+  /**
+   * Get all entities.
+   */
+  readAll() {
+    kameHouse.logger.info("readAll");
+    const requestParam = {};
+    if (this.#readAllMaxRows) {
+      requestParam.maxRows = this.#readAllMaxRows;
+    }
+    if (this.#readAllSortColumn) {
+      requestParam.sortColumn = this.#readAllSortColumn;
+    }
+    if (this.#readAllSortAscending != null && this.#readAllSortAscending != undefined) {
+      requestParam.sortAscending = this.#readAllSortAscending;
+    }
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.get(config, this.#url, kameHouse.http.getUrlEncodedHeaders(), requestParam,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#entities = responseBody;
+        this.#reloadView();
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting all entities");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+        this.#displayErrorGettingEntities();
+      });
+  }
+
+  /**
+   * Create an entity.
+   */
+  create() {
+    kameHouse.logger.info("create");
+    if (this.#readOnly) {
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      return;
+    }
+    const entity = this.#getEntityFromForm(CrudManager.#ADD_INPUT_FIELDS_ID);
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, this.#url, kameHouse.http.getApplicationJsonHeaders(), entity,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
+        this.readAll();
+        kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error creating entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+        this.readAll();
+      });
+  }
+
+  /**
+   * Update an entity.
+   */
+  update() {
+    kameHouse.logger.info("update");
+    if (this.#readOnly) {
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      return;
+    }
+    const entity = this.#getEntityFromForm(CrudManager.#EDIT_INPUT_FIELDS_ID);
+    const updateUrl = this.#url + "/" + entity.id;
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.put(config, updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
+        this.readAll();
+        kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error updating entity");
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+        this.readAll();
+      });
+  }
+
+  /**
+   * Delete entity from the server.
+   */
+  delete(event) {
+    const id = event.data.id;
+    kameHouse.logger.info("delete");
+    if (this.#readOnly) {
+      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
+      return;
+    }
+    const deleteUrl = this.#url + "/" + id;
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.delete(config, deleteUrl, null, null,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
+        kameHouse.plugin.modal.basicModal.close();
+        this.readAll();
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error deleting entity");
+        kameHouse.plugin.modal.basicModal.close();
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+        this.readAll();
+      });
+  }
+
+  /**
+   * Clear all the form fields.
+   */
+  clearForm(formFieldsId) {
+    this.#reloadForm(formFieldsId);
+  }
+
+  /**
+   * Filter the table rows based on all the filters registered in the crud manager.
+   * 
+   * Register filters tagging them with the classes 
+   * 'crud-manager-filter' for filters that apply across all columns
+   * 'crud-manager-column-filter' for filters that apply to a particular column
+   * and they will be picked up here.
+   * 
+   * For 'crud-manager-column-filter' also specify the attribute data-column-number on the select
+   * with the column number to apply the filter on.
+   * 
+   * All the filters tagged with those classes will be applied.
+   */
+  filterRows() {
+    // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
+    kameHouse.util.table.filterTableRows("", CrudManager.#TBODY_ID, null);
+
+    const noDataRow = document.getElementById(CrudManager.#NO_DATA_ROW_ID);
+    if (!kameHouse.core.isEmpty(noDataRow)) {
+      kameHouse.logger.info("No data received from the backend, skipping filters");
+      return;
+    }
+
+    const filters = document.getElementsByClassName("crud-manager-filter");
+    for (const filter of filters) {
+      const filterString = filter.value;
+      kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString);
+      kameHouse.util.table.filterTableRows(filterString, CrudManager.#TBODY_ID, null, true);
+    }
+
+    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
+    for (const columnFilter of columnFilters) {
+      const filterString = columnFilter.value;
+      const columnNumber = columnFilter.dataset.columnNumber;
+      kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
+      kameHouse.util.table.filterTableRowsByColumn(filterString, CrudManager.#TBODY_ID, columnNumber, null, true);
+    }
+    
+    const numRows = document.getElementById('num-rows').value;
+    kameHouse.util.table.limitRows('crud-manager-table', numRows, true);
+  }
+
+  /**
+   * Refresh view.
+   */
+  refreshView() {
+    kameHouse.util.dom.setValue(document.getElementById('num-rows'), "");
+    
+    const filters = document.getElementsByClassName("crud-manager-filter");
+    for (const filter of filters) {
+      filter.selectedIndex = -1;
+    }
+
+    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
+    for (const columnFilter of columnFilters) {
+      columnFilter.selectedIndex = -1;
+    }
+    
+    this.readAll();
   }
 
   /**
    * Replace default banner
    */
-  function replaceBanner(config) {
+  #replaceBanner(config) {
     if (!kameHouse.core.isEmpty(config.banner)) {
-      kameHouse.util.dom.removeClass($("#banner"), DEFAULT_BANNER);
+      kameHouse.util.dom.removeClass($("#banner"), CrudManager.#DEFAULT_BANNER);
       kameHouse.util.dom.addClass($("#banner"), config.banner);
     }
   }
@@ -153,9 +330,9 @@ function CrudManager() {
   /**
    * Set CRUD icon.
    */
-  function setIcon(config) {
+  #setIcon(config) {
     if (!kameHouse.core.isEmpty(config.icon)) {
-      icon = kameHouse.util.dom.getImgBtn({
+      this.#icon = kameHouse.util.dom.getImgBtn({
         src: config.icon,
         className: "crud-icon",
         alt: "Icon",
@@ -167,7 +344,7 @@ function CrudManager() {
   /**
    * Set CRUD info image component.
    */
-  function setInfoImage(config) {
+  #setInfoImage(config) {
     if (!kameHouse.core.isEmpty(config.infoImage)) {
       kameHouse.util.dom.removeClass($("#crud-info-image"), "hidden-kh");
       const infoImage = config.infoImage;
@@ -192,9 +369,9 @@ function CrudManager() {
   /**
    * Get CRUD icon.
    */
-  function getIcon() {
-    if (!kameHouse.core.isEmpty(icon)) {
-      return kameHouse.util.dom.cloneNode(icon, false);
+  #getIcon() {
+    if (!kameHouse.core.isEmpty(this.#icon)) {
+      return kameHouse.util.dom.cloneNode(this.#icon, false);
     }
     return "";
   }
@@ -202,59 +379,59 @@ function CrudManager() {
   /**
    * Get CRUD list title.
    */
-  function getListTitle() {
+  #getListTitle() {
     const span = kameHouse.util.dom.getSpan();
-    kameHouse.util.dom.append(span, getIcon());
-    kameHouse.util.dom.append(span, getEntityNames());
+    kameHouse.util.dom.append(span, this.#getIcon());
+    kameHouse.util.dom.append(span, this.#getEntityNames());
     return span;
   }
 
   /**
    * Get CRUD add title.
    */
-  function getAddTitle() {
+  #getAddTitle() {
     const span = kameHouse.util.dom.getSpan();
-    kameHouse.util.dom.append(span, getIcon());
-    kameHouse.util.dom.append(span, "Add " + entityName);
+    kameHouse.util.dom.append(span, this.#getIcon());
+    kameHouse.util.dom.append(span, "Add " + this.#entityName);
     return span;
   }
 
   /**
    * Get CRUD edit title.
    */
-  function getEditTitle() {
+  #getEditTitle() {
     const span = kameHouse.util.dom.getSpan();
-    kameHouse.util.dom.append(span, getIcon());
-    kameHouse.util.dom.append(span, "Edit " + entityName);
+    kameHouse.util.dom.append(span, this.#getIcon());
+    kameHouse.util.dom.append(span, "Edit " + this.#entityName);
     return span;
   }
 
   /**
    * Updates the view with the entity name.
    */
-  function updateEntityNameInView() {
-    kameHouse.util.dom.setHtml($("title"), "KameHouse - " + getEntityNames());
-    kameHouse.util.dom.setHtml($("#crud-manager-banner-title"), getBannerTitle());
-    kameHouse.util.dom.setHtml($("#crud-manager-list-title"), getListTitle());
-    kameHouse.util.dom.setHtml($("#crud-manager-add-title"), getAddTitle());
-    kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), getEditTitle());
+  #updateEntityNameInView() {
+    kameHouse.util.dom.setHtml($("title"), "KameHouse - " + this.#getEntityNames());
+    kameHouse.util.dom.setHtml($("#crud-manager-banner-title"), this.#getBannerTitle());
+    kameHouse.util.dom.setHtml($("#crud-manager-list-title"), this.#getListTitle());
+    kameHouse.util.dom.setHtml($("#crud-manager-add-title"), this.#getAddTitle());
+    kameHouse.util.dom.setHtml($("#crud-manager-edit-title"), this.#getEditTitle());
   }
 
   /**
    * Get CRUD banner title.
    */
-  function getBannerTitle() {
-    if (kameHouse.core.isEmpty(entityNameJapanese)) {
-      return getEntityNames();
+  #getBannerTitle() {
+    if (kameHouse.core.isEmpty(this.#entityNameJapanese)) {
+      return this.#getEntityNames();
     }
-    return entityNameJapanese;
+    return this.#entityNameJapanese;
   }
 
   /**
    * When set to read only, disable add and edit tabs.
    */
-  function disableEditFunctionalityForReadOnly() {
-    if (readOnly) {
+  #disableEditFunctionalityForReadOnly() {
+    if (this.#readOnly) {
       kameHouse.util.dom.addClass($("#crud-manager-tabs"), "hidden-kh");
       kameHouse.util.dom.addClass($("#tab-add-link"), "hidden-kh");
       kameHouse.util.dom.addClass($("#tab-edit-link"), "hidden-kh");
@@ -265,21 +442,21 @@ function CrudManager() {
   /**
    * Get the plural for entityName.
    */
-  function getEntityNames() {
-    return entityName + "s";
+  #getEntityNames() {
+    return this.#entityName + "s";
   }
 
   /**
    * Load the current state from the cookies.
    */
-  function loadStateFromCookies() {
+  #loadStateFromCookies() {
     kameHouse.util.tab.openTabFromCookies('kh-crud-manager', 'tab-list');
   }
 
   /**
    * Load the current state from the url parameters.
    */
-  function loadStateFromUrlParams() {
+  #loadStateFromUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const search = urlParams.get('search');
     if (!kameHouse.core.isEmpty(search)) {
@@ -290,205 +467,85 @@ function CrudManager() {
   /**
    * Set the name of the entity managed by the crud manager.
    */
-  function setEntityName(name) {
-    entityName = name;
+  #setEntityName(name) {
+    this.#entityName = name;
   }
 
   /**
    * Set the Japanese name of the entity managed by the crud manager.
    */
-  function setEntityNameJapanese(name) {
-    entityNameJapanese = name;
+  #setEntityNameJapanese(name) {
+    this.#entityNameJapanese = name;
   }
 
   /**
    * Set the crud base url to connect to the backend.
    */
-  function setUrl(crudUrl) {
-    url = crudUrl;
+  #setUrl(crudUrl) {
+    this.#url = crudUrl;
   }
 
   /**
    * Set the array of columns to display in the table, excluding the actions column.
    */
-  function setColumns(crudColumns) {
-    columns = crudColumns;
+  #setColumns(crudColumns) {
+    this.#columns = crudColumns;
   }
 
   /**
    * Set the crud manager as readOnly, to disable updates, only to query data.
    */
-  function setReadOnly(crudReadOnly) {
+  #setReadOnly(crudReadOnly) {
     if (!kameHouse.core.isEmpty(crudReadOnly)) {
-      readOnly = crudReadOnly;
+      this.#readOnly = crudReadOnly;
     }
   }
 
   /**
    * Set the default sorting of table data.
    */
-  function setDefaultSorting(crudDefaultSorting) {
+  #setDefaultSorting(crudDefaultSorting) {
     if (!kameHouse.core.isEmpty(crudDefaultSorting)) {
-      defaultSorting = crudDefaultSorting;
+      this.#defaultSorting = crudDefaultSorting;
     }
   }
 
   /**
    * Set the crud manager to reverse the received data's order.
    */
-  function setReverseDataOrder(crudReverseDataOrder) {
+  #setReverseDataOrder(crudReverseDataOrder) {
     if (!kameHouse.core.isEmpty(crudReverseDataOrder)) {
-      reverseDataOrder = crudReverseDataOrder;
+      this.#reverseDataOrder = crudReverseDataOrder;
     }
   }
 
   /**
    * Set read all data parameters.
    */
-  function setReadAllParameters(readAllParams) {
+  #setReadAllParameters(readAllParams) {
     if (kameHouse.core.isEmpty(readAllParams)) {
       return;
     }
     if (!kameHouse.core.isEmpty(readAllParams.maxRows)) {
-      readAllMaxRows = readAllParams.maxRows;
+      this.#readAllMaxRows = readAllParams.maxRows;
     }
 
     if (!kameHouse.core.isEmpty(readAllParams.sortColumn)) {
-      readAllSortColumn = readAllParams.sortColumn;
+      this.#readAllSortColumn = readAllParams.sortColumn;
     }
 
     if (readAllParams.sortAscending != null && readAllParams.sortAscending != undefined) {
-      readAllSortAscending = readAllParams.sortAscending;
+      this.#readAllSortAscending = readAllParams.sortAscending;
     }
   }
 
   /**
    * Load custom list sections.
    */
-  function loadCustomSections(config) {
+  #loadCustomSections(config) {
     if (!kameHouse.core.isEmpty(config.customListSection)) {
       kameHouse.util.dom.load($("#custom-list-section"), config.customListSection);
     }
-  }
-
-  /**
-   * Get an entity by it's id.
-   */
-  function read(id) {
-    kameHouse.logger.info("read");
-    const getUrl = url + "/" + id;
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, getUrl, null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders);
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting entity");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-      });
-  }
-
-  /**
-   * Get all entities.
-   */
-  function readAll() {
-    kameHouse.logger.info("readAll");
-    const requestParam = {};
-    if (readAllMaxRows) {
-      requestParam.maxRows = readAllMaxRows;
-    }
-    if (readAllSortColumn) {
-      requestParam.sortColumn = readAllSortColumn;
-    }
-    if (readAllSortAscending != null && readAllSortAscending != undefined) {
-      requestParam.sortAscending = readAllSortAscending;
-    }
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, url, kameHouse.http.getUrlEncodedHeaders(), requestParam,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        entities = responseBody;
-        reloadView();
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting all entities");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        displayErrorGettingEntities();
-      });
-  }
-
-  /**
-   * Create an entity.
-   */
-  function create() {
-    kameHouse.logger.info("create");
-    if (readOnly) {
-      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
-      return;
-    }
-    const entity = getEntityFromForm(ADD_INPUT_FIELDS_ID);
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, url, kameHouse.http.getApplicationJsonHeaders(), entity,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
-        readAll();
-        kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error creating entity");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        readAll();
-      });
-  }
-
-  /**
-   * Update an entity.
-   */
-  function update() {
-    kameHouse.logger.info("update");
-    if (readOnly) {
-      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
-      return;
-    }
-    const entity = getEntityFromForm(EDIT_INPUT_FIELDS_ID);
-    const updateUrl = url + "/" + entity.id;
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.put(config, updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
-        readAll();
-        kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error updating entity");
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        readAll();
-      });
-  }
-
-  /**
-   * Delete entity from the server.
-   */
-  function deleteEntity(event) {
-    const id = event.data.id;
-    kameHouse.logger.info("deleteEntity");
-    if (readOnly) {
-      kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
-      return;
-    }
-    const deleteUrl = url + "/" + id;
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, deleteUrl, null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
-        kameHouse.plugin.modal.basicModal.close();
-        readAll();
-      },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error deleting entity");
-        kameHouse.plugin.modal.basicModal.close();
-        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        readAll();
-      });
   }
 
   /**
@@ -496,45 +553,45 @@ function CrudManager() {
    * This should usually be used to load the form fields to edit an entity.
    * Probably needs to be overriden if custom columns are set or the forms are loaded from a snippet.
    */
-  function setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders) { 
-    reloadForm(EDIT_INPUT_FIELDS_ID);
-    updateEditFormFieldValues(responseBody, columns, null);
+  #setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders) { 
+    this.#reloadForm(CrudManager.#EDIT_INPUT_FIELDS_ID);
+    this.#updateEditFormFieldValues(responseBody, this.#columns, null);
   }
 
   /**
    * Set the input fields in the edit form from the entity.
    */
-  function updateEditFormFieldValues(entity, currentNodeColumns, parentNodeChain) {
-    parentNodeChain = initParentNodeChain(parentNodeChain);
+  #updateEditFormFieldValues(entity, currentNodeColumns, parentNodeChain) {
+    parentNodeChain = this.#initParentNodeChain(parentNodeChain);
     for (const currentNodeColumn of currentNodeColumns) {
       const column = currentNodeColumn;
       const type = column.type;
       const name = column.name;
-      if (isObjectField(type)) {
-        updateEditFormFieldValues(entity[name], column.columns, parentNodeChain + name);
+      if (this.#isObjectField(type)) {
+        this.#updateEditFormFieldValues(entity[name], column.columns, parentNodeChain + name);
         continue;
       }
-      updateEditFormFieldValue(entity, column, parentNodeChain);
+      this.#updateEditFormFieldValue(entity, column, parentNodeChain);
     }
   }
 
   /**
    * Update edit form field value.
    */
-  function updateEditFormFieldValue(entity, column, parentNodeChain) {
+  #updateEditFormFieldValue(entity, column, parentNodeChain) {
     const type = column.type;
     const name = column.name;
-    const inputFieldId = EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
+    const inputFieldId = CrudManager.#EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
     const inputField = $(document.getElementById(inputFieldId));
     kameHouse.util.dom.setVal(inputField, entity[name]); 
 
-    if (isDateField(type)) {
-      kameHouse.util.dom.setVal(inputField, getFormattedDateFieldValue(entity[name]));
+    if (this.#isDateField(type)) {
+      kameHouse.util.dom.setVal(inputField, this.#getFormattedDateFieldValue(entity[name]));
     }
-    if (isArrayField(type)) {
-      updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField);
+    if (this.#isArrayField(type)) {
+      this.#updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField);
     }
-    if (isBooleanField(type)) {
+    if (this.#isBooleanField(type)) {
       if (entity[name]) {
         kameHouse.util.dom.setAttr(inputField, "checked", "true"); 
       }
@@ -544,7 +601,7 @@ function CrudManager() {
   /**
    * Update edit form field array value.
    */
-  function updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField) {
+  #updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField) {
     const name = column.name;
     const arrayType = column.arrayType;
     kameHouse.util.dom.setVal(inputField, null);
@@ -582,7 +639,7 @@ function CrudManager() {
   /**
    * Initialize the parentNodeChain used in recursive function calls.
    */
-  function initParentNodeChain(parentNodeChain) {
+  #initParentNodeChain(parentNodeChain) {
     if (parentNodeChain) {
       return parentNodeChain + ".";
     } else {
@@ -593,51 +650,51 @@ function CrudManager() {
   /**
    * Display all entities and reload forms.
    */
-  function reloadView() {
+  #reloadView() {
     kameHouse.logger.trace("reloadView");
-    const crudTbody = $('#' + TBODY_ID);
+    const crudTbody = $('#' + CrudManager.#TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
-    if (entities.length == 0 || entities.length == null || entities.length == undefined) {
+    if (this.#entities.length == 0 || this.#entities.length == null || this.#entities.length == undefined) {
       kameHouse.logger.info("No data received from the backend");
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
-      kameHouse.util.dom.setAttr($(noDataTd), "id", NO_DATA_ROW_ID);
+      kameHouse.util.dom.setAttr($(noDataTd), "id", CrudManager.#NO_DATA_ROW_ID);
       kameHouse.util.dom.append(crudTbody, noDataTd);
     } else {
       const updatedCrudTbody = kameHouse.util.dom.getTbody({
-        id: TBODY_ID
+        id: CrudManager.#TBODY_ID
       }, null);
-      kameHouse.util.dom.append(updatedCrudTbody, getCrudTableHeader());
-      kameHouse.logger.info("Received " + entities.length + " entities from the backend");
-      if (!reverseDataOrder) {
-        for (const entity of entities) {
-          kameHouse.util.dom.append(updatedCrudTbody, getEntityTr(entity));
+      kameHouse.util.dom.append(updatedCrudTbody, this.#getCrudTableHeader());
+      kameHouse.logger.info("Received " + this.#entities.length + " entities from the backend");
+      if (!this.#reverseDataOrder) {
+        for (const entity of this.#entities) {
+          kameHouse.util.dom.append(updatedCrudTbody, this.#getEntityTr(entity));
         }
       } else {
-        for (let i = entities.length -1; i >= 0; i--) {
-          kameHouse.util.dom.append(updatedCrudTbody, getEntityTr(entities[i]));
+        for (let i = this.#entities.length -1; i >= 0; i--) {
+          kameHouse.util.dom.append(updatedCrudTbody, this.#getEntityTr(this.#entities[i]));
         }
       }
       kameHouse.util.dom.replaceWith(crudTbody, updatedCrudTbody);
     }
-    reloadForm(ADD_INPUT_FIELDS_ID);
-    reloadForm(EDIT_INPUT_FIELDS_ID);
-    sortAndFilterTable();
+    this.#reloadForm(CrudManager.#ADD_INPUT_FIELDS_ID);
+    this.#reloadForm(CrudManager.#EDIT_INPUT_FIELDS_ID);
+    this.#sortAndFilterTable();
   }
 
   /**
    * Reload form view.
    */
-  function reloadForm(formFieldsId) {
+  #reloadForm(formFieldsId) {
     const formFields = $('#' + formFieldsId);
     kameHouse.util.dom.empty(formFields);
-    getFormFields(formFields, formFieldsId, columns, null);
+    this.#getFormFields(formFields, formFieldsId, this.#columns, null);
   }
 
   /**
    * Display error getting entities.
    */
-  function displayErrorGettingEntities() {
-    const crudTbody = $('#' + TBODY_ID);
+  #displayErrorGettingEntities() {
+    const crudTbody = $('#' + CrudManager.#TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
     kameHouse.util.dom.append(crudTbody, kameHouse.util.dom.getTrTd("Error getting data from the backend"));
   }
@@ -645,11 +702,11 @@ function CrudManager() {
   /**
    * Get the entire table row for the entity.
    */
-  function getEntityTr(entity) {
+  #getEntityTr(entity) {
     const tr = kameHouse.util.dom.getTr({}, null);
-    createEntityRow(tr, entity, columns, null);
-    if (!readOnly) {
-      kameHouse.util.dom.append(tr, getActionButtonsTd(entity.id));
+    this.#createEntityRow(tr, entity, this.#columns, null);
+    if (!this.#readOnly) {
+      kameHouse.util.dom.append(tr, this.#getActionButtonsTd(entity.id));
     }
     return tr;
   }
@@ -665,36 +722,36 @@ function CrudManager() {
    * This behaviour should be consistent with the generation of table header columns, generation of form fields
    * and with the generation of the entity to pass to the backend for create and update.
    */
-  function createEntityRow(tr, entity, currentNodeColumns, parentNodeChain) {
-    parentNodeChain= initParentNodeChain(parentNodeChain);
+  #createEntityRow(tr, entity, currentNodeColumns, parentNodeChain) {
+    parentNodeChain= this.#initParentNodeChain(parentNodeChain);
     for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
-      if (isObjectField(type)) {
-        createEntityRow(tr, entity[name], column.columns, parentNodeChain + name);
+      if (this.#isObjectField(type)) {
+        this.#createEntityRow(tr, entity[name], column.columns, parentNodeChain + name);
         continue;
       }
-      setColumnValue(tr, type, entity[name], column);
+      this.#setColumnValue(tr, type, entity[name], column);
     }
   }
 
   /**
    * Set the column value formatted depending on it's type.
    */
-  function setColumnValue(tr, type, value, column) {
-    if (isMaskedField(type)) {
-      kameHouse.util.dom.append(tr, getMaskedFieldTd());
+  #setColumnValue(tr, type, value, column) {
+    if (this.#isMaskedField(type)) {
+      kameHouse.util.dom.append(tr, this.#getMaskedFieldTd());
       return;
     }
-    if (isDateField(type)) {
-      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, getFormattedDateFieldValue(value)));
+    if (this.#isDateField(type)) {
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, this.#getFormattedDateFieldValue(value)));
       return;
     }
-    if (isTimestampField(type)) {
-      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, getFormattedTimestampFieldValue(value)));
+    if (this.#isTimestampField(type)) {
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, this.#getFormattedTimestampFieldValue(value)));
       return;
     }
-    if (isArrayField(type)) {
+    if (this.#isArrayField(type)) {
       if (kameHouse.core.isFunction(column.buildListDisplay)) {
         kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, column.buildListDisplay(value)));
       } else {
@@ -702,7 +759,7 @@ function CrudManager() {
       }
       return;
     }
-    if (isBooleanField(type)) {
+    if (this.#isBooleanField(type)) {
       let booleanValue;
       if (value) {
         booleanValue = "true";
@@ -718,14 +775,14 @@ function CrudManager() {
   /**
    * Check if it's a masked field.
    */
-  function isMaskedField(type) {
-    return isPasswordField(type) || isHiddenField(type);
+  #isMaskedField(type) {
+    return this.#isPasswordField(type) || this.#isHiddenField(type);
   }
 
   /**
    * Returns a date field formatted.
    */
-  function getFormattedDateFieldValue(value) {
+  #getFormattedDateFieldValue(value) {
     try {
       const date = kameHouse.util.time.getDateFromEpoch(value);
       if (kameHouse.util.time.isValidDate(date)) {
@@ -742,7 +799,7 @@ function CrudManager() {
   /**
    * Returns a timestamp field formatted.
    */
-   function getFormattedTimestampFieldValue(value) {
+  #getFormattedTimestampFieldValue(value) {
     try {
       const date = kameHouse.util.time.getDateFromEpoch(value);
       if (kameHouse.util.time.isValidDate(date)) {
@@ -760,31 +817,31 @@ function CrudManager() {
   /**
    * Returns a masked field td. Used for passwords for example.
    */
-  function getMaskedFieldTd() {
+  #getMaskedFieldTd() {
     return kameHouse.util.dom.getTd({}, "****");
   }
 
   /**
    * Get the action buttons for the entity.
    */
-  function getActionButtonsTd(id) {
+  #getActionButtonsTd(id) {
     const td = kameHouse.util.dom.getTd({}, null);
-    kameHouse.util.dom.append(td, getEditButton(id));
-    kameHouse.util.dom.append(td, getConfirmDeleteButton(id));
+    kameHouse.util.dom.append(td, this.#getEditButton(id));
+    kameHouse.util.dom.append(td, this.#getConfirmDeleteButton(id));
     return td;
   }
 
   /**
    * Get the edit button for the entity.
    */
-  function getEditButton(id) {
+  #getEditButton(id) {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/edit.png",
       className: "img-btn-kh m-15-d-r-kh",
       alt: "Edit",
       onClick: () => { 
         kameHouse.util.tab.openTab('tab-edit', 'kh-crud-manager');
-        read(id);
+        this.read(id);
       }
     });
   }
@@ -792,19 +849,19 @@ function CrudManager() {
   /**
    * Get the button to open a modal to delete the entity.
    */
-  function getConfirmDeleteButton(id) {
+  #getConfirmDeleteButton(id) {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/other/delete.png",
       className: "img-btn-kh",
       alt: "Delete",
-      onClick: () => confirmDelete(id)
+      onClick: () => this.#confirmDelete(id)
     });
   }
 
   /**
    * Get the delete button for the entity.
    */
-  function getDeleteButton(id) {
+  #getDeleteButton(id) {
     return kameHouse.util.dom.getButton({
       attr: {
         class: "form-submit-btn-kh",
@@ -813,24 +870,24 @@ function CrudManager() {
       clickData: {
         id: id
       },
-      click: deleteEntity
+      click: (event) => {this.delete(event)}
     });
   }
   
   /**
    * Open modal to confirm reboot.
    */
-   function confirmDelete(id) {
-    kameHouse.plugin.modal.basicModal.setHtml(getDeleteModalMessage(id));
-    kameHouse.plugin.modal.basicModal.appendHtml(getDeleteButton(id));
+  #confirmDelete(id) {
+    kameHouse.plugin.modal.basicModal.setHtml(this.#getDeleteModalMessage(id));
+    kameHouse.plugin.modal.basicModal.appendHtml(this.#getDeleteButton(id));
     kameHouse.plugin.modal.basicModal.open();
   }
 
   /**
    * Get delete modal message.
    */
-  function getDeleteModalMessage(id) {
-    const message = kameHouse.util.dom.getSpan({}, "Are you sure you want to delete the " + entityName + " with id " + id + " ?");
+  #getDeleteModalMessage(id) {
+    const message = kameHouse.util.dom.getSpan({}, "Are you sure you want to delete the " + this.#entityName + " with id " + id + " ?");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     return message;
@@ -839,12 +896,12 @@ function CrudManager() {
   /**
    * Get the table header row.
    */
-  function getCrudTableHeader() {
+  #getCrudTableHeader() {
     const tr = kameHouse.util.dom.getTr({
       class: "table-kh-header"
     }, null);
-    setHeaderColumns(tr, columns, null, 0);
-    if (!readOnly) {
+    this.#setHeaderColumns(tr, this.#columns, null, 0);
+    if (!this.#readOnly) {
       kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({
         class: "table-kh-actions"
       }, "actions"));
@@ -855,30 +912,30 @@ function CrudManager() {
   /**
    * Set the table header columns. Returns the 
    */
-  function setHeaderColumns(tr, currentNodeColumns, parentNodeChain, columnIndex) {
-    parentNodeChain= initParentNodeChain(parentNodeChain);
+  #setHeaderColumns(tr, currentNodeColumns, parentNodeChain, columnIndex) {
+    parentNodeChain= this.#initParentNodeChain(parentNodeChain);
     let addedObjectColumnIndexes = 0;
     for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
-      if (isObjectField(type)) {
+      if (this.#isObjectField(type)) {
         let newColumnIndexes = 0;
-        newColumnIndexes = setHeaderColumns(tr, column.columns, parentNodeChain + name, columnIndex);
+        newColumnIndexes = this.#setHeaderColumns(tr, column.columns, parentNodeChain + name, columnIndex);
         addedObjectColumnIndexes = addedObjectColumnIndexes + newColumnIndexes;
         continue;
       }
       let currentColumnIndex = columnIndex + addedObjectColumnIndexes;
       const td = kameHouse.util.dom.getTd({
-        id: TBODY_ID + "-col-" + currentColumnIndex,
+        id: CrudManager.#TBODY_ID + "-col-" + currentColumnIndex,
         class: "clickable",
         alt: "Sort by " + parentNodeChain + name,
         title: "Sort by " + parentNodeChain + name
       }, parentNodeChain + name);
-      const sortType = getSortType(column);
+      const sortType = this.#getSortType(column);
       kameHouse.logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType);
       kameHouse.util.dom.setClick(td, null,
         () => {
-          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType, null, filterRows);
+          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType, null, this.filterRows);
         }
       );
       kameHouse.util.dom.append(tr, td);
@@ -891,7 +948,7 @@ function CrudManager() {
   /**
    * Get the sort type based on the column type.
    */
-  function getSortType(column) {
+  #getSortType(column) {
     const type = column.type;
     if (type == "select" && !kameHouse.core.isEmpty(column.sortType)) {
       return column.sortType;
@@ -902,12 +959,12 @@ function CrudManager() {
   /**
    * Get all the form fields.
    */
-   function getFormFields(div, formFieldsId, currentNodeColumns, parentNodeChain) {
-    parentNodeChain= initParentNodeChain(parentNodeChain);
+  #getFormFields(div, formFieldsId, currentNodeColumns, parentNodeChain) {
+    parentNodeChain = this.#initParentNodeChain(parentNodeChain);
     for (const column of currentNodeColumns) {
       const type = column.type;
-      if (isObjectField(type)) {
-        getFormFields(div, formFieldsId, column.columns, parentNodeChain + column.name);
+      if (this.#isObjectField(type)) {
+        this.#getFormFields(div, formFieldsId, column.columns, parentNodeChain + column.name);
         continue;
       }
 
@@ -915,20 +972,20 @@ function CrudManager() {
       const fieldId = formFieldsId + "-" + name;
       const fieldClassList = "form-input-kh " + formFieldsId + "-field";
       
-      addFieldLabel(div, type, name);
-      kameHouse.util.dom.append(div, getFormInputField(column, fieldId, fieldClassList));
-      addArrayRowButtons(div, column, fieldId);
-      addShowPasswordCheckbox(div, type, fieldId);
-      addBreak(div, type);
+      this.#addFieldLabel(div, type, name);
+      kameHouse.util.dom.append(div, this.#getFormInputField(column, fieldId, fieldClassList));
+      this.#addArrayRowButtons(div, column, fieldId);
+      this.#addShowPasswordCheckbox(div, type, fieldId);
+      this.#addBreak(div, type);
     }
   }
 
   /**
    * Gets an input field for the form of the correct type.
    */
-  function getFormInputField(column, fieldId, fieldClassList) {
+  #getFormInputField(column, fieldId, fieldClassList) {
     const type = column.type;
-    const inputFieldType = getInputFieldType(type);
+    const inputFieldType = this.#getInputFieldType(type);
     const config = {
       id: fieldId,
       class: fieldClassList,
@@ -936,11 +993,11 @@ function CrudManager() {
       name: column.name
     };
 
-    if (isSelectField(type)) {
-      return getSelectField(config, column);
+    if (this.#isSelectField(type)) {
+      return this.#getSelectField(config, column);
     }
 
-    if (isNumberField(type)) {
+    if (this.#isNumberField(type)) {
       if (!kameHouse.core.isEmpty(column.min) || column.min == 0) {
         config.min = column.min;
       }
@@ -949,14 +1006,14 @@ function CrudManager() {
       }
     }
 
-    if (isArrayField(type)) {
+    if (this.#isArrayField(type)) {
       config.name = fieldId + "[]";
       const arrayType = column.arrayType;
       if (arrayType == "object") {
         return kameHouse.util.dom.getTextArea(config, null);
       }
       if (arrayType == "select") {
-        return getSelectField(config, column);
+        return this.#getSelectField(config, column);
       }
     }
 
@@ -966,7 +1023,7 @@ function CrudManager() {
   /**
    * Get select field.
    */
-  function getSelectField(config, column) {
+  #getSelectField(config, column) {
     const select = kameHouse.util.dom.getSelect(config, null);
     const values = column.values;
     const displayValues = column.displayValues;
@@ -984,7 +1041,7 @@ function CrudManager() {
   /**
    * Map the type of the column to an input field type.
    */
-  function getInputFieldType(columnType) {
+  #getInputFieldType(columnType) {
     if (columnType == "boolean") {
       return "checkbox";
     }
@@ -1018,8 +1075,8 @@ function CrudManager() {
   /**
    * Add label to field.
    */
-  function addFieldLabel(div, type, name) {
-    if (!isIdField(type) && !isHiddenField(type)) {
+  #addFieldLabel(div, type, name) {
+    if (!this.#isIdField(type) && !this.#isHiddenField(type)) {
       kameHouse.util.dom.append(div, kameHouse.util.dom.getLabel({}, name));
     }
   }
@@ -1027,8 +1084,8 @@ function CrudManager() {
   /**
    * Add break after input field.
    */
-  function addBreak(div, type) {
-    if (!isIdField(type) && !isHiddenField(type)) {
+  #addBreak(div, type) {
+    if (!this.#isIdField(type) && !this.#isHiddenField(type)) {
       kameHouse.util.dom.append(div, kameHouse.util.dom.getBr());
     }
   }
@@ -1036,8 +1093,8 @@ function CrudManager() {
   /**
    * Add button to add extra rows for arrays.
    */
-  function addArrayRowButtons(div, column, fieldId) {
-    if (!isArrayField(column.type)) {
+  #addArrayRowButtons(div, column, fieldId) {
+    if (!this.#isArrayField(column.type)) {
       return;
     }
     const addButtonId = fieldId + "-add";
@@ -1046,7 +1103,7 @@ function CrudManager() {
       src: "/kame-house/img/other/add-gray-dark.png",
       className: "img-btn-kh p-7-d-kh m-7-d-kh",
       alt: "Add",
-      onClick: () => addArrayInputFieldElement(addButtonId, fieldId, column.type)
+      onClick: () => this.#addArrayInputFieldElement(addButtonId, fieldId, column.type)
     });
     kameHouse.util.dom.append(div, addButton);
     const removeButtonId = fieldId + "-remove";
@@ -1055,7 +1112,7 @@ function CrudManager() {
       src: "/kame-house/img/other/remove-gray-dark.png",
       className: "img-btn-kh p-7-d-kh m-7-d-kh",
       alt: "Remove",
-      onClick: () => removeArrayInputFieldElement(removeButtonId, fieldId)
+      onClick: () => this.#removeArrayInputFieldElement(removeButtonId, fieldId)
     });
     kameHouse.util.dom.append(div, removeButton);
   }
@@ -1063,11 +1120,11 @@ function CrudManager() {
   /**
    * Add a new entry to the array input field.
    */
-  function addArrayInputFieldElement(buttonId, fieldId, columnType) {
+  #addArrayInputFieldElement(buttonId, fieldId, columnType) {
     kameHouse.logger.debug("Adding array element");
     const arraySourceNode = document.getElementById(buttonId).previousSibling; 
     let deepClone = false;
-    if (isArrayField(columnType)) {
+    if (this.#isArrayField(columnType)) {
       deepClone = true;
     }
     if (arraySourceNode.name != fieldId + "[]") {
@@ -1089,7 +1146,7 @@ function CrudManager() {
   /**
    * Remove array input field element.
    */
-  function removeArrayInputFieldElement(buttonId, fieldId) {
+  #removeArrayInputFieldElement(buttonId, fieldId) {
     kameHouse.logger.debug("Removing array element");
     const arrayNodes = document.getElementsByName(fieldId + "[]");
     if (kameHouse.core.isEmpty(arrayNodes) || arrayNodes.length <= 1) {
@@ -1107,22 +1164,22 @@ function CrudManager() {
   /**
    * Add checkbox to show password.
    */
-  function addShowPasswordCheckbox(div, type, fieldId) {
-    if (!isPasswordField(type)) {
+  #addShowPasswordCheckbox(div, type, fieldId) {
+    if (!this.#isPasswordField(type)) {
       return;
     }
     const checkbox = kameHouse.util.dom.getInput({
       type: "checkbox",
       class: "m-7-d-kh"
      }, null);
-    kameHouse.util.dom.setClick(checkbox, () => toggleShowHidePassword(fieldId));
+    kameHouse.util.dom.setClick(checkbox, () => this.#toggleShowHidePassword(fieldId));
     kameHouse.util.dom.append(div, checkbox);
   }
 
   /**
    * Toggle show or hide password.
    */
-  function toggleShowHidePassword(passwordFieldId) {
+  #toggleShowHidePassword(passwordFieldId) {
     const passwordField = document.getElementById(passwordFieldId);
     if (passwordField.type === "password") {
       kameHouse.util.dom.setAttribute(passwordField, "type", "text");
@@ -1134,105 +1191,105 @@ function CrudManager() {
   /**
    * Check for id field.
    */
-  function isIdField(type) {
+  #isIdField(type) {
     return type == "id";
   }
 
   /**
    * Check if it's a password field.
    */
-  function isPasswordField(type) {
+  #isPasswordField(type) {
     return type == "password";
   }
 
   /**
    * Check if it's a hidden field.
    */
-  function isHiddenField(type) {
+  #isHiddenField(type) {
     return type == "hidden";
   }
 
   /**
    * Check if it's a date field.
    */
-  function isDateField(type) {
+  #isDateField(type) {
     return type == "date";
   }
 
   /**
    * Check if it's a date field.
    */
-  function isTimestampField(type) {
+  #isTimestampField(type) {
     return type == "timestamp";
   }
   
   /**
    * Check if it's an object field.
    */
-   function isObjectField(type) {
+  #isObjectField(type) {
     return type == "object";
   }
 
   /**
    * Check if it's a array field.
    */
-   function isArrayField(type) {
+  #isArrayField(type) {
     return type == "array";
   }
 
   /**
    * Check if it's a boolean field.
    */
-   function isBooleanField(type) {
+  #isBooleanField(type) {
     return type == "boolean";
   }  
   
   /**
    * Check if it's a array field.
    */
-   function isSelectField(type) {
+  #isSelectField(type) {
     return type == "select";
   }
  
   /**
    * Check if it's a array field.
    */
-   function isNumberField(type) {
+  #isNumberField(type) {
     return type == "number";
   }
 
   /**
    * Build the entity to pass to the backend from the form data.
    */
-  function getEntityFromForm(formFieldsId) {
+  #getEntityFromForm(formFieldsId) {
     const entity = {};
-    setEntityProperties(entity, formFieldsId, columns, null);
+    this.#setEntityProperties(entity, formFieldsId, this.#columns, null);
     return entity;
   }
 
   /**
    * Set the properties to the entity from the form.
    */
-  function setEntityProperties(entity, formFieldsId, currentNodeColumns, parentNodeChain) {
-    parentNodeChain = initParentNodeChain(parentNodeChain);
+  #setEntityProperties(entity, formFieldsId, currentNodeColumns, parentNodeChain) {
+    parentNodeChain = this.#initParentNodeChain(parentNodeChain);
     for (const column of currentNodeColumns) {
       const type = column.type;
       const name = column.name;
-      if (isObjectField(type)) {
+      if (this.#isObjectField(type)) {
         if (kameHouse.core.isEmpty(entity[name])) {
           entity[name] = {};
         }
-        setEntityProperties(entity[name], formFieldsId, column.columns, parentNodeChain + name);
+        this.#setEntityProperties(entity[name], formFieldsId, column.columns, parentNodeChain + name);
         continue;
       }
-      setEntityPropertyValue(entity, formFieldsId, parentNodeChain, column);
+      this.#setEntityPropertyValue(entity, formFieldsId, parentNodeChain, column);
     }
   }
 
   /**
    * Set the value of the property on the entity for the current column.
    */
-  function setEntityPropertyValue(entity, formFieldsId, parentNodeChain, column) {
+  #setEntityPropertyValue(entity, formFieldsId, parentNodeChain, column) {
     const type = column.type;
     const name = column.name;
     const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
@@ -1242,7 +1299,7 @@ function CrudManager() {
       val = inputField.value;
     }
      
-    if (isBooleanField(type)) {
+    if (this.#isBooleanField(type)) {
       val = inputField.checked;
     }
 
@@ -1252,20 +1309,20 @@ function CrudManager() {
       entity[name] = null;
     }
 
-    if (isArrayField(type)) {
-      entity[name] = getArrayFieldValue(column, formFieldsId);
+    if (this.#isArrayField(type)) {
+      entity[name] = this.#getArrayFieldValue(column, formFieldsId);
     }
   }
 
   /**
    * Get the value from an array field.
    */
-  function getArrayFieldValue(column, formFieldsId) {
+  #getArrayFieldValue(column, formFieldsId) {
     const name = column.name;
     const array = document.getElementsByName(formFieldsId + "-" + name + "[]");
     const arrayVal = [];
     for (const arrayElement of array) {
-      let arrayElementValue = buildArrayElementValue(column, arrayElement);
+      let arrayElementValue = this.#buildArrayElementValue(column, arrayElement);
       if (arrayElementValue) {
         arrayVal.push(arrayElementValue);
       }
@@ -1276,16 +1333,16 @@ function CrudManager() {
   /**
    * Build array element value.
    */
-  function buildArrayElementValue(column, arrayElement) {
+  #buildArrayElementValue(column, arrayElement) {
     const arrayType = column.arrayType;
     const name = column.name;
     if (kameHouse.core.isEmpty(arrayElement.value)) {
       return null;
     }
-    if (isObjectField(arrayType)) {
+    if (this.#isObjectField(arrayType)) {
       return kameHouse.json.parse(arrayElement.value);
     }
-    if (isSelectField(arrayType)) {
+    if (this.#isSelectField(arrayType)) {
       if (kameHouse.core.isFunction(column.buildEntity)) {
         const entityArrayElement = column.buildEntity(arrayElement);
         if (!kameHouse.core.isEmpty(entityArrayElement)) {
@@ -1299,85 +1356,17 @@ function CrudManager() {
   }
 
   /**
-   * Clear all the form fields.
-   */
-  function clearForm(formFieldsId) {
-    reloadForm(formFieldsId);
-  }
-
-  /**
-   * Filter the table rows based on all the filters registered in the crud manager.
-   * 
-   * Register filters tagging them with the classes 
-   * 'crud-manager-filter' for filters that apply across all columns
-   * 'crud-manager-column-filter' for filters that apply to a particular column
-   * and they will be picked up here.
-   * 
-   * For 'crud-manager-column-filter' also specify the attribute data-column-number on the select
-   * with the column number to apply the filter on.
-   * 
-   * All the filters tagged with those classes will be applied.
-   */
-  function filterRows() {
-    // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
-    kameHouse.util.table.filterTableRows("", TBODY_ID, null);
-
-    const noDataRow = document.getElementById(NO_DATA_ROW_ID);
-    if (!kameHouse.core.isEmpty(noDataRow)) {
-      kameHouse.logger.info("No data received from the backend, skipping filters");
-      return;
-    }
-
-    const filters = document.getElementsByClassName("crud-manager-filter");
-    for (const filter of filters) {
-      const filterString = filter.value;
-      kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString);
-      kameHouse.util.table.filterTableRows(filterString, TBODY_ID, null, true);
-    }
-
-    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
-    for (const columnFilter of columnFilters) {
-      const filterString = columnFilter.value;
-      const columnNumber = columnFilter.dataset.columnNumber;
-      kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
-      kameHouse.util.table.filterTableRowsByColumn(filterString, TBODY_ID, columnNumber, null, true);
-    }
-    
-    const numRows = document.getElementById('num-rows').value;
-    kameHouse.util.table.limitRows('crud-manager-table', numRows, true);
-  }
-
-  /**
    * Sort the table data if default sorting is specified.
    * Column numbers start with 0.
    * Then apply filters.
    */
-  function sortAndFilterTable() {
-    if (kameHouse.core.isEmpty(defaultSorting)) {
-      filterRows();
+  #sortAndFilterTable() {
+    if (kameHouse.core.isEmpty(this.#defaultSorting)) {
+      this.filterRows();
       return;
     }
-    kameHouse.logger.trace("Sorting table data with default sorting config: " + kameHouse.json.stringify(defaultSorting));
-    kameHouse.util.table.sortTable("crud-manager-table", defaultSorting.columnNumber, defaultSorting.sortType, defaultSorting.direction, filterRows);
-  }
-
-  /**
-   * Refresh view.
-   */
-  function refreshView() {
-    kameHouse.util.dom.setValue(document.getElementById('num-rows'), "");
-    
-    const filters = document.getElementsByClassName("crud-manager-filter");
-    for (const filter of filters) {
-      filter.selectedIndex = -1;
-    }
-
-    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
-    for (const columnFilter of columnFilters) {
-      columnFilter.selectedIndex = -1;
-    }
-    
-    readAll();
+    kameHouse.logger.trace("Sorting table data with default sorting config: " + kameHouse.json.stringify(this.#defaultSorting));
+    kameHouse.util.table.sortTable("crud-manager-table", this.#defaultSorting.columnNumber, this.#defaultSorting.sortType, this.#defaultSorting.direction, filterRows);
   }
 }
 
