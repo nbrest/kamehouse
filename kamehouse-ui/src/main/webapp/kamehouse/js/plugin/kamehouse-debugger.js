@@ -1,84 +1,50 @@
 /** 
  * Handles the debugger functionality including the debugger wrapper to the kameHouse.http.
+ * It renders the api calls in the debugger table.
  * 
  * @author nbrest
  */
-
-/** 
- * Handles the debugger functionality and renders the api calls in the debugger table.
- */
-function KameHouseDebugger() {
+class KameHouseDebugger {
   
-  this.load = load;
-  this.importKameHouseDebuggerCss = importKameHouseDebuggerCss;
-  this.toggleDebugMode = toggleDebugMode;
-  this.setConsoleLogLevel = setConsoleLogLevel;
-  this.renderCustomDebugger = renderCustomDebugger;
-  this.displayPreviousRequestsTable = displayPreviousRequestsTable;
-  this.displayResponseData = displayResponseData;
-  this.displayRequestData = displayRequestData;
+  #requests = [];
+  #toggleDebuggerModalHtml = null;
+  #debuggerHttpClientDivTemplate = null;
 
-  const requests = [];
-  const debuggerModalHtml = getDebuggerModalHtml();
-
-  let debuggerHttpClientDivTemplate;  
+  constructor() {
+    this.#toggleDebuggerModalHtml = this.getToggleDebuggerModalHtml();
+  }
   
   /**
    * Load kamehouse debugger plugin.
    */
-  async function load() {
+  async load() {
     kameHouse.logger.info("Started initializing kameHouseDebugger");
     kameHouse.plugin.debugger.http = new DebuggerHttpClient();
-    importKameHouseDebuggerCss();
-    await loadDebuggerHttpClientTemplate();
-    renderDebugMode();
-  }
-
-  /**
-   * Get toggle debugger modal html.
-   */
-  function getDebuggerModalHtml() {
-    const img = kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/debug-btn-success.png",
-      className: "debug-mode-btn",
-      alt: "Debug Mode modal",
-      onClick: () => {return;}
-    });
-    const text = "Toggled debug mode!";
-    const div = kameHouse.util.dom.getDiv();
-    kameHouse.util.dom.append(div, img);
-    kameHouse.util.dom.append(div, text);
-    return div;
+    this.importKameHouseDebuggerCss();
+    await this.#loadDebuggerHttpClientTemplate();
+    this.#renderDebugMode();
   }
 
   /** Import debugger-http-client css*/
-  function importKameHouseDebuggerCss() {
+  importKameHouseDebuggerCss() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-debugger.css">');
-  }
-
-  /**
-   * Loads the debugger http client html snippet into a variable to be reused as a template on render.
-   */
-  async function loadDebuggerHttpClientTemplate() {
-    debuggerHttpClientDivTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/kamehouse/html/plugin/kamehouse-debugger-http-client-table.html');
-    kameHouse.logger.debug("Loaded debuggerHttpClientDivTemplate");
   }
 
   /** 
    * Toggle debug mode. 
    */
-  function toggleDebugMode() {
-    kameHouse.plugin.modal.basicModal.openAutoCloseable(debuggerModalHtml, 1000);
+  toggleDebugMode() {
+    kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#toggleDebuggerModalHtml, 1000);
     const message = "Toggled debug mode";
     kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     const debugModeDiv = document.getElementById("debug-mode");
     kameHouse.util.dom.classListToggle(debugModeDiv, "hidden-kh");
   }
-  
+
   /**
    * Set the log level of the console.
    */
-  function setConsoleLogLevel() {
+  setConsoleLogLevel() {
     const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
     const logLevel = logLevelDropdown.value;
     let logLevelName = "";
@@ -112,27 +78,16 @@ function KameHouseDebugger() {
   }
 
   /**
-   * Render debug mode div and it's button.
-   */
-  function renderDebugMode() {
-    kameHouse.util.dom.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
-      kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
-      displayRequestData(null, null, null, null);
-      setConsoleLogLevelDropdown();
-    });
-  }
-
-  /**
    * Render the specified html snippet into the custom div of the debugger.
    */
-  function renderCustomDebugger(htmlSnippet, callback) {
+  renderCustomDebugger(htmlSnippet, callback) {
     kameHouse.util.dom.load($("#debug-mode-custom-wrapper"), htmlSnippet, callback);
   }
 
   /**
    * Displays the list of the N previous requests.
    */
-  function displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders) {
+  displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders) {
     const request = {};
     request.requestData = requestData;
     request.responseData = {};
@@ -144,32 +99,32 @@ function KameHouseDebugger() {
     }
     request.responseData.responseBody = trimmedResponseBody;
     request.responseData.timestamp = kameHouse.util.time.getTimestamp();
-    while (requests.length >= 7) {
-      requests.shift();
+    while (this.#requests.length >= 7) {
+      this.#requests.shift();
     }
-    requests.push(request);
-    kameHouse.util.dom.setText($('#debugger-http-client-previous-requests-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requests, null, 2)));
+    this.#requests.push(request);
+    kameHouse.util.dom.setText($('#debugger-http-client-previous-requests-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(this.#requests, null, 2)));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
   /**
    * Display debugger http client response data.
    */
-  function displayResponseData(responseBody, responseCode, responseDescription, responseHeaders) {
+  displayResponseData(responseBody, responseCode, responseDescription, responseHeaders) {
     const responseTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-code-val"), responseCode);
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-timestamp-val"), responseTimestamp);
     kameHouse.util.dom.setHtml($("#debugger-http-client-res-headers-val"), kameHouse.json.stringify(responseHeaders));
     kameHouse.util.dom.setText($("#debugger-http-client-res-body-val"), kameHouse.json.stringify(responseBody, null, 2));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
-  }
+  }  
 
   /**
    * Display debugger http client request data.
    */
-  function displayRequestData(method, config, url, requestHeaders, requestBody) {
-    emptyDebuggerHttpClientDiv();
-    kameHouse.util.dom.setInnerHtml(document.getElementById("debugger-http-client"), debuggerHttpClientDivTemplate);
+  displayRequestData(method, config, url, requestHeaders, requestBody) {
+    this.#emptyDebuggerHttpClientDiv();
+    kameHouse.util.dom.setInnerHtml(document.getElementById("debugger-http-client"), this.#debuggerHttpClientDivTemplate);
     const requestTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-timestamp-val'), requestTimestamp);
     kameHouse.util.dom.setHtml($('#debugger-http-client-req-method-val'), method);
@@ -184,9 +139,45 @@ function KameHouseDebugger() {
   }
 
   /**
+   * Get toggle debugger modal html.
+   */
+  getToggleDebuggerModalHtml() {
+    const img = kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/other/debug-btn-success.png",
+      className: "debug-mode-btn",
+      alt: "Debug Mode modal",
+      onClick: () => {return;}
+    });
+    const text = "Toggled debug mode!";
+    const div = kameHouse.util.dom.getDiv();
+    kameHouse.util.dom.append(div, img);
+    kameHouse.util.dom.append(div, text);
+    return div;
+  }
+
+  /**
+   * Loads the debugger http client html snippet into a variable to be reused as a template on render.
+   */
+  async #loadDebuggerHttpClientTemplate() {
+    this.#debuggerHttpClientDivTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/kamehouse/html/plugin/kamehouse-debugger-http-client-table.html');
+    kameHouse.logger.debug("Loaded debuggerHttpClientDivTemplate");
+  }
+
+  /**
+   * Render debug mode div and it's button.
+   */
+  #renderDebugMode() {
+    kameHouse.util.dom.load($("#debug-mode-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
+      kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
+      this.displayRequestData(null, null, null, null);
+      this.#setConsoleLogLevelDropdown();
+    });
+  }
+
+  /**
    * Empty debugger http client div.
    */
-  function emptyDebuggerHttpClientDiv() {
+  #emptyDebuggerHttpClientDiv() {
     const $debuggerHttpClientDiv = $("#debugger-http-client");
     kameHouse.util.dom.empty($debuggerHttpClientDiv);
   }
@@ -194,7 +185,7 @@ function KameHouseDebugger() {
   /**
    * Set console log level dropdown.
    */
-  function setConsoleLogLevelDropdown() {
+  #setConsoleLogLevelDropdown() {
     const currentLogLevel = kameHouse.logger.getLogLevel();
     kameHouse.logger.debug("Updating debugger console log level dropdown to " + currentLogLevel);
     const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
@@ -215,29 +206,24 @@ function KameHouseDebugger() {
  * 
  * @author nbrest
  */
-function DebuggerHttpClient() {
+class DebuggerHttpClient {
 
-  this.get = get;
-  this.put = put;
-  this.post = post;
-  this.delete = httpDelete;
-
-  const GET = "GET";
-  const POST = "POST";
-  const PUT = "PUT";
-  const DELETE = "DELETE";
+  static #GET = "GET";
+  static #POST = "POST";
+  static #PUT = "PUT";
+  static #DELETE = "DELETE";
 
   /** 
    * Execute a GET request, update the debugger http client 
    * and perform the specified success or error functions 
    * data is any extra data I want to pass to the success and error functions
    */
-  function get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(GET, config, url,requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(GET, config, url, requestHeaders, requestBody);
+  get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#GET, config, url,requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(DebuggerHttpClient.#GET, config, url, requestHeaders, requestBody);
     kameHouse.http.get(config, url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
   }
 
@@ -245,12 +231,12 @@ function DebuggerHttpClient() {
    * Execute a PUT request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(PUT, config, url, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(PUT, config, url, requestHeaders, requestBody);
+  put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#PUT, config, url, requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(DebuggerHttpClient.#PUT, config, url, requestHeaders, requestBody);
     kameHouse.http.put(config, url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
     );
   }
 
@@ -258,12 +244,12 @@ function DebuggerHttpClient() {
    * Execute a POST request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(POST, config, url, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(POST, config, url, requestHeaders, requestBody);
+  post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#POST, config, url, requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(DebuggerHttpClient.#POST, config, url, requestHeaders, requestBody);
     kameHouse.http.post(config, url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
   }
 
@@ -271,19 +257,19 @@ function DebuggerHttpClient() {
    * Execute a DELETE request, update the debugger http client 
    * and perform the specified success or error functions 
    */
-  function httpDelete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = createRequestDataForLog(DELETE, config, url, requestHeaders, requestBody);
-    kameHouse.plugin.debugger.displayRequestData(DELETE, config, url, requestHeaders, requestBody);
+  delete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#DELETE, config, url, requestHeaders, requestBody);
+    kameHouse.plugin.debugger.displayRequestData(DebuggerHttpClient.#DELETE, config, url, requestHeaders, requestBody);
     kameHouse.http.delete(config, url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
-      (responseBody, responseCode, responseDescription, responseHeaders) => processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
       );
   }
 
   /**
    * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
    */
-  function createRequestDataForLog(method, config, url, requestHeaders, requestBody) {
+  #createRequestDataForLog(method, config, url, requestHeaders, requestBody) {
     const requestData = {};
     requestData.method = method;
     requestData.url = url;
@@ -295,7 +281,7 @@ function DebuggerHttpClient() {
   }
 
   /** Process the response of the api call */
-  function processResponse(responseBody, responseCode, responseDescription, responseHeaders, responseCallback, requestData) {
+  #processResponse(responseBody, responseCode, responseDescription, responseHeaders, responseCallback, requestData) {
     kameHouse.plugin.debugger.displayResponseData(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.plugin.debugger.displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders);
     if (kameHouse.core.isFunction(responseCallback)) {
