@@ -50,14 +50,18 @@ class ServerManager {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ServerManager.#ADMIN_API_URL + ServerManager.#SHUTDOWN_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, this.#processSuccessShutdown, this.#processErrorShutdown);
+    kameHouse.plugin.debugger.http.post(config, ServerManager.#ADMIN_API_URL + ServerManager.#SHUTDOWN_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessShutdown(responseBody, responseCode, responseDescription, responseHeaders)}, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorShutdown(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Cancel a Shutdown command */
   cancelShutdownCommand() {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, ServerManager.#ADMIN_API_URL + ServerManager.#SHUTDOWN_URL, null, null, this.#processSuccessShutdown, this.#processErrorShutdown);
+    kameHouse.plugin.debugger.http.delete(config, ServerManager.#ADMIN_API_URL + ServerManager.#SHUTDOWN_URL, null, null, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessShutdown(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorShutdown(responseBody, responseCode, responseDescription, responseHeaders)});
   }
   
   /** Get the Shutdown command status */
@@ -80,14 +84,18 @@ class ServerManager {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ServerManager.#ADMIN_API_URL + ServerManager.#SUSPEND_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, this.#processSuccessSuspend, this.#processErrorSuspend);
+    kameHouse.plugin.debugger.http.post(config, ServerManager.#ADMIN_API_URL + ServerManager.#SUSPEND_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSuspend(responseBody, responseCode, responseDescription, responseHeaders)}, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSuspend(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Cancel a suspend command */
   cancelSuspendCommand() { 
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, ServerManager.#ADMIN_API_URL + ServerManager.#SUSPEND_URL, null, null, this.#processSuccessSuspend, this.#processErrorSuspend);
+    kameHouse.plugin.debugger.http.delete(config, ServerManager.#ADMIN_API_URL + ServerManager.#SUSPEND_URL, null, null, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSuspend(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSuspend(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Get the suspend command status */
@@ -150,7 +158,9 @@ class ServerManager {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ServerManager.#ADMIN_API_URL + ServerManager.#HTTPD_URL, null, null, this.#processSuccessHttpdRestart, this.#processErrorHttpdRestart);
+    kameHouse.plugin.debugger.http.post(config, ServerManager.#ADMIN_API_URL + ServerManager.#HTTPD_URL, null, null, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /**
@@ -180,16 +190,14 @@ class ServerManager {
   /** Process the success response of a Shutdown command (set/cancel) */
   #processSuccessShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    // Can't use 'this' here because it's out of scope in this function.
-    new ServerManager().getShutdownStatus();
+    this.getShutdownStatus();
   }
 
   /** Process the error response of a Shutdown command (set/cancel) */
   #processErrorShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    // Can't use 'this' here because it's out of scope in this function.
-    new ServerManager().getShutdownStatus();
+    this.getShutdownStatus();
   }
 
   /** Update the status of Shutdown command */
@@ -212,16 +220,14 @@ class ServerManager {
   /** Process the success response of a suspend command (set/cancel) */
   #processSuccessSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    // Can't use 'this' here because it's out of scope in this function.
-    new ServerManager().getSuspendStatus();
+    this.getSuspendStatus();
   }
 
   /** Process the error response of a suspend command (set/cancel) */
   #processErrorSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    // Can't use 'this' here because it's out of scope in this function.
-    new ServerManager().getSuspendStatus();
+    this.getSuspendStatus();
   }
 
   /** Update the status of suspend command */
@@ -303,8 +309,7 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
     setTimeout(() => { 
-      // Can't use 'this' here because it's out of scope in this function.
-      new ServerManager().getHttpdStatus(false);
+      this.getHttpdStatus(false);
     }, 5000);
   }
 
@@ -316,8 +321,7 @@ class ServerManager {
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
     setTimeout(() => { 
-      // Can't use 'this' here because it's out of scope in this function.
-      new ServerManager().getHttpdStatus(false);
+      this.getHttpdStatus(false);
     }, 5000);
   }
   

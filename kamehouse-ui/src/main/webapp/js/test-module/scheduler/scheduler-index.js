@@ -36,14 +36,18 @@ class TestScheduler {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, this.#processSuccessSampleJob, this.#processErrorSampleJob);
+    kameHouse.plugin.debugger.http.post(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Cancel a SampleJob command */
   cancelSampleJob() {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, null, null, this.#processSuccessSampleJob, this.#processErrorSampleJob);
+    kameHouse.plugin.debugger.http.delete(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, null, null, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Get the SampleJob command status */
@@ -58,17 +62,14 @@ class TestScheduler {
   /** Process the success response of a SampleJob command (set/cancel) */
   #processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    // Can't use 'this' here because it's out of scope in this function.
-    // Another way to do it would be to use kameHouse.extension.testScheduler to call getSampleJobStatus or make getSampleJobStatus static
-    new TestScheduler().getSampleJobStatus(false);
+    this.getSampleJobStatus(false);
   }
 
   /** Process the error response of a SampleJob command (set/cancel) */
   #processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    // Can't use 'this' here because it's out of scope in this function.
-    new TestScheduler().getSampleJobStatus(false);
+    this.getSampleJobStatus(false);
   }
 
   /** Update the status of SampleJob command */
