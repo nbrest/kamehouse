@@ -11,15 +11,14 @@
  * 
  * @author nbrest
  */
-function KameHouseModal() {
-  this.load = load;
+class KameHouseModalLoader {
 
   /**
    * Load the kamehouse modal plugin.
    */
-  async function load() {
+  async load() {
     kameHouse.logger.info("Started initializing kamehouse modal framework");
-    importKamehouseModalCss();
+    this.#importKamehouseModalCss();
     kameHouse.plugin.modal.basicModal = new BasicKamehouseModal();
     kameHouse.plugin.modal.loadingWheelModal = new LoadingWheelModal();
     await kameHouse.plugin.modal.basicModal.import();
@@ -30,8 +29,101 @@ function KameHouseModal() {
   /**
    * Import css.
    */
-  function importKamehouseModalCss() {
+  #importKamehouseModalCss() {
     kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-modal.css">');
+  }
+}
+
+/**
+ * Common functionality shared by all kamehouse modals.
+ * 
+ * @author nbrest
+ */
+class AbstractKameHouseModal {
+  
+  static #DEFAULT_AUTO_CLOSE_SEC = 7000;
+
+  #isErrorMessageValue = false;
+  #modalId = null;
+
+  constructor(modalId) {
+    this.#modalId = modalId;
+  }
+
+  /** Import modal content */
+  async import() {
+    const modalDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/" + this.#modalId + ".html");
+    kameHouse.util.dom.append($('body'), modalDiv);
+    const modalDivCloseBtn = document.getElementById(this.#modalId + "-close");
+    kameHouse.util.dom.setOnClick(modalDivCloseBtn, () => this.close());
+    kameHouse.logger.info("Imported " + this.#modalId);
+  }
+
+  /** Open modal */
+  open(message) {
+    if (!kameHouse.core.isEmpty(message)) {
+      this.setHtml(message);
+    }
+    const modal = document.getElementById(this.#modalId);
+    kameHouse.util.dom.setDisplay(modal, "block");
+  }
+
+  /** Open auto closeable modal */
+  openAutoCloseable(message, autoCloseMs) {
+    this.open(message);
+    this.autoClose(autoCloseMs);
+  }
+
+  /** Close modal */
+  close() {
+    const modal = document.getElementById(this.#modalId);
+    kameHouse.util.dom.setDisplay(modal, "none");
+  }
+
+  /** Auto close modal after the specified miliseconds */
+  async autoClose(autoCloseMs) {
+    if (kameHouse.core.isEmpty(autoCloseMs)) {
+      kameHouse.logger.trace("autoCloseMs not set. Closing after default value of " + AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC + " ms");
+      autoCloseMs = AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC;
+    }
+    const autoCloseId = this.#modalId + "-autoclose";
+    kameHouse.util.dom.removeClass($("#" + autoCloseId), "hidden-kh");
+    while (autoCloseMs > 0) {
+      const secondsRemaining = autoCloseMs / 1000;
+      kameHouse.util.dom.setHtml($("#" + autoCloseId), "Closing in " + secondsRemaining + " seconds");
+      autoCloseMs = autoCloseMs - 1000;
+      await kameHouse.core.sleep(1000);
+    }
+    kameHouse.util.dom.addClass($("#" + autoCloseId), "hidden-kh");
+    this.close();
+  }
+
+  /** Set the html in the modal */
+  setHtml(message) { kameHouse.util.dom.setHtml($("#" + this.#modalId + "-text"), message); }
+
+  /** Append the message to the modal */
+  appendHtml(message) { kameHouse.util.dom.append($("#" + this.#modalId + "-text"), message); }
+
+  /**
+   * Check if it's an error message.
+   */
+  isErrorMessage() {
+    return this.#isErrorMessageValue;
+  } 
+
+  /**
+   * Set error message.
+   */
+  setErrorMessage(val) {
+    this.#isErrorMessageValue = val;
+  }
+
+  /**
+   * Reset modal contents.
+   */
+  reset() {
+    this.setHtml("");
+    this.setErrorMessage(false);
   }
 }
 
@@ -40,41 +132,31 @@ function KameHouseModal() {
  * 
  * This is the standard modal I would use for simple error and other messages.
  * 
+ * @author nbrest
  */
-function BasicKamehouseModal() {
-  
-  this.openSiteUnderConstruction = openSiteUnderConstruction;
-  this.openApiError = openApiError;
+class BasicKamehouseModal extends AbstractKameHouseModal {
 
-  const modalUtils = new ModalUtils("kamehouse-modal-basic");
+  static #KAMEHOUSE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet. Let's face it, this is low priority and will probably never get done";
 
-  this.import = modalUtils.importSnippet;
-  this.open = modalUtils.open;
-  this.openAutoCloseable = modalUtils.openAutoCloseable;
-  this.close = modalUtils.close;
-  this.setHtml = modalUtils.setHtml;
-  this.appendHtml = modalUtils.appendHtml;
-  this.isErrorMessage = modalUtils.isErrorMessage;
-  this.setErrorMessage = modalUtils.setErrorMessage;
-  this.reset = modalUtils.reset;
-
-  const KAMEHOUSE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet. Let's face it, this is low priority and will probably never get done";
+  constructor() {
+    super("kamehouse-modal-basic");
+  }
 
   /** Open site under construction modal */
-  function openSiteUnderConstruction() { modalUtils.open(KAMEHOUSE_UNDER_CONSTRUCTION); }
+  openSiteUnderConstruction() { super.open(BasicKamehouseModal.#KAMEHOUSE_UNDER_CONSTRUCTION); }
 
   /** Open api call error message auto closeable modal */
-  function openApiError(responseBody, responseCode, responseDescription, responseHeaders) {
+  openApiError(responseBody, responseCode, responseDescription, responseHeaders) {
     if (kameHouse.core.isEmpty(responseBody)) {
-      responseBody = getEmptyResponseBodyText();
+      responseBody = this.#getEmptyResponseBodyText();
     }
-    modalUtils.open(getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders));
+    super.open(this.#getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders));
   }
 
   /**
    * Get empty response body text.
    */
-  function getEmptyResponseBodyText() {
+  #getEmptyResponseBodyText() {
     const message = kameHouse.util.dom.getSpan({}, "Error executing the request.");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     kameHouse.util.dom.append(message, "Please check the logs for more information");
@@ -84,7 +166,7 @@ function BasicKamehouseModal() {
   /**
    * Get error message.
    */
-  function getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders) {
+  #getErrorMessage(responseBody, responseCode, responseDescription, responseHeaders) {
     const message = kameHouse.util.dom.getSpan({}, "Error executing the request.");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
@@ -103,131 +185,29 @@ function BasicKamehouseModal() {
 
 /**
  * Loading Wheel Modal.
+ * 
+ * @author nbrest
  */
-function LoadingWheelModal() {
+class LoadingWheelModal extends AbstractKameHouseModal {
 
-  this.open = open;
-
-  const modalUtils = new ModalUtils("kamehouse-modal-loading-wheel");
-
-  this.import = modalUtils.importSnippet;
-  this.openAutoCloseable = modalUtils.openAutoCloseable;
-  this.close = modalUtils.close;
-  this.setHtml = modalUtils.setHtml;
-  this.appendHtml = modalUtils.appendHtml;
-  this.isErrorMessage = modalUtils.isErrorMessage;
-  this.setErrorMessage = modalUtils.setErrorMessage;
-  this.reset = modalUtils.reset;
+  constructor() {
+    super("kamehouse-modal-loading-wheel");
+  }
 
   /**
    * Open modal.
+   * 
+   * @override
    */
-  function open(message) {
+  open(message) {
     if (kameHouse.core.isEmpty(message) && !kameHouse.core.isEmpty(kameHouse.session.firstName)) {
       const chottoMatte = 'ちょっと まって';
       message = chottoMatte + ", " + kameHouse.session.firstName + "-san!";
     }
-    modalUtils.open(message);
-  }
-}
-
-/**
- * Common functionality shared by all modals.
- */
-function ModalUtils(modalId) {
-
-  this.importSnippet = importSnippet;
-  this.open = open;
-  this.openAutoCloseable = openAutoCloseable;
-  this.close = close;
-  this.autoClose = autoClose;
-  this.setHtml = setHtml;
-  this.appendHtml = appendHtml;
-  this.isErrorMessage = isErrorMessage;
-  this.setErrorMessage = setErrorMessage;
-  this.reset = reset;
-
-  let isErrorMessageValue = false;
-
-  const DEFAULT_AUTO_CLOSE_SEC = 7000;
-
-  /** Import modal content */
-  async function importSnippet() {
-    const modalDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/" + modalId + ".html");
-    kameHouse.util.dom.append($('body'), modalDiv);
-    const modalDivCloseBtn = document.getElementById(modalId + "-close");
-    kameHouse.util.dom.setOnClick(modalDivCloseBtn, () => close());
-    kameHouse.logger.info("Imported " + modalId);
-  }
-
-  /** Open modal */
-  function open(message) {
-    if (!kameHouse.core.isEmpty(message)) {
-      setHtml(message);
-    }
-    const modal = document.getElementById(modalId);
-    kameHouse.util.dom.setDisplay(modal, "block");
-  }
-
-  /** Open auto closeable modal */
-  function openAutoCloseable(message, autoCloseMs) {
-    open(message);
-    autoClose(autoCloseMs);
-  }
-
-  /** Close modal */
-  function close() {
-    const modal = document.getElementById(modalId);
-    kameHouse.util.dom.setDisplay(modal, "none");
-  }
-
-  /** Auto close modal after the specified miliseconds */
-  async function autoClose(autoCloseMs) {
-    if (kameHouse.core.isEmpty(autoCloseMs)) {
-      kameHouse.logger.trace("autoCloseMs not set. Closing after default value of " + DEFAULT_AUTO_CLOSE_SEC + " ms");
-      autoCloseMs = DEFAULT_AUTO_CLOSE_SEC;
-    }
-    const autoCloseId = modalId + "-autoclose";
-    kameHouse.util.dom.removeClass($("#" + autoCloseId), "hidden-kh");
-    while (autoCloseMs > 0) {
-      const secondsRemaining = autoCloseMs / 1000;
-      kameHouse.util.dom.setHtml($("#" + autoCloseId), "Closing in " + secondsRemaining + " seconds");
-      autoCloseMs = autoCloseMs - 1000;
-      await kameHouse.core.sleep(1000);
-    }
-    kameHouse.util.dom.addClass($("#" + autoCloseId), "hidden-kh");
-    close();
-  }
-
-  /** Set the html in the modal */
-  function setHtml(message) { kameHouse.util.dom.setHtml($("#" + modalId + "-text"), message); }
-
-  /** Append the message to the modal */
-  function appendHtml(message) { kameHouse.util.dom.append($("#" + modalId + "-text"), message); }
-
-  /**
-   * Check if it's an error message.
-   */
-  function isErrorMessage() {
-    return isErrorMessageValue;
-  } 
-
-  /**
-   * Set error message.
-   */
-  function setErrorMessage(val) {
-    isErrorMessageValue = val;
-  }
-
-  /**
-   * Reset modal contents.
-   */
-  function reset() {
-    setHtml("");
-    setErrorMessage(false);
+    super.open(message);
   }
 }
 
 $(document).ready(() => {
-  kameHouse.addPlugin("modal", new KameHouseModal());
+  kameHouse.addPlugin("modal", new KameHouseModalLoader());
 });
