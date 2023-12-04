@@ -43,7 +43,7 @@ class AbstractKameHouseModal {
   
   static #DEFAULT_AUTO_CLOSE_SEC = 7000;
 
-  #isErrorMessageValue = false;
+  #isErrorMessage = false;
   #modalId = null;
 
   constructor(modalId) {
@@ -108,14 +108,14 @@ class AbstractKameHouseModal {
    * Check if it's an error message.
    */
   isErrorMessage() {
-    return this.#isErrorMessageValue;
+    return this.#isErrorMessage;
   } 
 
   /**
    * Set error message.
    */
-  setErrorMessage(val) {
-    this.#isErrorMessageValue = val;
+  setIsErrorMessage(val) {
+    this.#isErrorMessage = val;
   }
 
   /**

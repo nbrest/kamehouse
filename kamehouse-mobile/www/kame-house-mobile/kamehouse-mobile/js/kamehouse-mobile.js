@@ -609,7 +609,7 @@ function KameHouseMobileCore() {
       kameHouse.plugin.modal.basicModal.openAutoCloseable(getOpenBrowserMessage(serverEntity), 2000);
     } else {
       kameHouse.plugin.modal.basicModal.setHtml(getOpenBrowserMessage(serverEntity));
-      kameHouse.plugin.modal.basicModal.setErrorMessage(false);
+      kameHouse.plugin.modal.basicModal.setIsErrorMessage(false);
       kameHouse.plugin.modal.basicModal.open();
       setInAppBrowserEventListeners(inAppBrowserInstance, serverEntity);
     }
@@ -642,7 +642,7 @@ function KameHouseMobileCore() {
       const errorMessage = "Error loading url '" + serverEntity.url + "'. with params " + kameHouse.json.stringify(params);
       kameHouse.logger.error("Executing event loaderror. " + errorMessage);
       kameHouse.plugin.modal.basicModal.setHtml(errorMessage);
-      kameHouse.plugin.modal.basicModal.setErrorMessage(true);
+      kameHouse.plugin.modal.basicModal.setIsErrorMessage(true);
       kameHouse.plugin.modal.basicModal.open();
       inAppBrowserInstance.close();
     });
