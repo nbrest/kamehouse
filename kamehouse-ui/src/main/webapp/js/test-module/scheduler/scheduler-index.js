@@ -58,8 +58,8 @@ class TestScheduler {
   /** Process the success response of a SampleJob command (set/cancel) */
   #processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    // Can't use 'this' here because it's out of scope in this callback from an http request.
-    // Another way to do it would be to use kameHouse.extension.testScheduler to call getSampleJobStatus
+    // Can't use 'this' here because it's out of scope in this function.
+    // Another way to do it would be to use kameHouse.extension.testScheduler to call getSampleJobStatus or make getSampleJobStatus static
     new TestScheduler().getSampleJobStatus(false);
   }
 
@@ -67,7 +67,7 @@ class TestScheduler {
   #processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    // Can't use 'this' here because it's out of scope in this callback from an http request.
+    // Can't use 'this' here because it's out of scope in this function.
     new TestScheduler().getSampleJobStatus(false);
   }
 

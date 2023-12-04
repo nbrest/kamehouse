@@ -180,14 +180,16 @@ class ServerManager {
   /** Process the success response of a Shutdown command (set/cancel) */
   #processSuccessShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    this.getShutdownStatus();
+    // Can't use 'this' here because it's out of scope in this function.
+    new ServerManager().getShutdownStatus();
   }
 
   /** Process the error response of a Shutdown command (set/cancel) */
   #processErrorShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    this.getShutdownStatus();
+    // Can't use 'this' here because it's out of scope in this function.
+    new ServerManager().getShutdownStatus();
   }
 
   /** Update the status of Shutdown command */
@@ -210,14 +212,16 @@ class ServerManager {
   /** Process the success response of a suspend command (set/cancel) */
   #processSuccessSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    this.getSuspendStatus();
+    // Can't use 'this' here because it's out of scope in this function.
+    new ServerManager().getSuspendStatus();
   }
 
   /** Process the error response of a suspend command (set/cancel) */
   #processErrorSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    this.getSuspendStatus();
+    // Can't use 'this' here because it's out of scope in this function.
+    new ServerManager().getSuspendStatus();
   }
 
   /** Update the status of suspend command */
@@ -299,7 +303,8 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
     setTimeout(() => { 
-      this.getHttpdStatus(false);
+      // Can't use 'this' here because it's out of scope in this function.
+      new ServerManager().getHttpdStatus(false);
     }, 5000);
   }
 
@@ -311,7 +316,8 @@ class ServerManager {
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
     setTimeout(() => { 
-      this.getHttpdStatus(false);
+      // Can't use 'this' here because it's out of scope in this function.
+      new ServerManager().getHttpdStatus(false);
     }, 5000);
   }
   
