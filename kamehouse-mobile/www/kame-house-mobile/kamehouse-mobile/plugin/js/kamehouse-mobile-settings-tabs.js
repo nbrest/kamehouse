@@ -1,16 +1,15 @@
 /**
  * Kamehouse mobile tabs functions.
  * Prototype to manage the kamehouse mobile tabs.
+ * 
+ * @author nbrest
  */
-function KameHouseMobileTabsManager() {
-
-  this.load = load;
-  this.openTab = openTab;
+class KameHouseMobileTabsManager {
 
   /**
    * load mobile tabs manager plugin.
    */
-  function load() {
+  load() {
     kameHouse.util.dom.load($("#kh-mobile-tabs-wrapper"), "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-settings-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("mobileTabsManager");
     });
@@ -24,7 +23,7 @@ function KameHouseMobileTabsManager() {
   /**
    * Open the tab specified by its id.
    */
-  function openTab(selectedTabDivId) {
+  openTab(selectedTabDivId) {
 
     // Update tab links
     const kamehouseTabLinks = document.getElementsByClassName("kh-mobile-tab-link");

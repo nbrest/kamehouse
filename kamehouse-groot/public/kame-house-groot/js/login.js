@@ -1,13 +1,14 @@
 /**
  * Groot login manager. 
+ * 
+ * @author nbrest
  */
-function GrootLogin() {
-  this.load = load;
+class GrootLogin {
 
   /**
    * Load the groot login manager extension.
    */
-  function load() {
+  load() {
     kameHouse.util.banner.setRandomAllBanner();
     const urlParams = new URLSearchParams(window.location.search);
     const referrer = urlParams.get('referrer');

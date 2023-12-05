@@ -4,21 +4,19 @@
  * 
  * @author nbrest
  */
-function KameHouseMobileSettings() {
-
-  this.load = load;
+class KameHouseMobileSettings {
   
   /**
    * Load the kamehouse mobile settings extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Started initializing kamehouse-mobile app settings page");
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseMobile", "mobileTabsManager"], () => {
-      handleUrlParams();
+      this.#handleUrlParams();
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house-mobile/kamehouse-mobile/plugin/html/settings-debug-mode-custom.html", () => {
         kameHouse.extension.mobile.core.setMobileBuildVersion();
       });
@@ -28,7 +26,7 @@ function KameHouseMobileSettings() {
   /**
    * Handle settings url parameters.
    */
-  function handleUrlParams() {
+  #handleUrlParams() {
     kameHouse.logger.debug("Settings query string: " + window.location.search);
     const urlParams = new URLSearchParams(window.location.search);
     const requestTimeout = urlParams.get('requestTimeout');

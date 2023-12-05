@@ -1,19 +1,19 @@
 /**
  * Groot Home manager.
+ * 
+ * @author nbrest
  */
-function GrootHome() {
-
-  this.load = load;
+class GrootHome {
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.util.banner.setRandomAllBanner();
   }
 
   /** @deprecated Set client time and date */
-  function setClientTimeAndDate() {
+  #setClientTimeAndDate() {
     const clientDate = new Date();
     const clientMonth = clientDate.getMonth() + 1;
     const clientTimeAndDate = "  Client: " + clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();

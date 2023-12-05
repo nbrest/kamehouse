@@ -1802,6 +1802,7 @@ class KameHouseCore {
    */
   loadKameHouseWebSocket() {
     kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-websocket.js", () => {
+      kameHouse.logger.info("Loaded kamehouse-websocket.js");
       kameHouse.util.module.setModuleLoaded("kameHouseWebSocket");
     });
   }
