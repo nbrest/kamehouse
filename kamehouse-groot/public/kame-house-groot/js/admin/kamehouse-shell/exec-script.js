@@ -1,107 +1,117 @@
 /**
  * Loader for kamehouse shell scripts.
+ * 
+ * @author nbrest
  */
-function ExecScriptLoader() {
-  this.load = load;
-  this.executeFromUrlParams = executeFromUrlParams;
-  this.downloadBashScriptOutput = downloadBashScriptOutput;
+class ExecScriptLoader {
 
   /**
    * Load the exec script loader extension.
    */
-  function load() {
+  load() {
     kameHouse.util.banner.setRandomAllBanner();
-    setScriptNameAndArgsFromUrlParams();
+    this.#setScriptNameAndArgsFromUrlParams();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
-      handleSessionStatus();
+      this.#handleSessionStatus();
     });
   }
 
   /**
    * Execute script from url parameters.
    */
-  function executeFromUrlParams() {
-    setScriptInProgressView();
+  executeFromUrlParams() {
+    this.#setScriptInProgressView();
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
     const timeout = urlParams.get('timeout');
     kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
-      kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, timeout, successCallback, errorCallback);
+      kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, timeout, () => {this.#successCallback()}, () => {this.#errorCallback()});
     }); 
   }
+
+  /** Allow the user to download the full bash script output */
+  downloadBashScriptOutput() {
+    const clientDate = new Date();
+    const clientMonth = clientDate.getMonth() + 1;
+    const timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
+    const downloadLink = this.#getDownloadLink(timestamp);
+    kameHouse.util.dom.appendChild(document.body, downloadLink);
+    downloadLink.click();
+    kameHouse.util.dom.removeChild(document.body, downloadLink);
+  }  
 
   /**
    * Execute script success callback.
    */
-  function successCallback() {
-    scriptExecCallback();
+  #successCallback() {
+    this.#scriptExecCallback();
   }
 
   /**
    * Execute script error callback.
    */
-  function errorCallback() {
-    scriptExecCallback();
+  #errorCallback() {
+    this.#scriptExecCallback();
   }
 
   /**
    * Execute script global callback.
    */
-  function scriptExecCallback() {
-    updateScriptExecutionEndDate();
+  #scriptExecCallback() {
+    this.#updateScriptExecutionEndDate();
     kameHouse.util.dom.removeClass($('#kamehouse-shell-output-header'), "hidden-kh");
     kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
     kameHouse.util.dom.removeClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");  
-    setBannerScriptStatus("finished!");
+    this.#setBannerScriptStatus("finished!");
   }
 
   /**
    * Set script in progress view.
    */
-  function setScriptInProgressView() {
-    updateScriptExecutionStartDate();
+  #setScriptInProgressView() {
+    this.#updateScriptExecutionStartDate();
     kameHouse.util.dom.addClass($('#kamehouse-shell-output-header'), "hidden-kh");
     kameHouse.util.dom.addClass($('#btn-execute-script'), "hidden-kh");
     kameHouse.util.dom.addClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");
-    setBannerScriptStatus("in progress...");
+    this.#setBannerScriptStatus("in progress...");
   }
 
   /**
    * Set banner script status.
    */
-  function setBannerScriptStatus(status) {
+  #setBannerScriptStatus(status) {
     kameHouse.util.dom.setHtml($("#banner-script-status"), status);
   }
 
   /** Update script execution end date */
-  function updateScriptExecutionEndDate() {
-    const clientTimeAndDate = getClientTimeAndDate();
+  #updateScriptExecutionEndDate() {
+    const clientTimeAndDate = this.#getClientTimeAndDate();
     kameHouse.util.dom.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
   }
 
   /** Update script execution start date */
-  function updateScriptExecutionStartDate() {
-    const clientTimeAndDate = getClientTimeAndDate();
+  #updateScriptExecutionStartDate() {
+    const clientTimeAndDate = this.#getClientTimeAndDate();
     kameHouse.util.dom.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
     kameHouse.util.dom.setHtml($("#st-script-exec-end-date"), "");
   }
 
   /** Get the current time and date on the client */
-  function getClientTimeAndDate() {
+  #getClientTimeAndDate() {
     const clientDate = new Date();
     const clientMonth = clientDate.getMonth() + 1;
     return clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
   }
 
   /** Handle Session Status */
-  function handleSessionStatus() {
-    updateServerName(kameHouse.extension.groot.session);
+  #handleSessionStatus() {
+    this.#updateServerName(kameHouse.extension.groot.session);
   }
 
   /** Update server name */
-  function updateServerName(sessionStatus) {
+  #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
       kameHouse.util.dom.setHtml($("#st-server-name"), sessionStatus.server);
       kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
@@ -109,7 +119,7 @@ function ExecScriptLoader() {
   }
 
   /** Set script name and args */
-  function setScriptNameAndArgsFromUrlParams() {
+  #setScriptNameAndArgsFromUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
@@ -119,21 +129,10 @@ function ExecScriptLoader() {
     kameHouse.util.dom.setHtml($("#st-script-exec-docker-host"), executeOnDockerHost);
   }
 
-  /** Allow the user to download the full bash script output */
-  function downloadBashScriptOutput() {
-    const clientDate = new Date();
-    const clientMonth = clientDate.getMonth() + 1;
-    const timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
-    const downloadLink = getDownloadLink(timestamp);
-    kameHouse.util.dom.appendChild(document.body, downloadLink);
-    downloadLink.click();
-    kameHouse.util.dom.removeChild(document.body, downloadLink);
-  }
-
   /**
    * Get download link.
    */
-  function getDownloadLink(timestamp) {
+  #getDownloadLink(timestamp) {
     return kameHouse.util.dom.getDomNode(kameHouse.util.dom.getA({
       href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(kameHouse.extension.kameHouseShell.getBashScriptOutput()),
       download:  "kamehouse-shell-output-" + timestamp + ".log",
