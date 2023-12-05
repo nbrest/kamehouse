@@ -1,74 +1,74 @@
 /**
  * UI Manager to load and execute kamehouse shell scripts.
+ * 
+ * @author nbrest
  */
-function KameHouseShellLoader() {
+class KameHouseShellLoader {
 
-  this.load = load;
-  this.filterKameHouseShellRows = filterKameHouseShellRows;
-
-  const EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script";
+  static #EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script";
 
   /**
    * Load the extension.
    */
-  function load() {
+  load() {
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
-      handleSessionStatus();
+      this.#handleSessionStatus();
     });
-    getKameHouseShell(populateKameHouseShellTable, () => { 
+    this.#getKameHouseShell((array) => {this.#populateKameHouseShellTable(array)}, 
+    () => { 
       const message = "Error getting scripts csv";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     });
   }
 
+  /** Filters rows for all kamehouse-shell table */
+  filterKameHouseShellRows(filterString) {
+    kameHouse.util.table.filterTableRows(filterString, 'all-kamehouse-shell-table-body');
+  }  
+
   /** Populates all kamehouse-shell table */
-  function populateKameHouseShellTable(kameHouseShellArray) {
+  #populateKameHouseShellTable(kameHouseShellArray) {
     const $allKameHouseShellTableBody = $('#all-kamehouse-shell-table-body');
-    const tbody = getAllKameHouseShellTbody();
+    const tbody = this.#getAllKameHouseShellTbody();
     for (let i = 0; i < kameHouseShellArray.length; i++) {
       const scriptName = kameHouseShellArray[i];
-      kameHouse.util.dom.append(tbody, getAllKameHouseShellTr(scriptName));
+      kameHouse.util.dom.append(tbody, this.#getAllKameHouseShellTr(scriptName));
     }
     kameHouse.util.dom.replaceWith($allKameHouseShellTableBody, tbody);
   }
   
   /** Execute the clicked script from the table */
-  function clickEventOnAllKameHouseShellRow(event) {
+  #clickEventOnAllKameHouseShellRow(event) {
     const scriptName = event.data.scriptName;
-    executeScript(scriptName, null);
+    this.#executeScript(scriptName, null);
   }
   
   /** Execute the specified script */
-  function executeScript(scriptName, scriptArguments) {
+  #executeScript(scriptName, scriptArguments) {
     kameHouse.logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
     if (!kameHouse.core.isEmpty(scriptArguments)) {
       const urlEncodedArgs = encodeURI(scriptArguments);
-      kameHouse.extension.groot.windowLocation(EXEC_SCRIPT_PAGE, "?script=" + scriptName + "&args=" + urlEncodedArgs);
+      kameHouse.extension.groot.windowLocation(KameHouseShellLoader.#EXEC_SCRIPT_PAGE, "?script=" + scriptName + "&args=" + urlEncodedArgs);
     } else {
-      kameHouse.extension.groot.windowLocation(EXEC_SCRIPT_PAGE, "?script=" + scriptName);
+      kameHouse.extension.groot.windowLocation(KameHouseShellLoader.#EXEC_SCRIPT_PAGE, "?script=" + scriptName);
     }
   }
   
-  /** Filters rows for all kamehouse-shell table */
-  function filterKameHouseShellRows(filterString) {
-    kameHouse.util.table.filterTableRows(filterString, 'all-kamehouse-shell-table-body');
-  }
-  
   /** Handle Session Status */
-  function handleSessionStatus() {
-    updateServerName(kameHouse.extension.groot.session);
+  #handleSessionStatus() {
+    this.#updateServerName(kameHouse.extension.groot.session);
   }
   
   /** Update server name */
-  function updateServerName(sessionStatus) {
+  #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
       kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
     }
   }
 
   /** Get kamehouse shell scripts from the backend */
-  function getKameHouseShell(successCallback, errorCallback) {
+  #getKameHouseShell(successCallback, errorCallback) {
     const KAMEHOUSE_SHELL_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
@@ -80,7 +80,7 @@ function KameHouseShellLoader() {
   /**
    * Get all kamehouse shell scripts table body.
    */
-  function getAllKameHouseShellTbody() {
+  #getAllKameHouseShellTbody() {
     return kameHouse.util.dom.getTbody({
       id: "all-kamehouse-shell-table-body"
     }, null);
@@ -89,14 +89,14 @@ function KameHouseShellLoader() {
   /**
    * Get all kamehouse shell scripts table row.
    */
-  function getAllKameHouseShellTr(scriptName) {
-    return kameHouse.util.dom.getTrTd(getTrBtn(scriptName));
+  #getAllKameHouseShellTr(scriptName) {
+    return kameHouse.util.dom.getTrTd(this.#getTrBtn(scriptName));
   }
   
   /**
    * Get kamehouse shell script table row button.
    */
-  function getTrBtn(scriptName) {
+  #getTrBtn(scriptName) {
     return kameHouse.util.dom.getButton({
       attr: {
         class: "kamehouse-shell-table-btn",
@@ -105,7 +105,7 @@ function KameHouseShellLoader() {
       clickData: {
         scriptName: scriptName
       },
-      click: clickEventOnAllKameHouseShellRow
+      click: (event) => this.#clickEventOnAllKameHouseShellRow(event)
     });
   }
 }
