@@ -11,27 +11,23 @@
  * 
  * @author nbrest
  */
-const kameHouse = new KameHouse();
+class KameHouse {
 
-/**
- * Global KameHouse js object containing most of the functionality.
- */
-function KameHouse() {
-  this.init = init;
-  this.addExtension = addExtension;
-  this.addPlugin = addPlugin;
+  core = {};
+  extension = {};
+  http = {};
+  json = {};
+  logger = {};
+  plugin = {};
+  session = {};
+  util = {};
 
   /**
-   * Init kamehouse.js
+   * Init kamehouse framework.
    */
-  function init() {
-    this.session = {};
-    this.plugin = {};
-    this.extension = {};
-    this.util = {};
-    
-    /** core kamehouse elements */
-    this.core = new KameHouseCoreFunctions();
+  init() {    
+    /** root kamehouse elements */
+    this.core = new KameHouseCore();
     this.json = new KameHouseJson();
     this.logger = new KameHouseLogger();
     this.http = new KameHouseHttpClient();
@@ -52,7 +48,7 @@ function KameHouse() {
     this.util.time = new KameHouseTimeUtils();
 
     /**
-     * Init core elements and utils
+     * Init root elements and utils
      */
     this.logger.init();
     this.logger.info("Started initializing kamehouse.js");
@@ -72,7 +68,7 @@ function KameHouse() {
   /**
    * Extensions live externally to the kamehouse js/css/html bundle. Examples: kamehouse-mobile.js, kamehouse-groot.js, newsletter.js. They need to implement a load() function that initializes the extension.
    */
-  function addExtension(extensionName, extension) {
+  addExtension(extensionName, extension) {
     kameHouse.logger.info("Adding extension " + extensionName);
     this.extension[extensionName] = extension;
     extension.load();
@@ -81,34 +77,24 @@ function KameHouse() {
   /**
    * Plugins live in the kamehouse js/css/html bundle, but are not loaded by default. Examples kamehouse-debugger.js, kamehouse-modal.js. They need to implement a load() function that initializes the plugin.
    */
-  function addPlugin(pluginName, plugin) {
+  addPlugin(pluginName, plugin) {
     kameHouse.logger.info("Adding plugin " + pluginName);
     this.plugin[pluginName] = plugin;
     plugin.load();
   }
-}
+
+} // KameHouse root object
 
 /**
  * BannerUtils to manipulate banners.
+ * 
+ * @author nbrest
  */
-function KameHouseBannerUtils() {
+class KameHouseBannerUtils {
 
-  this.setRandomSanctuaryBanner = setRandomSanctuaryBanner;
-  this.setRandomCaptainTsubasaBanner = setRandomCaptainTsubasaBanner;
-  this.setRandomDragonBallBanner = setRandomDragonBallBanner;
-  this.setRandomPrinceOfTennisBanner = setRandomPrinceOfTennisBanner;
-  this.setRandomSaintSeiyaBanner = setRandomSaintSeiyaBanner;
-  this.setRandomTennisBanner = setRandomTennisBanner;
-  this.setRandomWorldCupBanner = setRandomWorldCupBanner;
-  this.setRandomAllBanner = setRandomAllBanner;
-  this.updateServerName = updateServerName;
-  this.getBannerCategories = getBannerCategories;
-  this.getBanners = getBanners;
-
-  const DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
-  const PRELOAD_BANNERS_WAIT_MS = 25000;
-
-  const BANNERS_LIST = [
+  static #DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
+  static #PRELOAD_BANNERS_WAIT_MS = 25000;
+  static #BANNERS_LIST = [
     {
       category: "captain-tsubasa",
       banners: ["banner-beni3", "banner-benji-steve", "banner-benji", "banner-benji2", "banner-benji3", "banner-benji4", "banner-niupi", "banner-niupi2", "banner-oliver-benji", "banner-oliver-benji2", "banner-oliver-steve", "banner-oliver", "banner-oliver2"]
@@ -151,12 +137,66 @@ function KameHouseBannerUtils() {
     }
   ];
 
+  /** Set random saint seiya sanctuary banner */
+  setRandomSanctuaryBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random sanctuary banners");
+    const bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
+    this.#setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
+    this.#preloadBannerImages('saint-seiya', bannerClasses);
+  }
+
+  /** Set random captain tsubasa banner */
+  setRandomCaptainTsubasaBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('captain-tsubasa', bannerRotateWaitMs);
+  }
+
+  /** Set random dragonball banner */
+  setRandomDragonBallBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('dragonball', bannerRotateWaitMs);
+  }
+
+  /** Set random prince of tennis banner */
+  setRandomPrinceOfTennisBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('prince-of-tennis', bannerRotateWaitMs);
+  }
+
+  /** Set random saint seiya banner */
+  setRandomSaintSeiyaBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('saint-seiya', bannerRotateWaitMs);
+  }
+
+  /** Set random tennis banner */
+  setRandomTennisBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('tennis', bannerRotateWaitMs);
+  }
+
+  /** Set random world cup 2022 ARGENTINA CAMPEON!!! banner */
+  setRandomWorldCupBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('world-cup-2022', bannerRotateWaitMs);
+  }  
+
+  /** Set random banner from all banners */
+  setRandomAllBanner(bannerRotateWaitMs) {
+    kameHouse.logger.info("Set random all banners");
+    this.#setRandomBannerWrapper(this.#getAllBanners(), true, bannerRotateWaitMs);
+    this.getBannerCategories().forEach((bannerCategory) => {
+      this.#preloadBannerImages(bannerCategory, this.getBanners(bannerCategory));
+    });
+  }
+
+  /** Update the server name in the banner */
+  updateServerName() {
+    if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
+      kameHouse.util.dom.setHtml($("#banner-server-name"), kameHouse.session.server);
+    }
+  }  
+
   /**
    * Get banner categories.
    */
-  function getBannerCategories() {
+  getBannerCategories() {
     const allCategories = [];
-    BANNERS_LIST.forEach((banner) => {
+    KameHouseBannerUtils.#BANNERS_LIST.forEach((banner) => {
       allCategories.push(banner.category);
     });
     return allCategories;
@@ -165,9 +205,9 @@ function KameHouseBannerUtils() {
   /**
    * Get banners for a category.
    */
-  function getBanners(bannerCategory) {
+  getBanners(bannerCategory) {
     let selectedBanners = [];
-    BANNERS_LIST.forEach((banner) => {
+    KameHouseBannerUtils.#BANNERS_LIST.forEach((banner) => {
       if (bannerCategory === banner.category) {
         selectedBanners = banner.banners;
       }
@@ -178,78 +218,31 @@ function KameHouseBannerUtils() {
   /**
    * Get all baners.
    */
-  function getAllBanners() {
+  #getAllBanners() {
     const allBanners = [];
-    BANNERS_LIST.forEach((banner) => {
+    KameHouseBannerUtils.#BANNERS_LIST.forEach((banner) => {
       allBanners.push(...banner.banners);
     });
     return allBanners;
   }
 
-  /** Set random saint seiya sanctuary banner */
-  function setRandomSanctuaryBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random sanctuary banners");
-    const bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
-    setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
-    preloadBannerImages('saint-seiya', bannerClasses);
-  }
-
-  /** Set random captain tsubasa banner */
-  function setRandomCaptainTsubasaBanner(bannerRotateWaitMs) {
-    setRandomBannerFromCategory('captain-tsubasa', bannerRotateWaitMs);
-  }
-
-  /** Set random dragonball banner */
-  function setRandomDragonBallBanner(bannerRotateWaitMs) {
-    setRandomBannerFromCategory('dragonball', bannerRotateWaitMs);
-  }
-
-  /** Set random prince of tennis banner */
-  function setRandomPrinceOfTennisBanner(bannerRotateWaitMs) {
-    setRandomBannerFromCategory('prince-of-tennis', bannerRotateWaitMs);
-  }
-
-  /** Set random saint seiya banner */
-  function setRandomSaintSeiyaBanner(bannerRotateWaitMs) {
-    setRandomBannerFromCategory('saint-seiya', bannerRotateWaitMs);
-  }
-
-  /** Set random tennis banner */
-  function setRandomTennisBanner(bannerRotateWaitMs) {
-    setRandomBannerFromCategory('tennis', bannerRotateWaitMs);
-  }
-
-  /** Set random world cup 2022 ARGENTINA CAMPEON!!! banner */
-  function setRandomWorldCupBanner(bannerRotateWaitMs) {
-    setRandomBannerFromCategory('world-cup-2022', bannerRotateWaitMs);
-  }
-
-  function setRandomBannerFromCategory(bannerCategory, bannerRotateWaitMs) {
+  #setRandomBannerFromCategory(bannerCategory, bannerRotateWaitMs) {
     kameHouse.logger.info("Set random " + bannerCategory + " banners");
-    setRandomBannerWrapper(getBanners(bannerCategory), true, bannerRotateWaitMs);
-    preloadBannerImages(bannerCategory, getBanners(bannerCategory));
-  }
-
-  /** Set random banner from all banners */
-  function setRandomAllBanner(bannerRotateWaitMs) {
-    kameHouse.logger.info("Set random all banners");
-    setRandomBannerWrapper(getAllBanners(), true, bannerRotateWaitMs);
-    getBannerCategories().forEach((bannerCategory) => {
-      preloadBannerImages(bannerCategory, getBanners(bannerCategory));
-    });
+    this.#setRandomBannerWrapper(this.getBanners(bannerCategory), true, bannerRotateWaitMs);
+    this.#preloadBannerImages(bannerCategory, this.getBanners(bannerCategory));
   }
 
   /** Wrapper to setRandomBanner to decide if it should set it once or loop */
-  function setRandomBannerWrapper(bannerClasses, shouldLoop, bannerRotateWaitMs) {
+  #setRandomBannerWrapper(bannerClasses, shouldLoop, bannerRotateWaitMs) {
     if (shouldLoop) {
-      setRandomBannerLoop(bannerClasses, bannerRotateWaitMs);
+      this.#setRandomBannerLoop(bannerClasses, bannerRotateWaitMs);
     } else {
-      setRandomBanner(bannerClasses);
+      this.#setRandomBanner(bannerClasses);
     }
   }
 
   /** Set a random image from the banner classes list */
-  function setRandomBanner(bannerClasses) {
+  #setRandomBanner(bannerClasses) {
     // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     const bannerDivClasses = $('#banner').attr('class');
@@ -281,24 +274,17 @@ function KameHouseBannerUtils() {
   }
 
   /** Set a random image banner from the classes list at the specified interval */
-  function setRandomBannerLoop(bannerClass, bannerRotateWaitMs) {
+  #setRandomBannerLoop(bannerClass, bannerRotateWaitMs) {
     if (kameHouse.core.isEmpty(bannerRotateWaitMs)) {
-      bannerRotateWaitMs = DEFAULT_BANNER_ROTATE_WAIT_MS;
+      bannerRotateWaitMs = KameHouseBannerUtils.#DEFAULT_BANNER_ROTATE_WAIT_MS;
     }
     setInterval(() => {
-      setRandomBanner(bannerClass);
+      this.#setRandomBanner(bannerClass);
     }, bannerRotateWaitMs);
-  }
-
-  /** Update the server name in the banner */
-  function updateServerName() {
-    if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
-      kameHouse.util.dom.setHtml($("#banner-server-name"), kameHouse.session.server);
-    }
   }
   
   /** Preload banner images */
-  function preloadBannerImages(banerCategory, bannerArray) {
+  #preloadBannerImages(banerCategory, bannerArray) {
     setTimeout(() => {
       const preloadedBannerImages = [];
       const message = "Preloading " + banerCategory + " banners";
@@ -311,22 +297,22 @@ function KameHouseBannerUtils() {
         preloadedBannerImages.push(img);
       });
       kameHouse.logger.trace("Preloaded " + preloadedBannerImages.length + " banners");
-    }, PRELOAD_BANNERS_WAIT_MS);
+    }, KameHouseBannerUtils.#PRELOAD_BANNERS_WAIT_MS);
   }
-}
+  
+} // KameHouseBannerUtils
 
 /**
  * Utility to manipulate collapsible divs.
+ * 
+ * @author nbrest
  */
-function KameHouseCollapsibleDivUtils() {
-
-  this.refreshCollapsibleDiv = refreshCollapsibleDiv;
-  this.setCollapsibleContent = setCollapsibleContent;
+class KameHouseCollapsibleDivUtils {
 
   /**
    * Refresh to resize all the collapsible divs in the current page.
    */
-  function refreshCollapsibleDiv() {
+  refreshCollapsibleDiv() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
     for (const collapsibleElement of collapsibleElements) {
       collapsibleElement.click();
@@ -337,18 +323,18 @@ function KameHouseCollapsibleDivUtils() {
   /**
    * Set collapsible content listeners.
    */
-  function setCollapsibleContent() {
+  setCollapsibleContent() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
     for (const collapsibleElement of collapsibleElements) {
-      collapsibleElement.removeEventListener("click", collapsibleContentListener);
-      collapsibleElement.addEventListener("click", collapsibleContentListener);
+      collapsibleElement.removeEventListener("click", this.#collapsibleContentListener);
+      collapsibleElement.addEventListener("click", this.#collapsibleContentListener);
     }
   }
 
   /**
    * Function to toggle height of the collapsible elements from null to it's scrollHeight.
    */
-  function collapsibleContentListener() {
+  #collapsibleContentListener() {
     // Can't use self here, need to use this. Also can't use an annonymous function () => {}
     kameHouse.util.dom.classListToggle(this, "collapsible-kh-active");
     const content = this.nextElementSibling;
@@ -358,20 +344,20 @@ function KameHouseCollapsibleDivUtils() {
       kameHouse.util.dom.setStyle(content, "maxHeight", content.scrollHeight + "px");
     }
   }
-}
+
+} // KameHouseCollapsibleDivUtils
 
 /**
  * Functionality to handle cookies.
+ * 
+ * @author nbrest
  */
-function KameHouseCookiesUtils() {
-
-  this.getCookie = getCookie;
-  this.setCookie = setCookie;
+class KameHouseCookiesUtils {
 
   /**
    * Get a cookie.
    */
-  function getCookie(cookieName) {
+  getCookie(cookieName) {
     kameHouse.logger.trace("Getting cookie " + cookieName);
     const name = cookieName + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -391,7 +377,7 @@ function KameHouseCookiesUtils() {
   /**
    * Set a cookie.
    */
-  function setCookie(cookieName, cookieValue, expiryDays) {
+  setCookie(cookieName, cookieValue, expiryDays) {
     kameHouse.logger.trace("Setting cookie " + cookieName + " to " + cookieValue);
     if (!kameHouse.core.isEmpty(expiryDays)) {
       const expiriyDate = new Date();
@@ -402,25 +388,24 @@ function KameHouseCookiesUtils() {
       document.cookie = cookieName + "=" + cookieValue + "; path=/";
     }
   }
-}
+
+} // KameHouseCookiesUtils
 
 /** 
  * Functionality to manipulate the cursor. 
+ * 
+ * @author nbrest
  */
-function KameHouseCursorUtils() {
-
-  this.setCursorWait = setCursorWait;
-  this.setCursorDefault = setCursorDefault;
-  this.loadSpinningWheelMobile = loadSpinningWheelMobile;
+class KameHouseCursorUtils {
 
   /** Set the cursor to a wait spinning wheel */
-  function setCursorWait() {
+  setCursorWait() {
     kameHouse.util.dom.addClass($('html'), "wait");
     kameHouse.util.dom.removeClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
   }
 
   /** Set the cursor to default shape */
-  function setCursorDefault() {
+  setCursorDefault() {
     kameHouse.util.dom.removeClass($('html'), "wait");
     kameHouse.util.dom.addClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
   }
@@ -428,132 +413,79 @@ function KameHouseCursorUtils() {
   /**
    * Load the spinning wheel for mobile view.
    */
-  async function loadSpinningWheelMobile() {
+  async loadSpinningWheelMobile() {
     const spinnigWheelMobileDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
     kameHouse.util.dom.insertBeforeBegin(spinnigWheelMobileDiv);
   }
-}
+
+} // KameHouseCursorUtils
 
 /**
  * Functionality that manipulates dom elements.
  * 
  * Anything that manipulates the dom should go through here.
+ * 
+ * @author nbrest
  */
-function KameHouseDomUtils() {
-
-  /** ------ Manipulation through plain js --------------------------------- */  
-  this.setId = setId;
-  this.setAttribute = setAttribute;
-  this.setValue = setValue;
-  this.classListAdd = classListAdd;
-  this.classListRemove = classListRemove;
-  this.classListToggle = classListToggle;
-  this.setInnerHtml = setInnerHtml;
-  this.setStyle = setStyle;
-  this.setDisplay = setDisplay;
-  this.setOnClick = setOnClick;
-  this.getElementFromTemplate = getElementFromTemplate;
-  this.getImgBtn = getImgBtn;
-  this.insertBeforeBegin = insertBeforeBegin;
-  this.replaceChild = replaceChild;
-  this.appendChild = appendChild;
-  this.removeChild = removeChild;
-  this.insertBefore = insertBefore;
-  this.after = after;
-  this.cloneNode = cloneNode;
-  this.remove = remove;
-  this.removeElement = removeElement;
-
-  /** ------ Manipulation through jQuery --------------------------------- */
-  this.getDomNode = getDomNode;
-  this.empty = empty;
-  this.load = load;
-  this.detach = detach;
-  this.prepend = prepend;
-  this.append = append;
-  this.replaceWith = replaceWith;
-  this.setAttr = setAttr;
-  this.setHtml = setHtml;
-  this.setText = setText;
-  this.setClick = setClick;
-  this.setVal = setVal;
-  this.addClass = addClass;
-  this.removeClass = removeClass;
-  this.toggle = toggle;
-  this.getA = getA;
-  this.getBr = getBr;
-  this.getDiv = getDiv;
-  this.getInput = getInput;
-  this.getLabel = getLabel;
-  this.getLi = getLi;
-  this.getOption = getOption;
-  this.getP = getP;
-  this.getSelect = getSelect;
-  this.getSpan = getSpan;
-  this.getTbody = getTbody;
-  this.getTextArea = getTextArea;
-  this.getTd = getTd;
-  this.getTr = getTr;
-  this.getTrTd = getTrTd;
-  this.getButton = getButton;
+class KameHouseDomUtils {
 
   /** ------ Manipulation through plain js --------------------------------- */
   /** Set the id of an element (non jq) */
-  function setId(element, id) {
+  setId(element, id) {
     element.id = id;
   }
 
   /** Set an attribute of an element (non jq) */
-  function setAttribute(element, attrKey, attrVal) {
+  setAttribute(element, attrKey, attrVal) {
     element.setAttribute(attrKey, attrVal);
   }
 
   /** Set the value of an element (non jq) */
-  function setValue(element, val) {
+  setValue(element, val) {
     element.value = val;
   }
 
   /** Add a class to the element (non jq) */
-  function classListAdd(element, className) {
+  classListAdd(element, className) {
     element.classList.add(className);
   }
 
   /** Remove a class from the element (non jq) */
-  function classListRemove(element, className) {
+  classListRemove(element, className) {
     element.classList.remove(className);
   }
 
   /** Toggle a class on the element (non jq) */
-  function classListToggle(element, className) {
+  classListToggle(element, className) {
     element.classList.toggle(className);
   }
 
   /** Set the html to the element (non jq) */
-  function setInnerHtml(element, html) {
+  setInnerHtml(element, html) {
     if (!kameHouse.core.isEmpty(html)) {
       element.innerHTML = html;
     }
   }
 
   /** Set the style for the element (non jq) */
-  function setStyle(element, styleProperty, stylePropertyValue) {
+  setStyle(element, styleProperty, stylePropertyValue) {
     element.style[styleProperty] = stylePropertyValue;
   }
 
   /** Set the display of the element (non jq) */
-  function setDisplay(element, displayValue) {
+  setDisplay(element, displayValue) {
     element.style.display = displayValue;
   }  
 
   /** Set onclick function of the element (non jq) */
-  function setOnClick(element, onclickFunction) {
+  setOnClick(element, onclickFunction) {
     element.onclick = onclickFunction;
   }  
 
   /**
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
    */
-  function getElementFromTemplate(htmlTemplate) {
+  getElementFromTemplate(htmlTemplate) {
     const domElementWrapper = document.createElement('div');
     domElementWrapper.innerHTML = htmlTemplate;
     return domElementWrapper.firstChild;
@@ -569,7 +501,7 @@ function KameHouseDomUtils() {
    *    onClick: () => {}
    * }
    */
-  function getImgBtn(config) {
+  getImgBtn(config) {
     const img = new Image();
     if (!kameHouse.core.isEmpty(config.id)) {
       img.id = config.id;
@@ -583,47 +515,47 @@ function KameHouseDomUtils() {
   }
 
   /** Insert the html before the body */
-  function insertBeforeBegin(html) {
+  insertBeforeBegin(html) {
     document.body.insertAdjacentHTML("beforeBegin", html);
   }
 
   /** Replace the old child with the new one in the parent */
-  function replaceChild(parentNode, newChild, oldChild) {
+  replaceChild(parentNode, newChild, oldChild) {
     parentNode.replaceChild(newChild, oldChild);
   }
 
   /**
    * Append the child to parent.
    */
-   function appendChild(parent, child) {
+  appendChild(parent, child) {
     parent.appendChild(child);
   }
 
   /**
    * Remove the child from parent.
    */
-  function removeChild(parent, child) {
+  removeChild(parent, child) {
     parent.removeChild(child);
   }
 
   /**
    * Insert the new node under the parent.
    */
-  function insertBefore(parent, newNode, nextSibling) {
+  insertBefore(parent, newNode, nextSibling) {
     parent.insertBefore(newNode, nextSibling);
   }
 
   /**
    * Insert the new node after the selected node.
    */
-    function after(sibling, newNode) {
-      sibling.after(newNode);
-    }
+  after(sibling, newNode) {
+    sibling.after(newNode);
+  }
 
   /**
    * Clone a node.
    */
-   function cloneNode(nodeToClone, deep) {
+   cloneNode(nodeToClone, deep) {
     if (kameHouse.core.isEmpty(deep)) {
       deep = false;
     }
@@ -633,7 +565,7 @@ function KameHouseDomUtils() {
   /**
    * Remove element from dom.
    */
-  function remove(elementId) {
+  remove(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
       element.remove();
@@ -643,7 +575,7 @@ function KameHouseDomUtils() {
   /**
    * Remove element from dom.
    */
-  function removeElement(element) {
+  removeElement(element) {
     if (element) {
       element.remove();
     }
@@ -653,21 +585,21 @@ function KameHouseDomUtils() {
   /**
    * Get DOM node from JQuery element.
    */
-  function getDomNode(jqueryElement) {
+  getDomNode(jqueryElement) {
     return jqueryElement.get(0);
   }
   
   /**
    * Empty the specified div.
    */
-  function empty(div) {
+  empty(div) {
     div.empty();
   }
   
   /**
    * Load the specified htmlPath into the div.
    */
-  function load(divToLoadTo, htmlPath, successCallback) {
+  load(divToLoadTo, htmlPath, successCallback) {
     if (kameHouse.core.isFunction(successCallback)) {
       divToLoadTo.load(htmlPath, successCallback);
     } else {
@@ -678,47 +610,47 @@ function KameHouseDomUtils() {
   /**
    * Detach the specified element from the dom.
    */
-   function detach(elementToDetach) {
+   detach(elementToDetach) {
     elementToDetach.detach();
   }
 
   /**
    * Prepend the prependObject to prependTo.
    */
-   function prepend(prependTo, prependObject) {
+   prepend(prependTo, prependObject) {
     prependTo.prepend(prependObject);
   }
 
   /**
    * Append the appendObject to appendTo.
    */
-  function append(appendTo, appendObject) {
+  append(appendTo, appendObject) {
     appendTo.append(appendObject);
   }
 
   /**
    * Replaces the specified dom element with the 
    */
-  function replaceWith(elementToReplace, replacement) {
+  replaceWith(elementToReplace, replacement) {
     elementToReplace.replaceWith(replacement);
   }
 
   /**
    * Set an attribute in an element.
    */
-  function setAttr(element, attrKey, attrValue) {
+  setAttr(element, attrKey, attrValue) {
     element.attr(attrKey, attrValue);
   }
 
   /** Set the html to the element */
-  function setHtml(element, html) {
+  setHtml(element, html) {
     if (!kameHouse.core.isEmpty(html)) {
       element.html(html);
     }
   }
 
   /** Set the text to the element */
-  function setText(element, text) {
+  setText(element, text) {
     if (!kameHouse.core.isEmpty(text)) {
       element.text(text);
     }
@@ -727,125 +659,125 @@ function KameHouseDomUtils() {
   /**
    * Set click function in an element.
    */
-  function setClick(element, clickData, clickFunction) {
+  setClick(element, clickData, clickFunction) {
     element.click(clickData, clickFunction);
   }
 
   /**
    * Set the value in an element. Usually used for input fields with a value property.
    */
-  function setVal(element, value) {
+  setVal(element, value) {
     element.val(value);
   }
 
   /**
    * Add a class to an element.
    */
-  function addClass(element, className) {
+  addClass(element, className) {
     element.addClass(className);
   }
 
   /**
    * Remove a class from an element.
    */
-  function removeClass(element, className) {
+  removeClass(element, className) {
     element.removeClass(className);
   }
 
   /** Toggle the visibility of all element that have the specified className */
-  function toggle(className) {
+  toggle(className) {
     $('.' + className).toggle();
   }
 
   /**
    * Get 'a' html element.
    */
-  function getA(attr, html) {
-    return getElement('a', attr, html);
+  getA(attr, html) {
+    return this.#getElement('a', attr, html);
   }
 
   /**
    * Get 'br' html element.
    */
-  function getBr() {
-    return getElement('br', null, null);
+  getBr() {
+    return this.#getElement('br', null, null);
   }
 
   /**
    * Get 'div' html element.
    */
-  function getDiv(attr, html) {
-    return getElement('div', attr, html);
+  getDiv(attr, html) {
+    return this.#getElement('div', attr, html);
   }
 
   /**
    * Get 'input' html element.
    */
-  function getInput(attr, html) {
-    return getElement('input', attr, html);
+  getInput(attr, html) {
+    return this.#getElement('input', attr, html);
   }
 
   /**
    * Get 'label' html element.
    */
-  function getLabel(attr, html) {
-    return getElement('label', attr, html);
+  getLabel(attr, html) {
+    return this.#getElement('label', attr, html);
   }
 
   /**
    * Get 'li' html element.
    */
-  function getLi(attr, html) {
-    return getElement('li', attr, html);
+  getLi(attr, html) {
+    return this.#getElement('li', attr, html);
   }
   
   /**
    * Get 'option' html element.
    */
-  function getOption(attr, html) {
-    return getElement('option', attr, html);
+  getOption(attr, html) {
+    return this.#getElement('option', attr, html);
   }
 
   /**
    * Get 'p' html element.
    */
-  function getP(attr, html) {
-    return getElement('p', attr, html);
+  getP(attr, html) {
+    return this.#getElement('p', attr, html);
   }
 
   /**
    * Get 'select' html element.
    */
-  function getSelect(attr, html) {
-    return getElement('select', attr, html);
+  getSelect(attr, html) {
+    return this.#getElement('select', attr, html);
   }
 
   /**
    * Get 'span' html element.
    */
-  function getSpan(attr, html) {
-    return getElement('span', attr, html);
+  getSpan(attr, html) {
+    return this.#getElement('span', attr, html);
   }
 
   /**
    * Get 'tbody' html element.
    */
-  function getTbody(attr, html) {
-    return getElement('tbody', attr, html);
+  getTbody(attr, html) {
+    return this.#getElement('tbody', attr, html);
   }
 
   /**
    * Get 'textarea' html element.
    */
-  function getTextArea(attr, html) {
-    return getElement('textarea', attr, html);
+  getTextArea(attr, html) {
+    return this.#getElement('textarea', attr, html);
   }
 
   /**
    * Get 'td' html element.
    */
-  function getTd(attr, html) {
-    return getElement('td', attr, html);
+  getTd(attr, html) {
+    return this.#getElement('td', attr, html);
   }
 
   /**
@@ -856,13 +788,13 @@ function KameHouseDomUtils() {
    *   class: "class1 class2"
    * }, htmlContent);
    */
-  function getTr(attr, html) {
-    return getElement('tr', attr, html);
+  getTr(attr, html) {
+    return this.#getElement('tr', attr, html);
   }
 
   /** Shorthand used in several places to create dynamic table rows */
-  function getTrTd(html) {
-    return getTr(null, getTd(null, html));
+  getTrTd(html) {
+    return this.getTr(null, this.getTd(null, html));
   }
 
   /**
@@ -877,39 +809,37 @@ function KameHouseDomUtils() {
    *    click: () => {}
    * }
    */
-  function getButton(config) {
-    const btn = getElement('button', config.attr, config.html);
-    setClick(btn, config.clickData, config.click);
+  getButton(config) {
+    const btn = this.#getElement('button', config.attr, config.html);
+    this.setClick(btn, config.clickData, config.click);
     return btn;
   }
 
   /** Create an element with the specified tag, attributes and html */
-  function getElement(tagType, attr, html) {
+  #getElement(tagType, attr, html) {
     const element = $('<' + tagType + '>');
-    setAttributes(element, attr);
-    setHtml(element, html);
+    this.#setAttributes(element, attr);
+    this.setHtml(element, html);
     return element;
   }
 
   /** Set the attributes to the element */
-  function setAttributes(element, attr) {
+  #setAttributes(element, attr) {
     if (!kameHouse.core.isEmpty(attr)) {
       for (const [key, value] of Object.entries(attr)) {
         element.attr(key, value);
       }
     }
   }
-}
+
+} // KameHouseDomUtils
 
 /** 
  * Functionality to retrieve files from the server.
+ * 
+ * @author nbrest
  */
- function KameHouseFetchUtils() {
-
-  this.loadHtmlSnippet = loadHtmlSnippet;
-  this.loadFile = loadFile;
-  this.loadFileWithTimeout = loadFileWithTimeout;
-  this.getScript = getScript;
+ class KameHouseFetchUtils {
 
   /**
    * Load an html snippet to insert to the dom or use as a template.
@@ -917,7 +847,7 @@ function KameHouseDomUtils() {
    * Declare the caller function as async
    * and call this with await kameHouse.util.fetch.loadHtmlSnippet(...);
    */
-  async function loadHtmlSnippet(htmlSnippetPath) {
+  async loadHtmlSnippet(htmlSnippetPath) {
     const htmlSnippetResponse = await fetch(htmlSnippetPath);
     return htmlSnippetResponse.text();
   }
@@ -928,7 +858,7 @@ function KameHouseDomUtils() {
    * Declare the caller function as async
    * and call this with await kameHouse.util.fetch.loadFile(...);
    */
-  async function loadFile(filePath) {
+  async loadFile(filePath) {
     const file = await fetch(filePath);
     return file.text();
   }
@@ -936,7 +866,7 @@ function KameHouseDomUtils() {
   /**
    * Loads a file with a configurable timeout.
    */
-  async function loadFileWithTimeout(filePath, timeout) {
+  async loadFileWithTimeout(filePath, timeout) {
     const DEFAULT_TIMEOUT = 60000;
     const options = {};
     if (kameHouse.core.isEmpty(timeout)) {
@@ -960,7 +890,7 @@ function KameHouseDomUtils() {
   }
 
   /** Get a js script from the server. */
-  function getScript(scriptPath, successCallback) { 
+  getScript(scriptPath, successCallback) { 
     $.getScript(scriptPath)
     .done((script, textStatus) => {
       kameHouse.logger.debug("Loaded successfully script: " + scriptPath);
@@ -979,43 +909,41 @@ function KameHouseDomUtils() {
       console.error(exception);
     });
   }
-}
+
+} // KameHouseFetchUtils
 
 /** 
  * Functionality related to file and filename manipulation. 
+ * 
+ * @author nbrest
  */
-function KameHouseFileUtils() {
+class KameHouseFileUtils {
 
-  this.getShortFilename = getShortFilename;
+  /** 
+   * Get the last part of the absolute filename 
+   * Split the filename into an array based on the path separators '/' and '\'
+   */
+  getShortFilename(filename) { return filename.split(/[\\/]+/).pop(); }
 
-  /** Get the last part of the absolute filename */
-  // Split the filename into an array based on the path separators '/' and '\'
-  function getShortFilename(filename) { return filename.split(/[\\/]+/).pop(); }
-}
+} // KameHouseFileUtils
 
 /**
  * Functionality for the native mobile app.
+ * 
+ * @author nbrest
  */
-function KameHouseMobileUtils() {
+class KameHouseMobileUtils {
 
-  this.init = init;
-  this.setMobileEventListeners = setMobileEventListeners;
-  this.disableMobileOnlyElements = disableMobileOnlyElements;
-  this.disableWebappOnlyElements = disableWebappOnlyElements;
-  this.windowLocation = windowLocation;
-  this.windowOpen = windowOpen;
-  this.exec = exec;
-
-  let isMobileAppStatus = false;
+  #isMobileAppStatus = false;
 
   /**
    * Init kamehouse mobile utils.
    */
-  function init() {
-    loadCordovaModule();
-    disableMobileOnlyElements();
-    loadGlobalMobile();
-    setMobileEventListeners(
+  init() {
+    this.#loadCordovaModule();
+    this.disableMobileOnlyElements();
+    this.#loadGlobalMobile();
+    this.setMobileEventListeners(
       () => {
         const message = "KameHouse sent to background";
         kameHouse.logger.debug(message, kameHouse.logger.getGreenText(message));
@@ -1028,102 +956,25 @@ function KameHouseMobileUtils() {
   }
 
   /**
-   * Check if it's running on mobile app.
-   */
-  function isMobileApp() {
-    return isMobileAppStatus;
-  }
-  
-  /**
-   * Load cordova module.
-   */
-  function loadCordovaModule() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mockCordova = urlParams.get('mockCordova');
-    if (mockCordova) {
-      cordova = {};
-    }
-    try {
-      if (cordova) { 
-        kameHouse.logger.info("cordova object is present. Running as a mobile app");
-        isMobileAppStatus = true;
-        addCordovaErrorHandler();
-      }
-    } catch (error) {
-      kameHouse.logger.info("cordova object is not present. Running as a webapp");
-      isMobileAppStatus = false;
-    }
-  }
-
-  /**
-   * Add cordova error handler.
-   */
-  function addCordovaErrorHandler() {
-    kameHouse.logger.info("Adding cordova error handler");
-    window.addEventListener("cordovacallbackerror", (event) => {
-      kameHouse.logger.error("Unexpected cordova error: " + kameHouse.json.stringify(event));
-      alert("Unexpected cordova error: " + kameHouse.json.stringify(event));
-    });  
-  }
-
-  /**
    * Set mobile event listeners.
    */
-  function setMobileEventListeners(onPauseFunction, onResumeFunction) {
-    exec(
+  setMobileEventListeners(onPauseFunction, onResumeFunction) {
+    this.exec(
       null,
       () => {
         kameHouse.logger.info("Setting mobile app event handlers");
-        document.addEventListener("pause", () => {onPause(onPauseFunction)} , false);
-        document.addEventListener("resume", () => {onResume(onResumeFunction)}, false);   
+        document.addEventListener("pause", () => {this.#onPause(onPauseFunction)} , false);
+        document.addEventListener("resume", () => {this.#onResume(onResumeFunction)}, false);   
       }
-    )
-  }
-
-  /**
-   * Run onPause function.
-   */
-  function onPause(onPauseFunction) {
-    if (kameHouse.core.isFunction(onPauseFunction)) {
-      onPauseFunction();
-    }
-  }
-
-  /**
-   * Run onResume function.
-   */
-  function onResume(onResumeFunction) {
-    if (kameHouse.core.isFunction(onResumeFunction)) {
-      onResumeFunction();
-    }
-  }
-
-  /**
-   * Set the window location differently depending if running on web or mobile app.
-   */
-  function windowLocation(webLocation, mobileLocation) {
-    return exec(
-      () => {window.location=webLocation},
-      () => {window.location=mobileLocation}
-    )
-  }
-
-  /**
-   * Open url link.
-   */
-  function windowOpen(url, targetWeb) {
-    return exec(
-      () => {window.open(url, targetWeb)},
-      () => {window.open(kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + url)}
     )
   }
 
   /**
    * Disable mobile only elements on web.
    */
-  function disableMobileOnlyElements() {
+  disableMobileOnlyElements() {
     $(document).ready(() => {
-      exec(
+      this.exec(
         () => { 
           kameHouse.logger.debug("Disabling mobile only elements in webapp view");
           const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
@@ -1140,8 +991,8 @@ function KameHouseMobileUtils() {
   /**
    * Disable webapp only elements on mobile.
    */
-  function disableWebappOnlyElements() {
-    exec(
+  disableWebappOnlyElements() {
+    this.exec(
       null,
       () => {
         kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
@@ -1149,30 +1000,34 @@ function KameHouseMobileUtils() {
         });
       }
     );
+  }  
+
+  /**
+   * Set the window location differently depending if running on web or mobile app.
+   */
+  windowLocation(webLocation, mobileLocation) {
+    return this.exec(
+      () => {window.location=webLocation},
+      () => {window.location=mobileLocation}
+    )
   }
 
   /**
-   * Load global mobile.
+   * Open url link.
    */
-  function loadGlobalMobile() {
-    exec(
-      null,
-      () => {
-        kameHouse.util.fetch.getScript("/kame-house/lib/js/crypto-js.min.js", () => {
-          kameHouse.util.fetch.getScript("/kame-house-mobile/kamehouse-mobile/js/kamehouse-mobile.js", () => {
-            kameHouse.logger.info("Loaded kamehouse-mobile.js");
-          }); 
-        }); 
-      }
-    );
+  windowOpen(url, targetWeb) {
+    return this.exec(
+      () => {window.open(url, targetWeb)},
+      () => {window.open(kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + url)}
+    )
   }
 
   /**
    * Executes the first parmeter function only when running on the web app.
    * Executes the second parameter function only when running as a mobile app.
    */
-  function exec(webFunction, mobileFunction) {
-    if (!isMobileApp()) {
+  exec(webFunction, mobileFunction) {
+    if (!this.#isMobileApp()) {
       if (kameHouse.core.isFunction(webFunction)) {
         return webFunction(); 
       }
@@ -1188,7 +1043,81 @@ function KameHouseMobileUtils() {
       }
     }
   }
-}
+
+  /**
+   * Check if it's running on mobile app.
+   */
+  #isMobileApp() {
+    return this.#isMobileAppStatus;
+  }
+  
+  /**
+   * Load cordova module.
+   */
+  #loadCordovaModule() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const mockCordova = urlParams.get('mockCordova');
+    if (mockCordova) {
+      cordova = {};
+    }
+    try {
+      if (cordova) { 
+        kameHouse.logger.info("cordova object is present. Running as a mobile app");
+        this.#isMobileAppStatus = true;
+        this.#addCordovaErrorHandler();
+      }
+    } catch (error) {
+      kameHouse.logger.info("cordova object is not present. Running as a webapp");
+      this.#isMobileAppStatus = false;
+    }
+  }
+
+  /**
+   * Add cordova error handler.
+   */
+  #addCordovaErrorHandler() {
+    kameHouse.logger.info("Adding cordova error handler");
+    window.addEventListener("cordovacallbackerror", (event) => {
+      kameHouse.logger.error("Unexpected cordova error: " + kameHouse.json.stringify(event));
+      alert("Unexpected cordova error: " + kameHouse.json.stringify(event));
+    });  
+  }
+
+  /**
+   * Run onPause function.
+   */
+  #onPause(onPauseFunction) {
+    if (kameHouse.core.isFunction(onPauseFunction)) {
+      onPauseFunction();
+    }
+  }
+
+  /**
+   * Run onResume function.
+   */
+  #onResume(onResumeFunction) {
+    if (kameHouse.core.isFunction(onResumeFunction)) {
+      onResumeFunction();
+    }
+  }
+
+  /**
+   * Load global mobile.
+   */
+  #loadGlobalMobile() {
+    this.exec(
+      null,
+      () => {
+        kameHouse.util.fetch.getScript("/kame-house/lib/js/crypto-js.min.js", () => {
+          kameHouse.util.fetch.getScript("/kame-house-mobile/kamehouse-mobile/js/kamehouse-mobile.js", () => {
+            kameHouse.logger.info("Loaded kamehouse-mobile.js");
+          }); 
+        }); 
+      }
+    );
+  }
+
+} // KameHouseMobileUtils
 
 /** 
  * Functionality to load different modules and control the dependencies between them.
@@ -1199,44 +1128,32 @@ function KameHouseMobileUtils() {
  * kamehouse session so that the session data is available to update the view.
  * A lot of code execution depends on waiting for the kamehouse debugger or kamehouse modal code
  * to be loaded. The modules framework synchronizes those dependencies.
+ * 
+ * @author nbrest
  */
-function KameHouseModuleUtils() {
-
-  this.isModuleLoaded = isModuleLoaded;
-  this.setModuleLoaded = setModuleLoaded;
-  this.waitForModules = waitForModules;
-  this.loadKameHouseWebSocket = loadKameHouseWebSocket; 
+class KameHouseModuleUtils {
   
   /** 
    * Object that determines which module is loaded. 
    * For example, when logger gets loaded, set modules.logger = true;
    * I use it in waitForModules() to check if a module is loaded or not.
    */
-  const modules = {};
+  #modules = {};
+
+  /** Checks if the specified module is loaded */
+  isModuleLoaded(moduleName) {
+    if (kameHouse.core.isEmpty(this.#modules[moduleName])) {
+      return false;
+    }
+    return this.#modules[moduleName];
+  }
 
   /** Marks the specified module as loaded */
-  function setModuleLoaded(moduleName) {
+  setModuleLoaded(moduleName) {
     const message = "Module loaded: " + moduleName;
     const messageColored = "Module loaded: " + kameHouse.logger.getGreenText(moduleName);
     kameHouse.logger.info(message, messageColored);
-    modules[moduleName] = true;
-  }
-
-  /** Checks if the specified module is loaded */
-  function isModuleLoaded(moduleName) {
-    if (kameHouse.core.isEmpty(modules[moduleName])) {
-      return false;
-    }
-    return modules[moduleName];
-  }
-
-  /**
-   * Load kamehouse websockets module.
-   */
-  function loadKameHouseWebSocket() {
-    kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-websocket.js", () => {
-      setModuleLoaded("kameHouseWebSocket");
-    });
+    this.#modules[moduleName] = true;
   }
 
   /** 
@@ -1245,9 +1162,9 @@ function KameHouseModuleUtils() {
    * Use this function in the main() of each page that requires modules like logger and httpClient
    * to be loaded before the main code is executed.
    */
-  async function waitForModules(moduleNames, initFunction) {
+  async waitForModules(moduleNames, initFunction) {
     let message;
-    message = "Start waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(modules);
+    message = "Start waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(this.#modules);
     kameHouse.logger.trace(message);
 
     const WAIT_FOR_MODULES_MS = 20;
@@ -1255,14 +1172,14 @@ function KameHouseModuleUtils() {
     let loopCount = 0;
     while (!areAllModulesLoaded) {
       if (loopCount >= 150) {
-        message = "Waiting waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(modules);
+        message = "Waiting waitForModules " + kameHouse.json.stringify(moduleNames) + ". modules status: " + kameHouse.json.stringify(this.#modules);
         kameHouse.logger.trace(message);
         loopCount = 0;
       }
       
       let isAnyModuleStillLoading = false;
       moduleNames.forEach((moduleName) => {
-        if (!modules[moduleName]) {
+        if (!this.#modules[moduleName]) {
           isAnyModuleStillLoading = true;
         }
       });
@@ -1273,26 +1190,26 @@ function KameHouseModuleUtils() {
       // SLEEP IS IN MS!!
       await kameHouse.core.sleep(WAIT_FOR_MODULES_MS);
     }
-    message = "*** Finished  waitForModules " + kameHouse.json.stringify(moduleNames) + " ***. modules status: " + kameHouse.json.stringify(modules);
+    message = "*** Finished  waitForModules " + kameHouse.json.stringify(moduleNames) + " ***. modules status: " + kameHouse.json.stringify(this.#modules);
     kameHouse.logger.trace(message);
     if (kameHouse.core.isFunction(initFunction)) {
       initFunction();
     }
   }
-}
+
+} // KameHouseModuleUtils
 
 /**
  * Manage generic kamehouse tabs (used for example in groot server manager).
+ * 
+ * @author nbrest
  */
- function KameHouseTabUtils() {
-
-  this.openTab = openTab;
-  this.openTabFromCookies = openTabFromCookies;
+ class KameHouseTabUtils {
 
   /**
    * Open the tab specified by its id.
    */
-  function openTab(selectedTabDivId, cookiePrefix) {
+  openTab(selectedTabDivId, cookiePrefix) {
     // Set current-tab cookie
     kameHouse.util.cookies.setCookie(cookiePrefix + '-current-tab', selectedTabDivId);
     
@@ -1316,47 +1233,45 @@ function KameHouseModuleUtils() {
   /**
    * Open the tab from cookies or the default tab if not set in the cookies.
    */
-  function openTabFromCookies(cookiePrefix, defaultTab) {
+  openTabFromCookies(cookiePrefix, defaultTab) {
     let currentTab = kameHouse.util.cookies.getCookie(cookiePrefix + '-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = defaultTab;
     }
-    openTab(currentTab, cookiePrefix);
+    this.openTab(currentTab, cookiePrefix);
   }
-}
+
+} // KameHouseTabUtils
 
 /** 
  * Functionality to manipulate tables. 
+ * 
+ * @author nbrest
  */
-function KameHouseTableUtils() {
-
-  this.filterTableRows = filterTableRows;
-  this.filterTableRowsByColumn = filterTableRowsByColumn;
-  this.sortTable = sortTable;
-  this.limitRows = limitRows;
+class KameHouseTableUtils {
 
   /** 
    * Filter table rows based on the specified filter string. Shouldn't filter the header row. 
    * Toggles a maximum of maxRows.
    * Set skipHiddenRows to process only currently visible rows.   
    */
-  function filterTableRows(filterString, tableBodyId, maxRows, skipHiddenRows) {
+  filterTableRows(filterString, tableBodyId, maxRows, skipHiddenRows) {
     const table = document.getElementById(tableBodyId);
     const rows = table.rows;
     if (kameHouse.core.isEmpty(maxRows) || maxRows == "all") {
       maxRows = rows.length;
     }
 
-    const regex = getRegex(filterString);
+    const regex = this.#getRegex(filterString);
     const tableRows = $("#" + tableBodyId + " tr");
-    tableRows.filter(function () {
-      const tr = this;
+    tableRows.filter((index, element) => {
+      const tr = element;
       const classList = tr.classList.value;
       if (kameHouse.core.isEmpty(classList) || !classList.includes("table-kh-header")) {
         // Filter if it's not the header row
         const trText = $(tr).text().toLowerCase();
         let shouldDisplayRow = regex.test(trText);
-        if (skipHiddenRows && isHiddenRow(tr)) {
+        if (skipHiddenRows && this.#isHiddenRow(tr)) {
           shouldDisplayRow = false;
         }
         if (maxRows > 0) {
@@ -1372,7 +1287,7 @@ function KameHouseTableUtils() {
    * Toggles a maximum of maxRows.
    * Set skipHiddenRows to process only currently visible rows.
    */
-  function filterTableRowsByColumn(filterString, tableBodyId, columnIndex, maxRows, skipHiddenRows) {
+  filterTableRowsByColumn(filterString, tableBodyId, columnIndex, maxRows, skipHiddenRows) {
     const table = document.getElementById(tableBodyId);
     const rows = table.rows;
     if (kameHouse.core.isEmpty(columnIndex)) {
@@ -1382,17 +1297,17 @@ function KameHouseTableUtils() {
     if (kameHouse.core.isEmpty(maxRows) || maxRows == "all") {
       maxRows = rows.length;
     }
-    const regex = getRegex(filterString);
+    const regex = this.#getRegex(filterString);
     const tableRows = $("#" + tableBodyId + " tr");
-    tableRows.filter(function () {
-      const tr = this;
+    tableRows.filter((index, element) => {
+      const tr = element;
       const classList = tr.classList.value;
       if (kameHouse.core.isEmpty(classList) || !classList.includes("table-kh-header")) {
         // Filter if it's not the header row
         const td = tr.getElementsByTagName("td")[columnIndex];
         const tdText = $(td).text().toLowerCase();
         let shouldDisplayRow = regex.test(tdText);
-        if (skipHiddenRows && isHiddenRow(tr)) {
+        if (skipHiddenRows && this.#isHiddenRow(tr)) {
           shouldDisplayRow = false;
         }
         if (maxRows > 0) {
@@ -1401,52 +1316,6 @@ function KameHouseTableUtils() {
         }
       }
     });
-  }
-
-  /**
-   * Get the regex to filter the rows.
-   */
-  function getRegex(filterString) {
-    filterString = filterString.toLowerCase();
-    try {
-      if (isQuotedString(filterString)) {
-        filterString = removeQuotes(filterString);
-      } else {
-        filterString = addAsterisksBetweenAllCharsToRegex(filterString);
-      }
-      return new RegExp(filterString);
-    } catch (error) {
-      kameHouse.logger.error("Error creating regex from filter string " + filterString);
-      return /""/;
-    }
-  }
-
-  /**
-   * Check for double quotes at the beginning and end of the string.
-   */
-   function isQuotedString(string) {
-    return string.startsWith("\"") && string.endsWith("\"");
-  }
-
-  /**
-   * Remove the double quotes from the string.
-   */
-  function removeQuotes(string) {
-    return string.substring(1, string.length-1);
-  }
-
-  /**
-   * Adds .* between each character to expand the matching criteria of the regex.
-   */
-  function addAsterisksBetweenAllCharsToRegex(string) {
-    return string.split('').join('.*').replace(/\s/g, '');
-  }
-
-  /**
-   * Check if it's a hidden row.
-   */
-  function isHiddenRow(tr) {
-    return tr.style.display == "none";
   }
 
   /**
@@ -1460,30 +1329,30 @@ function KameHouseTableUtils() {
    * 
    * sortDirection can either be "asc" or "desc"
    */
-  function sortTable(tableId, columnNumber, dataType, initialSortDirection, callback) {
+  sortTable(tableId, columnNumber, dataType, initialSortDirection, callback) {
     kameHouse.plugin.modal.loadingWheelModal.open("Sorting data...");
+    const sortConfig = {
+      numSortingCycles : 0,
+      sorting : true,
+      swapRows : false,
+      swapCount : 0,
+      currentRowIndex : null,
+      currentRow : null,
+      nextRow : null,
+      sortDirection : this.#initSortDirection(initialSortDirection),
+      directionSwitchCount : 0
+    };
     setTimeout(() => {
       const table = document.getElementById(tableId);
       const rows = table.rows;
-      const compareFunction = getComparatorFunction(dataType);
-      const sortConfig = {
-        numSortingCycles : 0,
-        sorting : true,
-        swapRows : false,
-        swapCount : 0,
-        currentRowIndex : null,
-        currentRow : null,
-        nextRow : null,
-        sortDirection : initSortDirection(initialSortDirection),
-        directionSwitchCount : 0
-      };
+      const compareFunction = this.#getComparatorFunction(dataType);
       kameHouse.logger.trace("Sort table: [ tableId: " + tableId + ", columnNumber: " + columnNumber + ", dataType: " + dataType + ", initialSortDirection: " + initialSortDirection + ", sortDirection: " + sortConfig.sortDirection);  
       kameHouse.logger.trace("Started sorting process");
       while (sortConfig.sorting) {
         sortConfig.sorting = false;
-        processSortDirection(sortConfig, rows, columnNumber, compareFunction);
-        processSwapRows(sortConfig, rows, initialSortDirection);
-        processNumSortingCycles(sortConfig);
+        this.#processSortDirection(sortConfig, rows, columnNumber, compareFunction);
+        this.#processSwapRows(sortConfig, rows, initialSortDirection);
+        this.#processNumSortingCycles(sortConfig);
       }
       kameHouse.plugin.modal.loadingWheelModal.close();
       kameHouse.logger.trace("Finished sorting process. Sorting cycles: " + sortConfig.numSortingCycles + "; Swap count: " + sortConfig.swapCount);
@@ -1494,15 +1363,85 @@ function KameHouseTableUtils() {
   }
 
   /**
+   * Limit the number of rows displayed on the table. 
+   * Set skipHiddenRows to process only currently visible rows.
+   */
+  limitRows(tableId, maxRows, skipHiddenRows) {
+    const table = document.getElementById(tableId);
+    const rows = table.rows;
+    if (kameHouse.core.isEmpty(maxRows) || maxRows == "all") {
+      maxRows = rows.length;
+    }
+    let shownRows = 0;
+    for (let i = 1; i < rows.length; i++) { 
+      if (skipHiddenRows && this.#isHiddenRow(rows[i])) {
+        continue;
+      }
+      if (shownRows <= maxRows) {
+        kameHouse.util.dom.setDisplay(rows[i], "table-row");
+        shownRows++;
+      } else {
+        kameHouse.util.dom.setDisplay(rows[i], "none");
+      }
+    }
+  }  
+
+  /**
+   * Get the regex to filter the rows.
+   */
+  #getRegex(filterString) {
+    filterString = filterString.toLowerCase();
+    try {
+      if (this.#isQuotedString(filterString)) {
+        filterString = this.#removeQuotes(filterString);
+      } else {
+        filterString = this.#addAsterisksBetweenAllCharsToRegex(filterString);
+      }
+      return new RegExp(filterString);
+    } catch (error) {
+      kameHouse.logger.error("Error creating regex from filter string " + filterString);
+      return /""/;
+    }
+  }
+
+  /**
+   * Check for double quotes at the beginning and end of the string.
+   */
+   #isQuotedString(string) {
+    return string.startsWith("\"") && string.endsWith("\"");
+  }
+
+  /**
+   * Remove the double quotes from the string.
+   */
+  #removeQuotes(string) {
+    return string.substring(1, string.length-1);
+  }
+
+  /**
+   * Adds .* between each character to expand the matching criteria of the regex.
+   */
+  #addAsterisksBetweenAllCharsToRegex(string) {
+    return string.split('').join('.*').replace(/\s/g, '');
+  }
+
+  /**
+   * Check if it's a hidden row.
+   */
+  #isHiddenRow(tr) {
+    return tr.style.display == "none";
+  }
+
+  /**
    * Process sort direction in sort table.
    */
-  function processSortDirection(sortConfig, rows, columnNumber, compareFunction) {
+  #processSortDirection(sortConfig, rows, columnNumber, compareFunction) {
     if (sortConfig.sortDirection != null) {
       for (sortConfig.currentRowIndex = 2; sortConfig.currentRowIndex < (rows.length - 1); sortConfig.currentRowIndex++) {
         sortConfig.swapRows = false;
         sortConfig.currentRow = rows[sortConfig.currentRowIndex].getElementsByTagName("td")[columnNumber];
         sortConfig.nextRow = rows[sortConfig.currentRowIndex + 1].getElementsByTagName("td")[columnNumber];
-        if (shouldSwapRows(sortConfig.currentRow, sortConfig.nextRow, sortConfig.sortDirection, compareFunction)) {
+        if (this.#shouldSwapRows(sortConfig.currentRow, sortConfig.nextRow, sortConfig.sortDirection, compareFunction)) {
           sortConfig.swapRows = true;
           break;
         }
@@ -1513,13 +1452,13 @@ function KameHouseTableUtils() {
   /**
    * Process swap rows in sort table.
    */
-  function processSwapRows(sortConfig, rows, initialSortDirection) {
+  #processSwapRows(sortConfig, rows, initialSortDirection) {
     if (sortConfig.swapRows) {
       kameHouse.util.dom.insertBefore(rows[sortConfig.currentRowIndex].parentNode, rows[sortConfig.currentRowIndex + 1], rows[sortConfig.currentRowIndex]);
       sortConfig.sorting = true;
       sortConfig.swapCount++;
     } else if (sortConfig.directionSwitchCount < 2) {
-      if (shouldSwapDirection(sortConfig.swapCount, sortConfig.sortDirection, initialSortDirection)) {
+      if (this.#shouldSwapDirection(sortConfig.swapCount, sortConfig.sortDirection, initialSortDirection)) {
         // if no sorting was done, swap sort direction, and sort reversely.
         if (sortConfig.sortDirection == "asc") {
           sortConfig.sortDirection = "desc";
@@ -1536,7 +1475,7 @@ function KameHouseTableUtils() {
   /**
    * Process number of sorting cycles in sort table.
    */
-  function processNumSortingCycles(sortConfig) {
+  #processNumSortingCycles(sortConfig) {
     const MAX_SORTING_CYCLES = 100000;
     if (sortConfig.numSortingCycles > MAX_SORTING_CYCLES) {
       sortConfig.sorting = false;
@@ -1549,7 +1488,7 @@ function KameHouseTableUtils() {
   /**
    * Check if it should swap the sorting direction.
    */
-  function shouldSwapDirection(swapCount, sortDirection, initialSortDirection) {
+  #shouldSwapDirection(swapCount, sortDirection, initialSortDirection) {
     return swapCount == 0 && ((sortDirection == "asc" && initialSortDirection != "asc") 
       || (sortDirection == "desc" && initialSortDirection != "desc")
       || (sortDirection == null));
@@ -1558,7 +1497,7 @@ function KameHouseTableUtils() {
   /**
    * Set initial direction.
    */
-  function initSortDirection(initialSortDirection) {
+  #initSortDirection(initialSortDirection) {
     if (initialSortDirection != "asc" && initialSortDirection != "desc") {
       return null;
     }
@@ -1568,27 +1507,27 @@ function KameHouseTableUtils() {
   /**
    * Returns true if the current and next rows need to be swapped.
    */
-  function shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction) {
+  #shouldSwapRows(currentRow, nextRow, sortDirection, compareFunction) {
     return compareFunction(currentRow, nextRow, sortDirection);
   }
 
   /**
    * Get the sorting function depending on the data type.
    */
-  function getComparatorFunction(dataType) {
+  #getComparatorFunction(dataType) {
     if (dataType == "number" || dataType == "id") {
       kameHouse.logger.trace("Using compareNumerically");
-      return compareNumerically;
+      return this.#compareNumerically;
     }
 
     kameHouse.logger.trace("Using compareLexicographically");
-    return compareLexicographically;
+    return this.#compareLexicographically;
   }
 
   /**
    * Returns true if first parameter is higher than second lexicographically.
    */
-  function compareLexicographically(currentRow, nextRow, sortDirection) {
+  #compareLexicographically(currentRow, nextRow, sortDirection) {
     const currentRowVal = currentRow.innerHTML.toLowerCase();
     const nextRowVal = nextRow.innerHTML.toLowerCase();
     if (sortDirection == "asc") {
@@ -1601,7 +1540,7 @@ function KameHouseTableUtils() {
   /**
    * Returns true if first parameter is higher than second numerically.
    */
-  function compareNumerically(currentRow, nextRow, sortDirection) {
+  #compareNumerically(currentRow, nextRow, sortDirection) {
     const currentRowVal = parseInt(currentRow.innerHTML);
     const nextRowVal = parseInt(nextRow.innerHTML);
     if (sortDirection == "asc") {
@@ -1611,41 +1550,17 @@ function KameHouseTableUtils() {
     }
   }
 
-  /**
-   * Limit the number of rows displayed on the table. 
-   * Set skipHiddenRows to process only currently visible rows.
-   */
-  function limitRows(tableId, maxRows, skipHiddenRows) {
-    const table = document.getElementById(tableId);
-    const rows = table.rows;
-    if (kameHouse.core.isEmpty(maxRows) || maxRows == "all") {
-      maxRows = rows.length;
-    }
-    let shownRows = 0;
-    for (let i = 1; i < rows.length; i++) { 
-      if (skipHiddenRows && isHiddenRow(rows[i])) {
-        continue;
-      }
-      if (shownRows <= maxRows) {
-        kameHouse.util.dom.setDisplay(rows[i], "table-row");
-        shownRows++;
-      } else {
-        kameHouse.util.dom.setDisplay(rows[i], "none");
-      }
-    }
-  }
-}
+} // KameHouseTableUtils
 
 /** 
  * Prototype for test functionality. 
+ * 
+ * @author nbrest
  */
-function KameHouseTestUtils() {
-
-  this.testLogLevel = testLogLevel;
-  this.testSleep = testSleep;
+class KameHouseTestUtils {
 
   /** Test the different log levels. */
-  function testLogLevel() {
+  testLogLevel() {
     console.log("kameHouse.logger.getLogLevel(): " + kameHouse.logger.getLogLevel());
     kameHouse.logger.error("This is an ERROR message", kameHouse.logger.getRedText("This is an ERROR message"));
     kameHouse.logger.warn("This is a WARN message", kameHouse.logger.getYellowText("This is a WARN message"));
@@ -1657,26 +1572,23 @@ function KameHouseTestUtils() {
   /**
    * Test sleep function.
    */
-  async function testSleep() {
+  async testSleep() {
     kameHouse.logger.info("TEST SLEEP ------------- BEFORE " + new Date());
     await kameHouse.core.sleep(3000);
     kameHouse.logger.info("TEST SLEEP ------------- AFTER  " + new Date());
   }
-}
+
+} // KameHouseTestUtils
 
 /**
  * TimeUtils utility object for manipulating time and dates.
+ * 
+ * @author nbrest
  */
-function KameHouseTimeUtils() {
-
-  this.getTimestamp = getTimestamp;
-  this.convertSecondsToHsMsSs = convertSecondsToHsMsSs;
-  this.getDateWithTimezoneOffset = getDateWithTimezoneOffset;
-  this.getDateFromEpoch = getDateFromEpoch;
-  this.isValidDate = isValidDate;
+class KameHouseTimeUtils {
 
   /** Get timestamp with client timezone for the specified date or current date if null. */
-  function getTimestamp(date) {
+  getTimestamp(date) {
     if (kameHouse.core.isEmpty(date)) {
       date = new Date();
     }
@@ -1684,46 +1596,44 @@ function KameHouseTimeUtils() {
     const currentDateTime = date.getTime();
     return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
   }
-  
+
+  /** Convert input in seconds to hh:mm:ss output. */
+  convertSecondsToHsMsSs(seconds) { 
+    return new Date(seconds * 1000).toISOString().substring(11, 19); 
+  }
+
   /** Get current timestamp with client timezone. */
-  function getDateWithTimezoneOffset(date) {
+  getDateWithTimezoneOffset(date) {
     const offsetTime = date.getTimezoneOffset() * -1 * 60 * 1000;
     const currentDateTime = date.getTime();
     return new Date(currentDateTime + offsetTime);
   }
 
-  /** Convert input in seconds to hh:mm:ss output. */
-  function convertSecondsToHsMsSs(seconds) { 
-    return new Date(seconds * 1000).toISOString().substring(11, 19); 
-  }
-
   /**
    * Get the date from an epoch string.
    */
-  function getDateFromEpoch(epoch) {
+  getDateFromEpoch(epoch) {
     return new Date(parseInt(epoch));
   }
 
   /**
    * Checks if it's a valid date.
    */
-  function isValidDate(date) {
+  isValidDate(date) {
     return date instanceof Date && !isNaN(date);
   }
-}
+
+} // KameHouseTimeUtils
 
 /** 
- * Functions to handle json objects.
+ * Methods to handle json objects.
  */
-function KameHouseJson() {
-
-  this.parse = parse;
-  this.stringify = stringify;
+class KameHouseJson {
   
   /**
    * Parse string into json object.
    */
-  function parse(string) {
+  parse(string) {
     try {
       return JSON.parse(string);
     } catch (error) {
@@ -1735,7 +1645,7 @@ function KameHouseJson() {
   /**
    * Convert json object into string.
    */
-  function stringify(object, replacer, identation) {
+  stringify(object, replacer, identation) {
     try {
       return JSON.stringify(object, replacer, identation);
     } catch (error) {
@@ -1743,183 +1653,68 @@ function KameHouseJson() {
     }
     return object;
   }
-}
+
+} // KameHouseJson
 
 
 /** 
- * Prototype that contains the logic for all the core global functions. 
- * Only add functions here that are truly global and I'd want them to be part of the js language.
+ * Class that contains the logic for all the core global methods. 
+ * Only add methods here that are truly global and I'd want them to be part of the js language.
  * If I don't want them to be native, I probably should add them to a more specific utils prototype.
+ * 
+ * @author nbrest
  */
-function KameHouseCoreFunctions() {
-
-  this.isEmpty = isEmpty;
-  this.isEmptyDeprecated = isEmptyDeprecated;
-  this.isFunction = isFunction;
-  this.initAuthorizeUser = initAuthorizeUser;
+class KameHouseCore {
   
-  this.loadSession = loadSession;
-  this.loadHeader= loadHeader;
-  this.loadFooter= loadFooter;
-  this.loadStickyBackToTop = loadStickyBackToTop;
-  this.loadKameHouseModal = loadKameHouseModal;
-  this.loadKameHouseDebugger = loadKameHouseDebugger;
-  this.scrollToTopOfDiv = scrollToTopOfDiv;
-  this.scrollToTop = scrollToTop;
-  this.scrollToBottom = scrollToBottom;
-  this.sleep = sleep;
-  this.getBooleanKameHouseData = getBooleanKameHouseData;
-  this.getStringKameHouseData = getStringKameHouseData;
-  this.convertBashColorsToHtml = convertBashColorsToHtml;
-  this.pageRequiresAuthorization = pageRequiresAuthorization;
-  this.setGlobalErrorHandler = setGlobalErrorHandler;
-  this.completeAuthorizeUser = completeAuthorizeUser;
-  
-  /**
-   * Add a global error handler for uncaught exceptions, specially useful to see them in debug mode in mobile app.
-   */
-  function setGlobalErrorHandler() {
-    kameHouse.logger.info("Setting global kamehouse error handler");
-    window.addEventListener("error", (ErrorEvent) => {
-      const errorObject = {
-        message: ErrorEvent.message,
-        filename: ErrorEvent.filename,
-        lineNumber: ErrorEvent.lineno,
-        columnNumber: ErrorEvent.colno,
-        error: ErrorEvent.error
-      };
-      const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
-      console.log(errorMessage);
-      kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-        kameHouse.logger.error(errorMessage);
-      });
-   });
+  /** Checks if a variable is undefined or null or an empty string "". */
+  isEmpty(val) {
+    return val === undefined || val == null || val == "";
   }
 
-  /**
-   * Returns true if the page requires authorization.
+  /** 
+   * @deprecated(use kameHouse.core.isEmpty())
+   * 
+   * Checks if a variable is undefined or null, an empty array [] or an empty object {}. 
+   * 
+   * --- IMPORTANT --- 
+   * DEPRECATED: This method performs poorly with large objects. For large playlists (3000 elements) this comparison
+   * takes more than 1 seconds causing a lag in the entire view. Use it for objects that I don't expect
+   * to be large and be aware of performance issues that can be caused from using it.
+   * 
+   * For better performance, use kameHouse.core.isEmpty() when that check is enough.
+   * 
+   * Keeping the definition so I don't attempt to do the same later down the track.
    */
-  function pageRequiresAuthorization() {
-    const authorizedRoles = getStringKameHouseData("authorized-roles");
-    return !isEmpty(authorizedRoles);
+  isEmptyDeprecated(val) {
+    const isUndefinedOrNull = this.isEmpty(val);
+    const isEmptyString = !isUndefinedOrNull && val === "";
+    const isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
+    const isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
+    return isUndefinedOrNull || isEmptyString || isEmptyArray || isEmptyObject;
   }
+
+  /** Returns true if the parameter variable is a fuction. */
+  isFunction(expectedFunction) {
+    return expectedFunction instanceof Function;
+  } 
 
   /**
    * Check if the page requires authorization and sets a splashscreen when it does.
    */
-  function initAuthorizeUser() {
-    if (!pageRequiresAuthorization()) {
+  initAuthorizeUser() {
+    if (!this.pageRequiresAuthorization()) {
       kameHouse.logger.debug("Page doesn't require authorization");
       return;
     }
-    const authorizedRoles = getStringKameHouseData("authorized-roles");
+    const authorizedRoles = this.getStringKameHouseData("authorized-roles");
     kameHouse.logger.debug("Page requires roles: " + authorizedRoles);
-    openKameHouseSplashScreen();
-  }
-
-  /**
-   * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
-   * Call this function after the session is loaded.
-   */
-  function completeAuthorizeUser(responseCode, responseBody) {
-    if (!pageRequiresAuthorization()) {
-      kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
-      return;
-    }
-    let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
-    let roles = kameHouse.session.roles;
-    if (isGRootPage()) {
-      loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
-      roles = kameHouse.extension.groot.session.roles;
-    }
-
-    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true&responseCode=" + responseCode;
-    if (isUnableToConnectToBackend(responseCode, responseBody)) {
-      mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
-    }
-    if (responseCode == "-2") {
-      mobileSettingsUrl = mobileSettingsUrl + "&sslError=true";
-    }
-    if (isEmpty(roles)) {
-      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
-      return;
-    }
-    const authorizedRoles = getStringKameHouseData("authorized-roles");
-    let isAuthorized = false;
-    roles.forEach((userRole) => {
-      if (authorizedRoles.includes(userRole)) {
-        isAuthorized = true;
-      }
-    });
-
-    if (isAuthorized) {
-      kameHouse.logger.debug("User is authorized to access this page");
-      kameHouse.util.dom.removeClass($("body"), "hidden-kh");
-      kameHouse.util.dom.remove('kamehouse-splashscreen');  
-    } else {
-      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
-    }
-  }
-
-  /**
-   * Returns true when processing a GRoot page.
-   */
-  function isGRootPage() {
-    return window.location.href.includes("/kame-house-groot/");
-  }
-
-  /**
-   * Returns true if it's unable to connect to the backend.
-   */
-  function isUnableToConnectToBackend(responseCode, responseBody) {
-    return (responseCode == "-3") || (responseCode == "-4") || (responseCode == "-5")
-      || (responseCode == "-6") || (responseCode == "-7") || (responseCode == "-8")   
-      || (responseCode == "-1" && responseBody.includes("Failed to connect to"));
-  }
-
-  /**
-   * Open kamehouse splash screen.
-   */
-  function openKameHouseSplashScreen() {
-    kameHouse.util.dom.addClass($("body"), "hidden-kh");
-    const kameHouseSplashScreen = getKameHouseSplashScreen();
-    kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen.html());
-  }
-
-  /**
-   * Get kamehouse splash screen.
-   */
-  function getKameHouseSplashScreen() {
-    const kameHouseSplashScreen = kameHouse.util.dom.getDiv({
-      id: "kamehouse-splashscreen",
-      class: "splashscreen-kh"
-    }); 
-    
-    const text = kameHouse.util.dom.getDiv({
-      id: "kamehouse-splashscreen-text",
-      class: "splashscreen-text-kh"
-    }, "Loading KameHouse"); 
-    kameHouse.util.dom.append(kameHouseSplashScreen, text);
-    
-    const btn = kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/dbz/kamesenin-logo.png",
-      className: "splashscreen-img-kh rotate-4",
-      alt: "Loading KameHouse",
-      onClick: () => {}
-    });
-    kameHouse.util.dom.append(kameHouseSplashScreen, btn);
-
-    const splashScreenWrapper = kameHouse.util.dom.getDiv({
-      id: "kamehouse-splashscreen-wrapper"
-    }); 
-    kameHouse.util.dom.append(splashScreenWrapper, kameHouseSplashScreen);
-    return splashScreenWrapper;
+    this.#openKameHouseSplashScreen();
   }
 
   /** 
    * Get session from the backend. 
    */
-  function loadSession() {
+  loadSession() {
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
     const config = kameHouse.http.getConfig();
@@ -1929,8 +1724,8 @@ function KameHouseCoreFunctions() {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        if (!isGRootPage()) {
-          completeAuthorizeUser(responseCode, responseBody);
+        if (!this.#isGRootPage()) {
+          this.completeAuthorizeUser(responseCode, responseBody);
         }
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
@@ -1938,8 +1733,8 @@ function KameHouseCoreFunctions() {
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        if (!isGRootPage()) {
-          completeAuthorizeUser(responseCode, responseBody);
+        if (!this.#isGRootPage()) {
+          this.completeAuthorizeUser(responseCode, responseBody);
         }
       }
     );
@@ -1948,8 +1743,8 @@ function KameHouseCoreFunctions() {
   /** 
    * Load header.
    */
-  function loadHeader() {
-    const skipHeader = getBooleanKameHouseData("skip-header");
+  loadHeader() {
+    const skipHeader = this.getBooleanKameHouseData("skip-header");
     if (!skipHeader) {
       kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-header.js", () => {
         kameHouse.header = new KameHouseHeader();
@@ -1963,8 +1758,8 @@ function KameHouseCoreFunctions() {
   /** 
    * Load footer.
    */
-  function loadFooter() {
-    const skipFooter = getBooleanKameHouseData("skip-footer");
+  loadFooter() {
+    const skipFooter = this.getBooleanKameHouseData("skip-footer");
     if (!skipFooter) {
       kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-footer.js", () => {
         kameHouse.footer = new KameHouseFooter();
@@ -1978,7 +1773,7 @@ function KameHouseCoreFunctions() {
   /**
    * Load sticky back to top.
    */
-  function loadStickyBackToTop() {
+  loadStickyBackToTop() {
     kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-sticky-back-to-top.js", () => {
       kameHouse.logger.info("Loaded sticky-back-to-top.js");
     });
@@ -1987,7 +1782,7 @@ function KameHouseCoreFunctions() {
   /**
    * Load kamehouse modal.
    */
-  function loadKameHouseModal() {
+  loadKameHouseModal() {
     kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-modal.js", () => {
       kameHouse.logger.info("Loaded kamehouse-modal.js");
     });
@@ -1996,34 +1791,95 @@ function KameHouseCoreFunctions() {
   /**
    * Load kamehouse debugger.
    */
-  function loadKameHouseDebugger() {
+  loadKameHouseDebugger() {
     kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-debugger.js", () => {
       kameHouse.logger.info("Loaded kamehouse-debugger.js");
     });
   }
 
   /**
+   * Load kamehouse websockets module.
+   */
+  loadKameHouseWebSocket() {
+    kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/kamehouse-websocket.js", () => {
+      kameHouse.util.module.setModuleLoaded("kameHouseWebSocket");
+    });
+  }
+
+  /** 
+   * Scroll the specified div to it's top.
+   * This method doesn't scroll the entire page, it scrolls the scrollable div to it's top.
+   * To scroll the page to the top of a particular div, use kameHouse.core.scrollToTop()
+   */
+  scrollToTopOfDiv(divId) {
+    const divToScrollToTop = '#' + divId;
+    $(divToScrollToTop).animate({
+      scrollTop: 0
+    }, '10');
+  }
+
+  /** 
+   * Scroll the window to the top of a particular div or to the top of the body if no div specified.
+   */
+  scrollToTop(divId) {
+    let scrollPosition;
+    if (this.isEmpty(divId)) {
+      scrollPosition = 0;
+    } else {
+      scrollPosition = $('#' + divId).offset().top;
+    }
+    $('html, body').animate({
+      scrollTop: scrollPosition
+    }, '10');
+  }
+
+  /** 
+   * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
+   */
+  scrollToBottom(divId) {
+    let scrollPosition;
+    if (this.isEmpty(divId)) {
+      scrollPosition = document.body.scrollHeight;
+    } else {
+      const jqDivId = '#' + divId;
+      scrollPosition = $(jqDivId).offset().top + $(jqDivId).height() - window.innerHeight;
+    }
+    $('html, body').animate({
+      scrollTop: scrollPosition
+    }, '10');
+  }
+
+  /**
+   * Sleep the specified milliseconds.
+   * This function needs to be called in an async method, with the await prefix. 
+   * Example: await kameHouse.core.sleep(1000);
+   */
+  sleep(ms) { 
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
    * Returns the boolean value of data-xx attributes defined in the script tag of kamehouse.js
    * The script tag id must be set to id="kamehouse-data"
    */
-  function getBooleanKameHouseData(dataAttributeName) {
+  getBooleanKameHouseData(dataAttributeName) {
     const kameHouseData = document.getElementById('kamehouse-data');
-    if (!isEmpty(kameHouseData)) {
+    if (!this.isEmpty(kameHouseData)) {
       let data = kameHouseData.getAttribute("data-" + dataAttributeName);
-      if (!isEmpty(data)) {
+      if (!this.isEmpty(data)) {
         return data.toLowerCase() === "true";
       }
     }
     return false;
-  }
-
-    /**
+  }  
+    
+  /**
    * Returns the boolean value of data-xx attributes defined in the script tag of kamehouse.js
    * The script tag id must be set to id="kamehouse-data"
    */
-  function getStringKameHouseData(dataAttributeName) {
+  getStringKameHouseData(dataAttributeName) {
     const kameHouseData = document.getElementById('kamehouse-data');
-    if (!isEmpty(kameHouseData)) {
+    if (!this.isEmpty(kameHouseData)) {
       return kameHouseData.getAttribute("data-" + dataAttributeName);
     }
     return null;
@@ -2033,7 +1889,7 @@ function KameHouseCoreFunctions() {
    * Replaces bash colors in the input string for the equivalent css styled color.
    * When updating color mappings here, also update them on groot global.php
    */
-  function convertBashColorsToHtml(bashOutput) {
+  convertBashColorsToHtml(bashOutput) {
     const colorMappings = {
       '\\[0;30m' : '<span style="color:black">',  
       '\\[1;30m' : '<span style="color:black">',
@@ -2077,92 +1933,137 @@ function KameHouseCoreFunctions() {
     htmlOutput = htmlOutput.replace(/"<\/span>ain\]"/g, "[main]");
 
     return htmlOutput;
-  }
+  }  
 
-  /** 
-   * @deprecated(use kameHouse.core.isEmpty())
-   * 
-   * Checks if a variable is undefined or null, an empty array [] or an empty object {}. 
-   * 
-   * --- IMPORTANT --- 
-   * DEPRECATED: This method performs poorly with large objects. For large playlists (3000 elements) this comparison
-   * takes more than 1 seconds causing a lag in the entire view. Use it for objects that I don't expect
-   * to be large and be aware of performance issues that can be caused from using it.
-   * 
-   * For better performance, use kameHouse.core.isEmpty() when that check is enough.
-   * 
-   * Keeping the definition so I don't attempt to do the same later down the track.
+  /**
+   * Returns true if the page requires authorization.
    */
-   function isEmptyDeprecated(val) {
-    const isUndefinedOrNull = kameHouse.core.isEmpty(val);
-    const isEmptyString = !isUndefinedOrNull && val === "";
-    const isEmptyArray = !isUndefinedOrNull && Array.isArray(val) && val.length <= 0;
-    const isEmptyObject = !isUndefinedOrNull && Object.entries(val).length === 0 && val.constructor === Object;
-    return isUndefinedOrNull || isEmptyString || isEmptyArray || isEmptyObject;
-  }
+  pageRequiresAuthorization() {
+    const authorizedRoles = this.getStringKameHouseData("authorized-roles");
+    return !this.isEmpty(authorizedRoles);
+  }  
 
-  /** Checks if a variable is undefined or null or an empty string "". */
-  function isEmpty(val) {
-    return val === undefined || val == null || val == "";
-  }
-
-  /** Returns true if the parameter variable is a fuction. */
-  function isFunction(expectedFunction) {
-    return expectedFunction instanceof Function;
-  } 
-
-  /** 
-   * Scroll the specified div to it's top.
-   * This method doesn't scroll the entire page, it scrolls the scrollable div to it's top.
-   * To scroll the page to the top of a particular div, use kameHouse.core.scrollToTop()
+  /**
+   * Add a global error handler for uncaught exceptions, specially useful to see them in debug mode in mobile app.
    */
-  function scrollToTopOfDiv(divId) {
-    const divToScrollToTop = '#' + divId;
-    $(divToScrollToTop).animate({
-      scrollTop: 0
-    }, '10');
-  }
-
-  /** 
-   * Scroll the window to the top of a particular div or to the top of the body if no div specified.
-   */
-  function scrollToTop(divId) {
-    let scrollPosition;
-    if (isEmpty(divId)) {
-      scrollPosition = 0;
-    } else {
-      scrollPosition = $('#' + divId).offset().top;
-    }
-    $('html, body').animate({
-      scrollTop: scrollPosition
-    }, '10');
-  }
-
-  /** 
-   * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
-   */
-  function scrollToBottom(divId) {
-    let scrollPosition;
-    if (isEmpty(divId)) {
-      scrollPosition = document.body.scrollHeight;
-    } else {
-      const jqDivId = '#' + divId;
-      scrollPosition = $(jqDivId).offset().top + $(jqDivId).height() - window.innerHeight;
-    }
-    $('html, body').animate({
-      scrollTop: scrollPosition
-    }, '10');
+  setGlobalErrorHandler() {
+    kameHouse.logger.info("Setting global kamehouse error handler");
+    window.addEventListener("error", (ErrorEvent) => {
+      const errorObject = {
+        message: ErrorEvent.message,
+        filename: ErrorEvent.filename,
+        lineNumber: ErrorEvent.lineno,
+        columnNumber: ErrorEvent.colno,
+        error: ErrorEvent.error
+      };
+      const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
+      console.log(errorMessage);
+      kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+        kameHouse.logger.error(errorMessage);
+      });
+   });
   }
 
   /**
-   * Sleep the specified milliseconds.
-   * This function needs to be called in an async method, with the await prefix. 
-   * Example: await kameHouse.core.sleep(1000);
+   * After the session is loaded, checks if the user is authorized and closes splashscreen or redirects to login.
+   * Call this function after the session is loaded.
    */
-  function sleep(ms) { 
-    return new Promise(resolve => setTimeout(resolve, ms));
+  completeAuthorizeUser(responseCode, responseBody) {
+    if (!this.pageRequiresAuthorization()) {
+      kameHouse.logger.trace("Page doesn't require authorization. Exiting complete authorize user");
+      return;
+    }
+    let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
+    let roles = kameHouse.session.roles;
+    if (this.#isGRootPage()) {
+      loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
+      roles = kameHouse.extension.groot.session.roles;
+    }
+
+    let mobileSettingsUrl = "/kame-house-mobile/settings.html?unauthorizedPageAccess=true&responseCode=" + responseCode;
+    if (this.#isUnableToConnectToBackend(responseCode, responseBody)) {
+      mobileSettingsUrl = mobileSettingsUrl + "&requestTimeout=true";
+    }
+    if (responseCode == "-2") {
+      mobileSettingsUrl = mobileSettingsUrl + "&sslError=true";
+    }
+    if (this.isEmpty(roles)) {
+      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
+      return;
+    }
+    const authorizedRoles = this.getStringKameHouseData("authorized-roles");
+    let isAuthorized = false;
+    roles.forEach((userRole) => {
+      if (authorizedRoles.includes(userRole)) {
+        isAuthorized = true;
+      }
+    });
+
+    if (isAuthorized) {
+      kameHouse.logger.debug("User is authorized to access this page");
+      kameHouse.util.dom.removeClass($("body"), "hidden-kh");
+      kameHouse.util.dom.remove('kamehouse-splashscreen');  
+    } else {
+      kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
+    }
   }
-}
+
+  /**
+   * Returns true when processing a GRoot page.
+   */
+  #isGRootPage() {
+    return window.location.href.includes("/kame-house-groot/");
+  }
+
+  /**
+   * Returns true if it's unable to connect to the backend.
+   */
+  #isUnableToConnectToBackend(responseCode, responseBody) {
+    return (responseCode == "-3") || (responseCode == "-4") || (responseCode == "-5")
+      || (responseCode == "-6") || (responseCode == "-7") || (responseCode == "-8")   
+      || (responseCode == "-1" && responseBody.includes("Failed to connect to"));
+  }
+
+  /**
+   * Open kamehouse splash screen.
+   */
+  #openKameHouseSplashScreen() {
+    kameHouse.util.dom.addClass($("body"), "hidden-kh");
+    const kameHouseSplashScreen = this.#getKameHouseSplashScreen();
+    kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen.html());
+  }
+
+  /**
+   * Get kamehouse splash screen.
+   */
+  #getKameHouseSplashScreen() {
+    const kameHouseSplashScreen = kameHouse.util.dom.getDiv({
+      id: "kamehouse-splashscreen",
+      class: "splashscreen-kh"
+    }); 
+    
+    const text = kameHouse.util.dom.getDiv({
+      id: "kamehouse-splashscreen-text",
+      class: "splashscreen-text-kh"
+    }, "Loading KameHouse"); 
+    kameHouse.util.dom.append(kameHouseSplashScreen, text);
+    
+    const btn = kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/dbz/kamesenin-logo.png",
+      className: "splashscreen-img-kh rotate-4",
+      alt: "Loading KameHouse",
+      onClick: () => {}
+    });
+    kameHouse.util.dom.append(kameHouseSplashScreen, btn);
+
+    const splashScreenWrapper = kameHouse.util.dom.getDiv({
+      id: "kamehouse-splashscreen-wrapper"
+    }); 
+    kameHouse.util.dom.append(splashScreenWrapper, kameHouseSplashScreen);
+    return splashScreenWrapper;
+  }
+
+} // KameHouseCore
 
 /**
  * Log object to perform logging to the console on the frontend side.
@@ -2171,25 +2072,7 @@ function KameHouseCoreFunctions() {
  * 
  * @author nbrest
  */
- function KameHouseLogger() {
-
-  this.init = init;
-  this.setLogLevel = setLogLevel;
-  this.getLogLevel = getLogLevel;
-  this.error = error;
-  this.warn = warn;
-  this.info = info;
-  this.debug = debug;
-  this.trace = trace;
-  this.logApiError = logApiError;
-  this.logHttpRequest = logHttpRequest;
-  this.logHttpResponse = logHttpResponse;
-  this.getRedText = getRedText;
-  this.getYellowText = getYellowText;
-  this.getBlueText = getBlueText;
-  this.getGreenText = getGreenText;
-  this.getCyanText = getCyanText;
-  this.maskSensitiveData = maskSensitiveData;
+ class KameHouseLogger {
 
   /**
    * Log levels:
@@ -2202,31 +2085,312 @@ function KameHouseCoreFunctions() {
    * 
    * Default log level: INFO (2)
    */
-  let logLevelNumber = 2;
+  #logLevelNumber = 2;
 
   /**
    * Override the default log level from url parameters.
    */
-  function init() {
-    info("Initializing logger");
+  init() {
+    this.info("Initializing logger");
     const urlParams = new URLSearchParams(window.location.search);
     const logLevelCookie = kameHouse.util.cookies.getCookie('kh-log-level');
     if (!kameHouse.core.isEmpty(logLevelCookie)) {
-      info("Overriding logLevel with cookie logLevel: " + logLevelCookie);
-      setLogLevel(logLevelCookie);
+      this.info("Overriding logLevel with cookie logLevel: " + logLevelCookie);
+      this.setLogLevel(logLevelCookie);
     }
     const logLevel = urlParams.get('logLevel');
     if (!kameHouse.core.isEmpty(logLevel)) {
-      const logLevelNumberParam = getLogLevelNumber(logLevel);
-      info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
-      setLogLevel(logLevelNumberParam);
+      const logLevelNumberParam = this.#getLogLevelNumber(logLevel);
+      this.info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
+      this.setLogLevel(logLevelNumberParam);
     }
+  }
+
+  /**
+   * Set the log level for the console in numeric value, based on the mapping shown above.
+   */
+  setLogLevel(levelNumber) {
+    this.#logLevelNumber = levelNumber;
+  }
+
+  /**
+   * Get the log level for the console in numeric value, based on the mapping shown above.
+   */
+  getLogLevel() {
+    return this.#logLevelNumber;
+  }
+  
+  /**
+   * Get red text.
+   */
+  getRedText(text) {
+    return this.#getSpanRed() + text + this.#getSpanEnd();
+  }
+
+  /**
+   * Get yellow text.
+   */
+  getYellowText(text) {
+    return this.#getSpanYellow() + text + this.#getSpanEnd();
+  }
+
+  /**
+   * Get blue text.
+   */
+  getBlueText(text) {
+    return this.#getSpanBlue() + text + this.#getSpanEnd();
+  }
+
+  /**
+   * Get green text.
+   */
+  getGreenText(text) {
+    return this.#getSpanGreen() + text + this.#getSpanEnd();
+  }
+
+  /**
+   * Get cyan text.
+   */
+  getCyanText(text) {
+    return this.#getSpanCyan() + text + this.#getSpanEnd();
+  }
+
+  /** Log an error message */
+  error(message, coloredMessage) { this.#log("ERROR", message, coloredMessage); }
+
+  /** Log a warn message */
+  warn(message, coloredMessage) { this.#log("WARN", message, coloredMessage); }
+
+  /** Log an info message */
+  info(message, coloredMessage) { this.#log("INFO", message, coloredMessage); }
+
+  /** Log a debug message */
+  debug(message, coloredMessage) { this.#log("DEBUG", message, coloredMessage); }
+
+  /** Log a trace message */
+  trace(message, coloredMessage) { this.#log("TRACE", message, coloredMessage); }
+
+  /**
+   * Log an api call error to the console.
+   */
+  logApiError(responseBody, responseCode, responseDescription, responseHeaders, message) {
+    if (kameHouse.core.isEmpty(message)) {
+      message = "Error executing api call";
+    }
+    const errorMessage = message + ": [ 'responseCode' : '" + responseCode 
+      + "', 'responseDescription' : '" + responseDescription 
+      + "', 'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) 
+      + "', 'responseBody' : '" + kameHouse.json.stringify(responseBody) 
+      + "' ]";
+    this.error(errorMessage);
+  }
+
+  /**
+   * Log an http request.
+   */
+  logHttpRequest(httpMethod, config, url, requestHeaders, requestBody) {
+    this.debug("http request: [ " 
+    + "'method' : '" + httpMethod + "', "
+    + "'url' : '" + url + "', "
+    + "'config' : '" + kameHouse.json.stringify(config) + "', "
+    + "'headers' : '" + this.maskSensitiveData(kameHouse.json.stringify(requestHeaders)) + "', "
+    + "'body' : '" + this.maskSensitiveData(kameHouse.json.stringify(requestBody)) + "' ]");
+  }
+  
+  /**
+   * Log an http response.
+   */
+  logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders) {
+    this.debug("http response: [ " 
+    + "'responseCode' : '" + responseCode + "', "
+    + "'responseDescription' : '" + responseDescription + "', "
+    + "'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) + "', "
+    + "'responseBody' : '" + kameHouse.json.stringify(responseBody) + "' ]");   
+  }
+
+  /**
+   * Mask passwords, card details and any sensitive data in the message.
+   */
+  maskSensitiveData(message) {
+    if (kameHouse.core.isEmpty(message)) {
+      return;
+    }
+    const emptyOrWhiteSpaces = "(\\s)*";
+    const anythingButDoubleQuote = '[^"]*';
+    const passwordsRegex = new RegExp('"[p|P]assword"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"' + anythingButDoubleQuote + '"',"g");
+    const basicAuthRegex = new RegExp('"[a|A]uthorization"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"Basic ' + anythingButDoubleQuote + '"',"g");
+    const cvvRegex = new RegExp('"[c|C][v|V][v|V]"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"\\d{1,3}"',"g");
+    return message.replace(passwordsRegex, '"password": "****"')
+                  .replace(basicAuthRegex, '"Authorization": "Basic ****"')
+                  .replace(cvvRegex, '"cvv": "***"');
+  }
+
+  /**
+   * Log the entry into the debug mode console log table.
+   */
+  #logToDebugMode(logEntry) {
+    const DEBUG_MODE_LOG_SIZE = 80;
+    const debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
+    if (!kameHouse.core.isEmpty(debugModeConsoleLog)) {
+      // Remove first log N entries
+      let logEntriesSize = debugModeConsoleLog.childElementCount;
+      while (logEntriesSize > DEBUG_MODE_LOG_SIZE) {
+        kameHouse.util.dom.removeChild(debugModeConsoleLog, debugModeConsoleLog.firstChild);
+        logEntriesSize = debugModeConsoleLog.childElementCount;
+      }
+      // Add new log entry
+      kameHouse.util.dom.append($("#debug-mode-console-log-entries"), this.#getLogEntryListItem(logEntry));
+      // Scroll down log div
+      this.#debugModeLogScroll();
+    }
+  }
+
+  /**
+   * Scroll to the last entries of the console log.
+   */
+  #debugModeLogScroll() {
+    const height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
+    $("#debug-mode-console-log-entries").animate({
+      scrollTop: height
+    }, 100);
+  }
+  
+  /**
+   * Get log entry list item.
+   */
+  #getLogEntryListItem(logEntry) {
+    const li = kameHouse.util.dom.getLi({}, null);
+    kameHouse.util.dom.setHtml(li, logEntry);
+    return li;
+  }
+
+  /**
+   * Get span end.
+   */
+  #getSpanEnd() {
+    return "</span>";
+  }
+
+  /**
+   * Get red span.
+   */
+  #getSpanRed() {
+    return "<span style='color:red'>";
+  }
+
+  /**
+   * Get yellow span.
+   */
+  #getSpanYellow() {
+    return "<span style='color:yellow'>";
+  }
+
+  /**
+   * Get blue span.
+   */
+  #getSpanBlue() {
+    return "<span style='color:#3996ff'>";
+  }
+
+  /**
+   * Get green span.
+   */
+  #getSpanGreen() {
+    return "<span style='color:green'>";
+  }
+
+  /**
+   * Get cyan span.
+   */
+  #getSpanCyan() {
+    return "<span style='color:#00b2b2'>";
+  }
+
+  /**
+   * Escape html content.
+   */
+  #escapeHtml(html) {
+    return html.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+  }
+
+  /** Log a specified message with the specified logging level. */
+  #log(logLevel, message, coloredMessage) {
+    if (kameHouse.core.isEmpty(logLevel)) {
+      console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
+      return;
+    }
+    if (!message) {
+      console.error("Invalid use of log(logLevel, message) function. Message is empty");
+      return;
+    }
+    if (message.length > 1000) {
+      message = message.slice(0, 1000) + "... [trimmed]";
+    }
+    const logLevelUpperCase = logLevel.toUpperCase();
+    const timestamp = kameHouse.util.time.getTimestamp();
+    const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
+    const logEntryForDebugMode = this.#buildLogEntryForDebug(timestamp, logLevelUpperCase, message, coloredMessage);
+    if (logLevelUpperCase == "ERROR") {
+      console.error(logEntry);
+      this.#logToDebugMode(logEntryForDebugMode);
+    }
+    if (logLevelUpperCase == "WARN" && this.#logLevelNumber >= 1) {
+      console.warn(logEntry);
+      this.#logToDebugMode(logEntryForDebugMode);
+    }
+    if (logLevelUpperCase == "INFO" && this.#logLevelNumber >= 2) {
+      console.info(logEntry);
+      this.#logToDebugMode(logEntryForDebugMode);
+    }
+    if (logLevelUpperCase == "DEBUG" && this.#logLevelNumber >= 3) {
+      // Use debug to log behavior, such as executing x method, selected x playlist, etc.
+      console.debug(logEntry);
+      this.#logToDebugMode(logEntryForDebugMode);
+    }
+    if (logLevelUpperCase == "TRACE" && this.#logLevelNumber >= 4) {
+      // Use trace to log content such as responses from api calls. But use debug or info kameHouse.logger. trace prints a useless stack trace in the console that doesn't help.
+      console.info(logEntry);
+      this.#logToDebugMode(logEntryForDebugMode);
+    }
+  }
+
+  /**
+   * Build log entry for kamehouse debugger.
+   */
+  #buildLogEntryForDebug(timestamp, logLevel, message, coloredMessage) {
+    const logLineTemplate = this.getCyanText(timestamp) + this.getBlueText(" - ") + "[" + this.#getLogLevelColored(logLevel) + "] " + this.getBlueText(" - ");
+    if (!kameHouse.core.isEmpty(coloredMessage)) {
+      return logLineTemplate + coloredMessage;
+    }
+    return logLineTemplate + this.#escapeHtml(message);
+  }
+
+  /**
+   * Get log level colored.
+   */
+  #getLogLevelColored(logLevel) {
+    if (logLevel == "ERROR") {
+      return this.getRedText(logLevel);
+    }
+    if (logLevel == "WARN") {
+      return this.getYellowText(logLevel);
+    }
+    if (logLevel == "INFO") {
+      return this.getBlueText(logLevel);
+    }
+    if (logLevel == "DEBUG") {
+      return this.getGreenText(logLevel);
+    }
+    if (logLevel == "TRACE") {
+      return this.getCyanText(logLevel);
+    }
+    return logLevel;
   }
 
   /**
    * Get the log level number mapped to the specified log level string.
    */
-  function getLogLevelNumber(logLevel) {
+  #getLogLevelNumber(logLevel) {
     const logLevelUpperCase = logLevel.toUpperCase();
     if (logLevelUpperCase == "ERROR") {
       return 0;
@@ -2245,289 +2409,9 @@ function KameHouseCoreFunctions() {
     }
     // default INFO
     return 2;
-  }
+  }  
 
-  /**
-   * Set the log level for the console in numeric value, based on the mapping shown above.
-   */
-  function setLogLevel(levelNumber) {
-    logLevelNumber = levelNumber;
-  }
-
-  /**
-   * Get the log level for the console in numeric value, based on the mapping shown above.
-   */
-  function getLogLevel() {
-    return logLevelNumber;
-  }
-
-  /** Log a specified message with the specified logging level. */
-  function log(logLevel, message, coloredMessage) {
-    if (kameHouse.core.isEmpty(logLevel)) {
-      console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
-      return;
-    }
-    if (!message) {
-      console.error("Invalid use of log(logLevel, message) function. Message is empty");
-      return;
-    }
-    if (message.length > 1000) {
-      message = message.slice(0, 1000) + "... [trimmed]";
-    }
-    const logLevelUpperCase = logLevel.toUpperCase();
-    const timestamp = kameHouse.util.time.getTimestamp();
-    const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
-    const logEntryForDebugMode = buildLogEntryForDebug(timestamp, logLevelUpperCase, message, coloredMessage);
-    if (logLevelUpperCase == "ERROR") {
-      console.error(logEntry);
-      logToDebugMode(logEntryForDebugMode);
-    }
-    if (logLevelUpperCase == "WARN" && logLevelNumber >= 1) {
-      console.warn(logEntry);
-      logToDebugMode(logEntryForDebugMode);
-    }
-    if (logLevelUpperCase == "INFO" && logLevelNumber >= 2) {
-      console.info(logEntry);
-      logToDebugMode(logEntryForDebugMode);
-    }
-    if (logLevelUpperCase == "DEBUG" && logLevelNumber >= 3) {
-      // Use debug to log behavior, such as executing x method, selected x playlist, etc.
-      console.debug(logEntry);
-      logToDebugMode(logEntryForDebugMode);
-    }
-    if (logLevelUpperCase == "TRACE" && logLevelNumber >= 4) {
-      // Use trace to log content such as responses from api calls. But use debug or info kameHouse.logger. trace prints a useless stack trace in the console that doesn't help.
-      console.info(logEntry);
-      logToDebugMode(logEntryForDebugMode);
-    }
-  }
-
-  /**
-   * Build log entry for kamehouse debugger.
-   */
-  function buildLogEntryForDebug(timestamp, logLevel, message, coloredMessage) {
-    const logLineTemplate = getCyanText(timestamp) + getBlueText(" - ") + "[" + getLogLevelColored(logLevel) + "] " + getBlueText(" - ");
-    if (!kameHouse.core.isEmpty(coloredMessage)) {
-      return logLineTemplate + coloredMessage;
-    }
-    return logLineTemplate + escapeHtml(message);
-  }
-
-  /**
-   * Get log level colored.
-   */
-  function getLogLevelColored(logLevel) {
-    if (logLevel == "ERROR") {
-      return getRedText(logLevel);
-    }
-    if (logLevel == "WARN") {
-      return getYellowText(logLevel);
-    }
-    if (logLevel == "INFO") {
-      return getBlueText(logLevel);
-    }
-    if (logLevel == "DEBUG") {
-      return getGreenText(logLevel);
-    }
-    if (logLevel == "TRACE") {
-      return getCyanText(logLevel);
-    }
-    return logLevel;
-  }
-  
-  /**
-   * Get red text.
-   */
-  function getRedText(text) {
-    return getSpanRed() + text + getSpanEnd();
-  }
-
-  /**
-   * Get yellow text.
-   */
-  function getYellowText(text) {
-    return getSpanYellow() + text + getSpanEnd();
-  }
-
-  /**
-   * Get blue text.
-   */
-  function getBlueText(text) {
-    return getSpanBlue() + text + getSpanEnd();
-  }
-
-  /**
-   * Get green text.
-   */
-  function getGreenText(text) {
-    return getSpanGreen() + text + getSpanEnd();
-  }
-
-  /**
-   * Get cyan text.
-   */
-  function getCyanText(text) {
-    return getSpanCyan() + text + getSpanEnd();
-  }
-
-  /**
-   * Get span end.
-   */
-  function getSpanEnd() {
-    return "</span>";
-  }
-
-  /**
-   * Get red span.
-   */
-  function getSpanRed() {
-    return "<span style='color:red'>";
-  }
-
-  /**
-   * Get yellow span.
-   */
-  function getSpanYellow() {
-    return "<span style='color:yellow'>";
-  }
-
-  /**
-   * Get blue span.
-   */
-  function getSpanBlue() {
-    return "<span style='color:#3996ff'>";
-  }
-
-  /**
-   * Get green span.
-   */
-  function getSpanGreen() {
-    return "<span style='color:green'>";
-  }
-
-  /**
-   * Get cyan span.
-   */
-  function getSpanCyan() {
-    return "<span style='color:#00b2b2'>";
-  }
-
-  /**
-   * Escape html content.
-   */
-  function escapeHtml(html) {
-    return html.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
-  }
-
-  /** Log an error message */
-  function error(message, coloredMessage) { log("ERROR", message, coloredMessage); }
-
-  /** Log a warn message */
-  function warn(message, coloredMessage) { log("WARN", message, coloredMessage); }
-
-  /** Log an info message */
-  function info(message, coloredMessage) { log("INFO", message, coloredMessage); }
-
-  /** Log a debug message */
-  function debug(message, coloredMessage) { log("DEBUG", message, coloredMessage); }
-
-  /** Log a trace message */
-  function trace(message, coloredMessage) { log("TRACE", message, coloredMessage); }
-
-  /**
-   * Log the entry into the debug mode console log table.
-   */
-  function logToDebugMode(logEntry) {
-    const DEBUG_MODE_LOG_SIZE = 80;
-    const debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
-    if (!kameHouse.core.isEmpty(debugModeConsoleLog)) {
-      // Remove first log N entries
-      let logEntriesSize = debugModeConsoleLog.childElementCount;
-      while (logEntriesSize > DEBUG_MODE_LOG_SIZE) {
-        kameHouse.util.dom.removeChild(debugModeConsoleLog, debugModeConsoleLog.firstChild);
-        logEntriesSize = debugModeConsoleLog.childElementCount;
-      }
-      // Add new log entry
-      kameHouse.util.dom.append($("#debug-mode-console-log-entries"), getLogEntryListItem(logEntry));
-      // Scroll down log div
-      debugModeLogScroll();
-    }
-  }
-
-  /**
-   * Scroll to the last entries of the console log.
-   */
-  function debugModeLogScroll() {
-    const height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
-    $("#debug-mode-console-log-entries").animate({
-      scrollTop: height
-    }, 100);
-  }
-  
-  /**
-   * Get log entry list item.
-   */
-  function getLogEntryListItem(logEntry) {
-    const li = kameHouse.util.dom.getLi({}, null);
-    kameHouse.util.dom.setHtml(li, logEntry);
-    return li;
-  }
-
-  /**
-   * Log an api call error to the console.
-   */
-  function logApiError(responseBody, responseCode, responseDescription, responseHeaders, message) {
-    if (kameHouse.core.isEmpty(message)) {
-      message = "Error executing api call";
-    }
-    const errorMessage = message + ": [ 'responseCode' : '" + responseCode 
-      + "', 'responseDescription' : '" + responseDescription 
-      + "', 'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) 
-      + "', 'responseBody' : '" + kameHouse.json.stringify(responseBody) 
-      + "' ]";
-    error(errorMessage);
-  }
-
-  /**
-   * Log an http request.
-   */
-  function logHttpRequest(httpMethod, config, url, requestHeaders, requestBody) {
-    debug("http request: [ " 
-    + "'method' : '" + httpMethod + "', "
-    + "'url' : '" + url + "', "
-    + "'config' : '" + kameHouse.json.stringify(config) + "', "
-    + "'headers' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders)) + "', "
-    + "'body' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody)) + "' ]");
-  }
-  
-  /**
-   * Log an http response.
-   */
-  function logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders) {
-    debug("http response: [ " 
-    + "'responseCode' : '" + responseCode + "', "
-    + "'responseDescription' : '" + responseDescription + "', "
-    + "'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) + "', "
-    + "'responseBody' : '" + kameHouse.json.stringify(responseBody) + "' ]");   
-  }
-
-  /**
-   * Mask passwords, card details and any sensitive data in the message.
-   */
-  function maskSensitiveData(message) {
-    if (kameHouse.core.isEmpty(message)) {
-      return;
-    }
-    const emptyOrWhiteSpaces = "(\\s)*";
-    const anythingButDoubleQuote = '[^"]*';
-    const passwordsRegex = new RegExp('"[p|P]assword"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"' + anythingButDoubleQuote + '"',"g");
-    const basicAuthRegex = new RegExp('"[a|A]uthorization"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"Basic ' + anythingButDoubleQuote + '"',"g");
-    const cvvRegex = new RegExp('"[c|C][v|V][v|V]"' + emptyOrWhiteSpaces + ':' + emptyOrWhiteSpaces + '"\\d{1,3}"',"g");
-    return message.replace(passwordsRegex, '"password": "****"')
-                  .replace(basicAuthRegex, '"Authorization": "Basic ****"')
-                  .replace(cvvRegex, '"cvv": "***"');
-  }
-}
+} // KameHouseLogger
 
 /**
  * HttpClient object to perform http calls.
@@ -2536,149 +2420,62 @@ function KameHouseCoreFunctions() {
  * 
  * @author nbrest
  */
- function KameHouseHttpClient() {
+ class KameHouseHttpClient {
 
-  this.get = get;
-  this.put = put;
-  this.post = post;
-  this.delete = deleteHttp;
-  this.getUrlEncodedHeaders = getUrlEncodedHeaders;
-  this.getApplicationJsonHeaders = getApplicationJsonHeaders;
-  this.urlEncodeParams = urlEncodeParams;
-  this.urlEncode = urlEncode;
-  this.isUrlEncodedRequest = isUrlEncodedRequest;
-  this.getConfig = getConfig;
-
-  const GET = "GET";
-  const POST = "POST";
-  const PUT = "PUT";
-  const DELETE = "DELETE";
-  const DEFAULT_TIMEOUT_MS = 60000;
+  static #GET = "GET";
+  static #POST = "POST";
+  static #PUT = "PUT";
+  static #DELETE = "DELETE";
+  static #DEFAULT_TIMEOUT_MS = 60000;
 
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(GET, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+  get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    this.#httpRequest(KameHouseHttpClient.#GET, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(PUT, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+  put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    this.#httpRequest(KameHouseHttpClient.#PUT, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(POST, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+  post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    this.#httpRequest(KameHouseHttpClient.#POST, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
-  function deleteHttp(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    httpRequest(DELETE, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+  delete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    this.#httpRequest(KameHouseHttpClient.#DELETE, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
-  /** Execute an http request with the specified http method. 
-   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
-   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders)
-   * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
-  function httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
-    kameHouse.util.mobile.exec(
-      () => {
-        webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
-      },
-      () => {
-        mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
-      },
-    );
+  /** Get request headers object with Url Encoded content type. */
+  getUrlEncodedHeaders() {
+    const requestHeaders = {};
+    requestHeaders.Accept = '*/*';
+    requestHeaders['Content-Type'] = "application/x-www-form-urlencoded";
+    return requestHeaders;
   }
 
-  /**
-   * Execute http request on web.
-   */
-  function webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    let requestTimeout = DEFAULT_TIMEOUT_MS;
-    if (!kameHouse.core.isEmpty(config.timeout)) {
-      requestTimeout = config.timeout * 1000;
-      kameHouse.logger.debug("Setting timeout for web request to " + requestTimeout);
-    }
-    if (kameHouse.core.isEmpty(requestBody)) {
-      $.ajax({
-        type: httpMethod,
-        url: url,
-        headers: requestHeaders,
-        timeout: requestTimeout,
-        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
-      });
-      return;
-    }
-    if (isUrlEncodedRequest(requestHeaders)) {
-      const urlEncoded = url + "?" + urlEncodeParams(requestBody);
-      $.ajax({
-        type: httpMethod,
-        url: urlEncoded,
-        headers: requestHeaders,
-        timeout: requestTimeout,
-        success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
-      });
-      return;
-    }
-    $.ajax({
-      type: httpMethod,
-      url: url,
-      data: kameHouse.json.stringify(requestBody),
-      headers: requestHeaders,
-      timeout: requestTimeout,
-      success: (data, status, xhr) => processSuccess(data, status, xhr, successCallback),
-      error: (jqXhr, textStatus, errorMessage) => processError(jqXhr, textStatus, errorMessage, errorCallback)
-    });
-  }
-  
-  /**
-   * Execute http request on mobile.
-   */
-  function mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-      kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
-    });
-  }
-
-  /**
-   * Get the config object to pass to http request methods.
-   */
-  function getConfig() {
-    return {
-      timeout: null
-    }
-  }
-
-  /**
-   * Get response headers.
-   */
-  function getResponseHeaders(xhr) {
-    return xhr.getAllResponseHeaders()
-      .trim()
-      .split('\r\n')
-      .reduce((acc, current) => {
-          const [x,v] = current.split(': ');
-          return Object.assign(acc, { [x] : v });
-      }, 
-      {}
-    );
+  /** Get request headers object with application json content type. */
+  getApplicationJsonHeaders() {
+    const requestHeaders = {};
+    requestHeaders.Accept = '*/*';
+    requestHeaders['Content-Type'] = 'application/json';
+    return requestHeaders;
   }
 
   /**
    * Get encoded url parameters.
    */
-  function urlEncodeParams(params) {
+  urlEncodeParams(params) {
     let urlEncodeParams = [];
     for (const key in params)
       if (params.hasOwnProperty(key)) {
@@ -2690,14 +2487,14 @@ function KameHouseCoreFunctions() {
   /**
    * Encode url parameters.
    */
-  function urlEncode(param) {
+  urlEncode(param) {
     return encodeURIComponent(param);
   }
 
   /**
    * Check if it's url encoded request.
    */
-  function isUrlEncodedRequest(headers) {
+  isUrlEncodedRequest(headers) {
     if (kameHouse.core.isEmpty(headers)) {
       return false;
     }
@@ -2712,8 +2509,100 @@ function KameHouseCoreFunctions() {
     return isUrlEncoded;
   }
 
+  /**
+   * Get the config object to pass to http request methods.
+   */
+  getConfig() {
+    return {
+      timeout: null
+    }
+  }
+
+  /** Execute an http request with the specified http method. 
+   * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
+   * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders)
+   * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
+  #httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
+    kameHouse.util.mobile.exec(
+      () => {
+        this.#webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+      },
+      () => {
+        this.#mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+      },
+    );
+  }
+
+  /**
+   * Execute http request on web.
+   */
+  #webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    let requestTimeout = KameHouseHttpClient.#DEFAULT_TIMEOUT_MS;
+    if (!kameHouse.core.isEmpty(config.timeout)) {
+      requestTimeout = config.timeout * 1000;
+      kameHouse.logger.debug("Setting timeout for web request to " + requestTimeout);
+    }
+    if (kameHouse.core.isEmpty(requestBody)) {
+      $.ajax({
+        type: httpMethod,
+        url: url,
+        headers: requestHeaders,
+        timeout: requestTimeout,
+        success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => this.#processError(jqXhr, textStatus, errorMessage, errorCallback)
+      });
+      return;
+    }
+    if (this.isUrlEncodedRequest(requestHeaders)) {
+      const urlEncoded = url + "?" + this.urlEncodeParams(requestBody);
+      $.ajax({
+        type: httpMethod,
+        url: urlEncoded,
+        headers: requestHeaders,
+        timeout: requestTimeout,
+        success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => this.#processError(jqXhr, textStatus, errorMessage, errorCallback)
+      });
+      return;
+    }
+    $.ajax({
+      type: httpMethod,
+      url: url,
+      data: kameHouse.json.stringify(requestBody),
+      headers: requestHeaders,
+      timeout: requestTimeout,
+      success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
+      error: (jqXhr, textStatus, errorMessage) => this.#processError(jqXhr, textStatus, errorMessage, errorCallback)
+    });
+  }
+  
+  /**
+   * Execute http request on mobile.
+   */
+  #mobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+      kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    });
+  }
+
+  /**
+   * Get response headers.
+   */
+  #getResponseHeaders(xhr) {
+    return xhr.getAllResponseHeaders()
+      .trim()
+      .split('\r\n')
+      .reduce((acc, current) => {
+          const [x,v] = current.split(': ');
+          return Object.assign(acc, { [x] : v });
+      }, 
+      {}
+    );
+  }
+
   /** Process a successful response from the api call */
-  function processSuccess(data, status, xhr, successCallback) {
+  #processSuccess(data, status, xhr, successCallback) {
     /**
      * data: response body
      * status: success/error
@@ -2728,13 +2617,13 @@ function KameHouseCoreFunctions() {
     const responseBody = data;
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
-    const responseHeaders = getResponseHeaders(xhr);
+    const responseHeaders = this.#getResponseHeaders(xhr);
     kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
     successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Process an error response from the api call */
-  function processError(jqXhr, textStatus, errorMessage, errorCallback) {
+  #processError(jqXhr, textStatus, errorMessage, errorCallback) {
      /**
       * jqXhr: {
       *    readyState: 4
@@ -2748,26 +2637,12 @@ function KameHouseCoreFunctions() {
      const responseBody = jqXhr.responseText;
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
-     const responseHeaders = getResponseHeaders(jqXhr);
+     const responseHeaders = this.#getResponseHeaders(jqXhr);
      kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, null);
      errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
-  /** Get request headers object with Url Encoded content type. */
-  function getUrlEncodedHeaders() {
-    const requestHeaders = {};
-    requestHeaders.Accept = '*/*';
-    requestHeaders['Content-Type'] = "application/x-www-form-urlencoded";
-    return requestHeaders;
-  }
+} // KameHouseHttpClient
 
-  /** Get request headers object with application json content type. */
-  function getApplicationJsonHeaders() {
-    const requestHeaders = {};
-    requestHeaders.Accept = '*/*';
-    requestHeaders['Content-Type'] = 'application/json';
-    return requestHeaders;
-  }
-}
-
+const kameHouse = new KameHouse();
 $(document).ready(() => {kameHouse.init();});

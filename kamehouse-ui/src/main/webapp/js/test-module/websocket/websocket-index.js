@@ -15,7 +15,7 @@ class TestWebSocket {
   load() {
     kameHouse.logger.info("Started initializing TestWebSocket");
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.loadKameHouseWebSocket();
+    kameHouse.core.loadKameHouseWebSocket();
     kameHouse.logger.setLogLevel(4);
     $("form").on('submit', (e) => e.preventDefault());
     kameHouse.util.dom.setClick($("#connect"), null, () => this.#connectWebSocket());
