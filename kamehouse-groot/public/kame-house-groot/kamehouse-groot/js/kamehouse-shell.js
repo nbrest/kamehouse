@@ -1,96 +1,95 @@
 /**
  * KameHouse Shell javascript interface through groot's kamehouse-shell/execute.php api.
+ * 
+ * @author nbrest
  */
-function KameHouseShell() {
+class KameHouseShell {
 
-  this.load = load;
-  this.execute = execute;
-  this.getBashScriptOutput = getBashScriptOutput;
+  static #EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
 
-  const EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
-  let bashScriptOutput = "Script output not set yet.";
+  #bashScriptOutput = "Script output not set yet.";
 
   /**
    * Load the kamehouse shell extension.
    */
-  function load() {
+  load() {
     kameHouse.logger.info("Initialized kameHouseShell");
     kameHouse.util.module.setModuleLoaded("kameHouseShell");
   }
 
-  /**
-   * Get bash script output.
-   */
-  function getBashScriptOutput() {
-    return bashScriptOutput;
-  }
-
   /** Execute the specified script*/
-  function execute(scriptName, args, executeOnDockerHost, timeout, successCallback, errorCallback) {
+  execute(scriptName, args, executeOnDockerHost, timeout, successCallback, errorCallback) {
     if (!kameHouse.core.isEmpty(scriptName)) {
       const params = {
         script: scriptName,
         args: args,
         executeOnDockerHost: executeOnDockerHost
       };
-      setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
+      this.#setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
       kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " and timeout " + timeout);
       const config = kameHouse.http.getConfig();
       if (!kameHouse.core.isEmpty(timeout)) {
         config.timeout = timeout;
       }
-      kameHouse.plugin.debugger.http.get(config, EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
-        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback),
-        (responseBody, responseCode, responseDescription, responseHeaders) => updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback));
+      kameHouse.plugin.debugger.http.get(config, KameHouseShell.#EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
+        (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback),
+        (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback));
     } else {
       const message = "No script specified to execute";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     }
   }
 
+  /**
+   * Get bash script output.
+   */
+  getBashScriptOutput() {
+    return this.#bashScriptOutput;
+  }
+
   /** Set the script ouput to show that the script is currently executing */
-  function setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
+  #setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
     kameHouse.util.dom.addClass($('#kamehouse-shell-output'), "hidden-kh");
     kameHouse.util.dom.removeClass($('#kamehouse-shell-output-executing-wrapper'), "hidden-kh");
-    kameHouse.util.dom.setHtml($("#kamehouse-shell-output-executing"), getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
+    kameHouse.util.dom.setHtml($("#kamehouse-shell-output-executing"), this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
     kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
 
   /** Update the script script output with the result of the script */
-  function updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback) {
+  #updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback) {
     const scriptOutputArray = responseBody.htmlConsoleOutput;
-    bashScriptOutput = responseBody.bashConsoleOutput;
+    this.#bashScriptOutput = responseBody.bashConsoleOutput;
     const $scriptOutputTableBody = $('#kamehouse-shell-output-table-body');
     kameHouse.util.dom.empty($scriptOutputTableBody);
-    const tbody = getScriptOutputTbody();
+    const tbody = this.#getScriptOutputTbody();
 
     const scriptOutputLength = scriptOutputArray.length;
     if (scriptOutputLength < 400) {
       // Show full output
       for (let i = 0; i < scriptOutputLength; i++) {
         if (scriptOutputArray[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
+          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(scriptOutputArray[i]));
         }
       }
     } else {
       // Show only the first x and last y lines
       for (let i = 0; i < 50; i++) {
         if (scriptOutputArray[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
+          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(scriptOutputArray[i]));
         }
       }
        
-      kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
-      kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
-      kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
-      kameHouse.util.dom.append(tbody, getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
-      kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
-      kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
-      kameHouse.util.dom.append(tbody, getScriptOutputTr(" "));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
 
       for (let i = scriptOutputLength - 350; i < scriptOutputLength; i++) {
         if (scriptOutputArray[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, getScriptOutputTr(scriptOutputArray[i]));
+          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(scriptOutputArray[i]));
         }
       }
     }
@@ -107,14 +106,14 @@ function KameHouseShell() {
   }
 
   /** Displays the error message in the script output */
-  function updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
+  #updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
     const $scriptOutputTableBody = $('#kamehouse-shell-output-table-body');
     kameHouse.util.dom.empty($scriptOutputTableBody);
-    const tbody = getScriptOutputTbody();
-    kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("Error response from the backend"));
-    kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseBody : " + kameHouse.json.stringify(responseBody, null, 2)));
-    kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseCode : " + responseCode));
-    kameHouse.util.dom.append(tbody, getScriptOutputErrorTr("responseDescription : " + responseDescription));
+    const tbody = this.#getScriptOutputTbody();
+    kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("Error response from the backend"));
+    kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("responseBody : " + kameHouse.json.stringify(responseBody, null, 2)));
+    kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("responseCode : " + responseCode));
+    kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("responseDescription : " + responseDescription));
     kameHouse.util.dom.replaceWith($scriptOutputTableBody, tbody);
 
     // Update the view
@@ -129,7 +128,7 @@ function KameHouseShell() {
   /**
    * Get script output table body.
    */
-  function getScriptOutputTbody() {
+  #getScriptOutputTbody() {
     return kameHouse.util.dom.getTbody({
       id: "kamehouse-shell-output-table-body"
     }, null);
@@ -138,21 +137,21 @@ function KameHouseShell() {
   /**
    * Get script output errot table row.
    */
-  function getScriptOutputErrorTr(message) {
+  #getScriptOutputErrorTr(message) {
     return kameHouse.util.dom.getTrTd(message);
   }
 
   /**
    * Get script output table row.
    */
-  function getScriptOutputTr(htmlContent) {
+  #getScriptOutputTr(htmlContent) {
     return kameHouse.util.dom.getTrTd(htmlContent);
   }
 
   /**
    * Get script is executing message.
    */
-  function getScriptExecutingMessage(scriptName, args, executeOnDockerHost) {
+  #getScriptExecutingMessage(scriptName, args, executeOnDockerHost) {
     const executingMessageSpan = kameHouse.util.dom.getSpan({}, "Executing script : ");
     const scriptNameSpan = kameHouse.util.dom.getSpan({
       class: "bold-kh"
