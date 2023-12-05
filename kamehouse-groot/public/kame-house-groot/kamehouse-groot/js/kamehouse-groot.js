@@ -7,45 +7,43 @@
  * 
  * @author nbrest
  */
-function KameHouseGroot() {
-  this.load = load;
-  this.windowLocation = windowLocation;
+class KameHouseGroot {
 
   /**
    * Load the kamehouse groot extension.
    */
-  function load() {
+  load() {
     kameHouse.extension.groot.header = new GrootHeader();
     kameHouse.extension.groot.header.renderGrootMenu();
   }
 
   /** Set the location to php on web and html on mobile. pass the location without extension */
-  function windowLocation(location, args) {
+  windowLocation(location, args) {
     if (kameHouse.core.isEmpty(args)) {
       return kameHouse.util.mobile.windowLocation(location + ".php", location + ".html");
     }
     return kameHouse.util.mobile.windowLocation(location + ".php" + args, location + ".html" + args);
   }
 
-}
+} // KameHouseGroot
 
 /**
  * Functionality to manage the groot header.
+ * 
+ * @author nbrest
  */
-function GrootHeader() {
-
-  this.renderGrootMenu = renderGrootMenu;
+class GrootHeader {
 
   /** Render groot sub menu */
-  function renderGrootMenu() {
+  renderGrootMenu() {
     kameHouse.util.dom.load($("#groot-menu-wrapper"), "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
-      updateGRootMenuActiveTab();
-      loadSession();
+      this.#updateGRootMenuActiveTab();
+      this.#loadSession();
     });
   }
   
   /** Load session */
-  function loadSession() {
+  #loadSession() {
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
@@ -53,7 +51,7 @@ function GrootHeader() {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody));
         kameHouse.extension.groot.session = responseBody;
-        updateSessionStatus();
+        this.#updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
       },
@@ -61,7 +59,7 @@ function GrootHeader() {
         const message = "Error retrieving current groot session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.extension.groot.session = {};
-        updateSessionStatus();
+        this.#updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
       }
@@ -71,22 +69,22 @@ function GrootHeader() {
   /**
    * Update groot session status.
    */
-  function updateSessionStatus() {
+  #updateSessionStatus() {
     const $loginStatus = $("#groot-header-login-status");
     kameHouse.util.dom.empty($loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
     kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
-      kameHouse.util.dom.append($loginStatus, getLoginButton());
+      kameHouse.util.dom.append($loginStatus, this.#getLoginButton());
     } else {
-      kameHouse.util.dom.append($loginStatus, getUsernameHeader(kameHouse.extension.groot.session.username));
-      kameHouse.util.dom.append($loginStatus, getLogoutButton());
+      kameHouse.util.dom.append($loginStatus, this.#getUsernameHeader(kameHouse.extension.groot.session.username));
+      kameHouse.util.dom.append($loginStatus, this.#getLogoutButton());
     }
   }
 
   /**
   * Set active tab in the groot sub menu.
   */
-  function updateGRootMenuActiveTab() {
+  #updateGRootMenuActiveTab() {
     const pageUrl = window.location.pathname;
     $("#groot-menu button").toArray().forEach((navItem) => {
       kameHouse.util.dom.removeClass($(navItem), "active");
@@ -111,7 +109,7 @@ function GrootHeader() {
   /**
    * Get groot login button.
    */
-  function getLoginButton() {
+  #getLoginButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/pc/login-gray-dark.png",
       className: "groot-header-login-status-btn",
@@ -125,7 +123,7 @@ function GrootHeader() {
   /**
    * Get groot logout button.
    */
-  function getLogoutButton() {
+  #getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/dbz/goku-gray-dark.png",
       className: "groot-header-login-status-btn",
@@ -139,12 +137,13 @@ function GrootHeader() {
   /**
    * Get username header.
    */
-  function getUsernameHeader(username) {
+  #getUsernameHeader(username) {
     return kameHouse.util.dom.getSpan({
       class: "groot-header-login-status-text"
     }, username);
   }
-}
+
+} // GrootHeader
 
 /** 
  * Refresh the page after the specified seconds. 
@@ -167,7 +166,7 @@ function refreshPageLoop() {
   } else {
     location.href = '/';
   }
-}
+}  
 
 $(document).ready(() => {
   kameHouse.addExtension("groot", new KameHouseGroot());
