@@ -5,7 +5,8 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,7 +20,8 @@ public class ErrorController extends AbstractController {
   /**
    * Handle api errors. This mapping should be used in the web.xml of all api based modules.
    */
-  @GetMapping(value = "errors")
+  @RequestMapping(value = "errors", method = {RequestMethod.GET, RequestMethod.POST,
+      RequestMethod.PUT, RequestMethod.DELETE})
   public ResponseEntity<KameHouseApiErrorResponse> errors(HttpServletRequest request) {
     int statusCode = getStatusCode(request);
     String message = getErrorMessage(request, statusCode);
