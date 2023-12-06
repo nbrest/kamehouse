@@ -1,13 +1,13 @@
 {
   "name": "nbrest-logger",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Basic logging framework for node apps",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "nbrest",
-  "homepage": "https://github.com/nbrest/kamehouse",
+  "homepage": "https://github.com/nbrest/kamehouse/blob/dev/node/modules/nbrest-logger/",
   "repository": { 
     "url": "https://github.com/nbrest/kamehouse.git", 
     "directory": "node/modules/nbrest-logger",
