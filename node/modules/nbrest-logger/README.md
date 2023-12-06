@@ -7,20 +7,12 @@
 
 Basic logging framework to format logs to the console in a node app.
 
-# Install:
+# Install or Update:
 
 - In the root of your node app:
 
 ```sh
 npm i nbrest-logger
-```
-
-# Update to latest version:
-
-- In the root of your node app:
-
-```sh
-npm update nbrest-logger
 ```
 
 # Usage:
