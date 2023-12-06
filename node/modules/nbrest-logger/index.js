@@ -1,7 +1,8 @@
 
 /**
- * Log object to perform logging similar to my frontend and bash logging frameworks.
+ * Basic logger module to perform logging similar to my frontend and bash logging frameworks.
  * To modify the log level pass LOG=DEBUG or log=trace to npm start as command line arguments.
+ * The default log level is INFO.
  * 
  * Dependencies: none.
  * 
@@ -12,7 +13,8 @@ module.exports = {
   warn: (message) => { logger.warn(message) },
   info: (message) => { logger.info(message) },
   debug: (message) => { logger.debug(message) },
-  trace: (message) => { logger.trace(message) }
+  trace: (message) => { logger.trace(message) },
+  setLogLevel: (logLevel) => { logger.setLogLevel(logLevel) }
 };
 
 class Logger {
@@ -34,13 +36,14 @@ class Logger {
    * Override the default log level from cmd arguments.
    */
   constructor() {
-    this.trace("Initializing logger");
     const logLevel = this.#getLogLevelFromCmdArgs();
     if (!this.#isEmpty(logLevel)) {
-      const logLevelNumberParam = this.#getLogLevelNumber(logLevel);
-      this.info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
-      this.#setLogLevel(logLevelNumberParam);
+      const logLevelNumber = this.#getLogLevelNumber(logLevel);
+      this.info("Overriding logLevel with command line parameter log: " + logLevel + " mapped to logLevelNumber: " + logLevelNumber);
+      this.#setLogLevelNumber(logLevelNumber);
+      
     }
+    this.trace("Finished initializing nbrest-logger");
   }
 
   /** Log an error message */
@@ -57,6 +60,15 @@ class Logger {
 
   /** Log a trace message */
   trace(message) { this.#log("TRACE", message); }
+
+  /**
+   * Set the log level.
+   */
+  setLogLevel(logLevel) {
+    const logLevelNumber = this.#getLogLevelNumber(logLevel);
+    this.info("Updating log level to : " + logLevel + " mapped to logLevelNumber: " + logLevelNumber);
+    this.#setLogLevelNumber(logLevelNumber);
+  }
 
   /**
    * Get the log level number mapped to the specified log level string.
@@ -88,7 +100,7 @@ class Logger {
   /**
    * Set the log level for the console in numeric value, based on the mapping shown above.
    */
-  #setLogLevel(levelNumber) {
+  #setLogLevelNumber(levelNumber) {
     this.#logLevelNumber = levelNumber;
   }
 
