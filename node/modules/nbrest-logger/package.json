@@ -1,6 +1,6 @@
 {
   "name": "nbrest-logger",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Basic logging framework for node apps",
   "main": "index.js",
   "scripts": {
