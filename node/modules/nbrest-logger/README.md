@@ -15,6 +15,14 @@ Basic logging framework to format logs to the console in a node app.
 npm i nbrest-logger
 ```
 
+# Update to latest version:
+
+- In the root of your node app:
+
+```sh
+npm update nbrest-logger
+```
+
 # Usage:
 
 ```js

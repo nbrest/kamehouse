@@ -15,14 +15,7 @@ module.exports = {
   trace: (message) => { logger.trace(message) }
 };
 
-function Logger() {
-
-  this.init = init;
-  this.error = error;
-  this.warn = warn;
-  this.info = info;
-  this.debug = debug;
-  this.trace = trace;
+class Logger {
 
   /**
    * Log levels:
@@ -35,26 +28,41 @@ function Logger() {
    * 
    * Default log level: INFO (2)
    */
-  let logLevelNumber = 2;
+  #logLevelNumber = 2;
 
   /**
-   * Override the default log level from url parameters.
+   * Override the default log level from cmd arguments.
    */
-  function init() {
-    trace("Initializing logger");
-    const logLevel = getLogLevelFromCmdArgs();
-    if (!isEmpty(logLevel)) {
-      const logLevelNumberParam = getLogLevelNumber(logLevel);
-      info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
-      setLogLevel(logLevelNumberParam);
+  constructor() {
+    this.trace("Initializing logger");
+    const logLevel = this.#getLogLevelFromCmdArgs();
+    if (!this.#isEmpty(logLevel)) {
+      const logLevelNumberParam = this.#getLogLevelNumber(logLevel);
+      this.info("Overriding logLevel with url parameter logLevel: " + logLevel + " mapped to logLevelNumber: " + logLevelNumberParam);
+      this.#setLogLevel(logLevelNumberParam);
     }
   }
+
+  /** Log an error message */
+  error(message) { this.#log("ERROR", message); }
+
+  /** Log a warn message */
+  warn(message) { this.#log("WARN", message); }
+
+  /** Log an info message */
+  info(message) { this.#log("INFO", message); }
+
+  /** Log a debug message */
+  debug(message) { this.#log("DEBUG", message); }
+
+  /** Log a trace message */
+  trace(message) { this.#log("TRACE", message); }
 
   /**
    * Get the log level number mapped to the specified log level string.
    */
-  function getLogLevelNumber(logLevel) {
-    if (isEmpty(logLevel)) {
+  #getLogLevelNumber(logLevel) {
+    if (this.#isEmpty(logLevel)) {
       return 2;
     }
     const logLevelUpperCase = logLevel.toUpperCase();
@@ -80,68 +88,53 @@ function Logger() {
   /**
    * Set the log level for the console in numeric value, based on the mapping shown above.
    */
-  function setLogLevel(levelNumber) {
-    logLevelNumber = levelNumber;
+  #setLogLevel(levelNumber) {
+    this.#logLevelNumber = levelNumber;
   }
 
   /** Log a specified message with the specified logging level. */
-  function log(logLevel, message) {
-    if (isEmpty(logLevel)) {
+  #log(logLevel, message) {
+    if (this.#isEmpty(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;
     }
     const logLevelUpperCase = logLevel.toUpperCase();
-    const logEntry = getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
+    const logEntry = this.#getTimestamp() + " - [" + logLevelUpperCase + "] - " + message;
     if (logLevelUpperCase == "ERROR") {
       console.error(logEntry);
     }
-    if (logLevelUpperCase == "WARN" && logLevelNumber >= 1) {
+    if (logLevelUpperCase == "WARN" && this.#logLevelNumber >= 1) {
       console.warn(logEntry);
     }
-    if (logLevelUpperCase == "INFO" && logLevelNumber >= 2) {
+    if (logLevelUpperCase == "INFO" && this.#logLevelNumber >= 2) {
       console.info(logEntry);
     }
-    if (logLevelUpperCase == "DEBUG" && logLevelNumber >= 3) {
+    if (logLevelUpperCase == "DEBUG" && this.#logLevelNumber >= 3) {
       console.debug(logEntry);
     }
-    if (logLevelUpperCase == "TRACE" && logLevelNumber >= 4) {
+    if (logLevelUpperCase == "TRACE" && this.#logLevelNumber >= 4) {
       console.info(logEntry);
     }
   }
 
-  /** Log an error message */
-  function error(message) { log("ERROR", message); }
-
-  /** Log a warn message */
-  function warn(message) { log("WARN", message); }
-
-  /** Log an info message */
-  function info(message) { log("INFO", message); }
-
-  /** Log a debug message */
-  function debug(message) { log("DEBUG", message); }
-
-  /** Log a trace message */
-  function trace(message) { log("TRACE", message); }
-
   /** Get the current timestamp */
-  function getTimestamp() {
+  #getTimestamp() {
     const date = new Date();
     const offsetTime = date.getTimezoneOffset() * -1 * 60 * 1000;
     return new Date(date.getTime() + offsetTime).toISOString().replace("T", " ").slice(0, 19);
   }  
 
   /** Checks if a variable is undefined or null. */
-  function isEmpty(val) {
+  #isEmpty(val) {
     return val === undefined || val == null;
   }
 
   /**
    * Get the log level passed as command line argument, if any.
    */
-  function getLogLevelFromCmdArgs() {
+  #getLogLevelFromCmdArgs() {
     const cmdArgs = process.argv.slice(2);
-    if (isEmpty(cmdArgs)) {
+    if (this.#isEmpty(cmdArgs)) {
       return null;
     }
     let logLevel = null;
@@ -149,8 +142,8 @@ function Logger() {
       const cmdArgArray = cmdArg.split("=");
       const cmdArgKey = cmdArgArray[0];
       const cmdArgValue = cmdArgArray[1];
-      if (!isEmpty(cmdArgKey) && cmdArgKey.toUpperCase().trim() == "LOG") {
-        if (!isEmpty(cmdArgValue) && cmdArgValue.trim() != "") {
+      if (!this.#isEmpty(cmdArgKey) && cmdArgKey.toUpperCase().trim() == "LOG") {
+        if (!this.#isEmpty(cmdArgValue) && cmdArgValue.trim() != "") {
           logLevel = cmdArgValue;
         }
       }
@@ -160,4 +153,3 @@ function Logger() {
 }
 
 const logger = new Logger();
-logger.init();
