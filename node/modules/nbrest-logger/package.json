@@ -8,11 +8,13 @@
   },
   "author": "nbrest",
   "homepage": "https://github.com/nbrest/kamehouse/blob/dev/node/modules/nbrest-logger/",
-  "repository": { 
-    "url": "https://github.com/nbrest/kamehouse.git", 
+  "repository": {
+    "url": "git+https://github.com/nbrest/kamehouse.git",
     "directory": "node/modules/nbrest-logger",
     "type": "git"
   },
   "license": "ISC",
-  "keywords": ["logger"]
+  "keywords": [
+    "logger"
+  ]
 }
