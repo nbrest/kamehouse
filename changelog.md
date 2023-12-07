@@ -8,6 +8,7 @@
 #### v8.23
 
 - Refactored all javascript code to use classes
+- Updated vlc player connection error log level
 - Fixed bugs
 
 #### v8.22
