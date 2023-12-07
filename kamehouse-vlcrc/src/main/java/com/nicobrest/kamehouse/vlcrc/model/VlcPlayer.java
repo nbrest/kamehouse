@@ -60,6 +60,8 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   private static final String FILE_PROTOCOL = "file://";
   @JsonIgnore
   private static final String LOCALHOST = "localhost";
+  @JsonIgnore
+  private static final String ERROR_CONNECTING_TO_VLC = "failed: Connection refused: connect";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -275,7 +277,13 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
         return responseBody.toString();
       }
     } catch (IOException e) {
-      LOGGER.error("Error executing request. Message: {}", e.getMessage());
+      if (e.getMessage().contains(ERROR_CONNECTING_TO_VLC)) {
+        if (LOGGER.isTraceEnabled()) {
+          LOGGER.trace("Error connecting to vlc player. Message: {}", e.getMessage());
+        }
+      } else {
+        LOGGER.error("Error executing request. Message: {}", e.getMessage());
+      }
       return null;
     }
   }
