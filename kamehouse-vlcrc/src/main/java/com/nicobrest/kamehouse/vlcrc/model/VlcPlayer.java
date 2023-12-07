@@ -61,7 +61,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   @JsonIgnore
   private static final String LOCALHOST = "localhost";
   @JsonIgnore
-  private static final String ERROR_CONNECTING_TO_VLC = "failed: Connection refused: connect";
+  private static final String ERROR_CONNECTING_TO_VLC = "failed: Connection refused";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
