@@ -883,8 +883,8 @@ class KameHouseMobileConfigManager {
     kameHouse.logger.info("Creating file " + KameHouseMobileConfigManager.#mobileConfigFile);
     try {
       window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, 
-        this.#createMobileConfigFileSuccessCallback, 
-        this.#createMobileConfigFileErrorCallback
+        (fs) => this.#createMobileConfigFileSuccessCallback(fs), 
+        (error) => this.#createMobileConfigFileErrorCallback(error)
       );
     } catch (error) {
       kameHouse.logger.error("Error creating file " + KameHouseMobileConfigManager.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
@@ -897,7 +897,7 @@ class KameHouseMobileConfigManager {
   #createMobileConfigFileSuccessCallback(fs) {
     fs.root.getFile(KameHouseMobileConfigManager.#mobileConfigFile, {create: true, exclusive: true}, (fileEntry) => {
       kameHouse.logger.info("File " + fileEntry.name + " created successfully");
-    }, this.#createMobileConfigFileErrorCallback);
+    }, (error) => this.#createMobileConfigFileErrorCallback(error));
   }
 
   /**
@@ -917,7 +917,9 @@ class KameHouseMobileConfigManager {
   #writeMobileConfigFile() {
     kameHouse.logger.info("Writing to file " + KameHouseMobileConfigManager.#mobileConfigFile);
     try {
-      window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, this.#writeMobileConfigFileSuccessCallback, this.#writeMobileConfigFileErrorCallback);
+      window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, 
+        (fs) => this.#writeMobileConfigFileSuccessCallback(fs), 
+        (error) => this.#writeMobileConfigFileErrorCallback(error));
     } catch (error) {
       kameHouse.logger.error("Error writing file " + KameHouseMobileConfigManager.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
@@ -939,8 +941,8 @@ class KameHouseMobileConfigManager {
         } catch(e) {
           kameHouse.logger.error("Error writing config file " + KameHouseMobileConfigManager.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(e)); 
         }
-      }, this.#writeMobileConfigFileErrorCallback);
-    }, this.#writeMobileConfigFileErrorCallback);
+      }, (error) => this.#writeMobileConfigFileErrorCallback(error));
+    }, (error) => this.#writeMobileConfigFileErrorCallback(error));
   }
 
   /**
@@ -960,7 +962,9 @@ class KameHouseMobileConfigManager {
   #readMobileConfigFile() {
     kameHouse.logger.info("Reading file " + KameHouseMobileConfigManager.#mobileConfigFile);
     try {
-      window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, this.#readMobileConfigFileSuccessCallback, this.#readMobileConfigFileErrorCallback);
+      window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, 
+        (fs) => this.#readMobileConfigFileSuccessCallback(fs), 
+        (error) => this.#readMobileConfigFileErrorCallback(error));
     } catch (error) {
       kameHouse.logger.error("Error reading file " + KameHouseMobileConfigManager.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
       this.#setKameHouseMobileModuleLoaded();
@@ -997,8 +1001,8 @@ class KameHouseMobileConfigManager {
           this.#setKameHouseMobileModuleLoaded();
         };
         reader.readAsText(file);
-      }, this.#readMobileConfigFileErrorCallback);
-    }, this.#readMobileConfigFileErrorCallback);
+      }, (error) => this.#readMobileConfigFileErrorCallback(error));
+    }, (error) => this.#readMobileConfigFileErrorCallback(error));
   }
 
   /**
@@ -1020,7 +1024,9 @@ class KameHouseMobileConfigManager {
   #deleteMobileConfigFile() {
     kameHouse.logger.info("Deleting file " + KameHouseMobileConfigManager.#mobileConfigFile);
     try {
-      window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, this.#deleteMobileConfigFileSuccessCallback, this.#deleteMobileConfigFileErrorCallback);
+      window.requestFileSystem(KameHouseMobileConfigManager.#mobileConfigFileType, KameHouseMobileConfigManager.#mobileConfigFileSize, 
+        (fs) => this.#deleteMobileConfigFileSuccessCallback(fs), 
+        (error) => this.#deleteMobileConfigFileErrorCallback(error));
     } catch (error) {
       kameHouse.logger.error("Error deleting file " + KameHouseMobileConfigManager.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(error));
     }
@@ -1033,8 +1039,8 @@ class KameHouseMobileConfigManager {
     fs.root.getFile(KameHouseMobileConfigManager.#mobileConfigFile, {create: false}, (fileEntry) => {
       fileEntry.remove(() => {
         kameHouse.logger.info("File " + fileEntry.name + " deleted successfully");
-      }, this.#deleteMobileConfigFileErrorCallback);
-    }, this.#deleteMobileConfigFileErrorCallback);
+      }, (error) => this.#deleteMobileConfigFileErrorCallback(error));
+    }, (error) => this.#deleteMobileConfigFileErrorCallback(error));
   }
 
   /**
