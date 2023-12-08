@@ -145,29 +145,6 @@ class GrootHeader {
 
 } // GrootHeader
 
-/** 
- * Refresh the page after the specified seconds. 
- * Simulating a loop by recursively calling the same function 
- * @deprecated
- */
-var countdownCounter = 60;
-
-/** 
- * Refresh the page periodically.
- * @deprecated
- */
-function refreshPageLoop() {
-  if (typeof countdownCounter == 'undefined') {
-    countdownCounter = 60;
-  }
-  if (countdownCounter > 0) {
-    kameHouse.util.dom.setInnerHtml(document.getElementById('count'), countdownCounter--);
-    setTimeout(refreshPageLoop, 1000);
-  } else {
-    location.href = '/';
-  }
-}  
-
 $(document).ready(() => {
   kameHouse.addExtension("groot", new KameHouseGroot());
 });
