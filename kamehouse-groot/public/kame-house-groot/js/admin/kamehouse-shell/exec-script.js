@@ -27,7 +27,9 @@ class ExecScriptLoader {
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
     const timeout = urlParams.get('timeout');
     kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
-      kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, timeout, () => {this.#successCallback()}, () => {this.#errorCallback()});
+      kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, timeout, 
+        (scriptOutput) => {this.#successCallback(scriptOutput)}, 
+        (scriptOutput) => {this.#errorCallback(scriptOutput)});
     }); 
   }
 

@@ -77,7 +77,7 @@ class TailLogManager {
     kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
 
     if (kameHouse.core.isFunction(callback)) {
-      callback();
+      callback(responseBody);
     }
   }
 
@@ -92,7 +92,7 @@ class TailLogManager {
     }
 
     if (kameHouse.core.isFunction(callback)) {
-      callback();
+      callback(responseBody);
     }
   }
 
