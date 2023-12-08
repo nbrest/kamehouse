@@ -8,24 +8,24 @@
  * 
  * @author nbrest
  */
-  main();
-?> 
+$kameHouseShell = new KameHouseShell();
+$kameHouseShell->execute();
 
-<?php
+class KameHouseShell {
 
   /**
-   * Main execute function.
+   * execute a kamehouse shell script.
    */
-  function main() {
-    init();
+  public function execute() {
+    $this->init();
   
     $script = isset($_GET['script']) ? $_GET['script'] : '';
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
     $executeOnDockerHost = getBoolean($executeOnDockerHost);
 
-    $shellCommandOutput = executeShellScript($script, $scriptArgs, $executeOnDockerHost);
-    $htmlCommandOutput = getHtmlOutput($shellCommandOutput);
+    $shellCommandOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
+    $htmlCommandOutput = $this->getHtmlOutput($shellCommandOutput);
   
     $consoleOutput = [ 'htmlConsoleOutput' => $htmlCommandOutput, 'bashConsoleOutput' => $shellCommandOutput ];
   
@@ -35,11 +35,11 @@
   /**
    * Init execute.
    */
-  function init() {
+  private function init() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
-    require_once("../../../../api/v1/commons/global.php");
+    require_once("../../../../api/v1/commons/kamehouse.php");
     require_once("../../../../api/v1/auth/authorize-admin-api.php");
     unlockSession();
     // Disable time_limit and max_execution_time (mainly for scp-torrent.sh script)
@@ -50,7 +50,7 @@
   /**
    * Execute the specified script. 
    */
-  function executeShellScript($script, $scriptArgs, $executeOnDockerHost) {
+  private function executeShellScript($script, $scriptArgs, $executeOnDockerHost) {
     if ($scriptArgs == 'null') {
       $scriptArgs = '';
     }
@@ -64,7 +64,7 @@
       logToErrorFile("Script arguments for script " . $script . " are invalid for shell execution");
       exitWithError(400, "scriptArgs is invalid for shell execution");
     }
-    $shellCommand = buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
+    $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
     logToErrorFile("Started executing script " . $script);
     $shellCommandOutput = shell_exec($shellCommand);
     logToErrorFile("Finished executing script " . $script);
@@ -74,7 +74,7 @@
   /**
    * Build the shell command to execute either on windows or linux.
    */
-  function buildShellCommand($script, $scriptArgs, $executeOnDockerHost) {
+  private function buildShellCommand($script, $scriptArgs, $executeOnDockerHost) {
     $shellCommand = "";
     if (isLinuxHost()) {
       /**
@@ -101,9 +101,10 @@
   /**
    * Convert the specified bash output to html output.
    */
-  function getHtmlOutput($shellCommandOutput) {
+  private function getHtmlOutput($shellCommandOutput) {
     $htmlCommandOutput = convertBashColorsToHtml($shellCommandOutput);
     $htmlCommandOutput = explode("\n", $htmlCommandOutput);
     return $htmlCommandOutput;
   }
+}
 ?>

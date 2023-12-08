@@ -48,7 +48,7 @@
    */
   function initAuthorizeApi() {
     // global.php already imported by the callers of authorize-admin-api.php
-    // require_once("../../../api/v1/commons/global.php");
+    // require_once("../../../api/v1/commons/kamehouse.php");
     require_once("auth-functions.php");
   }
 ?>
