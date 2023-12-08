@@ -6,16 +6,16 @@
  * 
  * @author nbrest
  */
-  main();
-?>
+$kameHouseTest = new KameHouseTest();
+$kameHouseTest->runAll();
 
-<?php
+class KameHouseTest {
 
   /**
-   * Main test function.
+   * Run all test functions.
    */
-  function main() {
-    init();
+  public function runAll() {
+    $this->init();
   
     logToErrorFile("Accessing test page");
     // print server info. ***** DON'T LEAVE THIS UNCOMMENTED *****
@@ -31,11 +31,10 @@
     }
   
     // Test function defined in the same test.php file
-    testFunction();
+    $this->testFunction();
   
-    // Functions in examples.php
-    isLinuxHostExample();
-
+    $this->runExamples();
+    
     // print phpinfo. ***** DON'T LEAVE THIS UNCOMMENTED *****
     //phpinfo();
   }
@@ -43,18 +42,26 @@
   /**
    * Init test.
    */
-  function init() {
+  private function init() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
     require_once("../../../api/v1/commons/kamehouse.php");
-    require_once("../../../api/v1/commons/examples/examples.php");
   }
   
   /** 
    * I can define functions here as well and call them in the API endpoint 
    */
-  function testFunction() {
+  private function testFunction() {
     echo "<br><br>testFunction: mada mada dane:<br><br>";
   }
+
+  /**
+   * Run kamehouse examples.
+   */
+  private function runExamples() {
+    require_once("../../../api/v1/commons/examples/examples.php");
+  }
+
+} // KameHouseTest
 ?>

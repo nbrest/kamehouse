@@ -6,15 +6,27 @@
  * 
  * @author nbrest
  */
+$kameHouseExample = new KameHouseExample();
+$kameHouseExample->runAll();
 
-/** Example isLinuxHost usage */
-function isLinuxHostExample() {
-  logToErrorFile("isLinuxHostExample");
-  echo "isLinuxHostExample():<br>";
-  if (isLinuxHost()) {
-    echo "its a linux host. do linux host specific stuff";
-  } else {
-    echo "its NOT linux host. do windows host specific stuff";
-  } 
+class KameHouseExample {
+
+  /**
+   * Run all examples.
+   */
+  public function runAll() {
+    $this->isLinuxHost();
+  }
+
+  /** Example isLinuxHost usage */
+  public function isLinuxHost() {
+    logToErrorFile("isLinuxHostExample");
+    echo "isLinuxHostExample():<br>";
+    if (isLinuxHost()) {
+      echo "its a linux host. do linux host specific stuff";
+    } else {
+      echo "its NOT linux host. do windows host specific stuff";
+    } 
+  }
 }
 ?>

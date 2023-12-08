@@ -1888,7 +1888,7 @@ class KameHouseCore {
 
   /** 
    * Replaces bash colors in the input string for the equivalent css styled color.
-   * When updating color mappings here, also update them on groot global.php
+   * When updating color mappings here, also update them on groot kamehouse.php
    */
   convertBashColorsToHtml(bashOutput) {
     const colorMappings = {

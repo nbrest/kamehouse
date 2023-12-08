@@ -7,7 +7,9 @@
 
 #### v8.23
 
+- **The frontend code from this release is very different compared to the previous version**
 - Refactored all javascript code to use classes
+- Refactored all php code to use classes
 - Updated vlc player connection error log level
 - Fixed bugs
 

@@ -6,20 +6,20 @@
  * 
  * @author nbrest
  */
-  main();
-?>
+$kameHouseGrootLogin = new KameHouseGrootLogin();
+$kameHouseGrootLogin->login();
 
-<?php
+class KameHouseGrootLogin {
 
   /**
    * Authenticate the user with the received credentials. 
    */
-  function main() {
-    init();
+  public function login() {
+    $this->init();
 
     if (!isset($_POST['username'], $_POST['password'])) {
       logToErrorFile("Username or password not set");
-      redirectLoginError();
+      $this->redirectLoginError();
     }
     
     $username = $_POST['username'];
@@ -27,25 +27,25 @@
 
     if (isAuthorizedUser($username, $password)) {
       initiateSession($username);
-      redirectLoginSuccess();
+      $this->redirectLoginSuccess();
     } else {
       logToErrorFile("User '" . $username . "' is not authorized");
-      redirectLoginError();
+      $this->redirectLoginError();
     } 
   }
 
   /**
    * Init login.
    */
-  function init() {
+  private function init() {
     require_once("../../../api/v1/commons/kamehouse.php");
-    require_once("auth-functions.php");
+    require_once("kamehouse-auth.php");
   }
 
   /**
    * Redirect after successful login.
    */
-  function redirectLoginSuccess() {
+  private function redirectLoginSuccess() {
     $redirectUrl = "/kame-house-groot/";
     if (isset($_POST['referrer']) && startsWith($_POST['referrer'], "/kame-house-groot/")) {
       $redirectUrl = $_POST['referrer'];
@@ -57,8 +57,9 @@
   /**
    * Redirect after a failed login.
    */
-  function redirectLoginError() {
+  private function redirectLoginError() {
     header('Location: /kame-house-groot/login.html?error=true');
     exit;
   }
+}
 ?>

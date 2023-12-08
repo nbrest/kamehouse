@@ -12,16 +12,16 @@
  * 
  * @author nbrest
  */
-  authorizePage();
-?> 
+$kameHousePageAuthorizator = new KameHousePageAuthorizator();
+$kameHousePageAuthorizator->authorize();
 
-<?php
+class KameHousePageAuthorizator {
 
   /**
    * Check if there's an active session, otherwise redirect to login page.
    */
-  function authorizePage() {
-    initAuthorizePage();
+  public function authorize() {
+    $this->init();
 
     if (isAdminUser()) {
       unlockSession();
@@ -41,11 +41,12 @@
   /**
    * Init authorize page.
    */
-  function initAuthorizePage() {
+  private function init() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
     require_once("../../api/v1/commons/kamehouse.php");
-    require_once("auth-functions.php");
+    require_once("kamehouse-auth.php");
   }
+}
 ?>
