@@ -44,7 +44,6 @@ setGlobalVariables() {
 }
 
 exportKameHouseUi() {
-  cd ${EXPORT_KAMEHOUSE_DIR}
   log.debug "Using SOURCE_FILES_KAMEHOUSE_DIR = ${SOURCE_FILES_KAMEHOUSE_DIR}"
   log.debug "Using EXPORT_KAMEHOUSE_DIR = ${EXPORT_KAMEHOUSE_DIR}"
   log.info "Deleting existing files from target dir ${EXPORT_KAMEHOUSE_DIR}"
