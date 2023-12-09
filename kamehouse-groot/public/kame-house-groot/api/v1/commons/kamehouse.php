@@ -178,19 +178,6 @@ class KameHouseCore {
   }
 
   /**
-   * Validate if the specified param contains the specified invalid character sequence.
-   */
-  public function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
-    global $kameHouse;
-    if ($this->contains($param, $invalidCharSequence)) {
-      $kameHouse->logger->logToErrorFile("Input contains forbidden characters");
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**
    * Returns true if the specified string is either 'true or 'TRUE';
    */
   public function getBoolean($string) {
@@ -219,9 +206,16 @@ class KameHouseCore {
   }
 
   /**
+   * Get the boolean value of a property from the docker container environment.
+   */
+  public function getDockerContainerEnvBooleanProperty($dockerContainerEnv, $propertyName) {
+    return $this->getBoolean($this->getDockerContainerEnvProperty($dockerContainerEnv, $propertyName));
+  }
+
+  /**
    * Get a property from the docker container environment.
    */
-  public function getDockerContainerEnvProperty($dockerContainerEnv, $propertyName) {
+  private function getDockerContainerEnvProperty($dockerContainerEnv, $propertyName) {
     foreach ($dockerContainerEnv as $property) {
       $property = explode("=", $property);
       if ($property[0] === $propertyName) {
@@ -230,12 +224,18 @@ class KameHouseCore {
     }
     return "";
   }
-
+    
   /**
-   * Get the boolean value of a property from the docker container environment.
+   * Validate if the specified param contains the specified invalid character sequence.
    */
-  public function getDockerContainerEnvBooleanProperty($dockerContainerEnv, $propertyName) {
-    return $this->getBoolean($this->getDockerContainerEnvProperty($dockerContainerEnv, $propertyName));
+  private function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
+    global $kameHouse;
+    if ($this->contains($param, $invalidCharSequence)) {
+      $kameHouse->logger->logToErrorFile("Input contains forbidden characters");
+      return true;
+    } else {
+      return false;
+    }
   }
 
 } // KameHouseCore
