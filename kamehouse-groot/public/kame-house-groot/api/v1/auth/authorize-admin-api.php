@@ -51,5 +51,6 @@ class KameHouseApiAuthorizator {
     require_once("../../../../api/v1/commons/kamehouse.php");
     require_once("kamehouse-auth.php");
   }
-}  
+
+} // KameHouseApiAuthorizator 
 ?>

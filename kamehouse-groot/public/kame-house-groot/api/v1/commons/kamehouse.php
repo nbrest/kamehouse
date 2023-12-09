@@ -11,6 +11,9 @@
  * 
  * @author nbrest
  */
+global $kameHouse;
+$kameHouse = new KameHouse();
+
 class KameHouse {
 
   public $core;
@@ -253,8 +256,5 @@ class KameHouseLogger {
   }
 
 } // KameHouseLogger
-
-global $kameHouse;
-$kameHouse = new KameHouse();
 ?>
 

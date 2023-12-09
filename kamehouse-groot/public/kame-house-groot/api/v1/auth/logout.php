@@ -21,5 +21,6 @@ class KameHouseGrootLogout {
     session_destroy();
     header('Location: /kame-house-groot/login.html?logout=true');
   }
-}
+
+} // KameHouseGrootLogout
 ?>

@@ -132,5 +132,6 @@ class KameHouseShell {
     $htmlCommandOutput = explode("\n", $htmlCommandOutput);
     return $htmlCommandOutput;
   }
+  
 } // KameHouseShell
 ?>

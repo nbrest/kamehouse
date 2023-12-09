@@ -63,5 +63,6 @@ class KameHouseGrootLogin {
     header('Location: /kame-house-groot/login.html?error=true');
     exit;
   }
-}
+
+} // KameHouseGrootLogin
 ?>

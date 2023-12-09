@@ -29,5 +29,6 @@ class KameHouseExample {
       echo "its NOT linux host. do windows host specific stuff";
     } 
   }
-}
+
+} // KameHouseExample
 ?>
