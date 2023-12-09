@@ -44,10 +44,13 @@ printWarning() {
   log.warn "********************************************************************************"
   log.warn "For itues 12+ I can configure itunes to update the xml automatically: "
   log.warn "Edit > Preferences > Advanced "
-  log.warn "   check 'Share iTunes Library XML with other applications'"
+  log.warn "  check 'Share iTunes Library XML with other applications'"
   log.warn "To generate it manually from itunes: File > Library > Export Library"
   log.warn "The resulting file should be in: \${HOME}\Music\iTunes\iTunes Music Library.xml"
   log.warn "For the itunesexport program to pick up the library"
+  log.warn "To re import all playlists on a new itunes installation:"
+  log.warn "File > Add Folder to Library > "
+  log.warn "  Select the base folder that contains all my playlists for the current os"
   log.warn "********************************************************************************"
 }
 

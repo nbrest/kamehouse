@@ -4,7 +4,7 @@ LOG_PROCESS_TO_FILE=true
 PROJECT_DIR="${HOME}/git/kamehouse-audio-playlists/playlists"
 GIT_REMOTE=all
 GIT_BRANCH=dev
-AUDIO_SERVER="niko-w"
+AUDIO_SERVER="niko-server"
 
 PATH_BASE_SOURCE="D:\\\niko9enzo\\\mp3"
 PATH_BASE_DEST=""
