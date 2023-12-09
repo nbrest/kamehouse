@@ -45,6 +45,7 @@ class KameHousePageAuthorizator {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
+    // I think this only works on pages that are under /admin/aaa/1.php. Pages in /admin/1.php would fail to load kamehouse.php. But currently all admin pages are a level under /admin/
     require_once("../../api/v1/commons/kamehouse.php");
     require_once("kamehouse-auth.php");
   }

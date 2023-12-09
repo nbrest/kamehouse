@@ -15,10 +15,11 @@ class KameHouseGrootLogin {
    * Authenticate the user with the received credentials. 
    */
   public function login() {
+    global $kameHouse;
     $this->init();
 
     if (!isset($_POST['username'], $_POST['password'])) {
-      logToErrorFile("Username or password not set");
+      $kameHouse->logger->logToErrorFile("Username or password not set");
       $this->redirectLoginError();
     }
     
@@ -29,7 +30,7 @@ class KameHouseGrootLogin {
       initiateSession($username);
       $this->redirectLoginSuccess();
     } else {
-      logToErrorFile("User '" . $username . "' is not authorized");
+      $kameHouse->logger->logToErrorFile("User '" . $username . "' is not authorized");
       $this->redirectLoginError();
     } 
   }
@@ -46,8 +47,9 @@ class KameHouseGrootLogin {
    * Redirect after successful login.
    */
   private function redirectLoginSuccess() {
+    global $kameHouse;
     $redirectUrl = "/kame-house-groot/";
-    if (isset($_POST['referrer']) && startsWith($_POST['referrer'], "/kame-house-groot/")) {
+    if (isset($_POST['referrer']) && $kameHouse->core->startsWith($_POST['referrer'], "/kame-house-groot/")) {
       $redirectUrl = $_POST['referrer'];
     }
     header('Location: ' . $redirectUrl);

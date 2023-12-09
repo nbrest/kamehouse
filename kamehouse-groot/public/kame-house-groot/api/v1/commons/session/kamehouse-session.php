@@ -14,12 +14,13 @@ class KameHouseSession {
    * Get session status.
    */
   public function getStatus() {
+    global $kameHouse;
     $this->init();
 
-    $dockerContainerEnv = getDockerContainerEnv();
-    $isLinuxDockerHost = getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
-    $isDockerContainer = getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
-    $dockerControlHost = getDockerContainerEnvBooleanProperty($dockerContainerEnv, "DOCKER_CONTROL_HOST");
+    $dockerContainerEnv = $kameHouse->core->getDockerContainerEnv();
+    $isLinuxDockerHost = $kameHouse->core->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
+    $isDockerContainer = $kameHouse->core->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
+    $dockerControlHost = $kameHouse->core->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "DOCKER_CONTROL_HOST");
 
     if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
       $username = $_SERVER['PHP_AUTH_USER'];
@@ -28,7 +29,7 @@ class KameHouseSession {
         initiateSession($username);
       } else {
         endSession($username);
-        //logToErrorFile("Invalid credentials in basic auth header");
+        //$kameHouse->logger->logToErrorFile("Invalid credentials in basic auth header");
       }
     }
     $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
@@ -37,14 +38,14 @@ class KameHouseSession {
     $sessionStatus = [ 
       'server' => gethostname(),
       'username' => $user,
-      'isLinuxHost' => isLinuxHost(),
+      'isLinuxHost' => $kameHouse->core->isLinuxHost(),
       'isLinuxDockerHost' => $isLinuxDockerHost,
       'isDockerContainer' => $isDockerContainer,
       'dockerControlHost' => $dockerControlHost,
       'roles' => $roles,
     ];
   
-    setJsonResponseBody($sessionStatus);
+    $kameHouse->core->setJsonResponseBody($sessionStatus);
   }
 
   /**

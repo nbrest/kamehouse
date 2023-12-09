@@ -14,30 +14,32 @@ class KameHouseShell {
    * execute a kamehouse shell script.
    */
   public function execute() {
+    global $kameHouse;
     $this->init();
   
     $script = isset($_GET['script']) ? $_GET['script'] : '';
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
-    $executeOnDockerHost = getBoolean($executeOnDockerHost);
+    $executeOnDockerHost = $kameHouse->core->getBoolean($executeOnDockerHost);
 
     $shellCommandOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
     $htmlCommandOutput = $this->getHtmlOutput($shellCommandOutput);
   
     $consoleOutput = [ 'htmlConsoleOutput' => $htmlCommandOutput, 'bashConsoleOutput' => $shellCommandOutput ];
   
-    setJsonResponseBody($consoleOutput);
+    $kameHouse->core->setJsonResponseBody($consoleOutput);
   }
 
   /**
    * Get a list of all kamehouse shell scripts.
    */
   public function getScripts() {
+    global $kameHouse;
     $this->init();
 
     $kameHouseShellCSV = "";
     
-    if (isLinuxHost()) {
+    if ($kameHouse->core->isLinuxHost()) {
       $kameHouseShellCSV = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh"));
     } else {
       $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/win/csv-kamehouse-shell.sh\""));
@@ -49,7 +51,7 @@ class KameHouseShell {
   
     $kameHouseShellArray = explode(",", $kameHouseShellCSV);
   
-    setJsonResponseBody($kameHouseShellArray);
+    $kameHouse->core->setJsonResponseBody($kameHouseShellArray);
   }  
 
   /**
@@ -71,23 +73,24 @@ class KameHouseShell {
    * Execute the specified script. 
    */
   private function executeShellScript($script, $scriptArgs, $executeOnDockerHost) {
+    global $kameHouse;
     if ($scriptArgs == 'null') {
       $scriptArgs = '';
     }
 
-    if(!isValidInputForShell($script)) {
-      logToErrorFile("Script " . $script . " is invalid for shell execution");
-      exitWithError(400, "script is invalid for shell execution");
+    if(!$kameHouse->core->isValidInputForShell($script)) {
+      $kameHouse->logger->logToErrorFile("Script " . $script . " is invalid for shell execution");
+      $kameHouse->core->exitWithError(400, "script is invalid for shell execution");
     }
 
-    if(!isValidInputForShell($scriptArgs)) {
-      logToErrorFile("Script arguments for script " . $script . " are invalid for shell execution");
-      exitWithError(400, "scriptArgs is invalid for shell execution");
+    if(!$kameHouse->core->isValidInputForShell($scriptArgs)) {
+      $kameHouse->logger->logToErrorFile("Script arguments for script " . $script . " are invalid for shell execution");
+      $kameHouse->core->exitWithError(400, "scriptArgs is invalid for shell execution");
     }
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
-    logToErrorFile("Started executing script " . $script);
+    $kameHouse->logger->logToErrorFile("Started executing script " . $script);
     $shellCommandOutput = shell_exec($shellCommand);
-    logToErrorFile("Finished executing script " . $script);
+    $kameHouse->logger->logToErrorFile("Finished executing script " . $script);
     return $shellCommandOutput;
   }
 
@@ -95,8 +98,9 @@ class KameHouseShell {
    * Build the shell command to execute either on windows or linux.
    */
   private function buildShellCommand($script, $scriptArgs, $executeOnDockerHost) {
+    global $kameHouse;
     $shellCommand = "";
-    if (isLinuxHost()) {
+    if ($kameHouse->core->isLinuxHost()) {
       /**
        * This requires to give permission to www-data to execute a couple of scripts. 
        * Update sudoers:
@@ -112,7 +116,7 @@ class KameHouseShell {
       $shellCommand = $shellCommand . " -x";
     }
     $shellCommand = $shellCommand . " -s '" . $script . "' -a '" . $scriptArgs . "'";
-    if (!isLinuxHost()) {
+    if (!$kameHouse->core->isLinuxHost()) {
       $shellCommand . "\"";
     }
     return $shellCommand;   
@@ -122,7 +126,8 @@ class KameHouseShell {
    * Convert the specified bash output to html output.
    */
   private function getHtmlOutput($shellCommandOutput) {
-    $htmlCommandOutput = convertBashColorsToHtml($shellCommandOutput);
+    global $kameHouse;
+    $htmlCommandOutput = $kameHouse->core->convertBashColorsToHtml($shellCommandOutput);
     $htmlCommandOutput = explode("\n", $htmlCommandOutput);
     return $htmlCommandOutput;
   }

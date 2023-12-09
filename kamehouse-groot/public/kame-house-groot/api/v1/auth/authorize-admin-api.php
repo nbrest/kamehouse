@@ -22,6 +22,7 @@ class KameHouseApiAuthorizator {
    * Authorize api.
    */
   public function authorize() {
+    global $kameHouse;
     $this->init();
 
     if (isAdminUser()) {
@@ -35,18 +36,19 @@ class KameHouseApiAuthorizator {
       if (isAuthorizedUser($username, $password) && hasAdminRole($username)) {
         return;
       } else {
-        logToErrorFile("Invalid username and password");
-        exitWithError(401, "Invalid username and password");
+        $kameHouse->logger->logToErrorFile("Invalid username and password");
+        $kameHouse->core->exitWithError(401, "Invalid username and password");
       }
     }
 
-    exitWithError(401, "Login as admin to /kame-house-groot to access this endpoint");
+    $kameHouse->core->exitWithError(401, "Login as admin to /kame-house-groot to access this endpoint");
   }
 
   /**
    * Init authorize api.
    */
   private function init() {
+    require_once("../../../../api/v1/commons/kamehouse.php");
     require_once("kamehouse-auth.php");
   }
 }  
