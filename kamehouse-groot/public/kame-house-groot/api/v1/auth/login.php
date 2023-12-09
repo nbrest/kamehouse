@@ -26,8 +26,8 @@ class KameHouseGrootLogin {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if (isAuthorizedUser($username, $password)) {
-      initiateSession($username);
+    if ($kameHouse->auth->isAuthorizedUser($username, $password)) {
+      $kameHouse->auth->initiateSession($username);
       $this->redirectLoginSuccess();
     } else {
       $kameHouse->logger->logToErrorFile("User '" . $username . "' is not authorized");

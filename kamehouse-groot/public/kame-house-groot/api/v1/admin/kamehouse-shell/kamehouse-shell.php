@@ -58,12 +58,13 @@ class KameHouseShell {
    * Init execute.
    */
   private function init() {
+    global $kameHouse;
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
     require_once("../../../../api/v1/commons/kamehouse.php");
     require_once("../../../../api/v1/auth/authorize-admin-api.php");
-    unlockSession();
+    $kameHouse->auth->unlockSession();
     // Disable time_limit and max_execution_time (mainly for scp-torrent.sh script)
     set_time_limit(0);
     ini_set('max_execution_time', 0);

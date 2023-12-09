@@ -25,15 +25,15 @@ class KameHouseApiAuthorizator {
     global $kameHouse;
     $this->init();
 
-    if (isAdminUser()) {
+    if ($kameHouse->auth->isAdminUser()) {
       return;
     }
 
-    if (isAuthorizationHeaderSet()) {
-      $username = getUsernameFromAuthorizationHeader();
-      $password = getPasswordFromAuthorizationHeader();
+    if ($kameHouse->auth->isAuthorizationHeaderSet()) {
+      $username = $kameHouse->auth->getUsernameFromAuthorizationHeader();
+      $password = $kameHouse->auth->getPasswordFromAuthorizationHeader();
 
-      if (isAuthorizedUser($username, $password) && hasAdminRole($username)) {
+      if ($kameHouse->auth->isAuthorizedUser($username, $password) && $kameHouse->auth->hasAdminRole($username)) {
         return;
       } else {
         $kameHouse->logger->logToErrorFile("Invalid username and password");

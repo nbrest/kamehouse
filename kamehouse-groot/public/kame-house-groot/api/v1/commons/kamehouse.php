@@ -15,10 +15,15 @@ class KameHouse {
 
   public $core;
   public $logger;
+  public $auth;
 
   function __construct() {
     $this->core = new KameHouseCore();
     $this->logger = new KameHouseLogger();
+  }
+
+  public function setAuth($auth) {
+    $this->auth = $auth;
   }
 
 } // KameHouse

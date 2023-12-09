@@ -21,13 +21,14 @@ class KameHousePageAuthorizator {
    * Check if there's an active session, otherwise redirect to login page.
    */
   public function authorize() {
+    global $kameHouse;
     $this->init();
 
-    if (isAdminUser()) {
-      unlockSession();
+    if ($kameHouse->auth->isAdminUser()) {
+      $kameHouse->auth->unlockSession();
       return;
     }
-    unlockSession();
+    $kameHouse->auth->unlockSession();
 
     if (isset($_SERVER['REQUEST_URI'])) {
       header('Location: /kame-house-groot/login.html?unauthorizedPageAccess=true&referrer=' . $_SERVER['REQUEST_URI']);

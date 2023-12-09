@@ -25,15 +25,15 @@ class KameHouseSession {
     if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
       $username = $_SERVER['PHP_AUTH_USER'];
       $password = $_SERVER['PHP_AUTH_PW'];
-      if (isAuthorizedUser($username, $password)) {
-        initiateSession($username);
+      if ($kameHouse->auth->isAuthorizedUser($username, $password)) {
+        $kameHouse->auth->initiateSession($username);
       } else {
-        endSession($username);
+        $kameHouse->auth->endSession($username);
         //$kameHouse->logger->logToErrorFile("Invalid credentials in basic auth header");
       }
     }
     $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
-    $roles = getRoles($user);
+    $roles = $kameHouse->auth->getRoles($user);
 
     $sessionStatus = [ 
       'server' => gethostname(),
