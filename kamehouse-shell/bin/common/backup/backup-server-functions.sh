@@ -183,7 +183,7 @@ copyApacheDevFolders() {
   if [ -d "${SOURCE_WWW}" ]; then
     mkdir -p ${DEST_WWW}
     cp -vrf ${SOURCE_WWW}/*.html ${DEST_WWW}
-    checkCommandStatus "$?" "An error occurred during file copy" 
+    #checkCommandStatus "$?" "An error occurred during file copy" 
   else
     log.warn "${SOURCE_WWW} doesn't exist"
   fi
