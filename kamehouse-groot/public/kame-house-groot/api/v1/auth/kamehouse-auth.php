@@ -21,17 +21,6 @@ class KameHouseAuth {
   }
 
   /**
-   * Check if the user is logged in.
-   */
-  public function isLoggedIn() {
-    if (isset($_SESSION['logged-in']) && isset($_SESSION['username'])) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**
    * Check if the user is an admin of kamehouse.
    */
   public function isAdminUser() {
@@ -156,18 +145,6 @@ class KameHouseAuth {
   }
 
   /**
-   * Get database configuration.
-   */
-  public function getDatabaseConfig() {
-    return '{ 
-      "server" : "localhost",
-      "username" : "kameHouseUser",
-      "password" : "kameHousePwd",
-      "database" : "kameHouse"
-    }';
-  }
-
-  /**
    * Start a new session.
    */
   public function initiateSession($username) {
@@ -215,7 +192,7 @@ class KameHouseAuth {
    * with the .htpasswd file.
    * @deprecated. Moved to mariadb auth.
    */
-  public function authorizeUserDeprecated() {
+  private function authorizeUserDeprecated() {
     global $kameHouse;
     if(!$kameHouse->core->isValidInputForShell($username)) {
       $kameHouse->logger->logToErrorFile("Username '" . $username . "' has invalid characters for shell");
@@ -250,6 +227,29 @@ class KameHouseAuth {
     }
     
     return $isAuthorizedUser;
+  }
+
+  /**
+   * Check if the user is logged in.
+   */
+  private function isLoggedIn() {
+    if (isset($_SESSION['logged-in']) && isset($_SESSION['username'])) {
+      return true;
+    } else {
+      return false;
+    }
+  }  
+
+  /**
+   * Get database configuration.
+   */
+  private function getDatabaseConfig() {
+    return '{ 
+      "server" : "localhost",
+      "username" : "kameHouseUser",
+      "password" : "kameHousePwd",
+      "database" : "kameHouse"
+    }';
   }
 
 } // KameHouseAuth
