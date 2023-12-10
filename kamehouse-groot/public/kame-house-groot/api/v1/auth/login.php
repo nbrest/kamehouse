@@ -39,8 +39,9 @@ class KameHouseGrootLogin {
    * Init login.
    */
   private function init() {
-    require_once("../../../api/v1/commons/kamehouse.php");
-    require_once("kamehouse-auth.php");
+    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once("$documentRoot/kame-house-groot/api/v1/commons/kamehouse.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/auth/kamehouse-auth.php");
   }
 
   /**

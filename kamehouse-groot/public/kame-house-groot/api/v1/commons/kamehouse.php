@@ -6,9 +6,6 @@
  * 
  * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
  * 
- * Other endpoints can import this functionality with:
- *  `require_once("../../../../api/v1/commons/kamehouse.php");`
- * 
  * @author nbrest
  */
 global $kameHouse;

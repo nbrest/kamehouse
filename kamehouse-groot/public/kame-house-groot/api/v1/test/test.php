@@ -47,7 +47,8 @@ class KameHouseTest {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
-    require_once("../../../api/v1/commons/kamehouse.php");
+    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once("$documentRoot/kame-house-groot/api/v1/commons/kamehouse.php");
   }
   
   /** 
@@ -61,7 +62,8 @@ class KameHouseTest {
    * Run kamehouse examples.
    */
   private function runExamples() {
-    require_once("../../../api/v1/commons/examples/examples.php");
+    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once("$documentRoot/kame-house-groot/api/v1/commons/examples/examples.php");
   }
 
 } // KameHouseTest

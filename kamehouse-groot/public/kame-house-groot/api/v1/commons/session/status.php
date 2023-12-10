@@ -16,9 +16,10 @@ class KameHouseSessionStatus {
    */
   public function load() {
     global $kameHouse;
-    require_once("../../../../api/v1/commons/kamehouse.php");
-    require_once("../../../../api/v1/auth/kamehouse-auth.php");
-    require_once("kamehouse-session.php");
+    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once("$documentRoot/kame-house-groot/api/v1/commons/kamehouse.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/auth/kamehouse-auth.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/commons/session/kamehouse-session.php");
     $kameHouse->session->getStatus();
   }
 }
