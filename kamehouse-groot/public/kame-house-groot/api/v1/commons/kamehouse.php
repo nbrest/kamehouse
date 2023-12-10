@@ -20,6 +20,7 @@ class KameHouse {
   public $core;
   public $logger;
   public $session;
+  public $shell;
   public $util;
 
   function __construct() {
@@ -28,12 +29,25 @@ class KameHouse {
     $this->util = new KameHouseUtils();
   }
 
+  /**
+   * Set kamehouse auth.
+   */
   public function setAuth($auth) {
     $this->auth = $auth;
   }
 
+  /**
+   * Set kamehouse session.
+   */
   public function setSession($session) {
     $this->session = $session;
+  }
+
+  /**
+   * Set kamehouse shell.
+   */
+  public function setShell($shell) {
+    $this->shell = $shell;
   }
 
 } // KameHouse

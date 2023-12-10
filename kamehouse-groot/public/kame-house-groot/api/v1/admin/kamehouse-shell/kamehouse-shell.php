@@ -8,6 +8,9 @@
  * 
  * @author nbrest
  */
+global $kameHouse;
+$kameHouse->setShell(new KameHouseShell());
+
 class KameHouseShell {
 
   /**
@@ -15,8 +18,6 @@ class KameHouseShell {
    */
   public function execute() {
     global $kameHouse;
-    $this->init();
-  
     $script = isset($_GET['script']) ? $_GET['script'] : '';
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
@@ -35,7 +36,6 @@ class KameHouseShell {
    */
   public function getScripts() {
     global $kameHouse;
-    $this->init();
 
     $kameHouseShellCSV = "";
     
@@ -55,15 +55,11 @@ class KameHouseShell {
   }  
 
   /**
-   * Init execute.
+   * Init session to access kamehouse shell.
    */
-  private function init() {
+  public function initSession() {
     global $kameHouse;
-    ini_set('session.gc_maxlifetime', 0);
-    session_set_cookie_params(0);
-    session_start();
-    require_once("../../../../api/v1/commons/kamehouse.php");
-    require_once("../../../../api/v1/auth/authorize-admin-api.php");
+    $kameHouse->auth->startSession();
     $kameHouse->auth->unlockSession();
     // Disable time_limit and max_execution_time (mainly for scp-torrent.sh script)
     set_time_limit(0);

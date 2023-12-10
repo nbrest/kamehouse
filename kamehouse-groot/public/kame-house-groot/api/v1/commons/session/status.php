@@ -11,6 +11,9 @@ $kameHouseSessionStatus->load();
 
 class KameHouseSessionStatus {
 
+  /**
+   * Load the session status.
+   */
   public function load() {
     global $kameHouse;
     require_once("../../../../api/v1/commons/kamehouse.php");

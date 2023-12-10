@@ -152,9 +152,7 @@ class KameHouseAuth {
     try {
       if(session_status() !== PHP_SESSION_ACTIVE) {
         $kameHouse->logger->info("Initiating session for user " . $username);
-        ini_set('session.gc_maxlifetime', 0);
-        session_set_cookie_params(0);
-        session_start();
+        $this->startSession();
         session_regenerate_id();
         $_SESSION['logged-in'] = true;
         $_SESSION['username'] = $username;
@@ -167,6 +165,15 @@ class KameHouseAuth {
     } catch(Exception $e) {
       // session already open throws an exception, ignore it
     }
+  }
+
+  /**
+   * Start session.
+   */
+  public function startSession() {
+    ini_set('session.gc_maxlifetime', 0);
+    session_set_cookie_params(0);
+    session_start();
   }
 
   /**

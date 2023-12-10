@@ -23,7 +23,6 @@ class KameHouseApiAuthorizator {
    */
   public function authorize() {
     global $kameHouse;
-    $this->init();
 
     if ($kameHouse->auth->isAdminUser()) {
       return;
@@ -42,14 +41,6 @@ class KameHouseApiAuthorizator {
     }
 
     $kameHouse->core->exitWithError(401, "Login as admin to /kame-house-groot to access this endpoint");
-  }
-
-  /**
-   * Init authorize api.
-   */
-  private function init() {
-    require_once("../../../../api/v1/commons/kamehouse.php");
-    require_once("kamehouse-auth.php");
   }
 
 } // KameHouseApiAuthorizator 
