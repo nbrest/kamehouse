@@ -14,6 +14,33 @@ $kameHouse->setAuth(new KameHouseAuth());
 class KameHouseAuth {
 
   /**
+   * Authorize api. Validate that the user is logged in and admin.
+   */
+  public function authorizeApi() {
+    global $kameHouse;
+    $this->startSession();
+    $this->unlockSession();
+
+    if ($this->isAdminUser()) {
+      return;
+    }
+
+    if ($this->isAuthorizationHeaderSet()) {
+      $username = $this->getUsernameFromAuthorizationHeader();
+      $password = $this->getPasswordFromAuthorizationHeader();
+
+      if ($this->isAuthorizedUser($username, $password) && $this->hasAdminRole($username)) {
+        return;
+      } else {
+        $kameHouse->logger->info("Invalid username and password");
+        $kameHouse->core->exitWithError(401, "Invalid username and password");
+      }
+    }
+
+    $kameHouse->core->exitWithError(401, "Login as admin to /kame-house-groot to access this endpoint");
+  }
+
+  /**
    * Unlock the session to enable multiple requests to be executed in parallel in the same session.
    */
   public function unlockSession() {

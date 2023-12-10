@@ -18,6 +18,7 @@ class KameHouseShell {
    */
   public function execute() {
     global $kameHouse;
+    $this->configSession();
     $script = isset($_GET['script']) ? $_GET['script'] : '';
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
@@ -55,12 +56,9 @@ class KameHouseShell {
   }  
 
   /**
-   * Init session to access kamehouse shell.
+   * Config session for kamehouse shell script execution.
    */
-  public function initSession() {
-    global $kameHouse;
-    $kameHouse->auth->startSession();
-    $kameHouse->auth->unlockSession();
+  private function configSession() {
     // Disable time_limit and max_execution_time (mainly for scp-torrent.sh script)
     set_time_limit(0);
     ini_set('max_execution_time', 0);
