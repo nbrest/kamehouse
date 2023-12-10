@@ -6,7 +6,17 @@
  * 
  * @author nbrest
  */
-require_once("kamehouse-session.php");
-$kameHouseSession = new KameHouseSession();
-$kameHouseSession->getStatus();
+$kameHouseSessionStatus = new KameHouseSessionStatus();
+$kameHouseSessionStatus->load();
+
+class KameHouseSessionStatus {
+
+  public function load() {
+    global $kameHouse;
+    require_once("../../../../api/v1/commons/kamehouse.php");
+    require_once("../../../../api/v1/auth/kamehouse-auth.php");
+    require_once("kamehouse-session.php");
+    $kameHouse->session->getStatus();
+  }
+}
 ?>

@@ -19,6 +19,7 @@ class KameHouse {
   public $auth;
   public $core;
   public $logger;
+  public $session;
   public $util;
 
   function __construct() {
@@ -29,6 +30,10 @@ class KameHouse {
 
   public function setAuth($auth) {
     $this->auth = $auth;
+  }
+
+  public function setSession($session) {
+    $this->session = $session;
   }
 
 } // KameHouse

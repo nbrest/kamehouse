@@ -8,6 +8,9 @@
  * 
  * @author nbrest
  */
+global $kameHouse;
+$kameHouse->setSession(new KameHouseSession());
+
 class KameHouseSession {
 
   /**
@@ -15,7 +18,7 @@ class KameHouseSession {
    */
   public function getStatus() {
     global $kameHouse;
-    $this->init();
+    $this->initSession();
 
     $dockerContainerEnv = $kameHouse->util->docker->getDockerContainerEnv();
     $isLinuxDockerHost = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
@@ -49,14 +52,13 @@ class KameHouseSession {
   }
 
   /**
-   * Init session status.
+   * Init session.
    */
-  private function init() {
+  private function initSession() {
     ini_set('session.gc_maxlifetime', 0);
     session_set_cookie_params(0);
     session_start();
-    require_once("../../../../api/v1/commons/kamehouse.php");
-    require_once("../../../../api/v1/auth/kamehouse-auth.php");
   }  
+  
 } // KameHouseSession
 ?>
