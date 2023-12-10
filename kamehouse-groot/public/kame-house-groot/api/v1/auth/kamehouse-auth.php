@@ -41,6 +41,26 @@ class KameHouseAuth {
   }
 
   /**
+   * Check if there's an active session of an admin user, otherwise redirect to login page.
+   */
+  public function authorizePage() {
+    $this->startSession();
+    $this->unlockSession();
+
+    if ($this->isAdminUser()) {
+      return;
+    }
+
+    if (isset($_SERVER['REQUEST_URI'])) {
+      header('Location: /kame-house-groot/login.html?unauthorizedPageAccess=true&referrer=' . $_SERVER['REQUEST_URI']);
+      exit;
+    }
+
+    header('Location: /kame-house-groot/login.html?unauthorizedPageAccess=true');
+  	exit;
+  }
+
+  /**
    * Unlock the session to enable multiple requests to be executed in parallel in the same session.
    */
   public function unlockSession() {
