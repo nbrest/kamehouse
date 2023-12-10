@@ -49,7 +49,7 @@ class KameHouseGrootLogin {
   private function redirectLoginSuccess() {
     global $kameHouse;
     $redirectUrl = "/kame-house-groot/";
-    if (isset($_POST['referrer']) && $kameHouse->core->startsWith($_POST['referrer'], "/kame-house-groot/")) {
+    if (isset($_POST['referrer']) && $kameHouse->util->string->startsWith($_POST['referrer'], "/kame-house-groot/")) {
       $redirectUrl = $_POST['referrer'];
     }
     header('Location: ' . $redirectUrl);

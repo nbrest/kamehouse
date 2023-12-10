@@ -17,10 +17,10 @@ class KameHouseSession {
     global $kameHouse;
     $this->init();
 
-    $dockerContainerEnv = $kameHouse->core->getDockerContainerEnv();
-    $isLinuxDockerHost = $kameHouse->core->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
-    $isDockerContainer = $kameHouse->core->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
-    $dockerControlHost = $kameHouse->core->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "DOCKER_CONTROL_HOST");
+    $dockerContainerEnv = $kameHouse->util->docker->getDockerContainerEnv();
+    $isLinuxDockerHost = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
+    $isDockerContainer = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
+    $dockerControlHost = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "DOCKER_CONTROL_HOST");
 
     if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
       $username = $_SERVER['PHP_AUTH_USER'];

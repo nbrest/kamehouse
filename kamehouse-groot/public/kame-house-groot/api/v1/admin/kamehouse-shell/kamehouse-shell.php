@@ -20,7 +20,7 @@ class KameHouseShell {
     $script = isset($_GET['script']) ? $_GET['script'] : '';
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
-    $executeOnDockerHost = $kameHouse->core->getBoolean($executeOnDockerHost);
+    $executeOnDockerHost = $kameHouse->util->string->getBoolean($executeOnDockerHost);
 
     $shellCommandOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
     $htmlCommandOutput = $this->getHtmlOutput($shellCommandOutput);
@@ -79,12 +79,12 @@ class KameHouseShell {
       $scriptArgs = '';
     }
 
-    if(!$kameHouse->core->isValidInputForShell($script)) {
+    if(!$kameHouse->util->string->isValidInputForShell($script)) {
       $kameHouse->logger->info("Script " . $script . " is invalid for shell execution");
       $kameHouse->core->exitWithError(400, "script is invalid for shell execution");
     }
 
-    if(!$kameHouse->core->isValidInputForShell($scriptArgs)) {
+    if(!$kameHouse->util->string->isValidInputForShell($scriptArgs)) {
       $kameHouse->logger->info("Script arguments for script " . $script . " are invalid for shell execution");
       $kameHouse->core->exitWithError(400, "scriptArgs is invalid for shell execution");
     }
@@ -128,7 +128,7 @@ class KameHouseShell {
    */
   private function getHtmlOutput($shellCommandOutput) {
     global $kameHouse;
-    $htmlCommandOutput = $kameHouse->core->convertBashColorsToHtml($shellCommandOutput);
+    $htmlCommandOutput = $kameHouse->util->string->convertBashColorsToHtml($shellCommandOutput);
     $htmlCommandOutput = explode("\n", $htmlCommandOutput);
     return $htmlCommandOutput;
   }

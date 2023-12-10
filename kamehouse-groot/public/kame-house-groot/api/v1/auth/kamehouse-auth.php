@@ -80,12 +80,12 @@ class KameHouseAuth {
    */
   public function isAuthorizedUser($username, $password) {
     global $kameHouse;
-    if(!$kameHouse->core->isValidInputForShell($username)) {
+    if(!$kameHouse->util->string->isValidInputForShell($username)) {
       $kameHouse->logger->info("Username '" . $username . "' has invalid characters for db access");
       return false;
     }
 
-    if(!$kameHouse->core->isValidInputForShell($password)) {
+    if(!$kameHouse->util->string->isValidInputForShell($password)) {
       $kameHouse->logger->info("Password for username '" . $username . "' has invalid characters for for db access");
       return false;
     }
@@ -118,7 +118,7 @@ class KameHouseAuth {
    */
   public function getRoles($username) {
     global $kameHouse;
-    if(!$kameHouse->core->isValidInputForShell($username)) {
+    if(!$kameHouse->util->string->isValidInputForShell($username)) {
       $kameHouse->logger->info("Username '" . $username . "' has invalid characters for db access");
       return [];
     }
@@ -194,12 +194,12 @@ class KameHouseAuth {
    */
   private function authorizeUserDeprecated() {
     global $kameHouse;
-    if(!$kameHouse->core->isValidInputForShell($username)) {
+    if(!$kameHouse->util->string->isValidInputForShell($username)) {
       $kameHouse->logger->info("Username '" . $username . "' has invalid characters for shell");
       return false;
     }
 
-    if(!$kameHouse->core->isValidInputForShell($password)) {
+    if(!$kameHouse->util->string->isValidInputForShell($password)) {
       $kameHouse->logger->info("Password for username '" . $username . "' has invalid characters for shell");
       return false;
     }
@@ -221,7 +221,7 @@ class KameHouseAuth {
     $shellCommandOutput = explode("\n", $shellCommandOutput);
 
     foreach ($shellCommandOutput as $shellCommandOutputLine) {
-      if ($kameHouse->core->startsWith($shellCommandOutputLine, 'loginStatus=SUCCESS')) {
+      if ($kameHouse->util->string->startsWith($shellCommandOutputLine, 'loginStatus=SUCCESS')) {
         $isAuthorizedUser = true;
       }
     }
