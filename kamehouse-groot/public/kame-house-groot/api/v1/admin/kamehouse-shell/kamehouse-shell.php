@@ -80,18 +80,18 @@ class KameHouseShell {
     }
 
     if(!$kameHouse->core->isValidInputForShell($script)) {
-      $kameHouse->logger->logToErrorFile("Script " . $script . " is invalid for shell execution");
+      $kameHouse->logger->info("Script " . $script . " is invalid for shell execution");
       $kameHouse->core->exitWithError(400, "script is invalid for shell execution");
     }
 
     if(!$kameHouse->core->isValidInputForShell($scriptArgs)) {
-      $kameHouse->logger->logToErrorFile("Script arguments for script " . $script . " are invalid for shell execution");
+      $kameHouse->logger->info("Script arguments for script " . $script . " are invalid for shell execution");
       $kameHouse->core->exitWithError(400, "scriptArgs is invalid for shell execution");
     }
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
-    $kameHouse->logger->logToErrorFile("Started executing script " . $script);
+    $kameHouse->logger->info("Started executing script " . $script);
     $shellCommandOutput = shell_exec($shellCommand);
-    $kameHouse->logger->logToErrorFile("Finished executing script " . $script);
+    $kameHouse->logger->info("Finished executing script " . $script);
     return $shellCommandOutput;
   }
 

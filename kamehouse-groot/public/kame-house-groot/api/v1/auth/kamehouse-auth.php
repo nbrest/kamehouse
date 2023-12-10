@@ -56,7 +56,7 @@ class KameHouseAuth {
     if (isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])) {
       return true;
     } else {
-      $kameHouse->logger->logToErrorFile("Authorization headers not set");
+      $kameHouse->logger->info("Authorization headers not set");
       return false;
     }
   }
@@ -81,12 +81,12 @@ class KameHouseAuth {
   public function isAuthorizedUser($username, $password) {
     global $kameHouse;
     if(!$kameHouse->core->isValidInputForShell($username)) {
-      $kameHouse->logger->logToErrorFile("Username '" . $username . "' has invalid characters for db access");
+      $kameHouse->logger->info("Username '" . $username . "' has invalid characters for db access");
       return false;
     }
 
     if(!$kameHouse->core->isValidInputForShell($password)) {
-      $kameHouse->logger->logToErrorFile("Password for username '" . $username . "' has invalid characters for for db access");
+      $kameHouse->logger->info("Password for username '" . $username . "' has invalid characters for for db access");
       return false;
     }
 
@@ -95,7 +95,7 @@ class KameHouseAuth {
     $dbConfig = json_decode($this->getDatabaseConfig());
     $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
     if ($dbConnection->connect_error) {
-      $kameHouse->logger->logToErrorFile("Database connection failed: " . $dbConnection->connect_error);
+      $kameHouse->logger->info("Database connection failed: " . $dbConnection->connect_error);
       return false;
     }
 
@@ -119,7 +119,7 @@ class KameHouseAuth {
   public function getRoles($username) {
     global $kameHouse;
     if(!$kameHouse->core->isValidInputForShell($username)) {
-      $kameHouse->logger->logToErrorFile("Username '" . $username . "' has invalid characters for db access");
+      $kameHouse->logger->info("Username '" . $username . "' has invalid characters for db access");
       return [];
     }
 
@@ -128,7 +128,7 @@ class KameHouseAuth {
     $dbConfig = json_decode($this->getDatabaseConfig());
     $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
     if ($dbConnection->connect_error) {
-      $kameHouse->logger->logToErrorFile("Database connection failed: " . $dbConnection->connect_error);
+      $kameHouse->logger->info("Database connection failed: " . $dbConnection->connect_error);
       return false;
     }
 
@@ -151,7 +151,7 @@ class KameHouseAuth {
     global $kameHouse;
     try {
       if(session_status() !== PHP_SESSION_ACTIVE) {
-        $kameHouse->logger->logToErrorFile("Initiating session for user " . $username);
+        $kameHouse->logger->info("Initiating session for user " . $username);
         ini_set('session.gc_maxlifetime', 0);
         session_set_cookie_params(0);
         session_start();
@@ -160,7 +160,7 @@ class KameHouseAuth {
         $_SESSION['username'] = $username;
         $this->unlockSession();
       } else {
-        $kameHouse->logger->logToErrorFile("Session already active for user " . $username);
+        $kameHouse->logger->info("Session already active for user " . $username);
         $_SESSION['logged-in'] = true;
         $_SESSION['username'] = $username;
       }
@@ -180,7 +180,7 @@ class KameHouseAuth {
         unset($_SESSION['username']);
         session_destroy();
       } else {
-        //$kameHouse->logger->logToErrorFile("Session already ended for user " . $username);
+        //$kameHouse->logger->info("Session already ended for user " . $username);
       }
     } catch(Exception $e) {
       // session already open throws an exception, ignore it
@@ -195,19 +195,19 @@ class KameHouseAuth {
   private function authorizeUserDeprecated() {
     global $kameHouse;
     if(!$kameHouse->core->isValidInputForShell($username)) {
-      $kameHouse->logger->logToErrorFile("Username '" . $username . "' has invalid characters for shell");
+      $kameHouse->logger->info("Username '" . $username . "' has invalid characters for shell");
       return false;
     }
 
     if(!$kameHouse->core->isValidInputForShell($password)) {
-      $kameHouse->logger->logToErrorFile("Password for username '" . $username . "' has invalid characters for shell");
+      $kameHouse->logger->info("Password for username '" . $username . "' has invalid characters for shell");
       return false;
     }
 
     $isAuthorizedUser = false;
     $scriptArgs = "-u " . $username . " -p " . $password;
 
-    $kameHouse->logger->logToErrorFile("Started executing script kamehouse/kamehouse-groot-login.sh");
+    $kameHouse->logger->info("Started executing script kamehouse/kamehouse-groot-login.sh");
     if ($kameHouse->core->isLinuxHost()) {
       /**
        * This requires to give permission to www-data to execute. Check API execute.php for more details.
@@ -217,7 +217,7 @@ class KameHouseAuth {
     } else {
       $shellCommandOutput = shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'\"");
     }
-    $kameHouse->logger->logToErrorFile("Finished executing script kamehouse/kamehouse-groot-login.sh");
+    $kameHouse->logger->info("Finished executing script kamehouse/kamehouse-groot-login.sh");
     $shellCommandOutput = explode("\n", $shellCommandOutput);
 
     foreach ($shellCommandOutput as $shellCommandOutputLine) {

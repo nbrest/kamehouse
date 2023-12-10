@@ -36,7 +36,7 @@ class KameHouseApiAuthorizator {
       if ($kameHouse->auth->isAuthorizedUser($username, $password) && $kameHouse->auth->hasAdminRole($username)) {
         return;
       } else {
-        $kameHouse->logger->logToErrorFile("Invalid username and password");
+        $kameHouse->logger->info("Invalid username and password");
         $kameHouse->core->exitWithError(401, "Invalid username and password");
       }
     }

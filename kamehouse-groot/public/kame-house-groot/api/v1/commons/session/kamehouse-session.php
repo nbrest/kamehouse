@@ -29,7 +29,7 @@ class KameHouseSession {
         $kameHouse->auth->initiateSession($username);
       } else {
         $kameHouse->auth->endSession($username);
-        //$kameHouse->logger->logToErrorFile("Invalid credentials in basic auth header");
+        //$kameHouse->logger->info("Invalid credentials in basic auth header");
       }
     }
     $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';

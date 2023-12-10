@@ -21,7 +21,7 @@ class KameHouseExample {
   /** Example isLinuxHost usage */
   public function isLinuxHost() {
     global $kameHouse;
-    $kameHouse->logger->logToErrorFile("isLinuxHostExample");
+    $kameHouse->logger->info("isLinuxHostExample");
     echo "isLinuxHostExample():<br>";
     if ($kameHouse->core->isLinuxHost()) {
       echo "its a linux host. do linux host specific stuff";

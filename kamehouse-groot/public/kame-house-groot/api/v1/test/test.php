@@ -18,7 +18,7 @@ class KameHouseTest {
     global $kameHouse;
     $this->init();
   
-    $kameHouse->logger->logToErrorFile("Accessing test page");
+    $kameHouse->logger->info("Accessing test page");
     // print server info. ***** DON'T LEAVE THIS UNCOMMENTED *****
     // Gives a lot of info of the server
     echo "<h1>print server info</h1>";

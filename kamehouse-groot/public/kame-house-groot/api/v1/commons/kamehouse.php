@@ -234,7 +234,7 @@ class KameHouseCore {
   private function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
     global $kameHouse;
     if ($this->contains($param, $invalidCharSequence)) {
-      $kameHouse->logger->logToErrorFile("Input contains forbidden characters");
+      $kameHouse->logger->info("Input contains forbidden characters");
       return true;
     } else {
       return false;
@@ -249,9 +249,9 @@ class KameHouseCore {
 class KameHouseLogger {
 
   /**
-   * Log message to the apache error log file.
+   * Log info message to the apache error log file.
    */
-  public function logToErrorFile($message) {
+  public function info($message) {
     error_log($message, 0);
   }
 

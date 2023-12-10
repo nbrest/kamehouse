@@ -19,7 +19,7 @@ class KameHouseGrootLogin {
     $this->init();
 
     if (!isset($_POST['username'], $_POST['password'])) {
-      $kameHouse->logger->logToErrorFile("Username or password not set");
+      $kameHouse->logger->info("Username or password not set");
       $this->redirectLoginError();
     }
     
@@ -30,7 +30,7 @@ class KameHouseGrootLogin {
       $kameHouse->auth->initiateSession($username);
       $this->redirectLoginSuccess();
     } else {
-      $kameHouse->logger->logToErrorFile("User '" . $username . "' is not authorized");
+      $kameHouse->logger->info("User '" . $username . "' is not authorized");
       $this->redirectLoginError();
     } 
   }
