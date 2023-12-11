@@ -132,6 +132,20 @@ class ServerManager {
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
   }
 
+  /**
+   * Create all audio playlists.
+   */
+  createAllAudioPlaylists() {
+    if (this.isCommandRunning()) {
+      return;
+    }
+    this.setCommandRunning();
+    this.openExecutingCommandModal();
+    kameHouse.extension.kameHouseShell.execute('win/audio-playlists/create-all-audio-playlists.sh', "", true, 600, 
+      (scriptOutput) => this.completeCommandCallback(scriptOutput), 
+      (scriptOutput) => this.completeCommandCallback(scriptOutput));
+  }  
+
   /** Handle Session Status */
   #handleSessionStatus() {
     const sessionStatus = kameHouse.extension.groot.session;

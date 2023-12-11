@@ -438,11 +438,20 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist.png" alt="Create Playlists" title="Create Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/mplayer/video-playlist.png" alt="Create Video Playlists" title="Create Video Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
               </td>
               <td>
-                <div class="link-image-text">Update media database</div>
+                <div class="link-image-text">Update video playlists</div>
                 <div class="link-image-desc">Click to regenerate all video playlists. This command can only be executed in the media server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist.png" alt="Create Audio Playlists" title="Create Audio Playlists" onclick="kameHouse.extension.serverManager.createAllAudioPlaylists()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Recreate audio playlists</div>
+                <div class="link-image-desc">Click to update all audio playlists. This command can only be executed in the media server</div>
               </td>
             </tr>
           </tbody>
@@ -545,6 +554,7 @@
         <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
           <option value="common/logs/cat-backup-server-log.sh">backup-server</option>
           <option value="common/logs/cat-build-kamehouse-log.sh">build-kamehouse</option>
+          <option value="common/logs/cat-create-all-audio-playlists-log.sh">create-all-audio-playlists</option>
           <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
           <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
           <option value="common/logs/cat-deploy-kamehouse-log.sh" selected>deploy-kamehouse</option>
