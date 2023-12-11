@@ -30,3 +30,9 @@ Also copy [public/index.html](public/index.html) to the root of the web server d
 ## Linux:
 
 - Run `install-kamehouse-groot.sh -u kamehouseUsername` as root to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. This script is executed in `install-kamehouse.sh`
+
+# Troubleshoot
+
+## require_once() calls don't find the files
+
+- GRoot needs to run on a server that populates `$_SERVER["DOCUMENT_ROOT"]` such as apache httpd

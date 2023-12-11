@@ -1,8 +1,8 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php (GET)
+ * [INTERNAL] Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php (GET)
  * 
- * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
+ * To be imported from other php files. Not to be directly called from frontend code.
  * 
  * Class definition of kamehouse shell.
  * 

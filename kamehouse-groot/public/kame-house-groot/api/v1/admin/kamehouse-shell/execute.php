@@ -1,6 +1,6 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/execute.php (GET)
+ * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/admin/kamehouse-shell/execute.php (GET)
  * 
  * Url parameters: 
  *  - script: Script to execute with relative path to ${HOME}/programs/kamehouse-shell/bin

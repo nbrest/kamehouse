@@ -1,6 +1,6 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/auth/logout.php (GET)
+ * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/auth/logout.php (GET)
  * 
  * Logout the current user.
  * 

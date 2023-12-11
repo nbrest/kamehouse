@@ -1,6 +1,6 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/auth/login.php (POST)
+ * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/auth/login.php (POST)
  * 
  * Authenticate the specified user and password.
  * 

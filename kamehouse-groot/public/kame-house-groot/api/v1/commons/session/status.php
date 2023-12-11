@@ -1,6 +1,6 @@
 <?php 
 /**
- * Endpoint: /kame-house-groot/api/v1/commons/session/status.php (GET)
+ * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/commons/session/status.php (GET)
  * 
  * Get the current session status.
  * 

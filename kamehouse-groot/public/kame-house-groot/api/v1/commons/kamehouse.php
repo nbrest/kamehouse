@@ -1,10 +1,10 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/commons/kamehouse.php
+ * [INTERNAL] Endpoint: /kame-house-groot/api/v1/commons/kamehouse.php
  * 
  * KameHouse php framework root object.
  * 
- * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
+ * To be imported from other php files. Not to be directly called from frontend code.
  * 
  * @author nbrest
  */

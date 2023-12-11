@@ -1,8 +1,8 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/auth/authorize-page.php
+ * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/auth/authorize-page.php
  * 
- * [EXTERNAL] - To be loaded by groot pages that require an admin user, like server management page.
+ * To be loaded by groot pages that require an admin user, like server management page.
  * 
  * Check if the user is logged in and an admin.
  * 

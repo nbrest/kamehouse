@@ -1,6 +1,6 @@
 <?php 
 /**
- * Endpoint: /kame-house-groot/api/v1/test/test.php (GET)
+ * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/test/test.php (GET)
  * 
  * Test php functionality
  * 
@@ -44,9 +44,6 @@ class KameHouseTest {
    * Init test.
    */
   private function init() {
-    ini_set('session.gc_maxlifetime', 0);
-    session_set_cookie_params(0);
-    session_start();
     $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
     require_once("$documentRoot/kame-house-groot/api/v1/commons/kamehouse.php");
   }

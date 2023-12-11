@@ -1,8 +1,8 @@
 <?php
 /**
- * Endpoint: /kame-house-groot/api/v1/commons/examples/examples.php
+ * [INTERNAL] Endpoint: /kame-house-groot/api/v1/commons/examples/examples.php
  * 
- * [INTERNAL] - To be imported from other php files. Not to be directly called from frontend code.
+ * To be imported from other php files. Not to be directly called from frontend code.
  * 
  * @author nbrest
  */
