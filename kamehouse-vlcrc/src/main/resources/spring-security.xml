@@ -28,6 +28,7 @@
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="PUT" />
     <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="DELETE" />
 
+    <http-basic />
     <csrf disabled="true" />
   </http>
 
