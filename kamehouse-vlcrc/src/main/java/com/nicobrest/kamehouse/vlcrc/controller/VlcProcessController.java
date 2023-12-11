@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcProcessController extends AbstractSystemCommandController {
 
+  private static final String INPUT_FILE_SANITIZER_REGEX = "[\n\r\t\"<>?|]";
+
   public VlcProcessController(
       SystemCommandService systemCommandService) {
     super(systemCommandService);
@@ -36,7 +38,7 @@ public class VlcProcessController extends AbstractSystemCommandController {
   @PostMapping(path = "/vlc-process")
   public ResponseEntity<List<SystemCommand.Output>> startVlcPlayer(
       @RequestParam(value = "file", required = false) String file) {
-    String fileSanitized = StringUtils.sanitize(file);
+    String fileSanitized = StringUtils.sanitize(file, INPUT_FILE_SANITIZER_REGEX);
     return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(fileSanitized));
   }
 
