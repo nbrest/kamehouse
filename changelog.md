@@ -11,6 +11,7 @@
 - Refactored all javascript code to use classes
 - Refactored all php code to use classes
 - Updated vlc player connection error log level
+- Added button for create all audio playlists in groot
 - Fixed bugs
 
 #### v8.22
