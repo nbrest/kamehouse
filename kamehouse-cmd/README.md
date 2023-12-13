@@ -31,7 +31,7 @@
 - Delete the older version from the kamehouse local-maven-repo
 ```sh
 export RELEASE_VERSION=X.XX
-mvn deploy:deploy-file -DgroupId=be.jedi -DartifactId=jvncsender -Dversion=${RELEASE_VERSION} -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=${HOME}/.m2/repository/be/jedi/jvncsender/${RELEASE_VERSION}-SNAPSHOT/jvncsender-${RELEASE_VERSION}-SNAPSHOT.jar
+mvn deploy:deploy-file -DgroupId=be.jedi -DartifactId=jvncsender -Dversion=${RELEASE_VERSION} -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=${HOME}/.m2/repository/be/jedi/jvncsender/${RELEASE_VERSION}-SNAPSHOT/jvncsender-${RELEASE_VERSION}-SNAPSHOT-jar-with-dependencies.jar
 ```
 - Update jvncsender version in kamehouse parent pom.xml
 - Update local-maven-repo/be/jedi/jvncsender/${RELEASE_VERSION}/jvncsender-${RELEASE_VERSION}.pom to only have the content:
