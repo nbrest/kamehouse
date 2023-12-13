@@ -82,6 +82,46 @@
                 <div class="link-image-desc">Lock the screen of the current server</div>
               </td>
             </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/tab-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.altTabCommand()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Alt+Tab Key</div>
+                <div class="link-image-desc">
+                    Send an ALT+TAB key press to the server with the specified number of tabs to press:
+                    <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-tabs-dropdown">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                    </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/enter-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.post('/screen/enter-key-press', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Enter Key</div>
+                <div class="link-image-desc">Send an ENTER key press to the server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/esc-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.post('/screen/esc-key-press', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Esc Key</div>
+                <div class="link-image-desc">Send an ESC key press to the server</div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

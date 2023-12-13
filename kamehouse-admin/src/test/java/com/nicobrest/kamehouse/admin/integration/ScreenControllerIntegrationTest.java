@@ -30,7 +30,10 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
   @CsvSource({
       "lockTest, /lock",
       "wakeUpTest, /wake-up",
-      "unlockTest, /unlock"
+      "unlockTest, /unlock",
+      "escKeyTest, /esc-key-press",
+      "enterKeyTest, /enter-key-press",
+      "altTabKeyTest, /alt-tab-key-press"
   })
   void screenControllerTest(String testName, String apiEndpoint) throws Exception {
     logger.info("Running {}", testName);

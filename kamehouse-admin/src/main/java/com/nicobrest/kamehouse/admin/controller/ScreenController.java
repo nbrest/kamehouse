@@ -1,5 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.AltTabKeyKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.EnterKeyKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.EscKeyKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
@@ -10,6 +13,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -48,5 +52,30 @@ public class ScreenController extends AbstractSystemCommandController {
   @PostMapping(path = "/wake-up")
   public ResponseEntity<List<SystemCommand.Output>> wakeUpScreen() {
     return execKameHouseSystemCommand(new ScreenWakeUpKameHouseSystemCommand());
+  }
+
+  /**
+   * Sends an ESC key press on the server.
+   */
+  @PostMapping(path = "/esc-key-press")
+  public ResponseEntity<List<SystemCommand.Output>> escKeyPress() {
+    return execKameHouseSystemCommand(new EscKeyKameHouseSystemCommand());
+  }
+
+  /**
+   * Sends an ENTER key press on the server.
+   */
+  @PostMapping(path = "/enter-key-press")
+  public ResponseEntity<List<SystemCommand.Output>> enterKeyPress() {
+    return execKameHouseSystemCommand(new EnterKeyKameHouseSystemCommand());
+  }
+
+  /**
+   * Sends an ALT+TAB key press on the server.
+   */
+  @PostMapping(path = "/alt-tab-key-press")
+  public ResponseEntity<List<SystemCommand.Output>> altTabKeyPress(
+      @RequestParam(value = "tabs", required = false) Integer tabs) {
+    return execKameHouseSystemCommand(new AltTabKeyKameHouseSystemCommand(tabs));
   }
 }

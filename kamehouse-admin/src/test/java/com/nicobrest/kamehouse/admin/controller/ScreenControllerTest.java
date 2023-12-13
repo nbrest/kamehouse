@@ -1,5 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
 
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.AltTabKeyKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.EnterKeyKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.EscKeyKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
@@ -50,5 +53,26 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
   void wakeUpScreenSuccessfulTest() throws Exception {
     execPostKameHouseSystemCommandTest(
         "/api/v1/admin/screen/wake-up", ScreenWakeUpKameHouseSystemCommand.class);
+  }
+
+  /** ESC key press successful test. */
+  @Test
+  void escKeySuccessfulTest() throws Exception {
+    execPostKameHouseSystemCommandTest(
+        "/api/v1/admin/screen/esc-key-press", EscKeyKameHouseSystemCommand.class);
+  }
+
+  /** ENTER key press successful test. */
+  @Test
+  void enterKeySuccessfulTest() throws Exception {
+    execPostKameHouseSystemCommandTest(
+        "/api/v1/admin/screen/enter-key-press", EnterKeyKameHouseSystemCommand.class);
+  }
+
+  /** ALT+TAB key press successful test. */
+  @Test
+  void altTabKeySuccessfulTest() throws Exception {
+    execPostKameHouseSystemCommandTest(
+        "/api/v1/admin/screen/alt-tab-key-press", AltTabKeyKameHouseSystemCommand.class);
   }
 }
