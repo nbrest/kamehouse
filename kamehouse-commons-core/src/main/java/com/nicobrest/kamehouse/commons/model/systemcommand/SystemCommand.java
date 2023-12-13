@@ -22,10 +22,13 @@ public abstract class SystemCommand {
   private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
   private static final List<String> POWERSHELL_START = Arrays.asList("powershell.exe", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
+  private static final List<String> WINDOWS_CMD_START_MIN =
+      Arrays.asList("cmd.exe", "/c", "start", "/min");
 
   protected boolean logCommand = true;
   protected boolean executeOnDockerHost = false;
   protected boolean isDaemon = false;
+  protected boolean windowsCmdStartMinimized = false;
   @Masked
   protected List<String> linuxCommand = new ArrayList<>();
   @Masked
@@ -43,6 +46,14 @@ public abstract class SystemCommand {
 
   public boolean isDaemon() {
     return isDaemon;
+  }
+
+  public boolean getWindowsCmdStartMinimized() {
+    return windowsCmdStartMinimized;
+  }
+
+  public void setWindowsCmdStartMinimized(boolean windowsCmdStartMinimized) {
+    this.windowsCmdStartMinimized = windowsCmdStartMinimized;
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
@@ -87,7 +98,11 @@ public abstract class SystemCommand {
    */
   protected void addWindowsCmdStartPrefix() {
     if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      windowsCommand.addAll(WINDOWS_CMD_START);
+      if (getWindowsCmdStartMinimized()) {
+        windowsCommand.addAll(WINDOWS_CMD_START_MIN);
+      } else {
+        windowsCommand.addAll(WINDOWS_CMD_START);
+      }
     }
   }
 

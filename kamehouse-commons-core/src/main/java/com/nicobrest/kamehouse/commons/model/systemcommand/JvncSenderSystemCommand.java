@@ -23,6 +23,7 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
   public JvncSenderSystemCommand(String text) {
     logCommand = false;
     this.text = text;
+    setWindowsCmdStartMinimized(true);
     setKameHouseCmdCommands();
   }
 
