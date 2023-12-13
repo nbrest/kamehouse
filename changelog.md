@@ -12,6 +12,9 @@
 - Refactored all php code to use classes
 - Updated vlc player connection error log level
 - Added button for create all audio playlists in groot
+- Added ESC, ENTER and ALT+TAB key press buttons in admin server management page
+- Updated jvncsender to version 1.01
+- Fixed broken execute on docker host commands
 - Fixed bugs
 
 #### v8.22

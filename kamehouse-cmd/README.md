@@ -25,3 +25,13 @@
 
 - In either case the `kamehouse-cmd-bundle.zip` remains in the `kamehouse-cmd/target` directory and can be extracted to any path where you want to install the command line tool
  
+### Upgrade jvncsender version:
+
+- After installing the latest jvncsender version in my local `${HOME}/.m2` repository (check jvncsender readme to install), in the root of kamehouse project run:
+- Delete the older version from the kamehouse local-maven-repo
+```sh
+export RELEASE_VERSION=X.XX
+mvn deploy:deploy-file -DgroupId=be.jedi -DartifactId=jvncsender -Dversion=${RELEASE_VERSION} -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=${HOME}/.m2/repository/be/jedi/jvncsender/${RELEASE_VERSION}-SNAPSHOT/jvncsender-${RELEASE_VERSION}-SNAPSHOT.jar
+```
+- Update jvncsender version in kamehouse parent pom.xml
+- Then commit the changes

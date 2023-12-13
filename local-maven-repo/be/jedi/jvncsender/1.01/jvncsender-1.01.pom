@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>be.jedi</groupId>
+  <artifactId>jvncsender</artifactId>
+  <version>1.01-SNAPSHOT</version>
+  <name>jvncsender</name>
+
+  <properties>
+    <java.target.version>17</java.target.version>
+    <maven.compiler.source>${java.target.version}</maven.compiler.source>
+    <maven.compiler.target>${java.target.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Updated : 2021/09 | Dependency version date: 2020/04 -->
+    <assembly.plugin.version>3.3.0</assembly.plugin.version>
+
+    <!-- Updated : 2021/09 | Dependency version date: 2017/03 -->
+    <commons.cli.version>1.4</commons.cli.version>
+
+    <!-- Updated : 2021/09 | Dependency version date: 2019/05 -->
+    <compiler.plugin.version>3.8.1</compiler.plugin.version>
+
+    <!-- Updated : 2021/09 | Dependency version date: 2019/10 -->
+    <jar.plugin.version>3.2.0</jar.plugin.version>
+
+    <!-- Updated : 2021/09 | Dependency version date: 2021/02 -->
+    <junit.jupiter.version>5.8.0-M1</junit.jupiter.version>
+
+    <!-- Updated : 2021/09 | Dependency version date: https://www.tightvnc.com/download-old.php -->
+    <tightvnc.vncviewer.version>1.3.10</tightvnc.vncviewer.version>
+
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>local-maven-repo</id>
+      <url>file:///${project.basedir}/local-maven-repo</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+      <!-- stored in local-maven-repo -->
+      <groupId>com.tightvnc</groupId>
+      <artifactId>vncviewer</artifactId>
+      <version>${tightvnc.vncviewer.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-cli</groupId>
+      <artifactId>commons-cli</artifactId>
+      <version>${commons.cli.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler.plugin.version}</version>
+        <configuration>
+          <!-- Removes compiler warnings about java version in eclipse -->
+          <source>${java.target.version}</source>
+          <target>${java.target.version}</target>
+          <!-- Removes warning: Using platform encoding (Cp1252 actually) -->
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${jar.plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>${assembly.plugin.version}</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>be.jedi.jvncsender.VncSenderMain</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
