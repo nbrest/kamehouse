@@ -22,6 +22,5 @@ public class AltTabKeyKameHouseSystemCommand extends KameHouseSystemCommand {
       keyPressCommand.append("<TAB>");
     }
     systemCommands.add(new JvncSenderSystemCommand(keyPressCommand.toString()));
-    systemCommands.add(new JvncSenderSystemCommand(keyPressCommand.toString()));
   }
 }
