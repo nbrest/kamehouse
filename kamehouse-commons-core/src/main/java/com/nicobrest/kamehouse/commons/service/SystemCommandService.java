@@ -99,7 +99,7 @@ public class SystemCommandService {
     if (SystemCommandStatus.FAILED.getStatus().equals(commandOutput.getStatus())) {
       logger.error("execute {} response {}", commandOutput.getCommand(), commandOutput);
     } else {
-      logger.trace("execute {} response {}", commandOutput.getCommand(), commandOutput);
+      logger.debug("execute {} response {}", commandOutput.getCommand(), commandOutput);
     }
     try {
       int sleepTime = systemCommand.getSleepTime();

@@ -10,7 +10,7 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 public class FreeSystemCommand extends SystemCommand {
 
   /**
-   * Sets the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation required for this SystemCommand.
    */
   public FreeSystemCommand() {
     executeOnDockerHost = true;

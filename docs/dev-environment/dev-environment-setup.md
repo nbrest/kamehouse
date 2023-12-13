@@ -54,7 +54,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 - Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -s -p dev` to sync the ssh keys of the host to the container using default password `gohan`
 
 - Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
-  - Deploy your changes using `deploy-kamehouse.sh`
+  - Deploy your changes using `$cd {HOME}/git/kamehouse ; deploy-kamehouse.sh -c`
   - Tail tomcat and apache httpd logs using the `tail-log.sh` script
   - Test kamehouse-shell and kamehouse-cmd inside the container (or deploy them on the host and test on the host too)
 
@@ -62,11 +62,11 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 - To remote debug tomcat running in the dev container from your ide, follow the above eclipse and intellij guides to setup remote debugging
 
-- Changes made to the ui in kamehouse-ui and kamehouse-groot should be rendered automatically as well. Some changes like in /kame-house/admin pages served from tomcat need a kamehouse-ui redeployment with `deploy-kamehouse.sh -m ui` from the container's console
+- Changes made to the UI in kamehouse-ui and kamehouse-groot require re deployments with `deploy-kamehouse.sh -m ui` and `deploy-kamehouse.sh -m groot`
 
 - Stop the dev docker container with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p dev`
 
-- By default docker dev runs standalone without controlling the host. So it won't control vlc running on the host or all the other commands that would normally be executed on the host. To enable kamehouse running in the container to control the host, add -c to the `docker-run-kamehouse.sh` script
+- By default docker dev runs standalone without controlling the host. So it won't control vlc running on the host or all the other commands that would normally be executed on the host. To enable kamehouse running in the container to control the host, add `-c` to the `docker-run-kamehouse.sh` script
 
 - By default the dev container doesn't persist database or configuration files or ssh keys. To persist those in volumes between container restarts, run `docker-run-kamehouse.sh` also with -v
 

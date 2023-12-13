@@ -7,7 +7,7 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
  */
 public class VncDoKeyPressSystemCommand extends VncDoSystemCommand {
 
-  /** Sets the command line for each operation system required for this SystemCommand. */
+  /** Sets the command line for each operation required for this SystemCommand. */
   public VncDoKeyPressSystemCommand(String key) {
     setVncDoSystemCommand("key", key);
     setOutputCommand();

@@ -4,14 +4,14 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import java.util.Arrays;
 
 /**
- * System command to stop a vlc player.
+ * System command to check the status of vlc player process.
  *
  * @author nbrest
  */
 public class VlcStatusSystemCommand extends SystemCommand {
 
   /**
-   * Sets the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation required for this SystemCommand.
    */
   public VlcStatusSystemCommand() {
     executeOnDockerHost = true;

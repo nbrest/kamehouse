@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class ShutdownStatusSystemCommand extends SystemCommand {
 
   /**
-   * Sets the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation required for this SystemCommand.
    */
   public ShutdownStatusSystemCommand() {
     executeOnDockerHost = true;

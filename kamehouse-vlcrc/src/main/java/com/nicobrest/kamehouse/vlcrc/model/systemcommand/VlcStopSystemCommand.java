@@ -16,8 +16,12 @@ public class VlcStopSystemCommand extends KameHouseShellSystemCommand {
    */
   public VlcStopSystemCommand(int sleepTime) {
     super();
-    this.sleepTime = sleepTime;
-    executeOnDockerHost = true;
+    setSleepTime(sleepTime);
+  }
+
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
   }
 
   @Override

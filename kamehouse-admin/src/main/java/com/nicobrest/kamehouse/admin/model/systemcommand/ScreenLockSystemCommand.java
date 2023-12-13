@@ -13,14 +13,14 @@ import java.util.Arrays;
 public class ScreenLockSystemCommand extends SystemCommand {
 
   /**
-   * Sets the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation required for this SystemCommand.
    */
   public ScreenLockSystemCommand() {
     executeOnDockerHost = true;
     addBashPrefix();
     linuxCommand.add("DISPLAY=:0.0 gnome-screensaver-command -l");
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      String lockScreenFromDocker = PropertiesUtils.getUserHome()
+      String lockScreenFromDocker = DockerUtils.getDockerHostUserHome()
           + "\\programs\\kamehouse-shell\\bin\\win\\bat\\lock-screen-from-docker.bat";
       windowsCommand.add(lockScreenFromDocker);
     } else {

@@ -13,7 +13,7 @@ import java.util.List;
 public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
 
   /**
-   * Sets the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation required for this SystemCommand.
    */
   public ShutdownSystemCommand(int shutdownDelaySeconds) {
     super();

@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
 
   /**
-   * Sets the command line for each operation system required for this SystemCommand.
+   * Sets the command line for each operation required for this SystemCommand.
    */
   public VncDoMouseClickSystemCommand(
       String numberOfClicks, String horizontalPosition, String verticalPosition) {
