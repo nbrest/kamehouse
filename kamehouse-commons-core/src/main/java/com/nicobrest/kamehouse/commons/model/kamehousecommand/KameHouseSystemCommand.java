@@ -32,7 +32,7 @@ public abstract class KameHouseSystemCommand {
     StringBuilder sb = new StringBuilder("{systemCommands: [");
     for (SystemCommand systemCommand : systemCommands) {
       sb.append("'");
-      if (systemCommand.logCommand()) {
+        if (systemCommand.logCommand()) {
         sb.append(systemCommand.getCommand());
       } else {
         sb.append(systemCommand.getClass().getSimpleName());

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class SystemCommand {
 
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
