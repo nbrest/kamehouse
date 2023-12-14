@@ -35,16 +35,6 @@
 	}
 }
 
-.screen-section {
-	width: 100%; 
-}
-
-@media (max-width: 900px) {
-	.screen-section {
-    width: 100%; 
-  }
-}
-
 .server-management {
   text-align: left;
 }

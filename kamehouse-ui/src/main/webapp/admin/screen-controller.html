@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Screen Controller</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data" data-authorized-roles="ROLE_KAMISAMA"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+</head>
+<body>
+  <div class="main-body">
+  <div class="banner-wrapper">
+  <div id="banner" class="fade-in-out-15s banner-benji">
+    <div class="default-layout banner-text">
+      <h1>スクリーンコントローラー</h1>
+      <p>Screen Controller</p>
+      <div id="banner-server-name"></div>
+    </div>
+  </div>
+  </div>
+  <div class="default-layout screen-controller">
+
+    <div class="info-image-wrapper-m-80-60">
+      <table class="info-image-table">
+        <caption class="hidden-kh">Image-Info</caption>
+        <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="info-image-img">
+              <img src="/kame-house/img/dbz/goku-chibi-dragon-radar.jpg" alt="info image"/>
+            </td>
+            <td class="info-image-info">
+              <div class="info-image-title info-image-title-bottom">
+                Screen
+              </div>
+              <div class="info-image-desc">
+                <p>Control the screen of the TV attached to this <span class="bold-kh">KameHouse</span> server</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="screen-section">
+      <div class="link-image-wrapper-m-60-50 link-image-wrapper-w-80">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/unlock.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/unlock', null)" /></a>
+              </td>
+              <td>
+                <div class="link-image-text">Unlock</div>
+                <div class="link-image-desc">Unlock the screen of the current server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/other/lock.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/lock', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Lock</div>
+                <div class="link-image-desc">Lock the screen of the current server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/mouse-click-left.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/wake-up', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Wake Up</div>
+                <div class="link-image-desc">Trigger some mouse clicks to wake up the screen of the current server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/tab-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.altTabCommand()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Alt+Tab Key</div>
+                <div class="link-image-desc">
+                    Send an ALT+TAB key press to the server with the specified number of tabs to press:
+                    <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-tabs-dropdown">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                    </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/enter-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/enter-key-press', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Enter Key</div>
+                <div class="link-image-desc">Send an ENTER key press to the server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/esc-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/esc-key-press', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Esc Key</div>
+                <div class="link-image-desc">Send an ESC key press to the server</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
+
+  </div> <!-- screen-controller -->
+  <span id="debug-mode-wrapper"></span>
+  </div> <!-- main-body -->
+  <script src="/kame-house/js/admin/screen-controller.js"></script>
+  <script src="/kame-house/kamehouse/js/plugin/kamehouse-system-command.js"></script>
+</body>
+</html>
