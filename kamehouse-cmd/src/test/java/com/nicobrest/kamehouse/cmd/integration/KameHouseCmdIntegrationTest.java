@@ -64,14 +64,14 @@ class KameHouseCmdIntegrationTest {
   }
 
   /**
-   * Execute jvncsender operation.
+   * Execute jvncsender operation to an invalid host.
    */
   @Test
-  void jVncSenderTest() throws IOException, InterruptedException {
+  void jVncSenderInvalidHostTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderCommand();
     execute(command, List.of(0, 255));
 
-    logger.info("Finished executing {} successfully", command);
+    logger.info("Finished executing {}", command);
   }
 
   /**
@@ -156,7 +156,7 @@ class KameHouseCmdIntegrationTest {
    * Get jvncsender operation.
    */
   private String getJvncSenderOperation() {
-    return " -o jvncsender -host \"localhost\" -port 5900 -password \"d\" -text \"<ESC>\"";
+    return " -o jvncsender -host \"invalid-host\" -port 5900 -password \"d\" -text \"<ESC>\"";
   }
 
   /**
