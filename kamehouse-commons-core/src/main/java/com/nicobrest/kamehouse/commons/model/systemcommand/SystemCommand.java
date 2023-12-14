@@ -203,7 +203,6 @@ public abstract class SystemCommand {
       logger.debug("execute {} response {}", commandOutput.getCommand(), commandOutput);
     }
     try {
-      int sleepTime = getSleepTime();
       if (sleepTime > 0) {
         logger.debug("Sleeping for {} seconds", sleepTime);
         TimeUnit.SECONDS.sleep(sleepTime);

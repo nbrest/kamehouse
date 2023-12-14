@@ -55,10 +55,9 @@ public class JvncSenderSystemCommand extends SystemCommand {
       output.setStandardError(List.of("Error executing VNC command", e.getMessage()));
     }
     try {
-      int sleepTime = getSleepTime();
-      if (sleepTime > 0) {
-        logger.debug("Sleeping for {} seconds", sleepTime);
-        TimeUnit.SECONDS.sleep(sleepTime);
+      if (getSleepTime() > 0) {
+        logger.debug("Sleeping for {} seconds", getSleepTime());
+        TimeUnit.SECONDS.sleep(getSleepTime());
       }
     } catch (InterruptedException e) {
       logger.warn("Interrupted exception", e);
