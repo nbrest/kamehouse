@@ -12,6 +12,7 @@ import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import java.io.IOException;
 import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -129,5 +130,47 @@ class DockerUtilsTest {
     Properties properties = DockerUtils.getDockerContainerProperties();
 
     assertNotNull(properties);
+  }
+
+  /**
+   * isWindowsHostOrWindowsDockerHost test.
+   */
+  @Test
+  void isWindowsHostOrWindowsDockerHostTest() {
+    Assertions.assertDoesNotThrow(
+        () -> DockerUtils.isWindowsHostOrWindowsDockerHost()
+    );
+  }
+
+  /**
+   * getDockerHostHostname test.
+   */
+  @Test
+  void getDockerHostHostnameTest() {
+    Assertions.assertDoesNotThrow(
+        () -> DockerUtils.getDockerHostHostname()
+    );
+  }
+
+  /**
+   * getDockerHostUserHome test.
+   */
+  @Test
+  void getDockerHostUserHomeTest() {
+    Assertions.assertDoesNotThrow(
+        () -> DockerUtils.getDockerHostUserHome()
+    );
+  }
+
+  /**
+   * getUserHome test.
+   */
+  @Test
+  void getUserHomeTest() {
+    Assertions.assertDoesNotThrow(
+        () -> {
+          DockerUtils.getUserHome();
+          DockerUtils.getUserHome(false);
+        });
   }
 }
