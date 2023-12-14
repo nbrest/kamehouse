@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.utils.DateUtils.Day;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -220,10 +221,10 @@ class DateUtilsTest {
   }
 
   /**
-   * Test getDay.
+   * Test getDay from Date.
    */
   @Test
-  void getDayTest() {
+  void getDayFromDateTest() {
     assertNotNull(DateUtils.getDay(new Date()));
   }
 
@@ -273,5 +274,23 @@ class DateUtilsTest {
   @Test
   void getFormattedBuildDateNullInputTest() {
     assertNull(DateUtils.getFormattedBuildDate(null));
+  }
+
+  /**
+   * Test getDay from Integer.
+   */
+  @Test
+  void getDayFromIntegerTest() {
+    assertEquals(Day.SUNDAY, DateUtils.getDay(1));
+    assertEquals(Day.MONDAY, DateUtils.getDay(2));
+    assertEquals(Day.TUESDAY, DateUtils.getDay(3));
+    assertEquals(Day.WEDNESDAY, DateUtils.getDay(4));
+    assertEquals(Day.THURSDAY, DateUtils.getDay(5));
+    assertEquals(Day.FRIDAY, DateUtils.getDay(6));
+    assertEquals(Day.SATURDAY, DateUtils.getDay(7));
+    Assertions.assertThrows(
+        IllegalArgumentException.class,
+        () -> DateUtils.getDay(8)
+    );
   }
 }
