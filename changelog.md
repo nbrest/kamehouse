@@ -13,7 +13,7 @@
 - Updated vlc player connection error log level
 - Added button for create all audio playlists in groot
 - Moved screen controller buttons to a separate page from server management
-- Added ESC, ENTER and ALT+TAB key press buttons in the screen controller page
+- Added ESC, ENTER and ALT+TAB, WIN+TAB and right arrow key press buttons in the screen controller page
 - Updated jvncsender to version 1.02
 - Fixed broken execute on docker host commands
 - Fixed bugs
