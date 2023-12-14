@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.List;
 
@@ -15,8 +16,7 @@ import java.util.List;
  */
 public abstract class KameHouseShellSystemCommand extends SystemCommand {
 
-  private static final String KAMEHOUSE_SHELL_BASE = PropertiesUtils.getUserHome()
-      + "/programs/kamehouse-shell/bin/";
+  private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
 
   /**
    * Build the kamehouse-shell system command.
@@ -71,12 +71,22 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
     if (isSudo()) {
       linuxCommand.append("sudo ");
     }
-    linuxCommand.append(KAMEHOUSE_SHELL_BASE);
+    linuxCommand.append(getKameHouseShellBasePath());
     linuxCommand.append(getLinuxKameHouseShellScript());
     if (getLinuxKameHouseShellScriptArguments() != null) {
       linuxCommand.append(" ");
       linuxCommand.append(getLinuxKameHouseShellScriptArguments());
     }
     return linuxCommand.toString();
+  }
+
+  /**
+   * Get kamehouse shell scripts base path.
+   */
+  private String getKameHouseShellBasePath() {
+    if (executeOnDockerHost()) {
+      return DockerUtils.getUserHome() + KAMEHOUSE_SHELL_BASE;
+    }
+    return PropertiesUtils.getUserHome() + KAMEHOUSE_SHELL_BASE;
   }
 }
