@@ -160,7 +160,15 @@ public class DockerUtils {
    * the host or not.
    */
   public static String getUserHome() {
-    if (DockerUtils.shouldControlDockerHost()) {
+      return getUserHome(true);
+  }
+
+  /**
+   * Get the user home either from the container or from the host depending if it's set to control
+   * the host or not.
+   */
+  public static String getUserHome(boolean executeOnDockerHost) {
+    if (DockerUtils.shouldControlDockerHost() && executeOnDockerHost) {
       return DockerUtils.getDockerHostUserHome();
     }
     return PropertiesUtils.getUserHome();

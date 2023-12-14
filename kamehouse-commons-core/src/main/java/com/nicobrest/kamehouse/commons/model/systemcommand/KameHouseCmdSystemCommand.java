@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.util.Arrays;
 
 /**
@@ -37,19 +36,13 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
    * Get kamehouse cmd win path.
    */
   private String getKameHouseCmdWinPath() {
-    if (executeOnDockerHost()) {
-      return DockerUtils.getUserHome() + KAMEHOUSE_CMD_WIN;
-    }
-    return PropertiesUtils.getUserHome() + KAMEHOUSE_CMD_WIN;
+    return DockerUtils.getUserHome(executeOnDockerHost()) + KAMEHOUSE_CMD_WIN;
   }
 
   /**
    * Get kamehouse cmd linux path.
    */
   private String getKameHouseCmdLinuxPath() {
-    if (executeOnDockerHost()) {
-      return DockerUtils.getUserHome() + KAMEHOUSE_CMD_LINUX;
-    }
-    return PropertiesUtils.getUserHome() + KAMEHOUSE_CMD_LINUX;
+    return DockerUtils.getUserHome(executeOnDockerHost()) + KAMEHOUSE_CMD_LINUX;
   }
 }
