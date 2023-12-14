@@ -160,7 +160,7 @@ public class DockerUtils {
    * the host or not.
    */
   public static String getUserHome() {
-      return getUserHome(true);
+    return getUserHome(true);
   }
 
   /**
