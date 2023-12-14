@@ -64,7 +64,7 @@ public class JvncSenderSystemCommand extends SystemCommand {
       logger.warn("Interrupted exception", e);
       Thread.currentThread().interrupt();
     }
-    return output;
+    return getOutput();
   }
 
   /**
