@@ -90,7 +90,7 @@ public class ScreenController extends AbstractSystemCommandController {
   }
 
   /**
-   * Sends a right key press on the server.
+   * Sends a right key press on the server followed by the ENTER key.
    */
   @PostMapping(path = "/right-key-press")
   public ResponseEntity<List<SystemCommand.Output>> winTabKeyPress(

@@ -122,6 +122,37 @@
                 <div class="link-image-desc">Send an ESC key press to the server</div>
               </td>
             </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/windows-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/win-tab-key-press', null)"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Windows Key</div>
+                <div class="link-image-desc">Send a WIN+TAB key press to the server</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a><img class="link-image-img" src="/kame-house/img/pc/right-arrow.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.rightKeyCommand()"/></a>
+              </td>
+              <td>
+                <div class="link-image-text">Right Key</div>
+                <div class="link-image-desc">
+                    Send a right key presses and ENTER to the server with the specified number of right keys to press:
+                    <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-right-key-dropdown">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                    </select>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

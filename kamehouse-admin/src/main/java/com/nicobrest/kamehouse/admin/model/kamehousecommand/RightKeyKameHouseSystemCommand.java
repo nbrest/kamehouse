@@ -4,7 +4,8 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
 
 /**
- * KameHouseSystemCommand to send an RIGHT key press the specified amount of times.
+ * KameHouseSystemCommand to send an RIGHT key press the specified amount of times followed by the
+ * ENTER key.
  *
  * @author nbrest
  */

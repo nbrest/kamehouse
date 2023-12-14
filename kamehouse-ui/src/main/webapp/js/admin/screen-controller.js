@@ -8,6 +8,7 @@ class ScreenController {
 
   static #ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
   static #ALT_TAB_URL = '/screen/alt-tab-key-press';
+  static #RIGHT_KEY_PRESS = '/screen/right-key-press';
 
   /**
    * Load the extension.
@@ -18,7 +19,9 @@ class ScreenController {
     this.#importCss();
   }
   
-  /** Send ALT+TAB key press */
+  /** 
+   * Send ALT+TAB key press 
+   */
   altTabCommand() {
     const numberOfTabs = document.getElementById("number-of-tabs-dropdown").value;
     kameHouse.logger.trace("Number of tab presses: " + numberOfTabs);
@@ -31,6 +34,22 @@ class ScreenController {
     (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
     (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)});
   }
+
+  /** 
+   * Send a right key press and ENTER
+   */
+  rightKeyCommand() {
+    const keyPresses = document.getElementById("number-of-right-key-dropdown").value;
+    kameHouse.logger.trace("Number of right key presses: " + keyPresses);
+    const requestParam = {
+      "keyPresses" : keyPresses
+    };
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, ScreenController.#ADMIN_API_URL + ScreenController.#RIGHT_KEY_PRESS, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)});
+  }  
 
   /**
    * Execute post http request.
