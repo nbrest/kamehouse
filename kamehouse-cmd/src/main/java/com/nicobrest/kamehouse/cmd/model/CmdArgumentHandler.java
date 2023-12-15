@@ -35,8 +35,9 @@ public class CmdArgumentHandler {
   private static final List<String> DECRYPT_OPTIONS = Arrays.asList("-if", "-of");
   private static final List<String> ENCRYPT_OPTIONS = Arrays.asList("-if", "-of");
   private static final List<String> JVNCSENDER_OPTIONS =
-      Arrays.asList("-host", "-password", "-port", "-text");
+      Arrays.asList("-host", "-password", "-port");
   private static final List<String> WOL_OPTIONS = Arrays.asList("-mac", "-broadcast");
+  private static final String MOUSE_CLICK = "mouseClick";
 
   private CommandLine commandLine;
   private Operation operation;
@@ -56,6 +57,7 @@ public class CmdArgumentHandler {
     ALL_OPTIONS.addOption(new Option("password", "password", true, "Password"));
     ALL_OPTIONS.addOption(new Option("port", "port", true, "Port"));
     ALL_OPTIONS.addOption(new Option("text", "text", true, "Text"));
+    ALL_OPTIONS.addOption(new Option(MOUSE_CLICK, MOUSE_CLICK, true, "Mouse Click"));
     ALL_OPTIONS.addOption(new Option("mac", "mac", true, "Mac Address"));
     ALL_OPTIONS.addOption(new Option("broadcast", "broadcast", true, "Broadcast Address"));
   }
@@ -167,6 +169,17 @@ public class CmdArgumentHandler {
    */
   private void parseJvncSenderOperation() {
     parseOperation(JVNCSENDER_OPTIONS);
+    if (!hasArgument("text") && !hasArgument(MOUSE_CLICK)) {
+      logger.error("Either text or mouseClick parameters need to be set");
+      help();
+    }
+    if (hasArgument(MOUSE_CLICK)) {
+      String mouseClick = getArgument(MOUSE_CLICK);
+      if (!mouseClick.matches("\\d+,\\d+,\\d+")) {
+        logger.error("Invalid mouseClick option value: {}", mouseClick);
+        help();
+      }
+    }
   }
 
   /**

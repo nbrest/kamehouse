@@ -74,7 +74,7 @@ class CmdArgumentHandlerTest {
    * Tests parsing the arguments successfully for operation jvncsender.
    */
   @Test
-  void jvncSenderSuccessfulTest() {
+  void jvncSenderTextSuccessfulTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
         "gokupass", "-port", "5900", "-text", "madamadadane"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
@@ -84,6 +84,38 @@ class CmdArgumentHandlerTest {
     assertEquals("gokupass", cmdArgumentHandler.getArgument("password"));
     assertEquals("5900", cmdArgumentHandler.getArgument("port"));
     assertEquals("madamadadane", cmdArgumentHandler.getArgument("text"));
+  }
+
+  /**
+   * Tests parsing the arguments successfully for operation jvncsender.
+   */
+  @Test
+  void jvncSenderMouseClickSuccessfulTest() {
+    String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
+        "gokupass", "-port", "5900", "-mouseClick", "100,100,1"};
+    CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
+    assertNotNull(cmdArgumentHandler);
+    assertEquals(Operation.JVNCSENDER, cmdArgumentHandler.getOperation());
+    assertEquals("goku-server", cmdArgumentHandler.getArgument("host"));
+    assertEquals("gokupass", cmdArgumentHandler.getArgument("password"));
+    assertEquals("5900", cmdArgumentHandler.getArgument("port"));
+    assertEquals("100,100,1", cmdArgumentHandler.getArgument("mouseClick"));
+  }
+
+  /**
+   * Tests parsing the arguments with error for operation jvncsender.
+   */
+  @Test
+  void jvncSenderNoTextOrMouseClickErrorTest() {
+    String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
+        "gokupass", "-port", "5900"};
+    CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
+    assertNotNull(cmdArgumentHandler);
+    assertEquals(Operation.JVNCSENDER, cmdArgumentHandler.getOperation());
+    assertEquals("goku-server", cmdArgumentHandler.getArgument("host"));
+    assertEquals("gokupass", cmdArgumentHandler.getArgument("password"));
+    assertEquals("5900", cmdArgumentHandler.getArgument("port"));
+    assertNull(cmdArgumentHandler.getArgument("mouseClick"));
   }
 
   /**

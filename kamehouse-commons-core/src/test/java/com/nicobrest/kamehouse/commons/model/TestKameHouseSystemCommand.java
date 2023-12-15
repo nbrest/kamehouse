@@ -1,12 +1,14 @@
 package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
 
 /**
- * Test KameHouseSystemCommand to test the SystemCommandService.
+ * Test KameHouseSystemCommand to test the SystemCommandService. Replaced now with
+ * {@link JvncSenderSystemCommand}.
  *
  * @author nbrest
  */

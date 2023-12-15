@@ -99,7 +99,6 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
 
 # Setup mocked bins
 COPY docker/mocked-bin/vlc /usr/bin/vlc
-COPY docker/mocked-bin/vncdo /usr/local/bin/vncdo
 COPY docker/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
 # Setup tomcat
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/tomcat/server.xml /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat/conf/
@@ -121,7 +120,6 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/dock
 
 # Setup mocked bins
 RUN chmod a+x /usr/bin/vlc ; \
-  chmod a+x /usr/local/bin/vncdo ; \
   chmod a+x /usr/bin/gnome-screensaver-command
 
 # run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards

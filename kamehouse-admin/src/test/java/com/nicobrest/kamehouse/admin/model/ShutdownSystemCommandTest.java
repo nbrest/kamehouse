@@ -36,7 +36,7 @@ class ShutdownSystemCommandTest {
 
     ShutdownSystemCommand command = new ShutdownSystemCommand(180);
     assertEquals(0, command.getSleepTime());
-    assertEquals("[cmd.exe, /c, start, shutdown, /s, /t , 180]", command.getCommand().toString());
+    assertEquals("[cmd.exe, /c, start, /min, shutdown, /s, /t , 180]", command.getCommand().toString());
   }
 
   @Test

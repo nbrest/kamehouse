@@ -64,11 +64,22 @@ class KameHouseCmdIntegrationTest {
   }
 
   /**
-   * Execute jvncsender operation to an invalid host.
+   * Execute jvncsender text operation to an invalid host.
    */
   @Test
-  void jVncSenderInvalidHostTest() throws IOException, InterruptedException {
-    List<String> command = getJvncSenderCommand();
+  void jVncSenderTextTest() throws IOException, InterruptedException {
+    List<String> command = getJvncSenderTextCommand();
+    execute(command, List.of(0, 255));
+
+    logger.info("Finished executing {}", command);
+  }
+
+  /**
+   * Execute jvncsender mouse click operation to an invalid host.
+   */
+  @Test
+  void jVncSenderMouseClickTest() throws IOException, InterruptedException {
+    List<String> command = getJvncSenderMouseClickCommand();
     execute(command, List.of(0, 255));
 
     logger.info("Finished executing {}", command);
@@ -116,10 +127,17 @@ class KameHouseCmdIntegrationTest {
   }
 
   /**
-   * Get the jvncsender command.
+   * Get the jvncsender text command.
    */
-  private List<String> getJvncSenderCommand() {
-    return getCommand(getJvncSenderOperation());
+  private List<String> getJvncSenderTextCommand() {
+    return getCommand(getJvncSenderTextOperation());
+  }
+
+  /**
+   * Get the jvncsender mouse click command.
+   */
+  private List<String> getJvncSenderMouseClickCommand() {
+    return getCommand(getJvncSenderMouseClickOperation());
   }
 
   /**
@@ -128,7 +146,7 @@ class KameHouseCmdIntegrationTest {
   private List<String> getCommand(String operationCommand) {
     List<String> command = new ArrayList<>();;
     if (PropertiesUtils.isWindowsHost()) {
-      command.addAll(List.of("cmd.exe", "/c", "start", KAMEHOUSE_CMD_WIN));
+      command.addAll(List.of("cmd.exe", "/c", "start", "/min", KAMEHOUSE_CMD_WIN));
     } else {
       command.add(KAMEHOUSE_CMD_LIN);
     }
@@ -153,10 +171,17 @@ class KameHouseCmdIntegrationTest {
   }
 
   /**
-   * Get jvncsender operation.
+   * Get jvncsender text operation.
    */
-  private String getJvncSenderOperation() {
+  private String getJvncSenderTextOperation() {
     return " -o jvncsender -host \"invalid-host\" -port 5900 -password \"d\" -text \"<ESC>\"";
+  }
+
+  /**
+   * Get jvncsender mouse click operation.
+   */
+  private String getJvncSenderMouseClickOperation() {
+    return " -o jvncsender -host \"invalid-host\" -port 5900 -password \"d\" -mouseClick \"1,1,1\"";
   }
 
   /**

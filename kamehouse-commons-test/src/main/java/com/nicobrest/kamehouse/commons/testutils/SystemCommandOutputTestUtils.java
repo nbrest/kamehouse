@@ -96,7 +96,7 @@ public class SystemCommandOutputTestUtils extends AbstractTestUtils<SystemComman
   private void initTestDataList() {
     SystemCommand.Output systemCommandOutput2 = new SystemCommand.Output();
     systemCommandOutput2.setCommand(
-        "[cmd.exe, /c, start, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
+        "[cmd.exe, /c, start, /min, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]");
     systemCommandOutput2.setExitCode(-1);
     systemCommandOutput2.setPid(-1);
     systemCommandOutput2.setStatus("running");

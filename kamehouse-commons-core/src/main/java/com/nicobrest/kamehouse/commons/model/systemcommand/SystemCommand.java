@@ -43,7 +43,7 @@ public abstract class SystemCommand {
   protected boolean logCommand = true;
   protected boolean executeOnDockerHost = false;
   protected boolean isDaemon = false;
-  protected boolean windowsCmdStartMinimized = false;
+  protected boolean windowsCmdStartMinimized = true;
   @Masked
   protected List<String> linuxCommand = new ArrayList<>();
   @Masked

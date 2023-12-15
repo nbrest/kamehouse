@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
-import be.jedi.jvncsender.VncSender;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
@@ -8,11 +7,12 @@ import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.jvncsender.VncSender;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * JvncSender kamehouse-cmd command.
+ * JvncSender system command to send text and mouse clicks to a VNC server.
  *
  * @author nbrest
  */
@@ -20,10 +20,13 @@ public class JvncSenderSystemCommand extends SystemCommand {
 
   private static final int VNC_PORT = 5900;
 
-  private String text;
+  private String text = null;
+  private Integer positionX = null;
+  private Integer positionY = null;
+  private Integer clickCount = null;
 
   /**
-   * Setup jvncsender system command.
+   * Setup jvncsender text system command.
    */
   public JvncSenderSystemCommand(String text) {
     logCommand = false;
@@ -32,7 +35,7 @@ public class JvncSenderSystemCommand extends SystemCommand {
   }
 
   /**
-   * Setup jvncsender system command.
+   * Setup jvncsender text system command.
    */
   public JvncSenderSystemCommand(String text, int sleepTime) {
     logCommand = false;
@@ -41,15 +44,41 @@ public class JvncSenderSystemCommand extends SystemCommand {
     setOutputCommand();
   }
 
+  /**
+   * Setup jvncsender mouse click system command.
+   */
+  public JvncSenderSystemCommand(int positionX, int positionY, int clickCount) {
+    logCommand = false;
+    this.positionX = positionX;
+    this.positionY = positionY;
+    this.clickCount = clickCount;
+    setOutputCommand();
+  }
+
+  /**
+   * Setup jvncsender mouse click system command.
+   */
+  public JvncSenderSystemCommand(int positionX, int positionY, int clickCount, int sleepTime) {
+    logCommand = false;
+    setSleepTime(sleepTime);
+    this.positionX = positionX;
+    this.positionY = positionY;
+    this.clickCount = clickCount;
+    setOutputCommand();
+  }
+
   @Override
   public SystemCommand.Output execute() {
     String host = DockerUtils.getHostname();
     String password = getVncServerPassword();
-    logger.info("Sending text to vnc server {}:{}", host, VNC_PORT);
     try {
       VncSender vncSender = new VncSender(host, VNC_PORT, password);
-      vncSender.sendText(text);
-      output.setStandardOutput(List.of("VNC command executed successfully"));
+      if (!StringUtils.isEmpty(text)) {
+        vncSender.sendText(text);
+      } else {
+        vncSender.sendMouseClick(positionX, positionY, clickCount);
+      }
+      output.setStandardOutput(List.of("JVNCSender command executed successfully"));
     } catch (Exception e) {
       logger.error("Error sending text to vnc server", e);
       output.setStandardError(List.of("Error executing VNC command", e.getMessage()));

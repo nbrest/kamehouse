@@ -82,9 +82,33 @@ class MainAppTest {
    * Tests running kamehouse-cmd with operation jvncsender.
    */
   @Test
-  void jVncSenderUnknownHostTest() {
+  void jVncSenderTextTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
         "-password", "", "-text", "<ESC>"};
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
+  }
+
+  /**
+   * Tests running kamehouse-cmd with operation jvncsender.
+   */
+  @Test
+  void jVncSenderMouseClickTest() {
+    String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
+        "-password", "", "-mouseClick", "100,100,1"};
+    Assertions.assertDoesNotThrow(() -> {
+      MainApp.main(args);
+    });
+  }
+
+  /**
+   * Tests running kamehouse-cmd with operation jvncsender.
+   */
+  @Test
+  void jVncSenderNoTextOrMouseClickTest() {
+    String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
+        "-password", ""};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
     });

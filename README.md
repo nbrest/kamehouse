@@ -118,9 +118,8 @@ The responsive layout and mobile app layout was developed and tested for several
 This web application interacts with other applications that need to be installed on the server to execute certain functionality. These external dependencies are:
 
 * **VLC Player** (https://www.videolan.org/)
-* **VNC Server**. Any vnc server will do (https://www.tightvnc.com/)
-* **VNCDoTool** (https://github.com/sibson/vncdotool)
-* **gnome-screensaver-command** in **Ubuntu** (http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
+* **VNC Server** Any vnc server will do (https://www.tightvnc.com/)
+* **gnome-screensaver-command** To lock screen in **Linux** (http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
 
 The application will load even without these installed, however some functionality will not work without them.
 

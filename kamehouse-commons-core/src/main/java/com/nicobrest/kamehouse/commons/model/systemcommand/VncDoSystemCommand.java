@@ -10,10 +10,12 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.Arrays;
 
 /**
- * Base class for VncDo system commands.
+ * Base class for VncDo system commands to send text and mouse clicks to a VNC server.
  *
  * @author nbrest
+ * @deprecated use {@link JvncSenderSystemCommand}.
  */
+@Deprecated(since = "v9.00")
 public abstract class VncDoSystemCommand extends SystemCommand {
 
   /**

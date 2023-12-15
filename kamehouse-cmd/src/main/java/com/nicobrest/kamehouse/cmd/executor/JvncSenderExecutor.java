@@ -1,10 +1,10 @@
 package com.nicobrest.kamehouse.cmd.executor;
 
-import be.jedi.jvncsender.VncSender;
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.jvncsender.VncSender;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,20 +15,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class JvncSenderExecutor implements Executor {
 
-  private final Logger logger = LoggerFactory.getLogger(JvncSenderExecutor.class);
-
   /**
    * Execute the operation.
    */
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String host = cmdArgumentHandler.getArgument("host");
-    Integer port = Integer.valueOf(cmdArgumentHandler.getArgument("port"));
+    Integer port = Integer.parseInt(cmdArgumentHandler.getArgument("port"));
     String password = cmdArgumentHandler.getArgument("password");
     String text = cmdArgumentHandler.getArgument("text");
-    logger.info("Sending text to vnc server {}:{}", host, port);
+    String mouseClick = cmdArgumentHandler.getArgument("mouseClick");
+    if (StringUtils.isEmpty(text) && StringUtils.isEmpty(mouseClick)) {
+      throw new KameHouseInvalidCommandException("Both text and mouseClick are empty");
+    }
     try {
       VncSender vncSender = new VncSender(host, port, password);
-      vncSender.sendText(text);
+      if (StringUtils.isEmpty(text)) {
+        String[] mouseClickParams = mouseClick.split(",");
+        int positionX = Integer.parseInt(mouseClickParams[0]);
+        int positionY = Integer.parseInt(mouseClickParams[1]);
+        int clickCount = Integer.parseInt(mouseClickParams[2]);
+        vncSender.sendMouseClick(positionX, positionY, clickCount);
+      } else {
+        vncSender.sendText(text);
+      }
     } catch (Exception e) {
       throw new KameHouseException(e);
     }
