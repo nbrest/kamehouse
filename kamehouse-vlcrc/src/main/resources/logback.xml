@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
   <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n</Pattern>
@@ -117,7 +119,7 @@
   </logger>
 
   <!-- other -->
-  <logger level="WARN" name="ch.qos.logback" additivity="false">
+  <logger level="ERROR" name="ch.qos.logback" additivity="false">
     <appender-ref ref="dailyRollingFileAppender" />
     <appender-ref ref="consoleAppender" />
   </logger>
