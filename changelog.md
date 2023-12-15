@@ -5,7 +5,7 @@
 
 # ChangeLog:
 
-#### v8.23
+#### v9.00
 
 - **The frontend code from this release is very different compared to the previous version**
 - Refactored all javascript code to use classes
@@ -14,8 +14,9 @@
 - Added button for create all audio playlists in groot
 - Moved screen controller buttons to a separate page from server management
 - Added ESC, ENTER and ALT+TAB, WIN+TAB and right arrow key press buttons in the screen controller page
-- Updated jvncsender to version 1.02
+- Updated jvncsender to version 1.03
 - Moved jvncsender commands to execute direcly from webapps rather than going through kamehouse-cmd
+- Replaced mouse clicks from vncdo with jvncsender. Deprecated all use of vncdo
 - Fixed broken execute on docker host commands
 - Fixed bugs
 
