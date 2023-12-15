@@ -289,8 +289,12 @@ class CommonsCoreModelTest {
     };
     assertNotNull(kameHouseCmdSystemCommand.toString());
 
-    JvncSenderSystemCommand jvncSenderSystemCommand = new JvncSenderSystemCommand("");
-    assertNotNull(jvncSenderSystemCommand.toString());
+    JvncSenderSystemCommand jvncSenderTextSystemCommand = new JvncSenderSystemCommand("");
+    assertNotNull(jvncSenderTextSystemCommand.toString());
+
+    JvncSenderSystemCommand jvncSenderMouseClickSystemCommand = new JvncSenderSystemCommand(1, 2,
+        3);
+    assertNotNull(jvncSenderMouseClickSystemCommand.getCommand());
   }
 
   /**
