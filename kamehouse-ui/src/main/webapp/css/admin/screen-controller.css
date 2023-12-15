@@ -1,16 +1,6 @@
 /*
  * Screen controller styles.
  */
-.screen-section {
-	width: 100%; 
-}
-
-@media (max-width: 900px) {
-	.screen-section {
-    width: 100%; 
-  }
-}
-
 .screen-controller {
   text-align: left;
 }
