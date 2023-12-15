@@ -69,7 +69,7 @@ class LogLevelManagerServiceTest {
   @Test
   void getLogLevelAllPackagesSuccessfulTest() {
     List<String> logLevel = logLevelManagerService.getLogLevel(null);
-    assertEquals(10, logLevel.size());
+    assertEquals(11, logLevel.size());
   }
 
   /**

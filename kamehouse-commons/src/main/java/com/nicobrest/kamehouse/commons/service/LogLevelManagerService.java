@@ -52,6 +52,7 @@ public class LogLevelManagerService {
     kamehousePackages.put(
         "com.nicobrest.kamehouse.commons.web.filter.logger" + ".CustomRequestLoggingFilter",
         DEBUG);
+    kamehousePackages.put("com.nicobrest.kamehouse.jvncsender", INFO);
     KAMEHOUSE_PACKAGES_LOG_LEVEL = Collections.unmodifiableMap(kamehousePackages);
 
     Map<String, String> externalPackages = new HashMap<>();

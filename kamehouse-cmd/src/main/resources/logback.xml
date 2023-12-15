@@ -48,6 +48,12 @@
     <appender-ref ref="consoleAppender" />
   </logger>
 
+  <!-- kamehouse jvncsender -->
+  <logger level="INFO" name="com.nicobrest.kamehouse.jvncsender" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
   <!-- apache packages -->
   <logger level="ERROR" name="org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier" additivity="false">
     <appender-ref ref="fileAppender"/>
