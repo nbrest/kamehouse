@@ -94,6 +94,13 @@ fixPermissions() {
       chmod a-x ${FUNCTION}
     fi
   done <<< ${FUNCTIONS}
+
+  local DIRECTORIES=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type d`
+  while read DIRECTORY; do
+    if [ -n "${DIRECTORY}" ]; then
+      chmod a+rx ${DIRECTORY}
+    fi
+  done <<< ${DIRECTORIES}
 }
 
 installCred() {
