@@ -88,10 +88,12 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
       } else {
         vncSender.sendMouseClick(positionX, positionY, clickCount);
       }
+      output.setExitCode(0);
       output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
       output.setStandardOutput(List.of("JVNCSender command executed successfully"));
     } catch (Exception e) {
       logger.error("Error sending command to vnc server", e);
+      output.setExitCode(1);
       output.setStatus(SystemCommandStatus.FAILED.getStatus());
       output.setStandardError(List.of("Error executing VNC command", e.getMessage()));
     }
