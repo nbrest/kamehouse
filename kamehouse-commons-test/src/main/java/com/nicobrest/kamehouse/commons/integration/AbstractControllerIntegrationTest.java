@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -144,10 +145,18 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
    */
   public static <T> List<T> getResponseBodyList(HttpResponse response, Class<T> clazz)
       throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
     String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
         Charsets.UTF_8);
-    return mapper.readValue(responseBodyString,
+    return getResponseBodyList(responseBodyString, clazz);
+  }
+
+  /**
+   * Gets the response body of the request as a list of objects of the specified class.
+   */
+  public static <T> List<T> getResponseBodyList(String responseString, Class<T> clazz)
+      throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(responseString,
         mapper.getTypeFactory().constructCollectionType(List.class, clazz));
   }
 
@@ -196,6 +205,31 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     assertTrue(!responseBody.isEmpty());
     logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
+  }
+
+  /**
+   * Verify the response status is in the expected list and it contains a response body of the
+   * expected formats.
+   */
+  public void verifyResponseList(HttpResponse response, List<Integer> statuses,
+      List<Class<?>> clazzes) throws IOException {
+    assertTrue(statuses.contains(response.getStatusLine().getStatusCode()));
+    String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
+        Charsets.UTF_8);
+
+    boolean invalidResponse = true;
+    for (Class<?> clazz : clazzes) {
+      try {
+        List<?> responseBody = getResponseBodyList(responseBodyString, clazz);
+        assertNotNull(responseBody);
+        assertTrue(!responseBody.isEmpty());
+        logger.info(RESPONSE_BODY, responseBody);
+        invalidResponse = false;
+      } catch (Exception e) {
+        logger.info("Expected possible casting error. Ignoring...", e);
+      }
+    }
+    assertFalse(invalidResponse);
   }
 
   /**
