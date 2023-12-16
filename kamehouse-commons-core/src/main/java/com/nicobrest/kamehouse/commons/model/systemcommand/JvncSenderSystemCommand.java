@@ -88,7 +88,7 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
       }
       output.setStandardOutput(List.of("JVNCSender command executed successfully"));
     } catch (Exception e) {
-      logger.error("Error sending text to vnc server", e);
+      logger.error("Error sending command to vnc server", e);
       output.setStandardError(List.of("Error executing VNC command", e.getMessage()));
     }
     try {
