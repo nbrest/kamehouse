@@ -22,7 +22,7 @@ public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
   public ScreenUnlockKameHouseSystemCommand() {
     String unlockScreenPassword = getUnlockScreenPassword();
     systemCommands.add(new ScreenLockSystemCommand());
-    systemCommands.add(new JvncSenderSystemCommand("<ESC>", 1));
+    systemCommands.add(new JvncSenderSystemCommand("<ESC>", 3));
     systemCommands.add(new JvncSenderSystemCommand("<ESC>", 3));
     systemCommands.add(new JvncSenderSystemCommand(unlockScreenPassword + "<RETURN>"));
   }
