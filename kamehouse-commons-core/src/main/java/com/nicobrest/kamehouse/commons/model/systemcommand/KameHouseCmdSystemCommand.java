@@ -43,6 +43,6 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
    * Get kamehouse cmd linux path.
    */
   private String getKameHouseCmdLinuxPath() {
-    return DockerUtils.getUserHome(executeOnDockerHost()) + KAMEHOUSE_CMD_LINUX;
+    return "DISPLAY=:0.0 " + DockerUtils.getUserHome(executeOnDockerHost()) + KAMEHOUSE_CMD_LINUX;
   }
 }
