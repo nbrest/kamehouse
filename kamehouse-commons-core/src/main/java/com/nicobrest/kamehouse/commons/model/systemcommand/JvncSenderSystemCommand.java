@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
@@ -79,6 +80,7 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
   public SystemCommand.Output execute() {
     String host = DockerUtils.getHostname();
     String password = getVncServerPassword();
+    logger.debug("execute {}", output.getCommand());
     try {
       VncSender vncSender = new VncSender(host, VNC_PORT, password);
       if (!StringUtils.isEmpty(text)) {
@@ -86,10 +88,17 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
       } else {
         vncSender.sendMouseClick(positionX, positionY, clickCount);
       }
+      output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
       output.setStandardOutput(List.of("JVNCSender command executed successfully"));
     } catch (Exception e) {
       logger.error("Error sending command to vnc server", e);
+      output.setStatus(SystemCommandStatus.FAILED.getStatus());
       output.setStandardError(List.of("Error executing VNC command", e.getMessage()));
+    }
+    if (SystemCommandStatus.FAILED.getStatus().equals(output.getStatus())) {
+      logger.error("execute {} response {}", output.getCommand(), output);
+    } else {
+      logger.debug("execute {} response {}", output.getCommand(), output);
     }
     try {
       if (getSleepTime() > 0) {
