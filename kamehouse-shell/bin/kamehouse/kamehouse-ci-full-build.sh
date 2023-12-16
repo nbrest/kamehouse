@@ -60,6 +60,7 @@ gitCloneKameHouse() {
   cd kamehouse
   checkCommandStatus "$?" "Invalid project directory" 
 
+  git reset --hard
   git checkout dev
   git pull origin dev
 }
