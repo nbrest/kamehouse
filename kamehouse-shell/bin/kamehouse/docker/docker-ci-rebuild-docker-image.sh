@@ -22,11 +22,48 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 
+PROJECT_DIR="${HOME}/git/kamehouse"
+USE_CURRENT_DIR=false
+
 mainProcess() {
-  cd ${HOME}/git/kamehouse
-  git pull origin dev
+  log.info "Started rebuilding kamehouse docker image"
+  
+  setWorkingDir
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-push-all-kamehouse.sh 
+  checkCommandStatus "$?" "Error rebuilding and pushing the kamehouse docker image" 
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-upgrade-containers.sh 
+  checkCommandStatus "$?" "Error upgrading local containers" 
+
+  log.info "Finished rebuilding kamehouse docker image"
+}
+
+setWorkingDir() {
+  if ${USE_CURRENT_DIR}; then
+    PROJECT_DIR=`pwd`
+  else  
+    cd ${PROJECT_DIR}
+    checkCommandStatus "$?" "Invalid project directory" 
+  fi
+  log.info "Using working directory: ${COL_PURPLE}${PROJECT_DIR}"
+}
+
+parseArguments() {
+  while getopts ":c" OPT; do
+    case $OPT in
+    ("c")
+      USE_CURRENT_DIR=true
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
+}
+
+printHelpOptions() {
+  addHelpOption "-c" "rebuild the docker image using the current directory. Default dir: ${PROJECT_DIR}"
 }
 
 main "$@"

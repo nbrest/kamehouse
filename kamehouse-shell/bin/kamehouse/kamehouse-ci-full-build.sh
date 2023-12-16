@@ -23,9 +23,9 @@ mainProcess() {
 runFullContinuousIntegrationBuild() {
   log.info "Started running full continuous integration build"
   
-  cd ${HOME}/git/kamehouse
+  gitCloneKameHouse
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell -c
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh
@@ -34,16 +34,34 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-integration-tests-trigger.sh
   checkCommandStatus "$?" "An error occurred running the integration tests"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m mobile
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m mobile -c
   checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-rebuild-docker-image.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-rebuild-docker-image.sh -c
   checkCommandStatus "$?" "An error occurred rebuilding the docker image"
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/sonarcloud-run-kamehouse.sh
   checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
 
   log.info "Finished running full continuous integration build"
+}
+
+gitCloneKameHouse() {
+  log.info "Cloning kamehouse git repository into ${COL_PURPLE}${HOME}/git/jenkins/kamehouse"
+  mkdir -p ${HOME}/git/jenkins
+  cd ${HOME}/git/jenkins
+
+  if [ ! -d "./kamehouse" ]; then
+    git clone https://github.com/nbrest/kamehouse.git
+  else
+    log.info "jenkins kamehouse repository already exists"
+  fi
+
+  cd kamehouse
+  checkCommandStatus "$?" "Invalid project directory" 
+
+  git checkout dev
+  git pull origin dev
 }
 
 main "$@"
