@@ -14,8 +14,6 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
-
 LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
@@ -24,13 +22,27 @@ mainProcess() {
 
 runFullContinuousIntegrationBuild() {
   log.info "Started running full continuous integration build"
+  
   cd ${HOME}/git/kamehouse
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh
+  checkCommandStatus "$?" "An error occurred building kamehouse"
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-integration-tests-trigger.sh
+  checkCommandStatus "$?" "An error occurred running the integration tests"
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m mobile
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-rebuild-kamehouse.sh
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile"
+
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-rebuild-docker-image.sh
+  checkCommandStatus "$?" "An error occurred rebuilding the docker image"
+
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/sonarcloud-run-kamehouse.sh
+  checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
+
   log.info "Finished running full continuous integration build"
 }
 

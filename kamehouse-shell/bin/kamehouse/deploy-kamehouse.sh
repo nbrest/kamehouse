@@ -39,6 +39,8 @@ FAST_BUILD=true
 # buildMobile default settings override for deployment
 RESET_PACKAGE_JSON=true
 
+EXIT_CODE=0
+
 mainProcess() {
   setDeploymentParameters
   if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
@@ -73,6 +75,7 @@ doLocalDeployment() {
   deployKameHouseCmd
   deployKameHouseMobile
   cleanUpMavenRepository
+  exitProcess ${EXIT_CODE}
 }
 
 checkCurrentDir() {
@@ -150,6 +153,7 @@ deployKameHouseCmd() {
     echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
+    checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
   fi
 }
 
@@ -161,6 +165,7 @@ deployKameHouseUiStatic() {
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
     cp -rf ./kamehouse-ui/src/main/webapp ${HTTPD_CONTENT_ROOT}/kame-house
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house/WEB-INF
+    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
     log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
   fi
 }
@@ -172,7 +177,8 @@ deployKameHouseGroot() {
     mkdir -p ${HTTPD_CONTENT_ROOT}
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
-    
+    checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
+
     local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
     echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
     local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
@@ -193,7 +199,8 @@ deployKameHouseShell() {
     cd ${PROJECT_DIR}
     chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
     ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-  
+    checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
+
     log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
 
     if [ "${MODULE_SHORT}" == "shell" ]; then
@@ -209,11 +216,15 @@ deployKameHouseMobile() {
     if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
       log.debug "scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
       scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
+      checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through ssh"
 
       log.debug "ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C \"\\\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-regenerate-apk-html.sh -b ${KAMEHOUSE_BUILD_VERSION}\""
       ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-regenerate-apk-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
+      checkCommandStatus "$?" "An error occurred regenerating apk html"
+
     else
       log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
+      EXIT_CODE=1
     fi
   fi
 }
