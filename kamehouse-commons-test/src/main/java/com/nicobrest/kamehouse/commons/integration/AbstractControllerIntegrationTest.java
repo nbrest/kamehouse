@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
@@ -225,8 +226,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
         assertTrue(!responseBody.isEmpty());
         logger.info(RESPONSE_BODY, responseBody);
         invalidResponse = false;
-      } catch (Exception e) {
-        logger.info("Expected possible casting error. Ignoring...", e);
+      } catch (UnrecognizedPropertyException e) {
+        logger.info("Expected possible object mapping error. Ignoring...", e);
       }
     }
     assertFalse(invalidResponse);
