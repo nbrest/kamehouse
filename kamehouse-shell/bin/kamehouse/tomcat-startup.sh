@@ -31,13 +31,13 @@ mainProcess() {
 }
 
 startTomcatLinux() {
+  USER_UID=`cat /etc/passwd | grep "/home/${USER}:" | cut -d ':' -f3`
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
     log.debug "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
     cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}
   else
     log.info "Starting tomcat ${TOMCAT_DIR}"
-    USER_UID=`cat /etc/passwd | grep ${USER} | cut -d ':' -f3`
     log.debug "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
     cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh
   fi
