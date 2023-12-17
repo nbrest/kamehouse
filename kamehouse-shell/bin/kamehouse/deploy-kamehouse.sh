@@ -179,6 +179,20 @@ deployKameHouseGroot() {
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
     checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
+    local PHP_FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f | grep "\.php$"`
+    while read PHP_FILE; do
+      if [ -n "${PHP_FILE}" ]; then
+        chmod a+rx ${PHP_FILE}
+      fi
+    done <<< ${PHP_FILES}
+
+    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
+    while read DIRECTORY; do
+      if [ -n "${DIRECTORY}" ]; then
+        chmod a+rx ${DIRECTORY}
+      fi
+    done <<< ${DIRECTORIES}
+
     local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
     echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
     local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
