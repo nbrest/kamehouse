@@ -167,7 +167,7 @@ deployKameHouseUiStatic() {
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house/WEB-INF
     checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
 
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f"`
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
     while read FILE; do
       if [ -n "${FILE}" ]; then
         chmod a+rx ${FILE}
@@ -194,7 +194,7 @@ deployKameHouseGroot() {
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
     checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f"`
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
     while read FILE; do
       if [ -n "${FILE}" ]; then
         chmod a+rx ${FILE}
