@@ -166,6 +166,21 @@ deployKameHouseUiStatic() {
     cp -rf ./kamehouse-ui/src/main/webapp ${HTTPD_CONTENT_ROOT}/kame-house
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house/WEB-INF
     checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
+
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f"`
+    while read FILE; do
+      if [ -n "${FILE}" ]; then
+        chmod a+rx ${FILE}
+      fi
+    done <<< ${FILES}
+
+    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
+    while read DIRECTORY; do
+      if [ -n "${DIRECTORY}" ]; then
+        chmod a+rx ${DIRECTORY}
+      fi
+    done <<< ${DIRECTORIES}
+
     log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
   fi
 }
@@ -179,12 +194,12 @@ deployKameHouseGroot() {
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
     checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
-    local PHP_FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f | grep "\.php$"`
-    while read PHP_FILE; do
-      if [ -n "${PHP_FILE}" ]; then
-        chmod a+rx ${PHP_FILE}
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f"`
+    while read FILE; do
+      if [ -n "${FILE}" ]; then
+        chmod a+rx ${FILE}
       fi
-    done <<< ${PHP_FILES}
+    done <<< ${FILES}
 
     local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
     while read DIRECTORY; do
