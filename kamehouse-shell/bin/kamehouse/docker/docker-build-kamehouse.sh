@@ -62,6 +62,7 @@ runDockerBuildCommand() {
   "
   log.debug "${DOCKER_COMMAND}"
   ${DOCKER_COMMAND}
+  checkCommandStatus "$?" "Error building the kamehouse docker image" 
 }
 
 buildReleaseTag() {

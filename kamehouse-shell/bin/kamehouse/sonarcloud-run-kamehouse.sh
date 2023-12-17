@@ -21,6 +21,7 @@ mainProcess() {
   log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
   log.trace "SONAR_TOKEN=${SONAR_TOKEN}"
   mvn clean verify sonar:sonar -Dstyle.color=always -Dsonar.projectKey=nbrest_kamehouse -Dsonar.organization=nbrest -Dsonar.token=${SONAR_TOKEN}
+  checkCommandStatus "$?" "Error running sonarcloud scan" 
 }
 
 main "$@"
