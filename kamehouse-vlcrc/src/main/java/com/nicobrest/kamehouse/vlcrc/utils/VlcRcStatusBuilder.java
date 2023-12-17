@@ -32,12 +32,15 @@ public class VlcRcStatusBuilder {
   private static final String CODEC_CC = "Codec";
   private static final String LANGUAGE_CC = "Language";
   private static final String TYPE_CC = "Type";
+  private static final String ERROR_STATUS_NOT_FOUND = "HTTP Status 404";
 
   private VlcRcStatusBuilder() {
     throw new IllegalStateException("Utility class to build VlcRcStatus objects.");
   }
 
-  /** Builds a VlcRcStatus object from the VlcRcStatus string response returned by a vlc player. */
+  /**
+   * Builds a VlcRcStatus object from the VlcRcStatus string response returned by a vlc player.
+   */
   public static VlcRcStatus build(String vlcRcStatusString) {
     if (vlcRcStatusString == null) {
       return null;
@@ -54,13 +57,21 @@ public class VlcRcStatusBuilder {
       setVlcRcStatusEqualizer(vlcStatusResponseJson, vlcRcStatus);
       setVlcRcStatusInformation(vlcStatusResponseJson, vlcRcStatus);
     } catch (IOException e) {
-      LOGGER.error("Error parsing input VlcRcStatus", e);
+      if (e.getMessage().contains(ERROR_STATUS_NOT_FOUND)) {
+        if (LOGGER.isTraceEnabled()) {
+          LOGGER.trace("Error connecting to vlc player. Message: {}", e.getMessage());
+        }
+      } else {
+        LOGGER.error("Error parsing input VlcRcStatus. Message: {}", e.getMessage());
+      }
       vlcRcStatus = null;
     }
     return vlcRcStatus;
   }
 
-  /** Sets VlcRcStatus root main attributes. */
+  /**
+   * Sets VlcRcStatus root main attributes.
+   */
   private static void setVlcRcStatusRootMainAttributes(JsonNode jsonNode, VlcRcStatus vlcRcStatus) {
     vlcRcStatus.setFullscreen(JsonUtils.getBoolean(jsonNode, "fullscreen"));
     vlcRcStatus.setRepeat(JsonUtils.getBoolean(jsonNode, "repeat"));
@@ -74,7 +85,9 @@ public class VlcRcStatusBuilder {
     vlcRcStatus.setLoop(JsonUtils.getBoolean(jsonNode, "loop"));
   }
 
-  /** Sets VlcRcStatus root additional attributes. */
+  /**
+   * Sets VlcRcStatus root additional attributes.
+   */
   private static void setVlcRcStatusRootAdditionalAttributes(
       JsonNode jsonNode, VlcRcStatus vlcRcStatus) {
     vlcRcStatus.setApiVersion(JsonUtils.getInt(jsonNode, "apiversion"));
@@ -85,7 +98,9 @@ public class VlcRcStatusBuilder {
     vlcRcStatus.setVersion(JsonUtils.getText(jsonNode, "version"));
   }
 
-  /** Sets VlcRcStatus stats. */
+  /**
+   * Sets VlcRcStatus stats.
+   */
   private static void setVlcRcStatusStats(JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     VlcRcStatus.Stats stats = new VlcRcStatus.Stats();
     JsonNode jsonNode = vlcStatusResponseJson.get("stats");
@@ -113,7 +128,9 @@ public class VlcRcStatusBuilder {
     vlcRcStatus.setStats(stats);
   }
 
-  /** Sets VlcRcStatus audio filters. */
+  /**
+   * Sets VlcRcStatus audio filters.
+   */
   private static void setVlcRcStatusAudioFilters(
       JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     Map<String, String> audioFilters = new HashMap<>();
@@ -128,7 +145,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /** Sets VlcRcStatus video filters. */
+  /**
+   * Sets VlcRcStatus video filters.
+   */
   private static void setVlcRcStatusVideoEffects(
       JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     VlcRcStatus.VideoEffects videoEffects = new VlcRcStatus.VideoEffects();
@@ -143,7 +162,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /** Sets VlcRcStatus equalizer. */
+  /**
+   * Sets VlcRcStatus equalizer.
+   */
   private static void setVlcRcStatusEqualizer(
       JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     JsonNode equalizerJson = vlcStatusResponseJson.get("equalizer");
@@ -176,7 +197,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /** Sets VlcRcStatus information. */
+  /**
+   * Sets VlcRcStatus information.
+   */
   private static void setVlcRcStatusInformation(
       JsonNode vlcStatusResponseJson, VlcRcStatus vlcRcStatus) {
     JsonNode informationJson = vlcStatusResponseJson.get("information");
@@ -237,7 +260,9 @@ public class VlcRcStatusBuilder {
     }
   }
 
-  /** Sets vlcRcStatus information meta category. */
+  /**
+   * Sets vlcRcStatus information meta category.
+   */
   private static void setInformationMeta(
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Meta meta = new VlcRcStatus.Information.Meta();
@@ -251,7 +276,9 @@ public class VlcRcStatusBuilder {
     information.setMeta(meta);
   }
 
-  /** Sets vlcRcStatus information video category. */
+  /**
+   * Sets vlcRcStatus information video category.
+   */
   private static void setInformationVideo(
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Video video = new VlcRcStatus.Information.Video();
@@ -266,7 +293,9 @@ public class VlcRcStatusBuilder {
     information.setVideo(video);
   }
 
-  /** Sets vlcRcStatus information audio category. */
+  /**
+   * Sets vlcRcStatus information audio category.
+   */
   private static void setInformationAudio(
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Audio audio = new VlcRcStatus.Information.Audio();
@@ -280,7 +309,9 @@ public class VlcRcStatusBuilder {
     information.setAudio(audio);
   }
 
-  /** Sets vlcRcStatus information audio category. */
+  /**
+   * Sets vlcRcStatus information audio category.
+   */
   private static void setInformationSubtitle(
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();

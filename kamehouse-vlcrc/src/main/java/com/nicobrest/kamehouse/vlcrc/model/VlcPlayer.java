@@ -62,6 +62,8 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   private static final String LOCALHOST = "localhost";
   @JsonIgnore
   private static final String ERROR_CONNECTING_TO_VLC = "failed: Connection refused";
+  @JsonIgnore
+  private static final String ERROR_STATUS_NOT_FOUND = "HTTP Status 404";
 
   @Id
   @Column(name = "id", unique = true, nullable = false)
@@ -311,17 +313,15 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
         }
       }
     } catch (IOException e) {
-      handleBuildVlcRcPlaylistIoException(e);
+      if (e.getMessage().contains(ERROR_STATUS_NOT_FOUND)) {
+        if (LOGGER.isTraceEnabled()) {
+          LOGGER.trace("Error connecting to vlc player. Message: {}", e.getMessage());
+        }
+      } else {
+        LOGGER.error("Unable to build VlcRC playlist. Message: {}", e.getMessage());
+      }
     }
     return vlcRcPlaylist;
-  }
-
-  /**
-   * Handle IOException.
-   */
-  private void handleBuildVlcRcPlaylistIoException(IOException exception) {
-    LOGGER.error("Unable to build VlcRC playlist. Message: {}", exception.getMessage());
-    throw new KameHouseException(exception.getMessage(), exception);
   }
 
   /**
