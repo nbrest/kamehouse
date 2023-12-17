@@ -313,15 +313,22 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
         }
       }
     } catch (IOException e) {
-      if (e.getMessage().contains(ERROR_STATUS_NOT_FOUND)) {
-        if (LOGGER.isTraceEnabled()) {
-          LOGGER.trace("Error connecting to vlc player. Message: {}", e.getMessage());
-        }
-      } else {
-        LOGGER.error("Unable to build VlcRC playlist. Message: {}", e.getMessage());
-      }
+      handleBuildVlcRcPlaylistException(e);
     }
     return vlcRcPlaylist;
+  }
+
+  /**
+   * Handle exception building the playlist.
+   */
+  private void handleBuildVlcRcPlaylistException(IOException exception) {
+    if (exception.getMessage().contains(ERROR_STATUS_NOT_FOUND)) {
+      if (LOGGER.isTraceEnabled()) {
+        LOGGER.trace("Error connecting to vlc player. Message: {}", exception.getMessage());
+      }
+    } else {
+      LOGGER.error("Unable to build VlcRC playlist. Message: {}", exception.getMessage());
+    }
   }
 
   /**
