@@ -388,7 +388,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/read-only.png" alt="Check Read Only File System" title="Check Read Only File System" onclick="kameHouse.extension.deploymentManager.isReadOnlyFs()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/other/book.png" alt="Check Read Only File System" title="Check Read Only File System" onclick="kameHouse.extension.deploymentManager.isReadOnlyFs()"/></a>
               </td>
               <td>
                 <div class="link-image-text">File System Status</div>

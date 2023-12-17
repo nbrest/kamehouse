@@ -24,6 +24,27 @@
 * If the vnc server is configured with a password (it should!), also set the file pointed by *vnc.server.pwd.file* with the vnc server password encrypted. This password will be used by jvncsender to execute the commands through vnc. Again, this file contains an encrypted password so it should be only readable by the user owning this process. Check below how to create the encrypted file.
 * *Lock screen command on linux relies on gnome-screensaver-command* to do the lock. Install **gnome-screensaver** with `sudo apt-get install gnome-screensaver`. The `SystemCommand` to lock the screen though kamehouse could easily be changed to use jvncsender to lock the screen for other **linux** versions (tested on **ubuntu 16**)
 
+## Lock screen on raspbian:
+
+* To lock the screen in raspbian create a script `gnome-screensaver-command` that uses `dm-tool lock` to lock the screen
+```sh
+sudo su
+cd /usr/bin
+vim gnome-screensaver-command
+```
+
+- Set the content to:
+```sh
+#!/bin/bash
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0 dm-tool lock
+```
+
+- Then set the permissions
+```sh
+chmod a+x gnome-screensaver-command
+exit
+```
+
 *********************
 
 ## VLC start and stop commands:
