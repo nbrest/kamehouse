@@ -84,7 +84,7 @@ fixPermissions() {
   local SCRIPTS=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
-      chmod a+x ${SCRIPT}
+      chmod a+rx ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
