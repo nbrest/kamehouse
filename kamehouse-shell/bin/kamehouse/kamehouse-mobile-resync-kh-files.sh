@@ -28,11 +28,16 @@ mainProcess() {
 }
 
 setGlobalVariables() {
+  CURRENT_DIR=`pwd`
   WORKSPACE=${HOME}/workspace-${IDE}
   PROJECT_DIR=${WORKSPACE}/kamehouse
   if [ "${GIT_REPO_SOURCE}" == "prod" ]; then
     PROJECT_DIR=${HOME}/git/kamehouse
   fi
+  if [ "${CURRENT_DIR}" == "${HOME}/git/jenkins/kamehouse" ]; then
+    PROJECT_DIR=${HOME}/git/jenkins/kamehouse
+  fi
+  log.info "Using directory ${COL_PURPLE}${PROJECT_DIR}"
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
   SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/public/kame-house-groot
 
