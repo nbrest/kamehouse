@@ -34,7 +34,7 @@ setGlobalVariables() {
   if [ "${GIT_REPO_SOURCE}" == "prod" ]; then
     PROJECT_DIR=${HOME}/git/kamehouse
   fi
-  if [ "${CURRENT_DIR}" == "${HOME}/git/jenkins/kamehouse" ]; then
+  if [[ "${CURRENT_DIR}" == "${HOME}/git/jenkins/kamehouse" || "${CURRENT_DIR}" == "${HOME}/git/jenkins/kamehouse/kamehouse-mobile" ]]; then
     PROJECT_DIR=${HOME}/git/jenkins/kamehouse
   fi
   log.info "Using directory ${COL_PURPLE}${PROJECT_DIR}"
