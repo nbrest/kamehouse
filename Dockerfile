@@ -160,7 +160,14 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # Open mariadb to external connections and intial dump of mariadb data
   sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mariadb start ; \
-  sleep 30 ; \
+  sleep 5 ; \
+  service mariadb start ; \
+  sleep 5 ; \
+  service mariadb start ; \
+  sleep 5 ; \
+  service mariadb start ; \
+  sleep 5 ; \
+  service mariadb start ; \
   mariadb < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/setup-kamehouse.sql ; \
   mariadb kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/spring-session.sql ; \
   mariadb kameHouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/docker/mariadb/dump-kamehouse.sql ; \
