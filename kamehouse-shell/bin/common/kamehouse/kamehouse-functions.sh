@@ -494,6 +494,11 @@ cleanLogsInGitRepoFolder() {
   done
 }
 
+cleanUpMavenRepository() {
+  log.info "Removing com.nicobrest entries from ${HOME}/.m2"
+  rm -rf ${HOME}/.m2/repository/com/nicobrest
+}
+
 buildMobile() {
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
   setKameHouseMobileApkPath

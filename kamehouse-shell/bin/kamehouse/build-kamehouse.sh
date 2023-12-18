@@ -23,6 +23,7 @@ USE_CURRENT_DIR=true
 mainProcess() {
   setKameHouseRootProjectDir
   buildKameHouseProject
+  cleanUpMavenRepository
 }
 
 parseArguments() {

@@ -16,12 +16,16 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 LOG_PROCESS_TO_FILE=true
+USE_CURRENT_DIR=true
 
 mainProcess() {
+  setKameHouseRootProjectDir
   log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
   log.trace "SONAR_TOKEN=${SONAR_TOKEN}"
   mvn clean verify sonar:sonar -Dstyle.color=always -Dsonar.projectKey=nbrest_kamehouse -Dsonar.organization=nbrest -Dsonar.token=${SONAR_TOKEN}
   checkCommandStatus "$?" "Error running sonarcloud scan" 
+  cleanLogsInGitRepoFolder
+  cleanUpMavenRepository
 }
 
 main "$@"

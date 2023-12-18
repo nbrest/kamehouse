@@ -16,9 +16,10 @@ fi
 
 trap cleanupAfterRun INT
 
+USE_CURRENT_DIR=true
+
 mainProcess() {
-  cdToRootDirFromMobile
-  log.info "Run this script from kamehouse-mobile or kamehouse root directory"
+  setKameHouseRootProjectDir
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
   cdToKameHouseMobile
   cordova run browser

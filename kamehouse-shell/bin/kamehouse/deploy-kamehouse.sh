@@ -54,7 +54,6 @@ doLocalDeployment() {
   if ! ${USE_CURRENT_DIR}; then
     pullLatestVersionFromGit
   fi
-  checkCurrentDir
   setKameHouseBuildVersion
   deployKameHouseShell
   deployKameHouseUiStatic
@@ -69,13 +68,6 @@ doLocalDeployment() {
   deployKameHouseMobile
   cleanUpMavenRepository
   exitProcess ${EXIT_CODE}
-}
-
-checkCurrentDir() {
-  if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
-    log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
-    exitProcess 1
-  fi
 }
 
 setKameHouseBuildVersion() {
@@ -247,11 +239,6 @@ deployKameHouseMobile() {
       EXIT_CODE=1
     fi
   fi
-}
-
-cleanUpMavenRepository() {
-  log.info "Removing com.nicobrest entries from ${HOME}/.m2"
-  rm -rf ${HOME}/.m2/repository/com/nicobrest
 }
 
 parseArguments() {

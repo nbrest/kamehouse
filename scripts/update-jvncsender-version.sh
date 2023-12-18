@@ -16,9 +16,10 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 RELEASE_VERSION=""
+USE_CURRENT_DIR=true
 
 mainProcess() {
-  checkCurrentDir
+  setKameHouseRootProjectDir
   updateJvncSenderVersion
 }
 
@@ -33,13 +34,6 @@ updateJvncSenderVersion() {
   mvn deploy:deploy-file -Dstyle.color=always -DgroupId=be.jedi -DartifactId=jvncsender -Dversion=${RELEASE_VERSION} -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.jar -DpomFile=${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.pom.xml
 
   rm -rfv ${HOME}/temp/jvncsender
-}
-
-checkCurrentDir() {
-  if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
-    log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
-    exitProcess 1
-  fi
 }
 
 parseArguments() {
