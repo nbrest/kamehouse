@@ -15,10 +15,13 @@ if [ "$?" != "0" ]; then
 fi
 source ${HOME}/.kamehouse/.shell/.cred
 
-PROJECT_DIR=
-EXPORT_KAMEHOUSE_DIR=
-GIT_REPO_SOURCE="dev"
 DELETE_ONLY=false
+SOURCE_FILES_KAMEHOUSE_DIR=""
+SOURCE_FILES_GROOT_DIR=""
+EXPORT_KAMEHOUSE_DIR=""
+EXPORT_GROOT_DIR=""
+EXPORT_MOCKED_APIS_DIR=""
+MOCKED_KAMEHOUSE_API_DIR=""
 
 mainProcess() {
   setGlobalVariables
@@ -28,16 +31,8 @@ mainProcess() {
 }
 
 setGlobalVariables() {
-  CURRENT_DIR=`pwd`
-  WORKSPACE=${HOME}/workspace-${IDE}
-  PROJECT_DIR=${WORKSPACE}/kamehouse
-  if [ "${GIT_REPO_SOURCE}" == "prod" ]; then
-    PROJECT_DIR=${HOME}/git/kamehouse
-  fi
-  if [[ "${CURRENT_DIR}" == "${HOME}/git/jenkins/kamehouse" || "${CURRENT_DIR}" == "${HOME}/git/jenkins/kamehouse/kamehouse-mobile" ]]; then
-    PROJECT_DIR=${HOME}/git/jenkins/kamehouse
-  fi
-  log.info "Using directory ${COL_PURPLE}${PROJECT_DIR}"
+  setKameHouseRootProjectDir
+
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
   SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/public/kame-house-groot
 
@@ -97,13 +92,13 @@ exportMockedApis() {
 parseArguments() {
   parseIde "$@"
 
-  while getopts ":di:s:" OPT; do
+  while getopts ":cdi:" OPT; do
     case $OPT in
+    ("c")
+      USE_CURRENT_DIR=true
+      ;;
     ("d")
       DELETE_ONLY=true
-      ;;
-    ("s")
-      setGitRepoSource "$OPTARG"
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -112,28 +107,14 @@ parseArguments() {
   done
 }
 
-setGitRepoSource() {
-  local SOURCE_ARG=$1 
-  SOURCE_ARG=`echo "${SOURCE_ARG}" | tr '[:upper:]' '[:lower:]'`
-
-  if [ "${SOURCE_ARG}" != "prod" ] \
-      && [ "${SOURCE_ARG}" != "dev" ]; then
-    log.error "Option -s git source has an invalid value of ${SOURCE_ARG}"
-    printHelp
-    exitProcess 1
-  fi
-        
-  GIT_REPO_SOURCE=${SOURCE_ARG}
-}
-
 setEnvFromArguments() {
   setEnvForIde
 }
 
 printHelpOptions() {
+  addHelpOption "-c" "use current directory to sync static files. Default dir: ${PROJECT_DIR}"
   addHelpOption "-d" "only delete /kame-house folder from mobile app folder. don't resync"
   printIdeOption "ide's path to export scripts to. Default is ${DEFAULT_IDE}"
-  addHelpOption "-s (prod|dev)" "git repo to use as source. default is dev. use prod when calling from the deployment script"
 }
 
 main "$@"

@@ -85,10 +85,6 @@ sudo npm install -g cordova
 
 - One time actions. On kamehouse-mobile root folder:
 ```sh
-# Add android platform
-cd kamehouse-mobile
-cordova platform add android
-
 # Setup encryption key
 echo "" >> ${HOME}/.kamehouse/.shell/.cred
 echo "KAMEHOUSE_MOBILE_ENCRYPTION_KEY=yourkey" >> ${HOME}/.kamehouse/.shell/.cred

@@ -27,9 +27,9 @@ SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
 ERROR="ERROR EXECUTING INTEGRATION TESTS"
 
 mainProcess() {
+  setKameHouseRootProjectDir
   log.trace "DOCKER_USERNAME=${DOCKER_USERNAME}"
   log.trace "PROJECT_DIR=${PROJECT_DIR}"
-  cd ${PROJECT_DIR}
   
   /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -p ci -i
   BUILD_RESULT=$?

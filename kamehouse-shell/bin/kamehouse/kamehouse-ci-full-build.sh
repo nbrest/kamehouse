@@ -15,7 +15,7 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
-USE_CURRENT_DIR=false
+PROJECT_DIR=${HOME}/git/jenkins/kamehouse
 
 mainProcess() {
   runFullContinuousIntegrationBuild
@@ -24,7 +24,9 @@ mainProcess() {
 runFullContinuousIntegrationBuild() {
   log.info "Started running full continuous integration build"
   
-  setWorkingDir
+  gitCloneKameHouse
+  setKameHouseRootProjectDir
+  gitResetBranch
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell -c
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
@@ -47,35 +49,32 @@ runFullContinuousIntegrationBuild() {
   log.info "Finished running full continuous integration build"
 }
 
-setWorkingDir() {
-  if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
-    if ! ${USE_CURRENT_DIR}; then 
-      gitCloneKameHouse
+gitCloneKameHouse() {
+  if ! ${USE_CURRENT_DIR}; then
+    if [ ! -d "${PROJECT_DIR}" ]; then
+      log.info "Cloning kamehouse git repository into ${COL_PURPLE}${PROJECT_DIR}"
+      mkdir -p ${HOME}/git/jenkins
+      cd ${HOME}/git/jenkins
+      git clone https://github.com/nbrest/kamehouse.git
+      cd kamehouse
+      checkCommandStatus "$?" "Invalid kamehouse project root directory for jenkins `pwd`"
     else
-      log.info "Running ci full build from directory ${COL_PURPLE}`pwd`"
+      log.info "jenkins kamehouse repository already exists: ${COL_PURPLE}${PROJECT_DIR}"
     fi
-  else
-    log.info "Running ci full build from directory ${COL_PURPLE}`pwd`"
   fi
 }
 
-gitCloneKameHouse() {
-  log.info "Cloning kamehouse git repository into ${COL_PURPLE}${HOME}/git/jenkins/kamehouse"
-  mkdir -p ${HOME}/git/jenkins
-  cd ${HOME}/git/jenkins
-
-  if [ ! -d "./kamehouse" ]; then
-    git clone https://github.com/nbrest/kamehouse.git
+gitResetBranch() {
+  if ! ${USE_CURRENT_DIR}; then
+    log.info "Resetting dev branch"
+    git reset --hard
+    git checkout dev
+    git pull origin dev
+    checkCommandStatus "$?" "Error pulling dev branch"
   else
-    log.info "jenkins kamehouse repository already exists"
+    git checkout dev
+    checkCommandStatus "$?" "Error checking out dev branch"
   fi
-
-  cd kamehouse
-  checkCommandStatus "$?" "Invalid project directory" 
-
-  git reset --hard
-  git checkout dev
-  git pull origin dev
 }
 
 parseArguments() {

@@ -21,8 +21,10 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
+USE_CURRENT_DIR=true
 
 mainProcess() {
+  setKameHouseRootProjectDir
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -b
   checkCommandStatus "$?" "Error rebuilding and pushing the kamehouse docker image" 
 }

@@ -17,11 +17,11 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 LOG_PROCESS_TO_FILE=true
-
-# buildMobile default settings override for build
-USE_CURRENT_DIR_FOR_CORDOVA=true
+# Run the build on this script always from the current directory
+USE_CURRENT_DIR=true
 
 mainProcess() {
+  setKameHouseRootProjectDir
   buildKameHouseProject
 }
 
@@ -29,7 +29,7 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":abcfim:p:ru" OPT; do
+  while getopts ":abcfim:p:r" OPT; do
     case $OPT in 
     ("a")
       CLEAN_CORDOVA_BEFORE_BUILD=true
@@ -48,9 +48,6 @@ parseArguments() {
       ;;
     ("r")
       RESUME_BUILD=true
-      ;;
-    ("u")
-      USE_CURRENT_DIR_FOR_CORDOVA=false
       ;;        
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -73,7 +70,6 @@ printHelpOptions() {
   printKameHouseModuleOption "build"
   printMavenProfileOption
   addHelpOption "-r" "resume build. Continue where it failed in the last build. ${COL_YELLOW}Use with -m"
-  addHelpOption "-u" "use prod dir for cordova. Use this when running a manual kamehouse mobile build from the deployment dir"
 }
 
 main "$@"

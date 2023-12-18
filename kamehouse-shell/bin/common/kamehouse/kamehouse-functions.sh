@@ -6,6 +6,8 @@ DEFAULT_KAMEHOUSE_USERNAME=""
 
 GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"
+PROJECT_DIR="${HOME}/git/${PROJECT}"
+USE_CURRENT_DIR=false
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
 SSH_USER=${DEFAULT_SSH_USER}
 SSH_COMMAND=""
@@ -57,14 +59,14 @@ RESUME_BUILD=false
 FAST_BUILD=false
 
 # buildMobile defaults
-USE_CURRENT_DIR_FOR_CORDOVA=false
 REFRESH_CORDOVA_PLUGINS=false
 CLEAN_CORDOVA_BEFORE_BUILD=false
 RESET_PACKAGE_JSON=false
 KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN="/d/Downloads/Google Drive/KameHouse/kamehouse-mobile"
 KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN="${HOME}/GoogleDrive/KameHouse/kamehouse-mobile"
-KAMEHOUSE_ANDROID_APK="/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
+KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
+CORDOVA_ANDROID_PLATFORM_VERSION="10.1.2"
 
 # ---------------------------
 # Common kamehouse functions
@@ -391,6 +393,25 @@ getHttpdContentRoot() {
   fi
 }
 
+setKameHouseRootProjectDir() {
+  log.debug "Setting kamehouse project root directory to use"
+  if ${USE_CURRENT_DIR}; then
+    PROJECT_DIR=`pwd`
+  else  
+    cd ${PROJECT_DIR}
+    checkCommandStatus "$?" "Can't cd to ${PROJECT_DIR}. Invalid kamehouse project root directory" 
+  fi
+  checkValidRootKameHouseProject
+  log.info "Using kamehouse project root directory: ${COL_PURPLE}${PROJECT_DIR}"
+}
+
+checkValidRootKameHouseProject() {
+  if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
+    log.error "Invalid kamehouse project root directory: `pwd`"
+    exitProcess 1
+  fi
+}
+
 buildKameHouseProject() {
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
@@ -407,22 +428,15 @@ buildKameHouseProject() {
   cleanLogsInGitRepoFolder
 }
 
-# Assumes it's running on the root of the git kamehouse project
 exportGitCommitHash() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
-    cd ..
-  fi
+  cdToRootDirFromMobile
   log.info "Exporting git commit hash to commons-core"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
 }
 
 exportBuildVersion() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
-    cd ..
-  fi
+  cdToRootDirFromMobile
   log.info "Exporting build version to commons-core"
   local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
   KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
@@ -430,10 +444,7 @@ exportBuildVersion() {
 }
 
 exportBuildDate() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
-    cd ..
-  fi
+  cdToRootDirFromMobile
   log.info "Exporting build date to commons-core"
   date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.txt
 }
@@ -474,10 +485,6 @@ executeMavenCommand() {
 }
 
 cleanLogsInGitRepoFolder() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
-    cd ..
-  fi
   log.debug "Clearing logs in git repo folder"
   rm -v -f logs/*.log
 
@@ -489,9 +496,10 @@ cleanLogsInGitRepoFolder() {
 
 buildMobile() {
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
-  cd kamehouse-mobile
-  setLinuxBuildEnv
   setKameHouseMobileApkPath
+  syncStaticFilesOnMobile
+  cdToKameHouseMobile
+  setLinuxBuildEnv
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
   if ${CLEAN_CORDOVA_BEFORE_BUILD}; then
     cleanCordovaProject
@@ -502,14 +510,29 @@ buildMobile() {
     git checkout HEAD -- package.json
     git checkout HEAD -- package-lock.json
   fi
-  syncStaticUiFilesOnMobile
+  setCordovaPlatforms
   setMobileBuildVersionAndKeys
   updateConfigWithGitHash
   buildCordovaProject
-  resetConfigFromGitHash
-  deleteStaticUiFilesOnMobile
-  uploadKameHouseMobileApkToGDrive
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh
+  resetConfigFromGitHash
+  cdToRootDirFromMobile
+  deleteStaticFilesOnMobile
+  uploadKameHouseMobileApkToGDrive
+}
+
+cdToRootDirFromMobile() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+    cd ..
+  fi
+  checkValidRootKameHouseProject
+}
+
+cdToKameHouseMobile() {
+  checkValidRootKameHouseProject
+  cd kamehouse-mobile
+  checkCommandStatus "$?" "Error cd to kamehouse-mobile. Are you running the script from the root of kamehouse project?"
 }
 
 setLinuxBuildEnv() {
@@ -520,20 +543,17 @@ setLinuxBuildEnv() {
   fi
 }
 
+# runs from kamehouse-mobile directory
 setKameHouseMobileApkPath() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse" ]; then
-    cd kamehouse-mobile
-  fi
-  KAMEHOUSE_ANDROID_APK_PATH=`pwd`${KAMEHOUSE_ANDROID_APK}
+  KAMEHOUSE_ANDROID_APK_PATH=${PROJECT_DIR}${KAMEHOUSE_ANDROID_APK}
   log.debug "Setting KAMEHOUSE_ANDROID_APK_PATH=${KAMEHOUSE_ANDROID_APK_PATH}"
 }
 
 cleanCordovaProject() {
-  log.debug "cordova clean ; cordova platform remove android ; cordova platform add android"
+  log.debug "cordova clean ; cordova platform remove android ; cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}"
   cordova clean
   cordova platform remove android
-  cordova platform add android
+  cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}
 }
 
 # Do this only when I really want to upgrade plugins, it might break my code with newer versions
@@ -552,12 +572,14 @@ refreshCordovaPlugins() {
   fi 
 }
 
-syncStaticUiFilesOnMobile() {
-  if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
-  else
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod
-  fi
+setCordovaPlatforms() {
+  log.info "Setting cordova platforms"
+  cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}
+}
+
+# runs from root directory of kamehouse project
+syncStaticFilesOnMobile() {
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
 }
 
 setMobileBuildVersionAndKeys() {
@@ -569,17 +591,13 @@ setMobileBuildVersionAndKeys() {
 }
 
 buildCordovaProject() {
-  log.debug "Executiing: cordova build android"
+  log.info "Executing: cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
 }
 
-deleteStaticUiFilesOnMobile() {
-  if ${USE_CURRENT_DIR_FOR_CORDOVA}; then
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -d
-  else
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh -s prod -d
-  fi
+deleteStaticFilesOnMobile() {
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c -d
 }
 
 updateConfigWithGitHash() {
@@ -619,7 +637,6 @@ uploadKameHouseMobileApkToGDrive() {
 
 deployToTomcat() {
   log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
-  cd ${PROJECT_DIR}
 
   local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do

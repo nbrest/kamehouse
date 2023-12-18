@@ -18,7 +18,6 @@ source ${HOME}/.kamehouse/.shell/.cred
 # Initial config
 DEFAULT_ENV=local
 LOG_PROCESS_TO_FILE=true
-PROJECT_DIR="${HOME}/git/${PROJECT}"
 KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 KAMEHOUSE_MOBILE_APP_SERVER="pi"
 KAMEHOUSE_MOBILE_APP_USER="pi"
@@ -30,8 +29,6 @@ TOMCAT_DIR=""
 TOMCAT_LOG=""
 KAMEHOUSE_BUILD_VERSION=""
 DEPLOY_TO_TOMCAT=false
-
-USE_CURRENT_DIR_FOR_DEPLOYMENT=false
 
 # buildMavenCommand default settings override for deployment
 FAST_BUILD=true
@@ -53,14 +50,10 @@ mainProcess() {
 }
 
 doLocalDeployment() {
-  if ${USE_CURRENT_DIR_FOR_DEPLOYMENT}; then
-    PROJECT_DIR=`pwd`
-  else  
-    cd ${PROJECT_DIR}
-    checkCommandStatus "$?" "Invalid project directory" 
+  setKameHouseRootProjectDir
+  if ! ${USE_CURRENT_DIR}; then
     pullLatestVersionFromGit
   fi
-  log.info "Deploying from directory ${COL_PURPLE}${PROJECT_DIR}"
   checkCurrentDir
   setKameHouseBuildVersion
   deployKameHouseShell
@@ -142,7 +135,6 @@ pullLatestVersionFromGit() {
 deployKameHouseCmd() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "cmd" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
-    cd ${PROJECT_DIR}
     mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
     rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
@@ -225,7 +217,6 @@ deployKameHouseGroot() {
 deployKameHouseShell() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-    cd ${PROJECT_DIR}
     chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
     ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
     checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
@@ -274,8 +265,7 @@ parseArguments() {
       REFRESH_CORDOVA_PLUGINS=true
       ;;
     ("c")
-      USE_CURRENT_DIR_FOR_DEPLOYMENT=true
-      USE_CURRENT_DIR_FOR_CORDOVA=true
+      USE_CURRENT_DIR=true
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"

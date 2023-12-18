@@ -17,13 +17,12 @@ fi
 trap cleanupAfterRun INT
 
 mainProcess() {
-  CURRENT_DIR=$(basename `pwd`)
-  if [ "${CURRENT_DIR}" == "kamehouse" ]; then
-    cd kamehouse-mobile
-  fi
+  cdToRootDirFromMobile
   log.info "Run this script from kamehouse-mobile or kamehouse root directory"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-kh-files.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
+  cdToKameHouseMobile
   cordova run browser
+  cdToRootDirFromMobile
 }
 
 cleanupAfterRun() {
