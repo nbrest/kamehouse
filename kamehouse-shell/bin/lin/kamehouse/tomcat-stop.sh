@@ -18,9 +18,9 @@ LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
   log.info "Searching for tomcat process"
-  netstat -nltp | grep ${TOMCAT_PORT} | grep java
-  TOMCAT_PID=`netstat -nltp | grep ${TOMCAT_PORT} | grep java | awk '{print $7}' | cut -d '/' -f 1`
-  if [ -z ${TOMCAT_PID} ]; then
+  netstat -nltp | grep ":${TOMCAT_PORT} " | grep java
+  TOMCAT_PID=`netstat -nltp | grep ":${TOMCAT_PORT} " | grep java | awk '{print $7}' | cut -d '/' -f 1`
+  if [ -z "${TOMCAT_PID}" ]; then
     log.info "Tomcat is not running"
   else
     log.info "Killing process ${COL_PURPLE}${TOMCAT_PID}"

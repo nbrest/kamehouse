@@ -16,8 +16,8 @@ VLC_PORT=""
 mainProcess() {
   log.debug "VLC_PORT ${VLC_PORT}"
   log.info "Searching for vlc process with an http server"
-  netstat -nltp | grep ${VLC_PORT} | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1
-  VLC_PID=`netstat -nltp | grep ${VLC_PORT} | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1`
+  netstat -nltp | grep ":${VLC_PORT} " | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1
+  VLC_PID=`netstat -nltp | grep ":${VLC_PORT} " | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1`
   log.info "VLC_PID: ${VLC_PID}"
   if [ -z "${VLC_PID}" ]; then
     log.info "vlc is not running with an http server"

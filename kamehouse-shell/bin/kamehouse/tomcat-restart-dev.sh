@@ -28,18 +28,18 @@ killRemainingTomcatProcess() {
   log.info "Searching for tomcat process"
   local TOMCAT_PORT=9005
   if ${IS_LINUX_HOST}; then
-    netstat -nltp | grep ${TOMCAT_PORT} | grep java
-    TOMCAT_PID=`netstat -nltp | grep ${TOMCAT_PORT} | grep java | awk '{print $7}' | cut -d '/' -f 1`
-    if [ -z ${TOMCAT_PID} ]; then
+    netstat -nltp | grep ":${TOMCAT_PORT} " | grep java
+    TOMCAT_PID=`netstat -nltp | grep ":${TOMCAT_PORT} " | grep java | awk '{print $7}' | cut -d '/' -f 1`
+    if [ -z "${TOMCAT_PID}" ]; then
       log.info "Tomcat is not running on port ${TOMCAT_PORT}"
     else
       log.info "Killing process ${COL_PURPLE}${TOMCAT_PID}"
       kill -9 ${TOMCAT_PID}
     fi
   else
-    netstat -ano | grep "LISTENING" | grep "${TOMCAT_PORT}" | tail -n 1 
-    TOMCAT_PID=`netstat -ano | grep "LISTENING" | grep "${TOMCAT_PORT}" | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
-    if [ -z ${TOMCAT_PID} ]; then
+    netstat -ano | grep "LISTENING" | grep ":${TOMCAT_PORT} " | tail -n 1 
+    TOMCAT_PID=`netstat -ano | grep "LISTENING" | grep ":${TOMCAT_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
+    if [ -z "${TOMCAT_PID}" ]; then
       log.info "Tomcat is not running on port ${TOMCAT_PORT}"
     else
       log.info "Killing process ${COL_PURPLE}${TOMCAT_PID}"

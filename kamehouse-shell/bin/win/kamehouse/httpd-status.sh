@@ -18,9 +18,9 @@ LOG_PROCESS_TO_FILE=false
 
 mainProcess() {
   log.info "Searching for apache httpd process"
-  netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | tail -n 1
-  HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT}" | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
-  if [ -z ${HTTPD_PID} ]; then
+  netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | tail -n 1
+  HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
+  if [ -z "${HTTPD_PID}" ]; then
     log.info "Apache httpd is not running"
   else
     log.info "Apache httpd is currently running with pid ${COL_PURPLE}${HTTPD_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${HTTPD_PORT}"

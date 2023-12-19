@@ -15,8 +15,8 @@ SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/lin/transmission/transmiss
 
 mainProcess() {
   log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
-  PID=`sudo netstat -nltp | grep ${PORT} | awk '{print $7}' | cut -d '/' -f 1`
-  if [ -z ${PID} ]; then
+  PID=`sudo netstat -nltp | grep ":${PORT} " | awk '{print $7}' | cut -d '/' -f 1`
+  if [ -z "${PID}" ]; then
     log.info "${SERVICE} is not running. Starting it now"
     ${SERVICE_STARTUP} &
   else

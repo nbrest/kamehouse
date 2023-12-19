@@ -14,8 +14,8 @@ SERVICE="tomcat"
 SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.sh"
 
 mainProcess() {
-  PID=`netstat -ano | grep "LISTENING" | grep "${PORT}" | tail -n 1`
-  if [[ -z ${PID} ]]; then
+  PID=`netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1`
+  if [[ -z "${PID}" ]]; then
     log.info "${SERVICE} not running. Starting it now"
     ${SERVICE_STARTUP} &
   else 

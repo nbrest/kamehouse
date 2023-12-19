@@ -29,7 +29,7 @@ DEFAULT_DOCKER_PROFILE="prod"
 DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
 mainProcess() {
-  PID=`netstat -ano | grep "LISTENING" | grep "${DOCKER_PORT_HTTP}" | tail -n 1`
+  PID=`netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1`
   if [ -z "${PID}" ]; then
     log.info "${SERVICE} not running. Starting it now"
     ${SERVICE_STARTUP} -p ${DOCKER_PROFILE} &
