@@ -86,6 +86,7 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.config/vlc/" ; \
   # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse" ; \
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys" ; \
   # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/" ; \
   # /home/${KAMEHOUSE_USERNAME}/programs
@@ -110,8 +111,8 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/maven/settings.xml /home/${KAMEH
 # /home/${KAMEHOUSE_USERNAME}/.config/vlc
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/vlc/* /home/${KAMEHOUSE_USERNAME}/.config/vlc/
 # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.vnc.server.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.unlock.screen.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.vnc.server.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.unlock.screen.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.cred /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/.cred
 
@@ -149,11 +150,10 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Install kamehouse shell for root
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh -u ${KAMEHOUSE_USERNAME} ; \
-  # /home/${KAMEHOUSE_USERNAME}/home-synced
-  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys ; \
-  mkdir -p /home/${KAMEHOUSE_USERNAME}/home-synced/httpd ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.pkcs12 ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/keys/kamehouse.crt" ; \
+  # /home/${KAMEHOUSE_USERNAME}/.kamehouse
+  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/httpd ; \
+  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/kamehouse.pkcs12 ; \
+  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/kamehouse.crt" ; \
   # Httpd root index.html
   rm /var/www/html/index.html ; \
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/public/index.html /var/www/html/index.html ; \
@@ -173,7 +173,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/spring-session.sql ; \
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/dump-kamehouse.sql
 
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/home-synced/.kamehouse/
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090

@@ -21,6 +21,7 @@
 - Removed hardcoded database credentials
 - Updated mariadb setup scripts to work on windows as well
 - Updated mariadb user and schema
+- Moved home-synced to .kamehouse
 - Fixed broken execute on docker host commands
 - Fixed bugs
 

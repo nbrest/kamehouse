@@ -70,7 +70,7 @@ buildKameHouseConfigDir() {
   log.info "Building kamehouse config dirs"
   mkdir -p ${HOME}/logs
   mkdir -p ${HOME}/.kamehouse/.shell
-  mkdir -p ${HOME}/home-synced/.kamehouse/keys
+  mkdir -p ${HOME}/.kamehouse/keys
 
   if [ ! -f "${HOME}/.kamehouse/.shell/.cred" ]; then
     log.info ".kamehouse/.shell/.cred file doesn't exist, creating one from the sample"
@@ -79,40 +79,40 @@ buildKameHouseConfigDir() {
     log.info ".kamehouse/.shell/.cred file already exists. skipping"
   fi
 
-  if [ ! -f "${HOME}/.kamehouse/.unlock.screen.pwd.enc" ]; then
-    log.info ".kamehouse/.unlock.screen.pwd.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.unlock.screen.pwd.enc ${HOME}/.kamehouse/
+  if [ ! -f "${HOME}/.kamehouse/keys/.unlock.screen.pwd.enc" ]; then
+    log.info ".kamehouse/keys/.unlock.screen.pwd.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/.unlock.screen.pwd.enc ${HOME}/.kamehouse/keys/
   else
-    log.info ".kamehouse/.unlock.screen.pwd.enc file already exists. skipping"
+    log.info ".kamehouse/keys/.unlock.screen.pwd.enc file already exists. skipping"
   fi
 
-  if [ ! -f "${HOME}/.kamehouse/.vnc.server.pwd.enc" ]; then
-    log.info ".kamehouse/.vnc.server.pwd.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.vnc.server.pwd.enc ${HOME}/.kamehouse/
+  if [ ! -f "${HOME}/.kamehouse/keys/.vnc.server.pwd.enc" ]; then
+    log.info ".kamehouse/keys/.vnc.server.pwd.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/.vnc.server.pwd.enc ${HOME}/.kamehouse/keys/
   else
-    log.info ".kamehouse/.vnc.server.pwd.enc file already exists. skipping"
+    log.info ".kamehouse/keys/.vnc.server.pwd.enc file already exists. skipping"
   fi
 
-  if [ ! -f "${HOME}/home-synced/.kamehouse/integration-test-cred.enc" ]; then
-    log.info "home-synced/.kamehouse/integration-test-cred.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/integration-test-cred.enc ${HOME}/home-synced/.kamehouse/
+  if [ ! -f "${HOME}/.kamehouse/keys/integration-test-cred.enc" ]; then
+    log.info ".kamehouse/keys/integration-test-cred.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/keys/
   else
-    log.info "home-synced/.kamehouse/integration-test-cred.enc file already exists. skipping"
+    log.info ".kamehouse/keys/integration-test-cred.enc file already exists. skipping"
   fi  
 
-  if [ ! -f "${HOME}/home-synced/.kamehouse/keys/kamehouse.pkcs12" ]; then
-    log.info "home-synced/.kamehouse/keys/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/home-synced/.kamehouse/keys/kamehouse.pkcs12
+  if [ ! -f "${HOME}/.kamehouse/keys/kamehouse.pkcs12" ]; then
+    log.info ".kamehouse/keys/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/keys/kamehouse.pkcs12
   else
-    log.info "home-synced/.kamehouse/keys/kamehouse.pkcs12 file already exists. skipping"
+    log.info ".kamehouse/keys/kamehouse.pkcs12 file already exists. skipping"
   fi  
 
-  if [ ! -f "${HOME}/home-synced/.kamehouse/keys/kamehouse.crt" ]; then
-    log.info "home-synced/.kamehouse/keys/kamehouse.crt file doesn't exist, creating one from the sample"
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/home-synced/.kamehouse/keys/kamehouse.crt
+  if [ ! -f "${HOME}/.kamehouse/keys/kamehouse.crt" ]; then
+    log.info ".kamehouse/keys/kamehouse.crt file doesn't exist, creating one from the sample"
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/keys/kamehouse.crt
   else
-    log.info "home-synced/.kamehouse/keys/kamehouse.crt file already exists. skipping"
-  fi  
+    log.info ".kamehouse/keys/kamehouse.crt file already exists. skipping"
+  fi
 }
 
 installKameHouseGroot() {

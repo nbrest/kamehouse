@@ -39,7 +39,7 @@ import org.apache.http.message.BasicNameValuePair;
 public abstract class AbstractControllerIntegrationTest extends AbstractIntegrationTest {
 
   private static final String LOGIN_CREDENTIALS_FILE =
-      "/home-synced/.kamehouse/integration-test-cred.enc";
+      ".kamehouse/keys/integration-test-cred.enc";
   private static final String LOGIN_URL = "/kame-house/login";
   private static final String RESPONSE_BODY = "Response body {}";
 

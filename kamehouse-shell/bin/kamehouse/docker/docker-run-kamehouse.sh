@@ -128,11 +128,10 @@ runDockerImage() {
   fi
 
   if ${USE_VOLUMES}; then
-    log.info "Container data will be persisted in volumes: mariadb-data-${DOCKER_PROFILE}, home-kamehouse-${DOCKER_PROFILE}, home-home-synced-${DOCKER_PROFILE}, home-ssh-${DOCKER_PROFILE}"
+    log.info "Container data will be persisted in volumes: mariadb-data-${DOCKER_PROFILE}, home-kamehouse-${DOCKER_PROFILE}, home-ssh-${DOCKER_PROFILE}"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
     -v mariadb-data-${DOCKER_PROFILE}:/var/lib/mysql \
     -v home-kamehouse-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/.kamehouse \
-    -v home-home-synced-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/home-synced \
     -v home-ssh-${DOCKER_PROFILE}:/home/${DOCKER_USERNAME}/.ssh \
     "
   else 

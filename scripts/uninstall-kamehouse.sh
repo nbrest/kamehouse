@@ -90,8 +90,7 @@ purgeConfigFiles() {
   if ${PURGE_CONFIG}; then
     log.info "Deleting all config files"
     rm -r -f -v ${HOME}/.kamehouse/.shell
-    rm -r -f -v ${HOME}/home-synced/.kamehouse/keys
-    rm -f -v ${HOME}/home-synced/.kamehouse/integration-test-cred.enc
+    rm -r -f -v ${HOME}/.kamehouse/keys
   else
     log.info "Running without -p so skipping purging config files"
   fi

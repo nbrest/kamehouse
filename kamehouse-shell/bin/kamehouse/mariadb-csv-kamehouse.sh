@@ -15,7 +15,7 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 # Global variables
 LOG_PROCESS_TO_FILE=true
-PATH_CSV=${HOME}/home-synced/mariadb/csv
+PATH_CSV=${HOME}/.kamehouse/mariadb/csv
 PATH_SQL=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mariadb
 NUMBER_OF_BACKUPS=3
 OUT_FILE_BASE=""
@@ -45,7 +45,7 @@ executeExport() {
   if ${IS_LINUX_HOST}; then
     OUT_FILE_BASE="${TMP_EXPORT_DIR}/"
   else
-    OUT_FILE_BASE="C:/Users/"${USER}"/home-synced/mariadb/csv/"
+    OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/mariadb/csv/"
   fi
   mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
   checkCommandStatus "$?"
