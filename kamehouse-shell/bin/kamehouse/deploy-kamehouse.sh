@@ -67,7 +67,11 @@ doLocalDeployment() {
   deployKameHouseCmd
   deployKameHouseMobile
   cleanUpMavenRepository
-  exitProcess ${EXIT_CODE}
+  
+  if [ "${EXIT_CODE}" != "0" ]; then
+    log.error "Error executing kamehouse deployment"
+    exitProcess ${EXIT_CODE}
+  fi
 }
 
 setKameHouseBuildVersion() {

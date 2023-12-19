@@ -7,6 +7,7 @@
 
 - Download tomcat from apache website [(versions)](/docs/versions/versions.md)
 - **Run tomcat through a startup script, not as a system service**. Some commands like vlc start and stop won't work otherwise
+- Add `TOMCAT_TEXT_USER` and `TOMCAT_TEXT_PASS` env variables to `${HOME}/.kamehouse/.shell/.cred` for groot to access tomcat manager's api. See [docker .cred](/docker/keys/.cred) as an example.
 
 *********************
 

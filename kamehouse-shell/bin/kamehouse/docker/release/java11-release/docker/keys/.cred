@@ -1,5 +1,5 @@
 ### Database credentials:
-MARIADB_PASS_NIKOLQS=mariadb-pwd
+MARIADB_PASS_NIKOLQS=kamehouse-pwd
 
 ### GRoot/Shell API basic auth
 GROOT_API_BASIC_AUTH=c2VpeWE6aWtraQ==

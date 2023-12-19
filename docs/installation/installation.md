@@ -15,7 +15,7 @@
 
 * Install git (and git bash on windows)
 
-* Install mariadb server [(versions)](/docs/versions/versions.md)
+* Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
 
   - Update server configuration:
     - Windows:
@@ -32,17 +32,18 @@
       secure-file-priv=""
       ```
 
-  - Execute the sql scripts:
-    - [setup-kamehouse.sql](/kamehouse-shell/bin/kamehouse/sql/mariadb/setup-kamehouse.sql)
-    - [spring-session.sql](/kamehouse-shell/bin/kamehouse/sql/mariadb/spring-session.sql)
-    - [dump-kamehouse.sql](/docker/mariadb/dump-kamehouse.sql) (optional to setup initial users mentioned in [docker-setup.md](/docs/docker/docker-setup.md))
-
 * Install tomcat following [installation-tomcat.md](/docs/installation/installation-tomcat.md)
 
 * Install apache following [installation-apache.md](/docs/installation/installation-apache.md)
 
 * Once the above setup is complete, download and run the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, which will pull kamehouse from git into `${HOME}/git/kamehouse` and run the deployment script that will build and deploy all kamehouse modules
   - Once downloaded, run the script on bash with the command `chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh`
+
+* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/.shell/.cred` 
+
+* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/.shell/.cred` 
+
+* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/common/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
 
 * Then start both tomcat and apache to access kamehouse at http://localhost/kame-house or https://localhost/kame-house
 

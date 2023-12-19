@@ -1,3 +1,5 @@
+SELECT 'Begin executing sql script dump-kamehouse.sql' as '';
+
 DROP TABLE IF EXISTS `kamehouse_user`;
 CREATE TABLE `kamehouse_user` (
   `ID` bigint(20) NOT NULL,
@@ -47,3 +49,5 @@ CREATE TABLE `vlc_player` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `vlc_player` VALUES (1000001,'localhost','1',8080,NULL);
+
+SELECT 'Finished executing sql script dump-kamehouse.sql' as '';

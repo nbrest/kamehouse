@@ -298,12 +298,35 @@ class KameHouseAuth {
    * Get database configuration.
    */
   private function getDatabaseConfig() {
+    $this->loadCredFileToEnv();
+    $kameHousePassword = getenv("MARIADB_PASS_KAMEHOUSE");
     return '{ 
       "server" : "localhost",
-      "username" : "kameHouseUser",
-      "password" : "kameHousePwd",
+      "username" : "kamehouse",
+      "password" : "'.$kameHousePassword.'",
       "database" : "kameHouse"
     }';
+  }
+
+  /**
+   * Load credentials into environment.
+   */
+  private function loadCredFileToEnv() {
+    global $kameHouse;
+    $cred = '';
+    if ($kameHouse->core->isLinuxHost()) {
+      $cred = file_get_contents("/var/www/.kamehouse/.shell/.cred");
+    } else {
+      $username = getenv("USERNAME");
+      $cred = file_get_contents("C:/Users/" . $username . "/.kamehouse/.shell/.cred");
+    }
+    $credentials = explode("\n", $cred);
+    foreach ($credentials as $credential){
+      preg_match("/([^#]+)\=(.*)/", $credential, $matches);
+      if (isset($matches[2])) {
+        putenv(trim($credential));
+      }
+    } 
   }
 
 } // KameHouseAuth

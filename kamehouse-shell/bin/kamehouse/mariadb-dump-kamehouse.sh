@@ -47,7 +47,7 @@ cyclePreviousBackups() {
 
 executeBackup() {
   log.info "Executing database backup"
-  mariadb-dump -v -i -u nikolqs -p${MARIADB_PASS_NIKOLQS} kameHouse --dump-date --triggers --add-drop-database --add-drop-table --log-error=${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp --result-file=${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp
+  mariadb-dump -v -i -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} kamehouse --dump-date --triggers --add-drop-database --add-drop-table --log-error=${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp --result-file=${PATH_DUMP_FILE}/${DUMP_FILENAME}.tmp
   checkCommandStatus "$?"
   mv -v -f ${PATH_DUMP_FILE}/${LOG_FILENAME}.tmp ${PATH_DUMP_FILE}/${LOG_FILENAME}
   checkCommandStatus "$?"

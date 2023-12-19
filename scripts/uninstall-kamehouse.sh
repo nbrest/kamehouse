@@ -33,7 +33,7 @@ main() {
     deleteKameHouseGit
     purgeConfigFiles
   
-    log.info "This script doesn't remove the database contents. To do that, login to mariadb and execute 'DROP SCHEMA IF EXISTS kameHouse;'"
+    log.info "This script doesn't remove the database contents. To do that, login to mariadb and execute 'DROP SCHEMA IF EXISTS kamehouse;'"
   fi
 
   log.info "Finished uninstalling ${COL_PURPLE}kamehouse"

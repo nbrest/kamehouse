@@ -17,6 +17,10 @@
 - Updated jvncsender to version 1.04
 - Moved jvncsender commands to execute direcly from webapps rather than going through kamehouse-cmd except mouse clicks when running on docker
 - Replaced mouse clicks from vncdo with jvncsender. Deprecated all use of vncdo
+- Replaced mariadb nikolqs user with user kamehouse
+- Removed hardcoded database credentials
+- Updated mariadb setup scripts to work on windows as well
+- Updated mariadb user and schema
 - Fixed broken execute on docker host commands
 - Fixed bugs
 

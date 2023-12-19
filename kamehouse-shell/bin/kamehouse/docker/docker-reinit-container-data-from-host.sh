@@ -117,8 +117,8 @@ reinitHomeSynced() {
     ;;
   "docker-init")
     log.info "Resetting mariadb dump data from initial docker container data"
-    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/home-synced/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mariadb/dump\""
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/home-synced/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mariadb/dump"
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/home-synced/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mariadb/dump\""
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/home-synced/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/home-synced/mariadb/dump"
     ;;
   "docker-backup")
     log.info "Exporting mariadb data from ${HOME}/home-synced/docker/mariadb to the container"
@@ -142,11 +142,9 @@ reinitMariadb() {
   "docker-init"|"docker-backup"|"host-backup")
     log.info "Re-init mariadb kamehouse db from dump"
     
-    log.debug "ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mariadb/add-mariadb-user-nikolqs.sh ; \
-    /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh ; \
+    log.debug "ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mariadb/mariadb-setup-kamehouse.sh -s ; \
     /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh\""
-    ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mariadb/add-mariadb-user-nikolqs.sh ; \
-      /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh ; \
+    ssh -t -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/common/mariadb/mariadb-setup-kamehouse.sh -s ; \
       /home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh"
     ;;
   *) ;;

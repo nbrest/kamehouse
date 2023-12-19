@@ -15,7 +15,7 @@ MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/bin/kamehouse/sql/mariadb/
 
 mainProcess() {
   log.info "Archiving old tennis world bookings"
-  mariadb -u nikolqs -p${MARIADB_PASS_NIKOLQS} kameHouse < ${MARIADB_ARCHIVE_FILE}
+  mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} kamehouse < ${MARIADB_ARCHIVE_FILE}
   checkCommandStatus "$?"
 }
 

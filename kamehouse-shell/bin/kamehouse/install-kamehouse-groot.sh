@@ -16,22 +16,44 @@ main() {
   parseCmdLineArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
   createApacheHttpdUserSymLink
+  setWwwDataUserGroups
+  setLogsDir
+  setKameHouseUserHomePermissions
+  log.info "Ignore ${COL_PURPLE}sudo${COL_MESSAGE} error on windows"
   log.info "Done installing ${COL_PURPLE}kamehouse-groot!"
 }
 
 createApacheHttpdUserSymLink() {
   log.info "Creating symlink on /var/www for apache user www-data to access kamehouse-shell scripts"
-  if (( $EUID != 0 )); then
-    log.error "This script needs to run as root. Exiting..."
-    exit 1
-  fi
   log.info "This step is necessary to execute successfully kamehouse-shell commands from groot"
   log.info "This script is only necessary on ${COL_PURPLE}linux${COL_MESSAGE}. It's not needed in ${COL_PURPLE}windows" 
-  ln -s /home/${KAMEHOUSE_USER}/programs /var/www
-  mkdir -p /var/www/logs
-  chmod a+rwx /var/www/logs
-  chmod a+rx /home/${KAMEHOUSE_USER}
-  chmod a+rx /home/${KAMEHOUSE_USER}/programs
+  sudo ln -s /home/${KAMEHOUSE_USER}/programs /var/www
+  sudo ln -s /home/${KAMEHOUSE_USER}/.kamehouse /var/www
+}
+
+setLogsDir() {
+  log.info "Setting logs dirs"
+  sudo mkdir -p /var/www/logs
+  sudo chmod a+rwx /var/www/logs
+}
+
+setKameHouseUserHomePermissions() {
+  log.info "Setting /home/${KAMEHOUSE_USER} permissions"
+  sudo chmod ug+rx /home/${KAMEHOUSE_USER}
+  sudo chmod ug+rx /home/${KAMEHOUSE_USER}/.kamehouse
+  sudo chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /home/${KAMEHOUSE_USER}/.kamehouse
+  sudo chmod ug+rx /home/${KAMEHOUSE_USER}/programs
+  sudo chmod o-rx /home/${KAMEHOUSE_USER}
+  sudo chmod o-rx /home/${KAMEHOUSE_USER}/.kamehouse
+  sudo chmod o-rx /home/${KAMEHOUSE_USER}/programs
+}
+
+setWwwDataUserGroups() {
+  log.info "Adding www-data to ${KAMEHOUSE_USER} and users groups"
+  sudo usermod -a -G ${KAMEHOUSE_USER} www-data
+  sudo usermod -a -G users www-data
+  log.info "www-data groups"
+  sudo -u www-data groups
 }
 
 log.info() {

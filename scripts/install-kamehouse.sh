@@ -118,8 +118,7 @@ buildKameHouseConfigDir() {
 installKameHouseGroot() {
   log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}. This step needs to run as ${COL_PURPLE}root${COL_MESSAGE} user and is only necessary in linux"
   local KAMEHOUSE_USER=`whoami`
-  sudo ${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER}
-  log.info "Ignore ${COL_PURPLE}sudo${COL_MESSAGE} error on windows"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER}
 }
 
 deployKameHouse() {

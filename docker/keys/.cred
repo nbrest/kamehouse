@@ -1,5 +1,7 @@
-### Database credentials:
-MARIADB_PASS_NIKOLQS=mariadb-pwd
+### Database credentials: 
+# Update this password in groot kamehouse-auth.php, and .cred file
+MARIADB_PASS_KAMEHOUSE=kamehouse-pwd
+MARIADB_PASS_ROOT_WIN=
 
 ### GRoot/Shell API basic auth
 GROOT_API_BASIC_AUTH=c2VpeWE6aWtraQ==

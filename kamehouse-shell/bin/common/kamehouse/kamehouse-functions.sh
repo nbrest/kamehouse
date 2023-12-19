@@ -476,10 +476,13 @@ buildMavenCommand() {
   else
     log.info "Building all modules"
   fi
+  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE}"
 }
 
 executeMavenCommand() {
-  log.info "${MAVEN_COMMAND}"
+  local MAVEN_COMMAND_MASKED="${MAVEN_COMMAND}"
+  MAVEN_COMMAND_MASKED="`sed 's#filter.jdbc.password=.*#filter.jdbc.password=****#' <<<"${MAVEN_COMMAND_MASKED}"`"
+  log.info "${MAVEN_COMMAND_MASKED}"
   ${MAVEN_COMMAND}
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
 }

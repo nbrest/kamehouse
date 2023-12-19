@@ -30,11 +30,11 @@ GRoot relies on tomcat manager's app to be deployed and running
 
 # Install:
 
+- [optional] Update `GROOT_API_BASIC_AUTH` in `${HOME}/.kamehouse/.shell/.cred` with base64 encoded user:pass to execute deploy/git pull on remote servers from groot
+
 ## Linux:
 
-- Run `install-kamehouse-groot.sh -u kamehouseUsername` as root to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. This script is executed in `install-kamehouse.sh`
-
-- Add `TOMCAT_TEXT_USER` and `TOMCAT_TEXT_PASS` env variables to `${HOME}/.kamehouse/.shell/.cred` for groot to access tomcat manager's api. See [docker .cred](/docker/keys/.cred) as an example.
+- Run `install-kamehouse-groot.sh -u kamehouseUsername` as root to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. This script is executed from `install-kamehouse.sh`
 
 # Troubleshoot
 

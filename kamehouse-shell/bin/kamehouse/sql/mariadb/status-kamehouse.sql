@@ -1,4 +1,4 @@
-use kameHouse;
+use kamehouse;
 
 select 'KameHouse users' as '';
 select id, username, first_name, last_name, email from kamehouse_user order by id desc limit 30;
