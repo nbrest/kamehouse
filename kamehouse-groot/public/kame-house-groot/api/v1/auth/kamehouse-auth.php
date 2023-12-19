@@ -304,7 +304,7 @@ class KameHouseAuth {
       "server" : "localhost",
       "username" : "kamehouse",
       "password" : "'.$kameHousePassword.'",
-      "database" : "kameHouse"
+      "database" : "kamehouse"
     }';
   }
 
