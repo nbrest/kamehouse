@@ -144,8 +144,7 @@ backupHomeFolders() {
 
 pullDockerHomeFolders() {
   log.info "Pulling folders to sync from docker prod container, if it's running"
-  scp -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse ${HOME}/.kamehouse/docker/ 
-  rm -f ${HOME}/.kamehouse/docker/.kamehouse-docker-container-env
+  scp -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse ${HOME}/.kamehouse/docker/
 }
 
 backupWorkspaceEclipse() {
