@@ -662,5 +662,5 @@ deployToTomcat() {
   done
 
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat -n 2000 \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }

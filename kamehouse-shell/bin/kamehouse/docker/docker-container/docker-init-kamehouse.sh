@@ -196,7 +196,7 @@ printStartupMessage() {
   echo ""
 
   echo -e "${COL_BLUE} - ${COL_NORMAL}From the container's shell check the logs until the deployment finishes:"
-  echo -e "     ${COL_PURPLE}tail-log.sh -f tomcat${COL_NORMAL}"
+  echo -e "     ${COL_PURPLE}tail-log.sh -f tomcat -n 2000${COL_NORMAL}"
   echo ""
 
   echo -e "${COL_BLUE} - ${COL_NORMAL}For details on how to login to kamehouse and execute its functionality open:" 
