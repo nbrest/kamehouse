@@ -1,5 +1,4 @@
 ### Database credentials: 
-# Update this password in groot kamehouse-auth.php, and .cred file
 MARIADB_PASS_KAMEHOUSE=kamehouse-pwd
 MARIADB_PASS_ROOT_WIN=
 
