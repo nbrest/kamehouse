@@ -32,21 +32,24 @@ deployInAllServers() {
   # niko-server
   deployInServer "niko-server" "80" "win" "false" "false" &
 
+  # niko-server-dev-vm-ubuntu
+  deployInServer "niko-server-dev-vm-ubuntu" "80" "lin" "true" "false" &
+
   # niko-server-vm-ubuntu
-  deployInServer "niko-server-vm-ubuntu" "80" "lin" "false" "false" &
+  deployInServer "niko-server-vm-ubuntu" "80" "lin" "true" "false" &
   deployInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "lin" "true" "false" &
 
   # pi
   deployInServer "pi" "443" "lin" "false" "true" &
   
   # niko-nba
-  #deployInServer "niko-nba" "80" "win" "false" "false" &
+  deployInServer "niko-nba" "80" "win" "true" "false" &
 
   # niko-w
-  deployInServer "niko-w" "80" "win" "false" "false" &
+  deployInServer "niko-w" "80" "win" "true" "false" &
 
   # niko-w-vm-ubuntu
-  deployInServer "niko-w-vm-ubuntu" "80" "lin" "false" "false" &
+  deployInServer "niko-w-vm-ubuntu" "80" "lin" "true" "false" &
 
   log.info "Waiting for deployment to finish in all servers. ${COL_YELLOW}This process can take several minutes"
   wait
@@ -57,10 +60,10 @@ deployInServer() {
   local SERVER=$1
   local PORT=$2
   local HOST_OS=$3
-  local IS_DOCKER_DEMO=$4
+  local USE_DOCKER_DEMO_CRED=$4
   local IS_HTTPS=$5
   log.info "Started deployInServer ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
-  deployKamehouse ${SERVER} ${PORT} ${IS_DOCKER_DEMO} ${IS_HTTPS} &
+  deployKamehouse ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
   wait
   log.info "${COL_RED}Finished deployInServer ${COL_CYAN}${SERVER}:${PORT}:${HOST_OS}"
 }
@@ -68,21 +71,21 @@ deployInServer() {
 deployKamehouse() {
   local SERVER=$1
   local PORT=$2
-  local IS_DOCKER_DEMO=$3
+  local USE_DOCKER_DEMO_CRED=$3
   local IS_HTTPS=$4
   local SCRIPT_ARGS=""
   if [ -n "${MODULE_SHORT}" ]; then
     SCRIPT_ARGS="${SCRIPT_ARGS} -m ${MODULE_SHORT}"
   fi
   log.info "Started deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
-  executeScriptInServer ${SERVER} ${PORT} ${IS_DOCKER_DEMO} "kamehouse/deploy-kamehouse.sh" "${SCRIPT_ARGS}" ${IS_HTTPS}
+  executeScriptInServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} "kamehouse/deploy-kamehouse.sh" "${SCRIPT_ARGS}" ${IS_HTTPS}
   log.info "Finished deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
 }
 
 executeScriptInServer() {
   local SERVER=$1
   local PORT=$2
-  local IS_DOCKER_DEMO=$3
+  local USE_DOCKER_DEMO_CRED=$3
   local SCRIPT=$4
   local SCRIPT_ARGS="$5"
   local IS_HTTPS=$6
@@ -101,7 +104,7 @@ executeScriptInServer() {
     URL_ENCODED_PARAMS="script=${SCRIPT}"
   fi
 
-  if ${IS_DOCKER_DEMO}; then
+  if ${USE_DOCKER_DEMO_CRED}; then
     BASIC_AUTH=${DOCKER_DEMO_GROOT_API_BASIC_AUTH}
   else
     BASIC_AUTH=${GROOT_API_BASIC_AUTH}

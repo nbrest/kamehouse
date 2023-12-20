@@ -63,8 +63,8 @@ reinitSsh() {
   log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.ssh"
   scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.ssh/* ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.ssh
 
-  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"chmod 0600 /home/${DOCKER_USERNAME}/.ssh/*\""
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "chmod 0600 /home/${DOCKER_USERNAME}/.ssh/*"
+  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"chmod 755 /home/${DOCKER_USERNAME} ; chmod 700 /home/${DOCKER_USERNAME}/.ssh ; chmod 644 /home/${DOCKER_USERNAME}/.ssh/authorized_keys ; chmod 600 /home/${DOCKER_USERNAME}/.ssh/config ; chmod 600 /home/${DOCKER_USERNAME}/.ssh/id_* ; chmod 644 /home/${DOCKER_USERNAME}/.ssh/*.pub ; chmod 644 /home/${DOCKER_USERNAME}/.ssh/known_hosts\""
+  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "chmod 755 /home/${DOCKER_USERNAME} ; chmod 700 /home/${DOCKER_USERNAME}/.ssh ; chmod 644 /home/${DOCKER_USERNAME}/.ssh/authorized_keys ; chmod 600 /home/${DOCKER_USERNAME}/.ssh/config ; chmod 600 /home/${DOCKER_USERNAME}/.ssh/id_* ; chmod 644 /home/${DOCKER_USERNAME}/.ssh/*.pub ; chmod 644 /home/${DOCKER_USERNAME}/.ssh/known_hosts"
 
   log.info "Connect through ssh from container to host to add host key to known hosts for automated ssh commands from the container"
   
