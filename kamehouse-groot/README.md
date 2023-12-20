@@ -34,7 +34,7 @@ GRoot relies on tomcat manager's app to be deployed and running
 
 ## Linux:
 
-- Run `install-kamehouse-groot.sh -u kamehouseUsername` as root to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. This script is executed from `install-kamehouse.sh`
+- Run `install-kamehouse-groot.sh -u kamehouseUsername` and `set-kamehouse-sudoers-permissions.sh -u kamehouseUsername` to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. These scripts is executed from `install-kamehouse.sh`
 
 # Troubleshoot
 

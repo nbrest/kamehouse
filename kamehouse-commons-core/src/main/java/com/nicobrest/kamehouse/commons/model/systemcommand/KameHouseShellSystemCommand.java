@@ -35,10 +35,10 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
   }
 
   /**
-   * Override in subclasses to skip adding sudo prefix.
+   * Override in subclasses to add sudo prefix.
    */
   protected boolean isSudo() {
-    return true;
+    return false;
   }
 
   /**

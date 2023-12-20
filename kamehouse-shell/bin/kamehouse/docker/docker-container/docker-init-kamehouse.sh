@@ -31,7 +31,6 @@ main() {
     startTomcat
   fi
   configGitDevDir
-  cloneGitRepoToRoot
   printEnv
   printStartupMessage
   keepContainerAlive
@@ -127,24 +126,6 @@ configGitDevDir() {
 pullKameHouse() {
   log.info "Pulling latest KameHouse dev branch"
   sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git pull origin dev"
-}
-
-cloneGitRepoToRoot() {
-  if [ "${DOCKER_PROFILE}" == "dev" ]; then
-    log.info "Cloning kamehouse git repo to /root/git/kamehouse"
-    mkdir -p /root/git
-    cd /root/git
-    git clone https://github.com/nbrest/kamehouse.git
-    if [ -d "/root/git/kamehouse" ]; then
-      cd kamehouse
-      git checkout dev
-      git branch -D master    
-    fi
-  else
-    log.info "Copying kamehouse git repo to /root/git/kamehouse"
-    mkdir -p /root/git
-    cp -rf /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse /root/git/
-  fi
 }
 
 deployKameHouse() {

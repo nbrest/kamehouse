@@ -30,14 +30,12 @@ RUN apt-get update -y && apt-get -y upgrade ; \
   apt-get clean -y
 
 # Setup users 
-# IMPORTANT: if I update the user here also update it in docker/etc/sudoers
 ARG KAMEHOUSE_USERNAME=goku
 ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
 ARG KAMEHOUSE_PASSWORD=gohan
 ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
 # Setup users and apache httpd
-COPY docker/etc/sudoers /etc/sudoers
 COPY docker/apache2/conf /etc/apache2/conf
 COPY docker/apache2/sites-available /etc/apache2/sites-available
 COPY docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
@@ -146,10 +144,10 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
   # And recreate sample video playlists directories
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh" ; \
+  # Configure sudoers for kamehouse
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Install groot
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
-  # Install kamehouse shell for root
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh -u ${KAMEHOUSE_USERNAME} ; \
   # /home/${KAMEHOUSE_USERNAME}/.kamehouse
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/httpd ; \
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/kamehouse.pkcs12 ; \

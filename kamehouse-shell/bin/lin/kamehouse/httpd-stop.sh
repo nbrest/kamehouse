@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if (( $EUID == 0 )); then
-  HOME="/var/www"
-fi
-
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -21,7 +17,7 @@ LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
   log.info "Stopping apache httpd server"
-  setSudoKameHouseCommand "service apache2 stop"
+  setSudoKameHouseCommand "/usr/sbin/service apache2 stop"
   ${SUDO_KAMEHOUSE_COMMAND}
 }
 

@@ -48,7 +48,6 @@ executeExport() {
     OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/mariadb/csv/"
   fi
   mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} -e"set @outFileBase = '${OUT_FILE_BASE}'; `cat ${PATH_SQL}/csv-kamehouse.sql`"
-  checkCommandStatus "$?"
   if ${IS_LINUX_HOST}; then
     log.info "Moving generated csv files from ${TMP_EXPORT_DIR} to ${PATH_CSV}"
     chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv

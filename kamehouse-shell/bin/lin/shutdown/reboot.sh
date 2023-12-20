@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if (( $EUID == 0 )); then
-  HOME="/var/www"
-fi
-
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -20,7 +16,7 @@ fi
 LOG_PROCESS_TO_FILE=true
 
 mainProcess() {
-  setSudoKameHouseCommand "reboot"
+  setSudoKameHouseCommand "/usr/sbin/reboot"
   ${SUDO_KAMEHOUSE_COMMAND}
 }
 

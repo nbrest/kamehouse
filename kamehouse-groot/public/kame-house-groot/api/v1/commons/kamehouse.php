@@ -92,6 +92,21 @@ class KameHouseCore {
     echo json_encode($responseBody);
   }
 
+  /**
+   * Load kamehouse user.
+   */
+  public function loadKameHouseUserToEnv() {
+    global $kameHouse;
+    $userFile = file_get_contents("/var/www/.kamehouse-user");
+    $userFileProperties = explode("\n", $userFile);
+    foreach ($userFileProperties as $userFileProperty){
+      preg_match("/([^#]+)\=(.*)/", $userFileProperty, $matches);
+      if (isset($matches[2])) {
+        putenv(trim($userFileProperty));
+      }
+    }
+  }  
+
 } // KameHouseCore
 
 /**
@@ -125,7 +140,8 @@ class DockerUtils {
     global $kameHouse;
     $dockerContainerEnv = null;
     if ($kameHouse->core->isLinuxHost()) {
-      $username = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
+      $kameHouse->core->loadKameHouseUserToEnv();
+      $username = getenv("KAMEHOUSE_USER");
       $dockerContainerEnvFile = "/home/" . $username . "/.kamehouse/.kamehouse-docker-container-env";
       $script = "if [ -f \"" . $dockerContainerEnvFile . "\" ]; then cat " . $dockerContainerEnvFile . "; fi";
       $dockerContainerEnv = trim(shell_exec($script));

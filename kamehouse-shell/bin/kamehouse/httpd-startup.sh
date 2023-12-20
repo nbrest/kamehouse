@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if (( $EUID == 0 )); then
-  HOME="/var/www"
-fi
-
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -22,7 +18,7 @@ LOG_PROCESS_TO_FILE=true
 mainProcess() {
   log.info "Starting apache httpd server"
   if ${IS_LINUX_HOST}; then
-    setSudoKameHouseCommand "service apache2 start"
+    setSudoKameHouseCommand "/usr/sbin/service apache2 start"
     ${SUDO_KAMEHOUSE_COMMAND}
   else
     export HOME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-userhome.sh`

@@ -22,6 +22,8 @@
 - Updated mariadb setup scripts to work on windows as well
 - Updated mariadb user and schema
 - Moved home-synced to .kamehouse
+- Removed dependency on kamehouse user's home for apache httpd on linux
+- Automated setup of sudoers on linux
 - Fixed broken execute on docker host commands
 - Fixed bugs
 

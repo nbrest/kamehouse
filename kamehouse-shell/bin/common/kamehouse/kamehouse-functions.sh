@@ -372,11 +372,11 @@ loadDockerContainerEnv() {
   fi
 }
 
-# Set a kamehouse command to execute through exec-script.sh or sudo or as root
+# Set sudo for a command that requires sudo
 setSudoKameHouseCommand() {
-  log.warn "This script needs to run as ${COL_RED}root${COL_DEFAULT_LOG} or with ${COL_RED}sudo${COL_DEFAULT_LOG} or with ${COL_RED}exec-script.sh${COL_DEFAULT_LOG}"  
   SUDO_KAMEHOUSE_COMMAND=$1
   if ${IS_LINUX_HOST}; then
+    log.info "${COL_PURPLE}'${SUDO_KAMEHOUSE_COMMAND}'${COL_DEFAULT_LOG} needs to run with ${COL_RED}sudo${COL_DEFAULT_LOG}. Running as user ${COL_RED}${USER}${COL_DEFAULT_LOG}"
     if ! ${IS_ROOT_USER}; then
       SUDO_KAMEHOUSE_COMMAND="sudo ${SUDO_KAMEHOUSE_COMMAND}"
     fi

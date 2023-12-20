@@ -6,7 +6,7 @@
 # KameHouse Execution:
 
 - These are the kamehouse-shell scripts used to control the execution of kamehouse. These can be used both when kamehouse is run natively or inside a docker container. All the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
-- A few of these scripts require sudo permissions. Check the [sudoers](/docker/etc/sudoers) file to see which ones need to be setup to run passwordless with sudo to be able to execute them from the kamehouse webapps
+- Run `set-kamehouse-sudoers-permissions.sh` to setup permissions in linux to execute all commands that need sudo
 
 ## Apache Httpd:
 

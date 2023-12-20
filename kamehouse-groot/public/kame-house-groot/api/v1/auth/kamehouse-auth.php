@@ -242,48 +242,6 @@ class KameHouseAuth {
   }
 
   /**
-   * Checks if the specified login credentials are valid executing a shell script to validate the user
-   * with the .htpasswd file.
-   * @deprecated. Moved to mariadb auth.
-   */
-  private function authorizeUserDeprecated() {
-    global $kameHouse;
-    if(!$kameHouse->util->string->isValidInputForShell($username)) {
-      $kameHouse->logger->info("Username '" . $username . "' has invalid characters for shell");
-      return false;
-    }
-
-    if(!$kameHouse->util->string->isValidInputForShell($password)) {
-      $kameHouse->logger->info("Password for username '" . $username . "' has invalid characters for shell");
-      return false;
-    }
-
-    $isAuthorizedUser = false;
-    $scriptArgs = "-u " . $username . " -p " . $password;
-
-    $kameHouse->logger->info("Started executing script kamehouse/kamehouse-groot-login.sh");
-    if ($kameHouse->core->isLinuxHost()) {
-      /**
-       * This requires to give permission to www-data to execute. Check API execute.php for more details.
-       */
-      $shellUsername = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-      $shellCommandOutput = shell_exec("sudo -u " . $shellUsername . " /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'");
-    } else {
-      $shellCommandOutput = shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh -s 'kamehouse/kamehouse-groot-login.sh' -a '" . $scriptArgs . "'\"");
-    }
-    $kameHouse->logger->info("Finished executing script kamehouse/kamehouse-groot-login.sh");
-    $shellCommandOutput = explode("\n", $shellCommandOutput);
-
-    foreach ($shellCommandOutput as $shellCommandOutputLine) {
-      if ($kameHouse->util->string->startsWith($shellCommandOutputLine, 'loginStatus=SUCCESS')) {
-        $isAuthorizedUser = true;
-      }
-    }
-    
-    return $isAuthorizedUser;
-  }
-
-  /**
    * Check if the user is logged in.
    */
   private function isLoggedIn() {
@@ -315,7 +273,7 @@ class KameHouseAuth {
     global $kameHouse;
     $cred = '';
     if ($kameHouse->core->isLinuxHost()) {
-      $cred = file_get_contents("/var/www/.kamehouse/.shell/.cred");
+      $cred = file_get_contents("/var/www/.kamehouse-user");
     } else {
       $username = getenv("USERNAME");
       $cred = file_get_contents("C:/Users/" . $username . "/.kamehouse/.shell/.cred");

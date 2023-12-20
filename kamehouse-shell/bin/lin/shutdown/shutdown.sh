@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if (( $EUID == 0 )); then
-  HOME="/var/www"
-fi
-
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -21,7 +17,7 @@ LOG_PROCESS_TO_FILE=true
 SHUTDOWN_DELAY_MIN="0"
 
 mainProcess() {
-  setSudoKameHouseCommand "/sbin/shutdown"
+  setSudoKameHouseCommand "/usr/sbin/shutdown"
   ${SUDO_KAMEHOUSE_COMMAND} -P ${SHUTDOWN_DELAY_MIN}
 }
 

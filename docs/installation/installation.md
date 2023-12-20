@@ -58,15 +58,7 @@ The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update you
 
 ### Linux:
 
-* Update the `/etc/sudoers` file with the entries found in [sudoers](/docker/etc/sudoers). Replace `goku` with your username running kamehouse
-
-* Add the kamehouse user to the following groups:
-```sh
-  # adm: to be able to tail apache httpd logs
-  sudo usermod -a -G adm [username-running-kamehouse]
-  # sudo: to execute some manual commands like docker-reinit-container-data-from-host.sh. Not strictly necessary to run kamehouse apps. The entries in /etc/sudoers mentioned above are all that is needed
-  sudo usermod -a -G sudo [username-running-kamehouse]
-```
+* Run `set-kamehouse-sudoers-permissions.sh` to setup permissions in linux to execute all commands that need sudo
 
 * **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This doesn't really add any functionality. It's just to have a cooler prompt with root :)
 

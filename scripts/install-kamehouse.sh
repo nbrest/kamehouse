@@ -28,6 +28,7 @@ main() {
     exit 0
   fi
   buildKameHouseConfigDir
+  setSudoersPermissions
   installKameHouseGroot
   deployKameHouse
   logInstallRootMessage
@@ -115,8 +116,14 @@ buildKameHouseConfigDir() {
   fi
 }
 
+setSudoersPermissions() {
+  log.info "Setting sudoers permissions"
+  local KAMEHOUSE_USER=`whoami`
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+}
+
 installKameHouseGroot() {
-  log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}. This step needs to run as ${COL_PURPLE}root${COL_MESSAGE} user and is only necessary in linux"
+  log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
   local KAMEHOUSE_USER=`whoami`
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER}
 }

@@ -41,7 +41,9 @@ class KameHouseShell {
     $kameHouseShellCSV = "";
     
     if ($kameHouse->core->isLinuxHost()) {
-      $kameHouseShellCSV = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/lin/csv-kamehouse-shell.sh"));
+      $kameHouse->core->loadKameHouseUserToEnv();
+      $username = getenv("KAMEHOUSE_USER");
+      $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s lin/csv-kamehouse-shell.sh"));
     } else {
       $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/win/csv-kamehouse-shell.sh\""));
     }
@@ -97,24 +99,22 @@ class KameHouseShell {
     $shellCommand = "";
     if ($kameHouse->core->isLinuxHost()) {
       /**
-       * This requires to give permission to www-data to execute a couple of scripts. 
-       * Update sudoers:
-       *  www-data ALL=(ALL) NOPASSWD: /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh
-       * Make sure the script `install-kamehouse-groot.sh` was executed as well to access get-username.sh and exec-script.sh from the user www-data through groot.
+       * Run `install-kamehouse-groot.sh` and `set-kamehouse-sudoers-permissions.sh` to successfully execute kamehouse shell scripts through groot.
        */
-      $username = trim(shell_exec("HOME=/var/www /var/www/programs/kamehouse-shell/bin/kamehouse/get-username.sh"));
-      $shellCommand = "sudo -u " . $username . " /var/www/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
+      $kameHouse->core->loadKameHouseUserToEnv();
+      $username = getenv("KAMEHOUSE_USER");
+      $shellCommand = "sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh";
     } else {
       $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " -x";
     }
-    $shellCommand = $shellCommand . " -s '" . $script . "' -a '" . $scriptArgs . "'";
+    $shellCommand = $shellCommand . " -s \'" . $script . "\' -a \'" . $scriptArgs . "\'";
     if (!$kameHouse->core->isLinuxHost()) {
-      $shellCommand . "\"";
+      $shellCommand = $shellCommand . "\"";
     }
-    return $shellCommand;   
+    return $shellCommand;
   }
 
   /**
