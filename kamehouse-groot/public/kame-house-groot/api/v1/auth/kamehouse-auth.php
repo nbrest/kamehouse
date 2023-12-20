@@ -256,7 +256,7 @@ class KameHouseAuth {
    * Get database configuration.
    */
   private function getDatabaseConfig() {
-    $this->loadCredFileToEnv();
+    $this->loadDatabaseConfigEnv();
     $kameHousePassword = getenv("MARIADB_PASS_KAMEHOUSE");
     return '{ 
       "server" : "localhost",
@@ -269,11 +269,11 @@ class KameHouseAuth {
   /**
    * Load credentials into environment.
    */
-  private function loadCredFileToEnv() {
+  private function loadDatabaseConfigEnv() {
     global $kameHouse;
     $cred = '';
     if ($kameHouse->core->isLinuxHost()) {
-      $cred = file_get_contents("/var/www/.kamehouse-user");
+      $cred = $kameHouse->shell->getGrootConfig();
     } else {
       $username = getenv("USERNAME");
       $cred = file_get_contents("C:/Users/" . $username . "/.kamehouse/.shell/.cred");

@@ -1,9 +1,6 @@
 #!/bin/bash
-# USERNAME gets set during install kamehouse-shell
-USERNAME="${DEFAULT_KAMEHOUSE_USERNAME}"
-COMMAND="/home/${USERNAME}/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh $@"
+source /var/www/.kamehouse-user
 
-mkdir -p ${HOME}/logs
-echo "command to execute as ${USERNAME}: ${COMMAND}" > ${HOME}/logs/su.sh
+COMMAND="/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh $@"
 
-/usr/bin/su - ${USERNAME} -c "${COMMAND}"
+/usr/bin/su - ${KAMEHOUSE_USER} -c "${COMMAND}"

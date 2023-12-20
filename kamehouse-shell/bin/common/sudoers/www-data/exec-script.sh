@@ -20,7 +20,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-LOG_PROCESS_TO_FILE=true
+LOG_PROCESS_TO_FILE=false
 SCRIPT=""
 SCRIPT_ARGS=""
 BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"

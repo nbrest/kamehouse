@@ -1,5 +1,4 @@
 ### Database credentials: 
-# Run install-kamehouse-groot.sh whenever the mariadb password changes here 
 MARIADB_PASS_KAMEHOUSE=kamehouse-pwd
 MARIADB_PASS_ROOT_WIN=
 

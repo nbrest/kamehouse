@@ -58,6 +58,27 @@ class KameHouseShell {
   }  
 
   /**
+   * Config the config for kamehouse groot.
+   */
+  public function getGrootConfig() {
+    global $kameHouse;
+    $kameHouse->core->loadKameHouseUserToEnv();
+    $username = getenv("KAMEHOUSE_USER");
+    $grootConfigData = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s common/sudoers/www-data/groot-get-config.sh"));
+    $grootConfigArray = explode("\n", $grootConfigData);
+    $grootConfig = '';
+    foreach ($grootConfigArray as $grootConfigEntry){
+      preg_match("/([^#]+)\=(.*)/", $grootConfigEntry, $matches);
+      if (isset($matches[2])) {
+        if ($kameHouse->util->string->startsWith($grootConfigEntry, "MARIADB_PASS_KAMEHOUSE=")) {
+          $grootConfig = $grootConfig . $grootConfigEntry . "\n";
+        }
+      }
+    } 
+    return $grootConfig;
+  }  
+
+  /**
    * Config session for kamehouse shell script execution.
    */
   private function configSession() {
