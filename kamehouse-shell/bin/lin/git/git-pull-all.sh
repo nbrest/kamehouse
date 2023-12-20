@@ -26,7 +26,7 @@ mainProcess() {
     ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-kamehouse.sh
     ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-kamehouse-audio-playlists.sh
     ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-kamehouse-video-playlists.sh
-    ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-kh-webserver.sh
+    ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-kamehouse-webserver.sh
     ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-learn-java.sh
     ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-my-scripts.sh
     ${HOME}/programs/kamehouse-shell/bin/lin/git/git-pull-programming.sh

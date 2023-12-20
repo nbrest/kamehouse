@@ -33,21 +33,24 @@ gitPullAllAllServers() {
   # niko-server
   gitPullAll "niko-server" "80" "win" "false" "false" &
 
+  # niko-server-dev-vm-ubuntu
+  gitPullAll "niko-server-dev-vm-ubuntu" "80" "lin" "true" "false" &
+
   # niko-server-vm-ubuntu
-  gitPullAll "niko-server-vm-ubuntu" "80" "lin" "false" "false" &
+  gitPullAll "niko-server-vm-ubuntu" "80" "lin" "true" "false" &
   gitPullAll "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "lin" "true" "false" &
 
   # pi
   gitPullAll "pi" "443" "lin" "false" "true" &
 
   # niko-nba
-  #gitPullAll "niko-nba" "80" "win" "false" "false" &
+  gitPullAll "niko-nba" "80" "win" "true" "false" &
 
   # niko-w
-  gitPullAll "niko-w" "80" "win" "false" "false" &
+  gitPullAll "niko-w" "80" "win" "true" "false" &
 
   # niko-w-vm-ubuntu
-  gitPullAll "niko-w-vm-ubuntu" "80" "lin" "false" "false" &
+  gitPullAll "niko-w-vm-ubuntu" "80" "lin" "true" "false" &
 
   log.info "Waiting for git pull all to finish in all servers. ${COL_YELLOW}This process can take several minutes"
   wait
@@ -58,17 +61,17 @@ gitPullAll() {
   local SERVER=$1
   local PORT=$2
   local HOST_OS=$3
-  local IS_DOCKER_DEMO=$4
+  local USE_DOCKER_DEMO_CRED=$4
   local IS_HTTPS=$5
   log.info "Started gitPullAll ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
-  executeScriptInServer ${SERVER} ${PORT} ${IS_DOCKER_DEMO} "${HOST_OS}/git/git-pull-all.sh" ${IS_HTTPS}
+  executeScriptInServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} "${HOST_OS}/git/git-pull-all.sh" ${IS_HTTPS}
   log.info "${COL_RED}Finished gitPullAll ${COL_CYAN}${SERVER}:${PORT}:${HOST_OS}"
 }
 
 executeScriptInServer() {
   local SERVER=$1
   local PORT=$2
-  local IS_DOCKER_DEMO=$3
+  local USE_DOCKER_DEMO_CRED=$3
   local SCRIPT=$4
   local IS_HTTPS=$5
   local PROTOCOL="http"
@@ -77,7 +80,7 @@ executeScriptInServer() {
     PROTOCOL="https"
   fi
 
-  if ${IS_DOCKER_DEMO}; then
+  if ${USE_DOCKER_DEMO_CRED}; then
     BASIC_AUTH=${DOCKER_DEMO_GROOT_API_BASIC_AUTH}
   else
     BASIC_AUTH=${GROOT_API_BASIC_AUTH}

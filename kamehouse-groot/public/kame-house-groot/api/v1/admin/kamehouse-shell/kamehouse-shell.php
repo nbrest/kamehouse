@@ -131,9 +131,10 @@ class KameHouseShell {
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " -x";
     }
-    $shellCommand = $shellCommand . " -s \'" . $script . "\' -a \'" . $scriptArgs . "\'";
-    if (!$kameHouse->core->isLinuxHost()) {
-      $shellCommand = $shellCommand . "\"";
+    if ($kameHouse->core->isLinuxHost()) {
+      $shellCommand = $shellCommand . " -s \'" . $script . "\' -a \'" . $scriptArgs . "\'";
+    } else {
+      $shellCommand = $shellCommand . " -s '" . $script . "' -a '" . $scriptArgs . "' \"";
     }
     return $shellCommand;
   }

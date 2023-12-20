@@ -127,12 +127,12 @@ class KameHouseAuth {
    */
   public function isAuthorizedUser($username, $password) {
     global $kameHouse;
-    if(!$kameHouse->util->string->isValidInputForShell($username)) {
+    if(!$kameHouse->util->string->isValidInputForDbAccess($username)) {
       $kameHouse->logger->info("Username '" . $username . "' has invalid characters for db access");
       return false;
     }
 
-    if(!$kameHouse->util->string->isValidInputForShell($password)) {
+    if(!$kameHouse->util->string->isValidInputForDbAccess($password)) {
       $kameHouse->logger->info("Password for username '" . $username . "' has invalid characters for for db access");
       return false;
     }
@@ -165,7 +165,7 @@ class KameHouseAuth {
    */
   public function getRoles($username) {
     global $kameHouse;
-    if(!$kameHouse->util->string->isValidInputForShell($username)) {
+    if(!$kameHouse->util->string->isValidInputForDbAccess($username)) {
       $kameHouse->logger->info("Username '" . $username . "' has invalid characters for db access");
       return [];
     }

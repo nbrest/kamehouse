@@ -45,6 +45,98 @@ chmod a+x gnome-screensaver-command
 exit
 ```
 
+## sudo commands in raspbian:
+
+### su:
+```sh
+sudo su
+cd /usr/bin
+vim su
+```
+
+- Set the content to:
+```sh
+/bin/su "$@"
+```
+
+- Then set the permissions
+```sh
+chmod a+x su
+exit
+```
+
+### netstat:
+```sh
+sudo su
+cd /usr/bin
+vim netstat
+```
+
+- Set the content to:
+```sh
+/bin/netstat "$@"
+```
+
+- Then set the permissions
+```sh
+chmod a+x netstat
+exit
+```
+
+### systemctl:
+```sh
+sudo su
+cd /usr/bin
+vim systemctl
+```
+
+- Set the content to:
+```sh
+/bin/systemctl "$@"
+```
+
+- Then set the permissions
+```sh
+chmod a+x systemctl
+exit
+```
+
+### reboot:
+```sh
+sudo su
+cd /usr/sbin
+vim reboot
+```
+
+- Set the content to:
+```sh
+/sbin/reboot "$@"
+```
+
+- Then set the permissions
+```sh
+chmod a+x reboot
+exit
+```
+
+### shutdown:
+```sh
+sudo su
+cd /usr/sbin
+vim shutdown
+```
+
+- Set the content to:
+```sh
+/sbin/shutdown "$@"
+```
+
+- Then set the permissions
+```sh
+chmod a+x shutdown
+exit
+```
+
 *********************
 
 ## VLC start and stop commands:

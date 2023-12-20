@@ -281,15 +281,40 @@ class StringUtils {
       $isValidInputForShell = false;
     }
 
-    // Skipped: " "
     $forbiddenChars = array(">", "<", ";", ":", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "\"", "'", "#", "\\", ",", "`", "..", "%", "@", "!", "$", "?");
     foreach ($forbiddenChars as $forbiddenChar) {
-      if($this->hasForbiddenCharSequenceForShell($param, $forbiddenChar)) {
+      if($this->hasForbiddenCharSequence($param, $forbiddenChar)) {
         $isValidInputForShell = false;
       }
     }
 
     return $isValidInputForShell;
+  }
+
+  /** 
+   * Check that the input is valid to pass for a db access.
+   */
+  public function isValidInputForDbAccess($param) {
+    $MAX_LENGTH = 100;
+
+    if ($this->isEmptyStr($param)) {
+      return true;
+    }
+
+    $isValidInputForDbAccess = true;
+
+    if (strlen($param) > $MAX_LENGTH) {
+      $isValidInputForDbAccess = false;
+    }
+
+    $forbiddenChars = array(";", "|", "\"", "'", "#", "\\", "/", ",", "`","!");
+    foreach ($forbiddenChars as $forbiddenChar) {
+      if($this->hasForbiddenCharSequence($param, $forbiddenChar)) {
+        $isValidInputForDbAccess = false;
+      }
+    }
+
+    return $isValidInputForDbAccess;
   }
 
   /**
@@ -302,7 +327,7 @@ class StringUtils {
   /**
    * Validate if the specified param contains the specified invalid character sequence.
    */
-  private function hasForbiddenCharSequenceForShell($param, $invalidCharSequence) {
+  private function hasForbiddenCharSequence($param, $invalidCharSequence) {
     global $kameHouse;
     if ($this->contains($param, $invalidCharSequence)) {
       $kameHouse->logger->info("Input contains forbidden characters");
