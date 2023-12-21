@@ -24,6 +24,7 @@
 - Moved home-synced to .kamehouse
 - Removed dependency on kamehouse user's home for apache httpd on linux
 - Automated setup of sudoers on linux
+- Added parameter to set the log level of shell scripts on deployment
 - Fixed broken execute on docker host commands
 - Fixed bugs
 
