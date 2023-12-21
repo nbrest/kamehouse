@@ -16,6 +16,7 @@ fi
 
 LOG_PROCESS_TO_FILE=true
 PROJECT_DIR=${HOME}/git/jenkins/kamehouse
+LOG_LEVEL=INFO
 
 mainProcess() {
   runFullContinuousIntegrationBuild
@@ -28,7 +29,7 @@ runFullContinuousIntegrationBuild() {
   setKameHouseRootProjectDir
   gitResetBranch
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell -c
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell -c -l ${LOG_LEVEL}
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh
@@ -78,10 +79,13 @@ gitResetBranch() {
 }
 
 parseArguments() {
-  while getopts ":c" OPT; do
+  while getopts ":cl:" OPT; do
     case $OPT in
     ("c")
       USE_CURRENT_DIR=true
+      ;;
+    ("l")
+      LOG_LEVEL=$OPTARG
       ;;
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -92,6 +96,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-c" "Run ci full build from current directory instead of from default directory."
+  addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
 }
 
 main "$@"
