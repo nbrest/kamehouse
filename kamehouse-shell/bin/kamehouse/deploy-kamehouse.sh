@@ -29,6 +29,7 @@ TOMCAT_DIR=""
 TOMCAT_LOG=""
 KAMEHOUSE_BUILD_VERSION=""
 DEPLOY_TO_TOMCAT=false
+LOG_LEVEL=INFO
 
 # buildMavenCommand default settings override for deployment
 FAST_BUILD=true
@@ -214,7 +215,7 @@ deployKameHouseShell() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
     chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
     checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
     log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
@@ -250,7 +251,7 @@ parseArguments() {
   parseMavenProfile "$@"
   parseKameHouseServer "$@"
 
-  while getopts ":bcm:p:s:" OPT; do
+  while getopts ":bcm:l:p:s:" OPT; do
     case $OPT in
     ("b")
       REFRESH_CORDOVA_PLUGINS=true
@@ -258,6 +259,9 @@ parseArguments() {
     ("c")
       USE_CURRENT_DIR=true
       ;;
+    ("l")
+      LOG_LEVEL=$OPTARG
+      ;;   
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -274,6 +278,7 @@ setEnvFromArguments() {
 printHelpOptions() {
   addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
   addHelpOption "-c" "deploy current version of the current directory without pulling latest version. Default deployment dir: ${PROJECT_DIR}"
+  addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
   printKameHouseServerOption

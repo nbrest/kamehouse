@@ -21,6 +21,7 @@ TEMP_PATH=${HOME}/temp
 
 KAMEHOUSE_SHELL_SOURCE=`pwd`
 INSTALL_SCRIPTS_ONLY=false
+LOG_LEVEL=""
 
 main() {
   parseCmdLineArguments "$@"
@@ -31,6 +32,7 @@ main() {
   createLogsDir
   installKameHouseShell
   updateUsername
+  updateLogLevel
   fixPermissions
   generateKameHouseShellPathFile
   generateBuildVersion
@@ -128,6 +130,32 @@ updateUsername() {
 
   sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/pi/startup/pi-rc-local.sh"
   sed -i "s#KAMEHOUSE_USER#${USERNAME}#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/pi/startup/pi-rc-local.service"
+}
+
+updateLogLevel() {
+  if [ -z "${LOG_LEVEL}" ]; then
+    log.info "Using default log level ${COL_PURPLE}INFO${COL_MESSAGE} for kamehouse shell scripts"
+    return
+  fi
+  local LEVEL=`echo "${LOG_LEVEL}" | tr '[:lower:]' '[:upper:]'`
+  log.info "Updating kamehouse-shell log level to ${COL_PURPLE}${LEVEL}${COL_MESSAGE}"
+  local LEVEL_NUMBER=2
+  if [ "${LEVEL}" == "TRACE" ]; then
+    LEVEL_NUMBER="4"
+  fi
+  if [ "${LEVEL}" == "DEBUG" ]; then
+    LEVEL_NUMBER="3"
+  fi
+  if [ "${LEVEL}" == "INFO" ]; then
+    LEVEL_NUMBER="2"
+  fi
+  if [ "${LEVEL}" == "WARN" ]; then
+    LEVEL_NUMBER="1"
+  fi
+  if [ "${LEVEL}" == "ERROR" ]; then
+    LEVEL_NUMBER="0"
+  fi
+  sed -i "s#LOG_LEVEL_NUMBER=2#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/log-functions.sh"
 }
 
 updateBashRc() {
@@ -233,7 +261,7 @@ log.error() {
 }
 
 parseCmdLineArguments() {
-  while getopts ":hop" OPT; do
+  while getopts ":hol:p" OPT; do
     case $OPT in
     ("h")
       printHelpMenu
@@ -242,6 +270,9 @@ parseCmdLineArguments() {
     ("o")
       INSTALL_SCRIPTS_ONLY=true
       ;;
+    ("l")
+      LOG_LEVEL=$OPTARG
+      ;;      
     ("p")
       KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
       ;;
@@ -260,6 +291,7 @@ printHelpMenu() {
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-o${COL_NORMAL} only install kamehouse shell scripts. Don't modify the shell"
+  echo -e "     ${COL_BLUE}-l [ERROR|WARN|INFO|DEBUG|TRACE]${COL_NORMAL} set log level for scripts. Default is INFO"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} use kamehouse git prod directory instead of current dir"
 }
 
