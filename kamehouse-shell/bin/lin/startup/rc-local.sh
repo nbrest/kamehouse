@@ -21,7 +21,7 @@ main() {
   log.info "Starting rc-local.sh" > ${LOG_FILE}
   checkEnv
   startTomcat
-  backupServer
+  #backupServer
   setPermissions
   log.info "Finished rc-local.sh" >> ${LOG_FILE}
 }

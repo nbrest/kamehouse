@@ -25,7 +25,7 @@ main() {
   setupTmpfs
   disableSwap
   startTomcat
-  backupServer
+  #backupServer
   moveLogFile
 }
 
