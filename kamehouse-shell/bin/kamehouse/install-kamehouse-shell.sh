@@ -110,6 +110,7 @@ installCred() {
     mkdir -p ${HOME}/.kamehouse/.shell/
     cp docker/keys/.cred ${HOME}/.kamehouse/.shell/.cred
   fi
+  chmod 700 ${HOME}/.kamehouse/.shell/.cred
 }
 
 updateUsername() {

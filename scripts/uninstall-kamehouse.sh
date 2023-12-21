@@ -15,9 +15,12 @@ COL_MESSAGE=${COL_GREEN}
 
 PURGE_CONFIG=false
 KAMEHOUSE_SHELL_ONLY=false
+UNINSTALL_FOR_ROOT=false
 
 main() {
   parseCmdLineArguments "$@"
+  checkUninstalForRoot
+
   log.info "Uninstalling ${COL_PURPLE}kamehouse"
 
   revertBashRc
@@ -37,6 +40,14 @@ main() {
   fi
 
   log.info "Finished uninstalling ${COL_PURPLE}kamehouse"
+}
+
+checkUninstalForRoot() {
+  if ${UNINSTALL_FOR_ROOT}; then
+    sudo /bin/bash -c "cd /root/git/kamehouse ; ./scripts/uninstall-kamehouse.sh -p"
+    log.info "Uninstalled kamehouse for root user"
+    exit 0
+  fi
 }
 
 revertBashRc() {
@@ -79,6 +90,10 @@ deleteKameHouseGroot() {
   if [ -d "${HOME}/programs/apache-httpd/www/kamehouse-webserver" ]; then
     rm -rf ${HOME}/programs/apache-httpd/www/kamehouse-webserver/kame-house-groot
   fi
+
+  if [ -f "/var/www/.kamehouse-server" ]; then
+    rm -rf /var/www/.kamehouse-server
+  fi  
 }
 
 deleteKameHouseGit() {
@@ -109,7 +124,7 @@ log.error() {
 }
 
 parseCmdLineArguments() {
-  while getopts ":hps" OPT; do
+  while getopts ":hpsr" OPT; do
     case $OPT in
     ("h")
       printHelpMenu
@@ -121,6 +136,9 @@ parseCmdLineArguments() {
     ("s")
       KAMEHOUSE_SHELL_ONLY=true
       ;;
+    ("r")
+      UNINSTALL_FOR_ROOT=true
+      ;;      
     (\?)
       log.error "Invalid argument $OPTARG"
       exit 1
@@ -137,6 +155,7 @@ printHelpMenu() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} purge config files as well"
   echo -e "     ${COL_BLUE}-s${COL_NORMAL} uninstall kamehouse-shell only"
+  echo -e "     ${COL_BLUE}-r${COL_NORMAL} uninstall kamehouse for root"
 }
 
 main "$@"

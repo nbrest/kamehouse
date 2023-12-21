@@ -10,19 +10,13 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
-KAMEHOUSE_USER=""
-
 main() {
   parseCmdLineArguments "$@"
   log.info "Setting up root user for kamehouse"
-  if (( $EUID != 0 )); then
-    log.error "This script needs to run as root. Exiting..."
-    exit 1
-  fi
-  cd /home/${KAMEHOUSE_USER}/git/kamehouse
-  git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-  log.info "To ${COL_RED}uninstall${COL_MESSAGE} kamehouse-shell for root, run as root ${COL_PURPLE}cd ${HOME}/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
+  gitCloneKameHouse
+  sudo /bin/bash -c 'cd /root/git/kamehouse ; chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh'
+  sudo /bin/bash -c 'cd /root/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh'
+  log.info "To ${COL_RED}uninstall${COL_MESSAGE} kamehouse-shell for root, run as root ${COL_PURPLE}cd /root/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
   log.info "Finished setting up root user for kamehouse"
 }
 
@@ -38,15 +32,18 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
+gitCloneKameHouse() {
+  log.info "Cloning kamehouse git repository into /root/git/kamehouse"
+  sudo mkdir -p /root/git
+  sudo /bin/bash -c 'cd /root/git ; git clone https://github.com/nbrest/kamehouse.git ; cd kamehouse ; git checkout dev ; git pull origin dev'
+}
+
 parseCmdLineArguments() {
-  while getopts ":hu:" OPT; do
+  while getopts ":h" OPT; do
     case $OPT in
     ("h")
       printHelpMenu
       exit 0
-      ;;
-    ("u")
-      KAMEHOUSE_USER=$OPTARG
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
@@ -54,12 +51,6 @@ parseCmdLineArguments() {
       ;;
     esac
   done
-
-  if [ -z "${KAMEHOUSE_USER}" ]; then
-    log.error "Option -u is required"
-    printHelpMenu
-    exit 1
-  fi
 }
 
 printHelpMenu() {
@@ -68,7 +59,6 @@ printHelpMenu() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-u (username)${COL_NORMAL} user running kamehouse [${COL_RED}required${COL_NORMAL}]"
 }
 
 main "$@"
