@@ -12,7 +12,7 @@ main() {
   createTmpDirs
   createHomeLogDirs
   createDefaultPiLogDirs
-  createBashHistoryFiles
+  createHomeFiles
   setPermissions
   log.info "Finished setup-tmpfs.sh"
 }
@@ -46,7 +46,7 @@ createDefaultPiLogDirs() {
   mkdir -p /var/log/samba
 }
 
-createBashHistoryFiles() {
+createHomeFiles() {
   log.info "setup .bash_history on tmpfs"
   touch /tmp/home/root/.bash_history
   rm /root/.bash_history
@@ -56,6 +56,11 @@ createBashHistoryFiles() {
   rm /home/pi/.bash_history
   ln -s /tmp/home/pi/.bash_history /home/pi/.bash_history
   chown pi:users /home/pi/.bash_history
+
+  touch /tmp/home/pi/dead.letter
+  rm /home/pi/dead.letter
+  ln -s /tmp/home/pi/dead.letter /home/pi/dead.letter
+  chown pi:users /home/pi/dead.letter
 }
 
 setPermissions() {
