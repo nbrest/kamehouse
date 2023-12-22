@@ -27,6 +27,7 @@
 - Added parameter to set the log level of shell scripts on deployment
 - Fixed permissions on .kamehouse folder
 - Added validations of command line arguments for exec-script.sh
+- Restricted sudo access for www-data and user running kamehouse
 - Fixed broken execute on docker host commands
 - Fixed bugs
 
