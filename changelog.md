@@ -21,10 +21,12 @@
 - Removed hardcoded database credentials
 - Updated mariadb setup scripts to work on windows as well
 - Updated mariadb user and schema
-- Moved home-synced to .kamehouse
+- Moved home-synced to .kamehouse folder
 - Removed dependency on kamehouse user's home for apache httpd on linux
 - Automated setup of sudoers on linux
 - Added parameter to set the log level of shell scripts on deployment
+- Fixed permissions on .kamehouse folder
+- Added validations of command line arguments for exec-script.sh
 - Fixed broken execute on docker host commands
 - Fixed bugs
 
