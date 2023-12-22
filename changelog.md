@@ -28,6 +28,7 @@
 - Fixed permissions on .kamehouse folder
 - Added validations of command line arguments for exec-script.sh
 - Restricted sudo access for www-data and user running kamehouse
+- Added script to excecute the full build on ci and added it to groot tail log
 - Fixed broken execute on docker host commands
 - Fixed bugs
 
