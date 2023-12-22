@@ -26,13 +26,13 @@ updateSudoers() {
   sudo usermod -a -G adm ${KAMEHOUSE_USER}
   sudo usermod -a -G sudo ${KAMEHOUSE_USER}
   log.info "Updating sudoers file to run kamehouse"
-  updateSudoersEntry "www-data ALL=(ALL) NOPASSWD: /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh"
-  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(ALL) NOPASSWD: /usr/bin/mariadb"
-  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(ALL) NOPASSWD: /usr/bin/netstat"
-  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(ALL) NOPASSWD: /usr/bin/systemctl"
-  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(ALL) NOPASSWD: /usr/sbin/reboot"
-  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(ALL) NOPASSWD: /usr/sbin/service"
-  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(ALL) NOPASSWD: /usr/sbin/shutdown"
+  updateSudoersEntry "www-data ALL=(root) NOPASSWD: /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/mariadb"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/netstat"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/systemctl"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/sbin/reboot"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/sbin/service"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/sbin/shutdown"
 }
 
 updateSudoersEntry() {

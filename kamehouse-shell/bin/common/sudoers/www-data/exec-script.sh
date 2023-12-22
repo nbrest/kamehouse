@@ -48,6 +48,14 @@ mainProcess() {
   fi
 }
 
+validateCommandLineArguments() {
+  log.debug "Validating command line arguments"
+  if [[ "$@" == *['!'@#\$%^\&*()\<\>\|\;+]* ]]; then
+    log.error "Invalid characters in command line arguments. Can't procede"
+    exitProcess 1
+  fi
+}
+
 setupEnv() {
   loadDockerContainerEnv
 
@@ -98,4 +106,5 @@ printHelpOptions() {
   addHelpOption "-x" "execute the specified script on the docker host, when control host is enabled"
 }
 
+validateCommandLineArguments "$@"
 main "$@"
