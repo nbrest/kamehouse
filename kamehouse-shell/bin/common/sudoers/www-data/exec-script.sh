@@ -50,6 +50,11 @@ mainProcess() {
 
 validateCommandLineArguments() {
   log.debug "Validating command line arguments"
+  local SUBPATH_REGEX=.*\\.\\.\\/.*
+  if [[ "$@" =~ ${SUBPATH_REGEX} ]]; then
+    log.error "Command line arguments try to escape kamehouse shell base path. Can't procede to execute script"
+    exitProcess 1
+  fi  
   if [[ "$@" == *['!'@#\$%^\&*()\<\>\|\;+]* ]]; then
     log.error "Invalid characters in command line arguments. Can't procede"
     exitProcess 1
