@@ -26,6 +26,7 @@ mainProcess() {
 setupInitialDirectories() {
   log.info "Creating backup directories if they don't exist"
   mkdir -v -p ${PATH_DUMP_FILE}/old
+  chmod -R 700 ${HOME}/.kamehouse
 }
 
 cyclePreviousBackups() {

@@ -114,6 +114,8 @@ buildKameHouseConfigDir() {
   else
     log.info ".kamehouse/keys/kamehouse.crt file already exists. skipping"
   fi
+  
+  chmod -R 700 ${HOME}/.kamehouse
 }
 
 setSudoersPermissions() {
