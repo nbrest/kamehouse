@@ -13,7 +13,7 @@ validateCommandLineArguments() {
     echo "$(date +%Y-%m-%d' '%H:%M:%S) - [ERROR] - 'su.sh' parameters try to escape kamehouse shell base path. Can't procede to execute script"
     exit 1
   fi
-  if [[ "$@" == *['!'@#\$%^\&*()\<\>\|\;+]* ]]; then
+  if [[ "$@" == *[\`'!'@#\$%^\&*()\<\>\|\;+]* ]]; then
     echo "$(date +%Y-%m-%d' '%H:%M:%S) - [ERROR] - 'su.sh' parameters contain invalid characters. Can't procede to execute script"
     exit 1
   fi
