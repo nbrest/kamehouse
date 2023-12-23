@@ -596,6 +596,7 @@
         <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
           <option value="common/logs/cat-backup-server-log.sh">backup-server</option>
           <option value="common/logs/cat-build-kamehouse-log.sh">build-kamehouse</option>
+          <option value="common/logs/cat-ci-full-build-kamehouse-log.sh">ci-full-build-kamehouse</option>
           <option value="common/logs/cat-create-all-audio-playlists-log.sh">create-all-audio-playlists</option>
           <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
           <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
@@ -605,7 +606,6 @@
           <option value="common/logs/cat-httpd-log.sh">httpd</option>
           <option value="common/logs/cat-httpd-error-log.sh">httpd-error</option>
           <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
-          <option value="common/logs/cat-kamehouse-ci-full-build-log.sh">kamehouse-ci-full-build</option>
           <option value="common/logs/cat-resync-subtitles-log.sh">resync-subtitles</option>
           <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
           <option value="common/logs/cat-world-cup-bookings-log.sh">world-cup-bookings</option>

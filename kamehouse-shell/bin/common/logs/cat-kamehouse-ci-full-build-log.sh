@@ -14,7 +14,7 @@ if [ "$?" != "0" ]; then
 fi
 
 catLogFunction() {
-  cat kamehouse-ci-full-build.log
+  cat ci-full-build-kamehouse.log
 }
 
 main "$@"
