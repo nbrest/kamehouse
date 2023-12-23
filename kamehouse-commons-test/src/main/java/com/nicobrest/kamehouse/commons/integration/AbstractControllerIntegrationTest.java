@@ -42,6 +42,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       "/.kamehouse/keys/integration-test-cred.enc";
   private static final String LOGIN_URL = "/kame-house/login";
   private static final String RESPONSE_BODY = "Response body {}";
+  private static final String RESPONSE_BODY_NULL = "response body is null";
+  private static final String RESPONSE_BODY_EMPTY = "response body is empty";
 
   private HttpClient httpClient;
 
@@ -178,7 +180,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       throws IOException {
     assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
-    assertNotNull(responseBody);
+    assertNotNull(responseBody, RESPONSE_BODY_NULL);
     logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
   }
@@ -197,7 +199,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       boolean logResponseBody) throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
-    assertNotNull(responseBody);
+    assertNotNull(responseBody, RESPONSE_BODY_NULL);
     if (logResponseBody) {
       logger.info(RESPONSE_BODY, responseBody);
     }
@@ -211,8 +213,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     List<T> responseBody = getResponseBodyList(response, clazz);
-    assertNotNull(responseBody);
-    assertTrue(!responseBody.isEmpty());
+    assertNotNull(responseBody, RESPONSE_BODY_NULL);
+    assertTrue(!responseBody.isEmpty(), RESPONSE_BODY_EMPTY);
     logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
   }
@@ -231,8 +233,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     for (Class<?> clazz : clazzes) {
       try {
         List<?> responseBody = getResponseBodyList(responseBodyString, clazz);
-        assertNotNull(responseBody);
-        assertTrue(!responseBody.isEmpty());
+        assertNotNull(responseBody, RESPONSE_BODY_NULL);
+        assertTrue(!responseBody.isEmpty(), RESPONSE_BODY_EMPTY);
         logger.info(RESPONSE_BODY, responseBody);
         invalidResponse = false;
       } catch (UnrecognizedPropertyException e) {

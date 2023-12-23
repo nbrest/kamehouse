@@ -21,13 +21,12 @@ class SessionStatusIntegrationTest extends AbstractGrootIntegrationTest {
    * Test for groot session status success response.
    */
   @Test
-  void testEndpointSuccessTest() throws IOException {
+  void sessionStatusSuccessTest() throws IOException {
     logger.info("Running test for {}", getWebappUrl() + API_URL);
 
     HttpResponse response = get(getWebappUrl() + API_URL);
 
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
-    assertNotNull(responseBody, "response body is null");
     assertNotNull(responseBody.get("server"), "server is null");
     assertNotNull(responseBody.get("username"), "username is null");
     assertNotNull(responseBody.get("isLinuxHost"), "isLinuxHost is null");
