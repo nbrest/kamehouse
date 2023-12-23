@@ -594,21 +594,20 @@
       <div id="log-selector" class="log-selector">
         <span class="bold-kh p-15-d-kh">File: </span>
         <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh" id="tail-log-dropdown">
-          <option value="common/logs/cat-backup-server-log.sh">backup-server</option>
-          <option value="common/logs/cat-build-kamehouse-log.sh">build-kamehouse</option>
-          <option value="common/logs/cat-ci-full-build-kamehouse-log.sh">ci-full-build-kamehouse</option>
-          <option value="common/logs/cat-create-all-audio-playlists-log.sh">create-all-audio-playlists</option>
-          <option value="common/logs/cat-create-all-video-playlists-log.sh">create-all-video-playlists</option>
-          <option value="common/logs/cat-deploy-all-servers-log.sh">deploy-all-servers</option>
-          <option value="common/logs/cat-deploy-kamehouse-log.sh" selected>deploy-kamehouse</option>
-          <option value="common/logs/cat-git-pull-all-log.sh">git-pull-all</option>
-          <option value="common/logs/cat-git-pull-all-all-servers-log.sh">git-pull-all-all-servers</option>
-          <option value="common/logs/cat-httpd-log.sh">httpd</option>
-          <option value="common/logs/cat-httpd-error-log.sh">httpd-error</option>
-          <option value="common/logs/cat-kamehouse-log.sh">kamehouse</option>
-          <option value="common/logs/cat-resync-subtitles-log.sh">resync-subtitles</option>
-          <option value="common/logs/cat-tomcat-log.sh">tomcat</option>
-          <option value="common/logs/cat-world-cup-bookings-log.sh">world-cup-bookings</option>
+          <option value="apache">apache</option>
+          <option value="apache-error">apache-error</option>
+          <option value="backup-server.log">backup-server</option>
+          <option value="build-kamehouse.log">build-kamehouse</option>
+          <option value="ci-full-build-kamehouse.log">ci-full-build-kamehouse</option>
+          <option value="create-all-audio-playlists.log">create-all-audio-playlists</option>
+          <option value="create-all-video-playlists.log">create-all-video-playlists</option>
+          <option value="deploy-all-servers.log">deploy-all-servers</option>
+          <option value="deploy-kamehouse.log" selected>deploy-kamehouse</option>
+          <option value="git-pull-all.log">git-pull-all</option>
+          <option value="git-pull-all-all-servers.log">git-pull-all-all-servers</option>
+          <option value="kamehouse">kamehouse</option>
+          <option value="resync-subtitles.log">resync-subtitles</option>
+          <option value="tomcat">tomcat</option>
         </select>
         <div id="tail-log-num-lines">
           <span class="bold-kh p-15-d-kh">Number of lines: </span>

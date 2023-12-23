@@ -15,42 +15,21 @@ class TailLogManager {
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */
-  tailLog(scriptName, numberOfLines, logLevel, executeOnDockerHost, callback) {
-    if (this.#isValidScript(scriptName)) {
-      kameHouse.logger.trace("Executing script : " + scriptName);
-      if (kameHouse.core.isEmpty(logLevel)) {
-        logLevel = "";
-      }
-      const params = {
-        script: scriptName,
-        args: "-l " + logLevel,
-        executeOnDockerHost: executeOnDockerHost
-      };
-      const config = kameHouse.http.getConfig();
-      config.timeout = 20;
-      kameHouse.http.get(config, TailLogManager.#KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
-        (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
-        (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
-    } else {
-      const message = "Invalid or no script received as url parameter";
-      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-      this.#displayInvalidScript();
+  tailLog(logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
+    kameHouse.logger.trace("Tailing log: " + logFileName);
+    if (kameHouse.core.isEmpty(logLevel)) {
+      logLevel = "";
     }
-  }
-
-  /**
-   * Check if it's a valid script.
-   */
-  #isValidScript(scriptName) {
-    if (!kameHouse.core.isEmpty(scriptName)) { 
-      if (scriptName.startsWith("common/logs/cat-") && scriptName.endsWith("-log.sh")) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    const params = {
+      script: "common/logs/cat-log.sh",
+      args: "-f "  + logFileName + " -l " + logLevel,
+      executeOnDockerHost: executeOnDockerHost
+    };
+    const config = kameHouse.http.getConfig();
+    config.timeout = 20;
+    kameHouse.http.get(config, TailLogManager.#KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
+      (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
   }
 
   /** Update the script tail log output with the result of the script */

@@ -758,11 +758,11 @@ class TailLogManagerWrapper {
     this.#isTailLogRunning = true;
     while (this.#isTailLogRunning) {
       kameHouse.logger.trace("tailLog loop running. tailLogCount: " + this.#tailLogCount);
-      let tailLogScript = document.getElementById("tail-log-dropdown").value;
+      let tailLogFile = document.getElementById("tail-log-dropdown").value;
       let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
       let logLevel = document.getElementById("tail-log-level-dropdown").value;
-      let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogScript);
-      kameHouse.extension.tailLogManager.tailLog(tailLogScript, numberOfLines, logLevel, executeOnDockerHost, (responseBody) => kameHouse.util.collapsibleDiv.refreshCollapsibleDiv());
+      let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogFile);
+      kameHouse.extension.tailLogManager.tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, (responseBody) => kameHouse.util.collapsibleDiv.refreshCollapsibleDiv());
   
       await kameHouse.core.sleep(5000);
       if (this.#tailLogCount > 1) {
@@ -781,9 +781,10 @@ class TailLogManagerWrapper {
   /**
    * Get the value of execute on docker host for the specified script.
    */
-  #getExecuteOnDockerHost(tailLogScript) {
-    return tailLogScript == "common/logs/cat-create-all-video-playlists-log.sh" || 
-      tailLogScript == "common/logs/cat-git-pull-all-log.sh";
+  #getExecuteOnDockerHost(tailLogFile) {
+    return tailLogFile == "create-all-video-playlists.log" ||
+    tailLogFile == "create-all-audio-playlists.log" || 
+    tailLogFile == "git-pull-all.log";
   }
 
   /**
