@@ -258,3 +258,13 @@ ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
 ```sh
 mvn deploy:deploy-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=./lib/ojdbc6.jar
 ```
+
+*********************
+
+## Deploy kamehouse-cmd doesn't work from groot on windows
+
+- Sometimes it fails not finding unzip. It's not a command on windows by default. In the apache error logs:
+```log
+deploy-kamehouse.sh: line 137: unzip: command not found
+```
+- Download unzip.exe and put it in a directory in your PATH

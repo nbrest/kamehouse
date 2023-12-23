@@ -258,6 +258,7 @@ class DeploymentManager {
   static #DEV_PORTS = ["9980", "9989", "9988", "9949", "9948"];
   static #ECLIPSE_PORTS = ["9988", "9948"];
   static #TOMCAT_DEV_PORT = "9980";
+  static #TOMCAT_MODULES = ["admin", "media", "tennisworld", "testmodule", "ui", "vlcrc"];
 
   #statusBallBlueImg = null;
   #statusBallRedImg = null;
@@ -357,7 +358,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'kamehouse/deploy-kamehouse.sh';
-    if (this.#isDevEnvironment()) {
+    if (this.#isDevEnvironment() && this.#isTomcatModule(module)) {
       script = 'kamehouse/deploy-kamehouse-dev-tomcat.sh';
     }
     let args = "-m " + module;
@@ -488,10 +489,7 @@ class DeploymentManager {
     return kameHouse.util.mobile.exec(
       () => {
         const port = location.port;
-        if (!kameHouse.core.isEmpty(port) && DeploymentManager.#DEV_PORTS.includes(port)) {
-          return true;
-        }
-        return false;
+        return !kameHouse.core.isEmpty(port) && DeploymentManager.#DEV_PORTS.includes(port);
       },
       () => {
         kameHouse.logger.trace("Checking if it's dev environment on mobile");
@@ -509,6 +507,13 @@ class DeploymentManager {
       }
     );
   }
+
+  /**
+   * Check if the module a deployable war.
+   */
+  #isTomcatModule(module) {
+    return !kameHouse.core.isEmpty(module) && DeploymentManager.#TOMCAT_MODULES.includes(module);
+  }  
 
   /**
    * Get dev tomcat port argument.
