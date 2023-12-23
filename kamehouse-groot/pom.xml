@@ -14,5 +14,18 @@
     <artifactId>kamehouse-groot</artifactId>
     <version>${kamehouse.version}</version>
 
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
+    <build>
+        <finalName>kame-house-groot</finalName>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.nicobrest</groupId>
+            <artifactId>kamehouse-commons-test</artifactId>
+            <version>${kamehouse.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 </project>

@@ -39,22 +39,31 @@ import org.apache.http.message.BasicNameValuePair;
 public abstract class AbstractControllerIntegrationTest extends AbstractIntegrationTest {
 
   private static final String LOGIN_CREDENTIALS_FILE =
-      ".kamehouse/keys/integration-test-cred.enc";
+      "/.kamehouse/keys/integration-test-cred.enc";
   private static final String LOGIN_URL = "/kame-house/login";
   private static final String RESPONSE_BODY = "Response body {}";
 
   private HttpClient httpClient;
 
   /**
-   * Init integration tests class.
+   * Init integration tests class logging in to the backend by default.
    */
   protected AbstractControllerIntegrationTest() {
+    this(true);
+  }
+
+  /**
+   * Init integration tests class.
+   */
+  protected AbstractControllerIntegrationTest(boolean login) {
     setHttpClient();
-    try {
-      login();
-    } catch (IOException e) {
-      logger.info("Error logging in to {}", getLoginUrl());
-      throw new KameHouseException("Error logging in to " + getLoginUrl());
+    if (login) {
+      try {
+        login();
+      } catch (IOException e) {
+        logger.info("Error logging in to {}", getLoginUrl());
+        throw new KameHouseException("Error logging in to " + getLoginUrl());
+      }
     }
   }
 
@@ -234,25 +243,25 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   }
 
   /**
-   * Set the http client to be used in all requests.
-   */
-  private void setHttpClient() {
-    httpClient = HttpClientUtils.getClient("", "");
-  }
-
-  /**
    * Get login url.
    */
-  private String getLoginUrl() {
+  protected String getLoginUrl() {
     return getBaseUrl() + LOGIN_URL;
   }
 
   /**
    * Execute a login to the specified server.
    */
-  private void login() throws IOException {
+  protected void login() throws IOException {
     logger.info("Logging in to {}", getLoginUrl());
     httpClient.execute(getLoginRequest());
+  }
+
+  /**
+   * Set the http client to be used in all requests.
+   */
+  private void setHttpClient() {
+    httpClient = HttpClientUtils.getClient("", "");
   }
 
   /**
