@@ -133,7 +133,7 @@
 ## Start tomcat eclipse:
 - external tools > `tomcat-startup-dev.sh`
 
-## Deploy kamehouse in tomcat eclipse:
+## Deploy kamehouse in eclipse:
 - external tools > `deploy-kamehouse-dev.sh`
 
 ## Stop tomcat eclipse:

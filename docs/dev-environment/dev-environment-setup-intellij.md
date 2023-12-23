@@ -30,17 +30,17 @@ Right click on toolbar > Customize
   - ctrl + alt + o
   - ctrl + alt + l
 
-## Add start/stop/status/deploy tomcat as external tools:
+## Add start/stop/status tomcat and deploy kamehouse as external tools:
 
  File -> Settings and expand Tools and select External Tools.
-  ### `deploy-tomcat`
+  ### `deploy-kamehouse-dev`
     - Windows:
-      - Name: deploy-tomcat
+      - Name: deploy-kamehouse-dev
       - Command: cmd.exe
       - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i intellij'"
       - Working directory: 
     - Linux:
-      - Name: deploy-tomcat
+      - Name: deploy-kamehouse-dev
       - Program: env
       - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i intellij
       - Working directory: 
