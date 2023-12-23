@@ -28,6 +28,7 @@ main() {
     deployKameHouse
     startTomcat
   else
+    checkKameHouseWar
     startTomcat
   fi
   configGitDevDir
@@ -132,6 +133,14 @@ deployKameHouse() {
   log.info "Deploying latest version of KameHouse"
   sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker"
   log.info "Finished deploying latest version of KameHouse"
+}
+
+checkKameHouseWar() {
+  local KAMEHOUSE_WAR="/home/${DOCKER_CONTAINER_USERNAME}/programs/apache-tomcat/webapps/kame-house.war"
+  if [ ! -f "${KAMEHOUSE_WAR}" ]; then
+    log.info "Looks like kamehouse webapps were not built at docker image creation. Deploying kamehouse before tomcat startup"
+    deployKameHouse
+  fi
 }
 
 startTomcat() {
