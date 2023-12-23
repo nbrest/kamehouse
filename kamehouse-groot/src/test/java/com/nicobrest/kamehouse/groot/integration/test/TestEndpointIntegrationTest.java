@@ -22,10 +22,10 @@ class TestEndpointIntegrationTest extends AbstractGrootIntegrationTest {
   private static final String RESPONSE_DOESNT_CONTAIN = "Response doesn't contain: ";
 
   /**
-   * Test for groot test endpoint.
+   * Test for groot test endpoint successful response.
    */
   @Test
-  void testEndpointTest() throws IOException {
+  void testEndpointSuccessTest() throws IOException {
     logger.info("Running test for {}", getWebappUrl() + API_URL);
 
     HttpResponse response = get(getWebappUrl() + API_URL);
@@ -43,4 +43,3 @@ class TestEndpointIntegrationTest extends AbstractGrootIntegrationTest {
     assertTrue(responseBody.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
   }
 }
-
