@@ -11,10 +11,8 @@
   <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>logs/kameHouse.log</File>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <!-- daily rollover -->
       <FileNamePattern>logs/kameHouse.%d{yyyy-MM-dd}.log</FileNamePattern>
-      <!-- keep 30 days' worth of history -->
-      <maxHistory>30</maxHistory>     
+      <maxHistory>10</maxHistory>
     </rollingPolicy>
     <encoder>
       <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>

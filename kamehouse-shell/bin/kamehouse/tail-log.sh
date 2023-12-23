@@ -126,44 +126,31 @@ setApacheLogFiles() {
 
 setIntellijLogFiles() {
   addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.${LOG_DATE}.log"
-  if ${IS_LINUX_HOST}; then
-    addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost.${LOG_DATE}.log"
-  else
-    addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost.${LOG_DATE}.txt"
-  fi
+  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.out"
+  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost.${LOG_DATE}.log"
   addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
-  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.out"  
+  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/kameHouse.log"
 }
 
 setEclipseLogFiles() {
   addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.${LOG_DATE}.log"
-  if ${IS_LINUX_HOST}; then
-    addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.log"
-  else
-    addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.txt"
-  fi
+  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.out"
+  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.log"
   addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
-  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.out"  
+  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/kameHouse.log"
 }
 
 setKameHouseLogFiles() {
-  if ${IS_LINUX_HOST}; then
-    addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.${LOG_DATE}.log"
-  fi
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.${LOG_DATE}.log"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"  
 }
 
 setTomcatLogFiles() {
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.${LOG_DATE}.log"
-  if ${IS_LINUX_HOST}; then
-    addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost.${LOG_DATE}.log"
-  else
-    addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost.${LOG_DATE}.txt"
-    # In linux, the content of kameHouse.log is already displayed in catalina.out
-    addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"
-  fi
-  addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.out"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost.${LOG_DATE}.log"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"
 }
 
 addFileToLogFiles() {
