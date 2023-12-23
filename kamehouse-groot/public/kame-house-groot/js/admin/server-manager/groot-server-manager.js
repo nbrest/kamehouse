@@ -358,8 +358,8 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'kamehouse/deploy-kamehouse.sh';
-    if (this.#isDevEnvironment() && this.#isTomcatModule(module)) {
-      script = 'kamehouse/deploy-kamehouse-dev-tomcat.sh';
+    if (this.#isDevEnvironment()) {
+      script = 'kamehouse/deploy-kamehouse-dev.sh';
     }
     let args = "-m " + module;
     if (this.#isEclipseEnvironment()) {
@@ -405,7 +405,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'kamehouse/deploy-kamehouse.sh';
     if (this.#isDevEnvironment()) {
-      script = 'kamehouse/deploy-kamehouse-dev-tomcat.sh';
+      script = 'kamehouse/deploy-kamehouse-dev.sh';
     }
     let args = "";
     if (this.#isEclipseEnvironment()) {
@@ -507,13 +507,6 @@ class DeploymentManager {
       }
     );
   }
-
-  /**
-   * Check if the module a deployable war.
-   */
-  #isTomcatModule(module) {
-    return !kameHouse.core.isEmpty(module) && DeploymentManager.#TOMCAT_MODULES.includes(module);
-  }  
 
   /**
    * Get dev tomcat port argument.

@@ -40,6 +40,9 @@ DEFAULT_TOMCAT_DEV_PORT=9980
 DEFAULT_HTTPD_PORT=443
 HTTPD_PORT=${DEFAULT_HTTPD_PORT}
 
+KAMEHOUSE_BUILD_VERSION=
+KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
+
 # docker defaults
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
@@ -663,4 +666,42 @@ deployToTomcat() {
 
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
   log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat -n 2000 \`${COL_DEFAULT_LOG} to check tomcat startup progress"
+}
+
+deployKameHouseShell() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+    chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
+    checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
+
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+
+    if [ "${MODULE_SHORT}" == "shell" ]; then
+      logFinish
+      exitSuccessfully
+    fi
+  fi
+}
+
+deployKameHouseCmd() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "cmd" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
+    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
+    rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
+    unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
+    mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
+    local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
+    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
+    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+    echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
+    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
+    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
+    checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
+  fi
+}
+
+setKameHouseBuildVersion() {
+  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
 }

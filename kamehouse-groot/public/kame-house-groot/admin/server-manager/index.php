@@ -603,6 +603,7 @@
           <option value="create-all-video-playlists.log">create-all-video-playlists</option>
           <option value="deploy-all-servers.log">deploy-all-servers</option>
           <option value="deploy-kamehouse.log" selected>deploy-kamehouse</option>
+          <option value="deploy-kamehouse-dev.log">deploy-kamehouse-dev</option>
           <option value="git-pull-all.log">git-pull-all</option>
           <option value="git-pull-all-all-servers.log">git-pull-all-all-servers</option>
           <option value="kamehouse">kamehouse</option>

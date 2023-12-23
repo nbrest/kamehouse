@@ -65,18 +65,18 @@
 
 ## Configure commands to Start/Stop/Status/Deploy tomcat for eclipse:
 
-  ### `deploy-kamehouse-dev-tomcat.sh`
+  ### `deploy-kamehouse-dev.sh`
     - Run > External Tools > External Tools Configurations > Program > New Configuration:
-    - name: deploy-kamehouse-dev-tomcat.sh
+    - name: deploy-kamehouse-dev.sh
     - Main tab:
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev-tomcat.sh -i eclipse'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i eclipse'"
       - Linux:
         - location: /bin/bash
         - working directory:
-        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev-tomcat.sh -i eclipse'
+        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i eclipse'
     - Common tab:
       - display in favorites menu > External tools: check       
 
@@ -134,7 +134,7 @@
 - external tools > `tomcat-startup-dev.sh`
 
 ## Deploy kamehouse in tomcat eclipse:
-- external tools > `deploy-kamehouse-dev-tomcat.sh`
+- external tools > `deploy-kamehouse-dev.sh`
 
 ## Stop tomcat eclipse:
 - external tools > `tomcat-stop-dev.sh`

@@ -18,7 +18,6 @@ source ${HOME}/.kamehouse/.shell/.cred
 # Initial config
 DEFAULT_ENV=local
 LOG_PROCESS_TO_FILE=true
-KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 KAMEHOUSE_MOBILE_APP_SERVER="pi"
 KAMEHOUSE_MOBILE_APP_USER="pi"
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
@@ -68,16 +67,14 @@ doLocalDeployment() {
   deployKameHouseCmd
   deployKameHouseMobile
   cleanUpMavenRepository
-  
+  checkForErrors 
+}
+
+checkForErrors() {
   if [ "${EXIT_CODE}" != "0" ]; then
     log.error "Error executing kamehouse deployment"
     exitProcess ${EXIT_CODE}
   fi
-}
-
-setKameHouseBuildVersion() {
-  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
 }
 
 setDeploymentParameters() {
@@ -126,23 +123,6 @@ pullLatestVersionFromGit() {
 
     git pull origin dev
     checkCommandStatus "$?" "An error occurred pulling origin dev"
-  fi
-}
-
-deployKameHouseCmd() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "cmd" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
-    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
-    rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-    unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
-    mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
-    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
-    checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
   fi
 }
 
@@ -205,22 +185,6 @@ deployKameHouseGroot() {
     log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
     if [ "${MODULE_SHORT}" == "groot" ]; then
-      logFinish
-      exitSuccessfully
-    fi
-  fi
-}
-
-deployKameHouseShell() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-    chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
-    checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
-
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-
-    if [ "${MODULE_SHORT}" == "shell" ]; then
       logFinish
       exitSuccessfully
     fi

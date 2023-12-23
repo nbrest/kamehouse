@@ -31,7 +31,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
 * Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
 * Start your local dev tomcat with `tomcat-startup-dev.sh`
-* Deploy your local working copy to dev tomcat with `deploy-kamehouse-dev-tomcat.sh`
+* Deploy your local working copy to dev tomcat with `deploy-kamehouse-dev.sh`
 * Tail dev tomcat logs with `tail-log.sh -f (eclipse|intellij)`
 * Stop your dev tomcat with `tomcat-stop.sh -p [dev-tomcat-port]`
 
