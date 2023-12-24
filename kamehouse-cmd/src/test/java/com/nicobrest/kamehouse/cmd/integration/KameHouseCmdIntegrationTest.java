@@ -104,7 +104,7 @@ class KameHouseCmdIntegrationTest {
 
     Process process = ProcessUtils.start(processBuilder);
 
-    boolean finished = ProcessUtils.waitFor(process, 60);
+    boolean finished = ProcessUtils.waitFor(process, 60L);
     if (!finished && process.isAlive()) {
       Assertions.fail(command + " didn't finish in the expected timeout");
     }

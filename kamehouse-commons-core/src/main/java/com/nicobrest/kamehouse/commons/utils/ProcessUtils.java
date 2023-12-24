@@ -34,7 +34,7 @@ public class ProcessUtils {
   /**
    * Waits for the specified process to finish with a timeout in seconds.
    */
-  public static boolean waitFor(Process process, long timeout) throws InterruptedException {
+  public static boolean waitFor(Process process, Long timeout) throws InterruptedException {
     return process.waitFor(timeout, TimeUnit.SECONDS);
   }
 

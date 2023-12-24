@@ -47,12 +47,13 @@ class SystemCommandServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() throws IOException {
+  public void before() throws IOException, InterruptedException {
     testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     processUtils = Mockito.mockStatic(ProcessUtils.class);
     dockerUtils = Mockito.mockStatic(DockerUtils.class);
     systemCommandService = Mockito.spy(new SystemCommandService());
+    when(ProcessUtils.waitFor(any(), any())).thenReturn(true);
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
   }
 

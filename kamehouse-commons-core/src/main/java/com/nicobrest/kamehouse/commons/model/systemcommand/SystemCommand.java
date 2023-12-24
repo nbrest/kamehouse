@@ -173,14 +173,20 @@ public abstract class SystemCommand {
       if (!isDaemon()) {
         // Not an ongoing process. Wait until the process finishes and then read
         // standard output and error streams.
-        ProcessUtils.waitFor(process);
-        getStreamsFromProcess(process);
-        int exitValue = ProcessUtils.getExitValue(process);
-        commandOutput.setExitCode(exitValue);
-        if (exitValue > 0) {
-          commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
+        boolean finished = ProcessUtils.waitFor(process, 300L);
+        if (finished) {
+          getStreamsFromProcess(process);
+          int exitValue = ProcessUtils.getExitValue(process);
+          commandOutput.setExitCode(exitValue);
+          if (exitValue > 0) {
+            commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
+          } else {
+            commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
+          }
         } else {
-          commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
+          // Ongoing process
+          commandOutput.setExitCode(-1);
+          commandOutput.setStatus(SystemCommandStatus.RUNNING.getStatus());
         }
       } else {
         // Ongoing process
