@@ -24,7 +24,7 @@ fi
 APACHE_LOG_DIR="programs/apache-httpd/logs"
 DEFAULT_ENV="local"
 DEFAULT_LOG_LEVEL="trace"
-DEFAULT_NUM_LINES="5"
+DEFAULT_NUM_LINES="30"
 
 TOMCAT_DEV_LOG_DIR="programs/apache-tomcat-dev/logs"
 INTELLIJ_LOG_DIR="${TOMCAT_DEV_LOG_DIR}"

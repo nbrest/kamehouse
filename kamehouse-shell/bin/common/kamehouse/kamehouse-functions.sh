@@ -695,6 +695,7 @@ deployKameHouseCmd() {
     echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
     local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
     echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
+    chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
     checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"

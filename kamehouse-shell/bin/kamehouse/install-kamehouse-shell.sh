@@ -76,6 +76,8 @@ installKameHouseShell() {
 
 fixPermissions() {
   log.info "Fixing permissions"
+  chmod -R 700 ${KAMEHOUSE_SHELL_PATH} 
+  
   local NON_SCRIPTS=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read NON_SCRIPT; do
     if [ -n "${NON_SCRIPT}" ]; then
@@ -86,7 +88,7 @@ fixPermissions() {
   local SCRIPTS=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
-      chmod a+rx ${SCRIPT}
+      chmod u+rx ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
@@ -100,7 +102,7 @@ fixPermissions() {
   local DIRECTORIES=`find ${KAMEHOUSE_SHELL_PATH} -name '.*' -prune -o -type d`
   while read DIRECTORY; do
     if [ -n "${DIRECTORY}" ]; then
-      chmod a+rx ${DIRECTORY}
+      chmod u+rx ${DIRECTORY}
     fi
   done <<< ${DIRECTORIES}
 }
