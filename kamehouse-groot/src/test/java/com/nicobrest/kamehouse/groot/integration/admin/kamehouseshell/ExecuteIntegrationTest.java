@@ -10,7 +10,8 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import com.nicobrest.kamehouse.groot.integration.AbstractGrootIntegrationTest;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Integration tests for GRoot kamehouse-shell execute endpoint.
@@ -24,9 +25,10 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
   /**
    * Test for groot kamehouse-shell execute with help parameter success response.
    */
-  @Test
-  void executeHelpParameterSuccessTest() throws IOException {
-    String urlParams = "?script=is-linux-host.sh&args=-h";
+  @ParameterizedTest
+  @ValueSource(strings = {"is-linux-host.sh", "kamehouse/kamehouse-shell-version.sh"})
+  void executeHelpParameterSuccessTest(String script) throws IOException {
+    String urlParams = "?script=" + script + "&args=-h";
     logger.info("Running test for {}", getWebappUrl() + API_URL + urlParams);
 
     HttpResponse response = get(getWebappUrl() + API_URL + urlParams);
@@ -39,8 +41,8 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Started executing <span style=\"color:purple\">exec-script.sh<span style=\"c"
-        + "olor:green\"> with command line arguments <span style=\"color:purple\">\"-s is-linux-ho"
-        + "st.sh -a -h\"<span style=\"color:green\"><span style=\"color:gray\">";
+        + "olor:green\"> with command line arguments <span style=\"color:purple\">\"-s "
+        + script + " -a -h\"<span style=\"color:green\"><span style=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Usage: <span style=\"color:purple\">exec-script.sh<span style=\"color:gray\"> "
         + "[options]";
@@ -51,7 +53,7 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
     expected = "Started executing ";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "-s is-linux-host.sh -a -h";
+    expected = "-s " + script + " -a -h";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "exec-script.sh";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
@@ -62,9 +64,10 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
   /**
    * Test for groot kamehouse-shell execute success response.
    */
-  @Test
-  void executeSuccessTest() throws IOException {
-    String urlParams = "?script=is-linux-host.sh";
+  @ParameterizedTest
+  @ValueSource(strings = {"is-linux-host.sh", "kamehouse/kamehouse-shell-version.sh"})
+  void executeSuccessTest(String script) throws IOException {
+    String urlParams = "?script=" + script;
     logger.info("Running test for {}", getWebappUrl() + API_URL + urlParams);
 
     HttpResponse response = get(getWebappUrl() + API_URL + urlParams);
@@ -77,19 +80,19 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Started executing <span style=\"color:purple\">exec-script.sh<span style=\"c"
-        + "olor:green\"> with command line arguments <span style=\"color:purple\">\"-s is-linux-ho"
-        + "st.sh -a \"<span style=\"color:green\"><span style=\"color:gray\">";
+        + "olor:green\"> with command line arguments <span style=\"color:purple\">\"-s "
+        + script + " -a \"<span style=\"color:green\"><span style=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "<span style=\"color:green\">Finished executing <span style=\"color:purple\">exec-s"
         + "cript.sh<span style=\"color:green\"> with command line arguments <span style=\"color:pu"
-        + "rple\">\"-s is-linux-host.sh -a \"<span style=\"color:green\"> successfully<span style"
+        + "rple\">\"-s " + script + " -a \"<span style=\"color:green\"> successfully<span style"
         + "=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
 
     String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
     expected = "Started executing ";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "-s is-linux-host.sh -a ";
+    expected = "-s " + script + " -a ";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "exec-script.sh";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
