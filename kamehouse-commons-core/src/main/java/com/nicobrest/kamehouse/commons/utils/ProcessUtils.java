@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Utility class to execute and manage the execution of system processes so that they are decoupled
@@ -28,6 +29,13 @@ public class ProcessUtils {
    */
   public static void waitFor(Process process) throws InterruptedException {
     process.waitFor();
+  }
+
+  /**
+   * Waits for the specified process to finish with a timeout in seconds.
+   */
+  public static boolean waitFor(Process process, long timeout) throws InterruptedException {
+    return process.waitFor(timeout, TimeUnit.SECONDS);
   }
 
   /**

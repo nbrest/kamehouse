@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,13 +104,17 @@ class KameHouseCmdIntegrationTest {
 
     Process process = ProcessUtils.start(processBuilder);
 
-    ProcessUtils.waitFor(process);
-    int exitValue = ProcessUtils.getExitValue(process);
-    String output = IOUtils.toString(ProcessUtils.getInputStream(process), StandardCharsets.UTF_8);
-    String error = IOUtils.toString(ProcessUtils.getErrorStream(process), StandardCharsets.UTF_8);
-    logger.info("Output: {}", output);
-    logger.info("Error: {}", error);
-    assertTrue(expectedOutputs.contains(exitValue));
+    boolean finished = ProcessUtils.waitFor(process, 30);
+    if (finished) {
+      int exitValue = ProcessUtils.getExitValue(process);
+      String output = IOUtils.toString(ProcessUtils.getInputStream(process), StandardCharsets.UTF_8);
+      String error = IOUtils.toString(ProcessUtils.getErrorStream(process), StandardCharsets.UTF_8);
+      logger.info("Output: {}", output);
+      logger.info("Error: {}", error);
+      assertTrue(expectedOutputs.contains(exitValue));
+    } else {
+      Assertions.fail(command + " didn't finish in the expected timeout");
+    }
   }
 
   /**

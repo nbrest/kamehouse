@@ -16,9 +16,7 @@ public class WolExecutor implements Executor {
 
   private final Logger logger = LoggerFactory.getLogger(WolExecutor.class);
 
-  /**
-   * Execute the operation.
-   */
+  @Override
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String macAddress = cmdArgumentHandler.getArgument("mac");
     String broadcastAddress = cmdArgumentHandler.getArgument("broadcast");

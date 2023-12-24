@@ -23,9 +23,7 @@ public class DecryptExecutor implements Executor {
 
   private static final String STDOUT = "stdout";
 
-  /**
-   * Execute the operation.
-   */
+  @Override
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");
