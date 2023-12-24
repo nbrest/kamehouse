@@ -30,7 +30,9 @@ class ScriptsIntegrationTest extends AbstractGrootIntegrationTest {
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
     assertTrue(responseBody.isArray(), "response body is not an array");
     assertTrue(!responseBody.isEmpty(), "response body array is empty");
-    assertNotNull(responseBody.toString().contains("is-linux-host.sh"),
+    String responseBodyContent = responseBody.toString();
+    assertNotNull(responseBodyContent, "response body content is null");
+    assertNotNull(responseBodyContent.contains("is-linux-host.sh"),
         "response body is missing the script is-linux-host.sh");
   }
 }
