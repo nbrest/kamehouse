@@ -66,16 +66,15 @@ class ProcessUtilsTest {
     assertNotNull(process);
 
     boolean finished = ProcessUtils.waitFor(process, 60L);
-    if (finished) {
-      InputStream inputStream = ProcessUtils.getInputStream(process);
-      InputStream errorStream = ProcessUtils.getErrorStream(process);
-      assertNotNull(inputStream);
-      assertNotNull(errorStream);
-
-      int exitValue = ProcessUtils.getExitValue(process);
-      assertEquals(0, exitValue);
-    } else {
+    if (!finished) {
       Assertions.fail("process didn't finish in the expected timeout");
     }
+    InputStream inputStream = ProcessUtils.getInputStream(process);
+    InputStream errorStream = ProcessUtils.getErrorStream(process);
+    assertNotNull(inputStream);
+    assertNotNull(errorStream);
+
+    int exitValue = ProcessUtils.getExitValue(process);
+    assertEquals(0, exitValue);
   }
 }

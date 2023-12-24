@@ -104,17 +104,16 @@ class KameHouseCmdIntegrationTest {
 
     Process process = ProcessUtils.start(processBuilder);
 
-    boolean finished = ProcessUtils.waitFor(process, 30);
-    if (finished) {
-      int exitValue = ProcessUtils.getExitValue(process);
-      String output = IOUtils.toString(ProcessUtils.getInputStream(process), StandardCharsets.UTF_8);
-      String error = IOUtils.toString(ProcessUtils.getErrorStream(process), StandardCharsets.UTF_8);
-      logger.info("Output: {}", output);
-      logger.info("Error: {}", error);
-      assertTrue(expectedOutputs.contains(exitValue));
-    } else {
+    boolean finished = ProcessUtils.waitFor(process, 60);
+    if (!finished) {
       Assertions.fail(command + " didn't finish in the expected timeout");
     }
+    int exitValue = ProcessUtils.getExitValue(process);
+    String output = IOUtils.toString(ProcessUtils.getInputStream(process), StandardCharsets.UTF_8);
+    String error = IOUtils.toString(ProcessUtils.getErrorStream(process), StandardCharsets.UTF_8);
+    logger.info("Output: {}", output);
+    logger.info("Error: {}", error);
+    assertTrue(expectedOutputs.contains(exitValue));
   }
 
   /**
@@ -149,7 +148,8 @@ class KameHouseCmdIntegrationTest {
    * Get the command as a list of strings.
    */
   private List<String> getCommand(String operationCommand) {
-    List<String> command = new ArrayList<>();;
+    List<String> command = new ArrayList<>();
+    ;
     if (PropertiesUtils.isWindowsHost()) {
       command.addAll(List.of("cmd.exe", "/c", "start", "/min", KAMEHOUSE_CMD_WIN));
     } else {
