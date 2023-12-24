@@ -29,7 +29,7 @@ public abstract class AbstractIntegrationTest {
     protocol = PropertiesUtils.getProperty("integration.tests.protocol", "http://");
     hostname = PropertiesUtils.getProperty("integration.tests.hostname", "localhost");
     port = PropertiesUtils.getProperty("integration.tests.port", "9090");
-    logger.info("Base url for integration tests: {}", getWebappUrl());
+    logger.info("Base url for tomcat integration tests: {}", getWebappUrl());
   }
 
   /**

@@ -22,7 +22,7 @@ public abstract class AbstractGrootIntegrationTest extends AbstractControllerInt
   public AbstractGrootIntegrationTest() {
     super(false);
     setPort(PropertiesUtils.getProperty("groot.integration.tests.port", "80"));
-    logger.info("Base url for integration tests: {}", getWebappUrl());
+    logger.info("Base url for httpd integration tests: {}", getWebappUrl());
     try {
       login();
     } catch (IOException e) {
