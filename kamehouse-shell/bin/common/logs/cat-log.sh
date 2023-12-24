@@ -35,8 +35,8 @@ catLogFunction() {
     && [ "${LOG_FILE_TO_CAT}" != "tomcat" ]; then
     cat "${LOG_FILE_TO_CAT}"
   else
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 2500
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 50
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 2000
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 30
   fi
 }
 
