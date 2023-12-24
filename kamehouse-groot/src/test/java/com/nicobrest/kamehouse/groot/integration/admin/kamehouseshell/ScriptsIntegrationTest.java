@@ -32,7 +32,7 @@ class ScriptsIntegrationTest extends AbstractGrootIntegrationTest {
     assertTrue(!responseBody.isEmpty(), "response body array is empty");
     String responseBodyContent = responseBody.toString();
     assertNotNull(responseBodyContent, "response body content is null");
-    assertNotNull(responseBodyContent.contains("is-linux-host.sh"),
+    assertTrue(responseBodyContent.contains("is-linux-host.sh"),
         "response body is missing the script is-linux-host.sh");
   }
 }
