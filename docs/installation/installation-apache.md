@@ -29,8 +29,6 @@
   ```
   - Update `${HOME}/programs/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in SRVROOT
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
-  - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
-  - Update `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
 - Enable mariadb extension on php. Update `php.ini`:
   - Set with full path `extension_dir = "C:/Users/[USERNAME]/programs/php/ext"`
@@ -73,8 +71,6 @@ sudo apt-get install php-mysql libapache2-mod-php
   sudo a2ensite default-ssl
   sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
   ```
-  - Update `/var/apache2/conf/kamehouse/vhost/http/cordova.conf`. Replace `nbrest` with your username
-  - Update `/var/apache2/conf/kamehouse/vhost/https/cordova.conf`. Replace `nbrest` with your username
 
 - Make static content root dir for kamehouse:
 ```sh
