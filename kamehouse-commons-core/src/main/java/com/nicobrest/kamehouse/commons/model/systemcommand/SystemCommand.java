@@ -49,6 +49,7 @@ public abstract class SystemCommand {
   @Masked
   protected List<String> windowsCommand = new ArrayList<>();
   protected int sleepTime = 0;
+  protected long sshTimeout = 0;
   protected Output output = new Output();
 
   public boolean logCommand() {
@@ -157,6 +158,20 @@ public abstract class SystemCommand {
    */
   public void setSleepTime(int sleepTime) {
     this.sleepTime = sleepTime;
+  }
+
+  /**
+   * Get ssh timeout.
+   */
+  public long getSshTimeout() {
+    return sshTimeout;
+  }
+
+  /**
+   * Set ssh timeout.
+   */
+  public void setSshTimeout(long sshTimeout) {
+    this.sshTimeout = sshTimeout;
   }
 
   /**

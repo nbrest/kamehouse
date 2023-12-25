@@ -16,5 +16,6 @@ public class TestDaemonCommand extends VncDoKeyPressSystemCommand {
     super(key);
     isDaemon = true;
     executeOnDockerHost = true;
+    sshTimeout = 20000L;
   }
 }

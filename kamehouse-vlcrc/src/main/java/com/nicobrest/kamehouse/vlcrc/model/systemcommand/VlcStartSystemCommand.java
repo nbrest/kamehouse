@@ -18,6 +18,7 @@ public class VlcStartSystemCommand extends SystemCommand {
   public VlcStartSystemCommand(String filename) {
     isDaemon = true;
     executeOnDockerHost = true;
+    sshTimeout = 3000L;
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
       linuxCommand.add("DISPLAY=:0.0 vlc");
       String vlcStartFromDocker = DockerUtils.getDockerHostUserHome()

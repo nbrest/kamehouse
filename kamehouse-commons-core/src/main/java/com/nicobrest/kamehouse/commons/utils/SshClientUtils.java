@@ -93,7 +93,11 @@ public class SshClientUtils {
       OutputStream sshChannelWriter = channel.getInvertedIn();
       sshChannelWriter.write(getCommandBytes(command, useShellChannel, isWindowsShell));
       sshChannelWriter.flush();
-      channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), SSH_CONNECTION_TIMEOUT_MS);
+      long sshTimeout = SSH_CONNECTION_TIMEOUT_MS;
+      if (systemCommand.getSshTimeout() > 0) {
+        sshTimeout = systemCommand.getSshTimeout();
+      }
+      channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), sshTimeout);
       String standardOutput = responseStream.toString(Charsets.UTF_8);
       commandOutput.setStandardOutput(Arrays.asList(standardOutput));
       LOGGER.debug("standardOutput: {}", standardOutput);
