@@ -32,9 +32,6 @@ mainProcess() {
   
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-windows.sh
   checkCommandStatus "$?" 
-
-  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-sftp-media-server-ip.sh
-  checkCommandStatus "$?" 
   
   clearMediaServerEhCache
 
@@ -48,10 +45,16 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server-vlc.sh
   checkCommandStatus "$?" 
 
-  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-https-kame-server.sh
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-sftp-media-server-vlc.sh
   checkCommandStatus "$?" 
-    
-  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-https-vm-ubuntu-server.sh
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-smb-media-server-vlc.sh
+  checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-lan-media-server-vlc.sh
+  checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-https-kame-server.sh
   checkCommandStatus "$?" 
 
   log.info "Waiting for all background processes to finish in create-all-video-playlists.sh"

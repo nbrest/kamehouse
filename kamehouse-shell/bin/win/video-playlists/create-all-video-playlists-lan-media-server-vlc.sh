@@ -12,10 +12,10 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_SOURCE=${PROJECT_DIR}/windows-bash/
-PATH_PLS_DEST=${PROJECT_DIR}/sftp-media-server-ip/
+PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server-vlc
+PATH_PLS_DEST=${PROJECT_DIR}/sftp-media-server-vlc
 
-PATH_BASE_SOURCE="/n/"
-PATH_BASE_DEST="sftp://nbrest@192.168.0.109/N:/"
+PATH_BASE_SOURCE="http://${MEDIA_SERVER}/kame-house-streaming/media-server/media-drive/"
+PATH_BASE_DEST="\\\\\\\\${MEDIA_SERVER}/media-drive/"
 
 main "$@"
