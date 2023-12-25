@@ -12,7 +12,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server
+PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server-ip
 PATH_PLS_DEST=http-media-server-vlc
 
 mainProcess() {
