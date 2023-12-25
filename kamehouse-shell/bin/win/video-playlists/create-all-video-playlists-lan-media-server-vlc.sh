@@ -15,7 +15,7 @@ fi
 PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server-vlc
 PATH_PLS_DEST=${PROJECT_DIR}/lan-media-server-vlc
 
-PATH_BASE_SOURCE="http://${MEDIA_SERVER}/kame-house-streaming/media-server/media-drive/"
-PATH_BASE_DEST="\\\\\\\\${MEDIA_SERVER}/media-drive/"
+PATH_BASE_SOURCE="http://${MEDIA_SERVER_IP}/kame-house-streaming/media-server/media-drive/"
+PATH_BASE_DEST="\\\\\\\\${MEDIA_SERVER_IP}/media-drive/"
 
 main "$@"
