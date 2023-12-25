@@ -398,7 +398,6 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
    */
   private void handleBuildVlcRcFilelistIoException(IOException exception) {
     LOGGER.error("Unable to build VlcRC file list. Message {}", exception.getMessage());
-    throw new KameHouseException(exception.getMessage(), exception);
   }
 
   /**
