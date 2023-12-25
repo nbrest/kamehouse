@@ -31,7 +31,8 @@
 - Added script to excecute the full build on ci and added it to groot tail log
 - Added integration tests for groot apis
 - Removed database config from kamehouse-cmd that was causing random timeouts in integration tests
-- Added timeout to system commands
+- Added timeout to system commands and to ssh commands
+- Fixed long delay closing the modal in the ui on vlc start from docker on linux
 - Fixed broken execute on docker host commands
 - Fixed bugs
 
