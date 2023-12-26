@@ -17,7 +17,7 @@ GIT_REMOTE=all
 GIT_BRANCH=dev
 
 EMPTY_DIRS_RM_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
-EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
+EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.sh
 
 mainProcess() {
   initEmptyDirsFiles
@@ -28,10 +28,10 @@ mainProcess() {
 initEmptyDirsFiles() {
   mkdir -p ${HOME}/temp
   echo "#!/bin/bash" > ${EMPTY_DIRS_RM_FILE}
-  echo "" > ${EMPTY_DIRS_RM_FILE}
+  echo "" >> ${EMPTY_DIRS_RM_FILE}
 
   echo "#!/bin/bash" > ${EMPTY_DIRS_CHECK_FILE}
-  echo "" > ${EMPTY_DIRS_CHECK_FILE}  
+  echo "" >> ${EMPTY_DIRS_CHECK_FILE}  
 }
 
 removeSpecialCharsInAllFilenames() {
