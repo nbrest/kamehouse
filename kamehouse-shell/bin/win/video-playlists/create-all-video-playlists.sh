@@ -16,6 +16,8 @@ source ${HOME}/.kamehouse/.shell/.cred
 GIT_REMOTE=all
 GIT_BRANCH=dev
 
+EMPTY_DIRS_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
+
 mainProcess() {
   checkMediaServer
   pullChangesFromGit
@@ -69,6 +71,10 @@ mainProcess() {
 }
 
 removeSpecialCharsInAllFilenames() {
+  mkdir -p ${HOME}/temp
+  echo "#!/bin/bash" > ${EMPTY_DIRS_FILE}
+  echo "" > ${EMPTY_DIRS_FILE}
+
   removeSpecialCharsInFilenames "/n/anime"
   removeSpecialCharsInFilenames "/n/cartoons"
   removeSpecialCharsInFilenames "/n/funny_videos"
@@ -86,12 +92,19 @@ removeSpecialCharsInAllFilenames() {
 removeSpecialCharsInFilenames() {
   local FILES_BASE_PATH=$1
   log.info "Removing special chars from filenames in ${COL_PURPLE}${FILES_BASE_PATH}"
-  find ${FILES_BASE_PATH} | sort -r | while read FILE; do
-    FILE_UPDATED=$(echo "$FILE" | sed '$s'"/${SPECIAL_CHARS_REGEX}/-/g")
+  find ${FILES_BASE_PATH} | sort | while read FILE; do
     log.trace "Processing file ${COL_PURPLE}${FILE}"
+    local FILE_UPDATED=$(echo "$FILE" | sed '$s'"/${SPECIAL_CHARS_REGEX}/-/g")
     if [ "${FILE}" != "${FILE_UPDATED}" ]; then
+      local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
+      mkdir -p "${FILE_UPDATED_DIR}"
       log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
       mv "${FILE}" "${FILE_UPDATED}"
+      local FILE_DIR=$(dirname "${FILE}")
+      if [ -d "${FILE_DIR}" ] && [ -z "$(ls -A "${FILE_DIR}")" ]; then
+        log.debug "Empty directory: ${COL_PURPLE}${FILE_DIR}"
+        echo "rm -r \"${FILE_DIR}\"" >> ${EMPTY_DIRS_FILE}
+      fi
     fi
   done
 }
