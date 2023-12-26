@@ -61,10 +61,10 @@ removeSpecialCharsInFilenames() {
     fi
     if [ -d "${FILE}" ] && [ -z "$(ls -A "${FILE}")" ]; then
       log.debug "Empty directory: ${COL_PURPLE}${FILE}"
-      echo "echo <<<<<<<<< ${FILE} >>>>>>>>>>" >> ${EMPTY_DIRS_CHECK_FILE}
+      echo "echo \"----------- ${FILE} -----------\"" >> ${EMPTY_DIRS_CHECK_FILE}
       echo "ls \"${FILE}\"" >> ${EMPTY_DIRS_CHECK_FILE}
-      
-      echo "echo <<<<<<<<< ${FILE} >>>>>>>>>>" >> ${EMPTY_DIRS_RM_FILE}
+
+      echo "echo \"----------- ${FILE} -----------\"" >> ${EMPTY_DIRS_RM_FILE}
       echo "rm -rv \"${FILE}\"" >> ${EMPTY_DIRS_RM_FILE}
     fi
   done
