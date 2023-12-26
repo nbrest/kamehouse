@@ -50,7 +50,7 @@ removeSpecialCharsInAllFilenames() {
 removeSpecialCharsInFilenames() {
   local FILES_BASE_PATH=$1
   log.info "Removing special chars from filenames in ${COL_PURPLE}${FILES_BASE_PATH}"
-  find ${FILES_BASE_PATH} | sort | while read FILE; do
+  find ${FILES_BASE_PATH} | sort -r | while read FILE; do
     log.trace "Processing file ${COL_PURPLE}${FILE}"
     local FILE_UPDATED=$(echo "$FILE" | sed '$s'"/${SPECIAL_CHARS_REGEX}/-/g")
     if [ "${FILE}" != "${FILE_UPDATED}" ]; then
