@@ -59,12 +59,11 @@ removeSpecialCharsInFilenames() {
       log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
       mv "${FILE}" "${FILE_UPDATED}"
     fi
-    local FILE_DIR=$(dirname "${FILE}")
-    if [ -d "${FILE_DIR}" ] && [ -z "$(ls -A "${FILE_DIR}")" ]; then
-      log.debug "Empty directory: ${COL_PURPLE}${FILE_DIR}"
-      echo "<<<<<<<<< ${FILE_DIR} >>>>>>>>>>" >> ${EMPTY_DIRS_CHECK_FILE}
-      echo "ls \"${FILE_DIR}\"" >> ${EMPTY_DIRS_CHECK_FILE}
-      echo "rm -r \"${FILE_DIR}\"" >> ${EMPTY_DIRS_RM_FILE}
+    if [ -d "${FILE}" ] && [ -z "$(ls -A "${FILE}")" ]; then
+      log.debug "Empty directory: ${COL_PURPLE}${FILE}"
+      echo "echo <<<<<<<<< ${FILE} >>>>>>>>>>" >> ${EMPTY_DIRS_CHECK_FILE}
+      echo "ls \"${FILE}\"" >> ${EMPTY_DIRS_CHECK_FILE}
+      echo "rm -r \"${FILE}\"" >> ${EMPTY_DIRS_RM_FILE}
     fi
   done
 }
