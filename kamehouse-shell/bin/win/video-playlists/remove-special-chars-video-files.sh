@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Import common functions
+source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
+  exit 1
+fi
+source ${HOME}/programs/kamehouse-shell/bin/common/video-playlists/video-playlists-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing video-playlists-functions.sh\033[0;39m"
+  exit 1
+fi
+source ${HOME}/.kamehouse/.shell/.cred
+
+GIT_REMOTE=all
+GIT_BRANCH=dev
+
+EMPTY_DIRS_RM_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
+EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
+
+mainProcess() {
+  initEmptyDirsFiles
+  removeSpecialCharsInAllFilenames
+  exitMessage
+}
+
+initEmptyDirsFiles() {
+  mkdir -p ${HOME}/temp
+  echo "#!/bin/bash" > ${EMPTY_DIRS_RM_FILE}
+  echo "" > ${EMPTY_DIRS_RM_FILE}
+
+  echo "#!/bin/bash" > ${EMPTY_DIRS_CHECK_FILE}
+  echo "" > ${EMPTY_DIRS_CHECK_FILE}  
+}
+
+removeSpecialCharsInAllFilenames() {
+  removeSpecialCharsInFilenames "/n/anime"
+  removeSpecialCharsInFilenames "/n/cartoons"
+  removeSpecialCharsInFilenames "/n/funny_videos"
+  removeSpecialCharsInFilenames "/n/futbol"
+  removeSpecialCharsInFilenames "/n/futbol_4K"
+  removeSpecialCharsInFilenames "/n/movies"
+  removeSpecialCharsInFilenames "/n/music_videos"
+  removeSpecialCharsInFilenames "/n/series"
+  removeSpecialCharsInFilenames "/n/tennis"
+  removeSpecialCharsInFilenames "/n/Videos-Mobile"
+}
+
+removeSpecialCharsInFilenames() {
+  local FILES_BASE_PATH=$1
+  log.info "Removing special chars from filenames in ${COL_PURPLE}${FILES_BASE_PATH}"
+  find ${FILES_BASE_PATH} | sort | while read FILE; do
+    log.trace "Processing file ${COL_PURPLE}${FILE}"
+    local FILE_UPDATED=$(echo "$FILE" | sed '$s'"/${SPECIAL_CHARS_REGEX}/-/g")
+    if [ "${FILE}" != "${FILE_UPDATED}" ]; then
+      local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
+      mkdir -p "${FILE_UPDATED_DIR}"
+      log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
+      mv "${FILE}" "${FILE_UPDATED}"
+    fi
+    local FILE_DIR=$(dirname "${FILE}")
+    if [ -d "${FILE_DIR}" ] && [ -z "$(ls -A "${FILE_DIR}")" ]; then
+      log.debug "Empty directory: ${COL_PURPLE}${FILE_DIR}"
+      echo "<<<<<<<<< ${FILE_DIR} >>>>>>>>>>" >> ${EMPTY_DIRS_CHECK_FILE}
+      echo "ls \"${FILE_DIR}\"" >> ${EMPTY_DIRS_CHECK_FILE}
+      echo "rm -r \"${FILE_DIR}\"" >> ${EMPTY_DIRS_RM_FILE}
+    fi
+  done
+}
+
+exitMessage() {
+  log.info "Removing special chars process finished"
+  log.info "Check the remaining empty directories with: ${COL_RED}chmod a+x ${EMPTY_DIRS_CHECK_FILE} ; ${EMPTY_DIRS_CHECK_FILE}"
+  log.info "Remove them with: ${COL_RED}chmod a+x ${EMPTY_DIRS_RM_FILE} ; ${EMPTY_DIRS_RM_FILE}"
+  log.info "Then delete the temp files with: ${COL_RED}rm ${EMPTY_DIRS_RM_FILE} ${EMPTY_DIRS_CHECK_FILE}"
+}
+
+main "$@"
