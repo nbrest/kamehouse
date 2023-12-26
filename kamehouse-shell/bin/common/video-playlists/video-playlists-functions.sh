@@ -12,7 +12,7 @@ PATH_BASE_DEST=""
 PATH_PLS_SOURCE=""
 PATH_PLS_DEST=""
 
-SPECIAL_CHARS_REGEX="['!\(\)\`\$@%^\&\<\>~;\{\}\,#\+=]\|\[\|\]"
+SPECIAL_CHARS_REGEX="['!\(\)\`\$@%^\&\<\>~;\{\}\,#\+=ñÑáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙ]\|\[\|\]"
 
 # Common video-playlists functions
 mainProcess() {
