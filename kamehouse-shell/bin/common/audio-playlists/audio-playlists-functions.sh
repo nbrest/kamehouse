@@ -4,7 +4,9 @@ LOG_PROCESS_TO_FILE=true
 PROJECT_DIR="${HOME}/git/kamehouse-audio-playlists/playlists"
 GIT_REMOTE=all
 GIT_BRANCH=dev
-AUDIO_SERVER="niko-server"
+MEDIA_SERVER="niko-server"
+MEDIA_SERVER_IP="192.168.0.109"
+MEDIA_SERVER_USERNAME="nbrest"
 
 PATH_BASE_SOURCE="D:\\\niko9enzo\\\mp3"
 PATH_BASE_DEST=""
@@ -94,8 +96,8 @@ deleteExistingM3uFiles() {
 }
 
 checkAudioServer() {
-  if [ "${HOSTNAME}" != "${AUDIO_SERVER}" ]; then
-    log.error "This script can only run in ${AUDIO_SERVER}. Trying to run in ${HOSTNAME}"
+  if [ "${HOSTNAME}" != "${MEDIA_SERVER}" ]; then
+    log.error "This script can only run in ${MEDIA_SERVER}. Trying to run in ${HOSTNAME}"
     exitProcess 1
   fi
 }

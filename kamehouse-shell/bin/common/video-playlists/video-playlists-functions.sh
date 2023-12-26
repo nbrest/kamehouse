@@ -4,12 +4,15 @@ PROJECT_DIR="${HOME}/git/kamehouse-video-playlists/playlists"
 
 MEDIA_SERVER="niko-server"
 MEDIA_SERVER_IP="192.168.0.109"
+MEDIA_SERVER_USERNAME="nbrest"
 
 PATH_BASE_SOURCE=""
 PATH_BASE_DEST=""
 
 PATH_PLS_SOURCE=""
 PATH_PLS_DEST=""
+
+SPECIAL_CHARS_REGEX="['!\(\)\`\$@%^\&\<\>~;\{\}\,#\+=]\|\[\|\]"
 
 # Common video-playlists functions
 mainProcess() {

@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_PLS_DEST=${PROJECT_DIR}/audio-sftp-local
-PATH_BASE_DEST="sftp://nbrest@192.168.0.109/D:/niko9enzo/mp3"
-PATH_BASE_N2_DEST="sftp://nbrest@192.168.0.109/Z:/mp3"
+PATH_BASE_DEST="sftp://${MEDIA_SERVER_USERNAME}@${MEDIA_SERVER_IP}/D:/niko9enzo/mp3"
+PATH_BASE_N2_DEST="sftp://${MEDIA_SERVER_USERNAME}@${MEDIA_SERVER_IP}/Z:/mp3"
 
 main "$@"

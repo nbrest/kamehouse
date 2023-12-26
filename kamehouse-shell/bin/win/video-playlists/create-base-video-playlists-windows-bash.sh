@@ -174,7 +174,7 @@ createMoviesPlaylists() {
 createMusicVideoPlaylists() {
   local PATH_MUSIC_VIDEOS_PLS=${PATH_VLC_PLS_ROOT}/music_videos
   local FILE_MUSIC_VIDEOS_ALL_PLS=${PATH_MUSIC_VIDEOS_PLS}/music_videos_all.m3u
-  local PATH_MUSIC_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/music-videos
+  local PATH_MUSIC_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/music_videos
   createPlaylist ${PATH_MUSIC_VIDEO_FILES} ${FILE_MUSIC_VIDEOS_ALL_PLS} ${PATH_VIDEO_FILES_ROOT} & 
 }
 

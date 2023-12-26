@@ -19,6 +19,7 @@ GIT_BRANCH=dev
 mainProcess() {
   checkMediaServer
   pullChangesFromGit
+  removeSpecialCharsInAllFilenames
   deleteExistingM3uFiles
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-base-video-playlists-windows-bash.sh
@@ -65,6 +66,34 @@ mainProcess() {
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/resync-subtitles.sh
   checkCommandStatus "$?" 
+}
+
+removeSpecialCharsInAllFilenames() {
+  removeSpecialCharsInFilenames "/n/anime"
+  removeSpecialCharsInFilenames "/n/cartoons"
+  removeSpecialCharsInFilenames "/n/funny_videos"
+  removeSpecialCharsInFilenames "/n/futbol"
+  removeSpecialCharsInFilenames "/n/futbol_4K"
+  removeSpecialCharsInFilenames "/n/movies"
+  removeSpecialCharsInFilenames "/n/music_videos"
+  removeSpecialCharsInFilenames "/n/series"
+  removeSpecialCharsInFilenames "/n/tennis"
+  removeSpecialCharsInFilenames "/n/Videos-Mobile"
+  removeSpecialCharsInFilenames "/n/series"
+  removeSpecialCharsInFilenames "/n/series"
+}
+
+removeSpecialCharsInFilenames() {
+  local FILES_BASE_PATH=$1
+  log.info "Removing special chars from filenames in ${COL_PURPLE}${FILES_BASE_PATH}"
+  find ${FILES_BASE_PATH} | sort | while read FILE; do
+    FILE_UPDATED=$(echo "$FILE" | sed '$s'"/${SPECIAL_CHARS_REGEX}/-/g")
+    log.trace "Processing file ${COL_PURPLE}${FILE}"
+    if [ "${FILE}" != "${FILE_UPDATED}" ]; then
+      log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
+      mv "${FILE}" "${FILE_UPDATED}"
+    fi
+  done
 }
 
 deleteExistingM3uFiles() {

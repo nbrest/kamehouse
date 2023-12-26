@@ -16,6 +16,6 @@ PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server-vlc
 PATH_PLS_DEST=${PROJECT_DIR}/sftp-media-server-vlc
 
 PATH_BASE_SOURCE="http://${MEDIA_SERVER_IP}/kame-house-streaming/media-server/media-drive/"
-PATH_BASE_DEST="sftp://nbrest@${MEDIA_SERVER_IP}/N:/"
+PATH_BASE_DEST="sftp://${MEDIA_SERVER_USERNAME}@${MEDIA_SERVER_IP}/N:/"
 
 main "$@"
