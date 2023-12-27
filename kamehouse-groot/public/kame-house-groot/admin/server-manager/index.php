@@ -484,7 +484,7 @@
               </td>
               <td>
                 <div class="link-image-text">Update video playlists</div>
-                <div class="link-image-desc">Click to regenerate all video playlists. This command can only be executed in the media server</div>
+                <div class="link-image-desc">Click to regenerate all video playlists. This command can only be executed in the media server. Check to remove special characters from media filenames before generating playlists: <input id="remove-special-chars-video-pls" class="remove-special-chars-video-pls" type="checkbox" name="remove-special-chars-video-pls"></div>
               </td>
             </tr>
             <tr>

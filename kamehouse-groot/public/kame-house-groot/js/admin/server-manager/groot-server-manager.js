@@ -127,7 +127,8 @@ class ServerManager {
     }
     this.setCommandRunning();
     this.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('win/video-playlists/create-all-video-playlists.sh', "", true, 600, 
+    const stringArgs = this.#getCreateVideoPlaylistsParams();
+    kameHouse.extension.kameHouseShell.execute('win/video-playlists/create-all-video-playlists.sh', stringArgs, true, 600, 
       (scriptOutput) => this.completeCommandCallback(scriptOutput), 
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
   }
@@ -145,6 +146,18 @@ class ServerManager {
       (scriptOutput) => this.completeCommandCallback(scriptOutput), 
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
   }  
+
+  /**
+   * Get the parameters for tomcat restart script.
+   */
+  #getCreateVideoPlaylistsParams() {
+    const removeSpecialCharsCheckbox = document.getElementById("remove-special-chars-video-pls");
+    if (removeSpecialCharsCheckbox.checked) {
+      return "-s";
+    } else {
+      return "";
+    }
+  }
 
   /** Handle Session Status */
   #handleSessionStatus() {
