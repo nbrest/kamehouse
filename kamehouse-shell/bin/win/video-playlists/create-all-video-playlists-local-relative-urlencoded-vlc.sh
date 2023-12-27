@@ -14,7 +14,6 @@ fi
 
 PATH_PLS_SOURCE=${PROJECT_DIR}/local-relative-urlencoded
 PATH_PLS_DEST=${PROJECT_DIR}/local-relative-urlencoded-vlc
-MEDIA_DRIVE_PLS_DIR="/n/kamehouse-playlists"
 
 mainProcess() {
   cd ${PROJECT_DIR}

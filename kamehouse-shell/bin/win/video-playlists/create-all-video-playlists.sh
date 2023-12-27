@@ -17,6 +17,7 @@ GIT_REMOTE=all
 GIT_BRANCH=dev
 
 REMOVE_SPECIAL_CHARS=false
+MEDIA_DRIVE_PLS_DIR="/n/kamehouse-playlists"
 
 mainProcess() {
   checkMediaServer
