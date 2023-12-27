@@ -103,7 +103,7 @@ class VideoPlaylistServiceTest {
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
     assertTrue(
-        returnedPlaylists.get(0).getPath().contains("http-media-server-ip"));
+        returnedPlaylists.get(0).getPath().contains("http-media-server"));
   }
 
   /**

@@ -12,17 +12,23 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server
-PATH_PLS_DEST=${PROJECT_DIR}/http-media-server-vlc
+PATH_PLS_SOURCE=${PROJECT_DIR}/local-relative
+PATH_PLS_DEST=${PROJECT_DIR}/local-relative-vlc
 
 mainProcess() {
   cd ${PROJECT_DIR}
   removeDestPlaylists
   createDestPlaylists
+  deleteSourcePlaylists
+}
+
+deleteSourcePlaylists() {
+  log.info "Deleting playlists ${PROJECT_DIR}/local-relative"
+  rm -rf "${PROJECT_DIR}/local-relative"
 }
 
 createDestPlaylists() {
-  log.info "Creating http-media-server-vlc playlists"
+  log.info "Creating local-relative-vlc playlists"
   find ${PATH_PLS_SOURCE} | grep --ignore-case -e "\.m3u$" | while read FILE; do
     local PLAYLIST_RELATIVE_FILENAME=${FILE#${PATH_PLS_SOURCE}}
     local PLAYLIST_SUBDIR=${PLAYLIST_RELATIVE_FILENAME::-4}

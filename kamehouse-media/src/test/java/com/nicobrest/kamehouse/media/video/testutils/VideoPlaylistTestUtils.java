@@ -47,7 +47,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
           + File.separator
           + "playlists"
           + File.separator
-          + "http-media-server-ip";
+          + "http-media-server";
 
   @Override
   public void initTestData() {

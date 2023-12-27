@@ -13,9 +13,9 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_PLS_SOURCE=${PROJECT_DIR}/http-media-server
-PATH_PLS_DEST=${PROJECT_DIR}/http-media-server-ip
+PATH_PLS_DEST=${PROJECT_DIR}/local-relative-urlencoded
 
-PATH_BASE_SOURCE="http://${MEDIA_SERVER}/kame-house-streaming/media-server/media-drive"
-PATH_BASE_DEST="http://${MEDIA_SERVER_IP}/kame-house-streaming/media-server/media-drive"
+PATH_BASE_SOURCE="http://${MEDIA_SERVER}/kame-house-streaming/media-server/media-drive/"
+PATH_BASE_DEST="../../../../../"
 
 main "$@"

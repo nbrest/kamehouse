@@ -16,12 +16,16 @@ source ${HOME}/.kamehouse/.shell/.cred
 GIT_REMOTE=all
 GIT_BRANCH=dev
 
-EMPTY_DIRS_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
+REMOVE_SPECIAL_CHARS=false
 
 mainProcess() {
   checkMediaServer
   pullChangesFromGit
-  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/remove-special-chars-video-files.sh
+
+  if ${REMOVE_SPECIAL_CHARS}; then
+    ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/remove-special-chars-video-files.sh
+  fi
+
   deleteExistingM3uFiles
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-base-video-playlists-windows-bash.sh
@@ -36,13 +40,16 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-windows.sh
   checkCommandStatus "$?" 
   
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-local-relative.sh
+  checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-local-relative-vlc.sh
+  checkCommandStatus "$?"   
+
   clearMediaServerEhCache
 
   # create-all-video-playlists-http-media-server.sh takes about 9mins (2020-10-23)
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server.sh
-  checkCommandStatus "$?" 
-
-  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server-ip.sh
   checkCommandStatus "$?" 
   
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server-vlc.sh
@@ -55,14 +62,22 @@ mainProcess() {
   checkCommandStatus "$?" 
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-lan-media-server-vlc.sh
-  checkCommandStatus "$?" 
+  checkCommandStatus "$?"
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-https-kame-server.sh
+  checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-local-relative-urlencoded.sh
+  checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-local-relative-urlencoded-vlc.sh
   checkCommandStatus "$?" 
 
   log.info "Waiting for all background processes to finish in create-all-video-playlists.sh"
   jobs -l
   wait
+
+  copyPlaylistsToMediaDrive
 
   pushChangesToGit
 
@@ -101,6 +116,30 @@ clearMediaServerEhCache() {
     --header "Content-Type: application/json" \
     --header "Authorization: Basic ${KH_ADMIN_API_BASIC_AUTH}"
     
+}
+
+copyPlaylistsToMediaDrive() {
+  log.info "Copying playlists to media drive"
+  rm -rf "${MEDIA_DRIVE_PLS_DIR}"
+  cp -rf "${PROJECT_DIR}" "${MEDIA_DRIVE_PLS_DIR}"
+}
+
+parseArguments() {
+  unset OPTIND
+  while getopts ":s" OPT; do
+    case $OPT in
+    ("s")
+      REMOVE_SPECIAL_CHARS=true
+      ;;   
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done 
+}
+
+printHelpOptions() {
+  addHelpOption "-s" "remove special characters in media files before generating playlists"
 }
 
 main "$@"

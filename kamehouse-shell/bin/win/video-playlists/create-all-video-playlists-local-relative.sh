@@ -13,18 +13,9 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_PLS_SOURCE=${PROJECT_DIR}/linux
-PATH_PLS_DEST=${PROJECT_DIR}/windows
+PATH_PLS_DEST=${PROJECT_DIR}/local-relative
 
-PATH_BASE_SOURCE="/media/media-drive"
-PATH_BASE_DEST="N:"
-
-replaceDestPath() {
-  local FILE=$1
-  log.info "Updating file ${COL_PURPLE}${FILE}"
-  sed -i "s#${PATH_BASE_SOURCE}#${PATH_BASE_DEST}#Ig" ${FILE}
-  checkCommandStatus "$?"
-  sed -i "s#/#\\\#Ig" ${FILE}
-  checkCommandStatus "$?"
-}
+PATH_BASE_SOURCE="/media/media-drive/"
+PATH_BASE_DEST="../../../../../"
 
 main "$@"
