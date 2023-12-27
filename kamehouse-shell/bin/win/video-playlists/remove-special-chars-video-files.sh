@@ -19,6 +19,9 @@ GIT_BRANCH=dev
 EMPTY_DIRS_RM_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
 EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.sh
 
+# anything that isn't a letter, digit, space, /, \, :, -, _ , .
+SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\ \-_\.]"
+
 mainProcess() {
   initEmptyDirsFiles
   removeSpecialCharsInAllFilenames
