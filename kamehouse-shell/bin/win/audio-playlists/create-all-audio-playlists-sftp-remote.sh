@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
 fi
 
 PATH_PLS_DEST=${PROJECT_DIR}/audio-sftp-remote
-PATH_BASE_DEST="sftp://kamehouse-streaming-user@kame.nicobrest.com/mnt/media-drive/d.niko/niko9enzo/mp3"
-PATH_BASE_N2_DEST="sftp://kamehouse-streaming-user@kame.nicobrest.com/mnt/media-drive/n2-tc/mp3"
+PATH_BASE_DEST="sftp://kamehouse-streaming-user@www.nicobrest.com/mnt/media-drive/d.niko/niko9enzo/mp3"
+PATH_BASE_N2_DEST="sftp://kamehouse-streaming-user@www.nicobrest.com/mnt/media-drive/n2-tc/mp3"
 
 main "$@"

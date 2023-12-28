@@ -15,7 +15,7 @@ This module handles the following functionality:
 
 * The cordova advanced-http plugin is used to do all the api calls to the backend server avoiding cors of pure javascript requests
 
-* A link to download the app can be found [here](https://kame.nicobrest.com/kame-house/downloads)
+* A link to download the app can be found [here](https://www.nicobrest.com/kame-house/downloads)
 
 * Check the android build required Java JDK [version](/docs/versions/versions.md)
 

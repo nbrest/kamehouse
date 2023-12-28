@@ -148,8 +148,8 @@ function matchApacheSslRequestLog(sslRequestLog_rx_loc_) {
 
 # Apache Httpd (linux): other_vhosts_access.log
 function matchApacheOtherVhostsAccessLog(otherVhostsAccess1_rx_loc_, otherVhostsAccess2_rx_loc_) {
-  # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:32 +1100] "GET / HTTP/1.1" 200 5692 "-" "-"
-  # kame.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:35 +1100] "GET / HTTP/1.1" 200 5714 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
+  # www.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:32 +1100] "GET / HTTP/1.1" 200 5692 "-" "-"
+  # www.nicobrest.com:443 162.142.125.210 - - [28/Feb/2022:23:34:35 +1100] "GET / HTTP/1.1" 200 5714 "-" "Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "URL" "User-Agent info"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - - [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "-"'
   # Format: 'IP:PORT/HOSTNAME IP:PORT/HOSTNAME - USER [DD/Mmm/YYYY:HH:MM:SS +TZZZ] "HTTP_METHOD PATH HTTP/VERSION".*999 999 "-" "User-Agent info"'
