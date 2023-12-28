@@ -75,7 +75,6 @@ header #header-top #login-status {
 .header-login-status-btn {
   width: 40px;
   height: 40px;
-  cursor: pointer;
   transform: scale(0.9);
 }
 
@@ -85,18 +84,6 @@ header #header-top #login-status {
     width: 32px;
     height: 32px;
     transform: scale(1);
-  }
-}
-
-/** MIN WIDTH media query: Only do for desktop, without afecting mobile. I usually use queries 
- * to override the default behaviour I set on desktop. In this case, I was doing that and
- * it caused a bug because I had to force mobile to scale to 1 and brightness 1 and that
- * overrode the .media-button-pressed css, removing the effect of pressed buttons */
-@media (min-width : 900px) {
-
-  /** This css affects desktop, not mobile! */
-  .header-login-status-btn:hover {
-    transform: scale(1.2);
   }
 }
 
