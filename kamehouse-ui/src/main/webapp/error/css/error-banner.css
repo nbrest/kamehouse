@@ -19,7 +19,7 @@
 }
 
 .banner-error-401 {
-  background: url(/kame-house/error/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
+  background: url(/kame-house/error/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
 }
@@ -57,7 +57,7 @@
 }
 
 .banner-error-404 {
-  background: url(/kame-house/error/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
+  background: url(/kame-house/error/img/banners/star-wars/r2d2-c3p0-luke-leia.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
 }
@@ -152,7 +152,7 @@
 }
 
 .banner-error-503 {
-  background: url(/kame-house/error/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
+  background: url(/kame-house/error/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
 }
