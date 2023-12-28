@@ -1,0 +1,267 @@
+/** Error banners */
+.banner-error-400 {
+  background: url(/kame-house/error/img/banners/saint-seiya/banner-sanctuary.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-400 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-400 {
+    background-position-x: -130px;
+  }
+}
+
+.banner-error-401 {
+  background: url(/kame-house/error/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-401 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-401 {
+    background-position-x: -130px;
+  }
+}
+
+.banner-error-403 {
+  background: url(/kame-house/error/img/banners/dragonball/banner-goku-ssj1.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-403 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-403 {
+    background-position-x: -130px;
+  }
+}
+
+.banner-error-404 {
+  background: url(/kame-house/error/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-404 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-404 {
+    background-position-x: -100px;
+  }
+}
+
+.banner-error-405 {
+  background: url(/kame-house/error/img/banners/prince-of-tennis/banner-rikkaidai.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-405 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-405 {
+    background-position-x: -40px;
+  }
+}
+
+.banner-error-409 {
+  background: url(/kame-house/error/img/banners/captain-tsubasa/banner-beni3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-409 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-409 {
+    background-position-x: -90px;
+  }
+}
+
+.banner-error-500 {
+  background: url(/kame-house/error/img/banners/saint-seiya/banner-fuego-12-casas.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-500 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-500 {
+    background-position-x: -130px;
+  }
+}
+
+.banner-error-502 {
+  background: url(/kame-house/error/img/banners/saint-seiya/banner-ancient-era-warriors.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-502 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-502 {
+    background-position-x: -40px;
+  }
+}
+
+.banner-error-503 {
+  background: url(/kame-house/error/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-error-503 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-error-503 {
+    background-position-x: -240px;
+  }
+}
+
+#banner {
+  min-height: 600px;
+  text-align: center;
+  color: #141414;
+  font-weight: bold;
+  text-shadow: -2px 0px 20px #ffffff, 0px 2px 20px #ffffff, 2px 0px 20px #ffffff, 0px -2px 20px #ffffff;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+@media (max-width : 900px) {
+  #banner {
+    min-height: 400px;
+  }
+}
+
+.banner-text-error {
+  color: #000000;
+  text-shadow: -2px 0 #C0C0C0, 0 2px #C0C0C0, 2px 0 #C0C0C0, 0 -2px #C0C0C0;
+  font-size: 70px !important; 
+}
+
+@media (max-width : 900px) {
+  .banner-text-error {
+    font-size: 40px !important; 
+  }
+}
+
+.banner-p-error {
+  color: #000000;
+  font-size: 30px !important; 
+  font-weight: bolder;
+  text-shadow: -1px 0 #939393, 0 1px #939393, 1px 0 #939393, 0 -1px #939393;
+  margin-top: 35px;
+}
+
+@media (max-width : 900px) {
+  .banner-p-error {
+    font-size: 20px !important; 
+    margin: auto;
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+.banner-p-error-light {
+  color: #c0c0c0;
+  font-size: 30px !important; 
+  font-weight: bolder;
+  text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+  margin-top: 35px;
+}
+
+@media (max-width : 900px) {
+  .banner-p-error-light {
+    font-size: 20px !important; 
+    margin: auto;
+    margin-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+#banner h1 {
+  margin-top: 250px;
+  font-size: 55px;
+  margin-bottom: 10px;
+}
+
+@media (max-width : 900px) {
+  #banner h1 {
+    margin-top: 40px;
+  }
+}
+
+#banner p {
+  font-size: 20px;
+}
+
+@media (max-width : 900px) {
+  .banner-text {
+    padding-top: 80px;
+  }
+}
+
+#banner-server-name {
+  font-size: 30px;
+}
+
+.banner-wrapper {
+  overflow: hidden;
+  background-color: black;
+}
