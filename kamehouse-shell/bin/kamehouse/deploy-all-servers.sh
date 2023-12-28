@@ -32,9 +32,6 @@ deployInAllServers() {
   # niko-server
   deployInServer "niko-server" "80" "win" "false" "false" &
 
-  # niko-server-dev-vm-ubuntu
-  deployInServer "niko-server-dev-vm-ubuntu" "80" "lin" "true" "false" &
-
   # niko-server-vm-ubuntu
   deployInServer "niko-server-vm-ubuntu" "80" "lin" "true" "false" &
   deployInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "lin" "true" "false" &

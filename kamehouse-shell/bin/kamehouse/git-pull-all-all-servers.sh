@@ -33,9 +33,6 @@ gitPullAllAllServers() {
   # niko-server
   gitPullAll "niko-server" "80" "win" "false" "false" &
 
-  # niko-server-dev-vm-ubuntu
-  gitPullAll "niko-server-dev-vm-ubuntu" "80" "lin" "true" "false" &
-
   # niko-server-vm-ubuntu
   gitPullAll "niko-server-vm-ubuntu" "80" "lin" "true" "false" &
   gitPullAll "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "lin" "true" "false" &
