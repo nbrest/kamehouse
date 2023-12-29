@@ -21,6 +21,9 @@ USER=`whoami`
 # Calling script name. This won't store common-functions.sh. It will store the name
 # of the script that is executed in the command line and sources this file.
 SCRIPT_NAME=`basename "$0"`
+# Current script start date and time
+SCRIPT_START_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+SCRIPT_START_TIME="$(date +%s)"
 
 # Stores the command line arguments from the script that sources this file.
 CMD_ARGUMENTS=$@
