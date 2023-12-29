@@ -49,9 +49,9 @@ execInAllServers() {
   # niko-w-vm-ubuntu
   execInServer "niko-w-vm-ubuntu" "80" "true" "false" &
 
-  log.info "Waiting for '${SCRIPT} ${SCRIPT_ARGS}' to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
+  log.info "Waiting for '${SCRIPT}' with args '${SCRIPT_ARGS}' to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
   wait
-  log.info "${COL_RED}Finished '${SCRIPT} ${SCRIPT_ARGS}' in ALL servers"
+  log.info "${COL_RED}Finished '${SCRIPT}' with args '${SCRIPT_ARGS}' in ALL servers"
 }
 
 execInServer() {
@@ -62,7 +62,7 @@ execInServer() {
   log.info "Started '${SCRIPT} ${SCRIPT_ARGS}' in ${COL_PURPLE}${SERVER}:${PORT}"
   sendRequestToServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
   wait
-  log.info "${COL_RED}Finished '${SCRIPT} ${SCRIPT_ARGS}' in ${COL_CYAN}${SERVER}:${PORT}"
+  log.info "${COL_RED}Finished '${SCRIPT}' with args '${SCRIPT_ARGS}' in ${COL_CYAN}${SERVER}:${PORT}"
 }
 
 sendRequestToServer() {
