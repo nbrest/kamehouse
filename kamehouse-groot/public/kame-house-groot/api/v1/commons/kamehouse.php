@@ -281,7 +281,7 @@ class StringUtils {
       $isValidInputForShell = false;
     }
 
-    $forbiddenChars = array(">", "<", ";", ":", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "\"", "'", "#", "\\", ",", "`", "..", "%", "@", "!", "$", "?");
+    $forbiddenChars = array(">", "<", ";", ":", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "\"", "'", "#", "\\", ",", "`", "´", "..", "%", "@", "!", "$", "?");
     foreach ($forbiddenChars as $forbiddenChar) {
       if($this->hasForbiddenCharSequence($param, $forbiddenChar)) {
         $isValidInputForShell = false;
