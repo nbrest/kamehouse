@@ -103,19 +103,18 @@ logStart() {
 # Log script run time at the end of the script
 logRunTime() {
   local SCRIPT_FINISH_TIME="$(date +%s)"
-  local SCRIPT_RUN_TIME=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
-  log.debug "Run time: ${SCRIPT_RUN_TIME}s"
-  SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME / 60))
-  log.info "Script start time was: ${SCRIPT_START_DATE}. Run time: ${SCRIPT_RUN_TIME}m"
+  local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
+  local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
+  log.info "${COL_BLUE}${SCRIPT_NAME}${COL_DEFAULT_LOG} start time: ${SCRIPT_START_DATE}. Run time: ${COL_BLUE}${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (total time in seconds: ${SCRIPT_RUN_TIME_SS})"
 }
 
 # Log standard finish of process
 logFinish() {
   local EXIT_CODE=$1
   if ${LOG_CMD_ARGS}; then
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} with status ${EXIT_CODE}"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} with status ${COL_PURPLE}${EXIT_CODE}"
   else
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with status ${EXIT_CODE}"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with status ${COL_PURPLE}${EXIT_CODE}"
   fi
 }
 

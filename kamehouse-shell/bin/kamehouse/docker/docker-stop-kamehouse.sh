@@ -20,6 +20,7 @@ if [ "$?" != "0" ]; then
   exit 9
 fi
 
+LOG_PROCESS_TO_FILE=true
 CONTAINER=""
 
 mainProcess() {
