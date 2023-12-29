@@ -48,7 +48,7 @@ main() {
 checkSourcePath() {
   if [ ! -d "${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin" ] || [ ! -d "${KAMEHOUSE_SHELL_SOURCE}/.git" ]; then
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
-    exit 1
+    exit 2
   fi
 }
 
@@ -56,7 +56,7 @@ getDefaultKameHouseUsername() {
   DEFAULT_KAMEHOUSE_USERNAME=`cat Dockerfile | grep "ARG KAMEHOUSE_USERNAME=" | awk -F'=' '{print $2}'`
   if [ -z "${DEFAULT_KAMEHOUSE_USERNAME}" ]; then
     log.error "Could not set default kamehouse username from Dockerfile"
-    exit 1
+    exit 2
   fi 
 }
 
@@ -280,7 +280,7 @@ parseCmdLineArguments() {
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 1
+      exit 3
       ;;
     esac
   done

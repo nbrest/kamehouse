@@ -16,7 +16,7 @@ mainProcess() {
 checkVariables() {
   if [ -z "${REPOSITORY_NAME}" ]; then
     log.error "REPOSITORY_NAME not set"
-    exit 1
+    exitProcess 2
   fi
 }
 

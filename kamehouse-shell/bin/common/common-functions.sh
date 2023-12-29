@@ -7,7 +7,7 @@ for INDEX in ${!sourceFiles[@]}; do
   source ${COMMON_FUNCTIONS_PATH}/${sourceFiles[$INDEX]}
   if [ "$?" != "0" ]; then
     echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing ${sourceFiles[$INDEX]}\033[0;39m"
-    exit 1
+    exit 9
   fi
 done
 
@@ -65,13 +65,15 @@ checkRequiredOption() {
   if [ -z "${OPTION_VALUE}" ]; then
     log.error "Option ${OPTION_LETTER} is required"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 }
 
 # Exit the process with the status code specified as an argument
 exitProcess() {
   local EXIT_STATUS=$1
+  logRunTime
+  logFinish ${EXIT_STATUS}
   cd "${INITIAL_DIR}"
   exit ${EXIT_STATUS}
 } 

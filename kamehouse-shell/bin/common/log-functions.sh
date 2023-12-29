@@ -100,12 +100,22 @@ logStart() {
   fi
 }
 
+# Log script run time at the end of the script
+logRunTime() {
+  local SCRIPT_FINISH_TIME="$(date +%s)"
+  local SCRIPT_RUN_TIME=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
+  log.debug "Run time: ${SCRIPT_RUN_TIME}s"
+  SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME / 60))
+  log.info "Script start time was: ${SCRIPT_START_DATE}. Run time: ${SCRIPT_RUN_TIME}m"
+}
+
 # Log standard finish of process
 logFinish() {
+  local EXIT_CODE=$1
   if ${LOG_CMD_ARGS}; then
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} successfully"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} with status ${EXIT_CODE}"
   else
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} successfully"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with status ${EXIT_CODE}"
   fi
 }
 

@@ -141,7 +141,7 @@ parseCmdLineArguments() {
       ;;      
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 1
+      exit 3
       ;;
     esac
   done

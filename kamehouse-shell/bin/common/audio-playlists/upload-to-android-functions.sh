@@ -6,8 +6,8 @@ SFTP_USER=android
 ANDROID_PHONE_NAME="android-1"
 
 mainProcess() {    
-  log.warn "DEPRECATED. Instead of using this script, use MGit app on my phone and git pull the playlists repo from my phone"
-  exit 1
+  log.warn "${COL_RED}DEPRECATED. Instead of using this script, use MGit app on my phone and git pull the playlists repo from my phone"
+  exitProcess 1
 
   log.warn "Start SSH/SFTP Server - Terminal on the android phone before proceeding"
   log.warn "The server should be configured as specified in audio-playlists.md"
@@ -39,7 +39,7 @@ setEnvFromArguments() {
     [ "${ANDROID_PHONE_NAME}" != "android-2" ]; then
     log.error "Option -n [phone name] has an invalid value of ${ANDROID_PHONE_NAME}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
   
   if [ "${ANDROID_PHONE_NAME}" == "android-2" ]; then

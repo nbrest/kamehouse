@@ -4,7 +4,7 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
-  exit 1
+  exit 9
 fi
 
 # Global variables
@@ -78,12 +78,12 @@ setDelay() {
     if [ "${DELAY}" -lt "0" ]; then
       log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
       printHelp
-      exitProcess 1
+      exitProcess 3
     fi
   else
     log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 }
 

@@ -4,14 +4,14 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
-  exit 1
+  exit 9
 fi
 
 # Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
-  exit 1
+  exit 9
 fi
 
 declare -a VALID_WORKING_DIRS=("${HOME}/workspace-eclipse/${PROJECT}" "${HOME}/workspace-intellij/${PROJECT}")
@@ -227,7 +227,7 @@ setReleaseVersion() {
   else
     log.error "Option -v has an invalid value of ${RELEASE_VERSION_ARG}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
   RELEASE_VERSION=${RELEASE_VERSION_ARG}
 }

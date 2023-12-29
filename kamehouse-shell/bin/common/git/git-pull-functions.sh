@@ -8,7 +8,7 @@ mainProcess() {
 
   if [ ! -d "${GIT_PROJECT_DIR}/.git" ]; then
     log.error "This directory ${GIT_PROJECT_DIR} doesn't contain a git repository. Skipping git pull..."
-    exit 1
+    exitProcess 1
   fi
 
   cd ${GIT_PROJECT_DIR}

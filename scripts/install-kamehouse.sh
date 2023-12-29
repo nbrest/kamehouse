@@ -54,7 +54,7 @@ gitCloneKameHouse() {
 checkPath() {
   if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
-    exit 1
+    exit 2
   fi
 }
 
@@ -166,7 +166,7 @@ parseCmdLineArguments() {
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 1
+      exit 3
       ;;
     esac
   done

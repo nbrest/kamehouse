@@ -110,7 +110,7 @@ setEnvForDockerProfile() {
     [ "${DOCKER_PROFILE}" != "tag" ]; then
     log.error "Option -p [profile] has an invalid value of ${DOCKER_PROFILE}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 
   if [ "${DOCKER_PROFILE}" == "ci" ]; then
@@ -192,12 +192,12 @@ setEnvForDockerTag() {
     else
       log.error "Option -t [tag] has an invalid value of ${DOCKER_IMAGE_TAG}"
       printHelp
-      exitProcess 1
+      exitProcess 3
     fi
   else
     log.error "Option -t [tag] has an invalid value of ${DOCKER_IMAGE_TAG}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi 
 
   if ${DOCKER_BUILD_RELEASE_TAG}; then

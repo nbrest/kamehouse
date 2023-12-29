@@ -4,6 +4,8 @@ export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
 # DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
 
+SCRIPT_START_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+SCRIPT_START_TIME="$(date +%s)"
 GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
@@ -169,7 +171,7 @@ setEnvForHttpdPort() {
   if [[ ! ${HTTPD_PORT} =~ $REGEX_NUMBER ]]; then
     log.error "Option -p has an invalid value of ${HTTPD_PORT}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 }
 
@@ -180,7 +182,7 @@ setEnvForIde() {
       && [ "${IDE}" != "intellij" ]; then
     log.error "Option -i ide needs to be in ${IDE_LIST}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 }
 
@@ -198,7 +200,7 @@ setEnvForKameHouseModule() {
         && [ "${MODULE_SHORT}" != "vlcrc" ]; then
       log.error "Option -m module needs to be in ${MODULES_LIST}"
       printHelp
-      exitProcess 1
+      exitProcess 3
     fi
   fi
 }
@@ -216,7 +218,7 @@ setEnvForKameHouseServer() {
     [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
     log.error "Option -s server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 
   case ${KAMEHOUSE_SERVER} in
@@ -262,7 +264,7 @@ setEnvForMavenProfile() {
       && [ "${MAVEN_PROFILE}" != "ci" ]; then
     log.error "Option -p profile needs to be in ${MAVEN_PROFILES_LIST}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 }
 
@@ -271,7 +273,7 @@ setEnvForTomcatPort() {
   if [[ ! ${TOMCAT_PORT} =~ $REGEX_NUMBER ]]; then
     log.error "Option -p has an invalid value of ${TOMCAT_PORT}"
     printHelp
-    exitProcess 1
+    exitProcess 3
   fi
 }
 
@@ -678,7 +680,6 @@ deployKameHouseShell() {
     log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
 
     if [ "${MODULE_SHORT}" == "shell" ]; then
-      logFinish
       exitSuccessfully
     fi
   fi

@@ -91,7 +91,7 @@ exitWithError() {
   local ERROR_MESSAGE=$1
   log.error "${ERROR_MESSAGE}"
   log.error "${ERROR_MESSAGE}" >> ${LOG_FILE}
-  exit 1
+  exit 2
 }
 
 main "$@"

@@ -28,12 +28,12 @@ mainProcess() {
 validateVariables() {
   if [ -z ${PATH_PLS_SOURCE} ]; then
     log.error "PATH_PLS_SOURCE is not set"
-    exitProcess 1
+    exitProcess 5
   fi
 
   if [ -z ${PATH_PLS_DEST} ]; then
     log.error "PATH_PLS_DEST is not set"
-    exitProcess 1
+    exitProcess 5
   fi
 }
 

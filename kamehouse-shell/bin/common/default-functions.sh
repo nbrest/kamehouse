@@ -74,13 +74,13 @@ printHelpFooter() {
 parseInvalidArgument() {
   log.error "Invalid option: -$1"
   printHelp
-  exitProcess 1
+  exitProcess 3
 }
 
 # Print the help and exit
 parseHelp() {
   printHelp
-  exitProcess 0
+  exitSuccessfully
 }
 
 # Set and validate the environment variables after parsing the command line arguments
@@ -100,7 +100,6 @@ mainWrapper() {
   parseCmdArguments "$@"
   setEnvFromArguments
   mainProcess "$@"
-  logFinish
   exitSuccessfully
 }
 

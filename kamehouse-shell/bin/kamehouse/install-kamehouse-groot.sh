@@ -52,7 +52,7 @@ parseCmdLineArguments() {
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 1
+      exit 3
       ;;
     esac
   done
@@ -60,7 +60,7 @@ parseCmdLineArguments() {
   if [ -z "${KAMEHOUSE_USER}" ]; then
     log.error "Option -u is required"
     printHelpMenu
-    exit 1
+    exit 3
   fi
 }
 

@@ -8,7 +8,7 @@ main() {
   log.info "Creating sample video playlists"
   if [ -d "/home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse-video-playlists/.git" ]; then
     log.info "/home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse-video-playlists is a git repository. No need to create sample playlists. Exiting..."
-    exit 1
+    exit 2
   fi
   createPlaylists
   updatePlaylistEntriesHome
