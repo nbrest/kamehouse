@@ -34,6 +34,8 @@
 - Added timeout to system commands and to ssh commands
 - Updated vlc create video playlists scripts 
 - Moved error pages to be fully self contained under /kame-house/error directory
+- Updated shell scripts exit status codes and exit loggings
+- Added logging of shell scripts run time
 - Fixed long delay closing the modal in the ui on vlc start from docker on linux
 - Fixed broken execute on docker host commands
 - Fixed bugs
