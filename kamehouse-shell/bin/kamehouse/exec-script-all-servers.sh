@@ -21,76 +21,60 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-# Global variables
 LOG_PROCESS_TO_FILE=true
+SCRIPT=""
+SCRIPT_ARGS=""
 
 mainProcess() {
-  deployInAllServers
+  execInAllServers
 }
 
-deployInAllServers() {
+execInAllServers() {
   # niko-server
-  deployInServer "niko-server" "80" "win" "false" "false" &
+  execInServer "niko-server" "80" "false" "false" &
 
   # niko-server-vm-ubuntu
-  deployInServer "niko-server-vm-ubuntu" "80" "lin" "true" "false" &
-  deployInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "lin" "true" "false" &
+  execInServer "niko-server-vm-ubuntu" "80" "true" "false" &
+  execInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "true" "false" &
 
   # pi
-  deployInServer "pi" "443" "lin" "false" "true" &
+  execInServer "pi" "443" "false" "true" &
   
   # niko-nba
-  deployInServer "niko-nba" "80" "win" "true" "false" &
+  execInServer "niko-nba" "80" "true" "false" &
 
   # niko-w
-  deployInServer "niko-w" "80" "win" "true" "false" &
+  execInServer "niko-w" "80" "true" "false" &
 
   # niko-w-vm-ubuntu
-  deployInServer "niko-w-vm-ubuntu" "80" "lin" "true" "false" &
+  execInServer "niko-w-vm-ubuntu" "80" "true" "false" &
 
-  log.info "Waiting for deployment to finish in all servers. ${COL_YELLOW}This process can take several minutes"
+  log.info "Waiting for '${SCRIPT} ${SCRIPT_ARGS}' to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
   wait
-  log.info "${COL_RED}Finished deploying in all servers"
+  log.info "${COL_RED}Finished '${SCRIPT} ${SCRIPT_ARGS}' in ALL servers"
 }
 
-deployInServer() {
-  local SERVER=$1
-  local PORT=$2
-  local HOST_OS=$3
-  local USE_DOCKER_DEMO_CRED=$4
-  local IS_HTTPS=$5
-  log.info "Started deployInServer ${COL_PURPLE}${SERVER}:${PORT}:${HOST_OS}"
-  deployKamehouse ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
-  wait
-  log.info "${COL_RED}Finished deployInServer ${COL_CYAN}${SERVER}:${PORT}:${HOST_OS}"
-}
-
-deployKamehouse() {
+execInServer() {
   local SERVER=$1
   local PORT=$2
   local USE_DOCKER_DEMO_CRED=$3
   local IS_HTTPS=$4
-  local SCRIPT_ARGS=""
-  if [ -n "${MODULE_SHORT}" ]; then
-    SCRIPT_ARGS="${SCRIPT_ARGS} -m ${MODULE_SHORT}"
-  fi
-  log.info "Started deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
-  executeScriptInServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} "kamehouse/deploy-kamehouse.sh" "${SCRIPT_ARGS}" ${IS_HTTPS}
-  log.info "Finished deployKamehouse ${COL_PURPLE}${SERVER}:${PORT}"
+  log.info "Started '${SCRIPT} ${SCRIPT_ARGS}' in ${COL_PURPLE}${SERVER}:${PORT}"
+  sendRequestToServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
+  wait
+  log.info "${COL_RED}Finished '${SCRIPT} ${SCRIPT_ARGS}' in ${COL_CYAN}${SERVER}:${PORT}"
 }
 
-executeScriptInServer() {
+sendRequestToServer() {
   local SERVER=$1
   local PORT=$2
   local USE_DOCKER_DEMO_CRED=$3
-  local SCRIPT=$4
-  local SCRIPT_ARGS="$5"
-  local IS_HTTPS=$6
+  local IS_HTTPS=$4
   local URL=""
   local URL_ENCODED_PARAMS=""
   local BASIC_AUTH=""
   local PROTOCOL="http"
-
+  
   if ${IS_HTTPS}; then
     PROTOCOL="https"
   fi
@@ -114,15 +98,29 @@ executeScriptInServer() {
 }
 
 parseArguments() {
-  parseKameHouseModule "$@"
+  while getopts ":a:s:" OPT; do
+    case $OPT in
+    ("a")
+      SCRIPT_ARGS=$OPTARG
+      SCRIPT_ARGS=$(echo "$SCRIPT_ARGS" | sed -e "s#EXEC_SCRIPT_ALL_SERVERS_ARG_SPACE# #g")
+      ;;
+    ("s")
+      SCRIPT=$OPTARG
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done
 }
 
 setEnvFromArguments() {
-  setEnvForKameHouseModule
+  checkRequiredOption "-s" "${SCRIPT}"
 }
 
 printHelpOptions() {
-  printKameHouseModuleOption "deploy"
+  addHelpOption "-a (args)" "script args"
+  addHelpOption "-s (script)" "script to execute" "r"
 }
 
 main "$@"

@@ -22,10 +22,11 @@ mainProcess() {
   if ${IS_DOCKER_CONTAINER}; then
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-prod-kamehouse.sh
   else
+    ${HOME}/programs/kamehouse-shell/bin/common/git/git-pull-kamehouse-video-playlists.sh
+    ${HOME}/programs/kamehouse-shell/bin/common/git/git-pull-kamehouse-video-subtitles.sh
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-hacking.sh
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-kamehouse.sh
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-kamehouse-audio-playlists.sh
-    ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-kamehouse-video-playlists.sh
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-kamehouse-webserver.sh
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-learn-java.sh
     ${HOME}/programs/kamehouse-shell/bin/win/git/git-pull-my-scripts.sh

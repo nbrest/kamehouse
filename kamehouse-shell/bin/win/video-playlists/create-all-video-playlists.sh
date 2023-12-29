@@ -82,7 +82,13 @@ mainProcess() {
 
   pushChangesToGit
 
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-script-all-servers.sh -s "common/git/git-pull-kamehouse-video-playlists.sh"
+  checkCommandStatus "$?" 
+
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/resync-subtitles.sh
+  checkCommandStatus "$?" 
+
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-script-all-servers.sh -s "common/git/git-pull-kamehouse-video-subtitles.sh"
   checkCommandStatus "$?" 
 }
 

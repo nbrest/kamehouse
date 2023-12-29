@@ -254,7 +254,7 @@ class GitManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/git-pull-all-all-servers.sh', "", false, 600, 
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-script-all-servers.sh', "-s common/git/git-pull-all.sh", false, 600, 
       (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput), 
       (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput));
   }
@@ -398,13 +398,14 @@ class DeploymentManager {
    * Deploy module in all servers.
    */
   deployModuleAllServers(module) {
+    const SPACE = "EXEC_SCRIPT_ALL_SERVERS_ARG_SPACE";
     if (kameHouse.extension.serverManager.isCommandRunning()) {
       return;
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module;
-    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy-all-servers.sh', args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    const args = "-s kamehouse/deploy-kamehouse.sh -a -m" + SPACE + module;
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-script-all-servers.sh', args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
   }
 
   /**
@@ -436,7 +437,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy-all-servers.sh', "", false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-script-all-servers.sh', "-s kamehouse/deploy-kamehouse.sh", false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
   }
 
   /**

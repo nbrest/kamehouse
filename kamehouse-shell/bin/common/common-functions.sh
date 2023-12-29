@@ -2,7 +2,7 @@
 # Import other dependencies #
 #############################
 COMMON_FUNCTIONS_PATH=`dirname ${BASH_SOURCE[0]}`
-sourceFiles=("bashrc-functions.sh" "colors.sh" "default-functions.sh" "git-functions.sh" "log-functions.sh" "example-functions.sh")
+sourceFiles=("bashrc-functions.sh" "colors.sh" "default-functions.sh" "git/git-functions.sh" "log-functions.sh" "example-functions.sh")
 for INDEX in ${!sourceFiles[@]}; do
   source ${COMMON_FUNCTIONS_PATH}/${sourceFiles[$INDEX]}
   if [ "$?" != "0" ]; then
