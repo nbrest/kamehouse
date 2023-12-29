@@ -59,7 +59,7 @@ execInServer() {
   local PORT=$2
   local USE_DOCKER_DEMO_CRED=$3
   local IS_HTTPS=$4
-  log.info "Started '${SCRIPT} ${SCRIPT_ARGS}' in ${COL_PURPLE}${SERVER}:${PORT}"
+  log.info "Started '${SCRIPT}' with args '${SCRIPT_ARGS}' in ${COL_PURPLE}${SERVER}:${PORT}"
   sendRequestToServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
   wait
   log.info "${COL_RED}Finished '${SCRIPT}' with args '${SCRIPT_ARGS}' in ${COL_CYAN}${SERVER}:${PORT}"
