@@ -29,10 +29,7 @@ mainProcess() {
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-push-all-kamehouse.sh 
   checkCommandStatus "$?" "Error rebuilding and pushing the kamehouse docker image" 
-
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-upgrade-containers.sh 
-  checkCommandStatus "$?" "Error upgrading local containers" 
-
+  
   log.info "Finished rebuilding kamehouse docker image"
 }
 
