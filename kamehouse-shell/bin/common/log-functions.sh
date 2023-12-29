@@ -105,7 +105,7 @@ logRunTime() {
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
   local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
-  log.info "${COL_BLUE}${SCRIPT_NAME}${COL_DEFAULT_LOG} start time: ${SCRIPT_START_DATE}. Run time: ${COL_BLUE}${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (total time in seconds: ${SCRIPT_RUN_TIME_SS})"
+  log.info "${COL_BLUE}${SCRIPT_NAME}${COL_DEFAULT_LOG} start time: ${SCRIPT_START_DATE}. ${COL_BLUE}Run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (total time in seconds: ${SCRIPT_RUN_TIME_SS})"
 }
 
 # Log standard finish of process
