@@ -20,6 +20,7 @@ if [ "$?" != "0" ]; then
   exit 9
 fi
 
+LOG_SCRIPT_RUN_TIME_IN_DEBUG=true
 LOG_PROCESS_TO_FILE=false
 SCRIPT=""
 SCRIPT_ARGS=""

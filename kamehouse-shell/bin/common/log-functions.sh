@@ -20,6 +20,9 @@ COL_DEFAULT_LOG=${COL_GREEN}
 # Set to false to skip logging cmd args at start and end of script execution
 LOG_CMD_ARGS=true
 
+# Log script run time in debug
+LOG_SCRIPT_RUN_TIME_IN_DEBUG=false
+
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
 log() {
@@ -105,16 +108,21 @@ logRunTime() {
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
   local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
-  log.info "${COL_BLUE}${SCRIPT_NAME}${COL_DEFAULT_LOG} start time: ${SCRIPT_START_DATE}. ${COL_BLUE}Run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (total time in seconds: ${SCRIPT_RUN_TIME_SS})"
+  local RUNTIME_MESSAGE="${COL_BLUE}${SCRIPT_NAME}${COL_DEFAULT_LOG} start time: ${SCRIPT_START_DATE}. ${COL_BLUE}Run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (total time in seconds: ${SCRIPT_RUN_TIME_SS})"
+  if ${LOG_SCRIPT_RUN_TIME_IN_DEBUG}; then
+    log.debug "${RUNTIME_MESSAGE}"
+  else
+    log.info "${RUNTIME_MESSAGE}"
+  fi
 }
 
 # Log standard finish of process
 logFinish() {
   local EXIT_CODE=$1
-  if ${LOG_CMD_ARGS}; then
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} with status ${COL_PURPLE}${EXIT_CODE}"
+  if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} and ${COL_PURPLE}status: ${EXIT_CODE}"
   else
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with status ${COL_PURPLE}${EXIT_CODE}"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with ${COL_PURPLE}status: ${EXIT_CODE}"
   fi
 }
 

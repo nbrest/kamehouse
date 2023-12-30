@@ -85,7 +85,8 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "<span style=\"color:green\">Finished executing <span style=\"color:purple\">exec-s"
         + "cript.sh<span style=\"color:green\"> with command line arguments <span style=\"color:pu"
-        + "rple\">\"-s " + script + " -a \"<span style=\"color:green\"> with status ";
+        + "rple\">\"-s " + script + " -a \"<span style=\"color:green\"> and <span style=\"color:pu"
+        + "rple\">status: ";
     assertStringInArray(htmlConsoleOutput, expected);
 
     String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
@@ -97,7 +98,7 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "Finished executing ";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = " with status";
+    expected = "status: ";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
   }
 
