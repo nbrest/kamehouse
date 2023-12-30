@@ -11,7 +11,7 @@ mainProcess() {
   local FILE=$1
   if [ -z ${FILE} ]; then
     log.error "Pass a file to convert as parameter"
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi 
   log.info "Converting line endings from windows to linux for file ${FILE}"
   vim ${FILE} -c "set ff=unix" -c ":wq"

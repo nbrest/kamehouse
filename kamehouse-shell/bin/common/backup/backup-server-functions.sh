@@ -50,11 +50,11 @@ resettingBackupDir() {
   log.info "Resetting backup directory"
   if [ -z ${HOSTNAME} ]; then
     log.error "HOSTNAME variable not set. Can't continue"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
   if [ -z ${PROJECT_DIR} ]; then
     log.error "PROJECT_DIR variable not set. Can't continue"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
   rm -rvf ${PROJECT_DIR}/${HOSTNAME}
   local REMOVE_RESPONSE=$?

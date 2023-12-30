@@ -13,9 +13,9 @@ fi
 main() {
 	echo ${IS_LINUX_HOST}
   if ${IS_LINUX_HOST}; then
-    exit 0
+    exit ${EXIT_SUCCESS}
   else
-    exit 1
+    exit ${EXIT_ERROR}
   fi
 }
 

@@ -20,7 +20,7 @@ mainProcess() {
     log.info "mariadb restore command completed successfully"
   else
     log.error "${MARIADB_DUMP_FILE} doesn't exist."
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

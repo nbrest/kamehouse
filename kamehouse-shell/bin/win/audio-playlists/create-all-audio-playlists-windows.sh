@@ -245,7 +245,7 @@ validateOutput() {
   NUMBER_OF_M3U_CREATED=`find ${PROJECT_DIR}/windows | grep -e ".m3u" | wc -l`
   if [ "${NUMBER_OF_M3U_CREATED}" == "0" ]; then
     log.error "Error creating windows playlists. Run itunes export command manually"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   else
     log.info "Windows playlists re created successfully"
   fi

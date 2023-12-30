@@ -54,7 +54,7 @@ parseArguments() {
 setEnvFromArguments() {
   if [ -z "${BUILD_VERSION}" ]; then
     log.error "build version not passed with argument -b"
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi  
 }
 

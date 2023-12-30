@@ -13,7 +13,7 @@ mainProcess() {
   log.info "Creating sample video playlists"
   if [ -d "${HOME}/git/kamehouse-video-playlists/.git" ]; then
     log.error "${HOME}/git/kamehouse-video-playlists is a git repository. No need to create sample playlists. Exiting..."
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
   createPlaylists
   updateMediaFiles

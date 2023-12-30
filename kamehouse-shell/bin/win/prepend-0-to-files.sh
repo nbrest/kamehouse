@@ -25,7 +25,7 @@ mainProcess() {
     log.info "Executing the operations"
   else
     log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
-    exitProcess 2
+    exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 
   while IFS= read -r FILENAME; do 

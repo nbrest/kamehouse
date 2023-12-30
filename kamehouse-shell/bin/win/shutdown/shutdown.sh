@@ -78,12 +78,12 @@ setDelay() {
     if [ "${DELAY}" -lt "0" ]; then
       log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
       printHelp
-      exitProcess 3
+      exitProcess ${EXIT_INVALID_ARG}
     fi
   else
     log.error "Option -t MINUTES has an invalid value of -t ${DELAY}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 

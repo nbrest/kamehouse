@@ -55,7 +55,7 @@ validateCurrentWorkingDirectory() {
     : # Do nothing
   else
     log.error "${CURREND_DIR} is not a valid working directory for ${PROJECT}"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 
@@ -85,7 +85,7 @@ requestConfirmation() {
     log.info "Proceeding with the release"
   else
     log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
-    exitProcess 2
+    exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 }
 
@@ -93,7 +93,7 @@ checkCurrentReleaseBranch() {
   local CURRENT_BRANCH=`git branch | grep "*" | awk '{print $2}'`
   if [ "${CURRENT_BRANCH}" != "${RELEASE_BRANCH}" ]; then
     log.error "Current branch ${CURRENT_BRANCH} is differrent to release branch ${RELEASE_BRANCH}"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 
@@ -109,7 +109,7 @@ checkUncommitedChangesInPomXml() {
   local POM_MODIFIED_STATUS=$?
   if [ "${POM_MODIFIED_STATUS}" == "0" ]; then
     log.error "pom.xml has uncommited changes. Check them with 'git diff'. Commit or revert the changes before doing the release"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 
@@ -227,7 +227,7 @@ setReleaseVersion() {
   else
     log.error "Option -v has an invalid value of ${RELEASE_VERSION_ARG}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
   RELEASE_VERSION=${RELEASE_VERSION_ARG}
 }

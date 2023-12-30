@@ -59,7 +59,7 @@ parseArguments() {
 
   if [ -z "${LOG_FILE_TO_CAT}" ]; then
     log.error "Argument -f is required"
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 

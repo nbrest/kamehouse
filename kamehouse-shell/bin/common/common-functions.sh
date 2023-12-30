@@ -46,6 +46,13 @@ if (( $EUID == 0 )); then
   IS_ROOT_USER=true
 fi
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 ##########################################
 # Common functions used by other scripts #
 ##########################################
@@ -68,7 +75,7 @@ checkRequiredOption() {
   if [ -z "${OPTION_VALUE}" ]; then
     log.error "Option ${OPTION_LETTER} is required"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -83,7 +90,7 @@ exitProcess() {
 
 # Exit the process successfully
 exitSuccessfully() {
-  exitProcess 0
+  exitProcess ${EXIT_SUCCESS}
 }
 
 # Check last command's status and exit with an error message if the status is not zero

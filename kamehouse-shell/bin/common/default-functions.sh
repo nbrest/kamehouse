@@ -10,7 +10,7 @@ trap ctrlC INT
 ctrlC() {
   echo ""
   log.warn "Captured ${COL_RED}Ctrl+C${COL_DEFAULT_LOG}. Process ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} manually aborted."
-  exitProcess 2
+  exitProcess ${EXIT_PROCESS_CANCELLED}
 }
 
 # Parse command line arguments
@@ -74,7 +74,7 @@ printHelpFooter() {
 parseInvalidArgument() {
   log.error "Invalid option: -$1"
   printHelp
-  exitProcess 3
+  exitProcess ${EXIT_INVALID_ARG}
 }
 
 # Print the help and exit

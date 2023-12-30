@@ -45,7 +45,7 @@ mainProcess() {
     exitSuccessfully
   else
     log.error "Finished with errors. Integration tests didn't complete successfully"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

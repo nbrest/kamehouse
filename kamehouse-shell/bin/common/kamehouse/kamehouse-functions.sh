@@ -169,7 +169,7 @@ setEnvForHttpdPort() {
   if [[ ! ${HTTPD_PORT} =~ $REGEX_NUMBER ]]; then
     log.error "Option -p has an invalid value of ${HTTPD_PORT}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -180,7 +180,7 @@ setEnvForIde() {
       && [ "${IDE}" != "intellij" ]; then
     log.error "Option -i ide needs to be in ${IDE_LIST}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -198,7 +198,7 @@ setEnvForKameHouseModule() {
         && [ "${MODULE_SHORT}" != "vlcrc" ]; then
       log.error "Option -m module needs to be in ${MODULES_LIST}"
       printHelp
-      exitProcess 3
+      exitProcess ${EXIT_INVALID_ARG}
     fi
   fi
 }
@@ -216,7 +216,7 @@ setEnvForKameHouseServer() {
     [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
     log.error "Option -s server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 
   case ${KAMEHOUSE_SERVER} in
@@ -262,7 +262,7 @@ setEnvForMavenProfile() {
       && [ "${MAVEN_PROFILE}" != "ci" ]; then
     log.error "Option -p profile needs to be in ${MAVEN_PROFILES_LIST}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -271,7 +271,7 @@ setEnvForTomcatPort() {
   if [[ ! ${TOMCAT_PORT} =~ $REGEX_NUMBER ]]; then
     log.error "Option -p has an invalid value of ${TOMCAT_PORT}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -411,7 +411,7 @@ setKameHouseRootProjectDir() {
 checkValidRootKameHouseProject() {
   if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
     log.error "Invalid kamehouse project root directory: `pwd`"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

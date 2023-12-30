@@ -47,7 +47,7 @@ createWindowsPlaylists() {
   CREATE_WIN_PLS_RESULT="$?"
   if [ "${CREATE_WIN_PLS_RESULT}" != "0" ]; then
     log.error "Error creating windows playlists. Can't proceed to create the rest"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

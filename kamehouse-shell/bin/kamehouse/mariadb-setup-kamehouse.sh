@@ -83,7 +83,7 @@ requestConfirmation() {
       log.info "Proceeding"
     else
       log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
-      exitProcess 2
+      exitProcess ${EXIT_PROCESS_CANCELLED}
     fi
   fi
 }

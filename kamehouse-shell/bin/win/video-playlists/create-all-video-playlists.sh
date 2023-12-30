@@ -104,7 +104,7 @@ deleteExistingM3uFiles() {
 checkMediaServer() {
   if [ "${HOSTNAME}" != "${MEDIA_SERVER}" ]; then
     log.error "This script can only run in ${MEDIA_SERVER}. Trying to run in ${HOSTNAME}"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

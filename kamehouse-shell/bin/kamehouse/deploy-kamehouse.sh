@@ -36,7 +36,7 @@ FAST_BUILD=true
 # buildMobile default settings override for deployment
 RESET_PACKAGE_JSON=true
 
-EXIT_CODE=0
+EXIT_CODE=${EXIT_SUCCESS}
 
 mainProcess() {
   setDeploymentParameters
@@ -204,7 +204,7 @@ deployKameHouseMobile() {
 
     else
       log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
-      EXIT_CODE=1
+      EXIT_CODE=${EXIT_ERROR}
     fi
   fi
 }

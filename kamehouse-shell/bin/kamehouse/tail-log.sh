@@ -231,7 +231,7 @@ setFileArg() {
     [ "${FILE_ARG}" != "tomcat" ]; then
     log.error "Option -f has an invalid value of ${FILE_ARG}. See help with -h for valid values"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi  
 }
 
@@ -245,7 +245,7 @@ setLogLevelArg() {
     [ "${LOG_LEVEL_ARG}" != "error" ]; then
     log.error "Option -l has an invalid value of ${LOG_LEVEL_ARG}. See help with -h for valid values"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -256,12 +256,12 @@ setNumLinesArg() {
     if [ "${NUM_LINES_ARG}" -lt "1" ]; then
       log.error "Option -n has an invalid value of ${NUM_LINES_ARG}"
       printHelp
-      exitProcess 3
+      exitProcess ${EXIT_INVALID_ARG}
     fi
   else
     log.error "Option -n has an invalid value of ${NUM_LINES_ARG}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 

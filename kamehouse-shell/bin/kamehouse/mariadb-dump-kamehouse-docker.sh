@@ -33,7 +33,7 @@ checkIfContainerIsRunning() {
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'ls' > /dev/null
   if [ "$?" != "0" ]; then
     log.error "Can't connect to container. Exiting process"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

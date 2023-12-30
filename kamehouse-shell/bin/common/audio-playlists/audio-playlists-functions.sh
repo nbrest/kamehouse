@@ -28,12 +28,12 @@ mainProcess() {
 validateVariables() {
   if [ -z ${PATH_PLS_SOURCE} ]; then
     log.error "PATH_PLS_SOURCE is not set"
-    exitProcess 5
+    exitProcess ${EXIT_VAR_NOT_SET}
   fi
 
   if [ -z ${PATH_PLS_DEST} ]; then
     log.error "PATH_PLS_DEST is not set"
-    exitProcess 5
+    exitProcess ${EXIT_VAR_NOT_SET}
   fi
 }
 
@@ -98,7 +98,7 @@ deleteExistingM3uFiles() {
 checkAudioServer() {
   if [ "${HOSTNAME}" != "${MEDIA_SERVER}" ]; then
     log.error "This script can only run in ${MEDIA_SERVER}. Trying to run in ${HOSTNAME}"
-    exitProcess 1
+    exitProcess ${EXIT_ERROR}
   fi
 }
 

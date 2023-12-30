@@ -49,7 +49,7 @@ requestConfirmation() {
     log.info "Proceeding"
   else
     log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
-    exitProcess 2
+    exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 }
 
@@ -174,7 +174,7 @@ setEnvFromArguments() {
     [ "${DATA_SOURCE}" != "host-backup" ]; then
     log.error "Option -d [data source] has an invalid value of ${DATA_SOURCE}"
     printHelp
-    exitProcess 3
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 
   if [ "${DATA_SOURCE}" == "none" ]; then

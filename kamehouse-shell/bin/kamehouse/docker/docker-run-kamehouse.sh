@@ -274,7 +274,7 @@ setEnvFromArguments() {
     if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
       log.error "Set a valid -t [tag] when selecting docker profile -p tag"
       printHelp
-      exitProcess 3
+      exitProcess ${EXIT_INVALID_ARG}
     fi
   fi
 }
