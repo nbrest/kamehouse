@@ -17,6 +17,13 @@ COL_MESSAGE=${COL_GREEN}
 KAMEHOUSE_USER=""
 LOG_FILE=/home/${KAMEHOUSE_USER}/logs/rc-local.log
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 main() {
   log.info "Starting rc-local.sh" > ${LOG_FILE}
   checkEnv
@@ -71,7 +78,7 @@ exitWithError() {
   local ERROR_MESSAGE=$1
   log.error "${ERROR_MESSAGE}"
   log.error "${ERROR_MESSAGE}" >> ${LOG_FILE}
-  exit 2
+  exit ${EXIT_ERROR}
 }
 
 main "$@"

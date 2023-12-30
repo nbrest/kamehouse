@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 DOCKER_CONTAINER_USERNAME=`ls /home | grep -v "nbrest"`
 
 . /home/${DOCKER_CONTAINER_USERNAME}/.env
@@ -8,7 +15,7 @@ main() {
   log.info "Creating sample video playlists"
   if [ -d "/home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse-video-playlists/.git" ]; then
     log.info "/home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse-video-playlists is a git repository. No need to create sample playlists. Exiting..."
-    exit 2
+    exit ${EXIT_ERROR}
   fi
   createPlaylists
   updatePlaylistEntriesHome

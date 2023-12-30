@@ -17,6 +17,13 @@ PURGE_CONFIG=false
 KAMEHOUSE_SHELL_ONLY=false
 UNINSTALL_FOR_ROOT=false
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 main() {
   parseCmdLineArguments "$@"
   checkUninstalForRoot
@@ -46,7 +53,7 @@ checkUninstalForRoot() {
   if ${UNINSTALL_FOR_ROOT}; then
     sudo /bin/bash -c "cd /root/git/kamehouse ; ./scripts/uninstall-kamehouse.sh -p"
     log.info "Uninstalled kamehouse for root user"
-    exit 0
+    exit ${EXIT_SUCCESS}
   fi
 }
 
@@ -128,7 +135,7 @@ parseCmdLineArguments() {
     case $OPT in
     ("h")
       printHelpMenu
-      exit 0
+      exit ${EXIT_SUCCESS}
       ;;
     ("p")
       PURGE_CONFIG=true
@@ -141,7 +148,7 @@ parseCmdLineArguments() {
       ;;      
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 3
+      exit ${EXIT_INVALID_ARG}
       ;;
     esac
   done

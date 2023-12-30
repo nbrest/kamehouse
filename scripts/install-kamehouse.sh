@@ -16,6 +16,13 @@ COL_MESSAGE=${COL_GREEN}
 KAMEHOUSE_SHELL_ONLY=false
 KAMEHOUSE_SHELL_SCRIPTS_ONLY=false
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 main() {
   parseCmdLineArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse"
@@ -25,7 +32,7 @@ main() {
   if ${KAMEHOUSE_SHELL_ONLY}; then
     logInstallRootMessage
     log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
-    exit 0
+    exit ${EXIT_SUCCESS}
   fi
   buildKameHouseConfigDir
   setSudoersPermissions
@@ -54,7 +61,7 @@ gitCloneKameHouse() {
 checkPath() {
   if [ ! -d "./kamehouse-shell/bin" ] || [ ! -d "./.git" ]; then
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
-    exit 2
+    exit ${EXIT_ERROR}
   fi
 }
 
@@ -155,7 +162,7 @@ parseCmdLineArguments() {
     case $OPT in
     ("h")
       printHelpMenu
-      exit 0
+      exit ${EXIT_SUCCESS}
       ;;
     ("o")
       KAMEHOUSE_SHELL_ONLY=true
@@ -166,7 +173,7 @@ parseCmdLineArguments() {
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 3
+      exit ${EXIT_INVALID_ARG}
       ;;
     esac
   done

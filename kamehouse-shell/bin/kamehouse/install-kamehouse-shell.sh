@@ -23,6 +23,13 @@ KAMEHOUSE_SHELL_SOURCE=`pwd`
 INSTALL_SCRIPTS_ONLY=false
 LOG_LEVEL=""
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 main() {
   parseCmdLineArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
@@ -48,7 +55,7 @@ main() {
 checkSourcePath() {
   if [ ! -d "${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin" ] || [ ! -d "${KAMEHOUSE_SHELL_SOURCE}/.git" ]; then
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
-    exit 2
+    exit ${EXIT_ERROR}
   fi
 }
 
@@ -56,7 +63,7 @@ getDefaultKameHouseUsername() {
   DEFAULT_KAMEHOUSE_USERNAME=`cat Dockerfile | grep "ARG KAMEHOUSE_USERNAME=" | awk -F'=' '{print $2}'`
   if [ -z "${DEFAULT_KAMEHOUSE_USERNAME}" ]; then
     log.error "Could not set default kamehouse username from Dockerfile"
-    exit 2
+    exit ${EXIT_ERROR}
   fi 
 }
 
@@ -267,7 +274,7 @@ parseCmdLineArguments() {
     case $OPT in
     ("h")
       printHelpMenu
-      exit 0
+      exit ${EXIT_SUCCESS}
       ;;
     ("o")
       INSTALL_SCRIPTS_ONLY=true
@@ -280,7 +287,7 @@ parseCmdLineArguments() {
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 3
+      exit ${EXIT_INVALID_ARG}
       ;;
     esac
   done

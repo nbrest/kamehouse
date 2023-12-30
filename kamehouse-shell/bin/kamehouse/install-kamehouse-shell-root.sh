@@ -10,6 +10,13 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 main() {
   parseCmdLineArguments "$@"
   log.info "Setting up root user for kamehouse"
@@ -43,11 +50,11 @@ parseCmdLineArguments() {
     case $OPT in
     ("h")
       printHelpMenu
-      exit 0
+      exit ${EXIT_SUCCESS}
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 3
+      exit ${EXIT_INVALID_ARG}
       ;;
     esac
   done

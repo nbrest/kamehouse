@@ -12,6 +12,13 @@ COL_MESSAGE=${COL_GREEN}
 
 KAMEHOUSE_USER=""
 
+# Exit codes
+EXIT_SUCCESS=0
+EXIT_ERROR=1
+EXIT_VAR_NOT_SET=2
+EXIT_INVALID_ARG=3
+EXIT_PROCESS_CANCELLED=4
+
 main() {
   parseCmdLineArguments "$@"
   log.info "Started setting sudoers for kamehouse"
@@ -64,14 +71,14 @@ parseCmdLineArguments() {
     case $OPT in
     ("h")
       printHelpMenu
-      exit 0
+      exit ${EXIT_SUCCESS}
       ;;
     ("u")
       KAMEHOUSE_USER=$OPTARG
       ;;
     (\?)
       log.error "Invalid argument $OPTARG"
-      exit 3
+      exit ${EXIT_INVALID_ARG}
       ;;
     esac
   done
@@ -79,7 +86,7 @@ parseCmdLineArguments() {
   if [ -z "${KAMEHOUSE_USER}" ]; then
     log.error "Option -u is required"
     printHelpMenu
-    exit 3
+    exit ${EXIT_INVALID_ARG}
   fi
 }
 
