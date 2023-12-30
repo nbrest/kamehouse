@@ -41,15 +41,15 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-windows.sh
   checkCommandStatus "$?" 
   
+  clearMediaServerEhCache
+  
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-local-relative.sh
   checkCommandStatus "$?" 
 
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-local-relative-vlc.sh
   checkCommandStatus "$?"   
 
-  clearMediaServerEhCache
-
-  # create-all-video-playlists-http-media-server.sh takes about 9mins (2020-10-23)
+  # create-all-video-playlists-http-media-server.sh takes a long time url encoding playlists items
   ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/create-all-video-playlists-http-media-server.sh
   checkCommandStatus "$?" 
   
