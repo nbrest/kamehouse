@@ -24,9 +24,19 @@ fi
 LOG_PROCESS_TO_FILE=true
 SCRIPT=""
 SCRIPT_ARGS=""
+SCRIPT_LOG_MESSAGE=""
 
 mainProcess() {
+  setScriptLogMessage
   execInAllServers
+}
+
+setScriptLogMessage() {
+  if [ -z "${SCRIPT_ARGS}" ]; then
+    SCRIPT_LOG_MESSAGE="'${SCRIPT}'"
+  else
+    SCRIPT_LOG_MESSAGE="'${SCRIPT}' with args '${SCRIPT_ARGS}'"
+  fi
 }
 
 execInAllServers() {
@@ -49,9 +59,9 @@ execInAllServers() {
   # niko-w-vm-ubuntu
   execInServer "niko-w-vm-ubuntu" "80" "true" "false" &
 
-  log.info "Waiting for '${SCRIPT}' with args '${SCRIPT_ARGS}' to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
+  log.info "Waiting for ${SCRIPT_LOG_MESSAGE} to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
   wait
-  log.info "${COL_RED}Finished '${SCRIPT}' with args '${SCRIPT_ARGS}' in ALL servers"
+  log.info "${COL_RED}Finished ${SCRIPT_LOG_MESSAGE} in ALL servers"
 }
 
 execInServer() {
@@ -59,10 +69,10 @@ execInServer() {
   local PORT=$2
   local USE_DOCKER_DEMO_CRED=$3
   local IS_HTTPS=$4
-  log.info "Started '${SCRIPT}' with args '${SCRIPT_ARGS}' in ${COL_PURPLE}${SERVER}:${PORT}"
+  log.info "Started ${SCRIPT_LOG_MESSAGE} in ${COL_PURPLE}${SERVER}:${PORT}"
   sendRequestToServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
   wait
-  log.info "${COL_RED}Finished '${SCRIPT}' with args '${SCRIPT_ARGS}' in ${COL_CYAN}${SERVER}:${PORT}"
+  log.info "${COL_RED}Finished ${SCRIPT_LOG_MESSAGE} in ${COL_CYAN}${SERVER}:${PORT}"
 }
 
 sendRequestToServer() {
