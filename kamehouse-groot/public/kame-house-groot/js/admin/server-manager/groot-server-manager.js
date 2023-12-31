@@ -602,7 +602,7 @@ class DeploymentManager {
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (!scriptOutputLine.includes("Started executing") && 
           !scriptOutputLine.includes("Finished executing") &&
-          !scriptOutputLine.includes(" (total time in seconds: ") &&
+          !scriptOutputLine.includes(" (rt in secs: ") &&
           !scriptOutputLine.includes("Searching for tomcat process") &&
           !scriptOutputLine.includes("TCP") &&
           !scriptOutputLine.includes("tcp") &&

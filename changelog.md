@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v9.01
+
+- Fixed bugs
+
 #### v9.00
 
 - **The frontend code from this release is very different compared to the previous version**
