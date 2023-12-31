@@ -201,7 +201,7 @@ createTennisPlaylists() {
   local FILE_TENNIS_NADAL_PLS=${PATH_TENNIS_PLS}/tennis_nadal.m3u
   local FILE_TENNIS_FEDERER_PLS=${PATH_TENNIS_PLS}/tennis_federer.m3u
 
-  local PATH_TENNIS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/tenis
+  local PATH_TENNIS_VIDEO_FILES=${PATH_VIDEO_FILES_ROOT}/tennis
 
   local FILTER_TENNIS_HEWITT="Hewitt\|hewitt"
   local FILTER_TENNIS_HEWITT_REMOVE="EMPTY-FILTER"
