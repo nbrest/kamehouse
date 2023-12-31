@@ -31,7 +31,6 @@ DOCKER_HOST_IP=""
 DOCKER_HOST_HOSTNAME=""
 DOCKER_HOST_SUBNET=""
 DOCKER_IMAGE_HOSTNAME=""
-EXPORT_NATIVE_HTTPD=false
 USE_VOLUMES=false
 USE_VOLUMES_PARAM=""
 
@@ -78,7 +77,6 @@ printEnv() {
   log.info "DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG}"
   log.info "DOCKER_PORT_TOMCAT=${DOCKER_PORT_TOMCAT}"
   log.info "DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB}"
-  log.info "EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD}"
   log.info "IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER}"
   log.info "IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST}"
   log.info "DOCKER_PROFILE=${DOCKER_PROFILE}"
@@ -109,7 +107,6 @@ runDockerImage() {
       --env DOCKER_PORT_SSH=${DOCKER_PORT_SSH} \
       --env IS_DOCKER_CONTAINER=${IS_DOCKER_CONTAINER} \
       --env IS_LINUX_DOCKER_HOST=${IS_LINUX_DOCKER_HOST} \
-      --env EXPORT_NATIVE_HTTPD=${EXPORT_NATIVE_HTTPD} \
       --env DOCKER_PROFILE=${DOCKER_PROFILE} \
       --env USE_VOLUMES=${USE_VOLUMES} \
       -p ${DOCKER_PORT_SSH}:22 \
@@ -119,13 +116,6 @@ runDockerImage() {
       -p ${DOCKER_PORT_TOMCAT}:${TOMCAT_PORT} \
       -p ${DOCKER_PORT_MARIADB}:3306 \
       "
-  if ${EXPORT_NATIVE_HTTPD}; then
-    log.info "Exporting ports 80 and 443 from the container"
-    DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -p 80:80 \
-    -p 443:443 \
-    "
-  fi
 
   if ${USE_VOLUMES}; then
     log.info "Container data will be persisted in volumes: mariadb-data-${DOCKER_PROFILE}, home-kamehouse-${DOCKER_PROFILE}, home-ssh-${DOCKER_PROFILE}"
@@ -169,7 +159,6 @@ configureDockerProfile() {
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
     USE_VOLUMES=false
-    EXPORT_NATIVE_HTTPD=false
   fi
 
   if [ "${DOCKER_PROFILE}" == "demo" ]; then
@@ -177,7 +166,6 @@ configureDockerProfile() {
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
     USE_VOLUMES=false
-    EXPORT_NATIVE_HTTPD=false
   fi
 
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
@@ -185,7 +173,6 @@ configureDockerProfile() {
     DEBUG_MODE=true
     DOCKER_CONTROL_HOST=false
     USE_VOLUMES=false
-    EXPORT_NATIVE_HTTPD=false
   fi
 
   if [ "${DOCKER_PROFILE}" == "prod" ]; then
@@ -193,15 +180,6 @@ configureDockerProfile() {
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=true
     USE_VOLUMES=true
-    EXPORT_NATIVE_HTTPD=false
-  fi
-
-  if [ "${DOCKER_PROFILE}" == "prod-ext" ]; then
-    BUILD_ON_STARTUP=true
-    DEBUG_MODE=false
-    DOCKER_CONTROL_HOST=true
-    USE_VOLUMES=true
-    EXPORT_NATIVE_HTTPD=true
   fi
 
   if [ "${DOCKER_PROFILE}" == "tag" ]; then
@@ -209,7 +187,6 @@ configureDockerProfile() {
     DEBUG_MODE=false
     DOCKER_CONTROL_HOST=false
     USE_VOLUMES=false
-    EXPORT_NATIVE_HTTPD=false
   fi
 }
 

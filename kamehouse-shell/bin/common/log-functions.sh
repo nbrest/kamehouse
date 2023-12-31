@@ -108,7 +108,7 @@ logRunTime() {
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
   local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
-  local RUNTIME_MESSAGE="${COL_BLUE}${SCRIPT_NAME}${COL_DEFAULT_LOG} start time: ${SCRIPT_START_DATE}. ${COL_BLUE}Run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (total time in seconds: ${SCRIPT_RUN_TIME_SS})"
+  local RUNTIME_MESSAGE="${COL_BLUE}${SCRIPT_NAME} run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (rt in secs: ${SCRIPT_RUN_TIME_SS}s). Start time: ${SCRIPT_START_DATE}"
   if ${LOG_SCRIPT_RUN_TIME_IN_DEBUG}; then
     log.debug "${RUNTIME_MESSAGE}"
   else

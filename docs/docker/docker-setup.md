@@ -58,7 +58,6 @@ docker run --rm -h kamehouse-docker-demo \
   --env DOCKER_PORT_MARIADB=12306 \
   --env DOCKER_PORT_SSH=12022 \
   --env IS_DOCKER_CONTAINER=false \
-  --env EXPORT_NATIVE_HTTPD=false \
   --env PROFILE=demo \
   --env USE_VOLUMES=false \
   -p 12022:22 \
