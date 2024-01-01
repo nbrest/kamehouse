@@ -46,6 +46,7 @@ execInAllServers() {
   # niko-server-vm-ubuntu
   execInServer "niko-server-vm-ubuntu" "80" "true" "false" &
   execInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "true" "false" &
+  execInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_PROD}" "false" "false" &
 
   # pi
   execInServer "pi" "443" "false" "true" &
