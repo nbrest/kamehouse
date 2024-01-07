@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Updated error banner text styles
 - Updated tomcat log colors
 - Fixed bugs
 
