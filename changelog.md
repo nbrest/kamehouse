@@ -9,6 +9,7 @@
 
 - Updated error banner text styles
 - Updated tomcat log colors
+- Fixed error banners background positions on mobile
 - Fixed bugs
 
 #### v9.00
