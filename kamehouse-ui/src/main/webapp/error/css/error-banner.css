@@ -14,7 +14,7 @@
 
 @media (max-width : 499px) {
   .banner-error-400 {
-    background-position-x: -130px;
+    background-position-x: -100px;
   }
 }
 
@@ -109,7 +109,7 @@
 
 @media (max-width : 499px) {
   .banner-error-409 {
-    background-position-x: -90px;
+    background-position-x: 0px;
   }
 }
 
@@ -128,7 +128,7 @@
 
 @media (max-width : 499px) {
   .banner-error-500 {
-    background-position-x: -130px;
+    background-position-x: 0px;
   }
 }
 
@@ -166,7 +166,7 @@
 
 @media (max-width : 499px) {
   .banner-error-503 {
-    background-position-x: -240px;
+    background-position-x: -40px;
   }
 }
 
