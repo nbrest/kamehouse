@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Updated tomcat log colors
 - Fixed bugs
 
 #### v9.00

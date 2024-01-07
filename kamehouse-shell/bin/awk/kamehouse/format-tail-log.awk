@@ -403,6 +403,34 @@ function getMessageColor(logLevel_fn_) {
   return COL_NORMAL;
 }
 
+# Undeploying context [/kame-house-media]
+# Deployment of web application archive [C:\Users\nbrest\programs\apache-tomcat-dev\webapps\kame-house.war] has finished in [17,492] ms
+# Deploying web application archive [C:\Users\nbrest\programs\apache-tomcat-dev\webapps\kame-house-media.war]
+# Server startup in [125877] milliseconds
+function getTomcatMessageColor(message_fn_, logLevel_fn_) {
+  if (isLogLevelError(logLevel_fn_)) {
+    return COL_RED;
+  }
+  deploymentStart_loc_ = ".*Deploying web application archive .*\.war.*";
+  if (message_fn_ ~ deploymentStart_loc_) { 
+    return COL_CYAN;
+  }
+  deploymentFinish_loc_ = ".*Deployment of web application archive .* has finished in .* ms.*";
+  if (message_fn_ ~ deploymentFinish_loc_) { 
+    return COL_RED;
+  }
+  undeployment_loc_ = ".*Undeploying context .*";
+  if (message_fn_ ~ undeployment_loc_) { 
+    return COL_YELLOW;
+  }
+  serverStartUp_loc_ = ".*Server startup in .* milliseconds.*";
+  if (message_fn_ ~ serverStartUp_loc_) { 
+    return COL_RED;
+  }
+  return COL_NORMAL;
+}
+
+
 function isLogLevelWarn(logLevel_fn_) {
   logLevel_fn_ = toupper(logLevel_fn_);
   if (logLevel_fn_ == "WARN"|| logLevel_fn_ == "WARNING") {
@@ -685,10 +713,11 @@ function printCatalinaOutDateWinEntry(datetime_loc_, class_loc_, message_loc_) {
   datetime_loc_ = $1" "$2" "$3" "$4" "$5; # Mmm DD, YYYY {H}H:MM:SS (AM|PM)
   class_loc_ = $6; # CLASS
   message_loc_ = buildMessage(7);   
+  messageColor_loc_ = getTomcatMessageColor(message_loc_, "");
 
   addColumnToPrintLine(datetime_loc_, COL_CYAN); 
   addColumnToPrintLineNoOFS(class_loc_, COL_PURPLE);
-  addColumnToPrintLine(message_loc_, COL_NORMAL); 
+  addColumnToPrintLine(message_loc_, messageColor_loc_); 
 
   print PRINT_LINE
   next
@@ -707,7 +736,7 @@ function printCatalinaOutDateLinEntry(datetime_loc_, logLevel_loc_, message_loc_
   logLevelColor_loc_ = getLogLevelColor(logLevelFormatted_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevelFormatted_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
-  messageColor_loc_ = getMessageColor(logLevel_loc_);
+  messageColor_loc_ = getTomcatMessageColor(message_loc, logLevel_loc_);
 
   addColumnToPrintLine(datetime_loc_, COL_CYAN); 
   addColumnToPrintLineNoOFS(logLevel_loc_, logLevelColor_loc_);
@@ -730,7 +759,7 @@ function printCatalinaOutDateLinEntry2(datetime_loc_, class_loc_, message_loc_, 
   logLevelColor_loc_ = getLogLevelColor(logLevel_loc_);
   logLevelNumber_loc_ = getLogLevelNumber(logLevel_loc_);
   checkLogLevelToPrint(logLevelNumber_loc_);
-  messageColor_loc_ = getMessageColor(logLevel_loc_);
+  messageColor_loc_ = getTomcatMessageColor(message_loc_, logLevel_loc_);
 
   addColumnToPrintLine(datetime_loc_, COL_CYAN);
   addColumnToPrintLine(logLevel_loc_, logLevelColor_loc_);
