@@ -33,7 +33,7 @@ mainProcess() {
 
 setScriptLogMessage() {
   if [ -z "${SCRIPT_ARGS}" ]; then
-    SCRIPT_LOG_MESSAGE="'${SCRIPT}'"
+    SCRIPT_LOG_MESSAGE="'${SCRIPT}' without args"
   else
     SCRIPT_LOG_MESSAGE="'${SCRIPT}' with args '${SCRIPT_ARGS}'"
   fi

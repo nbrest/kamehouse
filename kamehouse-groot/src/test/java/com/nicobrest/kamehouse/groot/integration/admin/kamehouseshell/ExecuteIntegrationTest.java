@@ -41,7 +41,7 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Started executing <span style=\"color:purple\">exec-script.sh<span style=\"c"
-        + "olor:green\"> with command line arguments <span style=\"color:purple\">\"-s "
+        + "olor:green\"> with args <span style=\"color:purple\">\"-s "
         + script + " -a -h\"<span style=\"color:green\"><span style=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Usage: <span style=\"color:purple\">exec-script.sh<span style=\"color:gray\"> "
@@ -80,11 +80,11 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Started executing <span style=\"color:purple\">exec-script.sh<span style=\"c"
-        + "olor:green\"> with command line arguments <span style=\"color:purple\">\"-s "
+        + "olor:green\"> with args <span style=\"color:purple\">\"-s "
         + script + " -a \"<span style=\"color:green\"><span style=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "<span style=\"color:green\">Finished executing <span style=\"color:purple\">exec-s"
-        + "cript.sh<span style=\"color:green\"> with command line arguments <span style=\"color:pu"
+        + "cript.sh<span style=\"color:green\"> with args <span style=\"color:pu"
         + "rple\">\"-s " + script + " -a \"<span style=\"color:green\"> and <span style=\"color:pu"
         + "rple\">status: ";
     assertStringInArray(htmlConsoleOutput, expected);

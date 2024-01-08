@@ -96,10 +96,10 @@ log.error() {
 
 # Log standard start of the script
 logStart() {
-  if ${LOG_CMD_ARGS}; then
-    log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
+  if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
+    log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with args ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
   else
-    log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG}"
+    log.info "Started executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} without args"
   fi
 }
 
@@ -120,9 +120,9 @@ logRunTime() {
 logFinish() {
   local EXIT_CODE=$1
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with command line arguments ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} and ${COL_PURPLE}status: ${EXIT_CODE}"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with args ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} and ${COL_PURPLE}status: ${EXIT_CODE}"
   else
-    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} with ${COL_PURPLE}status: ${EXIT_CODE}"
+    log.info "Finished executing ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} without args and ${COL_PURPLE}status: ${EXIT_CODE}"
   fi
 }
 
