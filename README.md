@@ -120,6 +120,8 @@ This web application interacts with other applications that need to be installed
 * **VLC Player** (https://www.videolan.org/)
 * **VNC Server** Any vnc server will do (https://www.tightvnc.com/)
 * **gnome-screensaver-command** To lock screen in **Linux** (http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
+* **Git Bash** To run kamehouse shell scripts in **Windows** (https://www.git-scm.com/download/win)
+* **Unzip** To install kamehouse-cmd in **Windows** (Download an unzip tool and make sure unzip.exe is on the PATH)
 
 The application will load even without these installed, however some functionality will not work without them.
 
