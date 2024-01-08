@@ -78,6 +78,7 @@ class KameHouseErrorPage {
     () => {
       this.#logInfo("Error loading kamehouse.js. Keeping error page header and footer");
       this.#removeClass('#error-header-login-status-btn', 'rotate-4');
+      this.#remove("error-header-login-status-text");
     });
   }
 
