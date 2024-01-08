@@ -148,3 +148,18 @@ header #header-top #login-status {
     text-align: left;
   }
 }
+
+/** rotate infinitely for -X seconds */
+.rotate-4 {
+  animation: rotation-full 4s infinite linear;
+}
+
+@keyframes rotation-full {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  100% {
+    transform: rotate(359deg);
+  }
+}

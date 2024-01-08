@@ -9,6 +9,8 @@
 
 - Updated error banner text styles
 - Updated tomcat log colors
+- Updated banner text styles for mobile
+- Added loading kamehouse.js on error pages when available to replace header and footer
 - Fixed error banners background positions on mobile
 - Fixed bugs
 

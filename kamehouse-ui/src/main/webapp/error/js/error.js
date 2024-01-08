@@ -10,14 +10,9 @@ class KameHouseErrorPage {
    */
   load() {
     this.#logInfo("Loading kamehouse error page");
-    $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-header.css">');
-    $('head').append('<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-footer.css">');
-    $("#kamehouse-error-header").load("/kame-house/error/html/error-header.html", () => {
-      this.#logInfo("Loaded kamehouse error header");
-    });
-    $("#kamehouse-error-footer").load("/kame-house/error/html/error-footer.html", () => {
-      this.#logInfo("Loaded kamehouse error footer");
-    });
+    this.#loadHeader();
+    this.#loadFooter();
+    this.#loadKameHouseJs();
   }
 
   /** 
@@ -48,6 +43,89 @@ class KameHouseErrorPage {
     const currentDateTime = date.getTime();
     return new Date(currentDateTime + offsetTime).toISOString().replace("T", " ").slice(0, 19);
   }
+
+  /**
+   * Load error header.
+   */
+  #loadHeader() {
+    this.#append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-header.css">');
+    this.#loadHtmlSnippet("#kamehouse-error-header", "/kame-house/error/html/error-header.html", () => {
+      this.#logInfo("Loaded kamehouse error header");
+    });
+  }
+
+  /**
+   * Load error footer.
+   */
+  #loadFooter() {
+    this.#append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-footer.css">');
+    this.#loadHtmlSnippet("#kamehouse-error-footer", "/kame-house/error/html/error-footer.html", () => {
+      this.#logInfo("Loaded kamehouse error footer");
+    });
+  }
+
+  /**
+   * Load kamehouse.js if available. For 502 and 503 error pages it probably won't be available. For other errors it should.
+   */
+  #loadKameHouseJs() {
+    this.#getScript("/kame-house/kamehouse/js/kamehouse.js", 
+    () => {
+      this.#logInfo("Loaded kamehouse.js. Overriding header and footer");
+      this.#append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse.css">');
+      this.#remove("kamehouse-error-header");
+      this.#remove("kamehouse-error-footer");
+    },
+    () => {
+      this.#logInfo("Error loading kamehouse.js. Keeping error page header and footer");
+      this.#removeClass('#error-header-login-status-btn', 'rotate-4');
+    });
+  }
+
+  /**
+   * Load js script.
+   */
+  #getScript(scriptPath, successCallback, errorCallback) { 
+    $.getScript(scriptPath)
+    .done((script, textStatus) => {
+      this.#logInfo("Loaded successfully script: " + scriptPath);
+      successCallback();
+    })
+    .fail((jqxhr, settings, exception) => {
+      this.#logInfo("Error loading script: " + scriptPath);
+      errorCallback();
+    });
+  }
+
+  /**
+   * Remove element from dom.
+   */
+  #remove(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.remove();
+    }
+  }
+
+  /**
+   * Remove a class from an element.
+   */
+  #removeClass(element, className) {
+    $(element).removeClass(className);
+  } 
+
+  /**
+   * Append the appendObject to appendTo.
+   */
+  #append(appendTo, appendObject) {
+    $(appendTo).append(appendObject);
+  }
+
+  /**
+   * Append the appendObject to appendTo.
+   */
+  #loadHtmlSnippet(loadToId, htmlSnippetPath, callback) {
+    $(loadToId).load(htmlSnippetPath, callback);
+  }   
 }
 
 const kameHouseErrorPage = new KameHouseErrorPage();
