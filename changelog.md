@@ -12,6 +12,7 @@
 - Updated banner text styles for mobile
 - Added loading kamehouse.js on error pages when available to replace header and footer
 - Added loading text in the header while loading the session
+- Added suspend server button to vlc player debugger
 - Fixed error banners background positions on mobile
 - Fixed bugs
 
