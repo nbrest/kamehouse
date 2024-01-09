@@ -44,6 +44,7 @@ class AbstractKameHouseModal {
   static #DEFAULT_AUTO_CLOSE_SEC = 7000;
 
   #isErrorMessage = false;
+  #isOpen = false;
   #modalId = null;
 
   constructor(modalId) {
@@ -59,23 +60,38 @@ class AbstractKameHouseModal {
     kameHouse.logger.info("Imported " + this.#modalId);
   }
 
-  /** Open modal */
+  /** 
+   * Open modal.
+   * 
+   * Returns true if it opens the modal on this call. False if the modal is already open and skips this call.
+   **/
   open(message) {
+    if (this.#isOpen) {
+      kameHouse.logger.error("There's a " + this.#modalId + " already open. Skipping this open call");
+      return false;
+    }
+    this.#isOpen = true;
+    kameHouse.logger.debug("Opening modal " + this.#modalId);
     if (!kameHouse.core.isEmpty(message)) {
       this.setHtml(message);
     }
     const modal = document.getElementById(this.#modalId);
     kameHouse.util.dom.setDisplay(modal, "block");
+    return true;
   }
 
   /** Open auto closeable modal */
   openAutoCloseable(message, autoCloseMs) {
-    this.open(message);
-    this.autoClose(autoCloseMs);
+    const isOpen = this.open(message);
+    if (isOpen) {
+      this.autoClose(autoCloseMs);
+    }
   }
 
   /** Close modal */
   close() {
+    this.#isOpen = false;
+    kameHouse.logger.debug("Closing modal " + this.#modalId);
     const modal = document.getElementById(this.#modalId);
     kameHouse.util.dom.setDisplay(modal, "none");
   }
@@ -92,6 +108,10 @@ class AbstractKameHouseModal {
       const secondsRemaining = autoCloseMs / 1000;
       kameHouse.util.dom.setHtml($("#" + autoCloseId), "Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
+      if (!this.#isOpen) {
+        kameHouse.logger.debug(this.#modalId + " is already closed. Leaving autoClose function");
+        return;
+      }
       await kameHouse.core.sleep(1000);
     }
     kameHouse.util.dom.addClass($("#" + autoCloseId), "hidden-kh");
