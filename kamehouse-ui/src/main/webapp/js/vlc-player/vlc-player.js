@@ -293,6 +293,17 @@ class VlcPlayer {
   }
 
   /**
+   * Suspend the current server.
+   */
+  suspendServer() {
+    const requestParam =  {
+      delay : 0
+    };
+    const SUSPEND_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/suspend";
+    this.getRestClient().post(SUSPEND_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+  }
+
+  /**
    * Start synchronization loops.
    */
   #startSynchronizerLoops() {
