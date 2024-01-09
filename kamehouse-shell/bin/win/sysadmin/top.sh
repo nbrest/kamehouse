@@ -8,8 +8,8 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  log.info "Executing 'powershell.exe -c \"systeminfo\" | grep Memory'"
-  powershell.exe -c "systeminfo" | grep Memory
+  log.info "Executing 'powershell.exe -c \"ps | sort -desc cpu | select -first 20\"'"
+  powershell.exe -c "ps | sort -desc cpu | select -first 20"
 }
 
 main "$@"

@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.admin.model.kamehousecommand.DfKameHouseSystemCom
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.FreeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdRestartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.TopKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.UptimeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
@@ -51,6 +52,14 @@ public class SystemStateController extends AbstractSystemCommandController {
   @GetMapping(path = "/df")
   public ResponseEntity<List<SystemCommand.Output>> df() {
     return execKameHouseSystemCommand(new DfKameHouseSystemCommand());
+  }
+
+  /**
+   * Gets the available memory of the server running kamehouse.
+   */
+  @GetMapping(path = "/top")
+  public ResponseEntity<List<SystemCommand.Output>> top() {
+    return execKameHouseSystemCommand(new TopKameHouseSystemCommand());
   }
 
   /**

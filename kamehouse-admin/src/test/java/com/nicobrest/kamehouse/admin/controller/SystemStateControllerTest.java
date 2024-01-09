@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.admin.model.kamehousecommand.DfKameHouseSystemCom
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.FreeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdRestartKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.HttpdStatusKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.TopKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.UptimeKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @WebAppConfiguration
 class SystemStateControllerTest extends AbstractKameHouseSystemCommandControllerTest {
 
-  @InjectMocks private SystemStateController systemStateController;
+  @InjectMocks
+  private SystemStateController systemStateController;
 
   @BeforeEach
   void beforeTest() {
@@ -33,35 +35,54 @@ class SystemStateControllerTest extends AbstractKameHouseSystemCommandController
     mockMvc = MockMvcBuilders.standaloneSetup(systemStateController).build();
   }
 
-  /** uptime successful test. */
+  /**
+   * uptime successful test.
+   */
   @Test
   void uptimeSuccessfulTest() throws Exception {
     execGetKameHouseSystemCommandTest(
         "/api/v1/admin/system-state/uptime", UptimeKameHouseSystemCommand.class);
   }
 
-  /** free successful test. */
+  /**
+   * free successful test.
+   */
   @Test
   void freeSuccessfulTest() throws Exception {
     execGetKameHouseSystemCommandTest(
         "/api/v1/admin/system-state/free", FreeKameHouseSystemCommand.class);
   }
 
-  /** df successful test. */
+  /**
+   * df successful test.
+   */
   @Test
   void dfSuccessfulTest() throws Exception {
     execGetKameHouseSystemCommandTest(
         "/api/v1/admin/system-state/df", DfKameHouseSystemCommand.class);
   }
 
-  /** httpd get status successful test. */
+  /**
+   * top successful test.
+   */
+  @Test
+  void topSuccessfulTest() throws Exception {
+    execGetKameHouseSystemCommandTest(
+        "/api/v1/admin/system-state/top", TopKameHouseSystemCommand.class);
+  }
+
+  /**
+   * httpd get status successful test.
+   */
   @Test
   void httpdGetStatusSuccessfulTest() throws Exception {
     execGetKameHouseSystemCommandTest(
         "/api/v1/admin/system-state/httpd", HttpdStatusKameHouseSystemCommand.class);
   }
 
-  /** httpd restart successful test. */
+  /**
+   * httpd restart successful test.
+   */
   @Test
   void httpdRestartSuccessfulTest() throws Exception {
     execPostKameHouseSystemCommandTest(

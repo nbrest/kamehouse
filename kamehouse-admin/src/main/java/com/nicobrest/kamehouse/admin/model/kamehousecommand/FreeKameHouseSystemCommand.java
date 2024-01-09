@@ -10,7 +10,9 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
  */
 public class FreeKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  /** Sets the required SystemCommands to achieve this KameHouseSystemCommand. */
+  /**
+   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
+   */
   public FreeKameHouseSystemCommand() {
     systemCommands.add(new FreeSystemCommand());
   }
