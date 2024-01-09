@@ -411,7 +411,7 @@ function getTomcatMessageColor(message_fn_, logLevel_fn_) {
   if (isLogLevelError(logLevel_fn_)) {
     return COL_RED;
   }
-  deploymentStart_loc_ = ".*Deploying web application archive .*\.war.*";
+  deploymentStart_loc_ = ".*Deploying web application archive .*\\.war.*";
   if (message_fn_ ~ deploymentStart_loc_) { 
     return COL_CYAN;
   }
