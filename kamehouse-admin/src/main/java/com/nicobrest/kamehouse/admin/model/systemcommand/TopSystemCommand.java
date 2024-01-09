@@ -15,7 +15,7 @@ public class TopSystemCommand extends SystemCommand {
   public TopSystemCommand() {
     executeOnDockerHost = true;
     addBashPrefix();
-    linuxCommand.add("top -n 1");
+    linuxCommand.add("TERM=xterm top -b -n 1");
     addPowerShellPrefix();
     windowsCommand.add("\"ps | sort -desc cpu | select -first 20\"");
     setOutputCommand();
