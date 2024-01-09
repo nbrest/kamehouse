@@ -25,7 +25,7 @@ class SystemStateControllerIntegrationTest extends AbstractControllerIntegration
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"uptime", "free", "df", "httpd"})
+  @ValueSource(strings = {"uptime", "free", "df", "top", "httpd"})
   void systemStateTest(String suffix) throws Exception {
     logger.info("Running systemStateTest with parameter {}", suffix);
 
