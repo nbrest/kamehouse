@@ -107,6 +107,10 @@ html.wait, html.wait * {
   cursor: wait;
 }
 
+.italic-kh {
+  font-style: italic;
+}
+
 .main-body {
   min-height: 528px;
 }

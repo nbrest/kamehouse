@@ -56,3 +56,7 @@ body {
     transform: scale(1.1);
   }
 }
+
+.italic-kh {
+  font-style: italic;
+}
