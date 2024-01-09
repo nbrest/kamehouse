@@ -155,7 +155,7 @@ class ServerManager {
   }
 
   /**
-   * Check the available memory.
+   * Check the state of the system processes consuming most resources.
    */
   top() {
     kameHouse.plugin.modal.loadingWheelModal.open();
