@@ -68,7 +68,7 @@ class AbstractKameHouseModal {
   open(message) {
     if (this.#isOpen) {
       kameHouse.logger.error("There's a " + this.#modalId + " already open. Skipping this open call");
-      return false;
+      return;
     }
     this.#isOpen = true;
     kameHouse.logger.debug("Opening modal " + this.#modalId);
@@ -77,15 +77,12 @@ class AbstractKameHouseModal {
     }
     const modal = document.getElementById(this.#modalId);
     kameHouse.util.dom.setDisplay(modal, "block");
-    return true;
   }
 
   /** Open auto closeable modal */
   openAutoCloseable(message, autoCloseMs) {
-    const isOpen = this.open(message);
-    if (isOpen) {
-      this.autoClose(autoCloseMs);
-    }
+    this.open(message);
+    this.autoClose(autoCloseMs);
   }
 
   /** Close modal */
