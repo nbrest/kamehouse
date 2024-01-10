@@ -72,9 +72,9 @@ getKameHouseDockerHostIp() {
   fi
 
   if ${IS_LINUX_HOST}; then
-    echo `ifconfig docker0 | grep -e "${DOCKER_HOST_SUBNET}" | grep "inet" | awk '{print $2}'`
+    echo `ifconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "inet" | head -n 1 | awk '{print $2}'`
   else
-    echo `ipconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "IPv4" | awk '{print $14}'`
+    echo `ipconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "IPv4" | head -n 1 | awk '{print $14}'`
   fi
 }
 
