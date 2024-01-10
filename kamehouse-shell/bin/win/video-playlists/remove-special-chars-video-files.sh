@@ -20,7 +20,9 @@ EMPTY_DIRS_RM_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
 EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.sh
 
 # anything that isn't a letter, digit, space, /, \, :, -, _ , .
-SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\ \-_\.]"
+SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\_\. ]"
+SPECIAL_CHARS_REGEX2="\]"
+SPECIAL_CHARS_REGEX3="@+"
 
 mainProcess() {
   initEmptyDirsFiles
@@ -55,7 +57,9 @@ removeSpecialCharsInFilenames() {
   log.info "Removing special chars from filenames in ${COL_PURPLE}${FILES_BASE_PATH}"
   find ${FILES_BASE_PATH} | sort -r | while read FILE; do
     log.trace "Processing file ${COL_PURPLE}${FILE}"
-    local FILE_UPDATED=$(echo "$FILE" | sed '$s'"/${SPECIAL_CHARS_REGEX}/-/g")
+    local FILE_UPDATED=$(echo "$FILE" | sed -E '$s'"/${SPECIAL_CHARS_REGEX}/@/g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX2}/@/g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX3}/-/g")
     if [ "${FILE}" != "${FILE_UPDATED}" ]; then
       local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
       mkdir -p "${FILE_UPDATED_DIR}"
