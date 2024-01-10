@@ -9,7 +9,8 @@ PREPARE stmt FROM @SQL;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
+-- REVOKE ALL PRIVILEGES ON *.* FROM 'kamehouse';
 SELECT 'Granting permissions to user kamehouse' as '';
-GRANT ALL PRIVILEGES ON *.* TO 'kamehouse'@'%';
+GRANT ALL PRIVILEGES ON kamehouse.* TO 'kamehouse'@'%';
 
 SELECT 'Finished executing sql script add-kamehouse-user.sql' as '';
