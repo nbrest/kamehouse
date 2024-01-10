@@ -14,6 +14,7 @@
 - Added loading text in the header while loading the session
 - Added suspend server button to vlc player debugger
 - Added top command to admin system commands
+- Fixed remove special chars from video files script to group multiple dashes into one
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
 - Fixed bugs
