@@ -8,9 +8,9 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
-PORT=9090
-SERVICE="tomcat"
-SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.sh"
+PORT=443
+SERVICE="httpd"
+SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-restart.sh"
 
 mainProcess() {
   netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1

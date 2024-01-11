@@ -19,3 +19,9 @@ This module contains most of my shell scripts to automate some tasks setting up,
 ```sh
 sudo usermod -a -G adm username
 ```
+
+## Keep alive scripts:
+
+### Windows:
+
+- Use windows task scheduler to schedule every X minutes the keep-alive-*.bat that calls the keep-alive-*.sh 
