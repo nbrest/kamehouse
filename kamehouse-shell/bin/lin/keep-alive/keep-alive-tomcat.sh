@@ -15,7 +15,7 @@ SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.s
 mainProcess() {
   PID=`netstat -nltp | grep ":${PORT} " | grep java | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z "${PID}" ]; then
-    log.warn "${SERVICE} not running. Starting it now"
+    log.error "${SERVICE} not running. Starting it now"
     ${SERVICE_STARTUP} &
   else
     log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"

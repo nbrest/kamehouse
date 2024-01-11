@@ -16,7 +16,7 @@ mainProcess() {
   netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1
   PID=`netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1 | awk '{print $5}'`
   if [[ -z "${PID}" ]]; then
-    log.info "${SERVICE} not running. Starting it now"
+    log.error "${SERVICE} not running. Starting it now"
     ${SERVICE_STARTUP} &
   else 
     log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
