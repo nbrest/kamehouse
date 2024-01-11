@@ -601,10 +601,10 @@
           <option value="ci-full-build-kamehouse.log">ci-full-build-kamehouse</option>
           <option value="create-all-audio-playlists.log">create-all-audio-playlists</option>
           <option value="create-all-video-playlists.log">create-all-video-playlists</option>
-          <option value="deploy-kamehouse.log" selected>deploy-kamehouse</option>
+          <option value="deploy-kamehouse.log">deploy-kamehouse</option>
           <option value="deploy-kamehouse-dev.log">deploy-kamehouse-dev</option>
           <option value="docker-upgrade-containers.log">docker-upgrade-containers</option>
-          <option value="exec-script-all-servers.log">exec-script-all-servers</option>
+          <option value="exec-script-all-servers.log" selected>exec-script-all-servers</option>
           <option value="git-pull-all.log">git-pull-all</option>
           <option value="kamehouse">kamehouse</option>
           <option value="resync-subtitles.log">resync-subtitles</option>
