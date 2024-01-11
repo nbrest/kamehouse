@@ -13,7 +13,15 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
+REMOVE_SERVER_KEY=false
+FIRST_RELEASE_FLAG=""
+
 mainProcess() {
+  if ${REMOVE_SERVER_KEY}; then
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/release/java8-release/java8-release-kamehouse-docker-server-key-remove.sh ${FIRST_RELEASE_FLAG}
+  else
+    log.warn "If I get an error that the server key changed, execute this script with ${COL_RED}java8-release-kamehouse-docker-server-key-remove.sh -r ${FIRST_RELEASE_FLAG}"
+  fi  
   log.info "Executing ssh into docker container kamehouse-${DOCKER_IMAGE_TAG}"
   ssh -p ${DOCKER_SSH_PORT} ${DOCKER_CONTAINER_USERNAME}@localhost
 }
@@ -26,11 +34,15 @@ setEnvForFirstRelease() {
 }
 
 parseArguments() {
-  while getopts ":f" OPT; do
+  while getopts ":fr" OPT; do
     case $OPT in
     ("f")
       FIRST_RELEASE=true
+      FIRST_RELEASE_FLAG="-f"
       ;;
+    ("r")
+      REMOVE_SERVER_KEY=true
+      ;;    
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -44,6 +56,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-f" "ssh into the docker image for the first release version"
+  addHelpOption "-r" "remove server key from known hosts. Use when docker container ssh keys change"
 }
 
 main "$@"
