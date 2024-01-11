@@ -50,11 +50,7 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  if [ -z "${RELEASE_VERSION}" ]; then
-    log.error "Option -v is required"
-    printHelp
-    exitProcess ${EXIT_INVALID_ARG}
-  fi
+  checkRequiredOption "-v" "${RELEASE_VERSION}" 
 }
 
 printHelpOptions() {

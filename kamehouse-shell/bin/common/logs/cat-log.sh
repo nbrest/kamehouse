@@ -56,11 +56,10 @@ parseArguments() {
       ;;
     esac
   done  
+}
 
-  if [ -z "${LOG_FILE_TO_CAT}" ]; then
-    log.error "Argument -f is required"
-    exitProcess ${EXIT_INVALID_ARG}
-  fi
+setEnvFromArguments() {
+  checkRequiredOption "-f" "${LOG_FILE_TO_CAT}" 
 }
 
 printHelpOptions() {

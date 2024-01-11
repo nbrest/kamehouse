@@ -7,13 +7,34 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
 # LOG_PROCESS_TO_FILE=true
-GLOBAL_VAR="Use this script as a base for new scripts"
+TEST_PARAM=""
 
 mainProcess() {
+  log.info "TEST_PARAM=${TEST_PARAM}"
   exampleFunctions
   printHelp
+}
+
+parseArguments() {
+  while getopts ":t:" OPT; do
+    case $OPT in
+    ("t")
+      TEST_PARAM="$OPTARG"
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done 
+}
+
+setEnvFromArguments() {
+  checkRequiredOption "-t" "${TEST_PARAM}" 
+}
+
+printHelpOptions() {
+  addHelpOption "-t testParam" "test param" "r"
 }
 
 main "$@"
