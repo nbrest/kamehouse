@@ -17,17 +17,17 @@ mainProcess() {
   echo -e "${EXPRESSVPN_STATUS}"
 
   if [[ "${EXPRESSVPN_STATUS}" =~ "Connecting..." ]]; then
-    log.info "Expressvpn status is Connecting. Disconnect and connect again"
+    log.warn "Expressvpn status is Connecting. Disconnect and connect again"
     expressvpn disconnect
   fi
 
   if [[ "${EXPRESSVPN_STATUS}" =~ "Reconnecting..." ]]; then
-    log.info "Expressvpn status is Reconnecting. Disconnect and connect again"
+    log.warn "Expressvpn status is Reconnecting. Disconnect and connect again"
     expressvpn disconnect
   fi
 
   if [[ "${EXPRESSVPN_STATUS}" =~ "Unable" ]]; then
-    log.info "Expressvpn status is Unable to connect. Disconnect and connect again"
+    log.warn "Expressvpn status is Unable to connect. Disconnect and connect again"
     expressvpn disconnect
   fi
 
