@@ -20,8 +20,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
-LOG_PROCESS_TO_FILE=false
+LOG_PROCESS_TO_FILE=true
 DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_PROD}
 SERVICE="kamehouse-docker"
 SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"

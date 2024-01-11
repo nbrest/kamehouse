@@ -7,7 +7,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
+LOG_PROCESS_TO_FILE=true
 MEDIA_SERVER_IP=192.168.0.109
 
 mainProcess() {

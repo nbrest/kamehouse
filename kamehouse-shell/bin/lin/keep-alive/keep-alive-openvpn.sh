@@ -7,7 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
 LOG_PROCESS_TO_FILE=true
 PORT=1194
 SERVICE="openvpn"
