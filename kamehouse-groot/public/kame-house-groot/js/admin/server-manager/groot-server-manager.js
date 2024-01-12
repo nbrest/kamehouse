@@ -231,16 +231,15 @@ class GitManager {
   }
 
   /**
-   * Pull all from all git repos.
+   * Pull kamehouse repo.
    */
-  pullAll() {
+  pullKameHouse() {
     if (kameHouse.extension.serverManager.isCommandRunning()) {
       return;
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const hostOs = kameHouse.extension.serverManager.getExecutionOs();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/git/git-pull-all.sh', "", true, 600, 
+    kameHouse.extension.kameHouseShell.execute('common/git/git-pull-kamehouse.sh', "", true, 600, 
       (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput), 
       (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput));
   }
@@ -248,13 +247,13 @@ class GitManager {
   /**
    * Pull all from all repos, in all servers.
    */
-  pullAllAllServers() {
+  pullKameHouseAllServers() {
     if (kameHouse.extension.serverManager.isCommandRunning()) {
       return;
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-script-all-servers.sh', "-s common/git/git-pull-all.sh", false, 600, 
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-script-all-servers.sh', "-s common/git/git-pull-kamehouse.sh", false, 600, 
       (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput), 
       (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput));
   }

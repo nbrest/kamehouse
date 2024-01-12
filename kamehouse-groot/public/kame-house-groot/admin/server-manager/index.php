@@ -434,12 +434,12 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/git.png" alt="Git Pull" title="Git Pull" onclick="kameHouse.extension.gitManager.pullAll()"/></a><br>
-                <a><img class="link-image-img" src="/kame-house/img/dbz/nimbus.png" alt="Git Pull All Servers" title="Git Pull All Servers" onclick="kameHouse.extension.gitManager.pullAllAllServers()"/></a>
+                <a><img class="link-image-img" src="/kame-house/img/pc/git.png" alt="Git Pull" title="Git Pull" onclick="kameHouse.extension.gitManager.pullKameHouse()"/></a><br>
+                <a><img class="link-image-img" src="/kame-house/img/dbz/nimbus.png" alt="Git Pull All Servers" title="Git Pull All Servers" onclick="kameHouse.extension.gitManager.pullKameHouseAllServers()"/></a>
               </td>
               <td>
                 <div class="link-image-text">Git Pull</div>
-                <div class="link-image-desc">Pull latest changes in all git repos. Pull in all servers using the nimbus button</div>
+                <div class="link-image-desc">Pull latest changes in KameHouse git repo. Pull in all servers using the nimbus button</div>
               </td>
             </tr>
           </tbody>
