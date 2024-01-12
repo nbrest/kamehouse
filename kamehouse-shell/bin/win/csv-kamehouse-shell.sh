@@ -29,8 +29,6 @@ main() {
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java11-release/docker)    
   # Filter lin
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/lin/') 
-  # Filter .. directory
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/../') 
   # Filter -functions.sh scripts
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v -e '\-functions\.sh$') 
 
