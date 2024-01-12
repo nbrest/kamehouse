@@ -33,7 +33,9 @@ class KameHouseShellLoader {
     const tbody = this.#getAllKameHouseShellTbody();
     for (let i = 0; i < kameHouseShellArray.length; i++) {
       const scriptName = kameHouseShellArray[i];
-      kameHouse.util.dom.append(tbody, this.#getAllKameHouseShellTr(scriptName));
+      if (!scriptName.includes("Started executing") && !scriptName.includes("Finished executing")) {
+        kameHouse.util.dom.append(tbody, this.#getAllKameHouseShellTr(scriptName));
+      }
     }
     kameHouse.util.dom.replaceWith($allKameHouseShellTableBody, tbody);
   }

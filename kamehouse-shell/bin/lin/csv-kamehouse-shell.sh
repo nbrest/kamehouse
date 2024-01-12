@@ -47,7 +47,9 @@ main() {
   # Strip ${BASE_DIR} from the path of each script
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | sed -e "s#${BASE_DIR}/##g")
 
+  echo ","
   echo ${SCRIPTS_PATH}
+  echo ","
 }
 
 main "$@"
