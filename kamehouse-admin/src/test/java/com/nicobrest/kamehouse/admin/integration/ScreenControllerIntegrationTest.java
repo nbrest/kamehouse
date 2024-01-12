@@ -34,11 +34,7 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
       "lockTest, /lock",
       "wakeUpTest, /wake-up",
       "unlockTest, /unlock",
-      "escKeyTest, /esc-key-press",
-      "enterKeyTest, /enter-key-press",
-      "altTabKeyTest, /alt-tab-key-press",
-      "winTabKeyTest, /win-tab-key-press",
-      "rightKeyTest, /alt-tab-key-press?keyPresses=1"
+      "keyPress, /key-press?key=ESC&keyPresses=1"
   })
   void screenControllerTest(String testName, String apiEndpoint) throws Exception {
     logger.info("Running {}", testName);

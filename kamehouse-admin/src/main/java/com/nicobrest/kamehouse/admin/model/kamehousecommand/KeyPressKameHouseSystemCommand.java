@@ -4,16 +4,17 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
 import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
 
 /**
- * KameHouseSystemCommand to send an WIN+TAB key press.
+ * KameHouseSystemCommand to send a key press.
  *
  * @author nbrest
  */
-public class WinTabKeyKameHouseSystemCommand extends KameHouseSystemCommand {
+public class KeyPressKameHouseSystemCommand extends KameHouseSystemCommand {
 
   /**
    * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
    */
-  public WinTabKeyKameHouseSystemCommand() {
-    systemCommands.add(new JvncSenderSystemCommand("<WINDOWS><TAB>"));
+  public KeyPressKameHouseSystemCommand(KeyPress key, Integer keyPresses) {
+    String jvncSenderCommand = key.get(keyPresses);
+    systemCommands.add(new JvncSenderSystemCommand(jvncSenderCommand));
   }
 }

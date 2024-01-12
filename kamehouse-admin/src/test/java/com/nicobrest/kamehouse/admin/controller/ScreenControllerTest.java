@@ -1,17 +1,15 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.AltTabKeyKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.EnterKeyKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.EscKeyKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.RightKeyKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.KeyPressKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.WinTabKeyKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -65,47 +63,24 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
   }
 
   /**
-   * ESC key press successful test.
+   * key press successful test.
    */
-  @Test
-  void escKeySuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/esc-key-press", EscKeyKameHouseSystemCommand.class);
-  }
-
-  /**
-   * ENTER key press successful test.
-   */
-  @Test
-  void enterKeySuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/enter-key-press", EnterKeyKameHouseSystemCommand.class);
-  }
-
-  /**
-   * ALT+TAB key press successful test.
-   */
-  @Test
-  void altTabKeySuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/alt-tab-key-press", AltTabKeyKameHouseSystemCommand.class);
-  }
-
-  /**
-   * WIN+TAB key press successful test.
-   */
-  @Test
-  void winTabKeySuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/win-tab-key-press", WinTabKeyKameHouseSystemCommand.class);
-  }
-
-  /**
-   * Right arrow key press successful test.
-   */
-  @Test
-  void rightKeySuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/right-key-press", RightKeyKameHouseSystemCommand.class);
+  @ParameterizedTest
+  @CsvSource({
+      "ALT_F4, 1000",
+      "ALT_TAB, 2",
+      "ARROW_UP, 2",
+      "ARROW_DOWN, 2",
+      "ARROW_LEFT, 2",
+      "ARROW_RIGHT, 2",
+      "CTRL_F, 2",
+      "ENTER, 2",
+      "ESC, 2",
+      "WIN, 2",
+      "WIN_TAB, 2"
+  })
+  void keyPressSuccessfulTest(String key, Integer keyPresses) throws Exception {
+    String apiUrl = "/api/v1/admin/screen/key-press?key=" + key + "&keyPresses=" + keyPresses;
+    execPostKameHouseSystemCommandTest(apiUrl, KeyPressKameHouseSystemCommand.class);
   }
 }

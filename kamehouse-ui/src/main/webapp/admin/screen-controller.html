@@ -124,21 +124,78 @@
           <tbody>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/pc/windows-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/win-tab-key-press', null)"/></a>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-up-arrow.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.upKeyCommand()"/></a>
             </td>
             <td>
-              <div class="link-image-text">Windows Key</div>
-              <div class="link-image-desc">Send a WIN+TAB key press to the server</div>
+              <div class="link-image-text">Up Key</div>
+              <div class="link-image-desc">
+                  Send a up key presses to the server with the specified number of keys to press:
+                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-up-key-dropdown">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                  </select>
+              </div>
             </td>
-          </tr>
+          </tr> 
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/pc/right-arrow.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.rightKeyCommand()"/></a>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-down-arrow.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.downKeyCommand()"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Down Key</div>
+              <div class="link-image-desc">
+                  Send a down key presses to the server with the specified number of keys to press:
+                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-down-key-dropdown">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                  </select>
+              </div>
+            </td>
+          </tr> 
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-left-arrow.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.leftKeyCommand()"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Left Key</div>
+              <div class="link-image-desc">
+                  Send a left key presses to the server with the specified number of keys to press:
+                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-left-key-dropdown">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                  </select>
+              </div>
+            </td>
+          </tr> 
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-right-arrow.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.rightKeyCommand()"/></a>
             </td>
             <td>
               <div class="link-image-text">Right Key</div>
               <div class="link-image-desc">
-                  Send a right key presses and ENTER to the server with the specified number of right keys to press:
+                  Send a right key presses to the server with the specified number of keys to press:
                   <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-right-key-dropdown">
                     <option value="1" selected>1</option>
                     <option value="2">2</option>
@@ -152,10 +209,39 @@
                   </select>
               </div>
             </td>
-          </tr>  
+          </tr> 
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/pc/enter-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/enter-key-press', null)"/></a>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-alt-f4.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('ALT_F4')"/>
+              </a>
+            </td>
+            <td>
+              <div class="link-image-text">Alt+F4 Key</div>
+              <div class="link-image-desc">Send a Alt+F4 key press to the server</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-alt-tab.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('ALT_TAB')"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Alt+Tab Key</div>
+              <div class="link-image-desc">Send an ALT+TAB key press to the server</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-ctrl-f.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('CTRL_F')"/>
+              </a>
+            </td>
+            <td>
+              <div class="link-image-text">Ctrl+F Key</div>
+              <div class="link-image-desc">Send a Ctrl+F key press to the server</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-enter.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('ENTER')"/></a>
             </td>
             <td>
               <div class="link-image-text">Enter Key</div>
@@ -164,7 +250,7 @@
           </tr>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/pc/esc-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.post('/screen/esc-key-press', null)"/></a>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-esc.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('ESC')"/></a>
             </td>
             <td>
               <div class="link-image-text">Esc Key</div>
@@ -173,24 +259,20 @@
           </tr>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/pc/tab-key.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.altTabCommand()"/></a>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-win.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('WIN')"/></a>
             </td>
             <td>
-              <div class="link-image-text">Alt+Tab Key</div>
-              <div class="link-image-desc">
-                  Send an ALT+TAB key press to the server with the specified number of tabs to press:
-                  <select class="select-kh-dark m-10-d-kh m-10-m-kh" id="number-of-tabs-dropdown">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                  </select>
-              </div>
+              <div class="link-image-text">Windows Key</div>
+              <div class="link-image-desc">Send a WIN key press to the server</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a><img class="link-image-img" src="/kame-house/img/pc/key-win-tab.png" alt="Kame Senin Logo" onclick="kameHouse.extension.screenController.keyPress('WIN_TAB')"/></a>
+            </td>
+            <td>
+              <div class="link-image-text">Windows+Tab Key</div>
+              <div class="link-image-desc">Send a WIN+TAB key press to the server</div>
             </td>
           </tr>
         </tbody>

@@ -15,6 +15,8 @@
 - Added suspend server button to vlc player debugger
 - Added top command to admin system commands
 - Removed extra permissions from kamehouse db user on mariadb
+- Refactored send key press commands and added extra key press buttons
+- Cleaned up unused kamehouse shell scripts
 - Fixed remove special chars from video files script to group multiple dashes into one
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
