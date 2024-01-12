@@ -28,7 +28,6 @@ main() {
   log.info "Starting rc-local.sh" > ${LOG_FILE}
   checkEnv
   startTomcat
-  #backupServer
   setPermissions
   log.info "Finished rc-local.sh" >> ${LOG_FILE}
 }
@@ -50,11 +49,6 @@ checkEnv() {
 startTomcat() {
   log.info "Starting tomcat" >> ${LOG_FILE}
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh
-}
-
-backupServer() {
-  log.info "Backing up server" >> ${LOG_FILE}
-  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/lin/backup/backup-server.sh
 }
 
 setPermissions() {
