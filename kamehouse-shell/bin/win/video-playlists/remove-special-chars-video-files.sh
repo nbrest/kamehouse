@@ -21,6 +21,8 @@ EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.s
 
 # anything that isn't a letter, digit, space, /, \, :, -, _ , .
 SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\_\. ]"
+SPECIAL_CHARS_REGEX0=" +"
+SPECIAL_CHARS_REGEX1="_+"
 SPECIAL_CHARS_REGEX2="\]|@ | @|@ @|@_|_@|@_@| @ "
 SPECIAL_CHARS_REGEX3="@+"
 SPECIAL_CHARS_REGEX4="-\.|\.-"
@@ -61,6 +63,8 @@ removeSpecialCharsInFilenames() {
   find ${FILES_BASE_PATH} | sort -r | while read FILE; do
     log.trace "Processing file ${COL_PURPLE}${FILE}"
     local FILE_UPDATED=$(echo "$FILE" | sed -E '$s'"/${SPECIAL_CHARS_REGEX}/@/g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX0}/_/g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX1}/_/g")
     FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX2}/@/g")
     FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX3}/-/g")
     FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX4}/\./g")
