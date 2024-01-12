@@ -23,6 +23,9 @@ EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.s
 SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\_\. ]"
 SPECIAL_CHARS_REGEX2="\]"
 SPECIAL_CHARS_REGEX3="@+"
+SPECIAL_CHARS_REGEX4="-\.|\.-"
+SPECIAL_CHARS_REGEX5="/-|-/"
+SPECIAL_CHARS_REGEX6="-$"
 
 mainProcess() {
   initEmptyDirsFiles
@@ -60,6 +63,9 @@ removeSpecialCharsInFilenames() {
     local FILE_UPDATED=$(echo "$FILE" | sed -E '$s'"/${SPECIAL_CHARS_REGEX}/@/g")
     FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX2}/@/g")
     FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX3}/-/g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX4}/\./g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"#${SPECIAL_CHARS_REGEX5}#/#g")
+    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"#${SPECIAL_CHARS_REGEX6}##g")
     if [ "${FILE}" != "${FILE_UPDATED}" ]; then
       local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
       mkdir -p "${FILE_UPDATED_DIR}"
