@@ -34,33 +34,14 @@ class ScreenController {
     (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
-  /** 
-   * Send a up key press 
+  /**
+   * Send a key press with the selected key presses in the specified dropdown.
    */
-  upKeyCommand() {
-    this.#keyPressWithSelectedKeyPresses("ARROW_UP", "number-of-up-key-dropdown");
-  }    
-
-  /** 
-   * Send a down key press
-   */
-  downKeyCommand() {
-    this.#keyPressWithSelectedKeyPresses("ARROW_DOWN", "number-of-down-key-dropdown");
-  } 
-  
-  /** 
-   * Send a left key press
-   */
-  leftKeyCommand() {
-    this.#keyPressWithSelectedKeyPresses("ARROW_LEFT", "number-of-left-key-dropdown");
-  }    
-
-  /** 
-   * Send a right key press 
-   */
-  rightKeyCommand() {
-    this.#keyPressWithSelectedKeyPresses("ARROW_RIGHT", "number-of-right-key-dropdown");
-  }  
+  keyPressWithDropdown(key, dropdownId) {
+    const keyPresses = document.getElementById(dropdownId).value;
+    kameHouse.logger.trace("Number of key presses: " + keyPresses);
+    this.keyPress(key, keyPresses);
+  }
 
   /**
    * Execute post http request.
@@ -76,15 +57,6 @@ class ScreenController {
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)}
       );
-  }
-  
-  /**
-   * Send a key press with the selected key presses.
-   */
-  #keyPressWithSelectedKeyPresses(key, dropdownId) {
-    const keyPresses = document.getElementById(dropdownId).value;
-    kameHouse.logger.trace("Number of key presses: " + keyPresses);
-    this.keyPress(key, keyPresses);
   }
 
   /**
