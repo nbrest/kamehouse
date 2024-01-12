@@ -21,7 +21,7 @@ EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.s
 
 # anything that isn't a letter, digit, space, /, \, :, -, _ , .
 SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\_\. ]"
-SPECIAL_CHARS_REGEX2="\]|@ | @|@ @|@_|_@|@_@"
+SPECIAL_CHARS_REGEX2="\]|@ | @|@ @|@_|_@|@_@| @ "
 SPECIAL_CHARS_REGEX3="@+"
 SPECIAL_CHARS_REGEX4="-\.|\.-"
 SPECIAL_CHARS_REGEX5="/-|-/"
