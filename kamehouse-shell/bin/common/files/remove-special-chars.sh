@@ -12,8 +12,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-EMPTY_DIRS_RM_FILE=${HOME}/temp/remove-special-chars/rm-empty-dirs.sh
-EMPTY_DIRS_CHECK_FILE=${HOME}/temp/remove-special-chars/check-empty-dirs.sh
+EMPTY_DIRS_PATH=${HOME}/temp/remove-special-chars/empty-dirs
 
 DRY_RUN=false
 PROCESS_MEDIA_SERVER_VIDEOS=false
@@ -23,31 +22,29 @@ CUSTOM_PATH=""
 
 # Regex to remove special chars:
 declare -a toAt=("[^a-zA-Z0-9:/\\_\. ]" "\]" "@ " " @" "@ @" "@_" "_@" "@_@" " @ ")
+declare -a toNumeralTextStart=("^#") # for playlists
+declare -a toNumeralSignStart=("^NUMERALSTART") # for playlists
 declare -a toUnderscore=(" +" "_+")
 declare -a toDash=("@+")
 declare -a toDot=("-+\." "\.-+" "_+\." "\._+" "\.+")
 declare -a toSlash=("/-" "-/")
+declare -a toBackslash=("\\\-" '-\\') # for playlists
 declare -a toRemove=("-$")
 
 mainProcess() {
   if ${DRY_RUN}; then
     log.warn "Running with ${COL_RED}DRY-RUN"
   fi
-  initEmptyDirsFiles
+  initEmptyDirsPath
   removeSpecialChars
   exitMessage
 }
 
-initEmptyDirsFiles() {
+initEmptyDirsPath() {
   if ${DRY_RUN}; then
     return
   fi
-  mkdir -p ${HOME}/temp
-  echo "#!/bin/bash" > ${EMPTY_DIRS_RM_FILE}
-  echo "" >> ${EMPTY_DIRS_RM_FILE}
-
-  echo "#!/bin/bash" > ${EMPTY_DIRS_CHECK_FILE}
-  echo "" >> ${EMPTY_DIRS_CHECK_FILE}  
+  mkdir -p ${EMPTY_DIRS_PATH}
 }
 
 removeSpecialChars() {
@@ -113,7 +110,7 @@ removeSpecialCharsInPath() {
     log.debug "Processing file ${COL_PURPLE}${FILE}"
     local FILE_UPDATED=`getUpdatedFileName "${FILE}"`
     updateFileName "${FILE}" "${FILE_UPDATED}"
-    addEmptyDirToTempFiles "${FILE}"
+    moveEmptyDirToTempFiles "${FILE}" "${FILE_UPDATED}"
   done
 }
 
@@ -150,22 +147,25 @@ updateFileName() {
       local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
       mkdir -p "${FILE_UPDATED_DIR}"
       log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
-      mv "${FILE}" "${FILE_UPDATED}"
+      mv -f "${FILE}" "${FILE_UPDATED}"
     fi
   fi
 }
 
-addEmptyDirToTempFiles() {
+moveEmptyDirToTempFiles() {
   local FILE=$1
+  local FILE_UPDATED=$2
   if ! ${DRY_RUN}; then
     if [ -d "${FILE}" ] && [ -z "$(ls -A "${FILE}")" ]; then
-      log.debug "Empty directory: ${COL_PURPLE}${FILE}"
-      echo "echo \"----------- ${FILE} -----------\"" >> ${EMPTY_DIRS_CHECK_FILE}
-      echo "ls \"${FILE}\"" >> ${EMPTY_DIRS_CHECK_FILE}
-
-      echo "echo \"----------- ${FILE} -----------\"" >> ${EMPTY_DIRS_RM_FILE}
-      echo "rm -rv \"${FILE}\"" >> ${EMPTY_DIRS_RM_FILE}
+      log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE}"
+      mkdir -p "${EMPTY_DIRS_PATH}${FILE}"
+      mv -f "${FILE}" "${EMPTY_DIRS_PATH}${FILE}"
     fi
+    if [ -d "${FILE_UPDATED}" ] && [ -z "$(ls -A "${FILE_UPDATED}")" ]; then
+      log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE_UPDATED}"
+      mkdir -p "${EMPTY_DIRS_PATH}${FILE_UPDATED}"
+      mv -f "${FILE_UPDATED}" "${EMPTY_DIRS_PATH}${FILE_UPDATED}"
+    fi    
   fi
 }
 
@@ -177,6 +177,41 @@ removeSpecialCharsInPlaylists() {
   fi
 
   log.info "Removing special chars from playlists in ${COL_PURPLE}${PLAYLISTS_BASE_PATH}"
+  find ${PLAYLISTS_BASE_PATH} | grep ".m3u" | sort -r | while read FILE; do
+    log.info "Processing file ${COL_PURPLE}${FILE}"
+    updatePlaylist "${FILE}"
+  done
+}
+
+updatePlaylist() {
+  local FILE=$1
+  for ((i = 0; i < ${#toNumeralTextStart[@]}; i++)); do
+    sed -E -i "s/${toNumeralTextStart[$i]}/NUMERALSTART/Ig" "${FILE}" 
+  done  
+  for ((i = 0; i < ${#toUnderscore[@]}; i++)); do
+    sed -E -i "s/${toUnderscore[$i]}/_/Ig" "${FILE}" 
+  done
+  for ((i = 0; i < ${#toAt[@]}; i++)); do
+    sed -E -i "s/${toAt[$i]}/@/Ig" "${FILE}" 
+  done
+  for ((i = 0; i < ${#toNumeralSignStart[@]}; i++)); do
+    sed -E -i "s/${toNumeralSignStart[$i]}/#/Ig" "${FILE}" 
+  done    
+  for ((i = 0; i < ${#toDash[@]}; i++)); do
+    sed -E -i "s/${toDash[$i]}/-/Ig" "${FILE}" 
+  done
+  for ((i = 0; i < ${#toDot[@]}; i++)); do
+    sed -E -i "s/${toDot[$i]}/\./Ig" "${FILE}" 
+  done
+  for ((i = 0; i < ${#toSlash[@]}; i++)); do
+    sed -E -i "s#${toSlash[$i]}#/#Ig" "${FILE}" 
+  done
+  for ((i = 0; i < ${#toBackslash[@]}; i++)); do
+    sed -E -i "s#${toBackslash[$i]}#\\\#Ig" "${FILE}" 
+  done  
+  for ((i = 0; i < ${#toRemove[@]}; i++)); do
+    sed -E -i "s#${toRemove[$i]}##Ig" "${FILE}" 
+  done
 }
 
 exitMessage() {
@@ -184,9 +219,7 @@ exitMessage() {
     return
   fi
   log.info "Removing special chars process finished"
-  log.info "Check the remaining empty directories with: ${COL_RED}chmod a+x ${EMPTY_DIRS_CHECK_FILE} ; ${EMPTY_DIRS_CHECK_FILE}"
-  log.info "Remove them with: ${COL_RED}chmod a+x ${EMPTY_DIRS_RM_FILE} ; ${EMPTY_DIRS_RM_FILE}"
-  log.info "Then delete the temp files with: ${COL_RED}rm ${EMPTY_DIRS_RM_FILE} ${EMPTY_DIRS_CHECK_FILE}"
+  log.info "Check the remaining empty directories in: ${COL_RED}${EMPTY_DIRS_PATH}"
 }
 
 parseArguments() {
