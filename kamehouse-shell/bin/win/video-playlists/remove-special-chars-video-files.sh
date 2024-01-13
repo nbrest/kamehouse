@@ -22,7 +22,7 @@ EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.s
 declare -a toAt=("[^a-zA-Z0-9:/\\_\. ]" "\]" "@ " " @" "@ @" "@_" "_@" "@_@" " @ ")
 declare -a toUnderscore=(" +" "_+")
 declare -a toDash=("@+")
-declare -a toDot=("-\." "\.-")
+declare -a toDot=("-+\." "\.-+" "_+\." "\._+" "\.+")
 declare -a toSlash=("/-" "-/")
 declare -a toRemove=("-$")
 
