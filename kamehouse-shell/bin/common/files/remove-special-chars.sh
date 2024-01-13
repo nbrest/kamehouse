@@ -109,7 +109,7 @@ removeSpecialCharsInPath() {
   find ${FILES_BASE_PATH} | sort -r | while read FILE; do
     log.debug "Processing file ${COL_PURPLE}${FILE}"
     local FILE_UPDATED=`getUpdatedFileName "${FILE}"`
-    updateFileName "${FILE}" "${FILE_UPDATED}"
+    moveFile "${FILE}" "${FILE_UPDATED}"
     moveEmptyDirToTempFiles "${FILE}" "${FILE_UPDATED}"
   done
 }
@@ -137,35 +137,40 @@ getUpdatedFileName() {
   echo "${FILE_UPDATED}"
 }
 
-updateFileName() {
+moveFile() {
   local FILE=$1
   local FILE_UPDATED=$2
-  if [ "${FILE}" != "${FILE_UPDATED}" ]; then
-    if ${DRY_RUN}; then
-      log.info "${COL_YELLOW}DRY-RUN:${COL_DEFAULT_LOG} Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
-    else
-      local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
-      mkdir -p "${FILE_UPDATED_DIR}"
-      log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
-      mv -f "${FILE}" "${FILE_UPDATED}"
-    fi
+  if [ "${FILE}" == "${FILE_UPDATED}" ]; then
+    return
+  fi
+  if ${DRY_RUN}; then
+    log.info "${COL_YELLOW}DRY-RUN:${COL_DEFAULT_LOG} Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
+    return
+  fi
+  if [ ! -d "${FILE}" ]; then
+    local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
+    log.trace "Making dir "${FILE_UPDATED_DIR}""
+    mkdir -p "${FILE_UPDATED_DIR}"
+    log.info "Updating name from ${COL_PURPLE}${FILE}${COL_DEFAULT_LOG} to ${COL_CYAN}${FILE_UPDATED}${COL_DEFAULT_LOG}"
+    mv -f "${FILE}" "${FILE_UPDATED}"
   fi
 }
 
 moveEmptyDirToTempFiles() {
   local FILE=$1
   local FILE_UPDATED=$2
-  if ! ${DRY_RUN}; then
-    if [ -d "${FILE}" ] && [ -z "$(ls -A "${FILE}")" ]; then
-      log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE}"
-      mkdir -p "${EMPTY_DIRS_PATH}${FILE}"
-      mv -f "${FILE}" "${EMPTY_DIRS_PATH}${FILE}"
-    fi
-    if [ -d "${FILE_UPDATED}" ] && [ -z "$(ls -A "${FILE_UPDATED}")" ]; then
-      log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE_UPDATED}"
-      mkdir -p "${EMPTY_DIRS_PATH}${FILE_UPDATED}"
-      mv -f "${FILE_UPDATED}" "${EMPTY_DIRS_PATH}${FILE_UPDATED}"
-    fi    
+  if ${DRY_RUN}; then
+    return
+  fi
+  if [ -d "${FILE}" ] && [ -z "$(ls -A "${FILE}")" ]; then
+    log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE}"
+    mkdir -p "${EMPTY_DIRS_PATH}${FILE}"
+    mv -f "${FILE}" "${EMPTY_DIRS_PATH}${FILE}"
+  fi
+  if [ -d "${FILE_UPDATED}" ] && [ -z "$(ls -A "${FILE_UPDATED}")" ]; then
+    log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE_UPDATED}"
+    mkdir -p "${EMPTY_DIRS_PATH}${FILE_UPDATED}"
+    mv -f "${FILE_UPDATED}" "${EMPTY_DIRS_PATH}${FILE_UPDATED}"
   fi
 }
 
@@ -177,7 +182,7 @@ removeSpecialCharsInPlaylists() {
   fi
 
   log.info "Removing special chars from playlists in ${COL_PURPLE}${PLAYLISTS_BASE_PATH}"
-  find ${PLAYLISTS_BASE_PATH} | grep ".m3u" | sort -r | while read FILE; do
+  find ${PLAYLISTS_BASE_PATH} | grep ".m3u" | while read FILE; do
     log.info "Processing file ${COL_PURPLE}${FILE}"
     updatePlaylist "${FILE}"
   done
