@@ -24,7 +24,7 @@ mainProcess() {
   pullChangesFromGit
 
   if ${REMOVE_SPECIAL_CHARS}; then
-    ${HOME}/programs/kamehouse-shell/bin/win/video-playlists/remove-special-chars-video-files.sh
+    ${HOME}/programs/kamehouse-shell/bin/common/files/remove-special-chars.sh -v
   fi
 
   deleteExistingM3uFiles
