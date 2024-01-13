@@ -19,15 +19,12 @@ GIT_BRANCH=dev
 EMPTY_DIRS_RM_FILE=${HOME}/temp/create-all-video-playlists-rm-empty-dirs.sh
 EMPTY_DIRS_CHECK_FILE=${HOME}/temp/create-all-video-playlists-check-empty-dirs.sh
 
-# anything that isn't a letter, digit, space, /, \, :, -, _ , .
-SPECIAL_CHARS_REGEX="[^a-zA-Z0-9:/\\_\. ]"
-SPECIAL_CHARS_REGEX0=" +"
-SPECIAL_CHARS_REGEX1="_+"
-SPECIAL_CHARS_REGEX2="\]|@ | @|@ @|@_|_@|@_@| @ "
-SPECIAL_CHARS_REGEX3="@+"
-SPECIAL_CHARS_REGEX4="-\.|\.-"
-SPECIAL_CHARS_REGEX5="/-|-/"
-SPECIAL_CHARS_REGEX6="-$"
+declare -a toAt=("[^a-zA-Z0-9:/\\_\. ]" "\]" "@ " " @" "@ @" "@_" "_@" "@_@" " @ ")
+declare -a toUnderscore=(" +" "_+")
+declare -a toDash=("@+")
+declare -a toDot=("-\." "\.-")
+declare -a toSlash=("/-" "-/")
+declare -a toRemove=("-$")
 
 mainProcess() {
   initEmptyDirsFiles
@@ -61,15 +58,32 @@ removeSpecialCharsInFilenames() {
   local FILES_BASE_PATH=$1
   log.info "Removing special chars from filenames in ${COL_PURPLE}${FILES_BASE_PATH}"
   find ${FILES_BASE_PATH} | sort -r | while read FILE; do
-    log.trace "Processing file ${COL_PURPLE}${FILE}"
-    local FILE_UPDATED=$(echo "$FILE" | sed -E '$s'"/${SPECIAL_CHARS_REGEX}/@/g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX0}/_/g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX1}/_/g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX2}/@/g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX3}/-/g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${SPECIAL_CHARS_REGEX4}/\./g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"#${SPECIAL_CHARS_REGEX5}#/#g")
-    FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"#${SPECIAL_CHARS_REGEX6}##g")
+    log.debug "Processing file ${COL_PURPLE}${FILE}"
+    local FILE_UPDATED=${FILE}
+    for ((i = 0; i < ${#toUnderscore[@]}; i++)); do
+      FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${toUnderscore[$i]}/_/g")
+      log.trace "Used regex: '${toUnderscore[$i]}' toUnderscore output is: ${FILE_UPDATED}"
+    done
+    for ((i = 0; i < ${#toAt[@]}; i++)); do
+      FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${toAt[$i]}/@/g")
+      log.trace "Used regex: '${toAt[$i]}' toAt output is: ${FILE_UPDATED}"
+    done
+    for ((i = 0; i < ${#toDash[@]}; i++)); do
+      FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${toDash[$i]}/-/g")
+      log.trace "Used regex: '${toDash[$i]}' toDash output is: ${FILE_UPDATED}"
+    done
+    for ((i = 0; i < ${#toDot[@]}; i++)); do
+      FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"/${toDot[$i]}/\./g")
+      log.trace "Used regex: '${toDot[$i]}' toDot output is: ${FILE_UPDATED}"
+    done
+    for ((i = 0; i < ${#toSlash[@]}; i++)); do
+      FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"#${toSlash[$i]}#/#g")
+      log.trace "Used regex: '${toSlash[$i]}' toSlash output is: ${FILE_UPDATED}"
+    done
+    for ((i = 0; i < ${#toRemove[@]}; i++)); do
+      FILE_UPDATED=$(echo "$FILE_UPDATED" | sed -E '$s'"#${toRemove[$i]}##g")
+      log.trace "Used regex: '${toRemove[$i]}' toRemove output is: ${FILE_UPDATED}"
+    done
     if [ "${FILE}" != "${FILE_UPDATED}" ]; then
       local FILE_UPDATED_DIR=$(dirname "${FILE_UPDATED}")
       mkdir -p "${FILE_UPDATED_DIR}"
