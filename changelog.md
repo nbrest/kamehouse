@@ -17,7 +17,8 @@
 - Removed extra permissions from kamehouse db user on mariadb
 - Refactored send key press commands and added extra key press buttons
 - Cleaned up unused kamehouse shell scripts
-- Fixed remove special chars from video files script to group multiple dashes into one
+- Updated remove special chars script to handle audio files and playlists too
+- Fixed remove special chars script to group multiple special chars into one
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
 - Fixed bugs
