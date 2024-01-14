@@ -94,6 +94,10 @@ removeSpecialCharsInDefaultPath() {
   removeSpecialCharsInPath "/n/remove-special-chars/audio"
   removeSpecialCharsInPlaylists "/n/remove-special-chars/playlists"
 
+  removeSpecialCharsInPath "/d/remove-special-chars/video"
+  removeSpecialCharsInPath "/d/remove-special-chars/audio"
+  removeSpecialCharsInPlaylists "/d/remove-special-chars/playlists"
+
   removeSpecialCharsInPath "${HOME}/temp/remove-special-chars/video"
   removeSpecialCharsInPath "${HOME}/temp/remove-special-chars/audio"
   removeSpecialCharsInPlaylists "${HOME}/temp/remove-special-chars/playlists"  
