@@ -12,7 +12,10 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-EMPTY_DIRS_PATH=${HOME}/temp/remove-special-chars/empty-dirs
+BASE_EMPTY_DIRS_PATH=/remove-special-chars/empty-dirs
+HOME_EMPTY_DIRS_PATH="${HOME}${BASE_EMPTY_DIRS_PATH}"
+D_EMPTY_DIRS_PATH="/d${BASE_EMPTY_DIRS_PATH}"
+N_EMPTY_DIRS_PATH="/n${BASE_EMPTY_DIRS_PATH}"
 
 DRY_RUN=false
 PROCESS_MEDIA_SERVER_VIDEOS=false
@@ -44,7 +47,13 @@ initEmptyDirsPath() {
   if ${DRY_RUN}; then
     return
   fi
-  mkdir -p ${EMPTY_DIRS_PATH}
+  mkdir -p "${HOME_EMPTY_DIRS_PATH}"
+  if [ -d "/d" ]; then
+    mkdir -p "${D_EMPTY_DIRS_PATH}"
+  fi
+  if [ -d "/n" ]; then
+    mkdir -p "${N_EMPTY_DIRS_PATH}"
+  fi
 }
 
 removeSpecialChars() {
@@ -98,9 +107,9 @@ removeSpecialCharsInDefaultPath() {
   removeSpecialCharsInPath "/d/remove-special-chars/audio"
   removeSpecialCharsInPlaylists "/d/remove-special-chars/playlists"
 
-  removeSpecialCharsInPath "${HOME}/temp/remove-special-chars/video"
-  removeSpecialCharsInPath "${HOME}/temp/remove-special-chars/audio"
-  removeSpecialCharsInPlaylists "${HOME}/temp/remove-special-chars/playlists"  
+  removeSpecialCharsInPath "${HOME}/remove-special-chars/video"
+  removeSpecialCharsInPath "${HOME}/remove-special-chars/audio"
+  removeSpecialCharsInPlaylists "${HOME}/remove-special-chars/playlists"  
 }
 
 removeSpecialCharsInPath() {
@@ -165,6 +174,13 @@ moveEmptyDirToTempFiles() {
   local FILE_UPDATED=$2
   if ${DRY_RUN}; then
     return
+  fi
+  local EMPTY_DIRS_PATH="${HOME_EMPTY_DIRS_PATH}"
+  if [ -d "${D_EMPTY_DIRS_PATH}" ]; then
+    EMPTY_DIRS_PATH="${D_EMPTY_DIRS_PATH}"
+  fi
+  if [ -d "${N_EMPTY_DIRS_PATH}" ]; then
+    EMPTY_DIRS_PATH="${N_EMPTY_DIRS_PATH}"
   fi
   if [ -d "${FILE}" ] && [ -z "$(ls -A "${FILE}")" ]; then
     log.info "Moving empty directory to temp: ${COL_PURPLE}${FILE}"
