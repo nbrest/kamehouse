@@ -12,10 +12,22 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-BASE_EMPTY_DIRS_PATH=/remove-special-chars/empty-dirs
-HOME_EMPTY_DIRS_PATH="${HOME}${BASE_EMPTY_DIRS_PATH}"
-D_EMPTY_DIRS_PATH="/d${BASE_EMPTY_DIRS_PATH}"
-N_EMPTY_DIRS_PATH="/n${BASE_EMPTY_DIRS_PATH}"
+BASE_PATH=/remove-special-chars
+HOME_EMPTY_DIRS_PATH="${HOME}${BASE_PATH}/empty-dirs"
+D_EMPTY_DIRS_PATH="/d${BASE_PATH}/empty-dirs"
+N_EMPTY_DIRS_PATH="/n${BASE_PATH}/empty-dirs"
+
+HOME_AUDIO_PATH="${HOME}${BASE_PATH}/audio"
+D_AUDIO_PATH="/d${BASE_PATH}/audio"
+N_AUDIO_PATH="/n${BASE_PATH}/audio"
+
+HOME_VIDEO_PATH="${HOME}${BASE_PATH}/video"
+D_VIDEO_PATH="/d${BASE_PATH}/video"
+N_VIDEO_PATH="/n${BASE_PATH}/video"
+
+HOME_PLAYLISTS_PATH="${HOME}${BASE_PATH}/playlists"
+D_PLAYLISTS_PATH="/d${BASE_PATH}/playlists"
+N_PLAYLISTS_PATH="/n${BASE_PATH}/playlists"
 
 DRY_RUN=false
 PROCESS_MEDIA_SERVER_VIDEOS=false
@@ -38,21 +50,31 @@ mainProcess() {
   if ${DRY_RUN}; then
     log.warn "Running with ${COL_RED}DRY-RUN"
   fi
-  initEmptyDirsPath
+  initDefaultPaths
   removeSpecialChars
+  initDefaultPaths
   exitMessage
 }
 
-initEmptyDirsPath() {
+initDefaultPaths() {
   if ${DRY_RUN}; then
     return
   fi
   mkdir -p "${HOME_EMPTY_DIRS_PATH}"
+  mkdir -p "${HOME_AUDIO_PATH}"
+  mkdir -p "${HOME_VIDEO_PATH}"
+  mkdir -p "${HOME_PLAYLISTS_PATH}"
   if [ -d "/d" ]; then
     mkdir -p "${D_EMPTY_DIRS_PATH}"
+    mkdir -p "${D_AUDIO_PATH}"
+    mkdir -p "${D_VIDEO_PATH}"
+    mkdir -p "${D_PLAYLISTS_PATH}"
   fi
   if [ -d "/n" ]; then
     mkdir -p "${N_EMPTY_DIRS_PATH}"
+    mkdir -p "${N_AUDIO_PATH}"
+    mkdir -p "${N_VIDEO_PATH}"
+    mkdir -p "${N_PLAYLISTS_PATH}"
   fi
 }
 
