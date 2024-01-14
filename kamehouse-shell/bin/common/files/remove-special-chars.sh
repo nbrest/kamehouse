@@ -53,7 +53,6 @@ mainProcess() {
   initDefaultPaths
   removeSpecialChars
   initDefaultPaths
-  exitMessage
 }
 
 initDefaultPaths() {
@@ -259,14 +258,6 @@ updatePlaylist() {
   for ((i = 0; i < ${#toRemove[@]}; i++)); do
     sed -E -i "s#${toRemove[$i]}##Ig" "${FILE}" 
   done
-}
-
-exitMessage() {
-  if ${DRY_RUN}; then
-    return
-  fi
-  log.info "Removing special chars process finished"
-  log.info "Check the remaining empty directories in: ${COL_RED}${EMPTY_DIRS_PATH}"
 }
 
 parseArguments() {
