@@ -78,100 +78,100 @@ removeExtraPlaylists() {
 createAllPlaylists() {
   local METAL="AC-DC${MP3_SUBDIR_SEPARATOR}\
 Angra${MP3_SUBDIR_SEPARATOR}\
-Dream Theater${MP3_SUBDIR_SEPARATOR}\
-Gamma Ray${MP3_SUBDIR_SEPARATOR}\
-Heavens Gate${MP3_SUBDIR_SEPARATOR}\
+Dream_Theater${MP3_SUBDIR_SEPARATOR}\
+Gamma_Ray${MP3_SUBDIR_SEPARATOR}\
+Heavens_Gate${MP3_SUBDIR_SEPARATOR}\
 Helloween${MP3_SUBDIR_SEPARATOR}\
-Iron Maiden${MP3_SUBDIR_SEPARATOR}\
-Judas Priest${MP3_SUBDIR_SEPARATOR}\
+Iron_Maiden${MP3_SUBDIR_SEPARATOR}\
+Judas_Priest${MP3_SUBDIR_SEPARATOR}\
 Metallica${MP3_SUBDIR_SEPARATOR}\
 Ozzy${MP3_SUBDIR_SEPARATOR}\
 Raphsody${MP3_SUBDIR_SEPARATOR}\
 Satriani"
 
   local OTHERS="Otros${MP3_SUBDIR_SEPARATOR}\
-Bob Marley${MP3_SUBDIR_SEPARATOR}\
-Celtic Music${MP3_SUBDIR_SEPARATOR}\
-Frank Sinatra${MP3_SUBDIR_SEPARATOR}\
-Jack Johnson${MP3_SUBDIR_SEPARATOR}\
+Bob_Marley${MP3_SUBDIR_SEPARATOR}\
+Celtic_Music${MP3_SUBDIR_SEPARATOR}\
+Frank_Sinatra${MP3_SUBDIR_SEPARATOR}\
+Jack_Johnson${MP3_SUBDIR_SEPARATOR}\
 Japanese${MP3_SUBDIR_SEPARATOR}\
-Los Pericos${MP3_SUBDIR_SEPARATOR}\
-Street Fighter${MP3_SUBDIR_SEPARATOR}\
-The Killers${MP3_SUBDIR_SEPARATOR}\
-The Tormentos${MP3_SUBDIR_SEPARATOR}\
+Los_Pericos${MP3_SUBDIR_SEPARATOR}\
+Street_Fighter${MP3_SUBDIR_SEPARATOR}\
+The_Killers${MP3_SUBDIR_SEPARATOR}\
+The_Tormentos${MP3_SUBDIR_SEPARATOR}\
 TropiMatch${MP3_SUBDIR_SEPARATOR}\
 Yes${MP3_SUBDIR_SEPARATOR}\
 Enya"
 
   local POP="Pop${MP3_SUBDIR_SEPARATOR}\
-Michael Jackson${MP3_SUBDIR_SEPARATOR}\
+Michael_Jackson${MP3_SUBDIR_SEPARATOR}\
 Madonna${MP3_SUBDIR_SEPARATOR}\
 Coldplay${MP3_SUBDIR_SEPARATOR}\
-Elton John${MP3_SUBDIR_SEPARATOR}\
-Elvis Presley${MP3_SUBDIR_SEPARATOR}\
+Elton_John${MP3_SUBDIR_SEPARATOR}\
+Elvis_Presley${MP3_SUBDIR_SEPARATOR}\
 Oasis${MP3_SUBDIR_SEPARATOR}\
-Phill Collins${MP3_SUBDIR_SEPARATOR}\
+Phill_Collins${MP3_SUBDIR_SEPARATOR}\
 U2${MP3_SUBDIR_SEPARATOR}\
 Bruno Mars"
 
-  local PUNK="Bad Religion${MP3_SUBDIR_SEPARATOR}\
+  local PUNK="Bad_Religion${MP3_SUBDIR_SEPARATOR}\
 Blender${MP3_SUBDIR_SEPARATOR}\
 Blink-182${MP3_SUBDIR_SEPARATOR}\
 Eminem${MP3_SUBDIR_SEPARATOR}\
-Foo Fighters${MP3_SUBDIR_SEPARATOR}\
-Green Day${MP3_SUBDIR_SEPARATOR}\
-Limp Bizkit${MP3_SUBDIR_SEPARATOR}\
-Linkin Park${MP3_SUBDIR_SEPARATOR}\
+Foo_Fighters${MP3_SUBDIR_SEPARATOR}\
+Green_Day${MP3_SUBDIR_SEPARATOR}\
+Limp_Bizkit${MP3_SUBDIR_SEPARATOR}\
+Linkin_Park${MP3_SUBDIR_SEPARATOR}\
 Nirvana${MP3_SUBDIR_SEPARATOR}\
 Offspring${MP3_SUBDIR_SEPARATOR}\
 Ramones"
 
   local ROCK="Aerosmith${MP3_SUBDIR_SEPARATOR}\
-Bon Jovi${MP3_SUBDIR_SEPARATOR}\
-Guns N Roses${MP3_SUBDIR_SEPARATOR}\
-Lenny Kravitz${MP3_SUBDIR_SEPARATOR}\
-Pink Floid${MP3_SUBDIR_SEPARATOR}\
+Bon_Jovi${MP3_SUBDIR_SEPARATOR}\
+Guns_N_Roses${MP3_SUBDIR_SEPARATOR}\
+Lenny_Kravitz${MP3_SUBDIR_SEPARATOR}\
+Pink_Floid${MP3_SUBDIR_SEPARATOR}\
 Queen${MP3_SUBDIR_SEPARATOR}\
-Red Hot Chili Peppers${MP3_SUBDIR_SEPARATOR}\
-Rolling Stones"
+Red_Hot_Chili_Peppers${MP3_SUBDIR_SEPARATOR}\
+Rolling_Stones"
 
-  local ROCK_NACIONAL="Rock Nacional${MP3_SUBDIR_SEPARATOR}\
-Attaque 77${MP3_SUBDIR_SEPARATOR}\
-Autenticos Decadentes${MP3_SUBDIR_SEPARATOR}\
+  local ROCK_NACIONAL="Rock_Nacional${MP3_SUBDIR_SEPARATOR}\
+Attaque_77${MP3_SUBDIR_SEPARATOR}\
+Autenticos_Decadentes${MP3_SUBDIR_SEPARATOR}\
 Blender${MP3_SUBDIR_SEPARATOR}\
-Cadena Perpetua${MP3_SUBDIR_SEPARATOR}\
+Cadena_Perpetua${MP3_SUBDIR_SEPARATOR}\
 Callejeros${MP3_SUBDIR_SEPARATOR}\
-Fito Paez"
+Fito_Paez"
 
   createAllPlaylist "All-Music" ".*"
   createAllPlaylist "Aerosmith" "Aerosmith"
   createAllPlaylist "Anime" "Anime"
-  createAllPlaylist "Bob-And-Tom" "Bob And Tom"
+  createAllPlaylist "Bob-And-Tom" "Bob_And_Tom"
   createAllPlaylist "Bajoneros" "Bajoneros"
-  createAllPlaylist "Beatles" "The Beatles"
+  createAllPlaylist "Beatles" "The_Beatles"
   createAllPlaylist "Cartoons" "Cartoons"
-  createAllPlaylist "Cirque-Du-Soleil" "Cirque du Soleil"
+  createAllPlaylist "Cirque-Du-Soleil" "Cirque_du_Soleil"
   createAllPlaylist "Cumbia" "Cumbia"
-  createAllPlaylist "Elton-John" "Elton John"
+  createAllPlaylist "Elton-John" "Elton_John"
   createAllPlaylist "Enya" "Enya"
   createAllPlaylist "Futbol" "Futbol"
-  createAllPlaylist "Guns-N-Roses" "Guns N Roses"
+  createAllPlaylist "Guns-N-Roses" "Guns_N_Roses"
   createAllPlaylist "Hits" "Otros/Hits"
-  createAllPlaylist "Jack-Johnson" "Jack Johnson"
+  createAllPlaylist "Jack-Johnson" "Jack_Johnson"
   createAllPlaylist "Madonna" "Madonna"
   createAllPlaylist "Metal" "${METAL}"
-  createAllPlaylist "Michael-Jackson" "Michael Jackson"
+  createAllPlaylist "Michael-Jackson" "Michael_Jackson"
   createAllPlaylist "Movies" "Movies"
   createAllPlaylist "Oasis" "Oasis"
   createAllPlaylist "Others" "${OTHERS}"
-  createAllPlaylist "Phill-Collins" "Phill Collins"
+  createAllPlaylist "Phill-Collins" "Phill_Collins"
   createAllPlaylist "Pop" "${POP}"
   createAllPlaylist "Punk" "${PUNK}"
   createAllPlaylist "Queen" "Queen"
-  createAllPlaylist "Red-Hot-Chili-Peppers" "Red Hot Chili Peppers"
+  createAllPlaylist "Red-Hot-Chili-Peppers" "Red_Hot_Chili_Peppers"
   createAllPlaylist "Rock" "${ROCK}"
   createAllPlaylist "Rock-Nacional" "${ROCK_NACIONAL}"
-  createAllPlaylist "Rolling-Stones" "Rolling Stones"
+  createAllPlaylist "Rolling-Stones" "Rolling_Stones"
   createAllPlaylist "SKA-P" "SKA-P"
   createAllPlaylist "Trance" "Trance"
   createAllPlaylist "U2" "U2"
