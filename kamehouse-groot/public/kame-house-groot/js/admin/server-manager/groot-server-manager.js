@@ -245,7 +245,7 @@ class GitManager {
   }
 
   /**
-   * Pull all from all repos, in all servers.
+   * Pull kamehouse in all servers.
    */
   pullKameHouseAllServers() {
     if (kameHouse.extension.serverManager.isCommandRunning()) {
