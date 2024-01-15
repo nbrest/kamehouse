@@ -270,7 +270,6 @@ class DeploymentManager {
   static #DEV_PORTS = ["9980", "9989", "9988", "9949", "9948"];
   static #ECLIPSE_PORTS = ["9988", "9948"];
   static #TOMCAT_DEV_PORT = "9980";
-  static #TOMCAT_MODULES = ["admin", "media", "tennisworld", "testmodule", "ui", "vlcrc"];
 
   #statusBallBlueImg = null;
   #statusBallRedImg = null;
