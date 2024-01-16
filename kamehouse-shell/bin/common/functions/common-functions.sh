@@ -2,7 +2,7 @@
 # Import other dependencies #
 #############################
 COMMON_FUNCTIONS_PATH=`dirname ${BASH_SOURCE[0]}`
-sourceFiles=("bashrc-functions.sh" "colors.sh" "default-functions.sh" "git/git-functions.sh" "log-functions.sh" "example-functions.sh")
+sourceFiles=("colors-functions.sh" "default-functions.sh" "git/git-functions.sh" "log-functions.sh" "example-functions.sh")
 for INDEX in ${!sourceFiles[@]}; do
   source ${COMMON_FUNCTIONS_PATH}/${sourceFiles[$INDEX]}
   if [ "$?" != "0" ]; then
@@ -165,6 +165,27 @@ executeWithRetry() {
 ###########################################################
 # Common functions called in this script to set variables #
 ###########################################################
+
+# Update this function both in common-functions.sh and path.sh
+export IS_LINUX_HOST=false
+setIsLinuxHost() {
+  export IS_LINUX_HOST=false
+  local UNAME_S=`uname -s`
+  local UNAME_R=`uname -r`
+  if [ "${UNAME_S}" != "Linux" ]; then
+    # Using Git Bash
+    export IS_LINUX_HOST=false
+  else 
+    if [[ ${UNAME_R} == *"Microsoft"* ]]; then
+      # Using Ubuntu for Windows 10 (deprecated. don't use that anymore, use an ubuntu vm)
+      export IS_LINUX_HOST=false
+    else
+      # Using Linux
+      export IS_LINUX_HOST=true
+    fi
+  fi
+}
+setIsLinuxHost
 
 # Check if I'm using Ubuntu for windows, Git Bash or any other bash implementation.
 # Default is Ubuntu for windows. Set root prefix for mounted drives based on the subsystem.

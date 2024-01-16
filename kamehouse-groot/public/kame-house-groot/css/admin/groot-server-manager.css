@@ -108,6 +108,10 @@
   min-width: 120px;
 }
 
+.server-manager-batcave:hover {
+  filter: contrast(0.5);
+}
+
 .server-manager-tabs {
   background-color: #060809;
   border-top: #272727 3px solid;

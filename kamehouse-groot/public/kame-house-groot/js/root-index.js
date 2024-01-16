@@ -10,9 +10,6 @@ class GrootHome {
    */
   load() {
     kameHouse.util.banner.setRandomAllBanner();
-    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house-groot/kamehouse-groot/html/root-debug-mode-custom.html", () => {});
-    });
   }
 
   /** @deprecated Set client time and date */

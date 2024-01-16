@@ -43,9 +43,9 @@ class KameHouseShell {
     if ($kameHouse->core->isLinuxHost()) {
       $kameHouse->core->loadKameHouseUserToEnv();
       $username = getenv("KAMEHOUSE_USER");
-      $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s lin/csv-kamehouse-shell.sh"));
+      $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s common/csv/csv-kamehouse-shell.sh"));
     } else {
-      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/win/csv-kamehouse-shell.sh\""));
+      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/csv/csv-kamehouse-shell.sh\""));
     }
   
     if (empty($kameHouseShellCSV)) {

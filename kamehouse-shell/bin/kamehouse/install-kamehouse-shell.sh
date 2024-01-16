@@ -79,6 +79,7 @@ installKameHouseShell() {
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
+  cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/sql ${KAMEHOUSE_SHELL_PATH}/
 }
 
 fixPermissions() {
@@ -132,7 +133,7 @@ updateUsername() {
   sed -i "s#USERHOME_LIN=\"/home/\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/get-userhome.sh"
   sed -i "s#USERNAME=\"\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/sudoers/www-data/su.sh"
   
-  sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/kamehouse/kamehouse-functions.sh"
+  sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/kamehouse/kamehouse-functions.sh"
 
   sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.sh"
   sed -i "s#KAMEHOUSE_USER#${USERNAME}#g" "${KAMEHOUSE_SHELL_PATH}/bin/lin/startup/rc-local.service"
@@ -161,7 +162,7 @@ updateLogLevel() {
   if [ "${LEVEL}" == "ERROR" ]; then
     LEVEL_NUMBER="0"
   fi
-  sed -i "s#LOG_LEVEL_NUMBER=2#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/log-functions.sh"
+  sed -i "s#LOG_LEVEL_NUMBER=2#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/log-functions.sh"
 }
 
 updateBashRc() {
@@ -210,8 +211,6 @@ getPathWithSubdirectories() {
   # List all directories
   local PATH_WITH_SUBDIRS=$(find ${BASE_PATH} -name '.*' -prune -o -type d)
   # Filter bashrc
-  PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /lin/bashrc) 
-  PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /win/bashrc) 
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /common/bashrc)
   # Filter docker container scripts
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /kamehouse/docker/docker-container)

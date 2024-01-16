@@ -166,10 +166,10 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   service mariadb start ; \
   sleep 5 ; \
   service mariadb start ; \
-  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/add-kamehouse-user.sql`" ; \
-  mariadb < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/create-kamehouse-schema.sql ; \
-  mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/spring-session.sql ; \
-  mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/dump-kamehouse.sql
+  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" ; \
+  mariadb < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql ; \
+  mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql ; \
+  mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
 
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 

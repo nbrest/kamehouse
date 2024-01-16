@@ -1,20 +1,20 @@
 #!/bin/bash
 
 # Import common functions
-source ${HOME}/programs/kamehouse-shell/bin/common/common-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
   exit 99
 fi
 
 # Import kamehouse functions
-source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/kamehouse-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 99
 fi
 
-source ${HOME}/programs/kamehouse-shell/bin/common/kamehouse/docker-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
@@ -114,8 +114,8 @@ reinitKameHouseFolder() {
     ;;
   "docker-init")
     log.info "Resetting mariadb dump data from initial docker container data"
-    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump\""
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/bin/kamehouse/sql/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump"
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"mkdir -p /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump\""
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "mkdir -p /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump/old ; cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql /home/${DOCKER_USERNAME}/.kamehouse/mariadb/dump"
     ;;
   "docker-backup")
     log.info "Exporting mariadb data from ${HOME}/.kamehouse/docker/mariadb to the container"
