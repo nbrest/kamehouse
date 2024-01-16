@@ -710,7 +710,7 @@
     <br>
   </div>
   <div class="txt-c-d-kh m-20-d-kh">
-    <a><img class="img-btn-kh server-manager-batcave" src="/kame-house/img/dc/batman-1989-black.png" alt="Batcave" onclick='window.open("/kame-house-batcave/index.html")'/></a>
+    <a><img class="img-btn-kh server-manager-batcave" src="/kame-house/img/dc/batman-1989-black.png" alt="Batcave" onclick="kameHouse.util.mobile.windowOpen('/kame-house-batcave/index.html', '_blank')"/></a>
   </div>
   <span id="debug-mode-wrapper"></span>
   <script src="/kame-house/js/admin/tomcat-module-status-manager.js"></script>
