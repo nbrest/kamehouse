@@ -1724,7 +1724,7 @@ class KameHouseCore {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody));
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        if (!this.#isGRootPage()) {
+        if (!this.#isGRootAuthorizedPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
         }
       },
@@ -1733,7 +1733,7 @@ class KameHouseCore {
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = {};
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        if (!this.#isGRootPage()) {
+        if (!this.#isGRootAuthorizedPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
         }
       }
@@ -1976,7 +1976,7 @@ class KameHouseCore {
     }
     let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
     let roles = kameHouse.session.roles;
-    if (this.#isGRootPage()) {
+    if (this.#isGRootAuthorizedPage()) {
       loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
       roles = kameHouse.extension.groot.session.roles;
     }
@@ -2010,10 +2010,10 @@ class KameHouseCore {
   }
 
   /**
-   * Returns true when processing a GRoot page.
+   * Returns true when processing a page authenticated by GRoot.
    */
-  #isGRootPage() {
-    return window.location.href.includes("/kame-house-groot/");
+  #isGRootAuthorizedPage() {
+    return window.location.href.includes("/kame-house-groot/") || window.location.href.includes("/kame-house-batcave/");
   }
 
   /**
