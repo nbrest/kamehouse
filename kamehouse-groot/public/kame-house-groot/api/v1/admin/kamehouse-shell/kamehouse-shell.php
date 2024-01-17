@@ -14,6 +14,13 @@ $kameHouse->setShell(new KameHouseShell());
 class KameHouseShell {
 
   /**
+   * Get the exec-script to execute shell scripts on windows.
+   */
+  public function getShellScriptsBasePath() {
+    return "/programs/kamehouse-shell/bin/";
+  }
+
+  /**
    * execute a kamehouse shell script.
    */
   public function execute() {
@@ -33,9 +40,9 @@ class KameHouseShell {
   }
 
   /**
-   * Get a list of all kamehouse shell scripts.
+   * Get a list of all kamehouse shell scripts using the specified shell scripts to get the csv.
    */
-  public function getScripts() {
+  public function getScripts($csvScript) {
     global $kameHouse;
 
     $kameHouseShellCSV = "";
@@ -43,9 +50,11 @@ class KameHouseShell {
     if ($kameHouse->core->isLinuxHost()) {
       $kameHouse->core->loadKameHouseUserToEnv();
       $username = getenv("KAMEHOUSE_USER");
-      $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s common/csv/csv-kamehouse-shell.sh"));
+      $suScript = $this->getSuScript();
+      $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . $suScript . " -s " . $csvScript));
     } else {
-      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/csv/csv-kamehouse-shell.sh\""));
+      $shellScriptsBasePath = $this->getShellScriptsBasePath();
+      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . $csvScript . "\""));
     }
   
     if (empty($kameHouseShellCSV)) {
@@ -76,6 +85,13 @@ class KameHouseShell {
       }
     } 
     return $grootConfig;
+  }  
+
+  /**
+   * Get the su script to execute shell scripts on linux.
+   */
+  private function getSuScript() {
+    return $this->getShellScriptsBasePath() . "common/sudoers/www-data/su.sh";
   }  
 
   /**
@@ -124,9 +140,11 @@ class KameHouseShell {
        */
       $kameHouse->core->loadKameHouseUserToEnv();
       $username = getenv("KAMEHOUSE_USER");
-      $shellCommand = "sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh";
+      $suScript = $this->getSuScript();
+      $shellCommand = "sudo /home/" . $username . $suScript;
     } else {
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh";
+      $shellScriptsBasePath = $this->getShellScriptsBasePath();
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " -x";

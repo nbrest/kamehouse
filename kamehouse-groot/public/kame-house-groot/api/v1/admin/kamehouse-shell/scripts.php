@@ -21,7 +21,7 @@ class KameHouseShellScriptsLoader {
     require_once("$documentRoot/kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php");
     require_once("$documentRoot/kame-house-groot/api/v1/auth/kamehouse-auth.php");
     $kameHouse->auth->authorizeApi();
-    $kameHouse->shell->getScripts();
+    $kameHouse->shell->getScripts("common/csv/csv-kamehouse-shell.sh");
   }  
 }
 ?>
