@@ -20,6 +20,7 @@
 - Updated remove special chars script to handle audio files and playlists too
 - Fixed remove special chars script to group multiple special chars into one
 - Reorganized kamehouse shell scripts folders and bashrc functions
+- Added more banners
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
 - Fixed bugs

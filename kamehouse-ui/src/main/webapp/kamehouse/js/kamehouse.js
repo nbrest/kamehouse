@@ -112,6 +112,10 @@ class KameHouseBannerUtils {
   static #PRELOAD_BANNERS_WAIT_MS = 25000;
   static #BANNERS_LIST = [
     {
+      category: "batcave",
+      banners: ["banner-batman-animated", "banner-batman-1989-batcave-bw", "banner-batman-animated-batcave-01", "banner-batman-forever-batcave-02", "banner-batman-1989-batcave-01", "banner-batman-1989-batmobile-01", "banner-batman-animated-batcave-02", "banner-batman-forever-batcave-03", "banner-batman-1989-batcave-02", "banner-batman-1989-batmobile-02", "banner-batman-animated-batcave-03", "banner-batman-n-robin-batcave-01", "banner-batman-1989-batcave-03", "banner-batman-1989-batsignal-01", "banner-batman-animated-batcave-04", "banner-batman-1989-batcave-04", "banner-batman-1989-batsignal-02", "banner-batman-forever-batcave-01"]
+    },    
+    {
       category: "captain-tsubasa",
       banners: ["banner-beni3", "banner-benji-steve", "banner-benji", "banner-benji2", "banner-benji3", "banner-benji4", "banner-niupi", "banner-niupi2", "banner-oliver-benji", "banner-oliver-benji2", "banner-oliver-steve", "banner-oliver", "banner-oliver2"]
     },
@@ -159,6 +163,11 @@ class KameHouseBannerUtils {
     const bannerClasses = ["banner-fuego-12-casas", "banner-sanctuary"];  
     this.#setRandomBannerWrapper(bannerClasses, true, bannerRotateWaitMs);
     this.#preloadBannerImages('saint-seiya', bannerClasses);
+  }
+
+  /** Set random batcave banner */
+  setRandomBatcaveBanner(bannerRotateWaitMs) {
+    this.#setRandomBannerFromCategory('batcave', bannerRotateWaitMs);
   }
 
   /** Set random captain tsubasa banner */
