@@ -69,6 +69,10 @@ class KameHouse {
    * Extensions live externally to the kamehouse js/css/html bundle. Examples: kamehouse-mobile.js, kamehouse-groot.js, newsletter.js. They need to implement a load() function that initializes the extension.
    */
   addExtension(extensionName, extension) {
+    if (this.#skipLoading(extensionName)) {
+      kameHouse.logger.info("Extension '" + extensionName + "' marked as skipped. Not loading");
+      return;
+    }
     kameHouse.logger.info("Adding extension " + extensionName);
     this.extension[extensionName] = extension;
     extension.load();
@@ -78,9 +82,21 @@ class KameHouse {
    * Plugins live in the kamehouse js/css/html bundle, but are not loaded by default. Examples kamehouse-debugger.js, kamehouse-modal.js. They need to implement a load() function that initializes the plugin.
    */
   addPlugin(pluginName, plugin) {
+    if (this.#skipLoading(pluginName)) {
+      kameHouse.logger.info("Plugin '" + extensionName + "' marked as skipped. Not loading");
+      return;
+    }
     kameHouse.logger.info("Adding plugin " + pluginName);
     this.plugin[pluginName] = plugin;
     plugin.load();
+  }
+
+  /**
+   * Returns true if it should skip loading the kamehouse extension/plugin. False otherwise.
+   */
+  #skipLoading(elementToLoad) {
+    const skipLoading = kameHouse.core.getArrayKameHouseData("skip-loading");
+    return skipLoading.includes(elementToLoad);
   }
 
 } // KameHouse root object
@@ -1875,7 +1891,7 @@ class KameHouseCore {
   }  
     
   /**
-   * Returns the boolean value of data-xx attributes defined in the script tag of kamehouse.js
+   * Returns the string value of data-xx attributes defined in the script tag of kamehouse.js
    * The script tag id must be set to id="kamehouse-data"
    */
   getStringKameHouseData(dataAttributeName) {
@@ -1884,6 +1900,21 @@ class KameHouseCore {
       return kameHouseData.getAttribute("data-" + dataAttributeName);
     }
     return null;
+  }
+
+  /**
+   * Returns the string array value of csv data-xx attributes defined in the script tag of kamehouse.js
+   * The script tag id must be set to id="kamehouse-data"
+   */
+  getArrayKameHouseData(dataAttributeName) {
+    const kameHouseData = document.getElementById('kamehouse-data');
+    if (!this.isEmpty(kameHouseData)) {
+      const dataString = kameHouseData.getAttribute("data-" + dataAttributeName);
+      if (!this.isEmpty(dataString)) {
+        return dataString.split(",");
+      }
+    }
+    return [];
   }
 
   /** 
