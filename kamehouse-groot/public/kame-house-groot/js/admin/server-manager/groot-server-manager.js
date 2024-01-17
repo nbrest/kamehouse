@@ -19,10 +19,10 @@ class ServerManager {
    */
   load() {
     kameHouse.logger.info("Loading ServerManager");
-    kameHouse.util.banner.setRandomAllBanner();
+    this.setBanners();
     this.loadStateFromCookies();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
-      this.handleSessionStatus();
+      this.#handleSessionStatus();
     });
   }
 
@@ -31,6 +31,13 @@ class ServerManager {
    */
   loadStateFromCookies() {
     kameHouse.util.tab.openTabFromCookies('kh-groot-server-manager', 'tab-deployment');
+  }
+
+  /**
+   * Set random banners.
+   */
+  setBanners() {
+    kameHouse.util.banner.setRandomAllBanner();
   }
 
   /**
@@ -147,16 +154,6 @@ class ServerManager {
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
   }  
 
-  /** Handle Session Status */
-  handleSessionStatus() {
-    const sessionStatus = kameHouse.extension.groot.session;
-    this.#isLinuxHost = sessionStatus.isLinuxHost;
-    this.#isLinuxDockerHost = sessionStatus.isLinuxDockerHost;
-    this.#isDockerContainer = sessionStatus.isDockerContainer;
-    this.#dockerControlHost = sessionStatus.dockerControlHost;
-    this.#updateServerName(sessionStatus);
-  }
-  
   /**
    * Get the parameters for tomcat restart script.
    */
@@ -168,7 +165,17 @@ class ServerManager {
       return "";
     }
   }
-  
+
+  /** Handle Session Status */
+  #handleSessionStatus() {
+    const sessionStatus = kameHouse.extension.groot.session;
+    this.#isLinuxHost = sessionStatus.isLinuxHost;
+    this.#isLinuxDockerHost = sessionStatus.isLinuxDockerHost;
+    this.#isDockerContainer = sessionStatus.isDockerContainer;
+    this.#dockerControlHost = sessionStatus.dockerControlHost;
+    this.#updateServerName(sessionStatus);
+  }
+
   /** Update server name */
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {

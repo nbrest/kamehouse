@@ -9,11 +9,18 @@ class ExecScriptLoader {
    * Load the exec script loader extension.
    */
   load() {
-    kameHouse.util.banner.setRandomAllBanner();
+    this.setBanners();
     this.#setScriptNameAndArgsFromUrlParams();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       this.#handleSessionStatus();
     });
+  }
+
+  /**
+   * Set random banners.
+   */
+  setBanners() {
+    kameHouse.util.banner.setRandomAllBanner();
   }
 
   /**

@@ -26,7 +26,7 @@ class KameHouseShellLoader {
    * Load the extension.
    */
   load() {
-    kameHouse.util.banner.setRandomAllBanner();
+    this.setBanners();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       this.#handleSessionStatus();
     });
@@ -35,6 +35,13 @@ class KameHouseShellLoader {
       const message = "Error getting scripts csv";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     });
+  }
+  
+  /**
+   * Set random banners.
+   */
+  setBanners() {
+    kameHouse.util.banner.setRandomAllBanner();
   }
 
   /** Filters rows for all kamehouse-shell table */
