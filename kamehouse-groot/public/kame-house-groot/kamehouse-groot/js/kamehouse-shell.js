@@ -5,8 +5,7 @@
  */
 class KameHouseShell {
 
-  static #EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
-
+  #executeAPI = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
   #bashScriptOutput = "Script output not set yet.";
 
   /**
@@ -31,7 +30,7 @@ class KameHouseShell {
       if (!kameHouse.core.isEmpty(timeout)) {
         config.timeout = timeout;
       }
-      kameHouse.plugin.debugger.http.get(config, KameHouseShell.#EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
+      kameHouse.plugin.debugger.http.get(config, this.#executeAPI, kameHouse.http.getUrlEncodedHeaders(), params,
         (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, successCallback),
         (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, errorCallback));
     } else {
@@ -45,6 +44,13 @@ class KameHouseShell {
    */
   getBashScriptOutput() {
     return this.#bashScriptOutput;
+  }
+
+  /**
+   * Override default execute api endpoint.
+   */
+  setExecuteApi(executeApi) {
+    this.#executeAPI = executeApi;
   }
 
   /** Set the script ouput to show that the script is currently executing */

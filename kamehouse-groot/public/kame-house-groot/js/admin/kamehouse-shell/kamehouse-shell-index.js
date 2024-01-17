@@ -5,7 +5,22 @@
  */
 class KameHouseShellLoader {
 
-  static #EXEC_SCRIPT_PAGE = "/kame-house-groot/admin/kamehouse-shell/exec-script";
+  #execScriptPageUrl = "/kame-house-groot/admin/kamehouse-shell/exec-script";
+  #getScriptsApiUrl = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
+
+  /**
+   * Set exec-script page url.
+   */
+  setExecScriptPageUrl(execScriptPageUrl) {
+    this.#execScriptPageUrl = execScriptPageUrl;
+  }
+
+  /**
+   * Set the get scripts api url.
+   */
+  setGetScriptsApiUrl(getScriptsApiUrl) {
+    this.#getScriptsApiUrl = getScriptsApiUrl;
+  }
 
   /**
    * Load the extension.
@@ -51,9 +66,9 @@ class KameHouseShellLoader {
     kameHouse.logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
     if (!kameHouse.core.isEmpty(scriptArguments)) {
       const urlEncodedArgs = encodeURI(scriptArguments);
-      kameHouse.extension.groot.windowLocation(KameHouseShellLoader.#EXEC_SCRIPT_PAGE, "?script=" + scriptName + "&args=" + urlEncodedArgs);
+      kameHouse.extension.groot.windowLocation(this.#execScriptPageUrl, "?script=" + scriptName + "&args=" + urlEncodedArgs);
     } else {
-      kameHouse.extension.groot.windowLocation(KameHouseShellLoader.#EXEC_SCRIPT_PAGE, "?script=" + scriptName);
+      kameHouse.extension.groot.windowLocation(this.#execScriptPageUrl, "?script=" + scriptName);
     }
   }
   
@@ -71,10 +86,9 @@ class KameHouseShellLoader {
 
   /** Get kamehouse shell scripts from the backend */
   #getKameHouseShell(successCallback, errorCallback) {
-    const KAMEHOUSE_SHELL_SCRIPTS_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
-    kameHouse.http.get(config, KAMEHOUSE_SHELL_SCRIPTS_API, null, null,
+    kameHouse.http.get(config, this.#getScriptsApiUrl, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => successCallback(responseBody, responseCode, responseDescription, responseHeaders),
       (responseBody, responseCode, responseDescription, responseHeaders) => errorCallback(responseBody, responseCode, responseDescription, responseHeaders));
   }

@@ -17,6 +17,13 @@ class ExecScriptLoader {
   }
 
   /**
+   * Return the js shell executor.
+   */
+  getShell() {
+    return kameHouse.extension.kameHouseShell;
+  } 
+  
+  /**
    * Execute script from url parameters.
    */
   executeFromUrlParams() {
@@ -26,11 +33,7 @@ class ExecScriptLoader {
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
     const timeout = urlParams.get('timeout');
-    kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
-      kameHouse.extension.kameHouseShell.execute(scriptName, args, executeOnDockerHost, timeout, 
-        (scriptOutput) => {this.#successCallback(scriptOutput)}, 
-        (scriptOutput) => {this.#errorCallback(scriptOutput)});
-    }); 
+    this.#execute(scriptName, args, executeOnDockerHost, timeout);
   }
 
   /** Allow the user to download the full bash script output */
@@ -59,17 +62,6 @@ class ExecScriptLoader {
   }
 
   /**
-   * Execute script global callback.
-   */
-  #scriptExecCallback() {
-    this.#updateScriptExecutionEndDate();
-    kameHouse.util.dom.removeClass($('#kamehouse-shell-output-header'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");  
-    this.#setBannerScriptStatus("finished!");
-  }
-
-  /**
    * Set script in progress view.
    */
   #setScriptInProgressView() {
@@ -78,6 +70,28 @@ class ExecScriptLoader {
     kameHouse.util.dom.addClass($('#btn-execute-script'), "hidden-kh");
     kameHouse.util.dom.addClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");
     this.#setBannerScriptStatus("in progress...");
+  }
+
+  /**
+   * Execute script.
+   */  
+  #execute(scriptName, args, executeOnDockerHost, timeout) {
+    kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
+      this.getShell().execute(scriptName, args, executeOnDockerHost, timeout, 
+        (scriptOutput) => {this.#successCallback(scriptOutput)}, 
+        (scriptOutput) => {this.#errorCallback(scriptOutput)});
+    });  
+  }
+
+  /**
+   * Execute script global callback.
+   */
+  #scriptExecCallback() {
+    this.#updateScriptExecutionEndDate();
+    kameHouse.util.dom.removeClass($('#kamehouse-shell-output-header'), "hidden-kh");
+    kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
+    kameHouse.util.dom.removeClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");  
+    this.#setBannerScriptStatus("finished!");
   }
 
   /**
@@ -136,7 +150,7 @@ class ExecScriptLoader {
    */
   #getDownloadLink(timestamp) {
     return kameHouse.util.dom.getDomNode(kameHouse.util.dom.getA({
-      href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(kameHouse.extension.kameHouseShell.getBashScriptOutput()),
+      href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.getShell().getBashScriptOutput()),
       download:  "kamehouse-shell-output-" + timestamp + ".log",
       class: "hidden-kh"
     }, null));
