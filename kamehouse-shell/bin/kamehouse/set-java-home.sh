@@ -1,11 +1,28 @@
 # call this script with 'source PATH-TO-SCRIPT/set-java-home.sh'
 
-log.info "Setting JAVA_HOME"
+main() {
+  logger.info "Setting JAVA_HOME"
 
-if ${IS_LINUX_HOST}; then
-  source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
-else
+  ### Java 17
+  # Sort them in order from less priority to highest priority 
+  # so the last one that matches is the one I want
   export JAVA_HOME="C:\Program Files\Java\jdk-17"
-fi
 
-log.info "JAVA_HOME=${JAVA_HOME}"
+  if [ -d "/usr/lib/jvm/java-17-openjdk-armhf" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-armhf
+  fi
+
+  if [ -d "/usr/lib/jvm/java-17-openjdk-amd64" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+  fi
+
+  logger.info "JAVA_HOME=${JAVA_HOME}"
+}
+
+logger.info() {
+  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
+  local LOG_MESSAGE=$1
+  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
+}
+
+main "$@"
