@@ -81,7 +81,7 @@
         <div class="form-submit-wrapper-kh">
           <img class="img-btn-kh m-15-d-r-kh" onclick="kameHouse.extension.dragonBallUserServiceJsp.updateDragonBallUser()" 
             src="/kame-house/img/other/check-gray-dark.png" alt="Update User" title="Update User"/>
-          <img class="img-btn-kh fl-r-d-kh" onclick="window.location.href='users-list'"
+          <img class="img-btn-kh fl-r-d-kh" onclick="kameHouse.core.windowLocationHref('users-list')"
             src="/kame-house/img/other/list-bullet-gray-dark.png" alt="List Users" title="List Users"/>
         </div>
       </form>

@@ -59,7 +59,7 @@ class DragonBallUserServiceJsp {
     };
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
-      (responseBody, responseCode, responseDescription, responseHeaders) => { window.location.href = 'users-list'; },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {kameHouse.core.windowLocation('users-list')},
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error adding dragonball user';
         this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
@@ -80,7 +80,7 @@ class DragonBallUserServiceJsp {
     };
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {window.location.href = 'users-list'},
+      (responseBody, responseCode, responseDescription, responseHeaders) => {kameHouse.core.windowLocation('users-list')},
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error updating dragonball user';
         this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
@@ -198,7 +198,7 @@ class DragonBallUserServiceJsp {
       src: "/kame-house/img/other/edit.png",
       className: "img-btn-kh m-15-d-r-kh",
       alt: "Edit",
-      onClick: () => window.location.href="users-edit?username=" + username
+      onClick: () => kameHouse.core.windowLocation("users-edit?username=" + username)
     });
   }
 

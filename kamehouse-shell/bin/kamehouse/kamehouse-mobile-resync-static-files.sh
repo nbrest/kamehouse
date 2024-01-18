@@ -18,8 +18,10 @@ source ${HOME}/.kamehouse/.shell/.cred
 DELETE_ONLY=false
 SOURCE_FILES_KAMEHOUSE_DIR=""
 SOURCE_FILES_GROOT_DIR=""
+SOURCE_FILES_BATCAVE_DIR=""
 EXPORT_KAMEHOUSE_DIR=""
 EXPORT_GROOT_DIR=""
+EXPORT_BATCAVE_DIR=""
 EXPORT_MOCKED_APIS_DIR=""
 MOCKED_KAMEHOUSE_API_DIR=""
 
@@ -27,6 +29,7 @@ mainProcess() {
   setGlobalVariables
   exportKameHouseUi
   exportGroot
+  exportBatcave
   exportMockedApis
 }
 
@@ -35,9 +38,11 @@ setGlobalVariables() {
 
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
   SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/public/kame-house-groot
+  SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/public/kame-house-batcave"
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
   EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
+  EXPORT_BATCAVE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-batcave
   EXPORT_MOCKED_APIS_DIR=${PROJECT_DIR}/kamehouse-mobile/www
 
   MOCKED_KAMEHOUSE_API_DIR="${PROJECT_DIR}/kamehouse-mobile/apis"
@@ -74,18 +79,27 @@ exportGroot() {
   mkdir -p ${EXPORT_GROOT_DIR}
   cd ${EXPORT_GROOT_DIR}
   cp -r ${SOURCE_FILES_GROOT_DIR}/* .
+}
 
-  log.debug "Moving groot php files to html from kamehouse groot for mobile app and removing php tags"
-  local PHP_FILES=`find ./admin | grep -e ".php"`;
-  while read PHP_FILE; do
-    local HTML_FILE=${PHP_FILE::-3}html
-    mv ${PHP_FILE} ${HTML_FILE}
-    sed -i "s#<?php.*?>##Ig" "${HTML_FILE}"
-  done <<< ${PHP_FILES}
+exportBatcave() {
+  log.info "Deleting existing files from target dir ${EXPORT_BATCAVE_DIR}"
+  rm -r -f ${EXPORT_BATCAVE_DIR}
+  if ${DELETE_ONLY}; then
+    log.debug "Running with -d. Skip resyncing batcave files to mobile app"
+    return
+  fi
+  if [ -d "${SOURCE_FILES_BATCAVE_DIR}" ]; then
+    log.info "Copying all files from ${SOURCE_FILES_BATCAVE_DIR} to ${EXPORT_BATCAVE_DIR}"
+    cd ${SOURCE_FILES_BATCAVE_DIR}
+    git pull origin dev
+    mkdir -p ${EXPORT_BATCAVE_DIR}
+    cd ${EXPORT_BATCAVE_DIR}
+    cp -r ${SOURCE_FILES_BATCAVE_DIR}/* .
+  fi
 }
 
 exportMockedApis() {
-  log.debug "Copying mocked localhost apis"
+  log.info "Copying mocked localhost apis"
   cp -r -f ${MOCKED_KAMEHOUSE_API_DIR}/* ${EXPORT_MOCKED_APIS_DIR}/
 }
 

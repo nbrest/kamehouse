@@ -2050,6 +2050,20 @@ class KameHouseCore {
   }
 
   /**
+   * Redirect the user to the url.
+   */
+  windowLocation(url) {
+    window.location=url;
+  }
+
+  /**
+   * Redirect the user to the url.
+   */
+  windowLocationHref(url) {
+    window.location.href=url;
+  }
+
+  /**
    * Returns true when processing a page authenticated by GRoot.
    */
   #isGRootAuthorizedPage() {

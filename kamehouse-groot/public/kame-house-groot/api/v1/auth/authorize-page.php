@@ -10,6 +10,8 @@
  * `<?php realpath($_SERVER["DOCUMENT_ROOT"]) . "/kame-house-groot/api/v1/auth/authorize-page.php") ?>`
  * At the beginning of that page. The rest of the page should be static html code
  * 
+ * Currently not used anymore for groot page authorization. Using the same js authorization logic as kamehouse admin pages.
+ * 
  * @author nbrest
  */
 $kameHousePageAuthorizator = new KameHousePageAuthorizator();

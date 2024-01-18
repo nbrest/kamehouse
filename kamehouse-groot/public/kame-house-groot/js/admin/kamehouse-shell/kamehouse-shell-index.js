@@ -5,7 +5,7 @@
  */
 class KameHouseShellLoader {
 
-  #execScriptPageUrl = "/kame-house-groot/admin/kamehouse-shell/exec-script";
+  #execScriptPageUrl = "/kame-house-groot/admin/kamehouse-shell/exec-script.html";
   #getScriptsApiUrl = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
 
   /**
@@ -71,12 +71,11 @@ class KameHouseShellLoader {
   /** Execute the specified script */
   #executeScript(scriptName, scriptArguments) {
     kameHouse.logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
+    let url = this.#execScriptPageUrl + "?script=" + scriptName;
     if (!kameHouse.core.isEmpty(scriptArguments)) {
-      const urlEncodedArgs = encodeURI(scriptArguments);
-      kameHouse.extension.groot.windowLocation(this.#execScriptPageUrl, "?script=" + scriptName + "&args=" + urlEncodedArgs);
-    } else {
-      kameHouse.extension.groot.windowLocation(this.#execScriptPageUrl, "?script=" + scriptName);
+      url = url + "&args=" + urlEncodedArgs;
     }
+    kameHouse.core.windowLocation(url);
   }
   
   /** Handle Session Status */

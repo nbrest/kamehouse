@@ -17,14 +17,6 @@ class KameHouseGroot {
     kameHouse.extension.groot.header.renderGrootMenu();
   }
 
-  /** Set the location to php on web and html on mobile. pass the location without extension */
-  windowLocation(location, args) {
-    if (kameHouse.core.isEmpty(args)) {
-      return kameHouse.util.mobile.windowLocation(location + ".php", location + ".html");
-    }
-    return kameHouse.util.mobile.windowLocation(location + ".php" + args, location + ".html" + args);
-  }
-
 } // KameHouseGroot
 
 /**
