@@ -2104,6 +2104,7 @@ class KameHouseCore {
     kameHouse.util.dom.append(kameHouseSplashScreen, text);
     
     const btn = kameHouse.util.dom.getImgBtn({
+      id: "kamehouse-splashscreen-img",
       src: "/kame-house/img/dbz/kamesenin-logo.png",
       className: "splashscreen-img-kh rotate-4",
       alt: "Loading KameHouse",

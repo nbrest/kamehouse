@@ -17,8 +17,9 @@ class KameHouseFooter {
         kameHouse.util.mobile.disableMobileOnlyElements();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();
+          kameHouse.util.module.setModuleLoaded("kameHouseFooter");
+          kameHouse.logger.info("Finished loading footer");
         });
-        kameHouse.logger.info("Finished loading footer");
       });
     });
   }

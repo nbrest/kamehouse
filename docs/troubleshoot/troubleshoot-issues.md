@@ -237,6 +237,10 @@ certbot -d www.nicobrest.com,kame.nicobrest.com,docker-demo.nicobrest.com --expa
 - When running on docker, commands executed on the host are done through ssh
 - Make sure the ssh host key of the docker host is accepted in the container. To do it, ssh to the container and from the container ssh to the host once. The first time it will always ask to accept the key. If the ssh commands from kamehouse or groot don't work, this might be the issue
 
+## KameHouse shell scripts that execute ssh command don't work:
+
+- Here also make sure that the client executing the ssh already accepted the host key of the ssh server it connects to. I need to manually ssh from the client to the server at least once to manually accept the server key and store it in the known hosts file. Then the automated processes running through ssh with public/private keys will work.
+
 *********************
 
 ## Remove known host keys when the server keys changed:

@@ -415,6 +415,16 @@ checkValidRootKameHouseProject() {
   fi
 }
 
+pullLatestKameHouseChanges() {
+  if ! ${USE_CURRENT_DIR}; then
+    log.info "Pulling latest kamehouse changes from git"
+    git pull origin dev
+    checkCommandStatus "$?" "Error pulling kamehouse dev branch"
+  else
+    log.trace "Using USE_CURRENT_DIR so skipping git pull kamehouse"
+  fi
+}
+
 buildKameHouseProject() {
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"

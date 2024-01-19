@@ -19,8 +19,9 @@ class KameHouseHeader {
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();
           kameHouse.util.module.setModuleLoaded("kameHouseHeader");
+          kameHouse.logger.info("Finished loading header");
         });
-        kameHouse.logger.info("Finished loading header");
+        
       });
     });
   }
