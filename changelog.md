@@ -22,6 +22,10 @@
 - Reorganized kamehouse shell scripts folders and bashrc functions
 - Moved static groot php admin pages to html using js authorization like kamehouse admin pages 
 - Added more banners
+- Remove media tab from groot server manager
+- Removed deprecated scripts from kamehouse shell
+- Updated groot splash screen and header logos
+- Removed unused tail logs from groot tail log
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
 - Fixed bugs
