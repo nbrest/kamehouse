@@ -422,19 +422,6 @@ class DeploymentManager {
   }
 
   /**
-   * Check if the file system switched to read only.
-   */
-  isReadOnlyFs() {
-    if (kameHouse.extension.serverManager.isCommandRunning()) {
-      return;
-    }
-    kameHouse.extension.serverManager.setCommandRunning();
-    kameHouse.extension.serverManager.openExecutingCommandModal();
-    const script = 'is-read-only-fs.sh';
-    kameHouse.extension.kameHouseShell.execute(script, null, false, 600, (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(), () => {});
-  }
-
-  /**
    * Check if it's eclipse dev environment.
    */
   #isEclipseEnvironment() {
