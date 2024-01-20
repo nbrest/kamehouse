@@ -65,8 +65,6 @@
             onclick="kameHouse.util.tab.openTab('tab-deployment', 'kh-groot-server-manager')">Deployment</td>  
           <td id="tab-git-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</td>     
-          <td id="tab-media-link" class="tab-kh-link"
-            onclick="kameHouse.util.tab.openTab('tab-media', 'kh-groot-server-manager')">Media</td>  
           <td id="tab-power-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>  
           <td id="tab-tail-log-link" class="tab-kh-link"
@@ -447,60 +445,6 @@
       <br><br>
 
     </div> <!-- tab-git -->
-
-    <div id="tab-media" class="default-layout tab-content-kh p-7-d-kh w-50-pc-kh w-100-pc-m-kh">
-
-      <div class="info-image-wrapper-m-80-40">
-        <table class="info-image-table info-image-table-reverse">
-          <caption class="hidden-kh">Image-Info</caption>
-          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="info-image-img">
-                <img src="/kame-house/img/dbz/gohan-studying.jpg" alt="info image"/>
-              </td>
-              <td class="info-image-info">
-                <div class="info-image-title info-image-title-bottom">
-                  Media Library
-                </div>
-                <div class="info-image-desc">
-                  <p>Regenerate media library in the streaming media server</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="link-image-wrapper-w-80">
-        <table class="link-image-table">
-          <caption class="hidden-kh">Image-Links</caption>
-          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>
-                <a><img class="link-image-img" src="/kame-house/img/mplayer/video-playlist.png" alt="Create Video Playlists" title="Create Video Playlists" onclick="kameHouse.extension.serverManager.createAllVideoPlaylists()"/></a>
-              </td>
-              <td>
-                <div class="link-image-text">Update video playlists</div>
-                <div class="link-image-desc">Click to regenerate all video playlists. This command can only be executed in the media server. Check to remove special characters from media filenames before generating playlists: <input id="remove-special-chars-video-pls" class="remove-special-chars-video-pls" type="checkbox" name="remove-special-chars-video-pls"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a><img class="link-image-img" src="/kame-house/img/mplayer/playlist.png" alt="Create Audio Playlists" title="Create Audio Playlists" onclick="kameHouse.extension.serverManager.createAllAudioPlaylists()"/></a>
-              </td>
-              <td>
-                <div class="link-image-text">Recreate audio playlists</div>
-                <div class="link-image-desc">Click to update all audio playlists. This command can only be executed in the media server</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <br><br>
-
-    </div> <!-- tab-media -->
 
     <div id="tab-power" class="tab-content-kh">
       <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
