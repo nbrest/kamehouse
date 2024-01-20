@@ -13,8 +13,36 @@ class KameHouseGroot {
    * Load the kamehouse groot extension.
    */
   load() {
+    kameHouse.logger.info("Started initializing groot");
+    this.#updateSplashScreen();
     kameHouse.extension.groot.header = new GrootHeader();
     kameHouse.extension.groot.header.renderGrootMenu();
+    kameHouse.logger.info("Finished initializing groot");
+  }
+
+  /**
+   * Returns true when processing a GRoot page.
+   */
+  isGrootPage() {
+    return window.location.href.includes("/kame-house-groot/");
+  }
+
+  /**
+   * Update the splashscreen for groot.
+   */
+  #updateSplashScreen() {
+    if (!this.isGrootPage()) {
+      return;
+    }
+    kameHouse.logger.debug("Updating splashscreen");
+    const text = document.getElementById("kamehouse-splashscreen-text");
+    if (!kameHouse.core.isEmpty(text)) {
+      text.innerText = "Loading GRoot";
+    }
+    const img = document.getElementById("kamehouse-splashscreen-img");
+    if (!kameHouse.core.isEmpty(img)) {
+      img.setAttribute("src", "/kame-house/img/marvel/captain-america-logo.png");
+    }
   }
 
 } // KameHouseGroot
@@ -32,6 +60,9 @@ class GrootHeader {
       this.#updateGRootMenuActiveTab();
       this.#loadSession();
     });
+    kameHouse.util.module.waitForModules(["kameHouseHeader"], () => {
+      this.#updateKameHouseHeader();
+    });    
   }
   
   /** Load session */
@@ -117,7 +148,7 @@ class GrootHeader {
    */
   #getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/dbz/goku-gray-dark.png",
+      src: "/kame-house/img/dbz/goku.png",
       className: "groot-header-login-status-btn",
       alt: "Logout GRoot",
       onClick: () => {
@@ -133,6 +164,31 @@ class GrootHeader {
     return kameHouse.util.dom.getSpan({
       class: "groot-header-login-status-text"
     }, username);
+  }
+
+  /**
+   * Update the kamehouse header for groot.
+   */
+  #updateKameHouseHeader() {
+    if (!kameHouse.extension.groot.isGrootPage()) {
+      return;
+    }
+    kameHouse.logger.debug("Updating kamehouse header with groot");
+    const $loginStatus = $("#login-status");
+    kameHouse.util.dom.empty($loginStatus);
+    kameHouse.util.dom.append($loginStatus, this.#getKameHouseButton());  
+  }
+
+  /**
+   * Get kamehouse button.
+   */
+  #getKameHouseButton() {
+    return kameHouse.util.dom.getImgBtn({
+      src: "/kame-house/img/marvel/captain-america-logo.png",
+      className: "header-logo-btn",
+      alt: "KameHouse GRoot",
+      onClick: () => {}
+    });
   }
 
 } // GrootHeader

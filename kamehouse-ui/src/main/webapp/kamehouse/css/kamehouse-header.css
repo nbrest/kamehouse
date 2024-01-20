@@ -99,6 +99,21 @@ header #header-top #login-status {
   }
 }
 
+.header-logo-btn {
+  width: 40px;
+  height: 40px;
+  transform: scale(0.9);
+}
+
+@media (max-width : 900px) {
+  .header-logo-btn {
+    margin-right: 7px;
+    width: 32px;
+    height: 32px;
+    transform: scale(1);
+  }
+}
+
 #header-border-bottom {
   height: 3px;
   background-color: #d90000;
