@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added deploy kamehouse on all servers to ci full build
 - Updated error banner text styles
 - Updated tomcat log colors
 - Updated banner text styles for mobile
