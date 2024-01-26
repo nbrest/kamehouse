@@ -30,7 +30,7 @@ EXECUTE_ON_DOCKER_HOST=false
 IS_EXECUTABLE_ON_DOCKER_HOST=false
 
 mainProcess() {
-  log.info "Executing script ${BASE_PATH}${SCRIPT} with arguments ${SCRIPT_ARGS}"
+  log.info "Executing script  ${COL_PURPLE}'${BASE_PATH}${SCRIPT}'${COL_DEFAULT_LOG} with args ${COL_PURPLE}'${SCRIPT_ARGS}'"
   setupEnv
 
   if ${EXECUTE_ON_DOCKER_HOST}; then

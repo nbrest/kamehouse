@@ -16,21 +16,28 @@ class TailLogManager {
 
   /** Tails the log based on the script parameter and the number of lines to display */
   tailLog(logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
+    return this.executeTailLog(TailLogManager.#KAMEHOUSE_SHELL_EXECUTE_API, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback);  
+  }
+
+  /**
+   * Execute the tail on the specified url.
+   */
+  executeTailLog(url, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
     kameHouse.logger.trace("Tailing log: " + logFileName);
     if (kameHouse.core.isEmpty(logLevel)) {
       logLevel = "";
-    }
+    }    
     const params = {
       script: "common/logs/cat-log.sh",
       args: "-f "  + logFileName + " -l " + logLevel,
       executeOnDockerHost: executeOnDockerHost
-    };
+    };   
     const config = kameHouse.http.getConfig();
     config.timeout = 20;
-    kameHouse.http.get(config, TailLogManager.#KAMEHOUSE_SHELL_EXECUTE_API, kameHouse.http.getUrlEncodedHeaders(), params,
+    kameHouse.http.get(config, url, kameHouse.http.getUrlEncodedHeaders(), params,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
-  }
+  }  
 
   /** Update the script tail log output with the result of the script */
   #updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback) {
@@ -73,15 +80,6 @@ class TailLogManager {
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
     }
-  }
-
-  /** Displays the error message in the tail log output from an invalid script */
-  #displayInvalidScript() {
-    const $tailLogOutputTableBody = $('#tail-log-output-table-body');
-    const tbody = this.#getTailLogOutputTbody();
-    kameHouse.util.dom.append(tbody, this.#getTailLogOutputErrorTr("Invalid script sent as parameter"));
-    kameHouse.util.dom.empty($tailLogOutputTableBody);
-    kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
   }
 
   /**
