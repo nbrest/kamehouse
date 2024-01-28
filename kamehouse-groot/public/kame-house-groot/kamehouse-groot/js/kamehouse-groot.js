@@ -148,7 +148,7 @@ class GrootHeader {
    */
   #getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/dbz/goku-ssj.png",
+      src: "/kame-house/img/dbz/gohan.png",
       className: "groot-header-login-status-btn",
       alt: "Logout GRoot",
       onClick: () => {
