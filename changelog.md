@@ -27,6 +27,7 @@
 - Removed deprecated scripts from kamehouse shell
 - Updated groot splash screen and header logos
 - Removed unused tail logs from groot tail log
+- Updated groot user icon
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
 - Fixed bugs
