@@ -10,23 +10,14 @@
   display: block;
 }
 
-.splashscreen-text-kh {
-  padding-top: 200px;
-  padding-bottom: 60px;
-  font-size: 40px;
-  font-weight: bold;
-  font-style: italic;
-  font-family: 'varela_roundregular', Arial, Helvetica, sans-serif;
-}
-
 @media (max-width : 900px) {
-  .splashscreen-text-kh {
-    padding-top: 70px;
-    font-size: 30px;
+  .splashscreen-img-kh {
+    margin-top:70px;
   }
 }
 
 .splashscreen-img-kh {
+  margin-top:240px;
   width: 120px;
   height: 120px;
 }

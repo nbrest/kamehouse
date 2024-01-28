@@ -35,10 +35,6 @@ class KameHouseGroot {
       return;
     }
     kameHouse.logger.debug("Updating splashscreen");
-    const text = document.getElementById("kamehouse-splashscreen-text");
-    if (!kameHouse.core.isEmpty(text)) {
-      text.innerText = "Loading GRoot";
-    }
     const img = document.getElementById("kamehouse-splashscreen-img");
     if (!kameHouse.core.isEmpty(img)) {
       img.setAttribute("src", "/kame-house/img/marvel/captain-america-logo.png");

@@ -28,6 +28,7 @@
 - Updated groot splash screen and header logos
 - Removed unused tail logs from groot tail log
 - Updated groot user icon
+- Removed splashscreen text
 - Fixed docker host ip on linux
 - Fixed error banners background positions on mobile
 - Fixed bugs

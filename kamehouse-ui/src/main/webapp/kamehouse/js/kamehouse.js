@@ -2097,12 +2097,6 @@ class KameHouseCore {
       class: "splashscreen-kh"
     }); 
     
-    const text = kameHouse.util.dom.getDiv({
-      id: "kamehouse-splashscreen-text",
-      class: "splashscreen-text-kh"
-    }, "Loading KameHouse"); 
-    kameHouse.util.dom.append(kameHouseSplashScreen, text);
-    
     const btn = kameHouse.util.dom.getImgBtn({
       id: "kamehouse-splashscreen-img",
       src: "/kame-house/img/dbz/kamesenin-logo.png",
