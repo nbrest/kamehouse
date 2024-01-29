@@ -52,6 +52,7 @@ header #header-top #branding {
 
 header #header-top #branding h1 {
   margin: 0;
+  display: inline;
 }
 
 header .highlight {

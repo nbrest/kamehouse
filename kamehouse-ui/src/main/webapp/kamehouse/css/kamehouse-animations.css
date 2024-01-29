@@ -1,3 +1,34 @@
+.fade-in-3s { 
+  animation: fade-in 3s; 
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in 3s;
+  -webkit-animation-fill-mode: forwards;  
+}
+
+.fade-in-5s { 
+  animation: fade-in 5s; 
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in 5s;
+  -webkit-animation-fill-mode: forwards;  
+}
+
+.fade-in-7s { 
+  animation: fade-in 7s; 
+  animation-fill-mode: forwards;
+  -webkit-animation: fade-in 7s;
+  -webkit-animation-fill-mode: forwards;  
+}
+
+@-webkit-keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 .fade-in-out-15s {
   animation: fade-in-out 15s;
   animation-fill-mode: forwards;

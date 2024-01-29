@@ -145,7 +145,7 @@ class GrootHeader {
   #getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/dbz/gohan.png",
-      className: "groot-header-login-status-btn",
+      className: "groot-header-login-status-btn img-user-icon",
       alt: "Logout GRoot",
       onClick: () => {
         return kameHouse.util.mobile.windowLocation("/kame-house-groot/api/v1/auth/logout.php", "/kame-house-mobile/settings.html");
@@ -173,6 +173,8 @@ class GrootHeader {
     const $loginStatus = $("#login-status");
     kameHouse.util.dom.empty($loginStatus);
     kameHouse.util.dom.append($loginStatus, this.#getKameHouseButton());  
+    const $kameHouseLogo = $("#branding");
+    kameHouse.util.dom.append($kameHouseLogo, this.#getGrootHeaderLogo());  
   }
 
   /**
@@ -186,6 +188,19 @@ class GrootHeader {
       onClick: () => {}
     });
   }
+
+  /**
+   * Get groot header logo.
+   */
+  #getGrootHeaderLogo() {
+    return kameHouse.util.dom.getImgBtn({
+      id: "groot-header-logo-img",
+      src: "/kame-house/img/marvel/groot-logo.png",
+      className: "groot-header-logo-img",
+      alt: "KameHouse GRoot",
+      onClick: () => {}
+    });
+  }  
 
 } // GrootHeader
 

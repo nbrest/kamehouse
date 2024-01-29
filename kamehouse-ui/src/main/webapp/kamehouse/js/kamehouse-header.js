@@ -145,7 +145,7 @@ class KameHouseHeader {
   #getLogoutButton() {
     return kameHouse.util.dom.getImgBtn({
       src: "/kame-house/img/dbz/goku.png",
-      className: "header-login-status-btn",
+      className: "header-login-status-btn img-user-icon",
       alt: "Logout KameHouse",
       onClick: () => {
         return kameHouse.util.mobile.windowLocation("/kame-house/logout", "/kame-house-mobile/settings.html");

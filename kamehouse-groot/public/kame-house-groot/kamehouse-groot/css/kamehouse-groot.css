@@ -157,6 +157,20 @@ a:active {
   }
 }
 
+.groot-header-logo-img {
+  width: 155px;
+  height: 38px;
+  padding-bottom: 10px;
+}
+
+@media (max-width : 900px) {
+  .groot-header-logo-img {
+    width: 100px;
+    height: 20px;
+    padding-bottom: 4px;
+  }
+}
+
 #groot-menu-wrapper {
   display: block;
 }
@@ -211,8 +225,8 @@ a:active {
   }
 }
 
-#groot-menu-links {
-  width: 50%;
+.groot-menu-links {
+  width: 55%;
 }
 
 .groot-nav-wrapper {

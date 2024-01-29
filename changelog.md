@@ -7,6 +7,13 @@
 
 #### v9.01
 
+- Added groot logo to kamehouse header
+- Updated groot menu icons
+- Updated groot homepage links
+- Added kamehouse logo to spinning wheel modal and divs
+- Added background light to logged user icons
+- Fixed broken mock localhost on mobile
+- Increased width of groot menu icons
 - Added deploy kamehouse on all servers to ci full build
 - Updated error banner text styles
 - Updated tomcat log colors

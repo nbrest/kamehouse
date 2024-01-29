@@ -688,6 +688,9 @@ class KameHouseMobileConfigManager {
     });
   }
 
+  /**
+   * Re generate mobile config file.
+   */
   reGenerateMobileConfigFile(openResultModal) {
     if (this.#isCurrentlyPersistingConfig) {
       kameHouse.logger.warn("A regenerate file is already in progress, skipping this call");
@@ -1274,7 +1277,7 @@ class MockLocalhostServer {
    * Execute mock local server http request.
    */
   async httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    kameHouse.logger.debug("Using mock localhost server for http request to: " + url);
+    kameHouse.logger.info("Using mock localhost server for http request to: " + url);
     const responseBody = await this.#mockResponseBody(httpMethod, config, url, requestHeaders, requestBody);
     const responseCode = this.#mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody);
     const responseDescription = this.#mockResponseDescription(httpMethod, config, url, requestHeaders, requestBody, responseBody);
@@ -1297,7 +1300,7 @@ class MockLocalhostServer {
       return this.#getServerModificationErrorResponseBody(httpMethod, url);
     }
     let requestUrl = url;
-    if (isCrudEntityUrl(url)) {
+    if (this.#isCrudEntityUrl(url)) {
       requestUrl = this.#getCrudBaseUrl(url);
     }
     if (this.#isModifiedUrl(requestUrl)) {
@@ -1401,7 +1404,7 @@ class MockLocalhostServer {
    * Mock response code.
    */
   #mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody) {
-    if (isServerModificationRequest(httpMethod, url)) {
+    if (this.#isServerModificationRequest(httpMethod, url)) {
       return "503";
     }
     if (this.#isFetchErrorResponse(responseBody)) {
