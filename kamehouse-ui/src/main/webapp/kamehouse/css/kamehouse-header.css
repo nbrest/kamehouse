@@ -48,6 +48,7 @@ header #header-top {
 
 header #header-top #branding {
   float: left;
+  padding-top: 7px;
 }
 
 header #header-top #branding h1 {
@@ -62,7 +63,8 @@ header .highlight {
 
 header #header-top #login-status {
   padding: 10px;
-  padding-bottom: 0px;
+  padding-bottom: 10px;
+  padding-right: 15px;
   float: right;
 }
 
@@ -76,7 +78,6 @@ header #header-top #login-status {
   width: 40px;
   height: 40px;
   cursor: pointer;
-  transform: scale(0.9);
 }
 
 @media (max-width : 900px) {
@@ -84,7 +85,6 @@ header #header-top #login-status {
     margin-right: 7px;
     width: 32px;
     height: 32px;
-    transform: scale(1);
   }
 }
 
@@ -135,12 +135,12 @@ header #header-top #login-status {
   }
   
   header #header-top #branding {
-    padding-top: 5px;
+    padding-top: 7px;
     padding-left: 15px;
   }
   
   header #header-top #branding h1 {
-    font-size: 25px;
+    font-size: 30px;
     text-align: left;
     display: inline;
   }
@@ -149,7 +149,9 @@ header #header-top #login-status {
     float: right;
     text-align: right;
     padding: 0px;
+    padding-top: 5px;
     padding-right: 5px;
+    padding-bottom: 8px;
   }
   
   .header-login-status-text {
