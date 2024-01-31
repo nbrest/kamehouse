@@ -111,6 +111,7 @@ header #header-top #login-status {
     margin-right: 7px;
     width: 32px;
     height: 32px;
+    margin: 3px;
     transform: scale(1);
   }
 }
