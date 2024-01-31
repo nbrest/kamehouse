@@ -24,8 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/admin/screen")
 public class ScreenController extends AbstractSystemCommandController {
 
-  public ScreenController(
-      SystemCommandService systemCommandService) {
+  public ScreenController(SystemCommandService systemCommandService) {
     super(systemCommandService);
   }
 
