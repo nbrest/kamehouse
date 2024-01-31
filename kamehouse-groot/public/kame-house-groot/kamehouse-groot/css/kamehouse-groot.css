@@ -144,8 +144,8 @@ a:active {
   .groot-header-login-status-btn {
     width: 38px;
     height: 38px;
-    margin-top: 5px;
-    margin-bottom: 3px;
+    margin-top: 1px;
+    margin-bottom: 1px;
     margin-right: 5px;
   }
 }
@@ -195,14 +195,6 @@ a:active {
   width: 33%;
 }
 
-@media (max-width : 900px) {
-  .groot-menu button {
-    width: 33%;
-    padding-bottom: 8px;
-    padding-top: 8px;
-  }
-}
-
 .groot-menu button:hover {
   background-color: #310000;
   color: black;
@@ -227,6 +219,7 @@ a:active {
 
 .groot-menu-links {
   width: 55%;
+  padding: 0px;
 }
 
 .groot-nav-wrapper {
