@@ -1989,20 +1989,8 @@ class KameHouseCore {
    */
   setGlobalErrorHandler() {
     kameHouse.logger.info("Setting global kamehouse error handler");
-    window.addEventListener("error", (ErrorEvent) => {
-      const errorObject = {
-        message: ErrorEvent.message,
-        filename: ErrorEvent.filename,
-        lineNumber: ErrorEvent.lineno,
-        columnNumber: ErrorEvent.colno,
-        error: ErrorEvent.error
-      };
-      const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
-      console.log(errorMessage);
-      kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
-        kameHouse.logger.error(errorMessage);
-      });
-   });
+    window.addEventListener("error", (ErrorEvent) => { this.#handleErrorEvent(ErrorEvent); });
+    window.addEventListener("unhandledrejection", (ErrorEvent) => { this.#handleErrorEvent(ErrorEvent); });
   }
 
   /**
@@ -2061,6 +2049,24 @@ class KameHouseCore {
    */
   windowLocationHref(url) {
     window.location.href=url;
+  }
+
+  /**
+   * Error event handler.
+   */
+  #handleErrorEvent(ErrorEvent) {
+    const errorObject = {
+      message: ErrorEvent.message,
+      filename: ErrorEvent.filename,
+      lineNumber: ErrorEvent.lineno,
+      columnNumber: ErrorEvent.colno,
+      error: ErrorEvent.error
+    };
+    const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
+    console.log(errorMessage);
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      kameHouse.logger.error(errorMessage);
+    });
   }
 
   /**
