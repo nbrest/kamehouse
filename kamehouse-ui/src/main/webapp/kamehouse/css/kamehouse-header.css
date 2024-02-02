@@ -108,10 +108,12 @@ header #header-top #login-status {
 
 @media (max-width : 900px) {
   .header-logo-btn {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
     margin-right: 7px;
     width: 32px;
     height: 32px;
-    margin: 3px;
     transform: scale(1);
   }
 }
