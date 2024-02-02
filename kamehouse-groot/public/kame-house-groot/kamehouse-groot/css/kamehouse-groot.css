@@ -150,6 +150,20 @@ a:active {
   }
 }
 
+.groot-header-loading-btn {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+}
+
+@media (max-width : 900px) {
+  .groot-header-loading-btn {
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+  }
+}
+
 /** desktop query */
 @media (min-width : 900px) {
 

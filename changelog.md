@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added loading logo while loading groot session
 - Updated global uncaught error handler function
 - Added groot logo to kamehouse header
 - Updated groot menu icons
