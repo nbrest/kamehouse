@@ -125,6 +125,20 @@ class ServerManager {
     kameHouse.plugin.modal.basicModal.open();
   }
 
+  /**
+   * Check the status of docker containers.
+   */
+  dockerStatus() {
+    if (this.isCommandRunning()) {
+      return;
+    }
+    this.setCommandRunning();
+    kameHouse.extension.serverManager.openExecutingCommandModal();
+    kameHouse.extension.kameHouseShell.execute('kamehouse/docker/docker-status-kamehouse.sh', "", true, 60, 
+      (scriptOutput) => this.completeCommandCallback(scriptOutput), 
+      (scriptOutput) => this.completeCommandCallback(scriptOutput));
+  }
+
   /** Handle Session Status */
   #handleSessionStatus() {
     const sessionStatus = kameHouse.extension.groot.session;

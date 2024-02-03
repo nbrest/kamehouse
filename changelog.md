@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added docker tab to groot server manager
 - Added loading logo while loading groot session
 - Updated global uncaught error handler function
 - Added groot logo to kamehouse header

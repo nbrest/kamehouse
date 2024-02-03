@@ -67,6 +67,8 @@
             onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</td>     
           <td id="tab-power-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>  
+          <td id="tab-docker-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-docker', 'kh-groot-server-manager')">Docker</td>  
           <td id="tab-tail-log-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</td>
         </tr>
@@ -449,10 +451,55 @@
       </div>
     </div> <!-- tab-power -->
 
+    <div id="tab-docker" class="tab-content-kh">
+      <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
+        <div class="info-image-wrapper-m-80-40">
+          <table class="info-image-table info-image-table-reverse">
+            <caption class="hidden-kh">Image-Info</caption>
+            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="info-image-img">
+                  <img src="/kame-house/img/dbz/bulma-capsules.png" alt="info image"/>
+                </td>
+                <td class="info-image-info">
+                  <div class="info-image-title">
+                    Docker
+                  </div>
+                  <div class="info-image-desc">
+                    <p>Unpack capsules to run new instances of <span class="bold-kh">KameHouse</span></p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="link-image-wrapper-w-80">
+          <table class="link-image-table">
+            <caption class="hidden-kh">Image-Links</caption>
+            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <a><img class="link-image-img" src="/kame-house/img/pc/docker.png" alt="Docker" title="Docker" onclick="kameHouse.extension.serverManager.dockerStatus()"/></a>
+                </td>
+                <td>
+                  <div class="link-image-text">Docker Status</div>
+                  <div class="link-image-desc">Check the status of <span class="bold-kh">KameHouse</span> Docker containers running in this server</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br>
+      </div>
+    </div> <!-- tab-docker -->
+
     <div id="tab-tail-log" class="default-layout tab-content-kh p-15-d-kh">
 
       <div class="info-image-wrapper-m-80-40">
-        <table class="info-image-table info-image-table-reverse">
+        <table class="info-image-table">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
           <tbody>
