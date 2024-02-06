@@ -21,8 +21,10 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=true
+KAMEHOUSE_SERVER="niko-server-vm-ubuntu"
 
 mainProcess() {
+  log.info "Checking docker status on current server ${COL_PURPLE}${HOSTNAME}"
   echo ""
   log.info "Docker containers"
   echo ""
@@ -37,6 +39,20 @@ mainProcess() {
   log.info "Docker volumes"
   echo ""
   docker volume ls
+
+  kameHouseDockerContainersServerStatus
+}
+
+kameHouseDockerContainersServerStatus() {
+  log.info "Checking docker status on kamehouse docker containers server ${COL_PURPLE}${KAMEHOUSE_SERVER}"
+  setSshParameters
+  setEnvForKameHouseServer
+  executeSshCommand
+}
+
+setSshParameters() {
+  SSH_SERVER=${KAMEHOUSE_SERVER}
+  SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh"
 }
 
 main "$@"
