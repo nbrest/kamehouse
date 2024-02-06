@@ -44,10 +44,12 @@ mainProcess() {
 }
 
 kameHouseDockerContainersServerStatus() {
-  log.info "Checking docker status on kamehouse docker containers server ${COL_PURPLE}${KAMEHOUSE_SERVER}"
-  setSshParameters
-  setEnvForKameHouseServer
-  executeSshCommand
+  if [ "${KAMEHOUSE_SERVER}" != "${HOSTNAME}" ]; then
+    log.info "Checking docker status on kamehouse docker containers server ${COL_PURPLE}${KAMEHOUSE_SERVER}"
+    setSshParameters
+    setEnvForKameHouseServer
+    executeSshCommand
+  fi
 }
 
 setSshParameters() {
