@@ -25,7 +25,6 @@ class AuthorizePageApi {
   public function main() {
     $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
     require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
-    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/admin/kamehouse-shell/kamehouse-shell.php");
     require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/auth/kamehouse-auth.php");
     $kameHouse->auth->authorizePage();
   }
