@@ -1,10 +1,6 @@
 <?php
 /**
- * [INTERNAL] Endpoint: /kame-house-groot/api/v1/commons/session/kamehouse-session.php (GET)
- * 
- * To be imported from other php files. Not to be directly called from frontend code.
- * 
- * Class definition of kamehouse session.
+ * Kamehouse groot session.
  * 
  * @author nbrest
  */

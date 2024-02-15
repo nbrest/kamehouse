@@ -1,15 +1,12 @@
 <?php
 /**
- * [INTERNAL] Endpoint: /kame-house-groot/api/v1/commons/examples/examples.php
- * 
- * To be imported from other php files. Not to be directly called from frontend code.
+ * Example functions.
  * 
  * @author nbrest
  */
-$kameHouseExample = new KameHouseExample();
-$kameHouseExample->runAll();
+$kameHouseExamples = new KameHouseExamples();
 
-class KameHouseExample {
+class KameHouseExamples {
 
   /**
    * Run all examples.
@@ -30,5 +27,5 @@ class KameHouseExample {
     } 
   }
 
-} // KameHouseExample
+} // KameHouseExamples
 ?>

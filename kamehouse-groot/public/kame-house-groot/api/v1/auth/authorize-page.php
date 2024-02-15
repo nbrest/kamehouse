@@ -1,6 +1,6 @@
 <?php
 /**
- * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/auth/authorize-page.php
+ * Endpoint: /kame-house-groot/api/v1/auth/authorize-page.php
  * 
  * To be loaded by groot pages that require an admin user, like server management page.
  * 
@@ -14,22 +14,21 @@
  * 
  * @author nbrest
  */
-$kameHousePageAuthorizator = new KameHousePageAuthorizator();
-$kameHousePageAuthorizator->authorize();
+$authorizePageApi = new AuthorizePageApi();
+$authorizePageApi->main();
 
-class KameHousePageAuthorizator {
+class AuthorizePageApi {
 
   /**
    * Check if there's an active session, otherwise redirect to login page.
    */
-  public function authorize() {
-    global $kameHouse;
+  public function main() {
     $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
-    require_once("$documentRoot/kame-house-groot/api/v1/commons/kamehouse.php");
-    require_once("$documentRoot/kame-house-groot/api/v1/admin/kamehouse-shell/kamehouse-shell.php");
-    require_once("$documentRoot/kame-house-groot/api/v1/auth/kamehouse-auth.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/admin/kamehouse-shell/kamehouse-shell.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/auth/kamehouse-auth.php");
     $kameHouse->auth->authorizePage();
   }
 
-} // KameHousePageAuthorizator
+}
 ?>

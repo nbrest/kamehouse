@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Restructured php code. Separated class definition php files from endpoint files
 - Added docker status check on kamehouse docker server
 - Added docker tab to groot server manager
 - Added loading logo while loading groot session

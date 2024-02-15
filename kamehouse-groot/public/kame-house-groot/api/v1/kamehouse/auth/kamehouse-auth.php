@@ -1,10 +1,6 @@
 <?php
 /**
- * [INTERNAL] Endpoint: /kame-house-groot/api/v1/auth/kamehouse-auth.php
- * 
- * To be imported from other php files. Not to be directly called from frontend code.
- * 
- * Common functions used in the /auth APIs
+ * Kamehouse Groot Authentication and Authorization functionality.
  * 
  * @author nbrest
  */
@@ -58,6 +54,39 @@ class KameHouseAuth {
 
     header('Location: /kame-house-groot/login.html?unauthorizedPageAccess=true');
   	exit;
+  }
+
+  /**
+   * Attempt to login.
+   */
+  public function login() {
+    global $kameHouse;
+    if (!isset($_POST['username'], $_POST['password'])) {
+      $kameHouse->logger->info("Username or password not set");
+      $this->redirectLoginError();
+    }
+    
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($this->isAuthorizedUser($username, $password)) {
+      $this->initiateSession($username);
+      $this->redirectLoginSuccess();
+    } else {
+      $kameHouse->logger->info("User '" . $username . "' is not authorized");
+      $this->redirectLoginError();
+    } 
+  }
+
+  /**
+   * Logout from the current session. Destroy the current session and redirect to login page.
+   */
+  public function logout() {
+    ini_set('session.gc_maxlifetime', 0);
+    session_set_cookie_params(0);
+    session_start();
+    session_destroy();
+    header('Location: /kame-house-groot/login.html?logout=true');    
   }
 
   /**
@@ -239,6 +268,27 @@ class KameHouseAuth {
     } catch(Exception $e) {
       // session already open throws an exception, ignore it
     }
+  }
+
+  /**
+   * Redirect after successful login.
+   */
+  private function redirectLoginSuccess() {
+    global $kameHouse;
+    $redirectUrl = "/kame-house-groot/";
+    if (isset($_POST['referrer']) && $kameHouse->util->string->startsWith($_POST['referrer'], "/kame-house-groot/")) {
+      $redirectUrl = $_POST['referrer'];
+    }
+    header('Location: ' . $redirectUrl);
+    exit;
+  }
+
+  /**
+   * Redirect after a failed login.
+   */
+  private function redirectLoginError() {
+    header('Location: /kame-house-groot/login.html?error=true');
+    exit;
   }
 
   /**

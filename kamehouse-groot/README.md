@@ -36,6 +36,12 @@ GRoot relies on tomcat manager's app to be deployed and running
 
 - Run `install-kamehouse-groot.sh -u kamehouseUsername` and `set-kamehouse-sudoers-permissions.sh -u kamehouseUsername` to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. These scripts is executed from `install-kamehouse.sh`
 
+# PHP Code structure:
+
+- The PHP code is divided in two big groups. API Endpoints and class definitions. 
+- All the class definitions are under the `/kamehouse` folder in the apis tree. All the business logic is defined there.
+- API Endpoints are defined in all other folders separate from `/kamehouse`. The enpoints don't contain any business logic. They are very short and contain only a `main` method that simply load the objects from the classes defined in `/kamehouse` and call methods on those objects to execute the endpoint's specific functionality.
+
 # Troubleshoot
 
 ## require_once() calls don't find the files

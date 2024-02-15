@@ -1,26 +1,25 @@
 <?php
 /**
- * [EXTERNAL] Endpoint: /kame-house-groot/api/v1/auth/logout.php (GET)
+ * Endpoint: /kame-house-groot/api/v1/auth/logout.php (GET)
  * 
  * Logout the current user.
  * 
  * @author nbrest
  */
-$kameHouseGrootLogout = new KameHouseGrootLogout();
-$kameHouseGrootLogout->logout();
+$logoutApi = new LogoutApi();
+$logoutApi->main();
 
-class KameHouseGrootLogout {
+class LogoutApi {
 
   /**
-   * Destroy the current session and redirect to login page.
+   * Logout the current session.
    */
-  public function logout() {
-    ini_set('session.gc_maxlifetime', 0);
-    session_set_cookie_params(0);
-    session_start();
-    session_destroy();
-    header('Location: /kame-house-groot/login.html?logout=true');
+  public function main() {
+    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
+    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/auth/kamehouse-auth.php");
+    $kameHouse->auth->logout();
   }
 
-} // KameHouseGrootLogout
+}
 ?>
