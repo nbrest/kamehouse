@@ -2,11 +2,10 @@
 /**
  * Kamehouse Groot Authentication and Authorization functionality.
  * 
+ * Requires KameHouseShell for some functionality.
+ * 
  * @author nbrest
  */
-global $kameHouse;
-$kameHouse->setAuth(new KameHouseAuth());
-
 class KameHouseAuth {
 
   /**

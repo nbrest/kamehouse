@@ -15,11 +15,10 @@ class TestApi {
    * Run all test and example functions.
    */
   public function main() {
-    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
-    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
-    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/test/test.php");
-    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/examples/examples.php");
+    require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
+    $kameHouseTest = new KameHouseTest();
     $kameHouseTest->runAll();
+    $kameHouseExamples = new KameHouseExamples();
     $kameHouseExamples->runAll();
   }
 

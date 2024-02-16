@@ -4,8 +4,6 @@
  * 
  * @author nbrest
  */
-$kameHouseExamples = new KameHouseExamples();
-
 class KameHouseExamples {
 
   /**

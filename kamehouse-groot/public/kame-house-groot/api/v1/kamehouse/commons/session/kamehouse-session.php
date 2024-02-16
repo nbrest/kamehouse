@@ -4,9 +4,6 @@
  * 
  * @author nbrest
  */
-global $kameHouse;
-$kameHouse->setSession(new KameHouseSession());
-
 class KameHouseSession {
 
   /**

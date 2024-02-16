@@ -4,9 +4,6 @@
  * 
  * @author nbrest
  */
-global $kameHouse;
-$kameHouse->setShell(new KameHouseShell());
-
 class KameHouseShell {
 
   /**

@@ -11,6 +11,7 @@ class KameHouse {
 
   public $auth;
   public $core;
+  public $loader;
   public $logger;
   public $session;
   public $shell;
@@ -18,8 +19,11 @@ class KameHouse {
 
   function __construct() {
     $this->core = new KameHouseCore();
+    $this->loader = new KameHouseLoader();
     $this->logger = new KameHouseLogger();
     $this->util = new KameHouseUtils();
+    $this->loadAuth();
+    $this->loadShell();
   }
 
   /**
@@ -43,7 +47,40 @@ class KameHouse {
     $this->shell = $shell;
   }
 
+  /**
+   * Load kamehouse auth.
+   */
+  private function loadAuth() {
+    require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/kame-house-groot/api/v1/kamehouse/auth/kamehouse-auth.php");
+    $this->setAuth(new KameHouseAuth());
+  }
+
+  /**
+   * Load kamehouse shell.
+   */
+  private function loadShell() {
+    require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/kame-house-groot/api/v1/kamehouse/admin/kamehouse-shell/kamehouse-shell.php");
+    $this->setShell(new KameHouseShell());
+  }
+
 } // KameHouse
+
+/**
+ * Loader for other KameHouse modules.
+ */
+class KameHouseLoader {
+
+  /**
+   * Load kamehouse session.
+   */
+  public function loadSession() {
+    global $kameHouse;
+    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/session/kamehouse-session.php");
+    $kameHouse->setSession(new KameHouseSession());
+  }
+
+} // KameHouseLoader
 
 /**
  * Core kamehouse functions.

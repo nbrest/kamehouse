@@ -23,9 +23,7 @@ class AuthorizePageApi {
    * Check if there's an active session, otherwise redirect to login page.
    */
   public function main() {
-    $documentRoot = realpath($_SERVER["DOCUMENT_ROOT"]);
-    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
-    require_once("$documentRoot/kame-house-groot/api/v1/kamehouse/auth/kamehouse-auth.php");
+    require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . "/kame-house-groot/api/v1/kamehouse/commons/kamehouse.php");
     $kameHouse->auth->authorizePage();
   }
 
