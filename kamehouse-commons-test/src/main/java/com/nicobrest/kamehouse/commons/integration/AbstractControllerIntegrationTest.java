@@ -180,8 +180,8 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       throws IOException {
     assertEquals(HttpStatus.SC_CREATED, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
-    assertNotNull(responseBody, RESPONSE_BODY_NULL);
     logger.info(RESPONSE_BODY, responseBody);
+    assertNotNull(responseBody, RESPONSE_BODY_NULL);
     return responseBody;
   }
 
@@ -197,12 +197,12 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
    */
   public <T> T verifySuccessfulResponse(HttpResponse response, Class<T> clazz,
       boolean logResponseBody) throws IOException {
-    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     T responseBody = getResponseBody(response, clazz);
-    assertNotNull(responseBody, RESPONSE_BODY_NULL);
     if (logResponseBody) {
       logger.info(RESPONSE_BODY, responseBody);
     }
+    assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+    assertNotNull(responseBody, RESPONSE_BODY_NULL);
     return responseBody;
   }
 
@@ -213,9 +213,9 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
       throws IOException {
     assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
     List<T> responseBody = getResponseBodyList(response, clazz);
+    logger.info(RESPONSE_BODY, responseBody);
     assertNotNull(responseBody, RESPONSE_BODY_NULL);
     assertTrue(!responseBody.isEmpty(), RESPONSE_BODY_EMPTY);
-    logger.info(RESPONSE_BODY, responseBody);
     return responseBody;
   }
 
@@ -233,9 +233,9 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     for (Class<?> clazz : clazzes) {
       try {
         List<?> responseBody = getResponseBodyList(responseBodyString, clazz);
+        logger.info(RESPONSE_BODY, responseBody);
         assertNotNull(responseBody, RESPONSE_BODY_NULL);
         assertTrue(!responseBody.isEmpty(), RESPONSE_BODY_EMPTY);
-        logger.info(RESPONSE_BODY, responseBody);
         invalidResponse = false;
       } catch (UnrecognizedPropertyException e) {
         logger.info("Expected possible object mapping error. Ignoring...", e);
