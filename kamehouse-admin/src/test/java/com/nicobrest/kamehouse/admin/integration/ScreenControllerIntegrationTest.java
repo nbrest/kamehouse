@@ -34,7 +34,8 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
       "lockTest, /lock",
       "wakeUpTest, /wake-up",
       "unlockTest, /unlock",
-      "keyPress, /key-press?key=ESC&keyPresses=1"
+      "keyPress, /key-press?key=ESC&keyPresses=1",
+      "mouseClick, /mouse-click?xPosition=100&yPosition=1000&clickCount=1"
   })
   void screenControllerTest(String testName, String apiEndpoint) throws Exception {
     logger.info("Running {}", testName);
@@ -45,4 +46,3 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
         List.of(SystemCommand.Output.class, KameHouseGenericResponse.class));
   }
 }
-

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.KeyPressKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.MouseClickKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
@@ -63,7 +64,7 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
   }
 
   /**
-   * key press successful test.
+   * Key press successful test.
    */
   @ParameterizedTest
   @CsvSource({
@@ -82,5 +83,37 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
   void keyPressSuccessfulTest(String key, Integer keyPresses) throws Exception {
     String apiUrl = "/api/v1/admin/screen/key-press?key=" + key + "&keyPresses=" + keyPresses;
     execPostKameHouseSystemCommandTest(apiUrl, KeyPressKameHouseSystemCommand.class);
+  }
+
+  /**
+   * Mouse click successful test.
+   */
+  @ParameterizedTest
+  @CsvSource({
+      "500, 600, 1",
+      "800, 600, 2"
+  })
+  void mouseClickSuccessfulTest(Integer xPosition, Integer yPosition, Integer clickCount)
+      throws Exception {
+    String apiUrl =
+        "/api/v1/admin/screen/mouse-click?xPosition=" + xPosition + "&yPosition=" + yPosition
+            + "&clickCount=" + clickCount;
+    execPostKameHouseSystemCommandTest(apiUrl, MouseClickKameHouseSystemCommand.class);
+  }
+
+  /**
+   * Mouse click error test.
+   */
+  @ParameterizedTest
+  @CsvSource({
+      "-1, 600, 1",
+      "800, 10000, 2",
+      "800, 1000, 900"
+  })
+  void mouseClickErrorTest(Integer xPosition, Integer yPosition, Integer clickCount) {
+    String apiUrl =
+        "/api/v1/admin/screen/mouse-click?xPosition=" + xPosition + "&yPosition=" + yPosition
+            + "&clickCount=" + clickCount;
+    execPostInvalidKameHouseSystemCommandTest(apiUrl);
   }
 }

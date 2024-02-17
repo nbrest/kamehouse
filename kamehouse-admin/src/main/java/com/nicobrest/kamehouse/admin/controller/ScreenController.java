@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.KeyPress;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.KeyPressKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.MouseClickKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
@@ -60,5 +61,17 @@ public class ScreenController extends AbstractSystemCommandController {
       @RequestParam(value = "key", required = true) KeyPress key,
       @RequestParam(value = "keyPresses", required = false) Integer keyPresses) {
     return execKameHouseSystemCommand(new KeyPressKameHouseSystemCommand(key, keyPresses));
+  }
+
+  /**
+   * Sends a mouse click on the server.
+   */
+  @PostMapping(path = "/mouse-click")
+  public ResponseEntity<List<SystemCommand.Output>> keyPress(
+      @RequestParam(value = "xPosition", required = true) Integer xPosition,
+      @RequestParam(value = "yPosition", required = true) Integer yPosition,
+      @RequestParam(value = "clickCount", required = false) Integer clickCount) {
+    return execKameHouseSystemCommand(
+        new MouseClickKameHouseSystemCommand(xPosition, yPosition, clickCount));
   }
 }
