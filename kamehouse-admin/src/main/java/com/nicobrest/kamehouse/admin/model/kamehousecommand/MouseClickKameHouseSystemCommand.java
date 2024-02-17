@@ -19,28 +19,28 @@ public class MouseClickKameHouseSystemCommand extends KameHouseSystemCommand {
   /**
    * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
    */
-  public MouseClickKameHouseSystemCommand(Integer xPosition, Integer yPosition,
+  public MouseClickKameHouseSystemCommand(Integer positionX, Integer positionY,
       Integer clickCount) {
     if (clickCount == null) {
       clickCount = 1;
     }
-    validateParameters(xPosition, yPosition, clickCount);
-    systemCommands.add(new JvncSenderSystemCommand(xPosition, yPosition, clickCount));
+    validateParameters(positionX, positionY, clickCount);
+    systemCommands.add(new JvncSenderSystemCommand(positionX, positionY, clickCount));
   }
 
   /**
    * Validate mouse click settings.
    */
-  private static void validateParameters(Integer xPosition, Integer yPosition,
+  private static void validateParameters(Integer positionX, Integer positionY,
       Integer clickCount) {
-    if (xPosition < MIN_SCREEN_POS || xPosition > MAX_SCREEN_POS) {
-      throw new KameHouseInvalidCommandException("Invalid xPosition " + xPosition);
+    if (positionX < MIN_SCREEN_POS || positionX > MAX_SCREEN_POS) {
+      throw new KameHouseInvalidCommandException("Invalid positionX " + positionX);
     }
-    if (yPosition < MIN_SCREEN_POS || yPosition > MAX_SCREEN_POS) {
-      throw new KameHouseInvalidCommandException("Invalid yPosition " + xPosition);
+    if (positionY < MIN_SCREEN_POS || positionY > MAX_SCREEN_POS) {
+      throw new KameHouseInvalidCommandException("Invalid positionY " + positionX);
     }
     if (clickCount < MIN_CLICK_COUNT || clickCount > MAX_CLICK_COUNT) {
-      throw new KameHouseInvalidCommandException("Invalid yPosition " + xPosition);
+      throw new KameHouseInvalidCommandException("Invalid positionY " + positionX);
     }
   }
 }

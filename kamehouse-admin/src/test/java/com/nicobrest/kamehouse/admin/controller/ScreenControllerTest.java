@@ -110,9 +110,9 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
       "800, 10000, 2",
       "800, 1000, 900"
   })
-  void mouseClickErrorTest(Integer xPosition, Integer yPosition, Integer clickCount) {
+  void mouseClickErrorTest(Integer positionX, Integer positionY, Integer clickCount) {
     String apiUrl =
-        "/api/v1/admin/screen/mouse-click?xPosition=" + xPosition + "&yPosition=" + yPosition
+        "/api/v1/admin/screen/mouse-click?positionX=" + positionX + "&positionY=" + positionY
             + "&clickCount=" + clickCount;
     execPostInvalidKameHouseSystemCommandTest(apiUrl);
   }

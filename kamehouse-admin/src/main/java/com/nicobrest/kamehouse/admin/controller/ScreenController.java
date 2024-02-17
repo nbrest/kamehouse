@@ -68,10 +68,10 @@ public class ScreenController extends AbstractSystemCommandController {
    */
   @PostMapping(path = "/mouse-click")
   public ResponseEntity<List<SystemCommand.Output>> keyPress(
-      @RequestParam(value = "xPosition", required = true) Integer xPosition,
-      @RequestParam(value = "yPosition", required = true) Integer yPosition,
+      @RequestParam(value = "positionX", required = true) Integer positionX,
+      @RequestParam(value = "positionY", required = true) Integer positionY,
       @RequestParam(value = "clickCount", required = false) Integer clickCount) {
     return execKameHouseSystemCommand(
-        new MouseClickKameHouseSystemCommand(xPosition, yPosition, clickCount));
+        new MouseClickKameHouseSystemCommand(positionX, positionY, clickCount));
   }
 }
