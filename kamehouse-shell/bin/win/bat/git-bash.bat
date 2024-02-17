@@ -33,3 +33,5 @@ if defined arguments (
     echo "DEBUG: Finished executing git bash with arguments !arguments!"
   )
 )
+
+exit
