@@ -6,6 +6,6 @@
 
   <groupId>be.jedi</groupId>
   <artifactId>jvncsender</artifactId>
-  <version>1.04</version>
+  <version>1.05</version>
   <name>jvncsender</name>
 </project>

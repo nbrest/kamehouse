@@ -142,8 +142,8 @@
     <!-- Updated : 2023/07 | Dependency version date: 2023/07 -->
     <junit.jupiter.version>5.10.0-RC2</junit.jupiter.version>
 
-    <!-- Updated : 2023/12 | Dependency version date: 2023/12 -->
-    <jvncsender.version>1.04</jvncsender.version>
+    <!-- Updated : 2024/02 | Dependency version date: 2024/02 -->
+    <jvncsender.version>1.05</jvncsender.version>
 
     <!-- Updated : 2023/07 | Dependency version date: 2023/06 -->
     <logback.version>1.4.8</logback.version>
