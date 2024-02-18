@@ -280,6 +280,14 @@ class VlcPlayer {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
     this.getRestClient().post(UNLOCK_SCREEN_API_URL, null, null);
   }
+  
+  /**
+   * Trigger a mouse double click.
+   */
+  mouseDoubleClick() {
+    const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click?positionX=500&positionY=500&clickCount=2";
+    this.getRestClient().post(MOUSE_CLICK_API_URL, null, null);
+  }
 
   /**
    * Wake on lan media server.
