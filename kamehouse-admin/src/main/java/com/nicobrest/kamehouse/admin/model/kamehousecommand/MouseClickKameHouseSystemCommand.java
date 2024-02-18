@@ -11,10 +11,10 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemComma
  */
 public class MouseClickKameHouseSystemCommand extends KameHouseSystemCommand {
 
-  private static int MIN_SCREEN_POS = 0;
-  private static int MAX_SCREEN_POS = 4096;
-  private static int MIN_CLICK_COUNT = 1;
-  private static int MAX_CLICK_COUNT = 5;
+  private static final int MIN_SCREEN_POS = 0;
+  private static final int MAX_SCREEN_POS = 4096;
+  private static final int MIN_CLICK_COUNT = 1;
+  private static final int MAX_CLICK_COUNT = 5;
 
   /**
    * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
