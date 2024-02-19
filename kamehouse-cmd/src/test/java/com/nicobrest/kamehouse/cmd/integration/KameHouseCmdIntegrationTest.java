@@ -186,7 +186,8 @@ class KameHouseCmdIntegrationTest {
    * Get jvncsender mouse click operation.
    */
   private String getJvncSenderMouseClickOperation() {
-    return " -o jvncsender -host \"invalid-host\" -port 5900 -password \"d\" -mouseClick \"1,1,1\"";
+    return " -o jvncsender -host \"invalid-host\" -port 5900 -password \"d\" "
+        + "-mouseClick \"1,1,1,true\"";
   }
 
   /**
