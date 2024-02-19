@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
@@ -27,7 +27,7 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
   /**
    * Send the command to execute an action on the vnc server.
    */
-  protected abstract void sendCommandToVncServer(VncSender vncSender) throws Exception;
+  protected abstract void sendCommandToVncServer(VncSender vncSender) throws KameHouseException;
 
   @Override
   public SystemCommand.Output execute() {
@@ -40,7 +40,7 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
       output.setExitCode(0);
       output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
       output.setStandardOutput(List.of("JVNCSender command executed successfully"));
-    } catch (Exception e) {
+    } catch (KameHouseException e) {
       logger.error("Error sending command to vnc server", e);
       output.setExitCode(1);
       output.setStatus(SystemCommandStatus.FAILED.getStatus());

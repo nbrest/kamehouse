@@ -32,7 +32,7 @@ public class JvncSenderExecutor implements Executor {
         int positionX = Integer.parseInt(mouseClickParams[0]);
         int positionY = Integer.parseInt(mouseClickParams[1]);
         int clickCount = Integer.parseInt(mouseClickParams[2]);
-        boolean isLeftClick = Boolean.valueOf(mouseClickParams[3]);
+        boolean isLeftClick = Boolean.parseBoolean(mouseClickParams[3]);
         if (isLeftClick) {
           vncSender.sendMouseLeftClick(positionX, positionY, clickCount);
         } else {

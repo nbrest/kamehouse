@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.jvncsender.VncSender;
 
 /**
@@ -59,11 +60,15 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
   }
 
   @Override
-  protected void sendCommandToVncServer(VncSender vncSender) throws Exception {
-    if (this.isLeftClick) {
-      vncSender.sendMouseLeftClick(positionX, positionY, clickCount);
-    } else {
-      vncSender.sendMouseRightClick(positionX, positionY, clickCount);
+  protected void sendCommandToVncServer(VncSender vncSender) {
+    try {
+      if (this.isLeftClick) {
+        vncSender.sendMouseLeftClick(positionX, positionY, clickCount);
+      } else {
+        vncSender.sendMouseRightClick(positionX, positionY, clickCount);
+      }
+    } catch (Exception e) {
+      throw new KameHouseException(e);
     }
   }
 }
