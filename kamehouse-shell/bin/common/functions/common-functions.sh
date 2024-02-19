@@ -186,6 +186,11 @@ executeWithRetry() {
   checkCommandStatus "${OPERATION_RESPONSE}" "An error occurred executing ${OPERATION}"
 }
 
+resetLogFile() {
+  echo "" > ${PROCESS_LOG_FILE}
+  log.info "Reset log file"
+}
+
 ###########################################################
 # Common functions called in this script to set variables #
 ###########################################################
