@@ -7,7 +7,7 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoMouseClickSystem
 import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoTypeSystemCommand;
 
 /**
- * Test KameHouseSystemCommand to test the SystemCommandService. Replaced now with
+ * Test KameHouseSystemCommand to test the SystemCommandService. VncDo replaced now with
  * {@link JvncSenderSystemCommand}.
  *
  * @author nbrest
