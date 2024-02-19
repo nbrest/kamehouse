@@ -19,8 +19,7 @@ class JvncSenderSystemCommandTest {
    */
   @Test
   void executeTest() {
-    TextJvncSenderSystemCommand jvncSenderTextSystemCommand = new TextJvncSenderSystemCommand(
-        "mada mada dane");
+    TextJvncSenderSystemCommand jvncSenderTextSystemCommand = new TextJvncSenderSystemCommand("");
     Output output = jvncSenderTextSystemCommand.execute();
     assertNotNull(output);
     assertTrue(output.getCommand().contains("jvncsender"), "Invalid output command");
