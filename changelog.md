@@ -8,7 +8,7 @@
 #### v9.01
 
 - Updated spinning wheel on mobile to kame logo
-- Updated jvncsender to version 1.05
+- Updated jvncsender to version 1.06
 - Added ui and api to send mouse clicks to the server
 - Restructured php code. Separated class definition php files from endpoint files
 - Added docker status check on kamehouse docker server
