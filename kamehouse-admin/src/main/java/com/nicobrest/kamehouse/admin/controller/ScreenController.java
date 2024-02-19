@@ -70,8 +70,10 @@ public class ScreenController extends AbstractSystemCommandController {
   public ResponseEntity<List<SystemCommand.Output>> keyPress(
       @RequestParam(value = "positionX", required = true) Integer positionX,
       @RequestParam(value = "positionY", required = true) Integer positionY,
-      @RequestParam(value = "clickCount", required = false) Integer clickCount) {
+      @RequestParam(value = "clickCount", required = false) Integer clickCount,
+      @RequestParam(value = "isLeftClick", required = false, defaultValue = "true")
+      Boolean isLeftClick) {
     return execKameHouseSystemCommand(
-        new MouseClickKameHouseSystemCommand(positionX, positionY, clickCount));
+        new MouseClickKameHouseSystemCommand(positionX, positionY, clickCount, isLeftClick));
   }
 }

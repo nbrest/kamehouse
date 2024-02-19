@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
@@ -13,68 +14,20 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * JvncSender system command to send text and mouse clicks to a VNC server. When running on docker
- * it sends the commands through ssh and kamehouse-cmd for mouse clicks only. Text strings are sent
- * to the host directly from the webapps running in the docker container.
+ * JvncSender system command to control a VNC server. When running on docker it sends the commands
+ * through ssh and kamehouse-cmd for mouse clicks only. Text strings are sent to the host directly
+ * from the webapps running in the docker container.
  *
  * @author nbrest
  */
-public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
+public abstract class JvncSenderSystemCommand extends SystemCommand {
 
   private static final int VNC_PORT = 5900;
 
-  private String text = null;
-  private Integer positionX = null;
-  private Integer positionY = null;
-  private Integer clickCount = null;
-
   /**
-   * Setup jvncsender text system command.
+   * Send the command to execute an action on the vnc server.
    */
-  public JvncSenderSystemCommand(String text) {
-    logCommand = false;
-    executeOnDockerHost = false;
-    this.text = text;
-    setOutputCommand();
-  }
-
-  /**
-   * Setup jvncsender text system command.
-   */
-  public JvncSenderSystemCommand(String text, int sleepTime) {
-    logCommand = false;
-    executeOnDockerHost = false;
-    setSleepTime(sleepTime);
-    this.text = text;
-    setOutputCommand();
-  }
-
-  /**
-   * Setup jvncsender mouse click system command.
-   */
-  public JvncSenderSystemCommand(int positionX, int positionY, int clickCount) {
-    logCommand = false;
-    executeOnDockerHost = true;
-    this.positionX = positionX;
-    this.positionY = positionY;
-    this.clickCount = clickCount;
-    setKameHouseCmdCommands();
-    setOutputCommand();
-  }
-
-  /**
-   * Setup jvncsender mouse click system command.
-   */
-  public JvncSenderSystemCommand(int positionX, int positionY, int clickCount, int sleepTime) {
-    logCommand = false;
-    executeOnDockerHost = true;
-    setSleepTime(sleepTime);
-    this.positionX = positionX;
-    this.positionY = positionY;
-    this.clickCount = clickCount;
-    setKameHouseCmdCommands();
-    setOutputCommand();
-  }
+  protected abstract void sendCommandToVncServer(VncSender vncSender) throws Exception;
 
   @Override
   public SystemCommand.Output execute() {
@@ -83,11 +36,7 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
     logger.debug("execute {}", output.getCommand());
     try {
       VncSender vncSender = new VncSender(host, VNC_PORT, password);
-      if (!StringUtils.isEmpty(text)) {
-        vncSender.sendText(text);
-      } else {
-        vncSender.sendMouseClick(positionX, positionY, clickCount);
-      }
+      sendCommandToVncServer(vncSender);
       output.setExitCode(0);
       output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
       output.setStandardOutput(List.of("JVNCSender command executed successfully"));
@@ -143,25 +92,5 @@ public class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
   @Override
   public String toString() {
     return JsonUtils.toJsonString(this, super.toString());
-  }
-
-  @Override
-  protected String getKameHouseCmdArguments() {
-    String host = DockerUtils.getHostname();
-    String password = getVncServerPassword();
-    StringBuilder args = new StringBuilder("-o jvncsender -host \"");
-    args.append(host);
-    args.append("\" -port ");
-    args.append(VNC_PORT);
-    args.append(" -password \"");
-    args.append(password);
-    args.append("\" -mouseClick \"");
-    args.append(positionX);
-    args.append(",");
-    args.append(positionY);
-    args.append(",");
-    args.append(clickCount);
-    args.append("\"");
-    return args.toString();
   }
 }

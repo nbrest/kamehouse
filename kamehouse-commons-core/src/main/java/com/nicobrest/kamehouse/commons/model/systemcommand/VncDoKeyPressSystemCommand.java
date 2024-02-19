@@ -4,7 +4,7 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
  * System command to press a key in the server screen using VncDo.
  *
  * @author nbrest
- * @deprecated use {@link JvncSenderSystemCommand}.
+ * @deprecated use {@link TextJvncSenderSystemCommand}.
  */
 @Deprecated(since = "v9.00")
 public class VncDoKeyPressSystemCommand extends VncDoSystemCommand {

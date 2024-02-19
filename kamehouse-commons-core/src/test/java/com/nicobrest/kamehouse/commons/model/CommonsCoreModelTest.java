@@ -16,8 +16,9 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseCmdSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.MouseClickJvncSenderSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TextJvncSenderSystemCommand;
 import java.util.Date;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
@@ -289,11 +290,11 @@ class CommonsCoreModelTest {
     };
     assertNotNull(kameHouseCmdSystemCommand.toString());
 
-    JvncSenderSystemCommand jvncSenderTextSystemCommand = new JvncSenderSystemCommand("");
+    TextJvncSenderSystemCommand jvncSenderTextSystemCommand = new TextJvncSenderSystemCommand("");
     assertNotNull(jvncSenderTextSystemCommand.toString());
 
-    JvncSenderSystemCommand jvncSenderMouseClickSystemCommand = new JvncSenderSystemCommand(1, 2,
-        3);
+    MouseClickJvncSenderSystemCommand jvncSenderMouseClickSystemCommand = new MouseClickJvncSenderSystemCommand(
+        1, 2, 3);
     assertNotNull(jvncSenderMouseClickSystemCommand.getCommand());
   }
 

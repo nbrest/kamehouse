@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Refactored jvncsender commands and added right click support
 - Updated spinning wheel on mobile to kame logo
 - Updated jvncsender to version 1.06
 - Added ui and api to send mouse clicks to the server

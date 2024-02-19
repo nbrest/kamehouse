@@ -90,14 +90,14 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
    */
   @ParameterizedTest
   @CsvSource({
-      "500, 600, 1",
-      "800, 600, 2"
+      "500, 600, 1,true",
+      "800, 600, 2,false"
   })
-  void mouseClickSuccessfulTest(Integer positionX, Integer positionY, Integer clickCount)
-      throws Exception {
+  void mouseClickSuccessfulTest(Integer positionX, Integer positionY, Integer clickCount,
+      Boolean isLeftClick) throws Exception {
     String apiUrl =
         "/api/v1/admin/screen/mouse-click?positionX=" + positionX + "&positionY=" + positionY
-            + "&clickCount=" + clickCount;
+            + "&clickCount=" + clickCount + "&isLeftClick=" + isLeftClick;
     execPostKameHouseSystemCommandTest(apiUrl, MouseClickKameHouseSystemCommand.class);
   }
 
@@ -106,14 +106,15 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
    */
   @ParameterizedTest
   @CsvSource({
-      "-1, 600, 1",
-      "800, 10000, 2",
-      "800, 1000, 900"
+      "-1, 600, 1, true",
+      "800, 10000, 2, true",
+      "800, 1000, 900, false"
   })
-  void mouseClickErrorTest(Integer positionX, Integer positionY, Integer clickCount) {
+  void mouseClickErrorTest(Integer positionX, Integer positionY, Integer clickCount,
+      Boolean isLeftClick) {
     String apiUrl =
         "/api/v1/admin/screen/mouse-click?positionX=" + positionX + "&positionY=" + positionY
-            + "&clickCount=" + clickCount;
+            + "&clickCount=" + clickCount + "&isLeftClick=" + isLeftClick;
     execPostInvalidKameHouseSystemCommandTest(apiUrl);
   }
 }

@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.admin.model.kamehousecommand;
 import com.nicobrest.kamehouse.admin.model.systemcommand.ScreenLockSystemCommand;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.JvncSenderSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TextJvncSenderSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -22,9 +22,10 @@ public class ScreenUnlockKameHouseSystemCommand extends KameHouseSystemCommand {
   public ScreenUnlockKameHouseSystemCommand() {
     String unlockScreenPassword = getUnlockScreenPassword();
     systemCommands.add(new ScreenLockSystemCommand());
-    systemCommands.add(new JvncSenderSystemCommand(KeyPress.ESC.get(), 3));
-    systemCommands.add(new JvncSenderSystemCommand(KeyPress.ESC.get(), 3));
-    systemCommands.add(new JvncSenderSystemCommand(unlockScreenPassword + KeyPress.ENTER.get()));
+    systemCommands.add(new TextJvncSenderSystemCommand(KeyPress.ESC.get(), 3));
+    systemCommands.add(new TextJvncSenderSystemCommand(KeyPress.ESC.get(), 3));
+    systemCommands.add(
+        new TextJvncSenderSystemCommand(unlockScreenPassword + KeyPress.ENTER.get()));
   }
 
   /**

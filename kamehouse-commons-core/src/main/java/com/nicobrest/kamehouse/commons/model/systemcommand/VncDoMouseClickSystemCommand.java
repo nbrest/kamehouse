@@ -8,7 +8,7 @@ import java.util.Arrays;
  * "0" "0" on the top left of the screen.
  *
  * @author nbrest
- * @deprecated use {@link JvncSenderSystemCommand}.
+ * @deprecated use {@link MouseClickJvncSenderSystemCommand}.
  */
 @Deprecated(since = "v9.00")
 public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {

@@ -8,6 +8,7 @@ class ScreenController {
 
   static #ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
   static #KEY_PRESS = '/screen/key-press';
+  static #MOUSE_CLICK = '/screen/mouse-click';
 
   /**
    * Load the extension.
@@ -18,6 +19,9 @@ class ScreenController {
     this.#importCss();
   }
 
+  /**
+   * Send a key press to the server.
+   */
   keyPress(key, keyPresses) {
     if (kameHouse.core.isEmpty(keyPresses)) {
       kameHouse.logger.trace("keyPresses not set. Using default value of 1");
@@ -41,6 +45,24 @@ class ScreenController {
     const keyPresses = document.getElementById(dropdownId).value;
     kameHouse.logger.trace("Number of key presses: " + keyPresses);
     this.keyPress(key, keyPresses);
+  }
+
+  /**
+   * Send a right mouse click to the server.
+   */
+  mouseRightClick() {
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const params = {
+      positionX: 500,
+      positionY: 500,
+      clickCount: 1,
+      isLeftClick: false,
+    };
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, ScreenController.#ADMIN_API_URL + ScreenController.#MOUSE_CLICK, kameHouse.http.getUrlEncodedHeaders(), params, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)}
+      );
   }
 
   /**
