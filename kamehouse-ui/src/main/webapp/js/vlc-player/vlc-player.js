@@ -312,6 +312,20 @@ class VlcPlayer {
   }
 
   /**
+   * Single left click.
+   */
+  singleLeftClick() {
+    const params = {
+      positionX: 500,
+      positionY: 500,
+      clickCount: 1,
+      isLeftClick: true,
+    };
+    const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
+    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), params);
+  }
+
+  /**
    * Start synchronization loops.
    */
   #startSynchronizerLoops() {
@@ -1457,14 +1471,12 @@ class VlcPlayerDebugger {
 
   /** Update the main player view. */
   #getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.util.cursor.setCursorDefault();
     this.#vlcPlayer.setVlcRcStatus(responseBody);
     this.#vlcPlayer.updateView();
   }
 
   /** Reset view if there's an error getting the vlcRcStatus from the api. */
   #getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.util.cursor.setCursorDefault();
     kameHouse.logger.trace("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
     this.#vlcPlayer.setVlcRcStatus({});
     this.#vlcPlayer.updateView();
@@ -1472,14 +1484,12 @@ class VlcPlayerDebugger {
 
   /** Update the playlist view. */
   #getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.util.cursor.setCursorDefault();
     this.#vlcPlayer.getPlaylist().setUpdatedPlaylist(responseBody);
     this.#vlcPlayer.getPlaylist().reload();
   }
 
   /** Reset playlist view if there's an error getting the playlist from the api. */
   #getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.util.cursor.setCursorDefault();
     kameHouse.logger.trace("Unable to get the playlist from an API call. This can happen if vlc player process isn't running");
     this.#vlcPlayer.getPlaylist().setUpdatedPlaylist(null);
     this.#vlcPlayer.getPlaylist().reload();

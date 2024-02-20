@@ -426,7 +426,7 @@ pullLatestKameHouseChanges() {
 }
 
 buildKameHouseProject() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   
   exportGitCommitHash
@@ -535,7 +535,7 @@ buildMobile() {
   setMobileBuildVersionAndKeys
   updateConfigWithGitHash
   buildCordovaProject
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
   resetConfigFromGitHash
   cdToRootDirFromMobile
   deleteStaticFilesOnMobile

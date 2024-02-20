@@ -19,6 +19,7 @@ TOMCAT_DIR=""
 TOMCAT_LOG=""
 
 mainProcess() {
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh false true
   export HOME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-userhome.sh`
   TOMCAT_DIR=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-tomcat-dir.sh`
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out

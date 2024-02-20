@@ -7,6 +7,9 @@
 
 #### v9.01
 
+- Added single left click on vlc player debug mode 
+- Fixed spinning wheel on mobile position
+- Fixed JAVA_HOME for tomcat startup script
 - Refactored jvncsender commands and added right click support
 - Updated spinning wheel on mobile to kame logo
 - Updated jvncsender to version 1.06

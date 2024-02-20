@@ -440,7 +440,7 @@ class KameHouseCursorUtils {
    */
   async loadSpinningWheelMobile() {
     const spinnigWheelMobileDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
-    kameHouse.util.dom.insertBeforeBegin(spinnigWheelMobileDiv);
+    kameHouse.util.dom.append($('body'), spinnigWheelMobileDiv);
   }
 
 } // KameHouseCursorUtils
