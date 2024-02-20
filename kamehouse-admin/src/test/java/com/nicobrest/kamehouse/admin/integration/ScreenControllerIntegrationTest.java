@@ -34,12 +34,12 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
       "lockTest, /lock",
       "wakeUpTest, /wake-up",
       "unlockTest, /unlock",
-      "keyPress, /key-press?key=ESC&keyPresses=1",
-      "mouseClickLeft, /mouse-click?positionX=100&positionY=1000&clickCount=1&isLeftClick=true",
-      "mouseClickRight, /mouse-click?positionX=100&positionY=1000&clickCount=1&isLeftClick=false"
+      "keyPressTest, /key-press?key=ESC&keyPresses=1",
+      "mouseClickTest, /mouse-click?mouseButton=LEFT&positionX=100&positionY=1000&clickCount=1",
+      "mouseClickTest, /mouse-click?mouseButton=RIGHT&positionX=100&positionY=1000&clickCount=1"
   })
   void screenControllerTest(String testName, String apiEndpoint) throws Exception {
-    logger.info("Running {}", testName);
+    logger.info("Running {} : {}", testName, apiEndpoint);
 
     HttpResponse response = post(getWebappUrl() + API_URL + apiEndpoint);
 

@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.MouseButton;
 import com.nicobrest.kamehouse.commons.model.systemcommand.MouseClickJvncSenderSystemCommand;
 
 /**
@@ -19,22 +20,14 @@ public class MouseClickKameHouseSystemCommand extends KameHouseSystemCommand {
   /**
    * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
    */
-  public MouseClickKameHouseSystemCommand(Integer positionX, Integer positionY,
+  public MouseClickKameHouseSystemCommand(MouseButton button, Integer positionX, Integer positionY,
       Integer clickCount) {
-    this(positionX, positionY, clickCount, true);
-  }
-
-  /**
-   * Sets the required SystemCommands to achieve this KameHouseSystemCommand.
-   */
-  public MouseClickKameHouseSystemCommand(Integer positionX, Integer positionY,
-      Integer clickCount, boolean isLeftClick) {
     if (clickCount == null) {
       clickCount = 1;
     }
     validateParameters(positionX, positionY, clickCount);
     systemCommands.add(
-        new MouseClickJvncSenderSystemCommand(positionX, positionY, clickCount, isLeftClick));
+        new MouseClickJvncSenderSystemCommand(button, positionX, positionY, clickCount));
   }
 
   /**

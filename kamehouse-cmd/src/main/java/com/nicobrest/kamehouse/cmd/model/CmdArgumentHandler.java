@@ -58,7 +58,7 @@ public class CmdArgumentHandler {
     ALL_OPTIONS.addOption(new Option("port", "port", true, "Port"));
     ALL_OPTIONS.addOption(new Option("text", "text", true, "Text"));
     ALL_OPTIONS.addOption(
-        new Option(MOUSE_CLICK, MOUSE_CLICK, true, "positionX,positionY,clickCount,isLeftClick"));
+        new Option(MOUSE_CLICK, MOUSE_CLICK, true, "[LEFT|RIGHT],positionX,positionY,clickCount"));
     ALL_OPTIONS.addOption(new Option("mac", "mac", true, "Mac Address"));
     ALL_OPTIONS.addOption(new Option("broadcast", "broadcast", true, "Broadcast Address"));
   }
@@ -176,7 +176,7 @@ public class CmdArgumentHandler {
     }
     if (hasArgument(MOUSE_CLICK)) {
       String mouseClick = getArgument(MOUSE_CLICK);
-      if (!mouseClick.matches("\\d+,\\d+,\\d+,(true|false)")) {
+      if (!mouseClick.matches("(LEFT|RIGHT),\\d+,\\d+,\\d+")) {
         logger.error("Invalid mouseClick option value: {}", mouseClick);
         help();
       }

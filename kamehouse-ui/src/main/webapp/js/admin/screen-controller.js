@@ -53,10 +53,10 @@ class ScreenController {
   mouseRightClick() {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const params = {
+      mouseButton: "RIGHT",
       positionX: 500,
       positionY: 500,
-      clickCount: 1,
-      isLeftClick: false,
+      clickCount: 1
     };
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, ScreenController.#ADMIN_API_URL + ScreenController.#MOUSE_CLICK, kameHouse.http.getUrlEncodedHeaders(), params, 

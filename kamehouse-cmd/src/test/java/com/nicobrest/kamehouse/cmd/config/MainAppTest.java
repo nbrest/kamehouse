@@ -96,7 +96,7 @@ class MainAppTest {
   @Test
   void jVncSenderMouseClickTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
-        "-password", "", "-mouseClick", "100,100,1,true"};
+        "-password", "", "-mouseClick", "LEFT,100,100,1"};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
     });

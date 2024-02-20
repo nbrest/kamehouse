@@ -280,14 +280,6 @@ class VlcPlayer {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
     this.getRestClient().post(UNLOCK_SCREEN_API_URL, null, null);
   }
-  
-  /**
-   * Trigger a mouse double click.
-   */
-  mouseDoubleClick() {
-    const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click?positionX=500&positionY=500&clickCount=2";
-    this.getRestClient().post(MOUSE_CLICK_API_URL, null, null);
-  }
 
   /**
    * Wake on lan media server.
@@ -314,15 +306,29 @@ class VlcPlayer {
   /**
    * Single left click.
    */
-  singleLeftClick() {
+  mouseSingleClick() {
     const params = {
+      mouseButton: "LEFT",
       positionX: 500,
       positionY: 500,
-      clickCount: 1,
-      isLeftClick: true,
+      clickCount: 1
     };
     const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
     this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), params);
+  }
+
+  /**
+   * Trigger a mouse left double click.
+   */
+  mouseDoubleClick() {
+    const requestParam =  {
+      mouseButton : "LEFT",
+      positionX: 500,
+      positionY: 500,
+      clickCount: 2
+    };
+    const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
+    this.getRestClient().post(MOUSE_CLICK_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
   }
 
   /**

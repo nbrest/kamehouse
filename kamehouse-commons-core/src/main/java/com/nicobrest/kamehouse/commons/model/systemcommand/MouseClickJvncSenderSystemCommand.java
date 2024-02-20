@@ -10,29 +10,29 @@ import com.nicobrest.kamehouse.jvncsender.VncSender;
  */
 public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
 
+  private MouseButton mouseButton;
   private Integer positionX;
   private Integer positionY;
   private Integer clickCount;
-  private boolean isLeftClick;
 
   /**
    * Setup jvncsender left mouse click system command.
    */
   public MouseClickJvncSenderSystemCommand(int positionX, int positionY, int clickCount) {
-    this(positionX, positionY, clickCount, true);
+    this(MouseButton.LEFT, positionX, positionY, clickCount);
   }
 
   /**
    * Setup jvncsender left or right mouse click system command.
    */
-  public MouseClickJvncSenderSystemCommand(int positionX, int positionY, int clickCount,
-      boolean isLeftClick) {
+  public MouseClickJvncSenderSystemCommand(MouseButton mouseButton, int positionX, int positionY,
+      int clickCount) {
     logCommand = false;
     executeOnDockerHost = true;
+    this.mouseButton = mouseButton;
     this.positionX = positionX;
     this.positionY = positionY;
     this.clickCount = clickCount;
-    this.isLeftClick = isLeftClick;
     setOutputCommand();
   }
 
@@ -41,32 +41,28 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
    */
   public MouseClickJvncSenderSystemCommand(int positionX, int positionY, int clickCount,
       int sleepTime) {
-    this(positionX, positionY, clickCount, true, sleepTime);
+    this(MouseButton.LEFT, positionX, positionY, clickCount, sleepTime);
   }
 
   /**
    * Setup jvncsender left or right mouse click system command with sleep.
    */
-  public MouseClickJvncSenderSystemCommand(int positionX, int positionY, int clickCount,
-      boolean isLeftClick, int sleepTime) {
+  public MouseClickJvncSenderSystemCommand(MouseButton mouseButton, int positionX, int positionY,
+      int clickCount, int sleepTime) {
     logCommand = false;
     executeOnDockerHost = true;
     setSleepTime(sleepTime);
+    this.mouseButton = mouseButton;
     this.positionX = positionX;
     this.positionY = positionY;
     this.clickCount = clickCount;
-    this.isLeftClick = isLeftClick;
     setOutputCommand();
   }
 
   @Override
   protected void sendCommandToVncServer(VncSender vncSender) {
     try {
-      if (this.isLeftClick) {
-        vncSender.sendMouseLeftClick(positionX, positionY, clickCount);
-      } else {
-        vncSender.sendMouseRightClick(positionX, positionY, clickCount);
-      }
+      vncSender.sendMouseClick(mouseButton.getJvncSenderButton(), positionX, positionY, clickCount);
     } catch (Exception e) {
       throw new KameHouseException(e);
     }

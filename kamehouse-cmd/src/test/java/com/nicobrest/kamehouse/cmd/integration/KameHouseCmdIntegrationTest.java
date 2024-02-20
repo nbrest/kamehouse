@@ -187,7 +187,7 @@ class KameHouseCmdIntegrationTest {
    */
   private String getJvncSenderMouseClickOperation() {
     return " -o jvncsender -host \"invalid-host\" -port 5900 -password \"d\" "
-        + "-mouseClick \"1,1,1,true\"";
+        + "-mouseClick \"LEFT,1,1,1\"";
   }
 
   /**

@@ -92,14 +92,14 @@ class CmdArgumentHandlerTest {
   @Test
   void jvncSenderMouseClickSuccessfulTest() {
     String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
-        "gokupass", "-port", "5900", "-mouseClick", "100,100,1"};
+        "gokupass", "-port", "5900", "-mouseClick", "LEFT,100,100,1"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertEquals(Operation.JVNCSENDER, cmdArgumentHandler.getOperation());
     assertEquals("goku-server", cmdArgumentHandler.getArgument("host"));
     assertEquals("gokupass", cmdArgumentHandler.getArgument("password"));
     assertEquals("5900", cmdArgumentHandler.getArgument("port"));
-    assertEquals("100,100,1", cmdArgumentHandler.getArgument("mouseClick"));
+    assertEquals("LEFT,100,100,1", cmdArgumentHandler.getArgument("mouseClick"));
   }
 
   /**

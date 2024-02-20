@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseS
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
+import com.nicobrest.kamehouse.commons.model.systemcommand.MouseButton;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import java.util.List;
@@ -67,13 +68,12 @@ public class ScreenController extends AbstractSystemCommandController {
    * Sends a mouse click on the server.
    */
   @PostMapping(path = "/mouse-click")
-  public ResponseEntity<List<SystemCommand.Output>> keyPress(
+  public ResponseEntity<List<SystemCommand.Output>> mouseClick(
+      @RequestParam(value = "mouseButton", required = true) MouseButton mouseButton,
       @RequestParam(value = "positionX", required = true) Integer positionX,
       @RequestParam(value = "positionY", required = true) Integer positionY,
-      @RequestParam(value = "clickCount", required = false) Integer clickCount,
-      @RequestParam(value = "isLeftClick", required = false, defaultValue = "true")
-      Boolean isLeftClick) {
+      @RequestParam(value = "clickCount", required = false) Integer clickCount) {
     return execKameHouseSystemCommand(
-        new MouseClickKameHouseSystemCommand(positionX, positionY, clickCount, isLeftClick));
+        new MouseClickKameHouseSystemCommand(mouseButton, positionX, positionY, clickCount));
   }
 }
