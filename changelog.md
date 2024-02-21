@@ -16,7 +16,7 @@
 - Fixed JAVA_HOME for tomcat startup script
 - Refactored jvncsender commands and added right click support
 - Updated spinning wheel on mobile to kame logo
-- Updated jvncsender to version 1.07
+- Updated jvncsender to version 1.08
 - Added ui and api to send mouse clicks to the server
 - Restructured php code. Separated class definition php files from endpoint files
 - Added docker status check on kamehouse docker server

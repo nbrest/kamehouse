@@ -9,7 +9,7 @@ import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import com.nicobrest.kamehouse.jvncsender.VncSender;
+import com.nicobrest.kamehouse.jvncsender.VncServer;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +27,7 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
   /**
    * Send the command to execute an action on the vnc server.
    */
-  protected abstract void sendCommandToVncServer(VncSender vncSender) throws KameHouseException;
+  protected abstract void sendCommand(VncServer vncServer) throws KameHouseException;
 
   @Override
   public SystemCommand.Output execute() {
@@ -35,8 +35,8 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
     String password = getVncServerPassword();
     logger.debug("execute {}", output.getCommand());
     try {
-      VncSender vncSender = new VncSender(host, VNC_PORT, password);
-      sendCommandToVncServer(vncSender);
+      VncServer vncServer = new VncServer(host, VNC_PORT, password);
+      sendCommand(vncServer);
       output.setExitCode(0);
       output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
       output.setStandardOutput(List.of("JVNCSender command executed successfully"));

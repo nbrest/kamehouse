@@ -5,7 +5,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.commons.model.systemcommand.MouseButton;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import com.nicobrest.kamehouse.jvncsender.VncSender;
+import com.nicobrest.kamehouse.jvncsender.VncServer;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,17 +27,17 @@ public class JvncSenderExecutor implements Executor {
       throw new KameHouseInvalidCommandException("Both text and mouseClick are empty");
     }
     try {
-      VncSender vncSender = new VncSender(host, port, password);
+      VncServer vncServer = new VncServer(host, port, password);
       if (StringUtils.isEmpty(text)) {
         String[] mouseClickParams = mouseClick.split(",");
         MouseButton mouseButton = MouseButton.valueOf(mouseClickParams[0]);
         int positionX = Integer.parseInt(mouseClickParams[1]);
         int positionY = Integer.parseInt(mouseClickParams[2]);
         int clickCount = Integer.parseInt(mouseClickParams[3]);
-        vncSender.sendMouseClick(mouseButton.getJvncSenderButton(), positionX, positionY,
+        vncServer.sendMouseClick(mouseButton.getJvncSenderButton(), positionX, positionY,
             clickCount);
       } else {
-        vncSender.sendText(text);
+        vncServer.sendText(text);
       }
     } catch (Exception e) {
       throw new KameHouseException(e);

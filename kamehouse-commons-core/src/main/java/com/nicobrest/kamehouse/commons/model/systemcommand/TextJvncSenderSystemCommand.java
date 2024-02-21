@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
-import com.nicobrest.kamehouse.jvncsender.VncSender;
+import com.nicobrest.kamehouse.jvncsender.VncServer;
 
 /**
  * JvncSender system command to send text to a VNC server.
@@ -34,9 +34,9 @@ public class TextJvncSenderSystemCommand extends JvncSenderSystemCommand {
   }
 
   @Override
-  protected void sendCommandToVncServer(VncSender vncSender) {
+  protected void sendCommand(VncServer vncServer) {
     try {
-      vncSender.sendText(text);
+      vncServer.sendText(text);
     } catch (Exception e) {
       throw new KameHouseException(e);
     }

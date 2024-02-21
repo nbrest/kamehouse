@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
-import com.nicobrest.kamehouse.jvncsender.VncSender;
+import com.nicobrest.kamehouse.jvncsender.VncServer;
 
 /**
  * JvncSender system command to send a mouse click to a VNC server.
@@ -60,9 +60,9 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
   }
 
   @Override
-  protected void sendCommandToVncServer(VncSender vncSender) {
+  protected void sendCommand(VncServer vncServer) {
     try {
-      vncSender.sendMouseClick(mouseButton.getJvncSenderButton(), positionX, positionY, clickCount);
+      vncServer.sendMouseClick(mouseButton.getJvncSenderButton(), positionX, positionY, clickCount);
     } catch (Exception e) {
       throw new KameHouseException(e);
     }
