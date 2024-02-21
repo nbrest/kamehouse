@@ -1532,7 +1532,7 @@ class CordovaInAppBrowserMock {
   open(url, target, options) {
     kameHouse.logger.info("Called open in InAppBrowserMock with url " + url);
     setTimeout(() => {
-      alert("cordova.InAppBrowser.open() call with:\n\nurl:\n" + url + "\n\ntarget:\n" + target + "\n\noptions:\n" + options);
+      alert("kameHouse.cordova.InAppBrowser.open() call with:\n\nurl:\n" + url + "\n\ntarget:\n" + target + "\n\noptions:\n" + options);
     }, 100);
     setTimeout(() => {
       kameHouse.logger.info("Simulating successful exit event from InAppBrowserInstanceMock closing the modal");
