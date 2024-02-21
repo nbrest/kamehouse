@@ -31,7 +31,7 @@ class BookingService {
         this.#updateBookingResponseTable(responseBody, responseCode);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error executing booking request");
+        kameHouse.logger.logApiError(BookingService.#BOOK_API_URL, responseBody, responseCode, responseDescription, responseHeaders, "Error executing booking request");
         kameHouse.plugin.modal.loadingWheelModal.close();
         try {
           this.#updateBookingResponseTable(kameHouse.json.parse(responseBody), responseCode);

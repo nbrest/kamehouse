@@ -7,6 +7,10 @@
 
 #### v9.01
 
+- Set kame logo spinning wheel for cursor wait on both webapp and mobile
+- Disabled hover animation on image buttons on mobile app
+- Added url to api error logs in the ui
+- Fixed mockCordova url parameter to test mobile app on browser
 - Added single left click on vlc player debug mode 
 - Fixed spinning wheel on mobile position
 - Fixed JAVA_HOME for tomcat startup script

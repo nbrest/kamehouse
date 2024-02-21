@@ -42,21 +42,7 @@ class KameHouseMobileCore {
    */
   init() {
     this.#setCordovaMock();
-    this.disableWebappOnlyElements();
-  }
-
-  /**
-   * Disable webapp only elements.
-   */
-  disableWebappOnlyElements() {
-    $(document).ready(() => {
-      kameHouse.logger.debug("Disabling webapp only elements in mobile app view");
-      const mobileOnlyElements = document.getElementsByClassName("kh-mobile-hidden");
-      for (const mobileOnlyElement of mobileOnlyElements) {
-        kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
-        kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-hidden");
-      }
-    });
+    kameHouse.util.mobile.configureApp();
   }
 
   /**
@@ -121,7 +107,7 @@ class KameHouseMobileCore {
           this.#setSuccessfulLogoutView();
           this.#setSuccessfulLogoutConfig();
           kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(false);
-          cordova.plugin.http.clearCookies();
+          kameHouse.cordova.plugin.http.clearCookies();
           return;
         }
         const message = "Logout error: " + kameHouse.json.stringify(responseBody);
@@ -175,7 +161,7 @@ class KameHouseMobileCore {
     this.#setMobileTimeout(config);
     if (this.#skipSslCheck()) {
       kameHouse.logger.trace("Skipping SSL check for mobile request");
-      cordova.plugin.http.setServerTrustMode('nocheck',
+      kameHouse.cordova.plugin.http.setServerTrustMode('nocheck',
       () => { // success
         this.#sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
       },
@@ -186,7 +172,7 @@ class KameHouseMobileCore {
       });
     } else {
       kameHouse.logger.trace("Enabling SSL check for mobile request");
-      cordova.plugin.http.setServerTrustMode('default',
+      kameHouse.cordova.plugin.http.setServerTrustMode('default',
       () => { // success
         this.#sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
       },
@@ -269,7 +255,7 @@ class KameHouseMobileCore {
    * @deprecated
    */
   overrideWindowOpen() {
-    window.open = cordova.InAppBrowser.open;
+    window.open = kameHouse.cordova.InAppBrowser.open;
   }
 
   /**
@@ -392,9 +378,9 @@ class KameHouseMobileCore {
    * Send mobile http request.
    */
   #sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback) {
-    cordova.plugin.http.sendRequest(requestUrl, options, 
+    kameHouse.cordova.plugin.http.sendRequest(requestUrl, options, 
       (response) => { this.#processMobileSuccess(response, successCallback); },
-      (response) => { this.#processMobileError(response, errorCallback); }
+      (response) => { this.#processMobileError(requestUrl, response, errorCallback); }
     );
   }
 
@@ -420,7 +406,7 @@ class KameHouseMobileCore {
   }
 
   /** Process an error response from the api call */
-  #processMobileError(response, errorCallback) {
+  #processMobileError(url, response, errorCallback) {
      /**
      * error: error message
      * status: http status code
@@ -441,7 +427,7 @@ class KameHouseMobileCore {
      const responseCode = response.status;
      const responseDescription = null;
      const responseHeaders = response.headers;
-     kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, null);
+     kameHouse.logger.logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, null);
      errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }  
 
@@ -468,12 +454,12 @@ class KameHouseMobileCore {
   #setMobileTimeout(config) {
     if (!kameHouse.core.isEmpty(config.timeout)) {
       kameHouse.logger.debug("Setting timeout for mobile http request to " + config.timeout);
-      cordova.plugin.http.setRequestTimeout(config.timeout);
-      cordova.plugin.http.setReadTimeout(config.timeout);
+      kameHouse.cordova.plugin.http.setRequestTimeout(config.timeout);
+      kameHouse.cordova.plugin.http.setReadTimeout(config.timeout);
     } else {
       kameHouse.logger.debug("Using default timeout for mobile http request");
-      cordova.plugin.http.setRequestTimeout(KameHouseMobileCore.#DEFAULT_TIMEOUT_SECONDS);
-      cordova.plugin.http.setReadTimeout(KameHouseMobileCore.#DEFAULT_TIMEOUT_SECONDS);
+      kameHouse.cordova.plugin.http.setRequestTimeout(KameHouseMobileCore.#DEFAULT_TIMEOUT_SECONDS);
+      kameHouse.cordova.plugin.http.setReadTimeout(KameHouseMobileCore.#DEFAULT_TIMEOUT_SECONDS);
     }
   }
 
@@ -485,11 +471,11 @@ class KameHouseMobileCore {
       const credentials = this.#getBackendCredentials();
       if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
         kameHouse.logger.debug("Setting basicAuth header for mobile http request with username: " + credentials.username);
-        cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
+        kameHouse.cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
       }
     } else {
       kameHouse.logger.debug("User is not logged in. Unsetting basicAuth header for mobile http request");
-      cordova.plugin.http.setHeader('Authorization', null);
+      kameHouse.cordova.plugin.http.setHeader('Authorization', null);
     }
   }
 
@@ -498,7 +484,7 @@ class KameHouseMobileCore {
    */
   #setDataSerializer(headers, httpMethod) {
     kameHouse.logger.debug("Setting data serializer to 'utf8'");
-    cordova.plugin.http.setDataSerializer('utf8');
+    kameHouse.cordova.plugin.http.setDataSerializer('utf8');
     if (kameHouse.core.isEmpty(headers)) {
       return;
     }
@@ -506,14 +492,14 @@ class KameHouseMobileCore {
       if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" && !kameHouse.core.isEmpty(value)) {
         if (value.toLowerCase() == "application/json") {
           kameHouse.logger.debug("Overriding data serializer to 'json'");
-          cordova.plugin.http.setDataSerializer('json');
+          kameHouse.cordova.plugin.http.setDataSerializer('json');
         }
         if (value.toLowerCase() == "application/x-www-form-urlencoded") {
           // For GET, PUT, DELETE url encoded data in this http plugin, the data in the options object must be set to "" and serializer to utf8 and directly set the encoded url parameters in the request url.
           // For POST url encoded requests, the data in the options object must be a json object and the serializer needs to be set to urlencoded
           if (httpMethod != KameHouseMobileCore.#GET && httpMethod != KameHouseMobileCore.#PUT && httpMethod != KameHouseMobileCore.#DELETE) {
             kameHouse.logger.debug("Overriding data serializer to 'urlencoded'");
-            cordova.plugin.http.setDataSerializer('urlencoded');
+            kameHouse.cordova.plugin.http.setDataSerializer('urlencoded');
           }
         }
       }
@@ -571,7 +557,7 @@ class KameHouseMobileCore {
     const mockCordova = urlParams.get('mockCordova');
     if (mockCordova) {
       kameHouse.logger.info("Mocking cordova object");
-      cordova = new CordovaMock();
+      kameHouse.cordova = new CordovaMock();
     }
   }   
 
@@ -597,7 +583,7 @@ class KameHouseMobileCore {
     kameHouse.logger.info("Start loading url " + serverEntity.url);
     const target = kameHouse.extension.mobile.configManager.getInAppBrowserConfig().target;
     const options = kameHouse.extension.mobile.configManager.getInAppBrowserConfig().options;
-    const inAppBrowserInstance = cordova.InAppBrowser.open(serverEntity.url, target, options);
+    const inAppBrowserInstance = kameHouse.cordova.InAppBrowser.open(serverEntity.url, target, options);
     if (target == "_system") {
       kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getOpenBrowserMessage(serverEntity), 2000);
     } else {

@@ -24,6 +24,18 @@
   }
 }
 
+.img-btn-mobile-kh {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.img-btn-mobile-kh:active {
+  border: 1px solid #181818;
+  border-radius: 50%;
+  background-color: #181818;
+}
+
 /** Use in combination with img-btn-kh to make it smaller or bigger */
 .img-btn-s-kh {
   width: 25px;

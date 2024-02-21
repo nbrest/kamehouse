@@ -1433,8 +1433,8 @@ class VlcPlayerRestClient {
   #apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.util.cursor.setCursorDefault();
     kameHouse.plugin.modal.loadingWheelModal.close();
-    // Don't display api errors for not found or service not available errors
-    if (responseCode != 404 && responseCode != 503 && responseCode > 300) {
+    // Don't display api errors for not found or service not available errors or cordova mock
+    if (responseCode != 404 && responseCode != 503 && responseCode != 999 && responseCode > 300) {
       kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
     }
   }

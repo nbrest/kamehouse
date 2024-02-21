@@ -141,7 +141,7 @@ class CrudManager {
         this.#setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting entity");
+        kameHouse.logger.logApiError(getUrl, responseBody, responseCode, responseDescription, responseHeaders, "Error getting entity");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
@@ -168,7 +168,7 @@ class CrudManager {
         this.#reloadView();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error getting all entities");
+        kameHouse.logger.logApiError(this.#url, responseBody, responseCode, responseDescription, responseHeaders, "Error getting all entities");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         this.#displayErrorGettingEntities();
       });
@@ -192,7 +192,7 @@ class CrudManager {
         kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error creating entity");
+        kameHouse.logger.logApiError(this.#url, responseBody, responseCode, responseDescription, responseHeaders, "Error creating entity");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         this.readAll();
       });
@@ -217,7 +217,7 @@ class CrudManager {
         kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error updating entity");
+        kameHouse.logger.logApiError(updateUrl, responseBody, responseCode, responseDescription, responseHeaders, "Error updating entity");
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         this.readAll();
       });
@@ -242,7 +242,7 @@ class CrudManager {
         this.readAll();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, "Error deleting entity");
+        kameHouse.logger.logApiError(deleteUrl, responseBody, responseCode, responseDescription, responseHeaders, "Error deleting entity");
         kameHouse.plugin.modal.basicModal.close();
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         this.readAll();

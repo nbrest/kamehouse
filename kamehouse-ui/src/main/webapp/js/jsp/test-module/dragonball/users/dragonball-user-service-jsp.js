@@ -28,7 +28,7 @@ class DragonBallUserServiceJsp {
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         let errorMessage = 'Error getting dragonball user';
-        this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -42,7 +42,7 @@ class DragonBallUserServiceJsp {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error getting dragonball users from the backend';
         this.#displayErrorTable(errorMessage);
-        this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -62,7 +62,7 @@ class DragonBallUserServiceJsp {
       (responseBody, responseCode, responseDescription, responseHeaders) => {kameHouse.core.windowLocation('users-list')},
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error adding dragonball user';
-        this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -83,7 +83,7 @@ class DragonBallUserServiceJsp {
       (responseBody, responseCode, responseDescription, responseHeaders) => {kameHouse.core.windowLocation('users-list')},
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error updating dragonball user';
-        this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -100,12 +100,12 @@ class DragonBallUserServiceJsp {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error deleting dragonball user';
         this.#displayErrorTable(errorMessage);
-        this.#handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
   
   /** Display api error */
-  #handleApiErrorResponse(errorMessage, responseBody, responseCode, responseDescription, responseHeaders) {
+  #handleApiErrorResponse(url, errorMessage, responseBody, responseCode, responseDescription, responseHeaders) {
     if (!kameHouse.core.isEmpty(responseBody)) {
       try {
         errorMessage = errorMessage + " : " + kameHouse.json.parse(responseBody).message;
@@ -115,7 +115,7 @@ class DragonBallUserServiceJsp {
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);
-    kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, errorMessage);
+    kameHouse.logger.logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, errorMessage);
   }
 
   /**

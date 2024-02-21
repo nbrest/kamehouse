@@ -61,7 +61,7 @@ class KameHouse {
     this.core.loadStickyBackToTop();
     this.core.loadKameHouseModal();
     this.core.loadKameHouseDebugger();
-    this.util.cursor.loadSpinningWheelMobile();
+    this.util.cursor.loadSpinningWheelCursorWait();
     this.logger.info("Finished initializing kamehouse.js");
   }
 
@@ -426,21 +426,21 @@ class KameHouseCursorUtils {
   /** Set the cursor to a wait spinning wheel */
   setCursorWait() {
     kameHouse.util.dom.addClass($('html'), "wait");
-    kameHouse.util.dom.removeClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
+    kameHouse.util.dom.removeClass($('#spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
   }
 
   /** Set the cursor to default shape */
   setCursorDefault() {
     kameHouse.util.dom.removeClass($('html'), "wait");
-    kameHouse.util.dom.addClass($('#spinning-wheel-mobile-wrapper'), "hidden-kh");
+    kameHouse.util.dom.addClass($('#spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
   }
 
   /**
-   * Load the spinning wheel for mobile view.
+   * Load the spinning wheel for cursor wait.
    */
-  async loadSpinningWheelMobile() {
-    const spinnigWheelMobileDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-mobile.html");
-    kameHouse.util.dom.append($('body'), spinnigWheelMobileDiv);
+  async loadSpinningWheelCursorWait() {
+    const spinnigWheelCursorWaitDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-cursor-wait.html");
+    kameHouse.util.dom.append($('body'), spinnigWheelCursorWaitDiv);
   }
 
 } // KameHouseCursorUtils
@@ -966,7 +966,7 @@ class KameHouseMobileUtils {
    */
   init() {
     this.#loadCordovaModule();
-    this.disableMobileOnlyElements();
+    this.configureApp();
     this.#loadGlobalMobile();
     this.setMobileEventListeners(
       () => {
@@ -995,37 +995,16 @@ class KameHouseMobileUtils {
   }
 
   /**
-   * Disable mobile only elements on web.
+   * Configure kamehouse for running either as a webapp or mobile native app.
    */
-  disableMobileOnlyElements() {
+  configureApp() {
     $(document).ready(() => {
       this.exec(
-        () => { 
-          kameHouse.logger.debug("Disabling mobile only elements in webapp view");
-          const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
-          for (const mobileOnlyElement of mobileOnlyElements) {
-            kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
-            kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-only");
-          }
-        }, 
-        null
+        () => {this.#configureWebAppOnlyElements();}, 
+        () => {this.#configureMobileOnlyElements();}
       );
     });
   }
-
-  /**
-   * Disable webapp only elements on mobile.
-   */
-  disableWebappOnlyElements() {
-    this.exec(
-      null,
-      () => {
-        kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-          kameHouse.extension.mobile.core.disableWebappOnlyElements();
-        });
-      }
-    );
-  }  
 
   /**
    * Set the window location differently depending if running on web or mobile app.
@@ -1070,6 +1049,66 @@ class KameHouseMobileUtils {
   }
 
   /**
+   * Configure elements that only need to be rendered on the web app app.
+   */
+  #configureWebAppOnlyElements() {
+    kameHouse.logger.info("Configuring webapp only elements");
+    this.#disableMobileOnlyElements();
+  }
+
+  /**
+   * Configure elements that only need to be rendered on the mobile app.
+   */
+  #configureMobileOnlyElements() {
+    kameHouse.logger.info("Configuring mobile app only elements");
+    kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+      this.#disableWebAppOnlyElements();
+      this.#disableHoverOnImageButtons();
+    });
+  }
+
+  /**
+   * Disable mobile only elements in webapp view.
+   */
+  #disableMobileOnlyElements() {
+    kameHouse.logger.debug("Disabling mobile only elements in webapp view");
+    const mobileOnlyElements = document.getElementsByClassName("kh-mobile-only");
+    for (const mobileOnlyElement of mobileOnlyElements) {
+      kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
+      kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-only");
+    }
+  }
+
+  /**
+   * Disable webapp only elements in mobile app.
+   */
+  #disableWebAppOnlyElements() {
+    kameHouse.logger.debug("Disabling webapp only elements in mobile app view");
+    const mobileOnlyElements = document.getElementsByClassName("kh-mobile-hidden");
+    for (const mobileOnlyElement of mobileOnlyElements) {
+      kameHouse.util.dom.classListAdd(mobileOnlyElement, "hidden-kh");
+      kameHouse.util.dom.classListRemove(mobileOnlyElement, "kh-mobile-hidden");
+    }
+  }
+
+  /**
+   * Disable hover animations on image buttons on mobile.
+   */
+  #disableHoverOnImageButtons() {
+    kameHouse.logger.debug("Disabling hover on image buttons");
+    const imageButtons = document.getElementsByClassName("img-btn-kh");
+    for (const imageButton of imageButtons) {
+      kameHouse.util.dom.classListRemove(imageButton, "img-btn-kh");
+      kameHouse.util.dom.classListAdd(imageButton, "img-btn-mobile-kh");
+    }
+    const mediaScreenCtrlButtons = document.getElementsByClassName("media-screen-ctrl-button");
+    for (const mediaScreenCtrlButton of mediaScreenCtrlButtons) {
+      kameHouse.util.dom.classListRemove(mediaScreenCtrlButton, "img-btn-kh");
+      kameHouse.util.dom.classListAdd(mediaScreenCtrlButton, "img-btn-mobile-kh");
+    } 
+  }
+
+  /**
    * Check if it's running on mobile app.
    */
   #isMobileApp() {
@@ -1080,20 +1119,23 @@ class KameHouseMobileUtils {
    * Load cordova module.
    */
   #loadCordovaModule() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const mockCordova = urlParams.get('mockCordova');
-    if (mockCordova) {
-      cordova = {};
-    }
     try {
       if (cordova) { 
+        kameHouse.cordova = cordova;
         kameHouse.logger.info("cordova object is present. Running as a mobile app");
         this.#isMobileAppStatus = true;
         this.#addCordovaErrorHandler();
       }
     } catch (error) {
-      kameHouse.logger.info("cordova object is not present. Running as a webapp");
-      this.#isMobileAppStatus = false;
+      const urlParams = new URLSearchParams(window.location.search);
+      const mockCordova = urlParams.get('mockCordova');
+      if (mockCordova) {
+        kameHouse.logger.info("mockCordova is set. Running as a mobile app");
+        this.#isMobileAppStatus = true;
+      } else {
+        kameHouse.logger.info("cordova object is not present. Running as a webapp");
+        this.#isMobileAppStatus = false;
+      }
     }
   }
 
@@ -2229,11 +2271,12 @@ class KameHouseCore {
   /**
    * Log an api call error to the console.
    */
-  logApiError(responseBody, responseCode, responseDescription, responseHeaders, message) {
+  logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, message) {
     if (kameHouse.core.isEmpty(message)) {
       message = "Error executing api call";
     }
-    const errorMessage = message + ": [ 'responseCode' : '" + responseCode 
+    const errorMessage = message + ": [ 'url' : '" + url 
+      + "', 'responseCode' : '" + responseCode 
       + "', 'responseDescription' : '" + responseDescription 
       + "', 'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) 
       + "', 'responseBody' : '" + kameHouse.json.stringify(responseBody) 
@@ -2606,7 +2649,7 @@ class KameHouseCore {
         headers: requestHeaders,
         timeout: requestTimeout,
         success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => this.#processError(jqXhr, textStatus, errorMessage, errorCallback)
+        error: (jqXhr, textStatus, errorMessage) => this.#processError(url, jqXhr, textStatus, errorMessage, errorCallback)
       });
       return;
     }
@@ -2618,7 +2661,7 @@ class KameHouseCore {
         headers: requestHeaders,
         timeout: requestTimeout,
         success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => this.#processError(jqXhr, textStatus, errorMessage, errorCallback)
+        error: (jqXhr, textStatus, errorMessage) => this.#processError(urlEncoded, jqXhr, textStatus, errorMessage, errorCallback)
       });
       return;
     }
@@ -2629,7 +2672,7 @@ class KameHouseCore {
       headers: requestHeaders,
       timeout: requestTimeout,
       success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
-      error: (jqXhr, textStatus, errorMessage) => this.#processError(jqXhr, textStatus, errorMessage, errorCallback)
+      error: (jqXhr, textStatus, errorMessage) => this.#processError(url, jqXhr, textStatus, errorMessage, errorCallback)
     });
   }
   
@@ -2679,7 +2722,7 @@ class KameHouseCore {
   }
 
   /** Process an error response from the api call */
-  #processError(jqXhr, textStatus, errorMessage, errorCallback) {
+  #processError(url, jqXhr, textStatus, errorMessage, errorCallback) {
      /**
       * jqXhr: {
       *    readyState: 4
@@ -2694,7 +2737,7 @@ class KameHouseCore {
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
      const responseHeaders = this.#getResponseHeaders(jqXhr);
-     kameHouse.logger.logApiError(responseBody, responseCode, responseDescription, responseHeaders, null);
+     kameHouse.logger.logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, null);
      errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
