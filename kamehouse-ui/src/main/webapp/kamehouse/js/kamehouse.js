@@ -1106,6 +1106,11 @@ class KameHouseMobileUtils {
       kameHouse.util.dom.classListRemove(mediaScreenCtrlButton, "img-btn-kh");
       kameHouse.util.dom.classListAdd(mediaScreenCtrlButton, "img-btn-mobile-kh");
     } 
+    const linkImages = document.getElementsByClassName("link-image-img");
+    for (const linkImage of linkImages) {
+      kameHouse.util.dom.classListRemove(linkImage, "link-image-img");
+      kameHouse.util.dom.classListAdd(linkImage, "link-image-img-mobile");
+    }
   }
 
   /**
