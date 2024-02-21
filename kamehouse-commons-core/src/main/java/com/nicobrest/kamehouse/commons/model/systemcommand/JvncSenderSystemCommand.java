@@ -15,8 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * JvncSender system command to control a VNC server. When running on docker it sends the commands
- * through ssh and kamehouse-cmd for mouse clicks only. Text strings are sent to the host directly
- * from the webapps running in the docker container.
+ * through to the host directly from the webapps running in the docker container.
  *
  * @author nbrest
  */
