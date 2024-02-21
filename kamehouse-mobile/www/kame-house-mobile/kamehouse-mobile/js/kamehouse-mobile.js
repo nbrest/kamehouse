@@ -1472,7 +1472,13 @@ class CordovaHttpPluginMock {
    * Send http request.
    */
   sendRequest(requestUrl, options, successCallback, errorCallback) {
-    kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + kameHouse.json.stringify(options) + ". Mocking error response");
+    kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + kameHouse.json.stringify(options) + ". Mocking response");
+    if (requestUrl.includes("/kame-house/api/v1/ui/session/status")) {
+      return this.#mockSessionStatus(successCallback);
+    }
+    if (requestUrl.includes("/kame-house-groot/api/v1/commons/session/status.php")) {
+      return this.#mockGrootSessionStatus(successCallback);
+    }
     const mockResponse = {
       error : '{"code":999, "message":"mocked cordova http error response"}',
       status: 999
@@ -1513,6 +1519,58 @@ class CordovaHttpPluginMock {
    */
   setReadTimeout(val) {
     kameHouse.logger.info("Called setHeader on cordova mock with " + val);
+  }
+
+  /**
+   * Mock session status.
+   */
+  #mockSessionStatus(successCallback) {
+    const mockResponse = {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: {
+        username: 'seiya',
+        firstName: 'Seiya',
+        lastName: 'Pegaso',
+        server: 'Namek',
+        sessionId: 'c7asf98-7ee7g-7547-9c47-ed450d982ae7',
+        buildVersion: '9.99.9-r2d2c3p0',
+        buildDate: '2099-99-99 00:00:00',
+        roles: [
+          'ROLE_NAMEKIAN',
+          'ROLE_SAIYAJIN',
+          'ROLE_KAMISAMA'
+        ]
+      }
+    };
+    successCallback(mockResponse);
+  }
+
+  /**
+   * Mock groot session status.
+   */
+  #mockGrootSessionStatus(successCallback) {
+    const mockResponse = {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: {
+        server: "Namek",
+        username: "seiya",
+        isLinuxHost: false,
+        isLinuxDockerHost: false,
+        isDockerContainer: false,
+        dockerControlHost: false,
+        roles: [
+          "ROLE_SAIYAJIN", 
+          "ROLE_KAMISAMA"
+        ]
+      }
+    };
+    successCallback(mockResponse);    
   }
 
 } // CordovaHttpPluginMock
