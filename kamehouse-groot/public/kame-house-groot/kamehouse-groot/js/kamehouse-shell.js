@@ -55,9 +55,9 @@ class KameHouseShell {
 
   /** Set the script ouput to show that the script is currently executing */
   #setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
-    kameHouse.util.dom.addClass($('#kamehouse-shell-output'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#kamehouse-shell-output-executing-wrapper'), "hidden-kh");
-    kameHouse.util.dom.setHtml($("#kamehouse-shell-output-executing"), this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
+    kameHouse.util.dom.addClass('#kamehouse-shell-output', "hidden-kh");
+    kameHouse.util.dom.removeClass('#kamehouse-shell-output-executing-wrapper', "hidden-kh");
+    kameHouse.util.dom.setHtml("#kamehouse-shell-output-executing", this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
     kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
 
@@ -65,8 +65,8 @@ class KameHouseShell {
   #updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback) {
     const scriptOutputArray = responseBody.htmlConsoleOutput;
     this.#bashScriptOutput = responseBody.bashConsoleOutput;
-    const $scriptOutputTableBody = $('#kamehouse-shell-output-table-body');
-    kameHouse.util.dom.empty($scriptOutputTableBody);
+    const scriptOutputTableBody = document.getElementById('kamehouse-shell-output-table-body');
+    kameHouse.util.dom.empty(scriptOutputTableBody);
     const tbody = this.#getScriptOutputTbody();
 
     const scriptOutputLength = scriptOutputArray.length;
@@ -100,11 +100,11 @@ class KameHouseShell {
       }
     }
 
-    kameHouse.util.dom.replaceWith($scriptOutputTableBody, tbody);
+    kameHouse.util.dom.replaceWith(scriptOutputTableBody, tbody);
 
     // Update the view
-    kameHouse.util.dom.removeClass($('#kamehouse-shell-output'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#kamehouse-shell-output-executing-wrapper'), "hidden-kh");
+    kameHouse.util.dom.removeClass('#kamehouse-shell-output', "hidden-kh");
+    kameHouse.util.dom.addClass('#kamehouse-shell-output-executing-wrapper', "hidden-kh");
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
@@ -113,18 +113,18 @@ class KameHouseShell {
 
   /** Displays the error message in the script output */
   #updateScriptOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
-    const $scriptOutputTableBody = $('#kamehouse-shell-output-table-body');
-    kameHouse.util.dom.empty($scriptOutputTableBody);
+    const scriptOutputTableBody = document.getElementById('kamehouse-shell-output-table-body');
+    kameHouse.util.dom.empty(scriptOutputTableBody);
     const tbody = this.#getScriptOutputTbody();
     kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("Error response from the backend"));
     kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("responseBody : " + kameHouse.json.stringify(responseBody, null, 2)));
     kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("responseCode : " + responseCode));
     kameHouse.util.dom.append(tbody, this.#getScriptOutputErrorTr("responseDescription : " + responseDescription));
-    kameHouse.util.dom.replaceWith($scriptOutputTableBody, tbody);
+    kameHouse.util.dom.replaceWith(scriptOutputTableBody, tbody);
 
     // Update the view
-    kameHouse.util.dom.removeClass($('#kamehouse-shell-output'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#kamehouse-shell-output-executing-wrapper'), "hidden-kh");
+    kameHouse.util.dom.removeClass('#kamehouse-shell-output', "hidden-kh");
+    kameHouse.util.dom.addClass('#kamehouse-shell-output-executing-wrapper', "hidden-kh");
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
@@ -181,6 +181,6 @@ class KameHouseShell {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("kameHouseShell", new KameHouseShell());
 });

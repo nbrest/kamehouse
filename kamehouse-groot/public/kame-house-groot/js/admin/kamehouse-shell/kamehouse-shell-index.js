@@ -51,7 +51,7 @@ class KameHouseShellLoader {
 
   /** Populates all kamehouse-shell table */
   #populateKameHouseShellTable(kameHouseShellArray) {
-    const $allKameHouseShellTableBody = $('#all-kamehouse-shell-table-body');
+    const allKameHouseShellTableBody = document.getElementById('all-kamehouse-shell-table-body');
     const tbody = this.#getAllKameHouseShellTbody();
     for (let i = 0; i < kameHouseShellArray.length; i++) {
       const scriptName = kameHouseShellArray[i];
@@ -59,7 +59,7 @@ class KameHouseShellLoader {
         kameHouse.util.dom.append(tbody, this.#getAllKameHouseShellTr(scriptName));
       }
     }
-    kameHouse.util.dom.replaceWith($allKameHouseShellTableBody, tbody);
+    kameHouse.util.dom.replaceWith(allKameHouseShellTableBody, tbody);
   }
   
   /** Execute the clicked script from the table */
@@ -86,7 +86,7 @@ class KameHouseShellLoader {
   /** Update server name */
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
+      kameHouse.util.dom.setHtml("#banner-server-name", sessionStatus.server);
     }
   }
 
@@ -132,6 +132,6 @@ class KameHouseShellLoader {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("kameHouseShellLoader", new KameHouseShellLoader());
 });

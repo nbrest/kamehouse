@@ -152,7 +152,7 @@ class ServerManager {
   /** Update server name */
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
+      kameHouse.util.dom.setHtml("#banner-server-name", sessionStatus.server);
     }
   }
 
@@ -166,7 +166,7 @@ class ServerManager {
     }
     this.setCommandRunning();
     const hostOs = this.getExecutionOs();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/shutdown/reboot.sh', "", true, 15, 
+    kameHouse.extension.kameHouseShell.execute(hostOs + '/shutdown/reboot.sh', "", true, 60, 
       (scriptOutput) => this.completeCommandCallback(scriptOutput), 
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
   }
@@ -278,7 +278,7 @@ class DeploymentManager {
    */
   getTomcatModulesStatus() {
     const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, 15, (scriptOutput) => this.#displayTomcatModulesStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, 60, (scriptOutput) => this.#displayTomcatModulesStatus(scriptOutput), () => {});
   }
 
   /**
@@ -286,9 +286,9 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus() {
     kameHouse.logger.debug("Getting non tomcat modules status");
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 15, (scriptOutput) => this.#displayModuleCmdStatus(scriptOutput), () => {});
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, 15, (scriptOutput) => this.#displayModuleGrootStatus(scriptOutput), () => {});
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, 15, (scriptOutput) => this.#displayModuleShellStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 60, (scriptOutput) => this.#displayModuleCmdStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, 60, (scriptOutput) => this.#displayModuleGrootStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, 60, (scriptOutput) => this.#displayModuleShellStatus(scriptOutput), () => {});
   }
 
   /**
@@ -297,7 +297,7 @@ class DeploymentManager {
   getTomcatProcessStatus() {
     const hostOs = kameHouse.extension.serverManager.getHostOs();
     const args = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, 15, (scriptOutput) => this.#displayTomcatProcessStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, 60, (scriptOutput) => this.#displayTomcatProcessStatus(scriptOutput), () => {});
   }
   
   /**
@@ -509,11 +509,11 @@ class DeploymentManager {
         const status = scriptOutputLineArray[1];
         const module = this.#getModule(webapp);
         if (status == "running") {
-          kameHouse.util.dom.setHtml($("#mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallGreenImg, true));
+          kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallGreenImg, true));
         } else if (status == "stopped") {
-          kameHouse.util.dom.setHtml($("#mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
+          kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
         } else {
-          kameHouse.util.dom.setHtml($("#mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
+          kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
         }        
       }
     });
@@ -548,12 +548,12 @@ class DeploymentManager {
       if (scriptOutputLine.startsWith("buildVersion")) {
         const scriptOutputLineArray = scriptOutputLine.split("=");
         const buildVersion = scriptOutputLineArray[1];
-        kameHouse.util.dom.setHtml($("#mst-" + module + "-build-version-val"), buildVersion);    
+        kameHouse.util.dom.setHtml("#mst-" + module + "-build-version-val", buildVersion);    
       }
       if (scriptOutputLine.startsWith("buildDate")) {
         const scriptOutputLineArray = scriptOutputLine.split("=");
         const buildDate = scriptOutputLineArray[1];
-        kameHouse.util.dom.setHtml($("#mst-" + module + "-build-date-val"), buildDate);    
+        kameHouse.util.dom.setHtml("#mst-" + module + "-build-date-val", buildDate);    
       }
     });
   }
@@ -562,8 +562,8 @@ class DeploymentManager {
    * Render tomcat process status.
    */
   #displayTomcatProcessStatus(scriptOutput) {
-    const tomcatProcessStatusDiv = "#tomcat-process-status-val";
-    kameHouse.util.dom.empty($(tomcatProcessStatusDiv));
+    const tomcatProcessStatusDiv = "tomcat-process-status-val";
+    kameHouse.util.dom.empty("#" + tomcatProcessStatusDiv);
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (!scriptOutputLine.includes("Started executing") && 
           !scriptOutputLine.includes("Finished executing") &&
@@ -572,11 +572,11 @@ class DeploymentManager {
           !scriptOutputLine.includes("TCP") &&
           !scriptOutputLine.includes("tcp") &&
           !scriptOutputLine.includes("Executing script")) {
-        kameHouse.util.dom.append($(tomcatProcessStatusDiv), scriptOutputLine);
-        kameHouse.util.dom.append($(tomcatProcessStatusDiv), kameHouse.util.dom.getBr());
+        kameHouse.util.dom.append("#" + tomcatProcessStatusDiv, scriptOutputLine);
+        kameHouse.util.dom.append("#" + tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
       }
     });
-    $(tomcatProcessStatusDiv).children().last().remove();
+    document.getElementById(tomcatProcessStatusDiv).lastElementChild.remove();
   }
 
   /**
@@ -593,9 +593,9 @@ class DeploymentManager {
    * Reset view of module status.
    */
   #resetModuleStatus(module) {
-    kameHouse.util.dom.setHtml($("#mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
-    kameHouse.util.dom.setHtml($("#mst-" + module + "-build-version-val"), "N/A");
-    kameHouse.util.dom.setHtml($("#mst-" + module + "-build-date-val"), "N/A");
+    kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
+    kameHouse.util.dom.setHtml("#mst-" + module + "-build-version-val", "N/A");
+    kameHouse.util.dom.setHtml("#mst-" + module + "-build-date-val", "N/A");
   }
 
   /**
@@ -738,7 +738,7 @@ class TailLogManagerWrapper {
       return;
     }
     kameHouse.logger.info("Started tailLog loop");
-    kameHouse.util.dom.replaceWith($("#toggle-tail-log-img"), this.#stopImg);
+    kameHouse.util.dom.replaceWith("#toggle-tail-log-img", this.#stopImg);
     this.#tailLogCount++;
     this.#isTailLogRunning = true;
     while (this.#isTailLogRunning) {
@@ -749,7 +749,7 @@ class TailLogManagerWrapper {
       let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogFile);
       this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, (responseBody) => kameHouse.util.collapsibleDiv.refreshCollapsibleDiv());
   
-      await kameHouse.core.sleep(5000);
+      await kameHouse.core.sleep(10000);
       if (this.#tailLogCount > 1) {
         kameHouse.logger.info("tailLog loop: Running multiple tailLog, exiting this loop");
         break;
@@ -757,7 +757,7 @@ class TailLogManagerWrapper {
     }
     this.#tailLogCount--;
     if (this.#tailLogCount == 0) {
-      kameHouse.util.dom.replaceWith($("#toggle-tail-log-img"), this.#startImg);
+      kameHouse.util.dom.replaceWith("#toggle-tail-log-img", this.#startImg);
     }
     kameHouse.logger.info("Finished tailLog loop");
     kameHouse.plugin.modal.loadingWheelModal.close();
@@ -800,7 +800,7 @@ class TailLogManagerWrapper {
   
 } // TailLogManagerWrapper
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("serverManager", new ServerManager());
   kameHouse.addExtension("gitManager", new GitManager());
   kameHouse.addExtension("deploymentManager", new DeploymentManager());

@@ -155,9 +155,6 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       // To display the error page content without redirecting use the following, but it
       // breaks the navigation with angular because I need to reload the page to go back to
       // where I was when the error was produced.
-      //const mainContent = $('#main-content');
-      //kameHouse.util.dom.empty(mainContent);
-      //kameHouse.util.dom.load(mainContent, '/kame-house/app/view/' + statusCode + '.html');
     }
   }
 

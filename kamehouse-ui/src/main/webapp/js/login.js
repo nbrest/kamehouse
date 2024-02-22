@@ -37,4 +37,4 @@ class LoginManager {
   }
 }
 
-$(document).ready(() => {kameHouse.addExtension("loginManager", new LoginManager())});
+kameHouse.ready(() => {kameHouse.addExtension("loginManager", new LoginManager())});

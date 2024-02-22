@@ -75,17 +75,17 @@ class TestScheduler {
   /** Update the status of SampleJob command */
   #processSuccessSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.util.dom.setHtml($("#sample-job-status"), responseBody.message);
+    kameHouse.util.dom.setHtml("#sample-job-status", responseBody.message);
   }
 
   /** Update the status of SampleJob command with an error */
   #processErrorSampleJobStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.util.dom.setHtml($("#sample-job-status"), "Error getting the status of SampleJob command");
+    kameHouse.util.dom.setHtml("#sample-job-status", "Error getting the status of SampleJob command");
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("testScheduler", new TestScheduler());
 });

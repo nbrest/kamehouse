@@ -306,9 +306,9 @@ class KameHouseMobileCore {
    * Set successful login view.
    */
   #setSuccessfulLoginView() {
-    kameHouse.util.dom.addClass($('#backend-username-password'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#backend-login-btn'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#backend-logout-btn'), "hidden-kh");
+    kameHouse.util.dom.addClass('#backend-username-password', "hidden-kh");
+    kameHouse.util.dom.addClass('#backend-login-btn', "hidden-kh");
+    kameHouse.util.dom.removeClass('#backend-logout-btn', "hidden-kh");
   }
 
   /**
@@ -359,9 +359,9 @@ class KameHouseMobileCore {
     usernameInput.value = "";
     const passwordInput = document.getElementById("backend-password-input");
     passwordInput.value = "";
-    kameHouse.util.dom.removeClass($('#backend-username-password'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#backend-login-btn'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#backend-logout-btn'), "hidden-kh");
+    kameHouse.util.dom.removeClass('#backend-username-password', "hidden-kh");
+    kameHouse.util.dom.removeClass('#backend-login-btn', "hidden-kh");
+    kameHouse.util.dom.addClass('#backend-logout-btn', "hidden-kh");
   }
 
   /**
@@ -379,13 +379,13 @@ class KameHouseMobileCore {
    */
   #sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback) {
     kameHouse.cordova.plugin.http.sendRequest(requestUrl, options, 
-      (response) => { this.#processMobileSuccess(response, successCallback); },
+      (response) => { this.#processMobileSuccess(requestUrl, response, successCallback); },
       (response) => { this.#processMobileError(requestUrl, response, errorCallback); }
     );
   }
 
   /** Process a successful response from the api call */
-  #processMobileSuccess(response, successCallback) {
+  #processMobileSuccess(url, response, successCallback) {
     /**
      * data: response body
      * status: http status code
@@ -401,7 +401,7 @@ class KameHouseMobileCore {
     const responseCode = response.status;
     const responseDescription = null;
     const responseHeaders = response.headers;
-    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.logger.logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders);
     successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
@@ -761,13 +761,13 @@ class KameHouseMobileConfigManager {
     kameHouse.util.dom.setValue(passwordInput, selectedServer.password);
 
     if (kameHouse.extension.mobile.core.isLoggedIn()) {
-      kameHouse.util.dom.addClass($('#backend-username-password'), "hidden-kh");
-      kameHouse.util.dom.addClass($('#backend-login-btn'), "hidden-kh");
-      kameHouse.util.dom.removeClass($('#backend-logout-btn'), "hidden-kh");
+      kameHouse.util.dom.addClass('#backend-username-password', "hidden-kh");
+      kameHouse.util.dom.addClass('#backend-login-btn', "hidden-kh");
+      kameHouse.util.dom.removeClass('#backend-logout-btn', "hidden-kh");
     } else {
-      kameHouse.util.dom.removeClass($('#backend-username-password'), "hidden-kh");
-      kameHouse.util.dom.removeClass($('#backend-login-btn'), "hidden-kh");
-      kameHouse.util.dom.addClass($('#backend-logout-btn'), "hidden-kh");
+      kameHouse.util.dom.removeClass('#backend-username-password', "hidden-kh");
+      kameHouse.util.dom.removeClass('#backend-login-btn', "hidden-kh");
+      kameHouse.util.dom.addClass('#backend-logout-btn', "hidden-kh");
     }
   }
 
@@ -1268,7 +1268,7 @@ class MockLocalhostServer {
     const responseCode = this.#mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody);
     const responseDescription = this.#mockResponseDescription(httpMethod, config, url, requestHeaders, requestBody, responseBody);
     const responseHeaders = this.#mockResponseHeaders(httpMethod, config, url, requestHeaders, requestBody, responseBody);
-    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.logger.logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders);
     if (this.#isErrorResponseCode(responseCode)) {
       kameHouse.logger.debug("Executing errorCallback with mock response");
       errorCallback(responseBody, responseCode, responseDescription, responseHeaders); 
@@ -1633,6 +1633,6 @@ class CordovaInAppBrowserInstanceMock {
   }
 } // CordovaInAppBrowserInstanceMock
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("mobile", new KameHouseMobile());
 });

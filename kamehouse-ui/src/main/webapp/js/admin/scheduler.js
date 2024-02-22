@@ -81,27 +81,27 @@ class Scheduler {
 
   /** Update the jobs table content */
   #updateJobsTable(webapp) {
-    const $jobsData = $("#jobs-data-" + webapp);
-    kameHouse.util.dom.empty($jobsData);
+    const jobsData = document.getElementById("jobs-data-" + webapp);
+    kameHouse.util.dom.empty(jobsData);
     if (this.#jobs.length == 0 || this.#jobs.length == null || this.#jobs.length == undefined) {
       const message = kameHouse.util.dom.getSpan({
         class: "bold-kh"
       }, "No jobs configured for " + webapp);
       const noJobsTd = kameHouse.util.dom.getTrTd(message);
-      kameHouse.util.dom.append($jobsData, noJobsTd);
+      kameHouse.util.dom.append(jobsData, noJobsTd);
     } else {
       this.#jobs.forEach((jobEntry) => {
         const tableIdKey = webapp + jobEntry.key.name;
-        kameHouse.util.dom.append($jobsData, this.#getTableFromTemplate(tableIdKey));
-        kameHouse.util.dom.append($jobsData, kameHouse.util.dom.getBr());
+        kameHouse.util.dom.append(jobsData, this.#getTableFromTemplate(tableIdKey));
+        kameHouse.util.dom.append(jobsData, kameHouse.util.dom.getBr());
   
-        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
-        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
-        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
-        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
-        kameHouse.util.dom.setHtml($("#scheduler-table-" + tableIdKey + "-schedule-val"), this.#formatSchedule(jobEntry.schedules));
+        kameHouse.util.dom.setHtml("#scheduler-table-" + tableIdKey + "-name-val", jobEntry.key.name);
+        kameHouse.util.dom.setHtml("#scheduler-table-" + tableIdKey + "-key-val", jobEntry.key.group + "." + jobEntry.key.name);
+        kameHouse.util.dom.setHtml("#scheduler-table-" + tableIdKey + "-description-val", jobEntry.description);
+        kameHouse.util.dom.setHtml("#scheduler-table-" + tableIdKey + "-jobclass-val", jobEntry.jobClass);
+        kameHouse.util.dom.setHtml("#scheduler-table-" + tableIdKey + "-schedule-val", this.#formatSchedule(jobEntry.schedules));
   
-        kameHouse.util.dom.setClick($("#clear-scheduler-table-" + tableIdKey), null, () => {
+        kameHouse.util.dom.setClick("#clear-scheduler-table-" + tableIdKey, null, () => {
           kameHouse.logger.debug("Clear schedule for " + kameHouse.json.stringify(jobEntry.key));
           this.#cancelJobExecution(jobEntry.key, webapp);
         });
@@ -145,9 +145,9 @@ class Scheduler {
   
   /** Set jobs table to error */
   #updateJobsTableError(webapp) {
-    const $jobsData = $('#jobs-data-' + webapp);
-    kameHouse.util.dom.empty($jobsData);
-    kameHouse.util.dom.append($jobsData, this.#getErrorMessage());
+    const jobsData = document.getElementById('jobs-data-' + webapp);
+    kameHouse.util.dom.empty(jobsData);
+    kameHouse.util.dom.append(jobsData, this.#getErrorMessage());
   }
 
   /** Get the message for the error table */
@@ -170,6 +170,6 @@ class Scheduler {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("scheduler", new Scheduler());
 });

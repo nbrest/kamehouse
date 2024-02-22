@@ -33,7 +33,7 @@ class TailLogManager {
       executeOnDockerHost: executeOnDockerHost
     };   
     const config = kameHouse.http.getConfig();
-    config.timeout = 20;
+    config.timeout = 45;
     kameHouse.http.get(config, url, kameHouse.http.getUrlEncodedHeaders(), params,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
@@ -42,7 +42,7 @@ class TailLogManager {
   /** Update the script tail log output with the result of the script */
   #updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback) {
     const tailLogOutputArray = responseBody.htmlConsoleOutput;
-    const $tailLogOutputTableBody = $('#tail-log-output-table-body');  
+    const tailLogOutputTableBody = document.getElementById('tail-log-output-table-body');  
     const tbody = this.#getTailLogOutputTbody();
     const tailLogOutputLength = tailLogOutputArray.length;
     if (tailLogOutputLength < numberOfLines) {
@@ -59,8 +59,8 @@ class TailLogManager {
         }
       }
     }
-    kameHouse.util.dom.empty($tailLogOutputTableBody);
-    kameHouse.util.dom.replaceWith($tailLogOutputTableBody, tbody);
+    kameHouse.util.dom.empty(tailLogOutputTableBody);
+    kameHouse.util.dom.replaceWith(tailLogOutputTableBody, tbody);
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
@@ -72,7 +72,7 @@ class TailLogManager {
     if ((responseCode == "0" && responseDescription == "timeout") || responseCode == "-4") {
       kameHouse.logger.warn("Tail log request timed out");
     } else {
-      const tbody = $("#tail-log-output-table-body");
+      const tbody = document.getElementById("tail-log-output-table-body");
       const errorMessage = kameHouse.logger.getCyanText(kameHouse.util.time.getTimestamp()) + " - [" + kameHouse.logger.getRedText("ERROR") + "] - " + kameHouse.logger.getRedText("Error response from the backend. responseCode : '" + responseCode + "'. responseBody : '" + responseBody + "'. responseDescription : '" + responseDescription + "'");
       kameHouse.util.dom.append(tbody, this.#getTailLogOutputErrorTr(errorMessage));
     }
@@ -106,6 +106,6 @@ class TailLogManager {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("tailLogManager", new TailLogManager());
 });

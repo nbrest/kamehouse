@@ -472,12 +472,12 @@ class VlcPlayerMainViewUpdater {
   updateCurrentTimeView(value) {
     const currentTime = document.getElementById("current-time");
     kameHouse.util.dom.setInnerHtml(currentTime, kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setVal($("#time-slider"), value);
+    kameHouse.util.dom.setVal("#time-slider", value);
   }
 
   /** Update volume percentage to display with the specified value. */
   updateVolumeView(value) {
-    kameHouse.util.dom.setVal($("#volume-slider"), value);
+    kameHouse.util.dom.setVal("#volume-slider", value);
     const volumePercentaje = Math.floor(value * 200 / 512);
     const currentVolume = document.getElementById("current-volume");
     kameHouse.util.dom.setInnerHtml(currentVolume, volumePercentaje + "%");
@@ -506,7 +506,7 @@ class VlcPlayerMainViewUpdater {
       mediaName.filename = this.#vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = this.#vlcPlayer.getVlcRcStatus().information.meta.title;
     }
-    kameHouse.util.dom.setHtml($("#media-title"), mediaName.filename);
+    kameHouse.util.dom.setHtml("#media-title", mediaName.filename);
   }
 
   /** Reset the media title. */
@@ -514,7 +514,7 @@ class VlcPlayerMainViewUpdater {
     const mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    kameHouse.util.dom.setHtml($("#media-title"), mediaName.filename);
+    kameHouse.util.dom.setHtml("#media-title", mediaName.filename);
   }
 
   /** Update subtitle delay. */
@@ -523,12 +523,12 @@ class VlcPlayerMainViewUpdater {
     if (kameHouse.core.isEmpty(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    kameHouse.util.dom.setHtml($("#subtitle-delay-value"), String(subtitleDelay));
+    kameHouse.util.dom.setHtml("#subtitle-delay-value", String(subtitleDelay));
   }
 
   /** Reset subtitle delay. */
   #resetSubtitleDelay() {
-    kameHouse.util.dom.setHtml($("#subtitle-delay-value"), "0");
+    kameHouse.util.dom.setHtml("#subtitle-delay-value", "0");
   }
 
   /**
@@ -549,16 +549,16 @@ class VlcPlayerMainViewUpdater {
 
   /** Reset time slider. */
   #resetTimeSlider() {
-    kameHouse.util.dom.setHtml($("#current-time"), "--:--:--");
-    kameHouse.util.dom.setVal($("#time-slider"), 500);
-    kameHouse.util.dom.setHtml($("#total-time"), "--:--:--");
-    kameHouse.util.dom.setAttr($("#time-slider"),'max', 1000);
+    kameHouse.util.dom.setHtml("#current-time", "--:--:--");
+    kameHouse.util.dom.setVal("#time-slider", 500);
+    kameHouse.util.dom.setHtml("#total-time", "--:--:--");
+    kameHouse.util.dom.setAttr("#time-slider",'max', 1000);
   }
 
   /** Update the displayed total time. */
   #updateTotalTimeView(value) {
-    kameHouse.util.dom.setHtml($("#total-time"), kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setAttr($("#time-slider"),'max', value);
+    kameHouse.util.dom.setHtml("#total-time", kameHouse.util.time.convertSecondsToHsMsSs(value));
+    kameHouse.util.dom.setAttr("#time-slider",'max', value);
   }
 
   /**
@@ -627,14 +627,14 @@ class StatefulMediaButton {
 
   /** Set media button pressed */
   #setMediaButtonPressed() {
-    kameHouse.util.dom.removeClass($('#' + this.#id), this.#buttonPrefixClass + '-unpressed');
-    kameHouse.util.dom.addClass($('#' + this.#id), this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.removeClass('#' + this.#id, this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.addClass('#' + this.#id, this.#buttonPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   #setMediaButtonUnpressed() {
-    kameHouse.util.dom.removeClass($('#' + this.#id), this.#buttonPrefixClass + '-pressed');
-    kameHouse.util.dom.addClass($('#' + this.#id), this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.removeClass('#' + this.#id, this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.addClass('#' + this.#id, this.#buttonPrefixClass + '-unpressed');
   }
 } // End StatefulMediaButton
 
@@ -1147,7 +1147,7 @@ class VlcPlayerPlaylist {
 
   /** Init Playlist. */
   init() {
-    kameHouse.util.dom.replaceWith($("#toggle-playlist-filenames-img"), this.#dobleRightImg);
+    kameHouse.util.dom.replaceWith("#toggle-playlist-filenames-img", this.#dobleRightImg);
   }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
@@ -1163,13 +1163,13 @@ class VlcPlayerPlaylist {
       return;
     }
     this.#currentPlaylist = this.#updatedPlaylist;
+    const playlistTableBody = document.getElementById('playlist-table-body');
     // Clear playlist content. 
-    kameHouse.util.dom.empty($("#playlist-table-body"));
+    kameHouse.util.dom.empty(playlistTableBody);
     // Add the new playlist items received from the server.
-    const $playlistTableBody = $('#playlist-table-body');
     if (kameHouse.core.isEmpty(this.#currentPlaylist) || kameHouse.core.isEmpty(this.#currentPlaylist.length) ||
     this.#currentPlaylist.length <= 0) {
-      kameHouse.util.dom.append($playlistTableBody, this.#getEmptyPlaylistTr());
+      kameHouse.util.dom.append(playlistTableBody, this.#getEmptyPlaylistTr());
     } else {
       this.#tbodyFilenames = this.#getPlaylistTbody();
       this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
@@ -1180,7 +1180,7 @@ class VlcPlayerPlaylist {
         kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistTr(filename, playlistElementId));
         kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistTr(absolutePath, playlistElementId));
       }
-      kameHouse.util.dom.replaceWith($playlistTableBody, this.#tbodyFilenames);
+      kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyFilenames);
       this.#highlightCurrentPlayingItem();
       this.#vlcPlayer.filterPlaylistRows();
     }
@@ -1189,12 +1189,14 @@ class VlcPlayerPlaylist {
   /** Scroll to the current playing element in the playlist. */
   scrollToCurrentlyPlaying() {
     const currentPlId = this.#vlcPlayer.getVlcRcStatus().currentPlId;
-    const $currentPlayingRow = $('#playlist-table-row-id-' + currentPlId);
-    if (!kameHouse.core.isEmpty($currentPlayingRow.length) && $currentPlayingRow.length != 0) {
-      const playlistTableWrapper = $('#playlist-table-wrapper');
-      playlistTableWrapper.scrollTop(0);
-      const scrollToOffset = $currentPlayingRow.offset().top - playlistTableWrapper.offset().top;
-      playlistTableWrapper.scrollTop(scrollToOffset);
+    const currentPlayingRowId = 'playlist-table-row-id-' + currentPlId;
+    const currentPlayingRow = document.getElementById(currentPlayingRowId);
+    kameHouse.logger.debug("Scroll to " + currentPlayingRowId);
+    if (!kameHouse.core.isEmpty(currentPlayingRow)) {
+      const playlistTableWrapper = document.getElementById('playlist-table-wrapper');
+      kameHouse.core.scrollTop(playlistTableWrapper, 0);
+      const scrollToOffset = kameHouse.core.offset(currentPlayingRowId).top - kameHouse.core.offset('playlist-table-wrapper').top;
+      kameHouse.core.scrollTop(playlistTableWrapper, scrollToOffset);
     }
   }
 
@@ -1274,15 +1276,21 @@ class VlcPlayerPlaylist {
   #highlightCurrentPlayingItem() {
     const currentPlId = this.#vlcPlayer.getVlcRcStatus().currentPlId;
     const currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
-    kameHouse.util.dom.removeClass($('#playlist-table-body tr td button'), "active");
-    kameHouse.util.dom.addClass($("#" + currentPlIdAsRowId).children().children(), "active");
+    kameHouse.util.dom.removeClass('#playlist-table-body tr td button', "active");
+    const currentPlaylistElement = document.querySelector("#" + currentPlIdAsRowId + " td button");
+    if (currentPlaylistElement) {
+      kameHouse.util.dom.addClass(currentPlaylistElement, "active");
+    }
   }
 
   /** Toggle expand or collapse filenames in the playlist */
   #toggleExpandPlaylistFilenames() {
-    const filenamesFirstFile = $(this.#tbodyFilenames).children().first().text();
-    const currentFirstFile = $('#playlist-table-body tr:first').text();
-    const $playlistTable = $('#playlist-table');
+    if (kameHouse.core.isEmpty(this.#tbodyFilenames) || kameHouse.core.isEmpty(this.#tbodyFilenames.firstElementChild)) {
+      return;
+    }
+    const filenamesFirstFile = this.#tbodyFilenames.firstElementChild.textContent;
+    const currentFirstFile = document.getElementById('playlist-table-body').firstElementChild.textContent;
+    const playlistTable = document.getElementById('playlist-table');
     let isExpandedFilename = null;
 
     if (currentFirstFile == filenamesFirstFile) {
@@ -1290,14 +1298,14 @@ class VlcPlayerPlaylist {
       if (!kameHouse.core.isEmpty(this.#tbodyFilenames)) {
         kameHouse.util.dom.detach(this.#tbodyFilenames);
       }
-      kameHouse.util.dom.append($playlistTable, this.#tbodyAbsolutePaths);
+      kameHouse.util.dom.append(playlistTable, this.#tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
       if (!kameHouse.core.isEmpty(this.#tbodyAbsolutePaths)) {
         kameHouse.util.dom.detach(this.#tbodyAbsolutePaths);
       }
-      kameHouse.util.dom.append($playlistTable, this.#tbodyFilenames);
+      kameHouse.util.dom.append(playlistTable, this.#tbodyFilenames);
       isExpandedFilename = false;
     }
     this.#highlightCurrentPlayingItem();
@@ -1308,9 +1316,9 @@ class VlcPlayerPlaylist {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWith($("#toggle-playlist-filenames-img"), this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWith("#toggle-playlist-filenames-img", this.#dobleLeftImg);
     } else {
-      kameHouse.util.dom.replaceWith($("#toggle-playlist-filenames-img"), this.#dobleRightImg);
+      kameHouse.util.dom.replaceWith("#toggle-playlist-filenames-img", this.#dobleRightImg);
     }
   }
 
@@ -1503,4 +1511,4 @@ class VlcPlayerDebugger {
   
 } // End VlcPlayerDebugger
 
-$(document).ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
+kameHouse.ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});

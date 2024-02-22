@@ -21,6 +21,6 @@ class GrootHome {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("grootHome", new GrootHome());
 });

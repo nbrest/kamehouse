@@ -1,4 +1,4 @@
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.util.module.waitForModules(["crudManager"], () => {    
     kameHouse.plugin.crudManager.init({
       entityName: "KameHouse User",
@@ -158,4 +158,4 @@ class KameHouseUserCrudManager {
   
 }
 
-$(document).ready(() => {kameHouse.addExtension("kameHouseUserCrudManager", new KameHouseUserCrudManager())});
+kameHouse.ready(() => {kameHouse.addExtension("kameHouseUserCrudManager", new KameHouseUserCrudManager())});

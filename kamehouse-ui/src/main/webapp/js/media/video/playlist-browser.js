@@ -25,7 +25,7 @@ class PlaylistBrowser {
   /** Load Playlist Browser extension. */
   load() {
     kameHouse.logger.info("Started initializing playlist browser");
-    kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), this.#dobleRightImg);
+    kameHouse.util.dom.replaceWith("#toggle-playlist-browser-filenames-img", this.#dobleRightImg);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.populateVideoPlaylistCategories();
       kameHouse.util.module.setModuleLoaded("playlistBrowser");
@@ -51,13 +51,12 @@ class PlaylistBrowser {
         this.#videoPlaylistCategories = [...new Set(this.#videoPlaylists.map((playlist) => playlist.category))];
         kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(this.#videoPlaylists));
         kameHouse.logger.debug("Playlist categories: " + this.#videoPlaylistCategories);
-        const playlistCategoryDropdown = $('#playlist-category-dropdown');
-        $.each(this.#videoPlaylistCategories, (key, entry) => {
-          const category = entry;
+        const playlistCategoryDropdown = document.getElementById('playlist-category-dropdown');
+        this.#videoPlaylistCategories.forEach((category) => {
           const categoryFormatted = category.replace(/\\/g, ' | ')
                                             .replace(/\//g, ' | ')
                                             .replace(/_/g, ' ');
-          kameHouse.util.dom.append(playlistCategoryDropdown, this.#getPlaylistCategoryOption(entry, this.#capitalizeAllWords(categoryFormatted)));
+          kameHouse.util.dom.append(playlistCategoryDropdown, this.#getPlaylistCategoryOption(category, this.#capitalizeAllWords(categoryFormatted)));
         });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => 
@@ -71,8 +70,8 @@ class PlaylistBrowser {
     const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
     kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
     this.#resetPlaylistDropdown();
-    const playlistDropdown = $('#playlist-dropdown');
-    $.each(this.#videoPlaylists, (key, entry) => {
+    const playlistDropdown = document.getElementById('playlist-dropdown');
+    this.#videoPlaylists.forEach((entry) => {
       if (entry.category === selectedPlaylistCategory) {
         const playlistName = entry.name.replace(/.m3u+$/, "")
                                        .replace(/_/g, " ");
@@ -143,7 +142,7 @@ class PlaylistBrowser {
    * Reset playlist dropdown view.
    */
   #resetPlaylistDropdown() {
-    const playlistDropdown = $('#playlist-dropdown');
+    const playlistDropdown = document.getElementById('playlist-dropdown');
     kameHouse.util.dom.empty(playlistDropdown);
     kameHouse.util.dom.append(playlistDropdown, this.#getInitialDropdownOption("Playlist"));
   }
@@ -152,17 +151,17 @@ class PlaylistBrowser {
    * Reset playlist category dropdown view.
    */
   #resetPlaylistCategoryDropdown() {
-    const playlistCategoryDropdown = $('#playlist-category-dropdown');
+    const playlistCategoryDropdown = document.getElementById('playlist-category-dropdown');
     kameHouse.util.dom.empty(playlistCategoryDropdown);
     kameHouse.util.dom.append(playlistCategoryDropdown, this.#getInitialDropdownOption("Playlist Category"));
   }
 
   /** Populate the playlist table for browsing. */
   #populatePlaylistBrowserTable() {
-    const $playlistTableBody = $('#playlist-browser-table-body');
-    kameHouse.util.dom.empty($playlistTableBody);
+    const playlistTableBody = document.getElementById('playlist-browser-table-body');
+    kameHouse.util.dom.empty(playlistTableBody);
     if (kameHouse.core.isEmpty(this.#currentPlaylist)) {
-      kameHouse.util.dom.append($playlistTableBody, this.#getEmptyPlaylistTr());
+      kameHouse.util.dom.append(playlistTableBody, this.#getEmptyPlaylistTr());
     } else {
       this.#tbodyFilenames = this.#getPlaylistBrowserTbody();
       this.#tbodyAbsolutePaths = this.#getPlaylistBrowserTbody();
@@ -172,7 +171,7 @@ class PlaylistBrowser {
         kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistBrowserTr(filename, absolutePath));
         kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistBrowserTr(absolutePath, absolutePath));
       }
-      kameHouse.util.dom.replaceWith($playlistTableBody, this.#tbodyFilenames);
+      kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyFilenames);
     }
     this.filterPlaylistRows();
   }
@@ -187,24 +186,27 @@ class PlaylistBrowser {
 
   /** Toggle expand or collapse filenames in the playlist */
   #toggleExpandPlaylistFilenames() {
+    if (kameHouse.core.isEmpty(this.#tbodyFilenames) || kameHouse.core.isEmpty(this.#tbodyFilenames.firstElementChild)) {
+      return;
+    }
     let isExpandedFilename = null;
-    const filenamesFirstFile = $(this.#tbodyFilenames).children().first().text();
-    const currentFirstFile = $('#playlist-browser-table-body tr:first').text();
-    const $playlistTable = $('#playlist-browser-table');
+    const filenamesFirstFile = this.#tbodyFilenames.firstElementChild.textContent;
+    const currentFirstFile = document.getElementById('playlist-browser-table-body').firstElementChild.textContent;
+    const playlistTable = document.getElementById('playlist-browser-table');
 
     if (currentFirstFile == filenamesFirstFile) {
       // currently displaying filenames, switch to absolute paths 
       if (!kameHouse.core.isEmpty(this.#tbodyFilenames)) {
         kameHouse.util.dom.detach(this.#tbodyFilenames);
       }
-      kameHouse.util.dom.append($playlistTable, this.#tbodyAbsolutePaths);
+      kameHouse.util.dom.append(playlistTable, this.#tbodyAbsolutePaths);
       isExpandedFilename = true;
     } else {
       // currently displaying absolute paths, switch to filenames 
       if (!kameHouse.core.isEmpty(this.#tbodyAbsolutePaths)) {
         kameHouse.util.dom.detach(this.#tbodyAbsolutePaths);
       }
-      kameHouse.util.dom.append($playlistTable, this.#tbodyFilenames);
+      kameHouse.util.dom.append(playlistTable, this.#tbodyFilenames);
       isExpandedFilename = false;
     }
     this.#updateExpandPlaylistFilenamesIcon(isExpandedFilename);
@@ -214,9 +216,9 @@ class PlaylistBrowser {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWith("#toggle-playlist-browser-filenames-img", this.#dobleLeftImg);
     } else {
-      kameHouse.util.dom.replaceWith($("#toggle-playlist-browser-filenames-img"), this.#dobleRightImg);
+      kameHouse.util.dom.replaceWith("#toggle-playlist-browser-filenames-img", this.#dobleRightImg);
     }
   }
 
@@ -288,4 +290,4 @@ class PlaylistBrowser {
   }
 }
 
-$(document).ready(() => {kameHouse.addExtension("playlistBrowser", new PlaylistBrowser())});
+kameHouse.ready(() => {kameHouse.addExtension("playlistBrowser", new PlaylistBrowser())});

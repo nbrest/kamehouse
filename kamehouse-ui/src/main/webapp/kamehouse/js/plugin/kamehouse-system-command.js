@@ -20,11 +20,11 @@ class SystemCommandManager {
   renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
     let systemCommandOutputDivSelector;
     if (!kameHouse.core.isEmpty(systemCommandOutputDivId)) {
-      systemCommandOutputDivSelector = "#" + systemCommandOutputDivId;
+      systemCommandOutputDivSelector = systemCommandOutputDivId;
     } else {
-      systemCommandOutputDivSelector = "#system-command-output";
+      systemCommandOutputDivSelector = "system-command-output";
     }
-    const systemCommandOutputDiv = $(systemCommandOutputDivSelector);
+    const systemCommandOutputDiv = document.getElementById(systemCommandOutputDivSelector);
     kameHouse.util.dom.empty(systemCommandOutputDiv);
     systemCommandOutputArray.forEach((systemCommandOutput) => {
       if (displayCommandLine) {
@@ -56,7 +56,7 @@ class SystemCommandManager {
    * Display an error executing the system command.
    */
   renderErrorExecutingCommand() {
-    const systemCommandOutputDiv = $("#system-command-output");
+    const systemCommandOutputDiv = document.getElementById("system-command-output");
     kameHouse.util.dom.empty(systemCommandOutputDiv);
     kameHouse.util.dom.append(systemCommandOutputDiv, "Error executing system command. Check the logs on the backend...");
     kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
@@ -102,4 +102,4 @@ class SystemCommandManager {
   }
 }
 
- $(document).ready(() => {kameHouse.addPlugin("systemCommandManager", new SystemCommandManager());});
+ kameHouse.ready(() => {kameHouse.addPlugin("systemCommandManager", new SystemCommandManager());});

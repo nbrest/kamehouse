@@ -61,20 +61,20 @@ class TomcatModuleStatusManager {
    */
   #displayModuleStatus(moduleStatus) {
     const webapp = moduleStatus["module"];
-    kameHouse.util.dom.setHtml($('#mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
-    kameHouse.util.dom.setHtml($('#mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
+    kameHouse.util.dom.setHtml('#mst-' + webapp + '-build-version-val', moduleStatus["buildVersion"]);
+    kameHouse.util.dom.setHtml('#mst-' + webapp + '-build-date-val', moduleStatus["buildDate"]);
   }
 
   /**
    * Display error getting data.
    */
   #displayErrorGettingModuleStatus(webapp) {
-    kameHouse.util.dom.removeClass($("#mst-" + webapp + "-error"), "hidden-kh");
+    kameHouse.util.dom.removeClass("#mst-" + webapp + "-error", "hidden-kh");
     const message = "Error retrieving module status data for " + webapp + ". Please try again later.";
     kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("tomcatModuleStatusManager", new TomcatModuleStatusManager());
 });

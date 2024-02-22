@@ -135,20 +135,19 @@ class EhCacheManager {
   #displayCacheData(caches, webapp) {
     this.#emptyCacheDataDiv(webapp);
     this.#ehcacheToggleTableRowIds[webapp] = [];
-    const $cacheData = $("#cache-data-" + webapp);
+    const cacheData = document.getElementById("cache-data-" + webapp);
     caches.forEach((cache) => {
-      kameHouse.util.dom.append($cacheData, this.#getEhCacheTableFromTemplate(cache.name));
-      kameHouse.util.dom.append($cacheData, $(kameHouse.util.dom.getBr()));
+      kameHouse.util.dom.append(cacheData, this.#getEhCacheTableFromTemplate(cache.name));
+      kameHouse.util.dom.append(cacheData, kameHouse.util.dom.getBr());
+      kameHouse.util.dom.setHtml('#ehcache-table-' + cache.name + '-header', cache.name);
+      kameHouse.util.dom.setHtml('#ehcache-table-' + cache.name + '-status-val', cache["status"]);
+      kameHouse.util.dom.setHtml('#ehcache-table-' + cache.name + '-keys-val', cache["keys"]);
+      kameHouse.util.dom.setHtml('#ehcache-table-' + cache.name + '-values-val', cache["values"]);
 
-      kameHouse.util.dom.setHtml($('#ehcache-table-' + cache.name + '-header'), cache.name);
-      kameHouse.util.dom.setHtml($('#ehcache-table-' + cache.name + '-status-val'), cache["status"]);
-      kameHouse.util.dom.setHtml($('#ehcache-table-' + cache.name + '-keys-val'), cache["keys"]);
-      kameHouse.util.dom.setHtml($('#ehcache-table-' + cache.name + '-values-val'), cache["values"]);
-
-      kameHouse.util.dom.setClick($("#clear-ehcache-table-" + cache.name), null,
+      kameHouse.util.dom.setClick("#clear-ehcache-table-" + cache.name, null,
         () => this.clearCacheData(cache.name, webapp)
       );
-      kameHouse.util.dom.setClick($("#toggle-view-ehcache-table-" + cache.name), null,
+      kameHouse.util.dom.setClick("#toggle-view-ehcache-table-" + cache.name, null,
         () => this.toggleCacheView("toggle-ehcache-table-" + cache.name)
       );
       kameHouse.util.dom.toggle("toggle-ehcache-table-" + cache.name);
@@ -193,10 +192,10 @@ class EhCacheManager {
     kameHouse.util.dom.setId(ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val'), "ehcache-table-" + webapp + "-error-val");
     // Attach the error table to the dom
     this.#emptyCacheDataDiv(webapp);
-    const $cacheData = $("#cache-data-" + webapp);
-    kameHouse.util.dom.append($cacheData, ehcacheErrorTableDiv);
+    const cacheData = document.getElementById("cache-data-" + webapp);
+    kameHouse.util.dom.append(cacheData, ehcacheErrorTableDiv);
     // Update the message
-    kameHouse.util.dom.setHtml($("#ehcache-table-" + webapp + "-error-val"), kameHouse.util.time.getTimestamp() +
+    kameHouse.util.dom.setHtml("#ehcache-table-" + webapp + "-error-val", kameHouse.util.time.getTimestamp() +
       " : Error retrieving cache data. Please try again later.");
 
     const message = "Error retrieving cache data. Please try again later.";
@@ -207,11 +206,11 @@ class EhCacheManager {
    * Empty cache data div.
    */
   #emptyCacheDataDiv(webapp) {
-    const $cacheData = $("#cache-data-" + webapp);
-    kameHouse.util.dom.empty($cacheData);
+    const cacheData = document.getElementById("cache-data-" + webapp);
+    kameHouse.util.dom.empty(cacheData);
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("ehCacheManager", new EhCacheManager());
 });

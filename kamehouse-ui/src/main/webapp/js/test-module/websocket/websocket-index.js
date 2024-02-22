@@ -17,10 +17,12 @@ class TestWebSocket {
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.core.loadKameHouseWebSocket();
     kameHouse.logger.setLogLevel(4);
-    $("form").on('submit', (e) => e.preventDefault());
-    kameHouse.util.dom.setClick($("#connect"), null, () => this.#connectWebSocket());
-    kameHouse.util.dom.setClick($("#disconnect"), null, () => this.#disconnectWebSocket());
-    kameHouse.util.dom.setClick($("#send"), null, () => this.#sendWebSocketRequest());
+    document.querySelectorAll("form").forEach((form) => {
+      form.addEventListener('submit', (e) => e.preventDefault())
+    });
+    kameHouse.util.dom.setClick("#connect", null, () => this.#connectWebSocket());
+    kameHouse.util.dom.setClick("#disconnect", null, () => this.#disconnectWebSocket());
+    kameHouse.util.dom.setClick("#send", null, () => this.#sendWebSocketRequest());
     kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
       this.#websocket = new KameHouseWebSocket();
       this.#websocket.statusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
@@ -34,23 +36,23 @@ class TestWebSocket {
    */
   #setConnected(isConnected) {
     if (isConnected) {
-      kameHouse.util.dom.addClass($("#connect"), "hidden-kh");
-      kameHouse.util.dom.removeClass($("#connected"), "hidden-kh");
-      kameHouse.util.dom.removeClass($("#disconnect"), "hidden-kh");
-      kameHouse.util.dom.addClass($("#disconnected"), "hidden-kh");
-      kameHouse.util.dom.removeClass($("#send-label"), "hidden-kh");
-      kameHouse.util.dom.removeClass($("#send"), "hidden-kh");
-      kameHouse.util.dom.removeClass($("#websocket-responses-wrapper"), "hidden-kh");
+      kameHouse.util.dom.addClass("#connect", "hidden-kh");
+      kameHouse.util.dom.removeClass("#connected", "hidden-kh");
+      kameHouse.util.dom.removeClass("#disconnect", "hidden-kh");
+      kameHouse.util.dom.addClass("#disconnected", "hidden-kh");
+      kameHouse.util.dom.removeClass("#send-label", "hidden-kh");
+      kameHouse.util.dom.removeClass("#send", "hidden-kh");
+      kameHouse.util.dom.removeClass("#websocket-responses-wrapper", "hidden-kh");
     } else {
-      kameHouse.util.dom.removeClass($("#connect"), "hidden-kh");
-      kameHouse.util.dom.addClass($("#connected"), "hidden-kh");
-      kameHouse.util.dom.addClass($("#disconnect"), "hidden-kh");
-      kameHouse.util.dom.removeClass($("#disconnected"), "hidden-kh");
-      kameHouse.util.dom.addClass($("#send-label"), "hidden-kh");
-      kameHouse.util.dom.addClass($("#send"), "hidden-kh");
-      kameHouse.util.dom.addClass($("#websocket-responses-wrapper"), "hidden-kh");
+      kameHouse.util.dom.removeClass("#connect", "hidden-kh");
+      kameHouse.util.dom.addClass("#connected", "hidden-kh");
+      kameHouse.util.dom.addClass("#disconnect", "hidden-kh");
+      kameHouse.util.dom.removeClass("#disconnected", "hidden-kh");
+      kameHouse.util.dom.addClass("#send-label", "hidden-kh");
+      kameHouse.util.dom.addClass("#send", "hidden-kh");
+      kameHouse.util.dom.addClass("#websocket-responses-wrapper", "hidden-kh");
     }
-    kameHouse.util.dom.empty($("#websocket-responses"));
+    kameHouse.util.dom.empty(document.getElementById("websocket-responses"));
   }
 
   /**
@@ -88,8 +90,8 @@ class TestWebSocket {
    */
   #sendWebSocketRequest() {
     const pollBody = kameHouse.json.stringify({
-      'firstName': $("#firstName").val(),
-      'lastName': $("#lastName").val()
+      'firstName': document.getElementById("first-name").value,
+      'lastName': document.getElementById("last-name").value
     });
     this.#websocket.poll(pollBody);
   }
@@ -100,7 +102,7 @@ class TestWebSocket {
   #showTestWebSocketResponse(testWebSocketResponseBody) {
     kameHouse.logger.trace("Received testWebSocketResponse from server: " + kameHouse.json.stringify(testWebSocketResponseBody));
     const date = kameHouse.util.time.getDateFromEpoch(testWebSocketResponseBody.date);
-    kameHouse.util.dom.append($("#websocket-responses"), this.#getWebsocketResponseTr(date, testWebSocketResponseBody.message));
+    kameHouse.util.dom.append("#websocket-responses", this.#getWebsocketResponseTr(date, testWebSocketResponseBody.message));
   }
 
   /**
@@ -111,6 +113,6 @@ class TestWebSocket {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("testWebSocket", new TestWebSocket());
 });

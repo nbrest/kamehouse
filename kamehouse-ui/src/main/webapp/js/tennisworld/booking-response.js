@@ -121,7 +121,7 @@ const config = {
   ],
 };
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.util.module.waitForModules(["crudManager"], () => {    
     kameHouse.plugin.crudManager.init(config);
   });

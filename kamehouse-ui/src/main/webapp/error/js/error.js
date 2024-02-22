@@ -5,6 +5,15 @@
  */
 class KameHouseErrorPage { 
 
+  jq = null;
+
+  /**
+   * Build kamehouse error page.
+   */
+  constructor() {
+    this.#setJquery();
+  }
+
   /**
    * Load the error page header and footer.
    */
@@ -26,7 +35,19 @@ class KameHouseErrorPage {
       headerMenu.classList.remove("responsive");
     }
   }  
-  
+
+  /**
+   * Set jQuery.
+   */
+  #setJquery() {
+    try {
+      this.jq = $;
+    } catch (error) {
+      console.log("Error setting jquery on kamehouse error page");
+      this.jq = {};
+    }
+  }
+
   /**
    * Log an info message.
    */
@@ -86,7 +107,7 @@ class KameHouseErrorPage {
    * Load js script.
    */
   #getScript(scriptPath, successCallback, errorCallback) { 
-    $.getScript(scriptPath)
+    this.jq.getScript(scriptPath)
     .done((script, textStatus) => {
       this.#logInfo("Loaded successfully script: " + scriptPath);
       successCallback();
@@ -111,26 +132,26 @@ class KameHouseErrorPage {
    * Remove a class from an element.
    */
   #removeClass(element, className) {
-    $(element).removeClass(className);
+    this.jq(element).removeClass(className);
   } 
 
   /**
    * Append the appendObject to appendTo.
    */
   #append(appendTo, appendObject) {
-    $(appendTo).append(appendObject);
+    this.jq(appendTo).append(appendObject);
   }
 
   /**
    * Append the appendObject to appendTo.
    */
   #loadHtmlSnippet(loadToId, htmlSnippetPath, callback) {
-    $(loadToId).load(htmlSnippetPath, callback);
+    this.jq(loadToId).load(htmlSnippetPath, callback);
   }   
 }
 
 const kameHouseErrorPage = new KameHouseErrorPage();
-$(document).ready(() => {
+kameHouseErrorPage.jq(document).ready(() => {
   kameHouseErrorPage.load();
 });
   

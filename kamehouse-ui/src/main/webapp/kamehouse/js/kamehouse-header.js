@@ -8,11 +8,11 @@ class KameHouseHeader {
   /** Load the header */
   load() {
     kameHouse.logger.info("Loading header");
-    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
-    $(document).ready(() => {
+    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
+    kameHouse.ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
-      kameHouse.util.dom.prepend($("body"), this.#getHeaderContainerDiv());
-      kameHouse.util.dom.load($("#kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
+      kameHouse.util.dom.prepend("body", this.#getHeaderContainerDiv());
+      kameHouse.util.dom.load("#kamehouse-header-container", "/kame-house/kamehouse/html/kamehouse-header.html", () => {
         kameHouse.util.mobile.configureApp();
         this.#updateActiveTab();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
@@ -55,8 +55,7 @@ class KameHouseHeader {
    */
   #updateActiveTab() {
     const pageUrl = window.location.pathname;
-    $("#kamehouse-header-container header .default-layout #header-menu a").toArray().forEach((navElement) => {
-      const navItem = $(navElement);
+    document.querySelectorAll("#kamehouse-header-container header .default-layout #header-menu a").forEach((navItem) => {
       kameHouse.util.dom.removeClass(navItem, "active");
       
       if (pageUrl == "/kame-house/" || pageUrl == "/kame-house/index.html") {
@@ -95,7 +94,7 @@ class KameHouseHeader {
    * Set active nav bar item.
    */
   #setActiveNavItem(navItem, navId) {
-    if (navItem.attr("id") == navId) {
+    if (navItem.getAttribute("id") == navId) {
       kameHouse.util.dom.addClass(navItem, "active");
     }
   }
@@ -104,14 +103,14 @@ class KameHouseHeader {
    * Update login status.
    */
   #updateLoginStatus() {
-    const $loginStatus = $("#login-status");
-    kameHouse.util.dom.empty($loginStatus);
+    const loginStatus = document.getElementById("login-status");
+    kameHouse.util.dom.empty(loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.session.username) || kameHouse.session.username.trim() == "" ||
       kameHouse.session.username.trim() == "anonymousUser") {
-      kameHouse.util.dom.append($loginStatus, this.#getLoginButton());
+      kameHouse.util.dom.append(loginStatus, this.#getLoginButton());
     } else {
-      kameHouse.util.dom.append($loginStatus, this.#getUsernameHeader(kameHouse.session.username));
-      kameHouse.util.dom.append($loginStatus, this.#getLogoutButton());        
+      kameHouse.util.dom.append(loginStatus, this.#getUsernameHeader(kameHouse.session.username));
+      kameHouse.util.dom.append(loginStatus, this.#getLogoutButton());        
     }
   }
 

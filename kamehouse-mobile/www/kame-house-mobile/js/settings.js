@@ -54,6 +54,6 @@ class KameHouseMobileSettings {
   }
 } 
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("mobileSettings", new KameHouseMobileSettings());
 });

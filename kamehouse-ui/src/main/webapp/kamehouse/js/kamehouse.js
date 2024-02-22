@@ -22,6 +22,16 @@ class KameHouse {
   session = {};
   util = {};
 
+  cordova = null;
+  jq = null;
+
+  /**
+   * Build the initial kamehouse object.
+   */
+  constructor() {
+    this.#setJquery();
+  }
+
   /**
    * Init kamehouse framework.
    */
@@ -92,11 +102,30 @@ class KameHouse {
   }
 
   /**
+   * Execute the ready function after the document is ready.
+   */
+  ready(readyFunction) {
+    return this.jq(document).ready(() => {readyFunction()});
+  }
+
+  /**
    * Returns true if it should skip loading the kamehouse extension/plugin. False otherwise.
    */
   #skipLoading(elementToLoad) {
     const skipLoading = kameHouse.core.getArrayKameHouseData("skip-loading");
     return skipLoading.includes(elementToLoad);
+  }
+  
+  /**
+   * Set jQuery.
+   */
+  #setJquery() {
+    try {
+      this.jq = $;
+    } catch (error) {
+      console.log("Error setting jquery in kamehouse");
+      this.jq = {};
+    }
   }
 
 } // KameHouse root object
@@ -212,7 +241,7 @@ class KameHouseBannerUtils {
   /** Update the server name in the banner */
   updateServerName() {
     if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
-      kameHouse.util.dom.setHtml($("#banner-server-name"), kameHouse.session.server);
+      kameHouse.util.dom.setHtml("#banner-server-name", kameHouse.session.server);
     }
   }  
 
@@ -270,7 +299,7 @@ class KameHouseBannerUtils {
   #setRandomBanner(bannerClasses) {
     // Get a new banner, different from the current one
     let randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
-    const bannerDivClasses = $('#banner').attr('class');
+    const bannerDivClasses = document.getElementById('banner').getAttribute('class');
     if (kameHouse.core.isEmpty(bannerDivClasses)) {
       kameHouse.logger.trace("No banner classes to update. Returning...");
       return;
@@ -425,14 +454,14 @@ class KameHouseCursorUtils {
 
   /** Set the cursor to a wait spinning wheel */
   setCursorWait() {
-    kameHouse.util.dom.addClass($('html'), "wait");
-    kameHouse.util.dom.removeClass($('#spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
+    kameHouse.util.dom.addClass('html', "wait");
+    kameHouse.util.dom.removeClass('#spinning-wheel-cursor-wait-wrapper', "hidden-kh");
   }
 
   /** Set the cursor to default shape */
   setCursorDefault() {
-    kameHouse.util.dom.removeClass($('html'), "wait");
-    kameHouse.util.dom.addClass($('#spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
+    kameHouse.util.dom.removeClass('html', "wait");
+    kameHouse.util.dom.addClass('#spinning-wheel-cursor-wait-wrapper', "hidden-kh");
   }
 
   /**
@@ -440,7 +469,7 @@ class KameHouseCursorUtils {
    */
   async loadSpinningWheelCursorWait() {
     const spinnigWheelCursorWaitDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-cursor-wait.html");
-    kameHouse.util.dom.append($('body'), spinnigWheelCursorWaitDiv);
+    kameHouse.util.dom.append('body', spinnigWheelCursorWaitDiv);
   }
 
 } // KameHouseCursorUtils
@@ -540,8 +569,8 @@ class KameHouseDomUtils {
   }
 
   /** Insert the html before the body */
-  insertBeforeBegin(html) {
-    document.body.insertAdjacentHTML("beforeBegin", html);
+  insertBeforeBegin(element) {
+    document.body.insertAdjacentHTML("beforeBegin", element.innerHTML);
   }
 
   /** Replace the old child with the new one in the parent */
@@ -606,19 +635,19 @@ class KameHouseDomUtils {
     }
   }
 
-  /** ------ Manipulation through jQuery --------------------------------- */
   /**
-   * Get DOM node from JQuery element.
+   * Create a new element of the specified tag.
    */
-  getDomNode(jqueryElement) {
-    return jqueryElement.get(0);
+  createElement(tag) {
+    return document.createElement(tag);
   }
-  
+
+  /** ------ Manipulation through jQuery --------------------------------- */
   /**
    * Empty the specified div.
    */
   empty(div) {
-    div.empty();
+    kameHouse.jq(div).empty();
   }
   
   /**
@@ -626,9 +655,9 @@ class KameHouseDomUtils {
    */
   load(divToLoadTo, htmlPath, successCallback) {
     if (kameHouse.core.isFunction(successCallback)) {
-      divToLoadTo.load(htmlPath, successCallback);
+      kameHouse.jq(divToLoadTo).load(htmlPath, successCallback);
     } else {
-      divToLoadTo.load(htmlPath);
+      kameHouse.jq(divToLoadTo).load(htmlPath);
     }
   }
 
@@ -636,48 +665,48 @@ class KameHouseDomUtils {
    * Detach the specified element from the dom.
    */
    detach(elementToDetach) {
-    elementToDetach.detach();
+    kameHouse.jq(elementToDetach).detach();
   }
 
   /**
    * Prepend the prependObject to prependTo.
    */
    prepend(prependTo, prependObject) {
-    prependTo.prepend(prependObject);
+    kameHouse.jq(prependTo).prepend(prependObject);
   }
 
   /**
    * Append the appendObject to appendTo.
    */
   append(appendTo, appendObject) {
-    appendTo.append(appendObject);
+    kameHouse.jq(appendTo).append(appendObject);
   }
 
   /**
    * Replaces the specified dom element with the 
    */
   replaceWith(elementToReplace, replacement) {
-    elementToReplace.replaceWith(replacement);
+    kameHouse.jq(elementToReplace).replaceWith(replacement);
   }
 
   /**
    * Set an attribute in an element.
    */
   setAttr(element, attrKey, attrValue) {
-    element.attr(attrKey, attrValue);
+    kameHouse.jq(element).attr(attrKey, attrValue);
   }
 
   /** Set the html to the element */
   setHtml(element, html) {
     if (!kameHouse.core.isEmpty(html)) {
-      element.html(html);
+      kameHouse.jq(element).html(html);
     }
   }
 
   /** Set the text to the element */
   setText(element, text) {
     if (!kameHouse.core.isEmpty(text)) {
-      element.text(text);
+      kameHouse.jq(element).text(text);
     }
   }
 
@@ -685,33 +714,33 @@ class KameHouseDomUtils {
    * Set click function in an element.
    */
   setClick(element, clickData, clickFunction) {
-    element.click(clickData, clickFunction);
+    kameHouse.jq(element).click(clickData, clickFunction);
   }
 
   /**
    * Set the value in an element. Usually used for input fields with a value property.
    */
   setVal(element, value) {
-    element.val(value);
+    kameHouse.jq(element).val(value);
   }
 
   /**
    * Add a class to an element.
    */
   addClass(element, className) {
-    element.addClass(className);
+    kameHouse.jq(element).addClass(className);
   }
 
   /**
    * Remove a class from an element.
    */
   removeClass(element, className) {
-    element.removeClass(className);
+    kameHouse.jq(element).removeClass(className);
   }
 
   /** Toggle the visibility of all element that have the specified className */
   toggle(className) {
-    $('.' + className).toggle();
+    kameHouse.jq('.' + className).toggle();
   }
 
   /**
@@ -726,6 +755,24 @@ class KameHouseDomUtils {
    */
   getBr() {
     return this.#getElement('br', null, null);
+  }
+
+  /**
+   * Create a new button using the specified config object which should have a format: 
+   * {
+   *    attr: {
+   *      id: "",
+   *      class: ""
+   *    },
+   *    html: htmlObject,
+   *    clickData: {},
+   *    click: () => {}
+   * }
+   */
+  getButton(config) {
+    const btn = this.#getElement('button', config.attr, config.html);
+    this.setClick(btn, config.clickData, config.click);
+    return btn;
   }
 
   /**
@@ -822,27 +869,9 @@ class KameHouseDomUtils {
     return this.getTr(null, this.getTd(null, html));
   }
 
-  /**
-   * Create a new button using the specified config object which should have a format: 
-   * {
-   *    attr: {
-   *      id: "",
-   *      class: ""
-   *    },
-   *    html: htmlObject,
-   *    clickData: {},
-   *    click: () => {}
-   * }
-   */
-  getButton(config) {
-    const btn = this.#getElement('button', config.attr, config.html);
-    this.setClick(btn, config.clickData, config.click);
-    return btn;
-  }
-
   /** Create an element with the specified tag, attributes and html */
   #getElement(tagType, attr, html) {
-    const element = $('<' + tagType + '>');
+    const element = document.createElement(tagType);
     this.#setAttributes(element, attr);
     this.setHtml(element, html);
     return element;
@@ -852,7 +881,7 @@ class KameHouseDomUtils {
   #setAttributes(element, attr) {
     if (!kameHouse.core.isEmpty(attr)) {
       for (const [key, value] of Object.entries(attr)) {
-        element.attr(key, value);
+        element.setAttribute(key, value);
       }
     }
   }
@@ -916,7 +945,7 @@ class KameHouseDomUtils {
 
   /** Get a js script from the server. */
   getScript(scriptPath, successCallback) { 
-    $.getScript(scriptPath)
+    kameHouse.jq.getScript(scriptPath)
     .done((script, textStatus) => {
       kameHouse.logger.debug("Loaded successfully script: " + scriptPath);
       if (kameHouse.core.isFunction(successCallback)) {
@@ -998,7 +1027,7 @@ class KameHouseMobileUtils {
    * Configure kamehouse for running either as a webapp or mobile native app.
    */
   configureApp() {
-    $(document).ready(() => {
+    kameHouse.ready(() => {
       this.exec(
         () => {this.#configureWebAppOnlyElements();}, 
         () => {this.#configureMobileOnlyElements();}
@@ -1335,19 +1364,20 @@ class KameHouseTableUtils {
     }
 
     const regex = this.#getRegex(filterString);
-    const tableRows = $("#" + tableBodyId + " tr");
-    tableRows.filter((index, element) => {
+    kameHouse.logger.trace("Filtering table " + tableBodyId);
+    kameHouse.logger.trace("Total number of rows to filter " + rows.length);
+    kameHouse.core.filter(rows, (index, element) => {
       const tr = element;
       const classList = tr.classList.value;
       if (kameHouse.core.isEmpty(classList) || !classList.includes("table-kh-header")) {
         // Filter if it's not the header row
-        const trText = $(tr).text().toLowerCase();
+        const trText = tr.textContent.toLowerCase();
         let shouldDisplayRow = regex.test(trText);
         if (skipHiddenRows && this.#isHiddenRow(tr)) {
           shouldDisplayRow = false;
         }
         if (maxRows > 0) {
-          $(tr).toggle(shouldDisplayRow);
+          kameHouse.core.toggle(tr, shouldDisplayRow);
           maxRows--;
         }
       }
@@ -1370,20 +1400,21 @@ class KameHouseTableUtils {
       maxRows = rows.length;
     }
     const regex = this.#getRegex(filterString);
-    const tableRows = $("#" + tableBodyId + " tr");
-    tableRows.filter((index, element) => {
+    kameHouse.logger.trace("Filtering table " + tableBodyId + " by column number " + columnIndex);
+    kameHouse.logger.trace("Total number of rows to filter " + rows.length);
+    kameHouse.core.filter(rows, (index, element) => {  
       const tr = element;
       const classList = tr.classList.value;
       if (kameHouse.core.isEmpty(classList) || !classList.includes("table-kh-header")) {
         // Filter if it's not the header row
         const td = tr.getElementsByTagName("td")[columnIndex];
-        const tdText = $(td).text().toLowerCase();
+        const tdText = td.textContent.toLowerCase();
         let shouldDisplayRow = regex.test(tdText);
         if (skipHiddenRows && this.#isHiddenRow(tr)) {
           shouldDisplayRow = false;
         }
         if (maxRows > 0) {
-          $(tr).toggle(shouldDisplayRow);
+          kameHouse.core.toggle(tr, shouldDisplayRow);
           maxRows--;
         }
       }
@@ -1886,7 +1917,7 @@ class KameHouseCore {
    */
   scrollToTopOfDiv(divId) {
     const divToScrollToTop = '#' + divId;
-    $(divToScrollToTop).animate({
+    this.animate(divToScrollToTop, {
       scrollTop: 0
     }, '10');
   }
@@ -1899,13 +1930,20 @@ class KameHouseCore {
     if (this.isEmpty(divId)) {
       scrollPosition = 0;
     } else {
-      scrollPosition = $('#' + divId).offset().top;
+      scrollPosition = this.offset(divId).top;
     }
-    $('html, body').animate({
+    this.animate('html, body', {
       scrollTop: scrollPosition
     }, '10');
   }
-
+  
+  /**
+   * Scroll top.
+   */
+  scrollTop(element, val) {
+    return kameHouse.jq(element).scrollTop(val);
+  }  
+  
   /** 
    * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
    */
@@ -1914,10 +1952,9 @@ class KameHouseCore {
     if (this.isEmpty(divId)) {
       scrollPosition = document.body.scrollHeight;
     } else {
-      const jqDivId = '#' + divId;
-      scrollPosition = $(jqDivId).offset().top + $(jqDivId).height() - window.innerHeight;
+      scrollPosition = this.offset(divId).top + this.height(divId) - window.innerHeight;
     }
-    $('html, body').animate({
+    this.animate('html, body', {
       scrollTop: scrollPosition
     }, '10');
   }
@@ -2077,7 +2114,7 @@ class KameHouseCore {
 
     if (isAuthorized) {
       kameHouse.logger.debug("User is authorized to access this page");
-      kameHouse.util.dom.removeClass($("body"), "hidden-kh");
+      kameHouse.util.dom.removeClass("body", "hidden-kh");
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
@@ -2096,6 +2133,41 @@ class KameHouseCore {
    */
   windowLocationHref(url) {
     window.location.href=url;
+  }
+
+  /**
+   * Filter elements.
+   */
+  filter(element, filterFunction) {
+    kameHouse.jq(element).filter((index, element) => {filterFunction(index, element)});
+  }
+
+  /**
+   * Toggle element visibility.
+   */
+  toggle(element, visible) {
+    kameHouse.jq(element).toggle(visible);
+  }
+
+  /**
+   * Animate element.
+   */
+  animate(element, config, duration) {
+    kameHouse.jq(element).animate(config, duration);
+  }
+
+  /**
+   * Get element offset.
+   */
+  offset(elementId) {
+    return kameHouse.jq('#' + elementId).offset();
+  }
+
+  /**
+   * Get element height.
+   */
+  height(elementId) {
+    return kameHouse.jq('#' + elementId).height();
   }
 
   /**
@@ -2136,9 +2208,9 @@ class KameHouseCore {
    * Open kamehouse splash screen.
    */
   #openKameHouseSplashScreen() {
-    kameHouse.util.dom.addClass($("body"), "hidden-kh");
+    kameHouse.util.dom.addClass("body", "hidden-kh");
     const kameHouseSplashScreen = this.#getKameHouseSplashScreen();
-    kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen.html());
+    kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen);
   }
 
   /**
@@ -2294,8 +2366,8 @@ class KameHouseCore {
    */
   logHttpRequest(httpMethod, config, url, requestHeaders, requestBody) {
     this.debug("http request: [ " 
-    + "'method' : '" + httpMethod + "', "
     + "'url' : '" + url + "', "
+    + "'method' : '" + httpMethod + "', "
     + "'config' : '" + kameHouse.json.stringify(config) + "', "
     + "'headers' : '" + this.maskSensitiveData(kameHouse.json.stringify(requestHeaders)) + "', "
     + "'body' : '" + this.maskSensitiveData(kameHouse.json.stringify(requestBody)) + "' ]");
@@ -2304,8 +2376,9 @@ class KameHouseCore {
   /**
    * Log an http response.
    */
-  logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders) {
+  logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders) {
     this.debug("http response: [ " 
+    + "'url' : '" + url + "', "
     + "'responseCode' : '" + responseCode + "', "
     + "'responseDescription' : '" + responseDescription + "', "
     + "'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) + "', "
@@ -2343,7 +2416,7 @@ class KameHouseCore {
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry
-      kameHouse.util.dom.append($("#debug-mode-console-log-entries"), this.#getLogEntryListItem(logEntry));
+      kameHouse.util.dom.append("#debug-mode-console-log-entries", this.#getLogEntryListItem(logEntry));
       // Scroll down log div
       this.#debugModeLogScroll();
     }
@@ -2353,8 +2426,8 @@ class KameHouseCore {
    * Scroll to the last entries of the console log.
    */
   #debugModeLogScroll() {
-    const height = $("#debug-mode-console-log-entries").get(0).scrollHeight;
-    $("#debug-mode-console-log-entries").animate({
+    const height = document.getElementById("debug-mode-console-log-entries").scrollHeight;
+    kameHouse.core.animate("#debug-mode-console-log-entries", {
       scrollTop: height
     }, 100);
   }
@@ -2648,35 +2721,35 @@ class KameHouseCore {
       kameHouse.logger.debug("Setting timeout for web request to " + requestTimeout);
     }
     if (kameHouse.core.isEmpty(requestBody)) {
-      $.ajax({
+      kameHouse.jq.ajax({
         type: httpMethod,
         url: url,
         headers: requestHeaders,
         timeout: requestTimeout,
-        success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
+        success: (data, status, xhr) => this.#processSuccess(url, data, status, xhr, successCallback),
         error: (jqXhr, textStatus, errorMessage) => this.#processError(url, jqXhr, textStatus, errorMessage, errorCallback)
       });
       return;
     }
     if (this.isUrlEncodedRequest(requestHeaders)) {
       const urlEncoded = url + "?" + this.urlEncodeParams(requestBody);
-      $.ajax({
+      kameHouse.jq.ajax({
         type: httpMethod,
         url: urlEncoded,
         headers: requestHeaders,
         timeout: requestTimeout,
-        success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
+        success: (data, status, xhr) => this.#processSuccess(urlEncoded, data, status, xhr, successCallback),
         error: (jqXhr, textStatus, errorMessage) => this.#processError(urlEncoded, jqXhr, textStatus, errorMessage, errorCallback)
       });
       return;
     }
-    $.ajax({
+    kameHouse.jq.ajax({
       type: httpMethod,
       url: url,
       data: kameHouse.json.stringify(requestBody),
       headers: requestHeaders,
       timeout: requestTimeout,
-      success: (data, status, xhr) => this.#processSuccess(data, status, xhr, successCallback),
+      success: (data, status, xhr) => this.#processSuccess(url, data, status, xhr, successCallback),
       error: (jqXhr, textStatus, errorMessage) => this.#processError(url, jqXhr, textStatus, errorMessage, errorCallback)
     });
   }
@@ -2706,7 +2779,7 @@ class KameHouseCore {
   }
 
   /** Process a successful response from the api call */
-  #processSuccess(data, status, xhr, successCallback) {
+  #processSuccess(url, data, status, xhr, successCallback) {
     /**
      * data: response body
      * status: success/error
@@ -2722,7 +2795,7 @@ class KameHouseCore {
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
     const responseHeaders = this.#getResponseHeaders(xhr);
-    kameHouse.logger.logHttpResponse(responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.logger.logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders);
     successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
@@ -2749,4 +2822,4 @@ class KameHouseCore {
 } // KameHouseHttpClient
 
 const kameHouse = new KameHouse();
-$(document).ready(() => {kameHouse.init();});
+kameHouse.ready(() => {kameHouse.init();});

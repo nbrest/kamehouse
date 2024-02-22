@@ -134,11 +134,11 @@ class DragonBallUserServiceJsp {
    * Display dragonball users table.
    */
   async #displayDragonBallUsers(dragonBallUsersList) {
-    const $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    kameHouse.util.dom.empty($dragonBallUsersTbody);
-    kameHouse.util.dom.append($dragonBallUsersTbody, await this.#getDragonBallUserTableHeader());
+    const dragonBallUsersTbody = document.getElementById('dragonball-users-tbody');
+    kameHouse.util.dom.empty(dragonBallUsersTbody);
+    kameHouse.util.dom.append(dragonBallUsersTbody, await this.#getDragonBallUserTableHeader());
     for (const dragonballUser of dragonBallUsersList) {
-      kameHouse.util.dom.append($dragonBallUsersTbody, this.#getDragonBallUserTableRow(dragonballUser));
+      kameHouse.util.dom.append(dragonBallUsersTbody, this.#getDragonBallUserTableRow(dragonballUser));
     }
   }
 
@@ -146,9 +146,9 @@ class DragonBallUserServiceJsp {
    * Shows the specified error message in the table.
    */
   #displayErrorTable(message) {
-    const $dragonBallUsersTbody = $('#dragonball-users-tbody');
-    kameHouse.util.dom.empty($dragonBallUsersTbody);
-    kameHouse.util.dom.append($dragonBallUsersTbody, this.#getErrorMessageTr(message));
+    const dragonBallUsersTbody = document.getElementById('dragonball-users-tbody');
+    kameHouse.util.dom.empty(dragonBallUsersTbody);
+    kameHouse.util.dom.append(dragonBallUsersTbody, this.#getErrorMessageTr(message));
   }
   
   /**
@@ -222,6 +222,6 @@ class DragonBallUserServiceJsp {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("dragonBallUserServiceJsp", new DragonBallUserServiceJsp());
 });

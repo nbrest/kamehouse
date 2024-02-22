@@ -73,9 +73,9 @@ class ExecScriptLoader {
    */
   #setScriptInProgressView() {
     this.#updateScriptExecutionStartDate();
-    kameHouse.util.dom.addClass($('#kamehouse-shell-output-header'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#btn-execute-script'), "hidden-kh");
-    kameHouse.util.dom.addClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");
+    kameHouse.util.dom.addClass('#kamehouse-shell-output-header', "hidden-kh");
+    kameHouse.util.dom.addClass('#btn-execute-script', "hidden-kh");
+    kameHouse.util.dom.addClass('#btn-download-kamehouse-shell-output', "hidden-kh");
     this.#setBannerScriptStatus("in progress...");
   }
 
@@ -95,9 +95,9 @@ class ExecScriptLoader {
    */
   #scriptExecCallback() {
     this.#updateScriptExecutionEndDate();
-    kameHouse.util.dom.removeClass($('#kamehouse-shell-output-header'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#btn-execute-script'), "hidden-kh");
-    kameHouse.util.dom.removeClass($('#btn-download-kamehouse-shell-output'), "hidden-kh");  
+    kameHouse.util.dom.removeClass('#kamehouse-shell-output-header', "hidden-kh");
+    kameHouse.util.dom.removeClass('#btn-execute-script', "hidden-kh");
+    kameHouse.util.dom.removeClass('#btn-download-kamehouse-shell-output', "hidden-kh");  
     this.#setBannerScriptStatus("finished!");
   }
 
@@ -105,20 +105,20 @@ class ExecScriptLoader {
    * Set banner script status.
    */
   #setBannerScriptStatus(status) {
-    kameHouse.util.dom.setHtml($("#banner-script-status"), status);
+    kameHouse.util.dom.setHtml("#banner-script-status", status);
   }
 
   /** Update script execution end date */
   #updateScriptExecutionEndDate() {
     const clientTimeAndDate = this.#getClientTimeAndDate();
-    kameHouse.util.dom.setHtml($("#st-script-exec-end-date"), clientTimeAndDate);
+    kameHouse.util.dom.setHtml("#st-script-exec-end-date", clientTimeAndDate);
   }
 
   /** Update script execution start date */
   #updateScriptExecutionStartDate() {
     const clientTimeAndDate = this.#getClientTimeAndDate();
-    kameHouse.util.dom.setHtml($("#st-script-exec-start-date"), clientTimeAndDate);
-    kameHouse.util.dom.setHtml($("#st-script-exec-end-date"), "");
+    kameHouse.util.dom.setHtml("#st-script-exec-start-date", clientTimeAndDate);
+    kameHouse.util.dom.setHtml("#st-script-exec-end-date", "");
   }
 
   /** Get the current time and date on the client */
@@ -136,8 +136,8 @@ class ExecScriptLoader {
   /** Update server name */
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtml($("#st-server-name"), sessionStatus.server);
-      kameHouse.util.dom.setHtml($("#banner-server-name"), sessionStatus.server);
+      kameHouse.util.dom.setHtml("#st-server-name", sessionStatus.server);
+      kameHouse.util.dom.setHtml("#banner-server-name", sessionStatus.server);
     }
   }
 
@@ -147,23 +147,23 @@ class ExecScriptLoader {
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
-    kameHouse.util.dom.setHtml($("#st-script-name"), scriptName);
-    kameHouse.util.dom.setHtml($("#st-script-args"), args);
-    kameHouse.util.dom.setHtml($("#st-script-exec-docker-host"), executeOnDockerHost);
+    kameHouse.util.dom.setHtml("#st-script-name", scriptName);
+    kameHouse.util.dom.setHtml("#st-script-args", args);
+    kameHouse.util.dom.setHtml("#st-script-exec-docker-host", executeOnDockerHost);
   }
 
   /**
    * Get download link.
    */
   #getDownloadLink(timestamp) {
-    return kameHouse.util.dom.getDomNode(kameHouse.util.dom.getA({
+    return kameHouse.util.dom.getA({
       href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.getShell().getBashScriptOutput()),
       download:  "kamehouse-shell-output-" + timestamp + ".log",
       class: "hidden-kh"
-    }, null));
+    }, null);
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("execScriptLoader", new ExecScriptLoader());
 });

@@ -1,3 +1,3 @@
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.util.banner.setRandomAllBanner();
 });

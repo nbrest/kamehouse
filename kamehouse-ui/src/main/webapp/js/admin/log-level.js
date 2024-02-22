@@ -125,27 +125,27 @@ class BackendLogLevelUtils {
   /** Update the log levels table content */
   #updateLogLevelTable(logLevelsArray, webapp) {
     this.#addLogLevelTableHeader(webapp);
-    const $tableBody = $('#log-level-tbody-' + webapp);
+    const tableBody = document.getElementById('log-level-tbody-' + webapp);
     logLevelsArray.forEach((logLevelEntry) => {
       const logLevelEntryPair = logLevelEntry.split(":");
       const packageName = logLevelEntryPair[0];
       const logLevel = logLevelEntryPair[1];
-      kameHouse.util.dom.append($tableBody, this.#getLogLevelTr(packageName, logLevel));
+      kameHouse.util.dom.append(tableBody, this.#getLogLevelTr(packageName, logLevel));
     });
   }
 
   /** Add log level table header */
   #addLogLevelTableHeader(webapp) {
-    const $tableBody = $('#log-level-tbody-' + webapp);
-    kameHouse.util.dom.empty($tableBody);
-    kameHouse.util.dom.append($tableBody, this.#getLogLevelTh(webapp));
+    const tableBody = document.getElementById('log-level-tbody-' + webapp);
+    kameHouse.util.dom.empty(tableBody);
+    kameHouse.util.dom.append(tableBody, this.#getLogLevelTh(webapp));
   }
 
   /** Set log level table to error */
   #updateLogLevelTableError(webapp) {
-    const $tableBody = $('#log-level-tbody-' + webapp);
-    kameHouse.util.dom.empty($tableBody);
-    kameHouse.util.dom.append($tableBody, this.#getErrorTr());
+    const tableBody = document.getElementById('log-level-tbody-' + webapp);
+    kameHouse.util.dom.empty(tableBody);
+    kameHouse.util.dom.append(tableBody, this.#getErrorTr());
   }
 
   /** Get row for errot table */
@@ -211,6 +211,6 @@ class BackendLogLevelUtils {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("backendLogLevelUtils", new BackendLogLevelUtils());
 });

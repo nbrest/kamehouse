@@ -191,7 +191,7 @@ class ServerManager {
    * Import css.
    */
   #importServerManagementCss() {
-    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
+    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
   }
 
   /**
@@ -214,14 +214,14 @@ class ServerManager {
   /** Update the status of Shutdown command */
   #processSuccessShutdownStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.util.dom.setHtml($("#shutdown-status"), responseBody.message);
+    kameHouse.util.dom.setHtml("#shutdown-status", responseBody.message);
   }
 
   /** Update the status of Shutdown command with an error */
   #processErrorShutdownStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.util.dom.setHtml($("#shutdown-status"), "Error getting the status of Shutdown command");
+    kameHouse.util.dom.setHtml("#shutdown-status", "Error getting the status of Shutdown command");
   }
 
   /**
@@ -244,14 +244,14 @@ class ServerManager {
   /** Update the status of suspend command */
   #processSuccessSuspendStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.util.dom.setHtml($("#suspend-status"), responseBody.message);
+    kameHouse.util.dom.setHtml("#suspend-status", responseBody.message);
   }
 
   /** Update the status of suspend command with an error */
   #processErrorSuspendStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.util.dom.setHtml($("#suspend-status"), "Error getting the status of Suspend command");
+    kameHouse.util.dom.setHtml("#suspend-status", "Error getting the status of Suspend command");
   }
 
   /**
@@ -307,9 +307,9 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.close();
     if (responseCode != 404) {
       kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-      kameHouse.util.dom.setHtml($("#httpd-status"), "Error getting the status of the apache httpd server");      
+      kameHouse.util.dom.setHtml("#httpd-status", "Error getting the status of the apache httpd server");      
     } else {
-      kameHouse.util.dom.setHtml($("#httpd-status"), "Unable to get the status of apache httpd server. Is it running?");   
+      kameHouse.util.dom.setHtml("#httpd-status", "Unable to get the status of apache httpd server. Is it running?");   
     }
   }
 
@@ -370,6 +370,6 @@ class ServerManager {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("serverManager", new ServerManager());
 });

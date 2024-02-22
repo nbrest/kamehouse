@@ -85,7 +85,7 @@ class ScreenController {
    * Import css.
    */
   #importCss() {
-    kameHouse.util.dom.append($('head'), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/screen-controller.css">');
+    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/screen-controller.css">');
   }
 
   /** Generic process success response */
@@ -100,6 +100,6 @@ class ScreenController {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("screenController", new ScreenController());
 });

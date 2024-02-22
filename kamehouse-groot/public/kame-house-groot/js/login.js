@@ -18,6 +18,6 @@ class GrootLogin {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("grootLogin", new GrootLogin());
 });

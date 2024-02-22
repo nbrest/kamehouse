@@ -21,7 +21,7 @@ class TestBannerRenderer {
    */
   reloadBanners() {
     kameHouse.logger.info("Reloading banners");
-    const bannersTbody = $('#' + TestBannerRenderer.#TBODY_ID);
+    const bannersTbody = document.getElementById(TestBannerRenderer.#TBODY_ID);
     kameHouse.util.dom.empty(bannersTbody);
     const bannerCategory = this.#getSelectedBannerCategory();
     const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
@@ -34,7 +34,7 @@ class TestBannerRenderer {
    * Set banner categories dropdown.
    */
   #setBannerCategoriesDropdown() {
-    const bannerCategoryDropdown = $("#banner-category-dropdown");
+    const bannerCategoryDropdown = document.getElementById("banner-category-dropdown");
     kameHouse.util.dom.empty(bannerCategoryDropdown);
     const bannerCategories = kameHouse.util.banner.getBannerCategories();
     kameHouse.util.dom.append(bannerCategoryDropdown, kameHouse.util.dom.getOption({
@@ -75,6 +75,6 @@ class TestBannerRenderer {
   }
 }
 
-$(document).ready(() => {
+kameHouse.ready(() => {
   kameHouse.addExtension("testBannerRenderer", new TestBannerRenderer());
 });
