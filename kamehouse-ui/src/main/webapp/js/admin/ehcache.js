@@ -77,17 +77,15 @@ class EhCacheManager {
         const message = "Error clearing all caches";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.openAutoCloseable("Error clearing all caches", 3000);
-        this.getAllCacheData(webapp);
+      this.getAllCacheData(webapp);
       });
   }
 
   /**
    * Toggle cache view (expand/collapse).
    */
-  toggleCacheView(className) {
-    document.getElementsByClassName(className).forEach((element) => {
-      kameHouse.util.dom.toggle(element);
-    });
+  toggleCacheView(className) {  
+    kameHouse.util.dom.toggle(className);
   }
 
   /**
