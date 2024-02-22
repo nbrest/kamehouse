@@ -1,5 +1,3 @@
-const { element } = require("angular");
-
 /** 
  * VlcPlayer entity.
  * 
