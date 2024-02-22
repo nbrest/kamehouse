@@ -55,9 +55,9 @@ class KameHouseShell {
 
   /** Set the script ouput to show that the script is currently executing */
   #setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
-    kameHouse.util.dom.addClass('#kamehouse-shell-output', "hidden-kh");
-    kameHouse.util.dom.removeClass('#kamehouse-shell-output-executing-wrapper', "hidden-kh");
-    kameHouse.util.dom.setHtml("#kamehouse-shell-output-executing", this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
+    kameHouse.util.dom.addClass(document.getElementById('kamehouse-shell-output'), "hidden-kh");
+    kameHouse.util.dom.removeClass(document.getElementById('kamehouse-shell-output-executing-wrapper'), "hidden-kh");
+    kameHouse.util.dom.setHtml(document.getElementById("kamehouse-shell-output-executing"), this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
     kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
 
@@ -103,8 +103,8 @@ class KameHouseShell {
     kameHouse.util.dom.replaceWith(scriptOutputTableBody, tbody);
 
     // Update the view
-    kameHouse.util.dom.removeClass('#kamehouse-shell-output', "hidden-kh");
-    kameHouse.util.dom.addClass('#kamehouse-shell-output-executing-wrapper', "hidden-kh");
+    kameHouse.util.dom.removeClass(document.getElementById('kamehouse-shell-output'), "hidden-kh");
+    kameHouse.util.dom.addClass(document.getElementById('kamehouse-shell-output-executing-wrapper'), "hidden-kh");
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
@@ -123,8 +123,8 @@ class KameHouseShell {
     kameHouse.util.dom.replaceWith(scriptOutputTableBody, tbody);
 
     // Update the view
-    kameHouse.util.dom.removeClass('#kamehouse-shell-output', "hidden-kh");
-    kameHouse.util.dom.addClass('#kamehouse-shell-output-executing-wrapper', "hidden-kh");
+    kameHouse.util.dom.removeClass(document.getElementById('kamehouse-shell-output'), "hidden-kh");
+    kameHouse.util.dom.addClass(document.getElementById('kamehouse-shell-output-executing-wrapper'), "hidden-kh");
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);

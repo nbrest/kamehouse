@@ -1,3 +1,5 @@
+const { element } = require("angular");
+
 /** 
  * VlcPlayer entity.
  * 
@@ -472,12 +474,12 @@ class VlcPlayerMainViewUpdater {
   updateCurrentTimeView(value) {
     const currentTime = document.getElementById("current-time");
     kameHouse.util.dom.setInnerHtml(currentTime, kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setVal("#time-slider", value);
+    kameHouse.util.dom.setVal(document.getElementById("time-slider"), value);
   }
 
   /** Update volume percentage to display with the specified value. */
   updateVolumeView(value) {
-    kameHouse.util.dom.setVal("#volume-slider", value);
+    kameHouse.util.dom.setVal(document.getElementById("volume-slider"), value);
     const volumePercentaje = Math.floor(value * 200 / 512);
     const currentVolume = document.getElementById("current-volume");
     kameHouse.util.dom.setInnerHtml(currentVolume, volumePercentaje + "%");
@@ -506,7 +508,7 @@ class VlcPlayerMainViewUpdater {
       mediaName.filename = this.#vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = this.#vlcPlayer.getVlcRcStatus().information.meta.title;
     }
-    kameHouse.util.dom.setHtml("#media-title", mediaName.filename);
+    kameHouse.util.dom.setHtml(document.getElementById("media-title"), mediaName.filename);
   }
 
   /** Reset the media title. */
@@ -514,7 +516,7 @@ class VlcPlayerMainViewUpdater {
     const mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    kameHouse.util.dom.setHtml("#media-title", mediaName.filename);
+    kameHouse.util.dom.setHtml(document.getElementById("media-title"), mediaName.filename);
   }
 
   /** Update subtitle delay. */
@@ -523,12 +525,12 @@ class VlcPlayerMainViewUpdater {
     if (kameHouse.core.isEmpty(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    kameHouse.util.dom.setHtml("#subtitle-delay-value", String(subtitleDelay));
+    kameHouse.util.dom.setHtml(document.getElementById("subtitle-delay-value"), String(subtitleDelay));
   }
 
   /** Reset subtitle delay. */
   #resetSubtitleDelay() {
-    kameHouse.util.dom.setHtml("#subtitle-delay-value", "0");
+    kameHouse.util.dom.setHtml(document.getElementById("subtitle-delay-value"), "0");
   }
 
   /**
@@ -549,16 +551,16 @@ class VlcPlayerMainViewUpdater {
 
   /** Reset time slider. */
   #resetTimeSlider() {
-    kameHouse.util.dom.setHtml("#current-time", "--:--:--");
-    kameHouse.util.dom.setVal("#time-slider", 500);
-    kameHouse.util.dom.setHtml("#total-time", "--:--:--");
-    kameHouse.util.dom.setAttr("#time-slider",'max', 1000);
+    kameHouse.util.dom.setHtml(document.getElementById("current-time"), "--:--:--");
+    kameHouse.util.dom.setVal(document.getElementById("time-slider"), 500);
+    kameHouse.util.dom.setHtml(document.getElementById("total-time"), "--:--:--");
+    kameHouse.util.dom.setAttr(document.getElementById("time-slider"),'max', 1000);
   }
 
   /** Update the displayed total time. */
   #updateTotalTimeView(value) {
-    kameHouse.util.dom.setHtml("#total-time", kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setAttr("#time-slider",'max', value);
+    kameHouse.util.dom.setHtml(document.getElementById("total-time"), kameHouse.util.time.convertSecondsToHsMsSs(value));
+    kameHouse.util.dom.setAttr(document.getElementById("time-slider"),'max', value);
   }
 
   /**
@@ -627,14 +629,14 @@ class StatefulMediaButton {
 
   /** Set media button pressed */
   #setMediaButtonPressed() {
-    kameHouse.util.dom.removeClass('#' + this.#id, this.#buttonPrefixClass + '-unpressed');
-    kameHouse.util.dom.addClass('#' + this.#id, this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.removeClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.addClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   #setMediaButtonUnpressed() {
-    kameHouse.util.dom.removeClass('#' + this.#id, this.#buttonPrefixClass + '-pressed');
-    kameHouse.util.dom.addClass('#' + this.#id, this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.removeClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.addClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
   }
 } // End StatefulMediaButton
 
@@ -1147,7 +1149,7 @@ class VlcPlayerPlaylist {
 
   /** Init Playlist. */
   init() {
-    kameHouse.util.dom.replaceWith("#toggle-playlist-filenames-img", this.#dobleRightImg);
+    kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-filenames-img"), this.#dobleRightImg);
   }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
@@ -1276,7 +1278,9 @@ class VlcPlayerPlaylist {
   #highlightCurrentPlayingItem() {
     const currentPlId = this.#vlcPlayer.getVlcRcStatus().currentPlId;
     const currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
-    kameHouse.util.dom.removeClass('#playlist-table-body tr td button', "active");
+    document.querySelectorAll('#playlist-table-body tr td button').forEach((element) => {
+      kameHouse.util.dom.removeClass(element, "active");
+    });
     const currentPlaylistElement = document.querySelector("#" + currentPlIdAsRowId + " td button");
     if (currentPlaylistElement) {
       kameHouse.util.dom.addClass(currentPlaylistElement, "active");
@@ -1316,9 +1320,9 @@ class VlcPlayerPlaylist {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWith("#toggle-playlist-filenames-img", this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-filenames-img"), this.#dobleLeftImg);
     } else {
-      kameHouse.util.dom.replaceWith("#toggle-playlist-filenames-img", this.#dobleRightImg);
+      kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-filenames-img"), this.#dobleRightImg);
     }
   }
 

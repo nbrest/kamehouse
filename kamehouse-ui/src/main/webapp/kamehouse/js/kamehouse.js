@@ -241,7 +241,7 @@ class KameHouseBannerUtils {
   /** Update the server name in the banner */
   updateServerName() {
     if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
-      kameHouse.util.dom.setHtml("#banner-server-name", kameHouse.session.server);
+      kameHouse.util.dom.setHtml(document.getElementById("banner-server-name"), kameHouse.session.server);
     }
   }  
 
@@ -454,14 +454,14 @@ class KameHouseCursorUtils {
 
   /** Set the cursor to a wait spinning wheel */
   setCursorWait() {
-    kameHouse.util.dom.addClass('html', "wait");
-    kameHouse.util.dom.removeClass('#spinning-wheel-cursor-wait-wrapper', "hidden-kh");
+    kameHouse.util.dom.addClass(document.html, "wait");
+    kameHouse.util.dom.removeClass(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
   }
 
   /** Set the cursor to default shape */
   setCursorDefault() {
-    kameHouse.util.dom.removeClass('html', "wait");
-    kameHouse.util.dom.addClass('#spinning-wheel-cursor-wait-wrapper', "hidden-kh");
+    kameHouse.util.dom.removeClass(document.html, "wait");
+    kameHouse.util.dom.addClass(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
   }
 
   /**
@@ -469,7 +469,7 @@ class KameHouseCursorUtils {
    */
   async loadSpinningWheelCursorWait() {
     const spinnigWheelCursorWaitDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-cursor-wait.html");
-    kameHouse.util.dom.append('body', spinnigWheelCursorWaitDiv);
+    kameHouse.util.dom.append(document.body, spinnigWheelCursorWaitDiv);
   }
 
 } // KameHouseCursorUtils
@@ -483,7 +483,6 @@ class KameHouseCursorUtils {
  */
 class KameHouseDomUtils {
 
-  /** ------ Manipulation through plain js --------------------------------- */
   /** Set the id of an element (non jq) */
   setId(element, id) {
     element.id = id;
@@ -642,7 +641,6 @@ class KameHouseDomUtils {
     return document.createElement(tag);
   }
 
-  /** ------ Manipulation through jQuery --------------------------------- */
   /**
    * Empty the specified div.
    */
@@ -653,11 +651,11 @@ class KameHouseDomUtils {
   /**
    * Load the specified htmlPath into the div.
    */
-  load(divToLoadTo, htmlPath, successCallback) {
+  load(divIdToLoadTo, htmlPath, successCallback) {
     if (kameHouse.core.isFunction(successCallback)) {
-      kameHouse.jq(divToLoadTo).load(htmlPath, successCallback);
+      kameHouse.jq("#" + divIdToLoadTo).load(htmlPath, successCallback);
     } else {
-      kameHouse.jq(divToLoadTo).load(htmlPath);
+      kameHouse.jq("#" + divIdToLoadTo).load(htmlPath);
     }
   }
 
@@ -1821,7 +1819,7 @@ class KameHouseCore {
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
 
     const config = kameHouse.http.getConfig();
-    config.timeout = 15;
+    config.timeout = 30;
     kameHouse.http.get(config, SESSION_STATUS_URL, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody));
@@ -2114,7 +2112,7 @@ class KameHouseCore {
 
     if (isAuthorized) {
       kameHouse.logger.debug("User is authorized to access this page");
-      kameHouse.util.dom.removeClass("body", "hidden-kh");
+      kameHouse.util.dom.removeClass(document.body, "hidden-kh");
       kameHouse.util.dom.remove('kamehouse-splashscreen');  
     } else {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
@@ -2208,7 +2206,7 @@ class KameHouseCore {
    * Open kamehouse splash screen.
    */
   #openKameHouseSplashScreen() {
-    kameHouse.util.dom.addClass("body", "hidden-kh");
+    kameHouse.util.dom.addClass(document.body, "hidden-kh");
     const kameHouseSplashScreen = this.#getKameHouseSplashScreen();
     kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen);
   }
@@ -2416,7 +2414,7 @@ class KameHouseCore {
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry
-      kameHouse.util.dom.append("#debug-mode-console-log-entries", this.#getLogEntryListItem(logEntry));
+      kameHouse.util.dom.append(document.getElementById("debug-mode-console-log-entries"), this.#getLogEntryListItem(logEntry));
       // Scroll down log div
       this.#debugModeLogScroll();
     }

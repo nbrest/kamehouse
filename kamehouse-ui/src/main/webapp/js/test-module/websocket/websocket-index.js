@@ -20,9 +20,9 @@ class TestWebSocket {
     document.querySelectorAll("form").forEach((form) => {
       form.addEventListener('submit', (e) => e.preventDefault())
     });
-    kameHouse.util.dom.setClick("#connect", null, () => this.#connectWebSocket());
-    kameHouse.util.dom.setClick("#disconnect", null, () => this.#disconnectWebSocket());
-    kameHouse.util.dom.setClick("#send", null, () => this.#sendWebSocketRequest());
+    kameHouse.util.dom.setClick(document.getElementById("connect"), null, () => this.#connectWebSocket());
+    kameHouse.util.dom.setClick(document.getElementById("disconnect"), null, () => this.#disconnectWebSocket());
+    kameHouse.util.dom.setClick(document.getElementById("send"), null, () => this.#sendWebSocketRequest());
     kameHouse.util.module.waitForModules(["kameHouseWebSocket"], () => {
       this.#websocket = new KameHouseWebSocket();
       this.#websocket.statusUrl('/kame-house-testmodule/api/ws/test-module/websocket');
@@ -36,21 +36,21 @@ class TestWebSocket {
    */
   #setConnected(isConnected) {
     if (isConnected) {
-      kameHouse.util.dom.addClass("#connect", "hidden-kh");
-      kameHouse.util.dom.removeClass("#connected", "hidden-kh");
-      kameHouse.util.dom.removeClass("#disconnect", "hidden-kh");
-      kameHouse.util.dom.addClass("#disconnected", "hidden-kh");
-      kameHouse.util.dom.removeClass("#send-label", "hidden-kh");
-      kameHouse.util.dom.removeClass("#send", "hidden-kh");
-      kameHouse.util.dom.removeClass("#websocket-responses-wrapper", "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("connect"), "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("connected"), "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("disconnect"), "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("disconnected"), "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("send-label"), "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("send"), "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("websocket-responses-wrapper"), "hidden-kh");
     } else {
-      kameHouse.util.dom.removeClass("#connect", "hidden-kh");
-      kameHouse.util.dom.addClass("#connected", "hidden-kh");
-      kameHouse.util.dom.addClass("#disconnect", "hidden-kh");
-      kameHouse.util.dom.removeClass("#disconnected", "hidden-kh");
-      kameHouse.util.dom.addClass("#send-label", "hidden-kh");
-      kameHouse.util.dom.addClass("#send", "hidden-kh");
-      kameHouse.util.dom.addClass("#websocket-responses-wrapper", "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("connect"), "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("connected"), "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("disconnect"), "hidden-kh");
+      kameHouse.util.dom.removeClass(document.getElementById("disconnected"), "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("send-label"), "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("send"), "hidden-kh");
+      kameHouse.util.dom.addClass(document.getElementById("websocket-responses-wrapper"), "hidden-kh");
     }
     kameHouse.util.dom.empty(document.getElementById("websocket-responses"));
   }
@@ -102,7 +102,7 @@ class TestWebSocket {
   #showTestWebSocketResponse(testWebSocketResponseBody) {
     kameHouse.logger.trace("Received testWebSocketResponse from server: " + kameHouse.json.stringify(testWebSocketResponseBody));
     const date = kameHouse.util.time.getDateFromEpoch(testWebSocketResponseBody.date);
-    kameHouse.util.dom.append("#websocket-responses", this.#getWebsocketResponseTr(date, testWebSocketResponseBody.message));
+    kameHouse.util.dom.append(document.getElementById("websocket-responses"), this.#getWebsocketResponseTr(date, testWebSocketResponseBody.message));
   }
 
   /**

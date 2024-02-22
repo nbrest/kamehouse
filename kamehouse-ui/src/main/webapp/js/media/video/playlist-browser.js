@@ -25,7 +25,7 @@ class PlaylistBrowser {
   /** Load Playlist Browser extension. */
   load() {
     kameHouse.logger.info("Started initializing playlist browser");
-    kameHouse.util.dom.replaceWith("#toggle-playlist-browser-filenames-img", this.#dobleRightImg);
+    kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-browser-filenames-img"), this.#dobleRightImg);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.populateVideoPlaylistCategories();
       kameHouse.util.module.setModuleLoaded("playlistBrowser");
@@ -216,9 +216,9 @@ class PlaylistBrowser {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWith("#toggle-playlist-browser-filenames-img", this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-browser-filenames-img"), this.#dobleLeftImg);
     } else {
-      kameHouse.util.dom.replaceWith("#toggle-playlist-browser-filenames-img", this.#dobleRightImg);
+      kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-browser-filenames-img"), this.#dobleRightImg);
     }
   }
 

@@ -152,7 +152,7 @@ class ServerManager {
   /** Update server name */
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtml("#banner-server-name", sessionStatus.server);
+      kameHouse.util.dom.setHtml(document.getElementById("banner-server-name"), sessionStatus.server);
     }
   }
 
@@ -509,11 +509,11 @@ class DeploymentManager {
         const status = scriptOutputLineArray[1];
         const module = this.#getModule(webapp);
         if (status == "running") {
-          kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallGreenImg, true));
+          kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallGreenImg, true));
         } else if (status == "stopped") {
-          kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
+          kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
         } else {
-          kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
+          kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
         }        
       }
     });
@@ -548,12 +548,12 @@ class DeploymentManager {
       if (scriptOutputLine.startsWith("buildVersion")) {
         const scriptOutputLineArray = scriptOutputLine.split("=");
         const buildVersion = scriptOutputLineArray[1];
-        kameHouse.util.dom.setHtml("#mst-" + module + "-build-version-val", buildVersion);    
+        kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-build-version-val"), buildVersion);    
       }
       if (scriptOutputLine.startsWith("buildDate")) {
         const scriptOutputLineArray = scriptOutputLine.split("=");
         const buildDate = scriptOutputLineArray[1];
-        kameHouse.util.dom.setHtml("#mst-" + module + "-build-date-val", buildDate);    
+        kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-build-date-val"), buildDate);    
       }
     });
   }
@@ -562,8 +562,9 @@ class DeploymentManager {
    * Render tomcat process status.
    */
   #displayTomcatProcessStatus(scriptOutput) {
-    const tomcatProcessStatusDiv = "tomcat-process-status-val";
-    kameHouse.util.dom.empty("#" + tomcatProcessStatusDiv);
+    const tomcatProcessStatusDivId = "tomcat-process-status-val";
+    const tomcatProcessStatusDiv = document.getElementById(tomcatProcessStatusDivId);
+    kameHouse.util.dom.empty(tomcatProcessStatusDiv);
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (!scriptOutputLine.includes("Started executing") && 
           !scriptOutputLine.includes("Finished executing") &&
@@ -572,11 +573,11 @@ class DeploymentManager {
           !scriptOutputLine.includes("TCP") &&
           !scriptOutputLine.includes("tcp") &&
           !scriptOutputLine.includes("Executing script")) {
-        kameHouse.util.dom.append("#" + tomcatProcessStatusDiv, scriptOutputLine);
-        kameHouse.util.dom.append("#" + tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
+        kameHouse.util.dom.append(tomcatProcessStatusDiv, scriptOutputLine);
+        kameHouse.util.dom.append(tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
       }
     });
-    document.getElementById(tomcatProcessStatusDiv).lastElementChild.remove();
+    tomcatProcessStatusDiv.lastElementChild.remove();
   }
 
   /**
@@ -593,9 +594,9 @@ class DeploymentManager {
    * Reset view of module status.
    */
   #resetModuleStatus(module) {
-    kameHouse.util.dom.setHtml("#mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
-    kameHouse.util.dom.setHtml("#mst-" + module + "-build-version-val", "N/A");
-    kameHouse.util.dom.setHtml("#mst-" + module + "-build-date-val", "N/A");
+    kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-status-val"), kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
+    kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-build-version-val"), "N/A");
+    kameHouse.util.dom.setHtml(document.getElementById("mst-" + module + "-build-date-val"), "N/A");
   }
 
   /**
@@ -738,7 +739,7 @@ class TailLogManagerWrapper {
       return;
     }
     kameHouse.logger.info("Started tailLog loop");
-    kameHouse.util.dom.replaceWith("#toggle-tail-log-img", this.#stopImg);
+    kameHouse.util.dom.replaceWith(document.getElementById("toggle-tail-log-img"), this.#stopImg);
     this.#tailLogCount++;
     this.#isTailLogRunning = true;
     while (this.#isTailLogRunning) {
@@ -757,7 +758,7 @@ class TailLogManagerWrapper {
     }
     this.#tailLogCount--;
     if (this.#tailLogCount == 0) {
-      kameHouse.util.dom.replaceWith("#toggle-tail-log-img", this.#startImg);
+      kameHouse.util.dom.replaceWith(document.getElementById("toggle-tail-log-img"), this.#startImg);
     }
     kameHouse.logger.info("Finished tailLog loop");
     kameHouse.plugin.modal.loadingWheelModal.close();

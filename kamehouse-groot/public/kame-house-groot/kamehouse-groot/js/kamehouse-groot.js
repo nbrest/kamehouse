@@ -52,7 +52,7 @@ class GrootHeader {
 
   /** Render groot sub menu */
   renderGrootMenu() {
-    kameHouse.util.dom.load("#groot-menu-wrapper", "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
+    kameHouse.util.dom.load("groot-menu-wrapper", "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
       this.#updateGRootMenuActiveTab();
       this.#loadSession();
     });
@@ -89,7 +89,7 @@ class GrootHeader {
    * Update groot session status.
    */
   #updateSessionStatus() {
-    const loginStatus = "#groot-header-login-status";
+    const loginStatus = document.getElementById("groot-header-login-status");
     kameHouse.util.dom.empty(loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
     kameHouse.extension.groot.session.username.trim() == "anonymousUser") {
@@ -170,7 +170,7 @@ class GrootHeader {
       return;
     }
     kameHouse.logger.debug("Updating kamehouse header with groot");
-    const loginStatus = "#login-status";
+    const loginStatus = document.getElementById("login-status");
     kameHouse.util.dom.empty(loginStatus);
     kameHouse.util.dom.append(loginStatus, this.#getKameHouseButton());  
     const kameHouseLogo = "#branding";

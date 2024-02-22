@@ -27,7 +27,7 @@ class KameHouseDebugger {
 
   /** Import debugger-http-client css*/
   importKameHouseDebuggerCss() {
-    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-debugger.css">');
+    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-debugger.css">');
   }
 
   /** 
@@ -81,7 +81,7 @@ class KameHouseDebugger {
    * Render the specified html snippet into the custom div of the debugger.
    */
   renderCustomDebugger(htmlSnippet, callback) {
-    kameHouse.util.dom.load("#debug-mode-custom-wrapper", htmlSnippet, callback);
+    kameHouse.util.dom.load("debug-mode-custom-wrapper", htmlSnippet, callback);
   }
 
   /**
@@ -103,7 +103,7 @@ class KameHouseDebugger {
       this.#requests.shift();
     }
     this.#requests.push(request);
-    kameHouse.util.dom.setText('#debugger-http-client-previous-requests-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(this.#requests, null, 2)));
+    kameHouse.util.dom.setText(document.getElementById('debugger-http-client-previous-requests-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(this.#requests, null, 2)));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
@@ -112,10 +112,10 @@ class KameHouseDebugger {
    */
   displayResponseData(responseBody, responseCode, responseDescription, responseHeaders) {
     const responseTimestamp = kameHouse.util.time.getTimestamp();
-    kameHouse.util.dom.setHtml("#debugger-http-client-res-code-val", responseCode);
-    kameHouse.util.dom.setHtml("#debugger-http-client-res-timestamp-val", responseTimestamp);
-    kameHouse.util.dom.setHtml("#debugger-http-client-res-headers-val", kameHouse.json.stringify(responseHeaders));
-    kameHouse.util.dom.setText("#debugger-http-client-res-body-val", kameHouse.json.stringify(responseBody, null, 2));
+    kameHouse.util.dom.setHtml(document.getElementById("debugger-http-client-res-code-val"), responseCode);
+    kameHouse.util.dom.setHtml(document.getElementById("debugger-http-client-res-timestamp-val"), responseTimestamp);
+    kameHouse.util.dom.setHtml(document.getElementById("debugger-http-client-res-headers-val"), kameHouse.json.stringify(responseHeaders));
+    kameHouse.util.dom.setText(document.getElementById("debugger-http-client-res-body-val"), kameHouse.json.stringify(responseBody, null, 2));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }  
 
@@ -126,15 +126,15 @@ class KameHouseDebugger {
     this.#emptyDebuggerHttpClientDiv();
     kameHouse.util.dom.setInnerHtml(document.getElementById("debugger-http-client"), this.#debuggerHttpClientDivTemplate);
     const requestTimestamp = kameHouse.util.time.getTimestamp();
-    kameHouse.util.dom.setHtml('#debugger-http-client-req-timestamp-val', requestTimestamp);
-    kameHouse.util.dom.setHtml('#debugger-http-client-req-method-val', method);
-    kameHouse.util.dom.setHtml('#debugger-http-client-req-url-val', url);
-    kameHouse.util.dom.setHtml('#debugger-http-client-req-config-val', kameHouse.json.stringify(config));
-    kameHouse.util.dom.setHtml('#debugger-http-client-req-headers-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders)));
-    kameHouse.util.dom.setText('#debugger-http-client-req-body-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody, null, 2)));
-    kameHouse.util.dom.setHtml('#debugger-http-client-res-code-val', null);
-    kameHouse.util.dom.setHtml('#debugger-http-client-res-timestamp-val', null);
-    kameHouse.util.dom.setText('#debugger-http-client-res-body-val', kameHouse.json.stringify(null, null, 2));
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-timestamp-val'), requestTimestamp);
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-method-val'), method);
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-url-val'), url);
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-config-val'), kameHouse.json.stringify(config));
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-headers-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders)));
+    kameHouse.util.dom.setText(document.getElementById('debugger-http-client-req-body-val'), kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody, null, 2)));
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-res-code-val'), null);
+    kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-res-timestamp-val'), null);
+    kameHouse.util.dom.setText(document.getElementById('debugger-http-client-res-body-val'), kameHouse.json.stringify(null, null, 2));
     kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
@@ -167,7 +167,7 @@ class KameHouseDebugger {
    * Render debug mode div and it's button.
    */
   #renderDebugMode() {
-    kameHouse.util.dom.load("#debug-mode-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
+    kameHouse.util.dom.load("debug-mode-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       this.displayRequestData(null, null, null, null);
       this.#setConsoleLogLevelDropdown();

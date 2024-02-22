@@ -20,7 +20,7 @@ class KameHouseStickyBackToTop {
    */
   async #importHtml() {
     const stickyBackToTopBtn = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/kamehouse-sticky-back-to-top.html");
-    kameHouse.util.dom.append('body', stickyBackToTopBtn);
+    kameHouse.util.dom.append(document.body, stickyBackToTopBtn);
     this.#setupEventHandlers();
   }
 
@@ -28,7 +28,7 @@ class KameHouseStickyBackToTop {
    * Import the sticky button css.
    */
   #importCss() {
-    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-sticky-back-to-top.css">');
+    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-sticky-back-to-top.css">');
   }
 
   /**

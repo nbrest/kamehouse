@@ -51,7 +51,7 @@ class ScheduledBookingService {
       message = message + "Failed to execute scheduled bookings. Try again later..."
     }
 
-    kameHouse.util.dom.setHtml('#scheduled-bookings-status', message);
+    kameHouse.util.dom.setHtml(document.getElementById('scheduled-bookings-status'), message);
   }
 }
 

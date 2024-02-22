@@ -8,11 +8,11 @@ class KameHouseHeader {
   /** Load the header */
   load() {
     kameHouse.logger.info("Loading header");
-    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
+    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     kameHouse.ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
-      kameHouse.util.dom.prepend("body", this.#getHeaderContainerDiv());
-      kameHouse.util.dom.load("#kamehouse-header-container", "/kame-house/kamehouse/html/kamehouse-header.html", () => {
+      kameHouse.util.dom.prepend(document.body, this.#getHeaderContainerDiv());
+      kameHouse.util.dom.load("kamehouse-header-container", "/kame-house/kamehouse/html/kamehouse-header.html", () => {
         kameHouse.util.mobile.configureApp();
         this.#updateActiveTab();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {

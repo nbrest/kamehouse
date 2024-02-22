@@ -30,7 +30,7 @@ class KameHouseModalLoader {
    * Import css.
    */
   #importKamehouseModalCss() {
-    kameHouse.util.dom.append('head', '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-modal.css">');
+    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-modal.css">');
   }
 }
 
@@ -54,7 +54,7 @@ class AbstractKameHouseModal {
   /** Import modal content */
   async import() {
     const modalDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/" + this.#modalId + ".html");
-    kameHouse.util.dom.append('body', modalDiv);
+    kameHouse.util.dom.append(document.body, modalDiv);
     const modalDivCloseBtn = document.getElementById(this.#modalId + "-close");
     kameHouse.util.dom.setOnClick(modalDivCloseBtn, () => this.close());
     kameHouse.logger.info("Imported " + this.#modalId);
@@ -100,10 +100,10 @@ class AbstractKameHouseModal {
       autoCloseMs = AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC;
     }
     const autoCloseId = this.#modalId + "-autoclose";
-    kameHouse.util.dom.removeClass("#" + autoCloseId, "hidden-kh");
+    kameHouse.util.dom.removeClass(document.getElementById(autoCloseId), "hidden-kh");
     while (autoCloseMs > 0) {
       const secondsRemaining = autoCloseMs / 1000;
-      kameHouse.util.dom.setHtml("#" + autoCloseId, "Closing in " + secondsRemaining + " seconds");
+      kameHouse.util.dom.setHtml(document.getElementById(autoCloseId), "Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
       if (!this.#isOpen) {
         kameHouse.logger.debug(this.#modalId + " is already closed. Leaving autoClose function");
@@ -111,15 +111,15 @@ class AbstractKameHouseModal {
       }
       await kameHouse.core.sleep(1000);
     }
-    kameHouse.util.dom.addClass("#" + autoCloseId, "hidden-kh");
+    kameHouse.util.dom.addClass(document.getElementById(autoCloseId), "hidden-kh");
     this.close();
   }
 
   /** Set the html in the modal */
-  setHtml(message) { kameHouse.util.dom.setHtml("#" + this.#modalId + "-text", message); }
+  setHtml(message) { kameHouse.util.dom.setHtml(document.getElementById("" + this.#modalId + "-text"), message); }
 
   /** Append the message to the modal */
-  appendHtml(message) { kameHouse.util.dom.append("#" + this.#modalId + "-text", message); }
+  appendHtml(message) { kameHouse.util.dom.append(document.getElementById(this.#modalId + "-text"), message); }
 
   /**
    * Check if it's an error message.
