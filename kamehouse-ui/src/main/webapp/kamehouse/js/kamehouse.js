@@ -487,31 +487,41 @@ class KameHouseDomUtils {
    * Insert the new node after the selected node.
    */
   after(siblingElement, newNodeElement) {
-    siblingElement.after(newNodeElement);
+    if (siblingElement) {
+      siblingElement.after(newNodeElement);
+    }
   }
 
   /**
    * Append the appendElement to appendToElement.
    */
   append(appendToElement, appendElement) {
-    kameHouse.jq(appendToElement).append(appendElement);
+    if (appendToElement) {
+      kameHouse.jq(appendToElement).append(appendElement);
+    }
   }
 
   /**
    * Append the child to parent.
    */
   appendChild(parentElement, childElement) {
-    parentElement.appendChild(childElement);
+    if (parentElement) {
+      parentElement.appendChild(childElement);
+    }
   }
 
   /** Add a class to the element */
   classListAdd(element, className) {
-    element.classList.add(className);
+    if (element) {
+      element.classList.add(className);
+    }
   }
 
   /** Remove a class from the element */
   classListRemove(element, className) {
-    element.classList.remove(className);
+    if (element) {
+      element.classList.remove(className);
+    }
   }
 
   /**
@@ -521,7 +531,10 @@ class KameHouseDomUtils {
     if (kameHouse.core.isEmpty(deep)) {
       deep = false;
     }
-    return element.cloneNode(deep);
+    if (element) {
+      return element.cloneNode(deep);
+    }
+    return null;
   }
 
   /**
@@ -535,14 +548,18 @@ class KameHouseDomUtils {
    * Detach the specified element from the dom.
    */
   detach(element) {
-    kameHouse.jq(element).detach();
+    if (element) {
+      kameHouse.jq(element).detach();
+    }
   }
 
   /**
    * Empty the specified element.
    */
   empty(element) {
-    kameHouse.jq(element).empty();
+    if (element) {
+      kameHouse.jq(element).empty();
+    }
   }  
 
   /**
@@ -577,24 +594,30 @@ class KameHouseDomUtils {
 
   /** Insert the html element before the body */
   insertBeforeBegin(element) {
-    this.getBody().insertAdjacentHTML("beforeBegin", element.innerHTML);
+    if (element) {
+      this.getBody().insertAdjacentHTML("beforeBegin", element.innerHTML);
+    }
   }
 
   /**
    * Insert the new node under the parent.
    */
   insertBefore(parentElement, newNodeElement, nextSiblingElement) {
-    parentElement.insertBefore(newNodeElement, nextSiblingElement);
+    if (parentElement) {
+      parentElement.insertBefore(newNodeElement, nextSiblingElement);
+    }
   }
 
   /**
    * Load the specified htmlPath into the element.
    */
   load(element, htmlPath, successCallback) {
-    if (kameHouse.core.isFunction(successCallback)) {
-      kameHouse.jq(element).load(htmlPath, successCallback);
-    } else {
-      kameHouse.jq(element).load(htmlPath);
+    if (element) {
+      if (kameHouse.core.isFunction(successCallback)) {
+        kameHouse.jq(element).load(htmlPath, successCallback);
+      } else {
+        kameHouse.jq(element).load(htmlPath);
+      }
     }
   }
 
@@ -602,7 +625,9 @@ class KameHouseDomUtils {
    * Prepend the prependElement to prependToElement.
    */
   prepend(prependToElement, prependElement) {
-    kameHouse.jq(prependToElement).prepend(prependElement);
+    if (prependToElement) {
+      kameHouse.jq(prependToElement).prepend(prependElement);
+    }
   }
 
   /**
@@ -618,67 +643,85 @@ class KameHouseDomUtils {
    * Remove the child from parent.
    */
   removeChild(parentElement, childElement) {
-    parentElement.removeChild(childElement);
+    if (parentElement) {
+      parentElement.removeChild(childElement);
+    }
   }
 
   /** Replace the old child with the new one in the parent */
   replaceChild(parentElement, newChildElement, oldChildElement) {
-    parentElement.replaceChild(newChildElement, oldChildElement);
+    if (parentElement) {
+      parentElement.replaceChild(newChildElement, oldChildElement);
+    }
   }
 
   /**
    * Replaces the specified dom element with the new element.
    */
   replaceWith(elementToReplace, newElement) {
-    kameHouse.jq(elementToReplace).replaceWith(newElement);
+    if (elementToReplace) {
+      kameHouse.jq(elementToReplace).replaceWith(newElement);
+    }
   }
 
   /** Set an attribute of an element */
   setAttribute(element, attrKey, attrVal) {
-    element.setAttribute(attrKey, attrVal);
+    if (element) {
+      element.setAttribute(attrKey, attrVal);
+    }
   }
 
   /**
    * Set click function in an element.
    */
   setClick(element, data, clickFunction) {
-    element.addEventListener("click", (event) => {
-      clickFunction(event, data);
-    });
+    if (element) {
+      element.addEventListener("click", (event) => {
+        clickFunction(event, data);
+      });
+    }
   }
 
   /** Set the display of the element */
   setDisplay(element, displayValue) {
-    element.style.display = displayValue;
+    if (element) {
+      element.style.display = displayValue;
+    }
   }  
 
   /** Set the html to the element */
   setHtml(element, html) {
-    if (!kameHouse.core.isEmpty(html)) {
+    if (!kameHouse.core.isEmpty(html) && element) {
       kameHouse.jq(element).html(html);
     }
   }
 
   /** Set the id of an element */
   setId(element, id) {
-    element.id = id;
+    if (element) {
+      element.id = id;
+    }
   }
 
   /** Set the style for the element */
   setStyle(element, styleProperty, stylePropertyValue) {
-    element.style[styleProperty] = stylePropertyValue;
+    if (element) {
+      element.style[styleProperty] = stylePropertyValue;
+    }
   }
 
   /** Set the text to the element */
   setText(element, text) {
-    if (!kameHouse.core.isEmpty(text)) {
+    if (!kameHouse.core.isEmpty(text) && element) {
       element.textContent = text;
     }
   }
 
   /** Set the value of an element */
   setValue(element, val) {
-    element.value = val;
+    if (element) {
+      element.value = val;
+    }
   }
 
   /** Toggle the visibility of all elements of classname */
@@ -688,14 +731,18 @@ class KameHouseDomUtils {
 
   /** Toggle a class on the element */
   toggleClassOnElement(element, className) {
-    element.classList.toggle(className);
+    if (element) {
+      element.classList.toggle(className);
+    }
   }
 
   /**
    * Toggle visibility of an element.
    */
   toggleElement(element, visible) {
-    kameHouse.jq(element).toggle(visible);
+    if (element) {
+      kameHouse.jq(element).toggle(visible);
+    }
   }
 
   /** Get DOM elements ************************** */
@@ -1895,7 +1942,7 @@ class KameHouseCore {
    * To scroll the page to the top of a particular div, use kameHouse.core.scrollToTop()
    */
   scrollToTopOfDiv(divId) {
-    const divToScrollToTop = '#' + divId;
+    const divToScrollToTop = document.getElementById(divId);
     this.animate(divToScrollToTop, {
       scrollTop: 0
     }, '10');
@@ -1909,9 +1956,9 @@ class KameHouseCore {
     if (this.isEmpty(divId)) {
       scrollPosition = 0;
     } else {
-      scrollPosition = this.offset(divId).top;
+      scrollPosition = this.offset(document.getElementById(divId)).top;
     }
-    this.animate('html, body', {
+    this.animate(kameHouse.util.dom.getBody(), {
       scrollTop: scrollPosition
     }, '10');
   }
@@ -1931,9 +1978,9 @@ class KameHouseCore {
     if (this.isEmpty(divId)) {
       scrollPosition = kameHouse.util.dom.getBody().scrollHeight;
     } else {
-      scrollPosition = this.offset(divId).top + this.height(divId) - window.innerHeight;
+      scrollPosition = this.offset(document.getElementById(divId)).top + this.height(document.getElementById(divId)) - window.innerHeight;
     }
-    this.animate('html, body', {
+    this.animate(kameHouse.util.dom.getBody(), {
       scrollTop: scrollPosition
     }, '10');
   }
@@ -2118,28 +2165,38 @@ class KameHouseCore {
    * Filter elements.
    */
   filter(element, filterFunction) {
-    kameHouse.jq(element).filter((index, element) => {filterFunction(index, element)});
+    if (element) {
+      kameHouse.jq(element).filter((index, element) => {filterFunction(index, element)});
+    }
   }
 
   /**
    * Animate element.
    */
   animate(element, config, duration) {
-    kameHouse.jq(element).animate(config, duration);
+    if (element) {
+      kameHouse.jq(element).animate(config, duration);
+    }
   }
 
   /**
    * Get element offset.
    */
-  offset(elementId) {
-    return kameHouse.jq('#' + elementId).offset();
+  offset(element) {
+    if (element) {
+      return kameHouse.jq(element).offset();
+    }
+    return null;
   }
 
   /**
    * Get element height.
    */
-  height(elementId) {
-    return kameHouse.jq('#' + elementId).height();
+  height(element) {
+    if (element) {
+      return kameHouse.jq(element).height();
+    }
+    return null;
   }
 
   /**
@@ -2398,8 +2455,9 @@ class KameHouseCore {
    * Scroll to the last entries of the console log.
    */
   #debugModeLogScroll() {
-    const height = document.getElementById("debug-mode-console-log-entries").scrollHeight;
-    kameHouse.core.animate("#debug-mode-console-log-entries", {
+    const logEntries = document.getElementById("debug-mode-console-log-entries");
+    const height = logEntries.scrollHeight;
+    kameHouse.core.animate(logEntries, {
       scrollTop: height
     }, 100);
   }

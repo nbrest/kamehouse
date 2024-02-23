@@ -286,9 +286,24 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus() {
     kameHouse.logger.debug("Getting non tomcat modules status");
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 60, (scriptOutput) => this.#displayModuleCmdStatus(scriptOutput), () => {});
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, 60, (scriptOutput) => this.#displayModuleGrootStatus(scriptOutput), () => {});
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, 60, (scriptOutput) => this.#displayModuleShellStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 60, 
+      (scriptOutput) => this.#displayModuleCmdStatus(scriptOutput), 
+      () => {
+        kameHouse.util.dom.setHtml(document.getElementById("mst-cmd-build-version-val"), "Error getting data");  
+        kameHouse.util.dom.setHtml(document.getElementById("mst-cmd-build-date-val"), "Error getting data");   
+      });
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, 60, 
+      (scriptOutput) => this.#displayModuleGrootStatus(scriptOutput), 
+      () => {
+        kameHouse.util.dom.setHtml(document.getElementById("mst-groot-build-version-val"), "Error getting data");   
+        kameHouse.util.dom.setHtml(document.getElementById("mst-groot-build-date-val"), "Error getting data");   
+      });
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, 60, 
+      (scriptOutput) => this.#displayModuleShellStatus(scriptOutput), 
+      () => {
+        kameHouse.util.dom.setHtml(document.getElementById("mst-shell-build-version-val"), "Error getting data");
+        kameHouse.util.dom.setHtml(document.getElementById("mst-shell-build-date-val"), "Error getting data");   
+      });
   }
 
   /**

@@ -15,6 +15,13 @@ class KameHouseErrorPage {
   }
 
   /**
+   * Execute the ready function after the document is ready.
+   */
+  ready(readyFunction) {
+    return this.jq(document).ready(() => {readyFunction()});
+  }
+
+  /**
    * Load the error page header and footer.
    */
   load() {
@@ -30,9 +37,9 @@ class KameHouseErrorPage {
   toggleHeaderNav() {
     const headerMenu = document.getElementById("header-menu");
     if (headerMenu.className === "header-nav") {
-      this.#addClass(headerMenu, "responsive")
+      this.#classListAdd(headerMenu, "responsive")
     } else {
-      this.#removeClass(headerMenu, "responsive");
+      this.#classListRemove(headerMenu, "responsive");
     }
   }  
 
@@ -113,7 +120,7 @@ class KameHouseErrorPage {
     },
     () => {
       this.#logInfo("Error loading kamehouse.js. Keeping error page header and footer");
-      this.#removeClass(document.getElementById('error-header-login-status-btn'), 'rotate-4');
+      this.#classListRemove(document.getElementById('error-header-login-status-btn'), 'rotate-4');
       this.#remove(document.getElementById("error-header-login-status-text"));
     });
   }
@@ -122,21 +129,32 @@ class KameHouseErrorPage {
    * Load html snippet into element.
    */
   #loadHtmlSnippet(element, htmlSnippetPath, callback) {
-    this.jq(element).load(htmlSnippetPath, callback);
+    if (element) {
+      this.jq(element).load(htmlSnippetPath, callback);
+    }
   }   
 
-  /**
-   * Add a class to an element.
-   */
-  #addClass(element, className) {
-    this.jq(element).addClass(className);
-  } 
+  /** Add a class to the element */
+  #classListAdd(element, className) {
+    if (element) {
+      element.classList.add(className);
+    }
+  }
+
+  /** Remove a class from the element */
+  #classListRemove(element, className) {
+    if (element) {
+      element.classList.remove(className);
+    }
+  }  
 
   /**
    * Append the apendElement to appendToElement.
    */
   #append(appendToElement, apendElement) {
-    this.jq(appendToElement).append(apendElement);
+    if (appendToElement) {
+      this.jq(appendToElement).append(apendElement);
+    }
   }
   
   /**
@@ -147,17 +165,7 @@ class KameHouseErrorPage {
       element.remove();
     }
   }
-
-  /**
-   * Remove a class from an element.
-   */
-  #removeClass(element, className) {
-    this.jq(element).removeClass(className);
-  } 
 }
 
 const kameHouseErrorPage = new KameHouseErrorPage();
-kameHouseErrorPage.jq(document).ready(() => {
-  kameHouseErrorPage.load();
-});
-  
+kameHouseErrorPage.ready(() => {kameHouseErrorPage.load();});

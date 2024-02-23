@@ -1195,7 +1195,7 @@ class VlcPlayerPlaylist {
     if (!kameHouse.core.isEmpty(currentPlayingRow)) {
       const playlistTableWrapper = document.getElementById('playlist-table-wrapper');
       kameHouse.core.scrollTop(playlistTableWrapper, 0);
-      const scrollToOffset = kameHouse.core.offset(currentPlayingRowId).top - kameHouse.core.offset('playlist-table-wrapper').top;
+      const scrollToOffset = kameHouse.core.offset(currentPlayingRow).top - kameHouse.core.offset(playlistTableWrapper).top;
       kameHouse.core.scrollTop(playlistTableWrapper, scrollToOffset);
     }
   }
