@@ -191,7 +191,7 @@ class ServerManager {
    * Import css.
    */
   #importServerManagementCss() {
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/server-management.css">');
   }
 
   /**

@@ -69,7 +69,7 @@ class TomcatModuleStatusManager {
    * Display error getting data.
    */
   #displayErrorGettingModuleStatus(webapp) {
-    kameHouse.util.dom.removeClass(document.getElementById("mst-" + webapp + "-error"), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById("mst-" + webapp + "-error"), "hidden-kh");
     const message = "Error retrieving module status data for " + webapp + ". Please try again later.";
     kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
   }

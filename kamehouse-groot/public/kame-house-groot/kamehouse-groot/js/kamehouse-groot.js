@@ -52,7 +52,7 @@ class GrootHeader {
 
   /** Render groot sub menu */
   renderGrootMenu() {
-    kameHouse.util.dom.load("groot-menu-wrapper", "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
+    kameHouse.util.dom.load(document.getElementById("groot-menu-wrapper"), "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
       this.#updateGRootMenuActiveTab();
       this.#loadSession();
     });
@@ -106,20 +106,20 @@ class GrootHeader {
   #updateGRootMenuActiveTab() {
     const pageUrl = window.location.pathname;
     document.querySelectorAll("#groot-menu button").forEach((navItem) => {
-      kameHouse.util.dom.removeClass(navItem, "active");
+      kameHouse.util.dom.classListRemove(navItem, "active");
       if (pageUrl == "/kame-house-groot/" || pageUrl == "/kame-house-groot/index.html") {
         if (navItem.getAttribute("id") == "nav-groot-home") {
-          kameHouse.util.dom.addClass(navItem, "active");
+          kameHouse.util.dom.classListAdd(navItem, "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot/admin/server-manager")) {
         if (navItem.getAttribute("id") == "nav-server-manager") {
-          kameHouse.util.dom.addClass(navItem, "active");
+          kameHouse.util.dom.classListAdd(navItem, "active");
         }
       }
       if (pageUrl.startsWith("/kame-house-groot/admin/kamehouse-shell")) {
         if (navItem.getAttribute("id") == "nav-kamehouse-shell") {
-          kameHouse.util.dom.addClass(navItem, "active");
+          kameHouse.util.dom.classListAdd(navItem, "active");
         }
       }
     });

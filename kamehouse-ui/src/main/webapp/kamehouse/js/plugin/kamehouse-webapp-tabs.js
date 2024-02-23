@@ -62,8 +62,8 @@ class KameHouseWebappTabsManager {
    * Import tabs.
    */
   importTabs() {
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-webapp-tabs.css">');
-    kameHouse.util.dom.load("kh-webapp-tabs-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-webapp-tabs.html", () => {
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-webapp-tabs.css">');
+    kameHouse.util.dom.load(document.getElementById("kh-webapp-tabs-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-webapp-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("webappTabsManager");
     });
   }

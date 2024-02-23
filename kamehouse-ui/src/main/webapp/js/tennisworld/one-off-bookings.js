@@ -121,7 +121,7 @@ class BookingService {
    * Update the view with the booking response.
    */
   #updateBookingResponseTable(bookingResponse, responseCode) {
-    kameHouse.util.dom.removeClass(document.getElementById("brt"), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById("brt"), "hidden-kh");
     kameHouse.util.dom.setHtml(document.getElementById('brt-response-code'), responseCode);
     kameHouse.util.dom.setHtml(document.getElementById('brt-response-id'), bookingResponse.id);
     kameHouse.util.dom.setHtml(document.getElementById('brt-status'), bookingResponse.status);

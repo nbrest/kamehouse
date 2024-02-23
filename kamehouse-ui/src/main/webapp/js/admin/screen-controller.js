@@ -85,7 +85,7 @@ class ScreenController {
    * Import css.
    */
   #importCss() {
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/screen-controller.css">');
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/css/admin/screen-controller.css">');
   }
 
   /** Generic process success response */

@@ -85,7 +85,7 @@ class EhCacheManager {
    * Toggle cache view (expand/collapse).
    */
   toggleCacheView(className) {  
-    kameHouse.util.dom.toggle(className);
+    kameHouse.util.dom.toggleClass(className);
   }
 
   /**
@@ -150,7 +150,7 @@ class EhCacheManager {
       kameHouse.util.dom.setClick(document.getElementById("toggle-view-ehcache-table-" + cache.name), null,
         () => this.toggleCacheView("toggle-ehcache-table-" + cache.name)
       );
-      kameHouse.util.dom.toggle(document.getElementById("toggle-ehcache-table-" + cache.name));
+      kameHouse.util.dom.toggleClass("toggle-ehcache-table-" + cache.name);
       this.#ehcacheToggleTableRowIds[webapp].push("toggle-ehcache-table-" + cache.name);
     });
   }

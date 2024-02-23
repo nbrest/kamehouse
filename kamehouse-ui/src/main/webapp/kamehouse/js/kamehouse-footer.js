@@ -7,12 +7,12 @@ class KameHouseFooter {
 
   /** Renders the footer */
   load() { 
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
     kameHouse.ready(() => {
       // load the footer after the other elements are loaded, if not it randomly puts the footer in the middle
       kameHouse.logger.info("Loading footer");
-      kameHouse.util.dom.append(document.body, this.#getFooterContainerDiv());
-      kameHouse.util.dom.load("kamehouse-footer-container", "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
+      kameHouse.util.dom.append(kameHouse.util.dom.getBody(), this.#getFooterContainerDiv());
+      kameHouse.util.dom.load(document.getElementById("kamehouse-footer-container"), "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
         kameHouse.util.mobile.configureApp();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();

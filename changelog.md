@@ -7,7 +7,7 @@
 
 #### v9.01
 
-- Removed jquery from most of the code
+- Removed jquery from most of the code and cleaned up duplicate methods in dom utils
 - Set kame logo spinning wheel for cursor wait on both webapp and mobile
 - Disabled hover animation on image buttons on mobile app
 - Added url to http response and api error logs in the ui

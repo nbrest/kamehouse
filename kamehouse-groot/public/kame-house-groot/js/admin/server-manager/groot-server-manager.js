@@ -577,7 +577,7 @@ class DeploymentManager {
         kameHouse.util.dom.append(tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
       }
     });
-    tomcatProcessStatusDiv.lastElementChild.remove();
+    kameHouse.util.dom.remove(tomcatProcessStatusDiv.lastElementChild);
   }
 
   /**

@@ -8,11 +8,11 @@ class KameHouseHeader {
   /** Load the header */
   load() {
     kameHouse.logger.info("Loading header");
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     kameHouse.ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
-      kameHouse.util.dom.prepend(document.body, this.#getHeaderContainerDiv());
-      kameHouse.util.dom.load("kamehouse-header-container", "/kame-house/kamehouse/html/kamehouse-header.html", () => {
+      kameHouse.util.dom.prepend(kameHouse.util.dom.getBody(), this.#getHeaderContainerDiv());
+      kameHouse.util.dom.load(document.getElementById("kamehouse-header-container"), "/kame-house/kamehouse/html/kamehouse-header.html", () => {
         kameHouse.util.mobile.configureApp();
         this.#updateActiveTab();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
@@ -56,7 +56,7 @@ class KameHouseHeader {
   #updateActiveTab() {
     const pageUrl = window.location.pathname;
     document.querySelectorAll("#kamehouse-header-container header .default-layout #header-menu a").forEach((navItem) => {
-      kameHouse.util.dom.removeClass(navItem, "active");
+      kameHouse.util.dom.classListRemove(navItem, "active");
       
       if (pageUrl == "/kame-house/" || pageUrl == "/kame-house/index.html") {
         this.#setActiveNavItem(navItem, "nav-home");
@@ -95,7 +95,7 @@ class KameHouseHeader {
    */
   #setActiveNavItem(navItem, navId) {
     if (navItem.getAttribute("id") == navId) {
-      kameHouse.util.dom.addClass(navItem, "active");
+      kameHouse.util.dom.classListAdd(navItem, "active");
     }
   }
 

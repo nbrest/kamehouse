@@ -177,8 +177,8 @@ class PlaylistBrowser {
   }
 
   /** Play the clicked element from the playlist. */
-  #clickEventOnPlaylistBrowserRow(event) {
-    const filename = event.data.filename;
+  #clickEventOnPlaylistBrowserRow(event, data) {
+    const filename = data.filename;
     kameHouse.logger.info("Play selected playlist browser file : " + filename);
     kameHouse.extension.vlcPlayer.playFile(filename);
     kameHouse.extension.vlcPlayer.openTab('tab-playing');
@@ -282,10 +282,10 @@ class PlaylistBrowser {
         class: "playlist-browser-table-btn",
       },
       html: displayName,
-      clickData: {
+      data: {
         filename: filePath
       },
-      click: this.#clickEventOnPlaylistBrowserRow
+      click: (event, data) => this.#clickEventOnPlaylistBrowserRow(event, data)
     });
   }
 }

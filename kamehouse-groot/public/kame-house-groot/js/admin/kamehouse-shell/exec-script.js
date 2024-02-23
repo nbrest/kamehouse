@@ -49,9 +49,9 @@ class ExecScriptLoader {
     const clientMonth = clientDate.getMonth() + 1;
     const timestamp = clientDate.getDate() + "-" + clientMonth + "-" + clientDate.getFullYear() + "_" + clientDate.getHours() + "-" + clientDate.getMinutes() + "-" + clientDate.getSeconds();
     const downloadLink = this.#getDownloadLink(timestamp);
-    kameHouse.util.dom.appendChild(document.body, downloadLink);
+    kameHouse.util.dom.appendChild(kameHouse.util.dom.getBody(), downloadLink);
     downloadLink.click();
-    kameHouse.util.dom.removeChild(document.body, downloadLink);
+    kameHouse.util.dom.removeChild(kameHouse.util.dom.getBody(), downloadLink);
   }  
 
   /**
@@ -73,9 +73,9 @@ class ExecScriptLoader {
    */
   #setScriptInProgressView() {
     this.#updateScriptExecutionStartDate();
-    kameHouse.util.dom.addClass(document.getElementById("kamehouse-shell-output-header"), "hidden-kh");
-    kameHouse.util.dom.addClass(document.getElementById("btn-execute-script"), "hidden-kh");
-    kameHouse.util.dom.addClass(document.getElementById("btn-download-kamehouse-shell-output"), "hidden-kh");
+    kameHouse.util.dom.classListAdd(document.getElementById("kamehouse-shell-output-header"), "hidden-kh");
+    kameHouse.util.dom.classListAdd(document.getElementById("btn-execute-script"), "hidden-kh");
+    kameHouse.util.dom.classListAdd(document.getElementById("btn-download-kamehouse-shell-output"), "hidden-kh");
     this.#setBannerScriptStatus("in progress...");
   }
 
@@ -95,9 +95,9 @@ class ExecScriptLoader {
    */
   #scriptExecCallback() {
     this.#updateScriptExecutionEndDate();
-    kameHouse.util.dom.removeClass(document.getElementById('kamehouse-shell-output-header'), "hidden-kh");
-    kameHouse.util.dom.removeClass(document.getElementById('btn-execute-script'), "hidden-kh");
-    kameHouse.util.dom.removeClass(document.getElementById('btn-download-kamehouse-shell-output'), "hidden-kh");  
+    kameHouse.util.dom.classListRemove(document.getElementById('kamehouse-shell-output-header'), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById('btn-execute-script'), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById('btn-download-kamehouse-shell-output'), "hidden-kh");  
     this.#setBannerScriptStatus("finished!");
   }
 

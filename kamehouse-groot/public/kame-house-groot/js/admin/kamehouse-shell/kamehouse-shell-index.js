@@ -63,8 +63,8 @@ class KameHouseShellLoader {
   }
   
   /** Execute the clicked script from the table */
-  #clickEventOnAllKameHouseShellRow(event) {
-    const scriptName = event.data.scriptName;
+  #clickEventOnAllKameHouseShellRow(event, data) {
+    const scriptName = data.scriptName;
     this.#executeScript(scriptName, null);
   }
   
@@ -124,10 +124,10 @@ class KameHouseShellLoader {
         class: "kamehouse-shell-table-btn",
       },
       html: scriptName,
-      clickData: {
+      data: {
         scriptName: scriptName
       },
-      click: (event) => this.#clickEventOnAllKameHouseShellRow(event)
+      click: (event, data) => this.#clickEventOnAllKameHouseShellRow(event, data)
     });
   }
 }

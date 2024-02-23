@@ -29,8 +29,8 @@ class CrudManager {
    */
   load() {
     kameHouse.logger.info("Started initializing crudManager");
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
-    kameHouse.util.dom.load("crud-manager-body-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
+    kameHouse.util.dom.load(document.getElementById("crud-manager-body-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
       kameHouse.util.banner.setRandomAllBanner();
     });
@@ -226,8 +226,8 @@ class CrudManager {
   /**
    * Delete entity from the server.
    */
-  delete(event) {
-    const id = event.data.id;
+  delete(event, data) {
+    const id = data.id;
     kameHouse.logger.info("delete");
     if (this.#readOnly) {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
@@ -322,8 +322,8 @@ class CrudManager {
    */
   #replaceBanner(config) {
     if (!kameHouse.core.isEmpty(config.banner)) {
-      kameHouse.util.dom.removeClass(document.getElementById("banner"), CrudManager.#DEFAULT_BANNER);
-      kameHouse.util.dom.addClass(document.getElementById("banner"), config.banner);
+      kameHouse.util.dom.classListRemove(document.getElementById("banner"), CrudManager.#DEFAULT_BANNER);
+      kameHouse.util.dom.classListAdd(document.getElementById("banner"), config.banner);
     }
   }
 
@@ -346,22 +346,22 @@ class CrudManager {
    */
   #setInfoImage(config) {
     if (!kameHouse.core.isEmpty(config.infoImage)) {
-      kameHouse.util.dom.removeClass(document.getElementById("crud-info-image"), "hidden-kh");
+      kameHouse.util.dom.classListRemove(document.getElementById("crud-info-image"), "hidden-kh");
       const infoImage = config.infoImage;
       const img = document.getElementById("info-image-img");
       kameHouse.util.dom.setAttribute(img, "src", infoImage.img); 
       kameHouse.util.dom.setHtml(document.getElementById("info-image-title"), infoImage.title);
       if (!kameHouse.core.isEmpty(infoImage.titlePosition)) {
         if (infoImage.titlePosition.toUpperCase() == "TOP") {
-          kameHouse.util.dom.addClass(document.getElementById("info-image-title"), "info-image-title-top");
+          kameHouse.util.dom.classListAdd(document.getElementById("info-image-title"), "info-image-title-top");
         }
         if (infoImage.titlePosition.toUpperCase() == "BOTTOM") {
-          kameHouse.util.dom.addClass(document.getElementById("info-image-title"), "info-image-title-bottom");
+          kameHouse.util.dom.classListAdd(document.getElementById("info-image-title"), "info-image-title-bottom");
         }
       }
       kameHouse.util.dom.setHtml(document.getElementById("info-image-desc"), infoImage.desc);
       if (infoImage.isReverse) {
-        kameHouse.util.dom.addClass(document.getElementById("crud-info-image"), "info-image-table-reverse");
+        kameHouse.util.dom.classListAdd(document.getElementById("crud-info-image"), "info-image-table-reverse");
       }
     }
   }
@@ -432,9 +432,9 @@ class CrudManager {
    */
   #disableEditFunctionalityForReadOnly() {
     if (this.#readOnly) {
-      kameHouse.util.dom.addClass(document.getElementById("crud-manager-tabs"), "hidden-kh");
-      kameHouse.util.dom.addClass(document.getElementById("tab-add-link"), "hidden-kh");
-      kameHouse.util.dom.addClass(document.getElementById("tab-edit-link"), "hidden-kh");
+      kameHouse.util.dom.classListAdd(document.getElementById("crud-manager-tabs"), "hidden-kh");
+      kameHouse.util.dom.classListAdd(document.getElementById("tab-add-link"), "hidden-kh");
+      kameHouse.util.dom.classListAdd(document.getElementById("tab-edit-link"), "hidden-kh");
       kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
     }
   }
@@ -544,7 +544,7 @@ class CrudManager {
    */
   #loadCustomSections(config) {
     if (!kameHouse.core.isEmpty(config.customListSection)) {
-      kameHouse.util.dom.load("custom-list-section", config.customListSection);
+      kameHouse.util.dom.load(document.getElementById("custom-list-section"), config.customListSection);
     }
   }
 
@@ -583,17 +583,17 @@ class CrudManager {
     const name = column.name;
     const inputFieldId = CrudManager.#EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
     const inputField = document.getElementById(inputFieldId);
-    kameHouse.util.dom.setVal(inputField, entity[name]); 
+    kameHouse.util.dom.setValue(inputField, entity[name]); 
 
     if (this.#isDateField(type)) {
-      kameHouse.util.dom.setVal(inputField, this.#getFormattedDateFieldValue(entity[name]));
+      kameHouse.util.dom.setValue(inputField, this.#getFormattedDateFieldValue(entity[name]));
     }
     if (this.#isArrayField(type)) {
       this.#updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField);
     }
     if (this.#isBooleanField(type)) {
       if (entity[name]) {
-        kameHouse.util.dom.setAttr(inputField, "checked", "true"); 
+        kameHouse.util.dom.setAttribute(inputField, "checked", "true"); 
       }
     }
   }
@@ -604,7 +604,7 @@ class CrudManager {
   #updateEditFormFieldArrayValue(entity, column, inputFieldId, inputField) {
     const name = column.name;
     const arrayType = column.arrayType;
-    kameHouse.util.dom.setVal(inputField, null);
+    kameHouse.util.dom.setValue(inputField, null);
     const array = entity[name];
     const arraySourceNode = document.getElementById(inputFieldId);
     let i = 0;
@@ -657,7 +657,7 @@ class CrudManager {
     if (this.#entities.length == 0 || this.#entities.length == null || this.#entities.length == undefined) {
       kameHouse.logger.info("No data received from the backend");
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
-      kameHouse.util.dom.setAttr(noDataTd, "id", CrudManager.#NO_DATA_ROW_ID);
+      kameHouse.util.dom.setAttribute(noDataTd, "id", CrudManager.#NO_DATA_ROW_ID);
       kameHouse.util.dom.append(crudTbody, noDataTd);
     } else {
       const updatedCrudTbody = kameHouse.util.dom.getTbody({
@@ -867,10 +867,10 @@ class CrudManager {
         class: "form-submit-btn-kh",
       },
       html: "Yes",
-      clickData: {
+      data: {
         id: id
       },
-      click: (event) => {this.delete(event)}
+      click: (event, data) => {this.delete(event, data)}
     });
   }
   
@@ -1158,7 +1158,7 @@ class CrudManager {
       kameHouse.logger.error("Trying to remove a node that isn't an array element of the expected name. Something's wrong. Name of node to remove is: " + nodeToRemove.name + " and the expected value is " + fieldId + "[]");
       return;
     }
-    kameHouse.util.dom.removeElement(nodeToRemove);
+    kameHouse.util.dom.remove(nodeToRemove);
   }
 
   /**
@@ -1172,7 +1172,7 @@ class CrudManager {
       type: "checkbox",
       class: "m-7-d-kh"
      }, null);
-    kameHouse.util.dom.setClick(checkbox, () => this.#toggleShowHidePassword(fieldId));
+    kameHouse.util.dom.setClick(checkbox, null, () => this.#toggleShowHidePassword(fieldId));
     kameHouse.util.dom.append(div, checkbox);
   }
 

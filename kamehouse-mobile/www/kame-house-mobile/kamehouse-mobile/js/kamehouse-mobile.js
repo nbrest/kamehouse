@@ -306,9 +306,9 @@ class KameHouseMobileCore {
    * Set successful login view.
    */
   #setSuccessfulLoginView() {
-    kameHouse.util.dom.addClass(document.getElementById('backend-username-password'), "hidden-kh");
-    kameHouse.util.dom.addClass(document.getElementById('backend-login-btn'), "hidden-kh");
-    kameHouse.util.dom.removeClass(document.getElementById('backend-logout-btn'), "hidden-kh");
+    kameHouse.util.dom.classListAdd(document.getElementById('backend-username-password'), "hidden-kh");
+    kameHouse.util.dom.classListAdd(document.getElementById('backend-login-btn'), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById('backend-logout-btn'), "hidden-kh");
   }
 
   /**
@@ -359,9 +359,9 @@ class KameHouseMobileCore {
     usernameInput.value = "";
     const passwordInput = document.getElementById("backend-password-input");
     passwordInput.value = "";
-    kameHouse.util.dom.removeClass(document.getElementById('backend-username-password'), "hidden-kh");
-    kameHouse.util.dom.removeClass(document.getElementById('backend-login-btn'), "hidden-kh");
-    kameHouse.util.dom.addClass(document.getElementById('backend-logout-btn'), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById('backend-username-password'), "hidden-kh");
+    kameHouse.util.dom.classListRemove(document.getElementById('backend-login-btn'), "hidden-kh");
+    kameHouse.util.dom.classListAdd(document.getElementById('backend-logout-btn'), "hidden-kh");
   }
 
   /**
@@ -526,7 +526,7 @@ class KameHouseMobileCore {
     const appVersion = tempVersion.slice(0, tempVersion.indexOf(versionSuffix));
     kameHouse.logger.info("Mobile app version: " + appVersion);
     const mobileBuildVersion = document.getElementById("mobile-build-version");
-    kameHouse.util.dom.setInnerHtml(mobileBuildVersion, appVersion);
+    kameHouse.util.dom.setHtml(mobileBuildVersion, appVersion);
   }
 
   /**
@@ -536,7 +536,7 @@ class KameHouseMobileCore {
     const gitHash = await kameHouse.util.fetch.loadFile('/kame-house-mobile/git-commit-hash.txt');
     kameHouse.logger.info("Mobile git hash: " + gitHash);
     const gitHashDiv = document.getElementById("mobile-git-hash");
-    kameHouse.util.dom.setInnerHtml(gitHashDiv, gitHash);
+    kameHouse.util.dom.setHtml(gitHashDiv, gitHash);
   }
 
   /**
@@ -546,7 +546,7 @@ class KameHouseMobileCore {
     const buildDate = await kameHouse.util.fetch.loadFile('/kame-house-mobile/build-date.txt');
     kameHouse.logger.info("Mobile build date: " + buildDate);
     const buildDateDiv = document.getElementById("mobile-build-date");
-    kameHouse.util.dom.setInnerHtml(buildDateDiv, buildDate);
+    kameHouse.util.dom.setHtml(buildDateDiv, buildDate);
   }
 
   /**
@@ -761,13 +761,13 @@ class KameHouseMobileConfigManager {
     kameHouse.util.dom.setValue(passwordInput, selectedServer.password);
 
     if (kameHouse.extension.mobile.core.isLoggedIn()) {
-      kameHouse.util.dom.addClass(document.getElementById('backend-username-password'), "hidden-kh");
-      kameHouse.util.dom.addClass(document.getElementById('backend-login-btn'), "hidden-kh");
-      kameHouse.util.dom.removeClass(document.getElementById('backend-logout-btn'), "hidden-kh");
+      kameHouse.util.dom.classListAdd(document.getElementById('backend-username-password'), "hidden-kh");
+      kameHouse.util.dom.classListAdd(document.getElementById('backend-login-btn'), "hidden-kh");
+      kameHouse.util.dom.classListRemove(document.getElementById('backend-logout-btn'), "hidden-kh");
     } else {
-      kameHouse.util.dom.removeClass(document.getElementById('backend-username-password'), "hidden-kh");
-      kameHouse.util.dom.removeClass(document.getElementById('backend-login-btn'), "hidden-kh");
-      kameHouse.util.dom.addClass(document.getElementById('backend-logout-btn'), "hidden-kh");
+      kameHouse.util.dom.classListRemove(document.getElementById('backend-username-password'), "hidden-kh");
+      kameHouse.util.dom.classListRemove(document.getElementById('backend-login-btn'), "hidden-kh");
+      kameHouse.util.dom.classListAdd(document.getElementById('backend-logout-btn'), "hidden-kh");
     }
   }
 

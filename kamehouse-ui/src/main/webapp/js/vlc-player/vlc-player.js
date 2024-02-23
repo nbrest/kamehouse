@@ -471,16 +471,16 @@ class VlcPlayerMainViewUpdater {
   /** Update the displayed current time. */
   updateCurrentTimeView(value) {
     const currentTime = document.getElementById("current-time");
-    kameHouse.util.dom.setInnerHtml(currentTime, kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setVal(document.getElementById("time-slider"), value);
+    kameHouse.util.dom.setHtml(currentTime, kameHouse.util.time.convertSecondsToHsMsSs(value));
+    kameHouse.util.dom.setValue(document.getElementById("time-slider"), value);
   }
 
   /** Update volume percentage to display with the specified value. */
   updateVolumeView(value) {
-    kameHouse.util.dom.setVal(document.getElementById("volume-slider"), value);
+    kameHouse.util.dom.setValue(document.getElementById("volume-slider"), value);
     const volumePercentaje = Math.floor(value * 200 / 512);
     const currentVolume = document.getElementById("current-volume");
-    kameHouse.util.dom.setInnerHtml(currentVolume, volumePercentaje + "%");
+    kameHouse.util.dom.setHtml(currentVolume, volumePercentaje + "%");
   }
 
   /**
@@ -550,15 +550,15 @@ class VlcPlayerMainViewUpdater {
   /** Reset time slider. */
   #resetTimeSlider() {
     kameHouse.util.dom.setHtml(document.getElementById("current-time"), "--:--:--");
-    kameHouse.util.dom.setVal(document.getElementById("time-slider"), 500);
+    kameHouse.util.dom.setValue(document.getElementById("time-slider"), 500);
     kameHouse.util.dom.setHtml(document.getElementById("total-time"), "--:--:--");
-    kameHouse.util.dom.setAttr(document.getElementById("time-slider"),'max', 1000);
+    kameHouse.util.dom.setAttribute(document.getElementById("time-slider"),'max', 1000);
   }
 
   /** Update the displayed total time. */
   #updateTotalTimeView(value) {
     kameHouse.util.dom.setHtml(document.getElementById("total-time"), kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setAttr(document.getElementById("time-slider"),'max', value);
+    kameHouse.util.dom.setAttribute(document.getElementById("time-slider"),'max', value);
   }
 
   /**
@@ -627,14 +627,14 @@ class StatefulMediaButton {
 
   /** Set media button pressed */
   #setMediaButtonPressed() {
-    kameHouse.util.dom.removeClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
-    kameHouse.util.dom.addClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.classListRemove(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.classListAdd(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   #setMediaButtonUnpressed() {
-    kameHouse.util.dom.removeClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
-    kameHouse.util.dom.addClass(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.classListRemove(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.classListAdd(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
   }
 } // End StatefulMediaButton
 
@@ -1263,11 +1263,11 @@ class VlcPlayerPlaylist {
   }
 
   /** Play the clicked element from the playlist. */
-  #clickEventOnPlaylistRow(event) {
-    kameHouse.logger.debug("Play playlist id: " + event.data.id);
+  #clickEventOnPlaylistRow(event, data) {
+    kameHouse.logger.debug("Play playlist id: " + data.id);
     const requestBody = {
       name: 'pl_play',
-      id: event.data.id
+      id: data.id
     };
     this.#vlcPlayer.getRestClient().post(this.#playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
   }
@@ -1277,11 +1277,11 @@ class VlcPlayerPlaylist {
     const currentPlId = this.#vlcPlayer.getVlcRcStatus().currentPlId;
     const currentPlIdAsRowId = 'playlist-table-row-id-' + currentPlId;
     document.querySelectorAll('#playlist-table-body tr td button').forEach((element) => {
-      kameHouse.util.dom.removeClass(element, "active");
+      kameHouse.util.dom.classListRemove(element, "active");
     });
     const currentPlaylistElement = document.querySelector("#" + currentPlIdAsRowId + " td button");
     if (currentPlaylistElement) {
-      kameHouse.util.dom.addClass(currentPlaylistElement, "active");
+      kameHouse.util.dom.classListAdd(currentPlaylistElement, "active");
     }
   }
 
@@ -1329,7 +1329,7 @@ class VlcPlayerPlaylist {
    */
   #getEmptyPlaylistTr() {
     const madaMadaDane = 'まだまだだね';
-    return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync." + madaMadaDane + " :)");
+    return kameHouse.util.dom.getTrTd("No playlist loaded yet or unable to sync." + madaMadaDane + " :)");
   }
   
   /**
@@ -1359,10 +1359,10 @@ class VlcPlayerPlaylist {
         class: "playlist-table-btn",
       },
       html: displayName,
-      clickData: {
+      data: {
         id: playlistElementId
       },
-      click: (event) => {this.#clickEventOnPlaylistRow(event)}
+      click: (event, data) => {this.#clickEventOnPlaylistRow(event, data)}
     });
   }
 } // End VlcPlayerPlaylist

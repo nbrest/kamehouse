@@ -390,7 +390,7 @@ class KameHouseCollapsibleDivUtils {
    */
   #collapsibleContentListener() {
     // Can't use self here, need to use this. Also can't use an annonymous function () => {}
-    kameHouse.util.dom.classListToggle(this, "collapsible-kh-active");
+    kameHouse.util.dom.toggleClassOnElement(this, "collapsible-kh-active");
     const content = this.nextElementSibling;
     if (content.style.maxHeight != 0) {
       kameHouse.util.dom.setStyle(content, "maxHeight", null);
@@ -454,14 +454,14 @@ class KameHouseCursorUtils {
 
   /** Set the cursor to a wait spinning wheel */
   setCursorWait() {
-    kameHouse.util.dom.addClass(document.html, "wait");
-    kameHouse.util.dom.removeClass(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
+    kameHouse.util.dom.classListAdd(kameHouse.util.dom.getHtml(), "wait");
+    kameHouse.util.dom.classListRemove(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
   }
 
   /** Set the cursor to default shape */
   setCursorDefault() {
-    kameHouse.util.dom.removeClass(document.html, "wait");
-    kameHouse.util.dom.addClass(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
+    kameHouse.util.dom.classListRemove(kameHouse.util.dom.getHtml(), "wait");
+    kameHouse.util.dom.classListAdd(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
   }
 
   /**
@@ -469,7 +469,7 @@ class KameHouseCursorUtils {
    */
   async loadSpinningWheelCursorWait() {
     const spinnigWheelCursorWaitDiv = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/html-snippets/spinning-wheel-cursor-wait.html");
-    kameHouse.util.dom.append(document.body, spinnigWheelCursorWaitDiv);
+    kameHouse.util.dom.append(kameHouse.util.dom.getBody(), spinnigWheelCursorWaitDiv);
   }
 
 } // KameHouseCursorUtils
@@ -483,60 +483,70 @@ class KameHouseCursorUtils {
  */
 class KameHouseDomUtils {
 
-  /** Set the id of an element (non jq) */
-  setId(element, id) {
-    element.id = id;
+  /**
+   * Insert the new node after the selected node.
+   */
+  after(siblingElement, newNodeElement) {
+    siblingElement.after(newNodeElement);
   }
 
-  /** Set an attribute of an element (non jq) */
-  setAttribute(element, attrKey, attrVal) {
-    element.setAttribute(attrKey, attrVal);
+  /**
+   * Append the appendElement to appendToElement.
+   */
+  append(appendToElement, appendElement) {
+    kameHouse.jq(appendToElement).append(appendElement);
   }
 
-  /** Set the value of an element (non jq) */
-  setValue(element, val) {
-    element.value = val;
+  /**
+   * Append the child to parent.
+   */
+  appendChild(parentElement, childElement) {
+    parentElement.appendChild(childElement);
   }
 
-  /** Add a class to the element (non jq) */
+  /** Add a class to the element */
   classListAdd(element, className) {
     element.classList.add(className);
   }
 
-  /** Remove a class from the element (non jq) */
+  /** Remove a class from the element */
   classListRemove(element, className) {
     element.classList.remove(className);
   }
 
-  /** Toggle a class on the element (non jq) */
-  classListToggle(element, className) {
-    element.classList.toggle(className);
-  }
-
-  /** Set the html to the element (non jq) */
-  setInnerHtml(element, html) {
-    if (!kameHouse.core.isEmpty(html)) {
-      element.innerHTML = html;
+  /**
+   * Clone an element.
+   */
+  cloneNode(element, deep) {
+    if (kameHouse.core.isEmpty(deep)) {
+      deep = false;
     }
+    return element.cloneNode(deep);
   }
 
-  /** Set the style for the element (non jq) */
-  setStyle(element, styleProperty, stylePropertyValue) {
-    element.style[styleProperty] = stylePropertyValue;
+  /**
+   * Create a new element of the specified tag.
+   */
+  createElement(tag) {
+    return document.createElement(tag);
   }
 
-  /** Set the display of the element (non jq) */
-  setDisplay(element, displayValue) {
-    element.style.display = displayValue;
-  }  
+  /**
+   * Detach the specified element from the dom.
+   */
+  detach(element) {
+    kameHouse.jq(element).detach();
+  }
 
-  /** Set onclick function of the element (non jq) */
-  setOnClick(element, onclickFunction) {
-    element.onclick = onclickFunction;
+  /**
+   * Empty the specified element.
+   */
+  empty(element) {
+    kameHouse.jq(element).empty();
   }  
 
   /**
-   * Returns a new element (non jq) to attach to the dom from the specified html template loaded from an html snippet.
+   * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
    */
   getElementFromTemplate(htmlTemplate) {
     const domElementWrapper = document.createElement('div');
@@ -545,202 +555,150 @@ class KameHouseDomUtils {
   }
 
   /**
-   * Create a new image (non jq) using the specified config object which should have a format: 
-   * {
-   *    id: "",
-   *    src: "",
-   *    className: "",
-   *    alt: "",
-   *    onClick: () => {}
-   * }
+   * Get body element.
    */
-  getImgBtn(config) {
-    const img = new Image();
-    if (!kameHouse.core.isEmpty(config.id)) {
-      img.id = config.id;
-    }
-    img.src = config.src;
-    img.className = config.className;
-    img.alt = config.alt;
-    img.title = config.alt;
-    img.onclick = config.onClick;
-    return img;
-  }
-
-  /** Insert the html element (non jq) before the body */
-  insertBeforeBegin(element) {
-    document.body.insertAdjacentHTML("beforeBegin", element.innerHTML);
-  }
-
-  /** Replace the old child with the new one in the parent (non jq) */
-  replaceChild(parentNode, newChild, oldChild) {
-    parentNode.replaceChild(newChild, oldChild);
-  }
-
-  /**
-   * Append the child to parent (non jq) .
-   */
-  appendChild(parent, child) {
-    parent.appendChild(child);
-  }
-
-  /**
-   * Remove the child from parent (non jq) .
-   */
-  removeChild(parent, child) {
-    parent.removeChild(child);
-  }
-
-  /**
-   * Insert the new node under the parent (non jq).
-   */
-  insertBefore(parent, newNode, nextSibling) {
-    parent.insertBefore(newNode, nextSibling);
-  }
-
-  /**
-   * Insert the new node after the selected node (non jq) .
-   */
-  after(sibling, newNode) {
-    sibling.after(newNode);
-  }
-
-  /**
-   * Clone a node (non jq) .
-   */
-   cloneNode(nodeToClone, deep) {
-    if (kameHouse.core.isEmpty(deep)) {
-      deep = false;
-    }
-    return nodeToClone.cloneNode(deep);
-  }
-
-  /**
-   * Remove element from dom (non jq) .
-   */
-  remove(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.remove();
-    }
-  }
-
-  /**
-   * Remove element from dom (non jq) .
-   */
-  removeElement(element) {
-    if (element) {
-      element.remove();
-    }
-  }
-
-  /**
-   * Create a new element of the specified tag (non jq) .
-   */
-  createElement(tag) {
-    return document.createElement(tag);
-  }
-
-  /**
-   * Empty the specified element (non jq) .
-   */
-  empty(element) {
-    kameHouse.jq(element).empty();
+  getBody() {
+    return document.getElementsByTagName("body")[0];
   }
   
   /**
-   * Load the specified htmlPath into the divId.
+   * Get head element.
    */
-  load(divIdToLoadTo, htmlPath, successCallback) {
+  getHead() {
+    return document.getElementsByTagName("head")[0];
+  }
+
+  /**
+   * Get html element.
+   */
+  getHtml() {
+    return document.getElementsByTagName("html")[0];
+  }
+
+  /** Insert the html element before the body */
+  insertBeforeBegin(element) {
+    this.getBody().insertAdjacentHTML("beforeBegin", element.innerHTML);
+  }
+
+  /**
+   * Insert the new node under the parent.
+   */
+  insertBefore(parentElement, newNodeElement, nextSiblingElement) {
+    parentElement.insertBefore(newNodeElement, nextSiblingElement);
+  }
+
+  /**
+   * Load the specified htmlPath into the element.
+   */
+  load(element, htmlPath, successCallback) {
     if (kameHouse.core.isFunction(successCallback)) {
-      kameHouse.jq("#" + divIdToLoadTo).load(htmlPath, successCallback);
+      kameHouse.jq(element).load(htmlPath, successCallback);
     } else {
-      kameHouse.jq("#" + divIdToLoadTo).load(htmlPath);
+      kameHouse.jq(element).load(htmlPath);
     }
   }
 
   /**
-   * Detach the specified element from the dom (non jq).
+   * Prepend the prependElement to prependToElement.
    */
-   detach(elementToDetach) {
-    kameHouse.jq(elementToDetach).detach();
+  prepend(prependToElement, prependElement) {
+    kameHouse.jq(prependToElement).prepend(prependElement);
   }
 
   /**
-   * Prepend the prependObject to prependTo (non jq).
+   * Remove element from dom.
    */
-   prepend(prependTo, prependObject) {
-    kameHouse.jq(prependTo).prepend(prependObject);
+  remove(element) {
+    if (element) {
+      element.remove();
+    }
   }
 
   /**
-   * Append the appendObject to appendTo (non jq).
+   * Remove the child from parent.
    */
-  append(appendTo, appendObject) {
-    kameHouse.jq(appendTo).append(appendObject);
+  removeChild(parentElement, childElement) {
+    parentElement.removeChild(childElement);
+  }
+
+  /** Replace the old child with the new one in the parent */
+  replaceChild(parentElement, newChildElement, oldChildElement) {
+    parentElement.replaceChild(newChildElement, oldChildElement);
   }
 
   /**
-   * Replaces the specified dom element with the replacement (non jq).
+   * Replaces the specified dom element with the new element.
    */
-  replaceWith(elementToReplace, replacement) {
-    kameHouse.jq(elementToReplace).replaceWith(replacement);
+  replaceWith(elementToReplace, newElement) {
+    kameHouse.jq(elementToReplace).replaceWith(newElement);
+  }
+
+  /** Set an attribute of an element */
+  setAttribute(element, attrKey, attrVal) {
+    element.setAttribute(attrKey, attrVal);
   }
 
   /**
-   * Set an attribute in an element (non jq).
+   * Set click function in an element.
    */
-  setAttr(element, attrKey, attrValue) {
-    kameHouse.jq(element).attr(attrKey, attrValue);
+  setClick(element, data, clickFunction) {
+    element.addEventListener("click", (event) => {
+      clickFunction(event, data);
+    });
   }
 
-  /** Set the html to the element (non jq)*/
+  /** Set the display of the element */
+  setDisplay(element, displayValue) {
+    element.style.display = displayValue;
+  }  
+
+  /** Set the html to the element */
   setHtml(element, html) {
     if (!kameHouse.core.isEmpty(html)) {
       kameHouse.jq(element).html(html);
     }
   }
 
-  /** Set the text to the element (non jq) */
+  /** Set the id of an element */
+  setId(element, id) {
+    element.id = id;
+  }
+
+  /** Set the style for the element */
+  setStyle(element, styleProperty, stylePropertyValue) {
+    element.style[styleProperty] = stylePropertyValue;
+  }
+
+  /** Set the text to the element */
   setText(element, text) {
     if (!kameHouse.core.isEmpty(text)) {
-      kameHouse.jq(element).text(text);
+      element.textContent = text;
     }
   }
 
-  /**
-   * Set click function in an element (non jq).
-   */
-  setClick(element, clickData, clickFunction) {
-    kameHouse.jq(element).click(clickData, clickFunction);
+  /** Set the value of an element */
+  setValue(element, val) {
+    element.value = val;
   }
 
-  /**
-   * Set the value in an element. Usually used for input fields with a value property. (non jq).
-   */
-  setVal(element, value) {
-    kameHouse.jq(element).val(value);
-  }
-
-  /**
-   * Add a class to an element (non jq).
-   */
-  addClass(element, className) {
-    kameHouse.jq(element).addClass(className);
-  }
-
-  /**
-   * Remove a class from an element (non jq).
-   */
-  removeClass(element, className) {
-    kameHouse.jq(element).removeClass(className);
-  }
-
-  /** Toggle the visibility of all elements of classname (non jq) */
-  toggle(className) {
+  /** Toggle the visibility of all elements of classname */
+  toggleClass(className) {
     kameHouse.jq('.' + className).toggle();
   }
 
+  /** Toggle a class on the element */
+  toggleClassOnElement(element, className) {
+    element.classList.toggle(className);
+  }
+
+  /**
+   * Toggle visibility of an element.
+   */
+  toggleElement(element, visible) {
+    kameHouse.jq(element).toggle(visible);
+  }
+
+  /** Get DOM elements ************************** */
   /**
    * Get 'a' html element.
    */
@@ -763,13 +721,13 @@ class KameHouseDomUtils {
    *      class: ""
    *    },
    *    html: htmlObject,
-   *    clickData: {},
+   *    data: {},
    *    click: () => {}
    * }
    */
   getButton(config) {
     const btn = this.#getElement('button', config.attr, config.html);
-    this.setClick(btn, config.clickData, config.click);
+    this.setClick(btn, config.data, config.click);
     return btn;
   }
 
@@ -778,6 +736,29 @@ class KameHouseDomUtils {
    */
   getDiv(attr, html) {
     return this.#getElement('div', attr, html);
+  }
+
+  /**
+   * Create a new image using the specified config object which should have a format: 
+   * {
+   *    id: "",
+   *    src: "",
+   *    className: "",
+   *    alt: "",
+   *    onClick: () => {}
+   * }
+   */
+  getImgBtn(config) {
+    const img = new Image();
+    if (!kameHouse.core.isEmpty(config.id)) {
+      img.id = config.id;
+    }
+    img.src = config.src;
+    img.className = config.className;
+    img.alt = config.alt;
+    img.title = config.alt;
+    img.onclick = config.onClick;
+    return img;
   }
 
   /**
@@ -1375,7 +1356,7 @@ class KameHouseTableUtils {
           shouldDisplayRow = false;
         }
         if (maxRows > 0) {
-          kameHouse.core.toggle(tr, shouldDisplayRow);
+          kameHouse.util.dom.toggleElement(tr, shouldDisplayRow);
           maxRows--;
         }
       }
@@ -1412,7 +1393,7 @@ class KameHouseTableUtils {
           shouldDisplayRow = false;
         }
         if (maxRows > 0) {
-          kameHouse.core.toggle(tr, shouldDisplayRow);
+          kameHouse.util.dom.toggleElement(tr, shouldDisplayRow);
           maxRows--;
         }
       }
@@ -1936,7 +1917,7 @@ class KameHouseCore {
   }
   
   /**
-   * Scroll top element (non jq).
+   * Scroll top element.
    */
   scrollTop(element, val) {
     return kameHouse.jq(element).scrollTop(val);
@@ -1948,7 +1929,7 @@ class KameHouseCore {
   scrollToBottom(divId) {
     let scrollPosition;
     if (this.isEmpty(divId)) {
-      scrollPosition = document.body.scrollHeight;
+      scrollPosition = kameHouse.util.dom.getBody().scrollHeight;
     } else {
       scrollPosition = this.offset(divId).top + this.height(divId) - window.innerHeight;
     }
@@ -2112,8 +2093,8 @@ class KameHouseCore {
 
     if (isAuthorized) {
       kameHouse.logger.debug("User is authorized to access this page");
-      kameHouse.util.dom.removeClass(document.body, "hidden-kh");
-      kameHouse.util.dom.remove('kamehouse-splashscreen');  
+      kameHouse.util.dom.classListRemove(kameHouse.util.dom.getBody(), "hidden-kh");
+      kameHouse.util.dom.remove(document.getElementById('kamehouse-splashscreen'));  
     } else {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
     }
@@ -2138,13 +2119,6 @@ class KameHouseCore {
    */
   filter(element, filterFunction) {
     kameHouse.jq(element).filter((index, element) => {filterFunction(index, element)});
-  }
-
-  /**
-   * Toggle element visibility.
-   */
-  toggle(element, visible) {
-    kameHouse.jq(element).toggle(visible);
   }
 
   /**
@@ -2206,7 +2180,7 @@ class KameHouseCore {
    * Open kamehouse splash screen.
    */
   #openKameHouseSplashScreen() {
-    kameHouse.util.dom.addClass(document.body, "hidden-kh");
+    kameHouse.util.dom.classListAdd(kameHouse.util.dom.getBody(), "hidden-kh");
     const kameHouseSplashScreen = this.#getKameHouseSplashScreen();
     kameHouse.util.dom.insertBeforeBegin(kameHouseSplashScreen);
   }

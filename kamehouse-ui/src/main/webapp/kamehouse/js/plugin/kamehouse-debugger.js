@@ -27,7 +27,7 @@ class KameHouseDebugger {
 
   /** Import debugger-http-client css*/
   importKameHouseDebuggerCss() {
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-debugger.css">');
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-debugger.css">');
   }
 
   /** 
@@ -38,7 +38,7 @@ class KameHouseDebugger {
     const message = "Toggled debug mode";
     kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     const debugModeDiv = document.getElementById("debug-mode");
-    kameHouse.util.dom.classListToggle(debugModeDiv, "hidden-kh");
+    kameHouse.util.dom.toggleClassOnElement(debugModeDiv, "hidden-kh");
   }
 
   /**
@@ -81,7 +81,7 @@ class KameHouseDebugger {
    * Render the specified html snippet into the custom div of the debugger.
    */
   renderCustomDebugger(htmlSnippet, callback) {
-    kameHouse.util.dom.load("debug-mode-custom-wrapper", htmlSnippet, callback);
+    kameHouse.util.dom.load(document.getElementById("debug-mode-custom-wrapper"), htmlSnippet, callback);
   }
 
   /**
@@ -124,7 +124,7 @@ class KameHouseDebugger {
    */
   displayRequestData(method, config, url, requestHeaders, requestBody) {
     this.#emptyDebuggerHttpClientDiv();
-    kameHouse.util.dom.setInnerHtml(document.getElementById("debugger-http-client"), this.#debuggerHttpClientDivTemplate);
+    kameHouse.util.dom.setHtml(document.getElementById("debugger-http-client"), this.#debuggerHttpClientDivTemplate);
     const requestTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-timestamp-val'), requestTimestamp);
     kameHouse.util.dom.setHtml(document.getElementById('debugger-http-client-req-method-val'), method);
@@ -167,7 +167,7 @@ class KameHouseDebugger {
    * Render debug mode div and it's button.
    */
   #renderDebugMode() {
-    kameHouse.util.dom.load("debug-mode-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
+    kameHouse.util.dom.load(document.getElementById("debug-mode-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       this.displayRequestData(null, null, null, null);
       this.#setConsoleLogLevelDropdown();

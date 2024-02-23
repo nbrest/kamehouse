@@ -20,7 +20,7 @@ class KameHouseStickyBackToTop {
    */
   async #importHtml() {
     const stickyBackToTopBtn = await kameHouse.util.fetch.loadHtmlSnippet("/kame-house/kamehouse/html/plugin/kamehouse-sticky-back-to-top.html");
-    kameHouse.util.dom.append(document.body, stickyBackToTopBtn);
+    kameHouse.util.dom.append(kameHouse.util.dom.getBody(), stickyBackToTopBtn);
     this.#setupEventHandlers();
   }
 
@@ -28,7 +28,7 @@ class KameHouseStickyBackToTop {
    * Import the sticky button css.
    */
   #importCss() {
-    kameHouse.util.dom.append(document.head, '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-sticky-back-to-top.css">');
+    kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-sticky-back-to-top.css">');
   }
 
   /**
@@ -37,8 +37,8 @@ class KameHouseStickyBackToTop {
   #setupEventHandlers() {
     window.addEventListener("scroll", this.#showHideStickyBackToTopBtn);
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
-    kameHouse.util.dom.setOnClick(stickyBackToTopBtn, (e) => {
-      e.preventDefault();
+    kameHouse.util.dom.setClick(stickyBackToTopBtn, null, (event) => {
+      event.preventDefault();
       this.#backToTop();
     });
   }
@@ -62,7 +62,7 @@ class KameHouseStickyBackToTop {
    * Scroll back to the top of the page.
    */
   #backToTop() {
-    const currentHeight = document.documentElement.scrollTop || document.body.scrollTop;
+    const currentHeight = document.documentElement.scrollTop || kameHouse.util.dom.getBody().scrollTop;
     if (currentHeight > 0) {
       window.scrollTo({
         top: 0,
