@@ -1958,7 +1958,7 @@ class KameHouseCore {
     } else {
       scrollPosition = this.offset(document.getElementById(divId)).top;
     }
-    this.animate(kameHouse.util.dom.getBody(), {
+    this.animate(kameHouse.util.dom.getHtml(), {
       scrollTop: scrollPosition
     }, '10');
   }
@@ -1980,7 +1980,7 @@ class KameHouseCore {
     } else {
       scrollPosition = this.offset(document.getElementById(divId)).top + this.height(document.getElementById(divId)) - window.innerHeight;
     }
-    this.animate(kameHouse.util.dom.getBody(), {
+    this.animate(kameHouse.util.dom.getHtml(), {
       scrollTop: scrollPosition
     }, '10');
   }
