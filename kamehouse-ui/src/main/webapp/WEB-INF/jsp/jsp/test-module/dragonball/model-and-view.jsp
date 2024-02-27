@@ -34,7 +34,7 @@
           <tbody>
             <tr>
               <td class="info-image-img">
-                <img src="/kame-house/img/saint-seiya/dohko-shion-previous-era.jpg" alt="info image"/>
+                <img src="/kame-house/img/saint-seiya/dohko-shion-previous-era.jpg" alt="info img"/>
               </td>
               <td class="info-image-info">
                 <div class="info-image-title">

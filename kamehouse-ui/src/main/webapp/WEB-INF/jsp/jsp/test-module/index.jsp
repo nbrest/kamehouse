@@ -35,7 +35,7 @@
         <tbody>
           <tr>
             <td class="info-image-img">
-              <img src="/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg" alt="info image"/>
+              <img src="/kame-house/img/banners/saint-seiya/banner-ancient-era-warriors.jpg" alt="info img"/>
             </td>
             <td class="info-image-info">
               <div class="info-image-title info-image-title-bottom">
