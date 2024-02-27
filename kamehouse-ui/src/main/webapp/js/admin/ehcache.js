@@ -139,15 +139,15 @@ class EhCacheManager {
     caches.forEach((cache) => {
       kameHouse.util.dom.append(cacheData, this.#getEhCacheTableFromTemplate(cache.name));
       kameHouse.util.dom.append(cacheData, kameHouse.util.dom.getBr());
-      kameHouse.util.dom.setHtml(document.getElementById('ehcache-table-' + cache.name + '-header'), cache.name);
-      kameHouse.util.dom.setHtml(document.getElementById('ehcache-table-' + cache.name + '-status-val'), cache["status"]);
-      kameHouse.util.dom.setHtml(document.getElementById('ehcache-table-' + cache.name + '-keys-val'), cache["keys"]);
-      kameHouse.util.dom.setHtml(document.getElementById('ehcache-table-' + cache.name + '-values-val'), cache["values"]);
+      kameHouse.util.dom.setHtmlById('ehcache-table-' + cache.name + '-header', cache.name);
+      kameHouse.util.dom.setHtmlById('ehcache-table-' + cache.name + '-status-val', cache["status"]);
+      kameHouse.util.dom.setHtmlById('ehcache-table-' + cache.name + '-keys-val', cache["keys"]);
+      kameHouse.util.dom.setHtmlById('ehcache-table-' + cache.name + '-values-val', cache["values"]);
 
-      kameHouse.util.dom.setClick(document.getElementById("clear-ehcache-table-" + cache.name), null,
+      kameHouse.util.dom.setClickById("clear-ehcache-table-" + cache.name, null,
         () => this.clearCacheData(cache.name, webapp)
       );
-      kameHouse.util.dom.setClick(document.getElementById("toggle-view-ehcache-table-" + cache.name), null,
+      kameHouse.util.dom.setClickById("toggle-view-ehcache-table-" + cache.name, null,
         () => this.toggleCacheView("toggle-ehcache-table-" + cache.name)
       );
       kameHouse.util.dom.toggleClass("toggle-ehcache-table-" + cache.name);
@@ -195,7 +195,7 @@ class EhCacheManager {
     const cacheData = document.getElementById("cache-data-" + webapp);
     kameHouse.util.dom.append(cacheData, ehcacheErrorTableDiv);
     // Update the message
-    kameHouse.util.dom.setHtml(document.getElementById("ehcache-table-" + webapp + "-error-val"), kameHouse.util.time.getTimestamp() +
+    kameHouse.util.dom.setHtmlById("ehcache-table-" + webapp + "-error-val", kameHouse.util.time.getTimestamp() +
       " : Error retrieving cache data. Please try again later.");
 
     const message = "Error retrieving cache data. Please try again later.";

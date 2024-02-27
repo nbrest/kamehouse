@@ -52,7 +52,7 @@ class GrootHeader {
 
   /** Render groot sub menu */
   renderGrootMenu() {
-    kameHouse.util.dom.load(document.getElementById("groot-menu-wrapper"), "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
+    kameHouse.util.dom.loadById("groot-menu-wrapper", "/kame-house-groot/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
       this.#updateGRootMenuActiveTab();
       this.#loadSession();
     });

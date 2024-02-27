@@ -583,7 +583,7 @@
       <button id="tail-log-output-wrapper" class="collapsible-kh collapsible-kh-btn">Tail Log Output</button>
       <div class="collapsible-kh-content">
         <button class="btn-svg-scroll-down fl-r-d-kh"
-          onclick="kameHouse.core.scrollToBottom('btn-tail-log-scroll-up')">
+          onclick="kameHouse.core.scrollToBottomById('btn-tail-log-scroll-up')">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
         </button>
         <!-- pre and table need to be in the same line or it prints some extra lines -->
@@ -597,7 +597,7 @@
             </tbody>
         </table></pre>
         <button class="btn-svg-scroll-up fl-r-d-kh" id="btn-tail-log-scroll-up" 
-          onclick="kameHouse.core.scrollToTop('tail-log-output-wrapper')">
+          onclick="kameHouse.core.scrollToTopById('tail-log-output-wrapper')">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
         </button>
       </div>
@@ -631,7 +631,7 @@
     <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn">Aurora Execution Output</button>
     <div class="collapsible-kh-content">
       <button class="btn-svg-scroll-down fl-r-d-kh"
-        onclick="kameHouse.core.scrollToTop('btn-command-output-scroll-up')">
+        onclick="kameHouse.core.scrollToTopById('btn-command-output-scroll-up')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
       </button>
       
@@ -649,7 +649,7 @@
           </tbody>
       </table></pre>
       <button class="btn-svg-scroll-up fl-r-d-kh" id="btn-command-output-scroll-up" 
-        onclick="kameHouse.core.scrollToTop('command-output-wrapper')">
+        onclick="kameHouse.core.scrollToTopById('command-output-wrapper')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg>
       </button>
     </div>

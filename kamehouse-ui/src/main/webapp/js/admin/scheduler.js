@@ -95,13 +95,13 @@ class Scheduler {
         kameHouse.util.dom.append(jobsData, this.#getTableFromTemplate(tableIdKey));
         kameHouse.util.dom.append(jobsData, kameHouse.util.dom.getBr());
   
-        kameHouse.util.dom.setHtml(document.getElementById("scheduler-table-" + tableIdKey + "-name-val"), jobEntry.key.name);
-        kameHouse.util.dom.setHtml(document.getElementById("scheduler-table-" + tableIdKey + "-key-val"), jobEntry.key.group + "." + jobEntry.key.name);
-        kameHouse.util.dom.setHtml(document.getElementById("scheduler-table-" + tableIdKey + "-description-val"), jobEntry.description);
-        kameHouse.util.dom.setHtml(document.getElementById("scheduler-table-" + tableIdKey + "-jobclass-val"), jobEntry.jobClass);
-        kameHouse.util.dom.setHtml(document.getElementById("scheduler-table-" + tableIdKey + "-schedule-val"), this.#formatSchedule(jobEntry.schedules));
+        kameHouse.util.dom.setHtmlById("scheduler-table-" + tableIdKey + "-name-val", jobEntry.key.name);
+        kameHouse.util.dom.setHtmlById("scheduler-table-" + tableIdKey + "-key-val", jobEntry.key.group + "." + jobEntry.key.name);
+        kameHouse.util.dom.setHtmlById("scheduler-table-" + tableIdKey + "-description-val", jobEntry.description);
+        kameHouse.util.dom.setHtmlById("scheduler-table-" + tableIdKey + "-jobclass-val", jobEntry.jobClass);
+        kameHouse.util.dom.setHtmlById("scheduler-table-" + tableIdKey + "-schedule-val", this.#formatSchedule(jobEntry.schedules));
   
-        kameHouse.util.dom.setClick(document.getElementById("clear-scheduler-table-" + tableIdKey), null, () => {
+        kameHouse.util.dom.setClickById("clear-scheduler-table-" + tableIdKey, null, () => {
           kameHouse.logger.debug("Clear schedule for " + kameHouse.json.stringify(jobEntry.key));
           this.#cancelJobExecution(jobEntry.key, webapp);
         });

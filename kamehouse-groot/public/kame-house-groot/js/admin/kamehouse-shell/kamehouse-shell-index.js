@@ -86,7 +86,7 @@ class KameHouseShellLoader {
   /** Update server name */
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtml(document.getElementById("banner-server-name"), sessionStatus.server);
+      kameHouse.util.dom.setHtmlById("banner-server-name", sessionStatus.server);
     }
   }
 

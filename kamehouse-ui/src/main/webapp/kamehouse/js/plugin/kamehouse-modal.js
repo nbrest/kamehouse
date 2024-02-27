@@ -100,10 +100,10 @@ class AbstractKameHouseModal {
       autoCloseMs = AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC;
     }
     const autoCloseId = this.#modalId + "-autoclose";
-    kameHouse.util.dom.classListRemove(document.getElementById(autoCloseId), "hidden-kh");
+    kameHouse.util.dom.classListRemoveById(autoCloseId, "hidden-kh");
     while (autoCloseMs > 0) {
       const secondsRemaining = autoCloseMs / 1000;
-      kameHouse.util.dom.setHtml(document.getElementById(autoCloseId), "Closing in " + secondsRemaining + " seconds");
+      kameHouse.util.dom.setHtmlById(autoCloseId, "Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
       if (!this.#isOpen) {
         kameHouse.logger.debug(this.#modalId + " is already closed. Leaving autoClose function");
@@ -111,15 +111,15 @@ class AbstractKameHouseModal {
       }
       await kameHouse.core.sleep(1000);
     }
-    kameHouse.util.dom.classListAdd(document.getElementById(autoCloseId), "hidden-kh");
+    kameHouse.util.dom.classListAddById(autoCloseId, "hidden-kh");
     this.close();
   }
 
   /** Set the html in the modal */
-  setHtml(message) { kameHouse.util.dom.setHtml(document.getElementById("" + this.#modalId + "-text"), message); }
+  setHtml(message) { kameHouse.util.dom.setHtmlById(this.#modalId + "-text", message); }
 
   /** Append the message to the modal */
-  appendHtml(message) { kameHouse.util.dom.append(document.getElementById(this.#modalId + "-text"), message); }
+  appendHtml(message) { kameHouse.util.dom.appendById(this.#modalId + "-text", message); }
 
   /**
    * Check if it's an error message.

@@ -472,12 +472,12 @@ class VlcPlayerMainViewUpdater {
   updateCurrentTimeView(value) {
     const currentTime = document.getElementById("current-time");
     kameHouse.util.dom.setHtml(currentTime, kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setValue(document.getElementById("time-slider"), value);
+    kameHouse.util.dom.setValueById("time-slider", value);
   }
 
   /** Update volume percentage to display with the specified value. */
   updateVolumeView(value) {
-    kameHouse.util.dom.setValue(document.getElementById("volume-slider"), value);
+    kameHouse.util.dom.setValueById("volume-slider", value);
     const volumePercentaje = Math.floor(value * 200 / 512);
     const currentVolume = document.getElementById("current-volume");
     kameHouse.util.dom.setHtml(currentVolume, volumePercentaje + "%");
@@ -506,7 +506,7 @@ class VlcPlayerMainViewUpdater {
       mediaName.filename = this.#vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = this.#vlcPlayer.getVlcRcStatus().information.meta.title;
     }
-    kameHouse.util.dom.setHtml(document.getElementById("media-title"), mediaName.filename);
+    kameHouse.util.dom.setHtmlById("media-title", mediaName.filename);
   }
 
   /** Reset the media title. */
@@ -514,7 +514,7 @@ class VlcPlayerMainViewUpdater {
     const mediaName = {};
     mediaName.filename = "No media loaded";
     mediaName.title = "No media loaded";
-    kameHouse.util.dom.setHtml(document.getElementById("media-title"), mediaName.filename);
+    kameHouse.util.dom.setHtmlById("media-title", mediaName.filename);
   }
 
   /** Update subtitle delay. */
@@ -523,12 +523,12 @@ class VlcPlayerMainViewUpdater {
     if (kameHouse.core.isEmpty(subtitleDelay)) {
       subtitleDelay = "0";
     }
-    kameHouse.util.dom.setHtml(document.getElementById("subtitle-delay-value"), String(subtitleDelay));
+    kameHouse.util.dom.setHtmlById("subtitle-delay-value", String(subtitleDelay));
   }
 
   /** Reset subtitle delay. */
   #resetSubtitleDelay() {
-    kameHouse.util.dom.setHtml(document.getElementById("subtitle-delay-value"), "0");
+    kameHouse.util.dom.setHtmlById("subtitle-delay-value", "0");
   }
 
   /**
@@ -549,16 +549,16 @@ class VlcPlayerMainViewUpdater {
 
   /** Reset time slider. */
   #resetTimeSlider() {
-    kameHouse.util.dom.setHtml(document.getElementById("current-time"), "--:--:--");
-    kameHouse.util.dom.setValue(document.getElementById("time-slider"), 500);
-    kameHouse.util.dom.setHtml(document.getElementById("total-time"), "--:--:--");
-    kameHouse.util.dom.setAttribute(document.getElementById("time-slider"),'max', 1000);
+    kameHouse.util.dom.setHtmlById("current-time", "--:--:--");
+    kameHouse.util.dom.setValueById("time-slider", 500);
+    kameHouse.util.dom.setHtmlById("total-time", "--:--:--");
+    kameHouse.util.dom.setAttributeById("time-slider",'max', 1000);
   }
 
   /** Update the displayed total time. */
   #updateTotalTimeView(value) {
-    kameHouse.util.dom.setHtml(document.getElementById("total-time"), kameHouse.util.time.convertSecondsToHsMsSs(value));
-    kameHouse.util.dom.setAttribute(document.getElementById("time-slider"),'max', value);
+    kameHouse.util.dom.setHtmlById("total-time", kameHouse.util.time.convertSecondsToHsMsSs(value));
+    kameHouse.util.dom.setAttributeById("time-slider",'max', value);
   }
 
   /**
@@ -627,14 +627,14 @@ class StatefulMediaButton {
 
   /** Set media button pressed */
   #setMediaButtonPressed() {
-    kameHouse.util.dom.classListRemove(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
-    kameHouse.util.dom.classListAdd(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.classListRemoveById(this.#id, this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.classListAddById(this.#id, this.#buttonPrefixClass + '-pressed');
   }
 
   /** Set media button unpressed */
   #setMediaButtonUnpressed() {
-    kameHouse.util.dom.classListRemove(document.getElementById(this.#id), this.#buttonPrefixClass + '-pressed');
-    kameHouse.util.dom.classListAdd(document.getElementById(this.#id), this.#buttonPrefixClass + '-unpressed');
+    kameHouse.util.dom.classListRemoveById(this.#id, this.#buttonPrefixClass + '-pressed');
+    kameHouse.util.dom.classListAddById(this.#id, this.#buttonPrefixClass + '-unpressed');
   }
 } // End StatefulMediaButton
 
@@ -1147,7 +1147,7 @@ class VlcPlayerPlaylist {
 
   /** Init Playlist. */
   init() {
-    kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-filenames-img"), this.#dobleRightImg);
+    kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-img", this.#dobleRightImg);
   }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
@@ -1318,9 +1318,9 @@ class VlcPlayerPlaylist {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-filenames-img"), this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-img", this.#dobleLeftImg);
     } else {
-      kameHouse.util.dom.replaceWith(document.getElementById("toggle-playlist-filenames-img"), this.#dobleRightImg);
+      kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-img", this.#dobleRightImg);
     }
   }
 

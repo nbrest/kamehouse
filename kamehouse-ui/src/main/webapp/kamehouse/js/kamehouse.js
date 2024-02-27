@@ -241,7 +241,7 @@ class KameHouseBannerUtils {
   /** Update the server name in the banner */
   updateServerName() {
     if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
-      kameHouse.util.dom.setHtml(document.getElementById("banner-server-name"), kameHouse.session.server);
+      kameHouse.util.dom.setHtmlById("banner-server-name", kameHouse.session.server);
     }
   }  
 
@@ -455,13 +455,13 @@ class KameHouseCursorUtils {
   /** Set the cursor to a wait spinning wheel */
   setCursorWait() {
     kameHouse.util.dom.classListAdd(kameHouse.util.dom.getHtml(), "wait");
-    kameHouse.util.dom.classListRemove(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
+    kameHouse.util.dom.classListRemoveById('spinning-wheel-cursor-wait-wrapper', "hidden-kh");
   }
 
   /** Set the cursor to default shape */
   setCursorDefault() {
     kameHouse.util.dom.classListRemove(kameHouse.util.dom.getHtml(), "wait");
-    kameHouse.util.dom.classListAdd(document.getElementById('spinning-wheel-cursor-wait-wrapper'), "hidden-kh");
+    kameHouse.util.dom.classListAddById('spinning-wheel-cursor-wait-wrapper', "hidden-kh");
   }
 
   /**
@@ -493,12 +493,28 @@ class KameHouseDomUtils {
   }
 
   /**
+   * Insert the new node after the selected node.
+   */
+  afterById(siblingElementId, newNodeElement) {
+    const element = document.getElementById(siblingElementId);
+    return this.after(element, newNodeElement);
+  }
+
+  /**
    * Append the appendElement to appendToElement.
    */
   append(appendToElement, appendElement) {
     if (appendToElement) {
       kameHouse.jq(appendToElement).append(appendElement);
     }
+  }
+
+  /**
+   * Append the appendElement to appendToElement.
+   */
+  appendById(appendToElementId, appendElement) {
+    const element = document.getElementById(appendToElementId);
+    return this.append(element, appendElement);
   }
 
   /**
@@ -510,6 +526,14 @@ class KameHouseDomUtils {
     }
   }
 
+  /**
+   * Append the child to parent.
+   */
+  appendChildById(parentElementId, childElement) {
+    const element = document.getElementById(parentElementId);
+    return this.appendChild(element, childElement);
+  }  
+
   /** Add a class to the element */
   classListAdd(element, className) {
     if (element) {
@@ -517,11 +541,23 @@ class KameHouseDomUtils {
     }
   }
 
+  /** Add a class to the element */
+  classListAddById(elementId, className) {
+    const element = document.getElementById(elementId);
+    return this.classListAdd(element, className);
+  }  
+
   /** Remove a class from the element */
   classListRemove(element, className) {
     if (element) {
       element.classList.remove(className);
     }
+  }
+
+  /** Remove a class from the element */
+  classListRemoveById(elementId, className) {
+    const element = document.getElementById(elementId);
+    return this.classListRemove(element, className);
   }
 
   /**
@@ -536,6 +572,14 @@ class KameHouseDomUtils {
     }
     return null;
   }
+
+  /**
+   * Clone an element.
+   */
+  cloneNodeById(elementId, deep) {
+    const element = document.getElementById(elementId);
+    return this.cloneNode(element, deep);
+  }  
 
   /**
    * Create a new element of the specified tag.
@@ -554,6 +598,14 @@ class KameHouseDomUtils {
   }
 
   /**
+   * Detach the specified element from the dom.
+   */
+  detachById(elementId) {
+    const element = document.getElementById(elementId);
+    return this.detach(element);
+  }
+
+  /**
    * Empty the specified element.
    */
   empty(element) {
@@ -561,6 +613,14 @@ class KameHouseDomUtils {
       kameHouse.jq(element).empty();
     }
   }  
+
+  /**
+   * Empty the specified element.
+   */
+  emptyById(elementId) {
+    const element = document.getElementById(elementId);
+    return this.empty(element);
+  }    
 
   /**
    * Returns a new element to attach to the dom from the specified html template loaded from an html snippet.
@@ -599,6 +659,12 @@ class KameHouseDomUtils {
     }
   }
 
+  /** Insert the html element before the body */
+  insertBeforeBeginById(elementId) {
+    const element = document.getElementById(elementId);
+    return this.insertBeforeBegin(element);
+  }
+
   /**
    * Insert the new node under the parent.
    */
@@ -606,6 +672,14 @@ class KameHouseDomUtils {
     if (parentElement) {
       parentElement.insertBefore(newNodeElement, nextSiblingElement);
     }
+  }
+
+  /**
+   * Insert the new node under the parent.
+   */
+  insertBeforeById(parentElementId, newNodeElement, nextSiblingElement) {
+    const element = document.getElementById(parentElementId);
+    return this.insertBefore(element, newNodeElement, nextSiblingElement);
   }
 
   /**
@@ -622,6 +696,14 @@ class KameHouseDomUtils {
   }
 
   /**
+   * Load the specified htmlPath into the element.
+   */
+  loadById(elementId, htmlPath, successCallback) {
+    const element = document.getElementById(elementId);
+    return this.load(element, htmlPath, successCallback);
+  }
+
+  /**
    * Prepend the prependElement to prependToElement.
    */
   prepend(prependToElement, prependElement) {
@@ -629,6 +711,14 @@ class KameHouseDomUtils {
       kameHouse.jq(prependToElement).prepend(prependElement);
     }
   }
+
+  /**
+   * Prepend the prependElement to prependToElement.
+   */
+  prependById(prependToElementId, prependElement) {
+    const element = document.getElementById(prependToElementId);
+    return this.prepend(element, prependElement);
+  }  
 
   /**
    * Remove element from dom.
@@ -640,6 +730,14 @@ class KameHouseDomUtils {
   }
 
   /**
+   * Remove element from dom.
+   */
+  removeById(elementId) {
+    const element = document.getElementById(elementId);
+    return this.remove(element);
+  }  
+
+  /**
    * Remove the child from parent.
    */
   removeChild(parentElement, childElement) {
@@ -648,12 +746,26 @@ class KameHouseDomUtils {
     }
   }
 
+  /**
+   * Remove the child from parent.
+   */
+  removeChildById(parentElementId, childElement) {
+    const element = document.getElementById(parentElementId);
+    return this.removeChild(element, childElement);
+  }  
+
   /** Replace the old child with the new one in the parent */
   replaceChild(parentElement, newChildElement, oldChildElement) {
     if (parentElement) {
       parentElement.replaceChild(newChildElement, oldChildElement);
     }
   }
+
+  /** Replace the old child with the new one in the parent */
+  replaceChildById(parentElementId, newChildElement, oldChildElement) {
+    const element = document.getElementById(parentElementId);
+    return this.replaceChild(element, newChildElement, oldChildElement);
+  }  
 
   /**
    * Replaces the specified dom element with the new element.
@@ -664,11 +776,25 @@ class KameHouseDomUtils {
     }
   }
 
+  /**
+   * Replaces the specified dom element with the new element.
+   */
+  replaceWithById(elementToReplaceId, newElement) {
+    const element = document.getElementById(elementToReplaceId);
+    return this.replaceWith(element, newElement);
+  }  
+
   /** Set an attribute of an element */
   setAttribute(element, attrKey, attrVal) {
     if (element) {
       element.setAttribute(attrKey, attrVal);
     }
+  }
+
+  /** Set an attribute of an element */
+  setAttributeById(elementId, attrKey, attrVal) {
+    const element = document.getElementById(elementId);
+    return this.setAttribute(element, attrKey, attrVal);
   }
 
   /**
@@ -682,6 +808,14 @@ class KameHouseDomUtils {
     }
   }
 
+  /**
+   * Set click function in an element.
+   */
+  setClickById(elementId, data, clickFunction) {
+    const element = document.getElementById(elementId);
+    return this.setClick(element, data, clickFunction);
+  }  
+
   /** Set the display of the element */
   setDisplay(element, displayValue) {
     if (element) {
@@ -689,11 +823,23 @@ class KameHouseDomUtils {
     }
   }  
 
+  /** Set the display of the element */
+  setDisplayById(elementId, displayValue) {
+    const element = document.getElementById(elementId);
+    return this.setDisplay(element, displayValue);
+  }    
+
   /** Set the html to the element */
   setHtml(element, html) {
     if (!kameHouse.core.isEmpty(html) && element) {
       kameHouse.jq(element).html(html);
     }
+  }
+
+  /** Set the html to the element */
+  setHtmlById(elementId, html) {
+    const element = document.getElementById(elementId);
+    return this.setHtml(element, html);
   }
 
   /** Set the id of an element */
@@ -710,11 +856,23 @@ class KameHouseDomUtils {
     }
   }
 
+  /** Set the style for the element */
+  setStyleById(elementId, styleProperty, stylePropertyValue) {
+    const element = document.getElementById(elementId);
+    return this.setStyle(element, styleProperty, stylePropertyValue);
+  }  
+
   /** Set the text to the element */
   setText(element, text) {
     if (!kameHouse.core.isEmpty(text) && element) {
       element.textContent = text;
     }
+  }
+
+  /** Set the text to the element */
+  setTextById(elementId, text) {
+    const element = document.getElementById(elementId);
+    return this.setText(element, text);
   }
 
   /** Set the value of an element */
@@ -723,6 +881,12 @@ class KameHouseDomUtils {
       element.value = val;
     }
   }
+
+  /** Set the value of an element */
+  setValueById(elementId, val) {
+    const element = document.getElementById(elementId);
+    return this.setValue(element, val);
+  }  
 
   /** Toggle the visibility of all elements of classname */
   toggleClass(className) {
@@ -736,6 +900,12 @@ class KameHouseDomUtils {
     }
   }
 
+  /** Toggle a class on the element */
+  toggleClassOnElementById(elementId, className) {
+    const element = document.getElementById(elementId);
+    return this.toggleClassOnElement(element, className);
+  }  
+
   /**
    * Toggle visibility of an element.
    */
@@ -743,6 +913,14 @@ class KameHouseDomUtils {
     if (element) {
       kameHouse.jq(element).toggle(visible);
     }
+  }
+
+  /**
+   * Toggle visibility of an element.
+   */
+  toggleElementById(elementId, visible) {
+    const element = document.getElementById(elementId);
+    return this.toggleElement(element, visible);
   }
 
   /** Get DOM elements ************************** */
@@ -1939,9 +2117,9 @@ class KameHouseCore {
   /** 
    * Scroll the specified div to it's top.
    * This method doesn't scroll the entire page, it scrolls the scrollable div to it's top.
-   * To scroll the page to the top of a particular div, use kameHouse.core.scrollToTop()
+   * To scroll the page to the top of a particular div, use kameHouse.core.scrollToTopById()
    */
-  scrollToTopOfDiv(divId) {
+  scrollToTopOfDivById(divId) {
     const divToScrollToTop = document.getElementById(divId);
     this.animate(divToScrollToTop, {
       scrollTop: 0
@@ -1951,34 +2129,42 @@ class KameHouseCore {
   /** 
    * Scroll the window to the top of a particular div or to the top of the body if no div specified.
    */
-  scrollToTop(divId) {
+  scrollToTopById(divId) {
     let scrollPosition;
     if (this.isEmpty(divId)) {
       scrollPosition = 0;
     } else {
-      scrollPosition = this.offset(document.getElementById(divId)).top;
+      scrollPosition = this.offsetById(divId).top;
     }
     this.animate(kameHouse.util.dom.getHtml(), {
       scrollTop: scrollPosition
     }, '10');
   }
-  
+
   /**
    * Scroll top element.
    */
   scrollTop(element, val) {
     return kameHouse.jq(element).scrollTop(val);
   }  
-  
+    
+  /**
+   * Scroll top element by id.
+   */
+  scrollTopById(divId, val) {
+    const element = document.getElementById(divId);
+    return kameHouse.jq(element).scrollTop(val);
+  }  
+
   /** 
    * Scroll the window to the bottom of a particular div or to the bottom of the body if no div specified.
    */
-  scrollToBottom(divId) {
+  scrollToBottomById(divId) {
     let scrollPosition;
     if (this.isEmpty(divId)) {
       scrollPosition = kameHouse.util.dom.getBody().scrollHeight;
     } else {
-      scrollPosition = this.offset(document.getElementById(divId)).top + this.height(document.getElementById(divId)) - window.innerHeight;
+      scrollPosition = this.offsetById(divId).top + this.heightById(divId) - window.innerHeight;
     }
     this.animate(kameHouse.util.dom.getHtml(), {
       scrollTop: scrollPosition
@@ -2141,7 +2327,7 @@ class KameHouseCore {
     if (isAuthorized) {
       kameHouse.logger.debug("User is authorized to access this page");
       kameHouse.util.dom.classListRemove(kameHouse.util.dom.getBody(), "hidden-kh");
-      kameHouse.util.dom.remove(document.getElementById('kamehouse-splashscreen'));  
+      kameHouse.util.dom.removeById('kamehouse-splashscreen');  
     } else {
       kameHouse.util.mobile.windowLocation(loginUrl, mobileSettingsUrl);
     }
@@ -2171,12 +2357,28 @@ class KameHouseCore {
   }
 
   /**
+   * Filter elements by id.
+   */
+  filterById(elementId, filterFunction) {
+    const element = document.getElementById(elementId);
+    this.filter(element, filterFunction);
+  }
+
+  /**
    * Animate element.
    */
   animate(element, config, duration) {
     if (element) {
       kameHouse.jq(element).animate(config, duration);
     }
+  }
+
+  /**
+   * Animate element by id.
+   */
+  animateById(elementId, config, duration) {
+    const element = document.getElementById(elementId);
+    this.animate(element, config, duration);
   }
 
   /**
@@ -2190,6 +2392,14 @@ class KameHouseCore {
   }
 
   /**
+   * Get element offset by id.
+   */
+  offsetById(elementId) {
+    const element = document.getElementById(elementId);
+    return this.offset(element);
+  }
+
+  /**
    * Get element height.
    */
   height(element) {
@@ -2197,6 +2407,14 @@ class KameHouseCore {
       return kameHouse.jq(element).height();
     }
     return null;
+  }
+
+  /**
+   * Get element height by id.
+   */
+  heightById(elementId) {
+    const element = document.getElementById(elementId);
+    return this.height(element);
   }
 
   /**
@@ -2445,7 +2663,7 @@ class KameHouseCore {
         logEntriesSize = debugModeConsoleLog.childElementCount;
       }
       // Add new log entry
-      kameHouse.util.dom.append(document.getElementById("debug-mode-console-log-entries"), this.#getLogEntryListItem(logEntry));
+      kameHouse.util.dom.appendById("debug-mode-console-log-entries", this.#getLogEntryListItem(logEntry));
       // Scroll down log div
       this.#debugModeLogScroll();
     }

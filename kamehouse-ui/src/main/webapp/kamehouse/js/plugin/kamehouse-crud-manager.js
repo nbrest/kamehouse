@@ -30,7 +30,7 @@ class CrudManager {
   load() {
     kameHouse.logger.info("Started initializing crudManager");
     kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
-    kameHouse.util.dom.load(document.getElementById("crud-manager-body-wrapper"), "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
+    kameHouse.util.dom.loadById("crud-manager-body-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
       kameHouse.util.banner.setRandomAllBanner();
     });
@@ -302,7 +302,7 @@ class CrudManager {
    * Refresh view.
    */
   refreshView() {
-    kameHouse.util.dom.setValue(document.getElementById('num-rows'), "");
+    kameHouse.util.dom.setValueById('num-rows', "");
     
     const filters = document.getElementsByClassName("crud-manager-filter");
     for (const filter of filters) {
@@ -322,8 +322,8 @@ class CrudManager {
    */
   #replaceBanner(config) {
     if (!kameHouse.core.isEmpty(config.banner)) {
-      kameHouse.util.dom.classListRemove(document.getElementById("banner"), CrudManager.#DEFAULT_BANNER);
-      kameHouse.util.dom.classListAdd(document.getElementById("banner"), config.banner);
+      kameHouse.util.dom.classListRemoveById("banner", CrudManager.#DEFAULT_BANNER);
+      kameHouse.util.dom.classListAddById("banner", config.banner);
     }
   }
 
@@ -346,22 +346,22 @@ class CrudManager {
    */
   #setInfoImage(config) {
     if (!kameHouse.core.isEmpty(config.infoImage)) {
-      kameHouse.util.dom.classListRemove(document.getElementById("crud-info-image"), "hidden-kh");
+      kameHouse.util.dom.classListRemoveById("crud-info-image", "hidden-kh");
       const infoImage = config.infoImage;
       const img = document.getElementById("info-image-img");
       kameHouse.util.dom.setAttribute(img, "src", infoImage.img); 
-      kameHouse.util.dom.setHtml(document.getElementById("info-image-title"), infoImage.title);
+      kameHouse.util.dom.setHtmlById("info-image-title", infoImage.title);
       if (!kameHouse.core.isEmpty(infoImage.titlePosition)) {
         if (infoImage.titlePosition.toUpperCase() == "TOP") {
-          kameHouse.util.dom.classListAdd(document.getElementById("info-image-title"), "info-image-title-top");
+          kameHouse.util.dom.classListAddById("info-image-title", "info-image-title-top");
         }
         if (infoImage.titlePosition.toUpperCase() == "BOTTOM") {
-          kameHouse.util.dom.classListAdd(document.getElementById("info-image-title"), "info-image-title-bottom");
+          kameHouse.util.dom.classListAddById("info-image-title", "info-image-title-bottom");
         }
       }
-      kameHouse.util.dom.setHtml(document.getElementById("info-image-desc"), infoImage.desc);
+      kameHouse.util.dom.setHtmlById("info-image-desc", infoImage.desc);
       if (infoImage.isReverse) {
-        kameHouse.util.dom.classListAdd(document.getElementById("crud-info-image"), "info-image-table-reverse");
+        kameHouse.util.dom.classListAddById("crud-info-image", "info-image-table-reverse");
       }
     }
   }
@@ -411,10 +411,10 @@ class CrudManager {
    */
   #updateEntityNameInView() {
     kameHouse.util.dom.setHtml(document.title, "KameHouse - " + this.#getEntityNames());
-    kameHouse.util.dom.setHtml(document.getElementById("crud-manager-banner-title"), this.#getBannerTitle());
-    kameHouse.util.dom.setHtml(document.getElementById("crud-manager-list-title"), this.#getListTitle());
-    kameHouse.util.dom.setHtml(document.getElementById("crud-manager-add-title"), this.#getAddTitle());
-    kameHouse.util.dom.setHtml(document.getElementById("crud-manager-edit-title"), this.#getEditTitle());
+    kameHouse.util.dom.setHtmlById("crud-manager-banner-title", this.#getBannerTitle());
+    kameHouse.util.dom.setHtmlById("crud-manager-list-title", this.#getListTitle());
+    kameHouse.util.dom.setHtmlById("crud-manager-add-title", this.#getAddTitle());
+    kameHouse.util.dom.setHtmlById("crud-manager-edit-title", this.#getEditTitle());
   }
 
   /**
@@ -432,9 +432,9 @@ class CrudManager {
    */
   #disableEditFunctionalityForReadOnly() {
     if (this.#readOnly) {
-      kameHouse.util.dom.classListAdd(document.getElementById("crud-manager-tabs"), "hidden-kh");
-      kameHouse.util.dom.classListAdd(document.getElementById("tab-add-link"), "hidden-kh");
-      kameHouse.util.dom.classListAdd(document.getElementById("tab-edit-link"), "hidden-kh");
+      kameHouse.util.dom.classListAddById("crud-manager-tabs", "hidden-kh");
+      kameHouse.util.dom.classListAddById("tab-add-link", "hidden-kh");
+      kameHouse.util.dom.classListAddById("tab-edit-link", "hidden-kh");
       kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
     }
   }
@@ -460,7 +460,7 @@ class CrudManager {
     const urlParams = new URLSearchParams(window.location.search);
     const search = urlParams.get('search');
     if (!kameHouse.core.isEmpty(search)) {
-      kameHouse.util.dom.setValue(document.getElementById('search-filter'), search);
+      kameHouse.util.dom.setValueById('search-filter', search);
     }
   }
 
@@ -544,7 +544,7 @@ class CrudManager {
    */
   #loadCustomSections(config) {
     if (!kameHouse.core.isEmpty(config.customListSection)) {
-      kameHouse.util.dom.load(document.getElementById("custom-list-section"), config.customListSection);
+      kameHouse.util.dom.loadById("custom-list-section", config.customListSection);
     }
   }
 

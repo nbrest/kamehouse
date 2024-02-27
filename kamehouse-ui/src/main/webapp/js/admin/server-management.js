@@ -214,14 +214,14 @@ class ServerManager {
   /** Update the status of Shutdown command */
   #processSuccessShutdownStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.util.dom.setHtml(document.getElementById("shutdown-status"), responseBody.message);
+    kameHouse.util.dom.setHtmlById("shutdown-status", responseBody.message);
   }
 
   /** Update the status of Shutdown command with an error */
   #processErrorShutdownStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.util.dom.setHtml(document.getElementById("shutdown-status"), "Error getting the status of Shutdown command");
+    kameHouse.util.dom.setHtmlById("shutdown-status", "Error getting the status of Shutdown command");
   }
 
   /**
@@ -244,14 +244,14 @@ class ServerManager {
   /** Update the status of suspend command */
   #processSuccessSuspendStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.util.dom.setHtml(document.getElementById("suspend-status"), responseBody.message);
+    kameHouse.util.dom.setHtmlById("suspend-status", responseBody.message);
   }
 
   /** Update the status of suspend command with an error */
   #processErrorSuspendStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.util.dom.setHtml(document.getElementById("suspend-status"), "Error getting the status of Suspend command");
+    kameHouse.util.dom.setHtmlById("suspend-status", "Error getting the status of Suspend command");
   }
 
   /**
@@ -307,9 +307,9 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.close();
     if (responseCode != 404) {
       kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-      kameHouse.util.dom.setHtml(document.getElementById("httpd-status"), "Error getting the status of the apache httpd server");      
+      kameHouse.util.dom.setHtmlById("httpd-status", "Error getting the status of the apache httpd server");      
     } else {
-      kameHouse.util.dom.setHtml(document.getElementById("httpd-status"), "Unable to get the status of apache httpd server. Is it running?");   
+      kameHouse.util.dom.setHtmlById("httpd-status", "Unable to get the status of apache httpd server. Is it running?");   
     }
   }
 

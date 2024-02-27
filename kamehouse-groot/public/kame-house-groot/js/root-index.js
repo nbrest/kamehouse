@@ -17,7 +17,7 @@ class GrootHome {
     const clientDate = new Date();
     const clientMonth = clientDate.getMonth() + 1;
     const clientTimeAndDate = "  Client: " + clientDate.getDate() + "/" + clientMonth + "/" + clientDate.getFullYear() + " - " + clientDate.getHours() + ":" + clientDate.getMinutes() + ":" + clientDate.getSeconds();
-    kameHouse.util.dom.setHtml(document.getElementById("client-time-and-date"), clientTimeAndDate);
+    kameHouse.util.dom.setHtmlById("client-time-and-date", clientTimeAndDate);
   }
 }
 

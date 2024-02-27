@@ -61,16 +61,16 @@ class TomcatModuleStatusManager {
    */
   #displayModuleStatus(moduleStatus) {
     const webapp = moduleStatus["module"];
-    kameHouse.util.dom.setHtml(document.getElementById('mst-' + webapp + '-build-version-val'), moduleStatus["buildVersion"]);
-    kameHouse.util.dom.setHtml(document.getElementById('mst-' + webapp + '-build-date-val'), moduleStatus["buildDate"]);
+    kameHouse.util.dom.setHtmlById('mst-' + webapp + '-build-version-val', moduleStatus["buildVersion"]);
+    kameHouse.util.dom.setHtmlById('mst-' + webapp + '-build-date-val', moduleStatus["buildDate"]);
   }
 
   /**
    * Display error getting data.
    */
   #displayErrorGettingModuleStatus(webapp) {
-    kameHouse.util.dom.setHtml(document.getElementById('mst-' + webapp + '-build-version-val'), "Error getting data");
-    kameHouse.util.dom.setHtml(document.getElementById('mst-' + webapp + '-build-date-val'), "Error getting data");
+    kameHouse.util.dom.setHtmlById('mst-' + webapp + '-build-version-val', "Error getting data");
+    kameHouse.util.dom.setHtmlById('mst-' + webapp + '-build-date-val', "Error getting data");
     const message = "Error retrieving module status data for " + webapp + ". Please try again later.";
     kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
   }

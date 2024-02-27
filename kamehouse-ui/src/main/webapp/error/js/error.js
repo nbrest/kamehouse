@@ -91,8 +91,8 @@ class KameHouseErrorPage {
    * Load error header.
    */
   #loadHeader() {
-    this.#append(document.getElementsByTagName("head")[0], '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-header.css">');
-    this.#loadHtmlSnippet(document.getElementById("kamehouse-error-header"), "/kame-house/error/html/error-header.html", () => {
+    this.#append(this.#getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-header.css">');
+    this.#loadHtmlSnippetById("kamehouse-error-header", "/kame-house/error/html/error-header.html", () => {
       this.#logInfo("Loaded kamehouse error header");
     });
   }
@@ -101,8 +101,8 @@ class KameHouseErrorPage {
    * Load error footer.
    */
   #loadFooter() {
-    this.#append(document.getElementsByTagName("head")[0], '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-footer.css">');
-    this.#loadHtmlSnippet(document.getElementById("kamehouse-error-footer"), "/kame-house/error/html/error-footer.html", () => {
+    this.#append(this.#getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-footer.css">');
+    this.#loadHtmlSnippetById("kamehouse-error-footer", "/kame-house/error/html/error-footer.html", () => {
       this.#logInfo("Loaded kamehouse error footer");
     });
   }
@@ -114,21 +114,29 @@ class KameHouseErrorPage {
     this.#getScript("/kame-house/kamehouse/js/kamehouse.js", 
     () => {
       this.#logInfo("Loaded kamehouse.js. Overriding header and footer");
-      this.#append(document.getElementsByTagName("head")[0], '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse.css">');
-      this.#remove(document.getElementById("kamehouse-error-header"));
-      this.#remove(document.getElementById("kamehouse-error-footer"));
+      this.#append(this.#getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse.css">');
+      this.#removeById("kamehouse-error-header");
+      this.#removeById("kamehouse-error-footer");
     },
     () => {
       this.#logInfo("Error loading kamehouse.js. Keeping error page header and footer");
-      this.#classListRemove(document.getElementById('error-header-login-status-btn'), 'rotate-4');
-      this.#remove(document.getElementById("error-header-login-status-text"));
+      this.#classListRemoveById('error-header-login-status-btn', 'rotate-4');
+      this.#removeById("error-header-login-status-text");
     });
+  }
+
+  /**
+   * get head element.
+   */
+  #getHead() {
+    return document.getElementsByTagName("head")[0];
   }
 
   /**
    * Load html snippet into element.
    */
-  #loadHtmlSnippet(element, htmlSnippetPath, callback) {
+  #loadHtmlSnippetById(elementId, htmlSnippetPath, callback) {
+    const element = document.getElementById(elementId);
     if (element) {
       this.jq(element).load(htmlSnippetPath, callback);
     }
@@ -148,6 +156,12 @@ class KameHouseErrorPage {
     }
   }  
 
+  /** Remove a class from the element */
+  #classListRemoveById(elementId, className) {
+    const element = document.getElementById(elementId);
+    this.#classListRemove(element, className);
+  }    
+
   /**
    * Append the apendElement to appendToElement.
    */
@@ -160,7 +174,8 @@ class KameHouseErrorPage {
   /**
    * Remove element from dom.
    */
-  #remove(element) {
+  #removeById(elementId) {
+    const element = document.getElementById(elementId);
     if (element) {
       element.remove();
     }
