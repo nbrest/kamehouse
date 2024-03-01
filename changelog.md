@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Updated vlcrc status api to return initialized object rather than 404
 - Removed default outline from buttons
 - Updated during click button styles to a fading background
 - Reduced ci container startup time wait

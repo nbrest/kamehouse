@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,10 +43,10 @@ public class VlcRcStatusBuilder {
    * Builds a VlcRcStatus object from the VlcRcStatus string response returned by a vlc player.
    */
   public static VlcRcStatus build(String vlcRcStatusString) {
-    if (vlcRcStatusString == null) {
-      return null;
-    }
     VlcRcStatus vlcRcStatus = new VlcRcStatus();
+    if (StringUtils.isEmpty(vlcRcStatusString)) {
+      return vlcRcStatus;
+    }
     try {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode vlcStatusResponseJson = mapper.readTree(vlcRcStatusString);
@@ -57,14 +58,7 @@ public class VlcRcStatusBuilder {
       setVlcRcStatusEqualizer(vlcStatusResponseJson, vlcRcStatus);
       setVlcRcStatusInformation(vlcStatusResponseJson, vlcRcStatus);
     } catch (IOException e) {
-      if (e.getMessage().contains(ERROR_STATUS_NOT_FOUND)) {
-        if (LOGGER.isTraceEnabled()) {
-          LOGGER.trace("Error connecting to vlc player. Message: {}", e.getMessage());
-        }
-      } else {
-        LOGGER.error("Error parsing input VlcRcStatus. Message: {}", e.getMessage());
-      }
-      vlcRcStatus = null;
+      LOGGER.error("Error parsing input VlcRcStatus. Message: {}", e.getMessage());
     }
     return vlcRcStatus;
   }
