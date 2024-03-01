@@ -39,7 +39,6 @@ class VlcPlayer {
     this.#playlist.init();
     kameHouse.util.mobile.setMobileEventListeners(() => {this.#stopVlcPlayerLoops()}, () => {this.#restartVlcPlayerLoops()});
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html", () => {});
       kameHouse.util.mobile.exec(
         () => {this.loadStateFromApi();},
         () => {
@@ -48,6 +47,7 @@ class VlcPlayer {
           });
         }
       );
+      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html", () => {});
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseWebSocket"], () => {
       this.#synchronizer = new VlcPlayerSynchronizer(this);
@@ -777,6 +777,7 @@ class VlcPlayerSynchronizer {
    */
   restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
+    this.#vlcPlayer.loadStateFromApi();
     kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
     this.#vlcRcStatusWebSocket.disconnect();
     this.#playlistWebSocket.disconnect();
