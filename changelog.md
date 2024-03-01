@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Updated image button :active styles
 - Removed jquery from most of the code and cleaned up duplicate methods in dom utils
 - Set kame logo spinning wheel for cursor wait on both webapp and mobile
 - Disabled hover animation on image buttons on mobile app
