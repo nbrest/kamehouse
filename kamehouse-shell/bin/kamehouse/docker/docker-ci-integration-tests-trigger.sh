@@ -109,7 +109,7 @@ startCiDockerContainer() {
 }
 
 waitForTomcatStartup() {
-  local SECONDS=180
+  local SECONDS=90
   log.info "Waiting ${SECONDS} seconds for tomcat startup"
   sleep ${SECONDS}
   log.info "Checking if tomcat startup completed"
@@ -117,7 +117,7 @@ waitForTomcatStartup() {
 
 loginCheckLoop() {
   log.info "Check if I can login to tomcat inside the ci docker container"
-  NUM_LOGIN_RETRIES=$((RETRIES))
+  NUM_LOGIN_RETRIES=7
   while [ ${NUM_LOGIN_RETRIES} -gt 0 ]; do
     log.info "Retries left to login to ci docker container: ${COL_RED}${NUM_LOGIN_RETRIES}"
     loginCheck
