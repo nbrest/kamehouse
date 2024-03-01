@@ -18,9 +18,9 @@
 @media (max-width : 900px) {
   .img-btn-kh:active {
     transform: scale(1);
-    border: 1px solid #181818;
-    border-radius: 50%;
-    background-color: #181818;
+    border-radius: 20px;
+    background: #313131;
+    box-shadow: 0px 0px 15px 4px #4e4e4e;
   }
 }
 
@@ -31,9 +31,9 @@
 }
 
 .img-btn-mobile-kh:active {
-  border: 1px solid #181818;
-  border-radius: 50%;
-  background-color: #181818;
+  border-radius: 20px;
+  background: #313131;
+  box-shadow: 0px 0px 15px 4px #4e4e4e;
 }
 
 /** Use in combination with img-btn-kh to make it smaller or bigger */
