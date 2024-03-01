@@ -122,6 +122,18 @@ html.wait, html.wait * {
   min-height: 528px;
 }
 
+select {
+  outline: none;
+}
+
+select:active {
+  outline: none;
+}
+
+select:focus {
+  outline: none;
+}
+
 textarea {
   min-height: 100px;
 }
