@@ -63,6 +63,18 @@ body {
   /** Make all buttons square overriding bootstrap's default */
 }
 
+button {
+  outline: none;
+}
+
+button:active {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -90,11 +102,6 @@ body {
 
 .hidden-kh {
   display: none !important;
-}
-
-.highlight {
-  color: #d90000;
-  font-weight: bold;
 }
 
 hr {
