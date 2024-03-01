@@ -8,7 +8,7 @@
 #### v9.01
 
 - Updated vlcrc status api to return initialized object rather than 404
-- Removed default outline from buttons
+- Removed default outline from buttons and select elements
 - Updated during click button styles to a fading background
 - Reduced ci container startup time wait
 - Removed jquery from most of the code and cleaned up duplicate methods in dom utils
