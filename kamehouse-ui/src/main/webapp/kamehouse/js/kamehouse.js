@@ -2613,6 +2613,7 @@ class KameHouseCore {
    */
   logHttpRequest(httpMethod, config, url, requestHeaders, requestBody) {
     this.debug("http request: [ " 
+    + "'id' : '" + config.requestId + "', "
     + "'url' : '" + url + "', "
     + "'method' : '" + httpMethod + "', "
     + "'config' : '" + kameHouse.json.stringify(config) + "', "
@@ -2623,8 +2624,9 @@ class KameHouseCore {
   /**
    * Log an http response.
    */
-  logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders) {
+  logHttpResponse(config, url, responseBody, responseCode, responseDescription, responseHeaders) {
     this.debug("http response: [ " 
+    + "'id' : '" + config.requestId + "', "
     + "'url' : '" + url + "', "
     + "'responseCode' : '" + responseCode + "', "
     + "'responseDescription' : '" + responseDescription + "', "
@@ -2948,6 +2950,8 @@ class KameHouseCore {
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders)
    * Don't call this method directly, instead call the wrapper get(), post(), put(), delete() */
   #httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    const requestId = this.#generateRequestId();
+    config.requestId = requestId;
     kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
     kameHouse.util.mobile.exec(
       () => {
@@ -2974,8 +2978,8 @@ class KameHouseCore {
         url: url,
         headers: requestHeaders,
         timeout: requestTimeout,
-        success: (data, status, xhr) => this.#processSuccess(url, data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => this.#processError(url, jqXhr, textStatus, errorMessage, errorCallback)
+        success: (data, status, xhr) => this.#processSuccess(config, url, data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => this.#processError(config, url, jqXhr, textStatus, errorMessage, errorCallback)
       });
       return;
     }
@@ -2986,8 +2990,8 @@ class KameHouseCore {
         url: urlEncoded,
         headers: requestHeaders,
         timeout: requestTimeout,
-        success: (data, status, xhr) => this.#processSuccess(urlEncoded, data, status, xhr, successCallback),
-        error: (jqXhr, textStatus, errorMessage) => this.#processError(urlEncoded, jqXhr, textStatus, errorMessage, errorCallback)
+        success: (data, status, xhr) => this.#processSuccess(config, urlEncoded, data, status, xhr, successCallback),
+        error: (jqXhr, textStatus, errorMessage) => this.#processError(config, urlEncoded, jqXhr, textStatus, errorMessage, errorCallback)
       });
       return;
     }
@@ -2997,8 +3001,8 @@ class KameHouseCore {
       data: kameHouse.json.stringify(requestBody),
       headers: requestHeaders,
       timeout: requestTimeout,
-      success: (data, status, xhr) => this.#processSuccess(url, data, status, xhr, successCallback),
-      error: (jqXhr, textStatus, errorMessage) => this.#processError(url, jqXhr, textStatus, errorMessage, errorCallback)
+      success: (data, status, xhr) => this.#processSuccess(config, url, data, status, xhr, successCallback),
+      error: (jqXhr, textStatus, errorMessage) => this.#processError(config, url, jqXhr, textStatus, errorMessage, errorCallback)
     });
   }
   
@@ -3009,6 +3013,13 @@ class KameHouseCore {
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
       kameHouse.extension.mobile.core.mobileHttpRequst(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
     });
+  }
+
+  /**
+   * Generate a random id for the http request. 
+   */
+  #generateRequestId() {
+    return (Math.random() + 1).toString(36).slice(-8).toUpperCase();
   }
 
   /**
@@ -3027,7 +3038,7 @@ class KameHouseCore {
   }
 
   /** Process a successful response from the api call */
-  #processSuccess(url, data, status, xhr, successCallback) {
+  #processSuccess(config, url, data, status, xhr, successCallback) {
     /**
      * data: response body
      * status: success/error
@@ -3043,12 +3054,12 @@ class KameHouseCore {
     const responseCode = xhr.status;
     const responseDescription = xhr.statusText;
     const responseHeaders = this.#getResponseHeaders(xhr);
-    kameHouse.logger.logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.logger.logHttpResponse(config, url, responseBody, responseCode, responseDescription, responseHeaders);
     successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Process an error response from the api call */
-  #processError(url, jqXhr, textStatus, errorMessage, errorCallback) {
+  #processError(config, url, jqXhr, textStatus, errorMessage, errorCallback) {
      /**
       * jqXhr: {
       *    readyState: 4

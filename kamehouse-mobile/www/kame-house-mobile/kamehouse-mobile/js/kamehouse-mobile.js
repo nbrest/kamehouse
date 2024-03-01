@@ -163,18 +163,18 @@ class KameHouseMobileCore {
       kameHouse.logger.trace("Skipping SSL check for mobile request");
       kameHouse.cordova.plugin.http.setServerTrustMode('nocheck',
       () => { // success
-        this.#sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
+        this.#sendMobileHttpRequest(config, requestUrl, options, successCallback, errorCallback);
       },
       () => { // error
         const message = "Error setting cordova ssl trustmode to nocheck. Trying mobile http request anyway";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        this.#sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
+        this.#sendMobileHttpRequest(config, requestUrl, options, successCallback, errorCallback);
       });
     } else {
       kameHouse.logger.trace("Enabling SSL check for mobile request");
       kameHouse.cordova.plugin.http.setServerTrustMode('default',
       () => { // success
-        this.#sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback);
+        this.#sendMobileHttpRequest(config, requestUrl, options, successCallback, errorCallback);
       },
       () => { // error
         const message = "Error setting cordova ssl trustmode to default. Can't proceed with mobile http request to " + requestUrl;
@@ -377,15 +377,15 @@ class KameHouseMobileCore {
   /**
    * Send mobile http request.
    */
-  #sendMobileHttpRequest(requestUrl, options, successCallback, errorCallback) {
+  #sendMobileHttpRequest(config, requestUrl, options, successCallback, errorCallback) {
     kameHouse.cordova.plugin.http.sendRequest(requestUrl, options, 
-      (response) => { this.#processMobileSuccess(requestUrl, response, successCallback); },
-      (response) => { this.#processMobileError(requestUrl, response, errorCallback); }
+      (response) => { this.#processMobileSuccess(config, requestUrl, response, successCallback); },
+      (response) => { this.#processMobileError(config, requestUrl, response, errorCallback); }
     );
   }
 
   /** Process a successful response from the api call */
-  #processMobileSuccess(url, response, successCallback) {
+  #processMobileSuccess(config, url, response, successCallback) {
     /**
      * data: response body
      * status: http status code
@@ -401,12 +401,12 @@ class KameHouseMobileCore {
     const responseCode = response.status;
     const responseDescription = null;
     const responseHeaders = response.headers;
-    kameHouse.logger.logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.logger.logHttpResponse(config, url, responseBody, responseCode, responseDescription, responseHeaders);
     successCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 
   /** Process an error response from the api call */
-  #processMobileError(url, response, errorCallback) {
+  #processMobileError(config, url, response, errorCallback) {
      /**
      * error: error message
      * status: http status code
@@ -1268,7 +1268,7 @@ class MockLocalhostServer {
     const responseCode = this.#mockResponseCode(httpMethod, config, url, requestHeaders, requestBody, responseBody);
     const responseDescription = this.#mockResponseDescription(httpMethod, config, url, requestHeaders, requestBody, responseBody);
     const responseHeaders = this.#mockResponseHeaders(httpMethod, config, url, requestHeaders, requestBody, responseBody);
-    kameHouse.logger.logHttpResponse(url, responseBody, responseCode, responseDescription, responseHeaders);
+    kameHouse.logger.logHttpResponse(config, url, responseBody, responseCode, responseDescription, responseHeaders);
     if (this.#isErrorResponseCode(responseCode)) {
       kameHouse.logger.debug("Executing errorCallback with mock response");
       errorCallback(responseBody, responseCode, responseDescription, responseHeaders); 
