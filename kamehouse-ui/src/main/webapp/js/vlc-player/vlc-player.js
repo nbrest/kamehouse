@@ -278,7 +278,7 @@ class VlcPlayer {
    */
   unlockScreen() {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
-    this.getRestClient().post(UNLOCK_SCREEN_API_URL, null, null);
+    this.getRestClient().post(UNLOCK_SCREEN_API_URL, kameHouse.http.getUrlEncodedHeaders(), null, () => {}, () => {});
   }
 
   /**
@@ -289,7 +289,7 @@ class VlcPlayer {
       server : "media.server"
     };
     const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
-    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   }
 
   /**
@@ -300,7 +300,7 @@ class VlcPlayer {
       delay : 0
     };
     const SUSPEND_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/suspend";
-    this.getRestClient().post(SUSPEND_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+    this.getRestClient().post(SUSPEND_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   }
 
   /**
@@ -314,7 +314,7 @@ class VlcPlayer {
       clickCount: 1
     };
     const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
-    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), params);
+    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), params, () => {}, () => {});
   }
 
   /**
@@ -328,7 +328,7 @@ class VlcPlayer {
       clickCount: 2
     };
     const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
-    this.getRestClient().post(MOUSE_CLICK_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+    this.getRestClient().post(MOUSE_CLICK_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   }
 
   /**
@@ -400,7 +400,7 @@ class VlcPlayerCommandExecutor {
     if (!kameHouse.core.isEmpty(val) || val == 0) {
       requestBody.val = val;
     }
-    this.#vlcPlayer.getRestClient().post(this.#vlcRcCommandUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
+    this.#vlcPlayer.getRestClient().post(this.#vlcRcCommandUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody, () => {}, () => {});
   }
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
@@ -410,12 +410,18 @@ class VlcPlayerCommandExecutor {
       file : fileName
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
-    this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam);
+    this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+      () => {this.#vlcPlayer.loadStateFromApi()}, 
+      () => {}
+    );
   }
 
   /** Close vlc player. */
   close() {
-    this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null);
+    this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
+      () => {this.#vlcPlayer.loadStateFromApi()}, 
+      () => {}
+    );
   }
 } // End VlcPlayerCommandExecutor
 
@@ -1270,7 +1276,7 @@ class VlcPlayerPlaylist {
       name: 'pl_play',
       id: data.id
     };
-    this.#vlcPlayer.getRestClient().post(this.#playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody);
+    this.#vlcPlayer.getRestClient().post(this.#playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody, () => {}, () => {});
   }
 
   /** Highlight currently playing item in the playlist. */
@@ -1414,22 +1420,42 @@ class VlcPlayerRestClient {
   }
 
   /** Execute a POST request to the specified url with the specified request body. */
-  post(url, requestHeaders, requestBody) {
+  post(url, requestHeaders, requestBody, successCallback, errorCallback) {
     kameHouse.util.cursor.setCursorWait();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription, responseHeaders) => this.#apiCallSuccessDefault(responseBody),
-      (responseBody, responseCode, responseDescription, responseHeaders) => this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders)
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#apiCallSuccessDefault(responseBody);
+        if (kameHouse.core.isFunction(successCallback)) {
+          successCallback();
+        }
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
+        if (kameHouse.core.isFunction(errorCallback)) {
+          errorCallback();
+        }
+      }
     );
   }
 
   /** Execute a DELETE request to the specified url with the specified request body. */
-  delete(url, requestHeaders, requestBody) {
+  delete(url, requestHeaders, requestBody, successCallback, errorCallback) {
     kameHouse.util.cursor.setCursorWait();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.delete(config, url, requestHeaders, requestBody,
-      (responseBody, responseCode, responseDescription, responseHeaders) => this.#apiCallSuccessDefault(responseBody),
-      (responseBody, responseCode, responseDescription, responseHeaders) => this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders)
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#apiCallSuccessDefault(responseBody)
+        if (kameHouse.core.isFunction(successCallback)) {
+          successCallback();
+        }
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
+        if (kameHouse.core.isFunction(errorCallback)) {
+          errorCallback();
+        }
+      }
     );
   }
 

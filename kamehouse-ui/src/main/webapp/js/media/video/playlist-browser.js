@@ -102,7 +102,7 @@ class PlaylistBrowser {
   playSelectedPlaylist() {
     const playlist = this.#getSelectedPlaylist();
     kameHouse.extension.vlcPlayer.playFile(playlist);
-    kameHouse.extension.vlcPlayer.openTab('tab-playlist');
+    kameHouse.extension.vlcPlayer.openTab('tab-playing');
     kameHouse.extension.vlcPlayer.reloadPlaylist();
   }
 
