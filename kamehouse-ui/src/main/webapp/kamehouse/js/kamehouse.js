@@ -2285,8 +2285,8 @@ class KameHouseCore {
    */
   setGlobalErrorHandler() {
     kameHouse.logger.info("Setting global kamehouse error handler");
-    window.addEventListener("error", (ErrorEvent) => { this.#handleErrorEvent(ErrorEvent); });
-    window.addEventListener("unhandledrejection", (ErrorEvent) => { this.#handleErrorEvent(ErrorEvent); });
+    window.addEventListener("error", (errorEvent) => { this.#handleErrorEvent(errorEvent); });
+    window.addEventListener("unhandledrejection", (rejectionEvent) => { this.#handleRejectionEvent(rejectionEvent); });
   }
 
   /**
@@ -2420,13 +2420,13 @@ class KameHouseCore {
   /**
    * Error event handler.
    */
-  #handleErrorEvent(ErrorEvent) {
+  #handleErrorEvent(errorEvent) {
     const errorObject = {
-      message: ErrorEvent.message,
-      filename: ErrorEvent.filename,
-      lineNumber: ErrorEvent.lineno,
-      columnNumber: ErrorEvent.colno,
-      error: ErrorEvent.error
+      message: errorEvent.message,
+      filename: errorEvent.filename,
+      lineNumber: errorEvent.lineno,
+      columnNumber: errorEvent.colno,
+      error: errorEvent.error
     };
     const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
     console.log(errorMessage);
@@ -2434,6 +2434,17 @@ class KameHouseCore {
       kameHouse.logger.error(errorMessage);
     });
   }
+
+  /**
+   * Rejection event handler.
+   */
+  #handleRejectionEvent(rejectionEvent) {
+    const errorMessage = "Uncaught KameHouse rejection: " + kameHouse.json.stringify(rejectionEvent, null, 2);
+    console.log(errorMessage);
+    kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
+      kameHouse.logger.error(errorMessage);
+    });
+  }  
 
   /**
    * Returns true when processing a page authenticated by GRoot.

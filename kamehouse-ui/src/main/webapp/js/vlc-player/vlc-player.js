@@ -777,8 +777,8 @@ class VlcPlayerSynchronizer {
    */
   restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
-    this.#vlcPlayer.loadStateFromApi();
     kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
+    this.#vlcPlayer.loadStateFromApi();
     this.#vlcRcStatusWebSocket.disconnect();
     this.#playlistWebSocket.disconnect();
     this.#restartSyncVlcPlayerHttpLoop(this.#getRestartLoopConfig());
