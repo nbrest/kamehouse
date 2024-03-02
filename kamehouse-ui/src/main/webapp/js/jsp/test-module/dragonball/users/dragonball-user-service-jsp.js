@@ -115,6 +115,7 @@ class DragonBallUserServiceJsp {
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);
+    kameHouse.logger.error(errorMessage);
   }
 
   /**

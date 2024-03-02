@@ -31,6 +31,7 @@ class ScheduledBookingService {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
         this.#updateView(responseBody, responseCode);
+        kameHouse.logger.error("Error executing scheduled bookings");
       });
   }
 

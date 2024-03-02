@@ -38,6 +38,7 @@ class BookingService {
           kameHouse.logger.error("Error parsing the response: " + error);
           kameHouse.util.dom.setHtmlById('brt-status', "Error parsing response body");
         }
+        kameHouse.logger.error("Error executing the booking request");
       });
   }
 
