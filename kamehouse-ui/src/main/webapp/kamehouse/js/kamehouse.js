@@ -2595,15 +2595,14 @@ class KameHouseCore {
   /**
    * Log an api call error to the console.
    */
-  logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, message) {
-    if (kameHouse.core.isEmpty(message)) {
-      message = "Error executing api call";
-    }
-    const errorMessage = message + ": [ 'url' : '" + url 
-      + "', 'responseCode' : '" + responseCode 
-      + "', 'responseDescription' : '" + responseDescription 
-      + "', 'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) 
-      + "', 'responseBody' : '" + kameHouse.json.stringify(responseBody) 
+  logApiError(config, url, responseBody, responseCode, responseDescription, responseHeaders) {
+    const errorMessage = "http response: [ "
+      + "'id' : '" + config.requestId + "', "
+      + "'url' : '" + url + "', " 
+      + "'responseCode' : '" + responseCode + "', "
+      + "'responseDescription' : '" + responseDescription + "', "
+      + "'responseHeaders' : '" + kameHouse.json.stringify(responseHeaders) + "', "
+      + "'responseBody' : '" + kameHouse.json.stringify(responseBody) 
       + "' ]";
     this.error(errorMessage);
   }
@@ -3074,7 +3073,7 @@ class KameHouseCore {
      const responseCode = jqXhr.status;
      const responseDescription = jqXhr.statusText;
      const responseHeaders = this.#getResponseHeaders(jqXhr);
-     kameHouse.logger.logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, null);
+     kameHouse.logger.logApiError(config, url, responseBody, responseCode, responseDescription, responseHeaders);
      errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }
 

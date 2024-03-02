@@ -115,7 +115,6 @@ class DragonBallUserServiceJsp {
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);
-    kameHouse.logger.logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, errorMessage);
   }
 
   /**

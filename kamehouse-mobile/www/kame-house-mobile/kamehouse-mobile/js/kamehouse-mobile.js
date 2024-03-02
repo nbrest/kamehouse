@@ -427,7 +427,7 @@ class KameHouseMobileCore {
      const responseCode = response.status;
      const responseDescription = null;
      const responseHeaders = response.headers;
-     kameHouse.logger.logApiError(url, responseBody, responseCode, responseDescription, responseHeaders, null);
+     kameHouse.logger.logApiError(config, url, responseBody, responseCode, responseDescription, responseHeaders);
      errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
   }  
 

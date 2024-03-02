@@ -29,7 +29,6 @@ class ScheduledBookingService {
         this.#updateView(responseBody, responseCode);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.logApiError(ScheduledBookingService.#SCHEDULED_BOOKINGS_API_URL, responseBody, responseCode, responseDescription, responseHeaders, "Error executing scheduled bookings");
         kameHouse.plugin.modal.loadingWheelModal.close();
         this.#updateView(responseBody, responseCode);
       });
