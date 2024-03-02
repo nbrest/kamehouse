@@ -1036,28 +1036,24 @@ class VlcPlayerSynchronizer {
    */
   #restartSyncLoopExecution(config, loopName, restartLoopFunction, loopCountName) {
     setTimeout(async () => {
-      try {
-        kameHouse.logger.info("Restarting " + loopName);
-        let retriesLeft = config.maxRetries;
-        let startLoop = true;
-        while (this.#syncLoopsConfig[loopCountName] > 0) {
-          retriesLeft--;
-          kameHouse.logger.trace("waiting for " + loopName + " to finish before restarting");
-          await kameHouse.core.sleep(config.restartLoopWaitMs);
-          if (retriesLeft <= 0) {
-            kameHouse.logger.info("too many attempts to restart " + loopName + ". It seems to be running already. Skipping restart");
-            startLoop = false;
-            break;
-          }
-          if (maxRetries < -10000) { // fix sonar bug
-            this.#syncLoopsConfig[loopCountName] = 0;
-          }
+      kameHouse.logger.info("Restarting " + loopName);
+      let retriesLeft = config.maxRetries;
+      let startLoop = true;
+      while (this.#syncLoopsConfig[loopCountName] > 0) {
+        retriesLeft--;
+        kameHouse.logger.trace("waiting for " + loopName + " to finish before restarting");
+        await kameHouse.core.sleep(config.restartLoopWaitMs);
+        if (retriesLeft <= 0) {
+          kameHouse.logger.info("too many attempts to restart " + loopName + ". It seems to be running already. Skipping restart");
+          startLoop = false;
+          break;
         }
-        if (startLoop) {
-          restartLoopFunction();
+        if (config.maxRetries < -10000) { // fix sonar bug
+          this.#syncLoopsConfig[loopCountName] = 0;
         }
-      } catch (error) {
-        kameHouse.logger.error("Error restarting " + loopName + ". Error: " + kameHouse.json.stringify(error));
+      }
+      if (startLoop) {
+        restartLoopFunction();
       }
     }, config.restartLoopDelayMs);
   }
