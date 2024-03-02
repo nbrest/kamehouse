@@ -278,7 +278,7 @@ class VlcPlayer {
    */
   unlockScreen() {
     const UNLOCK_SCREEN_API_URL = "/kame-house-admin/api/v1/admin/screen/unlock";
-    this.getRestClient().post(UNLOCK_SCREEN_API_URL, kameHouse.http.getUrlEncodedHeaders(), null, () => {}, () => {});
+    this.getRestClient().post(UNLOCK_SCREEN_API_URL, null, null, () => {}, () => {});
   }
 
   /**
