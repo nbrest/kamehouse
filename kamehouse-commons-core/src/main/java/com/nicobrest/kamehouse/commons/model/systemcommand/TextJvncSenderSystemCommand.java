@@ -16,21 +16,21 @@ public class TextJvncSenderSystemCommand extends JvncSenderSystemCommand {
    * Setup jvncsender text system command.
    */
   public TextJvncSenderSystemCommand(String text) {
+    super();
     logCommand = false;
     executeOnDockerHost = false;
     this.text = text;
-    setOutputCommand();
   }
 
   /**
    * Setup jvncsender text system command.
    */
   public TextJvncSenderSystemCommand(String text, int sleepTime) {
+    super();
     logCommand = false;
     executeOnDockerHost = false;
     setSleepTime(sleepTime);
     this.text = text;
-    setOutputCommand();
   }
 
   @Override

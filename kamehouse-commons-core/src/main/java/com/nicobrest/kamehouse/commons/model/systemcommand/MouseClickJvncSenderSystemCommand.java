@@ -27,13 +27,13 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
    */
   public MouseClickJvncSenderSystemCommand(MouseButton mouseButton, int positionX, int positionY,
       int clickCount) {
+    super();
     logCommand = false;
     executeOnDockerHost = true;
     this.mouseButton = mouseButton;
     this.positionX = positionX;
     this.positionY = positionY;
     this.clickCount = clickCount;
-    setOutputCommand();
   }
 
   /**
@@ -49,6 +49,7 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
    */
   public MouseClickJvncSenderSystemCommand(MouseButton mouseButton, int positionX, int positionY,
       int clickCount, int sleepTime) {
+    super();
     logCommand = false;
     executeOnDockerHost = true;
     setSleepTime(sleepTime);
@@ -56,7 +57,6 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
     this.positionX = positionX;
     this.positionY = positionY;
     this.clickCount = clickCount;
-    setOutputCommand();
   }
 
   @Override

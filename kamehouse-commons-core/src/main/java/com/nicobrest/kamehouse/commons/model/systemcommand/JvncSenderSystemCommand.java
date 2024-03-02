@@ -24,6 +24,13 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
   private static final int VNC_PORT = 5900;
 
   /**
+   * Set the output command.
+   */
+  public JvncSenderSystemCommand() {
+    setOutputCommand();
+  }
+
+  /**
    * Send the command to execute an action on the vnc server.
    */
   protected abstract void sendCommand(VncServer vncServer) throws KameHouseException;
@@ -63,9 +70,17 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
   }
 
   /**
+   * Hide the output of jvncsender commands, as it contains passwords.
+   */
+  @Override
+  protected void setOutputCommand() {
+    output.setCommand("[jvncsender (hidden as it contains passwords)]");
+  }
+
+  /**
    * Gets the vnc server password from a file.
    */
-  protected String getVncServerPassword() {
+  private static String getVncServerPassword() {
     String vncServerPwdFile =
         PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("vnc.server.pwd.file");
     try {
@@ -77,15 +92,6 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }
-  }
-
-  /**
-   * Hide the output of jvncsender commands, as it contains passwords. Call this method in the
-   * constructor of <b>EVERY</b> concrete subclass, after initializing the command lists.
-   */
-  @Override
-  protected void setOutputCommand() {
-    output.setCommand("[jvncsender (hidden as it contains passwords)]");
   }
 
   @Override
