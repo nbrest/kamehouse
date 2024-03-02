@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
+import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -29,7 +30,7 @@ class VlcRcControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/status");
 
-    assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
+    verifySuccessfulResponse(response, VlcRcStatus.class);
   }
 
   @Test

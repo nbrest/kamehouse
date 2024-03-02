@@ -142,14 +142,16 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
    */
   public VlcRcStatus execute(VlcRcCommand command) {
     String commandUrl = buildCommandUrl(command);
-    if (commandUrl != null) {
-      String vlcServerResponse = execRequestToVlcServer(commandUrl);
-      VlcRcStatus vlcRcStatus = VlcRcStatusBuilder.build(vlcServerResponse);
-      logVlcRcStatus(vlcRcStatus);
-      return vlcRcStatus;
-    } else {
+    if (commandUrl == null) {
       return null;
     }
+    String vlcServerResponse = execRequestToVlcServer(commandUrl);
+    if (StringUtils.isEmpty(vlcServerResponse)) {
+      return null;
+    }
+    VlcRcStatus vlcRcStatus = VlcRcStatusBuilder.build(vlcServerResponse);
+    logVlcRcStatus(vlcRcStatus);
+    return vlcRcStatus;
   }
 
   /**
