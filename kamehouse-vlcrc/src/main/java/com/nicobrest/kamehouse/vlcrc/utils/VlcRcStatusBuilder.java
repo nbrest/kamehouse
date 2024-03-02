@@ -33,7 +33,6 @@ public class VlcRcStatusBuilder {
   private static final String CODEC_CC = "Codec";
   private static final String LANGUAGE_CC = "Language";
   private static final String TYPE_CC = "Type";
-  private static final String ERROR_STATUS_NOT_FOUND = "HTTP Status 404";
 
   private VlcRcStatusBuilder() {
     throw new IllegalStateException("Utility class to build VlcRcStatus objects.");
