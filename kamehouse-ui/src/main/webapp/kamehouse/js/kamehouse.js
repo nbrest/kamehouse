@@ -2176,8 +2176,12 @@ class KameHouseCore {
    * This function needs to be called in an async method, with the await prefix. 
    * Example: await kameHouse.core.sleep(1000);
    */
-  sleep(ms) { 
-    return new Promise(resolve => setTimeout(resolve, ms));
+  async sleep(ms) { 
+    try {
+      return await this.#sleepPromise(ms);
+    } catch (error) {
+      kameHouse.logger.error("Error during sleep(). Error: " + kameHouse.json.stringify(error));
+    }
   }
 
   /**
@@ -2417,6 +2421,19 @@ class KameHouseCore {
     return this.height(element);
   }
 
+  /**
+   * Returns a promise that simulates sleep.
+   */
+  #sleepPromise(ms) {
+    const sleepPromise = new Promise((resolve, reject) => {setTimeout(resolve, ms)})
+      .then(() => {})
+      .catch((error) => {
+        kameHouse.logger.error("Error during sleep(). Error: " + kameHouse.json.stringify(error));
+      });
+    
+    return sleepPromise;
+  }
+  
   /**
    * Error event handler.
    */
