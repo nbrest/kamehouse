@@ -26,7 +26,7 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
   /**
    * Set the output command.
    */
-  public JvncSenderSystemCommand() {
+  protected JvncSenderSystemCommand() {
     setOutputCommand();
   }
 
