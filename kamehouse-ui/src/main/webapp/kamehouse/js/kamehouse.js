@@ -64,6 +64,7 @@ class KameHouse {
     this.logger.info("Started initializing kamehouse.js");
     this.core.setGlobalErrorHandler();
     this.core.initAuthorizeUser();
+    this.core.setLinkImageBackgrounds();
     this.util.mobile.init();
     this.core.loadSession();
     this.core.loadHeader();
@@ -783,6 +784,13 @@ class KameHouseDomUtils {
     const element = document.getElementById(elementToReplaceId);
     return this.replaceWith(element, newElement);
   }  
+
+  /** Set an attribute of an element */
+  setBackgroundImage(element, imgUrl) {
+    if (element) {
+      this.setStyle(element, "background-image", "url('" + imgUrl + "')");
+    }
+  }
 
   /** Set an attribute of an element */
   setAttribute(element, attrKey, attrVal) {
@@ -2016,6 +2024,20 @@ class KameHouseCore {
     const authorizedRoles = this.getStringKameHouseData("authorized-roles");
     kameHouse.logger.debug("Page requires roles: " + authorizedRoles);
     this.#openKameHouseSplashScreen();
+  }
+
+  /**
+   * Set the background of link-image elements.
+   */
+  setLinkImageBackgrounds() {
+    kameHouse.logger.debug("Setting link-image backgrounds");
+    const linkImages = document.getElementsByClassName("link-image-img");
+    for (const linkImage of linkImages) {
+      const backgroundImg = linkImage.dataset.backgroundImg;
+      if (backgroundImg) {
+        kameHouse.util.dom.setBackgroundImage(linkImage, backgroundImg);
+      }
+    }
   }
 
   /** 
