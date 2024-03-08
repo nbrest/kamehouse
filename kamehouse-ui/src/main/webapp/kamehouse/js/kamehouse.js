@@ -64,7 +64,7 @@ class KameHouse {
     this.logger.info("Started initializing kamehouse.js");
     this.core.setGlobalErrorHandler();
     this.core.initAuthorizeUser();
-    this.core.setLinkImageBackgrounds();
+    this.core.setButtonBackgrounds();
     this.util.mobile.init();
     this.core.loadSession();
     this.core.loadHeader();
@@ -2029,13 +2029,22 @@ class KameHouseCore {
   /**
    * Set the background of link-image elements.
    */
-  setLinkImageBackgrounds() {
+  setButtonBackgrounds() {
+    kameHouse.logger.debug("Setting button backgrounds");
     kameHouse.logger.debug("Setting link-image backgrounds");
     const linkImages = document.getElementsByClassName("link-image-img");
     for (const linkImage of linkImages) {
       const backgroundImg = linkImage.dataset.backgroundImg;
       if (backgroundImg) {
         kameHouse.util.dom.setBackgroundImage(linkImage, backgroundImg);
+      }
+    }
+    kameHouse.logger.debug("Setting img-btn-kh backgrounds");
+    const imgBtns = document.getElementsByClassName("img-btn-kh");
+    for (const imgBtn of imgBtns) {
+      const backgroundImg = imgBtn.dataset.backgroundImg;
+      if (backgroundImg) {
+        kameHouse.util.dom.setBackgroundImage(imgBtn, backgroundImg);
       }
     }
   }
