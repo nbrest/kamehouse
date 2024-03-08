@@ -166,7 +166,9 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       attr: {
         class: "btn go-back-btn-kh",
       },
+      backgroundImg: null,
       html: "Back",
+      data: null,
       click: () => { 
         history.back(); 
         kameHouse.plugin.modal.basicModal.close(); 

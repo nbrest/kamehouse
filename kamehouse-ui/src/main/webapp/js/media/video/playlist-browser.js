@@ -281,6 +281,7 @@ class PlaylistBrowser {
       attr: {
         class: "playlist-browser-table-btn",
       },
+      backgroundImg: null,
       html: displayName,
       data: {
         filename: filePath

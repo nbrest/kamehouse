@@ -866,6 +866,7 @@ class CrudManager {
       attr: {
         class: "form-submit-btn-kh",
       },
+      backgroundImg: null,
       html: "Yes",
       data: {
         id: id

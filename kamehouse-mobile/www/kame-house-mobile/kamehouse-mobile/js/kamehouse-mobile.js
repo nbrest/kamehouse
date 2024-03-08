@@ -1111,7 +1111,9 @@ class KameHouseMobileConfigManager {
       attr: {
         class: "mobile-btn-kh reset-cfg-btn-kh",
       },
+      backgroundImg: null,
       html: "Yes",
+      data: null,
       click: () => {this.resetDefaults()}
     });
   }

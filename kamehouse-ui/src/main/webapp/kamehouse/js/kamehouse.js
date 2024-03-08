@@ -954,6 +954,7 @@ class KameHouseDomUtils {
    *      class: ""
    *    },
    *    html: htmlObject,
+   *    backgroundImg: "/kame-house/img/url.png",
    *    data: {},
    *    click: () => {}
    * }
@@ -961,6 +962,9 @@ class KameHouseDomUtils {
   getButton(config) {
     const btn = this.#getElement('button', config.attr, config.html);
     this.setClick(btn, config.data, config.click);
+    if (config.backgroundImg) {
+      this.setBackgroundImage(btn, config.backgroundImg);
+    }
     return btn;
   }
 

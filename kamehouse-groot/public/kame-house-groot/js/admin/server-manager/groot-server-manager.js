@@ -121,7 +121,7 @@ class ServerManager {
    */
   confirmRebootServer() {
     kameHouse.plugin.modal.basicModal.setHtml(this.#getRebootServerModalMessage());
-    kameHouse.plugin.modal.basicModal.appendHtml(this.#createRebootImg());
+    kameHouse.plugin.modal.basicModal.appendHtml(this.#createRebootButton());
     kameHouse.plugin.modal.basicModal.open();
   }
 
@@ -182,14 +182,17 @@ class ServerManager {
   }
 
   /**
-   * Create reboot clickable image.
+   * Create reboot button.
    */
-  #createRebootImg() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/shutdown-red.png",
-      className: "img-btn-kh",
-      alt: "Reboot",
-      onClick: () => { this.#rebootServer() }
+  #createRebootButton() {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh"
+      },
+      backgroundImg: "/kame-house/img/pc/shutdown-red.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#rebootServer()
     });
   }
 
@@ -792,34 +795,32 @@ class TailLogManagerWrapper {
    * Create start tail log button.
    */
   #createStartButton() {
-    const button = kameHouse.util.dom.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-tail-log-btn",
         class: "link-image-img"
       },
+      backgroundImg: "/kame-house/img/mplayer/play-circle-green.png",
       html: null,
       data: null,
       click: (event, data) => this.toggleTailLog()
     });
-    kameHouse.util.dom.setBackgroundImage(button, "/kame-house/img/mplayer/play-circle-green.png");
-    return button;
   }
 
   /**
    * Create stop tail log button.
    */
   #createStopButton() {
-    const button = kameHouse.util.dom.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-tail-log-btn",
         class: "link-image-img"
       },
+      backgroundImg: "/kame-house/img/other/stop-red-dark.png",
       html: null,
       data: null,
       click: (event, data) => this.toggleTailLog()
     });
-    kameHouse.util.dom.setBackgroundImage(button, "/kame-house/img/other/stop-red-dark.png");
-    return button;
   }
   
 } // TailLogManagerWrapper

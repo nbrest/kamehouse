@@ -1365,6 +1365,7 @@ class VlcPlayerPlaylist {
       attr: {
         class: "playlist-table-btn",
       },
+      backgroundImg: null,
       html: displayName,
       data: {
         id: playlistElementId
