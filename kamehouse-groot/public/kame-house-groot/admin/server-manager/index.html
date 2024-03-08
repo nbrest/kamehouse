@@ -117,8 +117,8 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/rocket.png" alt="Deploy All Modules" title="Deploy All Modules" onclick="kameHouse.extension.deploymentManager.deployAllModules()"/></a><br>
-                <a><img class="link-image-img" src="/kame-house/img/dbz/nimbus.png" alt="Deploy All Modules All Servers" title="Deploy All Modules All Servers" onclick="kameHouse.extension.deploymentManager.deployAllModulesAllServers()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/other/rocket.png" onclick='kameHouse.extension.deploymentManager.deployAllModules()'></button><br>
+                <button class="link-image-img" data-background-img="/kame-house/img/dbz/nimbus.png" onclick='kameHouse.extension.deploymentManager.deployAllModulesAllServers()'></button>
               </td>
               <td>
                 <div class="link-image-text">Deploy All Modules</div>
@@ -344,7 +344,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/restart-red-dark.png" alt="Restart Tomcat" title="Restart Tomcat" onclick="kameHouse.extension.deploymentManager.restartTomcat()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/restart-red-dark.png" onclick='kameHouse.extension.deploymentManager.restartTomcat()'></button>
               </td>
               <td>
                 <div class="link-image-text">Restart Tomcat</div>
@@ -391,8 +391,8 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/git.png" alt="Git Pull" title="Git Pull" onclick="kameHouse.extension.gitManager.pullKameHouse()"/></a><br>
-                <a><img class="link-image-img" src="/kame-house/img/dbz/nimbus.png" alt="Git Pull All Servers" title="Git Pull All Servers" onclick="kameHouse.extension.gitManager.pullKameHouseAllServers()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/git.png" onclick='kameHouse.extension.gitManager.pullKameHouse()'></button><br>
+                <button class="link-image-img" data-background-img="/kame-house/img/dbz/nimbus.png" onclick='kameHouse.extension.gitManager.pullKameHouseAllServers()'></button>
               </td>
               <td>
                 <div class="link-image-text">Git Pull</div>
@@ -437,7 +437,7 @@
             <tbody>
               <tr>
                 <td>
-                  <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Reboot" title="Reboot" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
+                  <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.confirmRebootServer()'></button>
                 </td>
                 <td>
                   <div class="link-image-text">Restart the server</div>
@@ -482,7 +482,7 @@
             <tbody>
               <tr>
                 <td>
-                  <a><img class="link-image-img" src="/kame-house/img/pc/docker.png" alt="Docker" title="Docker" onclick="kameHouse.extension.serverManager.dockerStatus()"/></a>
+                  <button class="link-image-img" data-background-img="/kame-house/img/pc/docker.png" onclick='kameHouse.extension.serverManager.dockerStatus()'></button>
                 </td>
                 <td>
                   <div class="link-image-text">Docker Status</div>
@@ -527,7 +527,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img id="toggle-tail-log-img" class="link-image-img" src="/kame-house/img/mplayer/play-circle-green.png" alt="Toggle Tail Log" title="Toggle Tail Log" onclick="kameHouse.extension.tailLogManagerWrapper.toggleTailLog()"/></a>
+                <button id="toggle-tail-log-btn" class="link-image-img" data-background-img="/kame-house/img/mplayer/play-circle-green.png" onclick='kameHouse.extension.tailLogManagerWrapper.toggleTailLog()'></button>
               </td>
               <td>
                 <div class="link-image-text">Toggle Tail Logs</div>

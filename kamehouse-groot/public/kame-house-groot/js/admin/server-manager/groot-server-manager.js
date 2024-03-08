@@ -679,15 +679,15 @@ class DeploymentManager {
  */
 class TailLogManagerWrapper {
 
-  #stopImg = null;
-  #startImg = null;
+  #stopButton = null;
+  #startButton = null;
   #isTailLogRunning = false;
   #tailLogCount = 0;
   #resume = false;
 
   constructor() {
-    this.#stopImg = this.#createStopImg();
-    this.#startImg = this.#createStartImg();
+    this.#stopButton = this.#createStopButton();
+    this.#startButton = this.#createStartButton();
   }
 
   /**
@@ -754,7 +754,7 @@ class TailLogManagerWrapper {
       return;
     }
     kameHouse.logger.info("Started tailLog loop");
-    kameHouse.util.dom.replaceWithById("toggle-tail-log-img", this.#stopImg);
+    kameHouse.util.dom.replaceWithById("toggle-tail-log-btn", this.#stopButton);
     this.#tailLogCount++;
     this.#isTailLogRunning = true;
     while (this.#isTailLogRunning) {
@@ -773,7 +773,7 @@ class TailLogManagerWrapper {
     }
     this.#tailLogCount--;
     if (this.#tailLogCount == 0) {
-      kameHouse.util.dom.replaceWithById("toggle-tail-log-img", this.#startImg);
+      kameHouse.util.dom.replaceWithById("toggle-tail-log-btn", this.#startButton);
     }
     kameHouse.logger.info("Finished tailLog loop");
     kameHouse.plugin.modal.loadingWheelModal.close();
@@ -789,29 +789,37 @@ class TailLogManagerWrapper {
   }
 
   /**
-   * Create start tail log image.
+   * Create start tail log button.
    */
-  #createStartImg() {
-    return kameHouse.util.dom.getImgBtn({
-      id: "toggle-tail-log-img",
-      src: "/kame-house/img/mplayer/play-circle-green.png",
-      className: "link-image-img",
-      alt: "Start Tail Log",
-      onClick: () => this.toggleTailLog()
+  #createStartButton() {
+    const button = kameHouse.util.dom.getButton({
+      attr: {
+        id: "toggle-tail-log-btn",
+        class: "link-image-img"
+      },
+      html: null,
+      data: null,
+      click: (event, data) => this.toggleTailLog()
     });
+    kameHouse.util.dom.setBackgroundImage(button, "/kame-house/img/mplayer/play-circle-green.png");
+    return button;
   }
 
   /**
-   * Create stop tail log image.
+   * Create stop tail log button.
    */
-  #createStopImg() {
-    return kameHouse.util.dom.getImgBtn({
-      id: "toggle-tail-log-img",
-      src: "/kame-house/img/other/stop-red-dark.png",
-      className: "link-image-img",
-      alt: "Stop Tail Log",
-      onClick: () => this.toggleTailLog()
+  #createStopButton() {
+    const button = kameHouse.util.dom.getButton({
+      attr: {
+        id: "toggle-tail-log-btn",
+        class: "link-image-img"
+      },
+      html: null,
+      data: null,
+      click: (event, data) => this.toggleTailLog()
     });
+    kameHouse.util.dom.setBackgroundImage(button, "/kame-house/img/other/stop-red-dark.png");
+    return button;
   }
   
 } // TailLogManagerWrapper

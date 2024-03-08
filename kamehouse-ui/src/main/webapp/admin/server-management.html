@@ -59,7 +59,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setShutdownCommand()" /></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick="kameHouse.extension.serverManager.setShutdownCommand()"></button>
               </td>
               <td>
                 <div class="link-image-text">Shutdown</div>
@@ -74,7 +74,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/cancel-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelShutdownCommand()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/other/cancel-green.png" onclick='kameHouse.extension.serverManager.cancelShutdownCommand()'></button>
               </td>
               <td>
                 <div class="link-image-text">Cancel Shutdown</div>
@@ -83,7 +83,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/refresh.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getShutdownStatus(true)"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/other/refresh.png" onclick="kameHouse.extension.serverManager.getShutdownStatus(true)"></button>
               </td>
               <td>
                 <div class="link-image-text">Status</div>
@@ -107,7 +107,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.setSuspendCommand()" /></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.setSuspendCommand()'></button>
               </td>
               <td>
                 <div class="link-image-text">Suspend</div>
@@ -139,7 +139,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/cancel-green.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.cancelSuspendCommand()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/other/cancel-green.png" onclick='kameHouse.extension.serverManager.cancelSuspendCommand()'></button>
               </td>
               <td>
                 <div class="link-image-text">Cancel Suspend</div>
@@ -148,7 +148,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/refresh.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getSuspendStatus(true)"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/other/refresh.png" onclick='kameHouse.extension.serverManager.getSuspendStatus(true)'></button>
               </td>
               <td>
                 <div class="link-image-text">Status</div>
@@ -170,7 +170,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/power-off-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.confirmRebootServer()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.confirmRebootServer()'></button>
               </td>
               <td>
                 <div class="link-image-text">Reboot</div>
@@ -212,7 +212,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/other/clock.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.uptime()" /></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/other/clock.png" onclick='kameHouse.extension.serverManager.uptime()'></button>
               </td>
               <td>
                 <div class="link-image-text">Uptime</div>
@@ -221,7 +221,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/ram.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.free()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/ram.png" onclick='kameHouse.extension.serverManager.free()'></button>
               </td>
               <td>
                 <div class="link-image-text">Memory</div>
@@ -230,7 +230,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/hard-drive.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.df()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/hard-drive.png" onclick='kameHouse.extension.serverManager.df()'></button>
               </td>
               <td>
                 <div class="link-image-text">Disk Usage</div>
@@ -239,7 +239,7 @@
             </tr>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/system-task.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.top()"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/system-task.png" onclick='kameHouse.extension.serverManager.top()'></button>
               </td>
               <td>
                 <div class="link-image-text">System Processes Status</div>
@@ -288,7 +288,7 @@
         <tbody>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/pc/restart-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.restartHttpd(true)"/></a>
+              <button class="link-image-img" data-background-img="/kame-house/img/pc/restart-red-dark.png" onclick='kameHouse.extension.serverManager.restartHttpd(true)'></button>
             </td>
             <td>
               <div class="link-image-text">Restart</div>
@@ -297,7 +297,7 @@
           </tr>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/other/refresh.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.getHttpdStatus(true)" /></a>
+              <button class="link-image-img" data-background-img="/kame-house/img/other/refresh.png" onclick='kameHouse.extension.serverManager.getHttpdStatus(true)'></button>
             </td>
             <td>
               <div class="link-image-text">Refresh</div>
@@ -337,7 +337,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/pc/wol-red-dark.png" alt="Kame Senin Logo" onclick="kameHouse.extension.serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')" /></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/wol-red-dark.png" onclick="kameHouse.extension.serverManager.execAdminWakeOnLan('/power-management/wol', 'media.server')"></button>
               </td>
               <td>
                 <div class="link-image-text">Wake Up</div>

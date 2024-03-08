@@ -71,7 +71,7 @@
           <tbody>
             <tr>
               <td>
-                <a><img class="link-image-img" src="/kame-house/img/dbz/scouter.png" alt="Kame Senin Logo" onclick="kameHouse.core.windowLocation('/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=gohan')"/></a>
+                <button class="link-image-img" data-background-img="/kame-house/img/dbz/scouter.png" onclick="kameHouse.core.windowLocation('/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=gohan')"></button>
               </td>
               <td>
                 <div class="link-image-text">Use Parameters</div>

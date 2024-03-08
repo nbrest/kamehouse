@@ -57,7 +57,7 @@
         <tbody>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/dbz/gohan-ssj2-icon.png" alt="Kame Senin Logo" onclick="kameHouse.core.windowLocation('dragonball/users/users-list')"/></a>
+              <button class="link-image-img" data-background-img="/kame-house/img/dbz/gohan-ssj2-icon.png" onclick="kameHouse.core.windowLocation('dragonball/users/users-list')"></button>
             </td>
             <td>
               <div class="link-image-text">DragonBall Users</div>
@@ -66,7 +66,7 @@
           </tr>
           <tr>
             <td>
-              <a><img class="link-image-img" src="/kame-house/img/dbz/dragon-radar.png" alt="Kame Senin Logo" onclick="kameHouse.core.windowLocation('dragonball/model-and-view')"/></a>
+              <button class="link-image-img" data-background-img="/kame-house/img/dbz/dragon-radar.png" onclick="kameHouse.core.windowLocation('dragonball/model-and-view')"></button>
             </td>
             <td>
               <div class="link-image-text">Model And View</div>
