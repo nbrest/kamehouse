@@ -1,8 +1,8 @@
 <div class="backend-tab-form-wrapper">
-  <form class="form-kh config-header">
+  <form class="form-kh form-in-page-kh config-header">
     <img class="config-header-img" src="/kame-house/img/dbz/kamesenin-logo.png" alt="Vlc Player"><span class="config-header-text">Backend</span>
   </form>
-  <form class="form-kh">
+  <form class="form-kh form-in-page-kh">
     <label for="backend-server-dropdown">Server</label>
     <br>
     <select id="backend-server-dropdown" class="form-input-kh" type="select" onchange="kameHouse.extension.mobile.configManager.setBackendViewFromDropdown()">
@@ -42,7 +42,7 @@
       <input id="backend-password-input" class="form-input-kh" type="password" name="password" oninput="kameHouse.extension.mobile.configManager.updateMobileConfigFromView()">
       <br>
     </div>
-    <div id="backend-login-btn" class="form-submit-btn-kh w-100-pc-kh" onclick="kameHouse.extension.mobile.core.login()">Login</div>
-    <div id="backend-logout-btn" class="form-submit-btn-kh w-100-pc-kh hidden-kh" onclick="kameHouse.extension.mobile.core.logout()">Logout</div>
+    <button id="backend-login-btn" class="form-submit-btn-kh w-100-pc-kh" onclick="kameHouse.extension.mobile.core.login()">Login</button>
+    <button id="backend-logout-btn" class="form-submit-btn-kh w-100-pc-kh hidden-kh" onclick="kameHouse.extension.mobile.core.logout()">Logout</button>
   </form>
 </div>

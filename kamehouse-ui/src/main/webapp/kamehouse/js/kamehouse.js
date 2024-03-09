@@ -73,6 +73,7 @@ class KameHouse {
     this.core.loadKameHouseModal();
     this.core.loadKameHouseDebugger();
     this.util.cursor.loadSpinningWheelCursorWait();
+    this.core.disablePageRefreshOnForms();
     this.logger.info("Finished initializing kamehouse.js");
   }
 
@@ -2050,6 +2051,19 @@ class KameHouseCore {
       if (backgroundImg) {
         kameHouse.util.dom.setBackgroundImage(imgBtn, backgroundImg);
       }
+    }
+  }
+
+  /**
+   * Disable default page refresh on form submit.
+   */
+  disablePageRefreshOnForms() {
+    kameHouse.logger.debug("Disabling page refresh on in-page forms");
+    const forms = document.getElementsByClassName("form-in-page-kh");
+    for (const form of forms) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+      });
     }
   }
 

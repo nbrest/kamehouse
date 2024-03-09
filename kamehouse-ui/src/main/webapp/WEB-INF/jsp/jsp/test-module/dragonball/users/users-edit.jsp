@@ -55,7 +55,7 @@
     <div class="default-layout p-15-m-kh">
       <h3 class="h3-kh txt-l-d-kh txt-l-m-kh">Edit DragonBall User</h3>
       <br>
-      <form class="form-kh">
+      <form class="form-kh form-in-page-kh">
         <input class="hidden-kh" id="input-id" name="id"/>
 
         <label for="input-username">Username</label>
