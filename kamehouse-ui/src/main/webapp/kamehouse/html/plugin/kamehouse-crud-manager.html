@@ -66,14 +66,12 @@
           </select>
         </td>
         <td class="control-buttons-td">
-          <img class="img-btn-kh img-btn-s-kh m-7-d-r-kh"
+          <button class="img-btn-kh img-btn-s-kh m-7-d-r-kh"
             onclick="kameHouse.core.scrollToTopOfDivById('table-kh-vertical-scroll-wrapper')"
-            src="/kame-house/img/other/back-to-top-gray-dark.png"
-            alt="Back To Top" title="Back To Top" />
-          <img class="img-btn-kh img-btn-s-kh" 
+            data-background-img="/kame-house/img/other/back-to-top-gray-dark.png"></button>
+          <button class="img-btn-kh img-btn-s-kh" 
             onclick="kameHouse.plugin.crudManager.refreshView()"
-            src="/kame-house/img/other/sync-gray-dark.png" 
-            alt="Refresh" title="Refresh"/>
+            data-background-img="/kame-house/img/other/sync-gray-dark.png"></button>
         </td>
       </tr> 
     </table>
@@ -94,10 +92,12 @@
     <form class="form-kh">
       <div id="crud-add-input-fields"></div>
       <div class="form-submit-wrapper-kh">
-        <img class="img-btn-kh" onclick="kameHouse.plugin.crudManager.create()" 
-          src="/kame-house/img/other/check-gray-dark.png" alt="Add" title="Add"/>
-        <img class="img-btn-kh fl-r-d-kh" onclick="kameHouse.plugin.crudManager.clearForm('crud-add-input-fields')" 
-          src="/kame-house/img/other/cancel-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
+        <button class="img-btn-kh" 
+          onclick="kameHouse.plugin.crudManager.create()" 
+          data-background-img="/kame-house/img/other/check-gray-dark.png"></button>
+        <button class="img-btn-kh fl-r-d-kh" 
+          onclick="kameHouse.plugin.crudManager.clearForm('crud-add-input-fields')" 
+          data-background-img="/kame-house/img/other/cancel-yellow-dark.png"></button>
       </div>
     </form>
 
@@ -108,10 +108,12 @@
     <form class="form-kh">
       <div id="crud-edit-input-fields"></div>
       <div class="form-submit-wrapper-kh">
-        <img class="img-btn-kh" onclick="kameHouse.plugin.crudManager.update()" 
-          src="/kame-house/img/other/check-gray-dark.png" alt="Update" title="Update"/>
-        <img class="img-btn-kh fl-r-d-kh" onclick="kameHouse.plugin.crudManager.clearForm('crud-edit-input-fields')" 
-          src="/kame-house/img/other/cancel-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
+        <button class="img-btn-kh" 
+          onclick="kameHouse.plugin.crudManager.update()" 
+          data-background-img="/kame-house/img/other/check-gray-dark.png"></button>
+        <button class="img-btn-kh fl-r-d-kh" 
+          onclick="kameHouse.plugin.crudManager.clearForm('crud-edit-input-fields')" 
+          data-background-img="/kame-house/img/other/cancel-yellow-dark.png"></button>
       </div>
     </form>
 
