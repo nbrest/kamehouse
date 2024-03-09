@@ -55,8 +55,9 @@
       <div class="form-submit-wrapper-kh">
         <input type="image" class="img-btn-kh m-15-d-r-kh" src="/kame-house/img/other/check-gray-dark.png" 
           alt="Submit Form" title="Submit Form" />
-        <img class="img-btn-kh fl-r-d-kh" data-ng-click="ctrl.reset()"
-          src="/kame-house/img/other/cancel-yellow-dark.png" alt="Clear Form" title="Clear Form"/>
+        <button class="img-btn-kh fl-r-d-kh" 
+          data-ng-click="ctrl.reset()"
+          data-background-img="/kame-house/img/other/cancel-yellow-dark.png"></button>
       </div>
     </form>
     <br><br>
@@ -83,10 +84,12 @@
             <td><span data-ng-bind="u.powerLevel"></span></td>
             <td><span data-ng-bind="u.stamina"></span></td>
             <td>
-              <img class="img-btn-kh m-15-d-r-kh" data-ng-click="ctrl.edit(u.id)"
-                src="/kame-house/img/other/edit.png" alt="Edit" title="Edit"/> 
-              <img class="img-btn-kh" data-ng-click="ctrl.remove(u.id)"
-                src="/kame-house/img/other/delete.png" alt="Delete" title="Delete"/>
+              <button class="img-btn-kh m-15-d-r-kh" 
+                data-ng-click="ctrl.edit(u.id)"
+                data-background-img="/kame-house/img/other/edit.png"></button> 
+              <button class="img-btn-kh" 
+                data-ng-click="ctrl.remove(u.id)"
+                data-background-img="/kame-house/img/other/delete.png"></button>
             </td>
           </tr>
         </tbody>

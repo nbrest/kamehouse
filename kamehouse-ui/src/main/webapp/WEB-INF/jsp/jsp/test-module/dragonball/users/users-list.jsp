@@ -61,8 +61,9 @@
         <tbody id="dragonball-users-tbody"></tbody>
       </table>
       <br>
-      <img class="img-btn-kh" onclick="kameHouse.core.windowLocationHref('users-add')"
-        src="/kame-house/img/other/add-circle-gray-dark.png" alt="Add User" title="Add User"/>
+      <button class="img-btn-kh" 
+        onclick="kameHouse.core.windowLocationHref('users-add')"
+        data-background-img="/kame-house/img/other/add-circle-gray-dark.png"></button>
     </div>
     <span id="debug-mode-wrapper"></span>
   </div>
