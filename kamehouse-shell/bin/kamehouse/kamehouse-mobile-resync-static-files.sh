@@ -37,8 +37,8 @@ setGlobalVariables() {
   setKameHouseRootProjectDir
 
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
-  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/public/kame-house-groot
-  SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/public/kame-house-batcave"
+  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/src/main/webapp/kame-house-groot
+  SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/src/main/webapp/kame-house-batcave"
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
   EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
