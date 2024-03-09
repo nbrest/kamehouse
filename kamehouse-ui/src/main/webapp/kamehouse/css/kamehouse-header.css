@@ -166,6 +166,7 @@ header #header-top #login-status {
   header .header-nav a.icon {
     float: right;
     display: block;
+    padding: 0;
   }
   
   header .header-nav.responsive {position: relative;}
@@ -180,4 +181,16 @@ header #header-top #login-status {
     display: block;
     text-align: left;
   }
+}
+
+.mobile-menu-toggler {
+  background: transparent;
+  color: #c0c0c0;
+  border: none;
+  margin: 0;
+  padding: 12px 12px;
+}
+
+.mobile-menu-toggler:hover {
+  color: #000000;
 }
