@@ -53,23 +53,23 @@
       </div>
 
       <form class="form-kh form-book">
-        <label>Username</label>
+        <label for="username">Username</label>
         <input id="username" class="form-input-kh" type="email" name="username">
         <br>
 
-        <label>Password</label>
+        <label for="password">Password</label>
         <input id="password" class="form-input-kh" type="password" name="password">
         <input type="checkbox" class="m-7-d-kh" onclick="kameHouse.extension.bookingService.togglePasswordField('password')">
         <br>
 
-        <label>Site</label>
+        <label for="site">Site</label>
         <select id="site" class="form-input-kh" type="select" name="site">
           <option value="MELBOURNE_PARK">Melbourne Park</option>
           <option value="ALBERT_RESERVE">Albert Reserve</option>
         </select>
         <br>
 
-        <label>Session Type</label>
+        <label for="session-type">Session Type</label>
         <select id="session-type" class="form-input-kh" type="select" name="session-type">
           <option value="ADULT_MATCH_PLAY_SINGLES">Adult Match Play Singles</option>
           <option value="ADULT_MATCH_PLAY_DOUBLES">Adult Match Play Doubles</option>
@@ -85,15 +85,15 @@
         </select>
         <br>
         
-        <label>Date</label>
+        <label for="date">Date</label>
         <input id="date" class="form-input-kh" type="date" name="date">
         <br>
 
-        <label>Time</label>
+        <label for="time">Time</label>
         <input id="time" class="form-input-kh" type="time" name="time">
         <br>
 
-        <label>Duration</label>
+        <label for="duration">Duration</label>
         <select id="duration" class="form-input-kh" type="select" name="duration">
           <option value="0">0</option>
           <option value="15">15</option>
@@ -107,7 +107,7 @@
         </select>
         <br>
 
-        <label>Court Number</label>
+        <label for="court-number">Court Number</label>
         <input id="court-number" class="form-input-kh" type="number" name="court-number" placeholder="0">
         <br>
 
@@ -117,7 +117,7 @@
           <tbody>
           <tr>
             <td>
-              <label>Dry Run</label>
+              <label for="dry-run">Dry Run</label>
               <input id="dry-run" class="form-input-kh" type="checkbox" name="dry-run">      
             </td>
             <td class="clear-booking-td">
@@ -135,11 +135,11 @@
         <h5 class="bold-kh">Payment Details</h5>
         <br>
 
-        <label>Card Holder</label>
+        <label for="card-holder-name">Card Holder</label>
         <input id="card-holder-name" class="form-input-kh cc-card-holder-name" type="text" name="card-holder-name">
         <br>
 
-        <label>Card Number</label>
+        <label for="card-number-1">Card Number</label>
         <br>
         <input id="card-number-1" class="form-input-kh cc-card-number" type="text" name="card-number-1" maxlength="4" placeholder=""> 
         <input id="card-number-2" class="form-input-kh cc-card-number" type="text" name="card-number-2" maxlength="4" placeholder="">
@@ -154,7 +154,7 @@
           <tbody>
           <tr>
             <td class="exp-date-td">
-              <label>Expiry Date</label>
+              <label for="card-exp-month">Expiry Date</label>
               <br>
               <input id="card-exp-month" class="form-input-kh cc-exp-month" type="text" placeholder="MM"
                 min="01" max="12" maxlength="2" name="card-exp-month">
@@ -162,7 +162,7 @@
                 min="2000" max="3000" maxlength="4" name="card-exp-year">
             </td>
             <td>
-              <label>CVV</label>
+              <label for="card-cvv">CVV</label>
               <br>
               <input id="card-cvv" class="form-input-kh cc-cvv" type="password" maxlength="3" name="card-cvv">
               <input type="checkbox" class="m-7-d-kh" onclick="kameHouse.extension.bookingService.togglePasswordField('card-cvv')">

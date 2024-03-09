@@ -141,7 +141,6 @@ header #header-top #login-status {
     font-size: 18px;
   }
 
-  
   header .header-nav a:nth-child(n+5) {display: none;}
   header .header-nav a.icon {
     float: right;
