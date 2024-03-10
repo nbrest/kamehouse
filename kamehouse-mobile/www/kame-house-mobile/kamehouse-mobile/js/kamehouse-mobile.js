@@ -323,11 +323,10 @@ class KameHouseMobileCore {
    * Get success modal html.
    */
   #getSuccessModalHtml(message) {
-    const img = kameHouse.util.dom.getImgBtn({
+    const img = kameHouse.util.dom.getImg({
       src: "/kame-house/img/dbz/goku.png",
       className: "img-btn-kh",
-      alt: "Success modal",
-      onClick: () => {return;}
+      alt: "Success modal"
     });
     const div = kameHouse.util.dom.getDiv();
     kameHouse.util.dom.append(div, img);
@@ -339,11 +338,10 @@ class KameHouseMobileCore {
    * Get error modal html.
    */
   #getErrorModalHtml(message) {
-    const img = kameHouse.util.dom.getImgBtn({
+    const img = kameHouse.util.dom.getImg({
       src: "/kame-house/img/other/cancel-shallow-red-dark.png",
       className: "img-btn-kh",
-      alt: "Error modal",
-      onClick: () => {return;}
+      alt: "Error modal"
     });
     const div = kameHouse.util.dom.getDiv();
     kameHouse.util.dom.append(div, img);

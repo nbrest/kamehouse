@@ -194,11 +194,14 @@ class DragonBallUserServiceJsp {
    * Get edit button.
    */
   #getEditButton(username) {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/edit.png",
-      className: "img-btn-kh m-15-d-r-kh",
-      alt: "Edit",
-      onClick: () => kameHouse.core.windowLocation("users-edit?username=" + username)
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh m-15-d-r-kh",
+      },
+      backgroundImg: "/kame-house/img/other/edit.png",
+      html: null,
+      data: null,
+      click: (event, data) => kameHouse.core.windowLocation("users-edit?username=" + username)
     });
   }
 
@@ -206,11 +209,14 @@ class DragonBallUserServiceJsp {
    * Get delete button.
    */
   #getDeleteButton(id) {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/delete.png",
-      className: "img-btn-kh",
-      alt: "Delete",
-      onClick: () => this.deleteDragonBallUser(id)
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh",
+      },
+      backgroundImg: "/kame-house/img/other/delete.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.deleteDragonBallUser(id)
     });
   }
 

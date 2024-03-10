@@ -232,8 +232,8 @@
                 onkeyup="kameHouse.extension.vlcPlayer.filterPlaylistRows()" />
             </td>
             <td class="txt-r-d-kh txt-r-m-kh">
-              <img id="toggle-playlist-filenames-img" alt="this should be overriden"/>
-              <button class="img-btn-kh btn-playlist-controls"
+              <button id="toggle-playlist-filenames-btn"></button>
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls"
                 onclick="kameHouse.extension.vlcPlayer.scrollToCurrentlyPlaying()"
                 data-background-img="/kame-house/img/other/selected-item.png"></button>
               <button class="img-btn-kh img-btn-s-kh btn-playlist-controls"
@@ -262,7 +262,7 @@
             onchange="kameHouse.extension.playlistBrowser.populateVideoPlaylists()"></select>
           <select class="select-kh-dark vlc-player-select" id="playlist-dropdown" name="playlist" 
             onchange="kameHouse.extension.playlistBrowser.loadPlaylistContent()"></select>
-          <button class="img-btn-kh img-btn-s-kh btn-load-playlist"
+          <button class="img-btn-kh img-btn-s-kh va-m-kh btn-load-playlist"
             onclick="kameHouse.extension.playlistBrowser.playSelectedPlaylist()"
             data-background-img="/kame-house/img/mplayer/play-blue.png"></button> 
         </div>

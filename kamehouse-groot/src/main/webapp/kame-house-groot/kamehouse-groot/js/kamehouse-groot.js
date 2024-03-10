@@ -183,11 +183,10 @@ class GrootHeader {
    * Get kamehouse button.
    */
   #getKameHouseButton() {
-    return kameHouse.util.dom.getImgBtn({
+    return kameHouse.util.dom.getImg({
       src: "/kame-house/img/marvel/captain-america-logo.png",
       className: "header-logo-btn",
-      alt: "KameHouse GRoot",
-      onClick: () => {}
+      alt: "KameHouse GRoot"
     });
   }
 
@@ -195,12 +194,11 @@ class GrootHeader {
    * Get groot header logo.
    */
   #getGrootHeaderLogo() {
-    return kameHouse.util.dom.getImgBtn({
+    return kameHouse.util.dom.getImg({
       id: "groot-header-logo-img",
       src: "/kame-house/img/marvel/groot-logo.png",
       className: "groot-header-logo-img",
-      alt: "KameHouse GRoot",
-      onClick: () => {}
+      alt: "KameHouse GRoot"
     });
   }  
 

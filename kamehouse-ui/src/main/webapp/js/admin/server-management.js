@@ -117,7 +117,7 @@ class ServerManager {
    */
   confirmRebootServer() {
     kameHouse.plugin.modal.basicModal.setHtml(this.#getRebootServerModalMessage());
-    kameHouse.plugin.modal.basicModal.appendHtml(this.#createRebootImg());
+    kameHouse.plugin.modal.basicModal.appendHtml(this.#createRebootButton());
     kameHouse.plugin.modal.basicModal.open();
   }
 
@@ -347,14 +347,17 @@ class ServerManager {
   }
 
   /**
-   * Get reboot clickable image.
+   * Get reboot button.
    */
-  #createRebootImg() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/shutdown-red.png",
-      className: "img-btn-kh",
-      alt: "Reboot",
-      onClick: () => { this.#rebootServer(); }
+  #createRebootButton() {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh",
+      },
+      backgroundImg: "/kame-house/img/pc/shutdown-red.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#rebootServer()
     });
   }
 

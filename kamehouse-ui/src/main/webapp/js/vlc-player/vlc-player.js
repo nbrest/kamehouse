@@ -1137,8 +1137,8 @@ class VlcPlayerPlaylist {
 
   #vlcPlayer = null;
   #playSelectedUrl = null;
-  #dobleLeftImg = null;
-  #dobleRightImg = null;
+  #dobleLeftButton = null;
+  #dobleRightButton = null;
 
   #currentPlaylist = null;
   #updatedPlaylist = null;
@@ -1148,13 +1148,13 @@ class VlcPlayerPlaylist {
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
     this.#playSelectedUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/commands';
-    this.#dobleLeftImg = this.#createDoubleArrowImg("left");
-    this.#dobleRightImg = this.#createDoubleArrowImg("right");
+    this.#dobleLeftButton = this.#createDoubleArrowButton("left");
+    this.#dobleRightButton = this.#createDoubleArrowButton("right");
   }
 
   /** Init Playlist. */
   init() {
-    kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-img", this.#dobleRightImg);
+    kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-btn", this.#dobleRightButton);
   }
 
   /** Set updated playlist: Temporary storage for the playlist I receive from the websocket */
@@ -1227,14 +1227,17 @@ class VlcPlayerPlaylist {
     this.reload();
   }
 
-  /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
-  #createDoubleArrowImg(direction) {
-    return kameHouse.util.dom.getImgBtn({
-      id: "toggle-playlist-filenames-img",
-      src: "/kame-house/img/other/double-" + direction + "-green.png",
-      className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
-      alt: "Expand/Collapse Filename",
-      onClick: () => this.#toggleExpandPlaylistFilenames()
+  /** Create a button to toggle when expanding/collapsing playlist browser filenames. */
+  #createDoubleArrowButton(direction) {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        id: "toggle-playlist-filenames-btn",
+        class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
+      },
+      backgroundImg: "/kame-house/img/other/double-" + direction + "-green.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#toggleExpandPlaylistFilenames()
     });
   }
 
@@ -1325,9 +1328,9 @@ class VlcPlayerPlaylist {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-img", this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-btn", this.#dobleLeftButton);
     } else {
-      kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-img", this.#dobleRightImg);
+      kameHouse.util.dom.replaceWithById("toggle-playlist-filenames-btn", this.#dobleRightButton);
     }
   }
 
