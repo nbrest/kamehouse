@@ -25,7 +25,7 @@ class ProcessUtilsTest {
   void executeProcessTest() throws IOException, InterruptedException {
     List<String> command;
     if (PropertiesUtils.isWindowsHost()) {
-      command = Arrays.asList("cmd.exe", "/c", "start", "exit");
+      command = Arrays.asList("cmd.exe", "/c", "start", "/min", "exit");
     } else {
       command = Arrays.asList("/bin/bash", "-c", "exit");
     }
@@ -54,7 +54,7 @@ class ProcessUtilsTest {
   void executeProcessWithTimeoutTest() throws IOException, InterruptedException {
     List<String> command;
     if (PropertiesUtils.isWindowsHost()) {
-      command = Arrays.asList("cmd.exe", "/c", "start", "exit");
+      command = Arrays.asList("cmd.exe", "/c", "start", "/min", "exit");
     } else {
       command = Arrays.asList("/bin/bash", "-c", "exit");
     }
