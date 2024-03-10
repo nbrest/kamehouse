@@ -127,13 +127,14 @@ class KameHouseHeader {
    * Get login button.
    */
   #getLoginButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/login-red-dark.png",
-      className: "header-login-status-btn",
-      alt: "Login KameHouse",
-      onClick: () => {
-        return kameHouse.util.mobile.windowLocation("/kame-house/login.html", "/kame-house-mobile/settings.html");
-      }
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "header-login-status-btn va-m-kh img-btn-kh",
+      },
+      backgroundImg: "/kame-house/img/pc/login-red-dark.png",
+      html: null,
+      data: null,
+      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house/login.html", "/kame-house-mobile/settings.html")
     });
   }
 
@@ -141,13 +142,14 @@ class KameHouseHeader {
    * Get logout button.
    */
   #getLogoutButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/dbz/goku.png",
-      className: "header-login-status-btn img-user-icon",
-      alt: "Logout KameHouse",
-      onClick: () => {
-        return kameHouse.util.mobile.windowLocation("/kame-house/logout", "/kame-house-mobile/settings.html");
-      }
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "header-login-status-btn va-m-kh img-user-icon",
+      },
+      backgroundImg: "/kame-house/img/dbz/goku.png",
+      html: null,
+      data: null,
+      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house/logout", "/kame-house-mobile/settings.html")
     });
   }
 

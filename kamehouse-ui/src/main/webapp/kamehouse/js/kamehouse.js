@@ -347,7 +347,7 @@ class KameHouseBannerUtils {
       const coloredMessage = "Preloading " + kameHouse.logger.getCyanText(banerCategory) + " banners";
       kameHouse.logger.debug(message, coloredMessage);
       bannerArray.forEach((bannerName) => {
-        const img = kameHouse.util.dom.getImgBtn({
+        const img = kameHouse.util.dom.getImg({
           src: '/kame-house/img/banners/' + banerCategory + '/' + bannerName + '.jpg'
         });
         preloadedBannerImages.push(img);
@@ -2560,14 +2560,13 @@ class KameHouseCore {
       class: "splashscreen-kh"
     }); 
     
-    const btn = kameHouse.util.dom.getImgBtn({
+    const img = kameHouse.util.dom.getImg({
       id: "kamehouse-splashscreen-img",
       src: "/kame-house/img/dbz/kamesenin-logo.png",
       className: "splashscreen-img-kh rotate-4",
-      alt: "Loading KameHouse",
-      onClick: () => {}
+      alt: "Loading KameHouse"
     });
-    kameHouse.util.dom.append(kameHouseSplashScreen, btn);
+    kameHouse.util.dom.append(kameHouseSplashScreen, img);
 
     const splashScreenWrapper = kameHouse.util.dom.getDiv({
       id: "kamehouse-splashscreen-wrapper"
