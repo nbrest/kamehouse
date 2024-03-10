@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Fixed new ui sonar bugs
 - Add id to request/response logs in the ui
 - Updated vlcrc status api to return initialized object rather than 404
 - Removed default outline from buttons and select elements
