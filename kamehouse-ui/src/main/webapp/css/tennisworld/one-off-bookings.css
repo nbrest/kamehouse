@@ -42,7 +42,7 @@
 }
 
 .exp-date-td {
-  max-width: 65px;
+  min-width: 95px;
 }
 
 @media (max-width : 900px) {
@@ -66,6 +66,14 @@
 @media (max-width : 900px) {
   .form-book {
     width: 100%;
+  }
+}
+
+@media (max-width : 900px) {
+  .form-book-submit {
+    text-align: center;
+    margin: auto;
+    width: 90%;
   }
 }
 
