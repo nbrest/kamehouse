@@ -26,12 +26,32 @@ header .header-nav a {
   font-size: 17px;
 }
 
+header .header-nav button {
+  float: left;
+  display: block;
+  color: #c0c0c0;
+  text-align: center;
+  padding: 12px 12px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
 header .header-nav a.active {
   background-color: #9d0000;
   color: #000000;
 }
 
 header .header-nav a:hover {
+  background-color: #b50000;
+  color: black;
+} 
+
+header .header-nav button.active {
+  background-color: #9d0000;
+  color: #000000;
+}
+
+header .header-nav button:hover {
   background-color: #b50000;
   color: black;
 } 
@@ -163,14 +183,13 @@ header #header-top #login-status {
 
   
   header .header-nav a:nth-child(n+5) {display: none;}
-  header .header-nav a.icon {
+  header .header-nav button.icon {
     float: right;
     display: block;
-    padding: 0;
   }
   
   header .header-nav.responsive {position: relative;}
-  header .header-nav.responsive a.icon {
+  header .header-nav.responsive button.icon {
     position: absolute;
     right: 0;
     top: 0;
@@ -181,6 +200,12 @@ header #header-top #login-status {
     display: block;
     text-align: left;
   }
+
+  header .header-nav.responsive button {
+    float: none;
+    display: block;
+    text-align: left;
+  }  
 }
 
 .mobile-menu-toggler {

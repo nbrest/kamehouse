@@ -5,7 +5,8 @@
  */
 class KameHouseErrorPage { 
 
-  jq = null;
+  #jq = null;
+  #skipKameHouseJs = false;
 
   /**
    * Build kamehouse error page.
@@ -18,7 +19,7 @@ class KameHouseErrorPage {
    * Execute the ready function after the document is ready.
    */
   ready(readyFunction) {
-    return this.jq(document).ready(() => {readyFunction()});
+    return this.#jq(document).ready(() => {readyFunction()});
   }
 
   /**
@@ -48,10 +49,10 @@ class KameHouseErrorPage {
    */
   #setJquery() {
     try {
-      this.jq = $;
+      this.#jq = $;
     } catch (error) {
       console.log("Error setting jquery on kamehouse error page");
-      this.jq = {};
+      this.#jq = {};
     }
   }
 
@@ -76,7 +77,7 @@ class KameHouseErrorPage {
    * Load js script.
    */
   #getScript(scriptPath, successCallback, errorCallback) { 
-    this.jq.getScript(scriptPath)
+    this.#jq.getScript(scriptPath)
     .done((script, textStatus) => {
       this.#logInfo("Loaded successfully script: " + scriptPath);
       successCallback();
@@ -94,6 +95,10 @@ class KameHouseErrorPage {
     this.#append(this.#getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/error/css/error-header.css">');
     this.#loadHtmlSnippetById("kamehouse-error-header", "/kame-house/error/html/error-header.html", () => {
       this.#logInfo("Loaded kamehouse error header");
+      if (this.#skipKameHouseJs) {
+        this.#classListRemoveById('error-header-login-status-btn', 'rotate-4');
+        this.#removeById("error-header-login-status-text");
+      }
     });
   }
 
@@ -111,6 +116,13 @@ class KameHouseErrorPage {
    * Load kamehouse.js if available. For 502 and 503 error pages it probably won't be available. For other errors it should.
    */
   #loadKameHouseJs() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const skipKameHouseJs = urlParams.get('skipKameHouseJs');
+    if (skipKameHouseJs == "true") {
+      this.#logInfo("Url parameter set to skip kamehouse.js");
+      this.#skipKameHouseJs = true;
+      return;
+    }
     this.#getScript("/kame-house/kamehouse/js/kamehouse.js", 
     () => {
       this.#logInfo("Loaded kamehouse.js. Overriding header and footer");
@@ -138,7 +150,7 @@ class KameHouseErrorPage {
   #loadHtmlSnippetById(elementId, htmlSnippetPath, callback) {
     const element = document.getElementById(elementId);
     if (element) {
-      this.jq(element).load(htmlSnippetPath, callback);
+      this.#jq(element).load(htmlSnippetPath, callback);
     }
   }   
 
@@ -167,7 +179,7 @@ class KameHouseErrorPage {
    */
   #append(appendToElement, apendElement) {
     if (appendToElement) {
-      this.jq(appendToElement).append(apendElement);
+      this.#jq(appendToElement).append(apendElement);
     }
   }
   
