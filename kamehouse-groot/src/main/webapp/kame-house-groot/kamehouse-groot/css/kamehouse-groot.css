@@ -135,6 +135,10 @@ a:active {
 }
 
 .groot-header-login-status-btn {
+  background: transparent;
+  background-size: 100% 100%;
+  border: none;
+  vertical-align: middle;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -197,7 +201,7 @@ a:active {
   width: 100%;
 }
 
-.groot-menu button {
+.groot-menu button.menu-btn {
   background: #000000;
   float: left;
   border: none;
@@ -209,12 +213,12 @@ a:active {
   width: 33%;
 }
 
-.groot-menu button:hover {
+.groot-menu button.menu-btn:hover {
   background-color: #310000;
   color: black;
 }
 
-.groot-menu button.active {
+.groot-menu button.menu-btn.active {
   background-color: #272727;
   color: #000000;
 }

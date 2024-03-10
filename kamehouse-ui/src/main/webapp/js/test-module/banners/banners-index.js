@@ -66,11 +66,10 @@ class TestBannerRenderer {
    * Get banner image.
    */
   #getBannerImage(bannerCategory, bannerName) {
-    return kameHouse.util.dom.getImgBtn({
+    return kameHouse.util.dom.getImg({
       src: '/kame-house/img/banners/' + bannerCategory + '/' + bannerName + '.jpg',
       className: "banners-table-entry",
-      alt: "Banner Table Entry",
-      onClick: () => {return;}
+      alt: "Banner Table Entry"
     });
   }
 }

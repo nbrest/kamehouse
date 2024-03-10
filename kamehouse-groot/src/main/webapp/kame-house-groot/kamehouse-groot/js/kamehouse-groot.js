@@ -129,13 +129,14 @@ class GrootHeader {
    * Get groot login button.
    */
   #getLoginButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/pc/login-gray-dark.png",
-      className: "groot-header-login-status-btn",
-      alt: "Login GRoot",
-      onClick: () => {
-        return kameHouse.util.mobile.windowLocation("/kame-house-groot/login.html", "/kame-house-mobile/settings.html");
-      }
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "groot-header-login-status-btn",
+      },
+      backgroundImg: "/kame-house/img/pc/login-gray-dark.png",
+      html: null,
+      data: null,
+      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house-groot/login.html", "/kame-house-mobile/settings.html")
     });
   }
 
@@ -143,13 +144,14 @@ class GrootHeader {
    * Get groot logout button.
    */
   #getLogoutButton() {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/dbz/gohan.png",
-      className: "groot-header-login-status-btn img-user-icon",
-      alt: "Logout GRoot",
-      onClick: () => {
-        return kameHouse.util.mobile.windowLocation("/kame-house-groot/api/v1/auth/logout.php", "/kame-house-mobile/settings.html");
-      }
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "groot-header-login-status-btn img-user-icon",
+      },
+      backgroundImg: "/kame-house/img/dbz/gohan.png",
+      html: null,
+      data: null,
+      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house-groot/api/v1/auth/logout.php", "/kame-house-mobile/settings.html")
     });
   }
 

@@ -666,7 +666,7 @@ class DeploymentManager {
    * Get status ball image.
    */
   #getStatusBallImg(color) {
-    return kameHouse.util.dom.getImgBtn({
+    return kameHouse.util.dom.getImg({
       src: "/kame-house/img/other/ball-" + color + ".png",
       className: "img-tomcat-manager-status",
       alt: "Status"

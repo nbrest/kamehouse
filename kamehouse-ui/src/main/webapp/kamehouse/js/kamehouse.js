@@ -982,11 +982,10 @@ class KameHouseDomUtils {
    *    id: "",
    *    src: "",
    *    className: "",
-   *    alt: "",
-   *    onClick: () => {}
+   *    alt: ""
    * }
    */
-  getImgBtn(config) {
+  getImg(config) {
     const img = new Image();
     if (!kameHouse.core.isEmpty(config.id)) {
       img.id = config.id;
@@ -995,6 +994,21 @@ class KameHouseDomUtils {
     img.className = config.className;
     img.alt = config.alt;
     img.title = config.alt;
+    return img;
+  }
+
+  /**
+   * Create a new image using the specified config object which should have a format: 
+   * {
+   *    id: "",
+   *    src: "",
+   *    className: "",
+   *    alt: "",
+   *    onClick: () => {}
+   * }
+   */
+  getImgBtn(config) {
+    const img = this.getImg(config);
     img.onclick = config.onClick;
     return img;
   }
