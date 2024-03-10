@@ -14,6 +14,8 @@ class KameHouseMobileSettings {
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
+      kameHouse.core.setButtonBackgrounds();
+      kameHouse.core.disablePageRefreshOnForms();
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseMobile", "mobileTabsManager"], () => {
       this.#handleUrlParams();
