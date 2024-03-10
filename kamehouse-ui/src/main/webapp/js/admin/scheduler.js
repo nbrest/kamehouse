@@ -124,6 +124,7 @@ class Scheduler {
     kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-schedule-val'), "scheduler-table-" + tableIdKey + "-schedule-val");
     kameHouse.util.dom.setId(tableDiv.querySelector('tr #clear-scheduler-table-TEMPLATE'), "clear-scheduler-table-" + tableIdKey);
 
+    kameHouse.core.setButtonBackgrounds();
     return tableDiv;
   }
 
