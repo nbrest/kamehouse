@@ -998,22 +998,6 @@ class KameHouseDomUtils {
   }
 
   /**
-   * Create a new image using the specified config object which should have a format: 
-   * {
-   *    id: "",
-   *    src: "",
-   *    className: "",
-   *    alt: "",
-   *    onClick: () => {}
-   * }
-   */
-  getImgBtn(config) {
-    const img = this.getImg(config);
-    img.onclick = config.onClick;
-    return img;
-  }
-
-  /**
    * Get 'input' html element.
    */
   getInput(attr, html) {

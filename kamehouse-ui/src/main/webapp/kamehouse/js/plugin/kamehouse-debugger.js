@@ -142,11 +142,10 @@ class KameHouseDebugger {
    * Get toggle debugger modal html.
    */
   getToggleDebuggerModalHtml() {
-    const img = kameHouse.util.dom.getImgBtn({
+    const img = kameHouse.util.dom.getImg({
       src: "/kame-house/img/other/debug-btn-success.png",
       className: "debug-mode-btn",
-      alt: "Debug Mode modal",
-      onClick: () => {return;}
+      alt: "Debug Mode modal"
     });
     const text = "Toggled debug mode!";
     const div = kameHouse.util.dom.getDiv();

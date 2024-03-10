@@ -33,6 +33,7 @@ class CrudManager {
     kameHouse.util.dom.loadById("crud-manager-body-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
       kameHouse.util.banner.setRandomAllBanner();
+      kameHouse.core.setButtonBackgrounds();
     });
   }
 
@@ -332,11 +333,10 @@ class CrudManager {
    */
   #setIcon(config) {
     if (!kameHouse.core.isEmpty(config.icon)) {
-      this.#icon = kameHouse.util.dom.getImgBtn({
+      this.#icon = kameHouse.util.dom.getImg({
         src: config.icon,
         className: "crud-icon",
-        alt: "Icon",
-        onClick: () => {return;}
+        alt: "Icon"
       });
     }
   }
@@ -835,13 +835,18 @@ class CrudManager {
    * Get the edit button for the entity.
    */
   #getEditButton(id) {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/edit.png",
-      className: "img-btn-kh m-15-d-r-kh",
-      alt: "Edit",
-      onClick: () => { 
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh m-15-d-r-kh",
+      },
+      backgroundImg: "/kame-house/img/other/edit.png",
+      html: null,
+      data: {
+        id: id
+      },
+      click: (event, data) => {
         kameHouse.util.tab.openTab('tab-edit', 'kh-crud-manager');
-        this.read(id);
+        this.read(data.id);
       }
     });
   }
@@ -850,11 +855,18 @@ class CrudManager {
    * Get the button to open a modal to delete the entity.
    */
   #getConfirmDeleteButton(id) {
-    return kameHouse.util.dom.getImgBtn({
-      src: "/kame-house/img/other/delete.png",
-      className: "img-btn-kh",
-      alt: "Delete",
-      onClick: () => this.#confirmDelete(id)
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh",
+      },
+      backgroundImg: "/kame-house/img/other/delete.png",
+      html: null,
+      data: {
+        id: id
+      },
+      click: (event, data) => {
+        this.#confirmDelete(data.id);
+      }
     });
   }
 
@@ -1099,21 +1111,27 @@ class CrudManager {
       return;
     }
     const addButtonId = fieldId + "-add";
-    const addButton = kameHouse.util.dom.getImgBtn({
-      id: addButtonId,
-      src: "/kame-house/img/other/add-gray-dark.png",
-      className: "img-btn-kh p-7-d-kh m-7-d-kh",
-      alt: "Add",
-      onClick: () => this.#addArrayInputFieldElement(addButtonId, fieldId, column.type)
+    const addButton = kameHouse.util.dom.getButton({
+      attr: {
+        id: addButtonId,
+        class: "img-btn-kh p-7-d-kh m-7-d-kh",
+      },
+      backgroundImg: "/kame-house/img/other/add-gray-dark.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#addArrayInputFieldElement(addButtonId, fieldId, column.type)
     });
     kameHouse.util.dom.append(div, addButton);
     const removeButtonId = fieldId + "-remove";
-    const removeButton = kameHouse.util.dom.getImgBtn({
-      id: removeButtonId,
-      src: "/kame-house/img/other/remove-gray-dark.png",
-      className: "img-btn-kh p-7-d-kh m-7-d-kh",
-      alt: "Remove",
-      onClick: () => this.#removeArrayInputFieldElement(removeButtonId, fieldId)
+    const removeButton = kameHouse.util.dom.getButton({
+      attr: {
+        id: removeButtonId,
+        class: "img-btn-kh p-7-d-kh m-7-d-kh",
+      },
+      backgroundImg: "/kame-house/img/other/remove-gray-dark.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#removeArrayInputFieldElement(removeButtonId, fieldId)
     });
     kameHouse.util.dom.append(div, removeButton);
   }
