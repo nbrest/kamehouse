@@ -1,22 +1,45 @@
-<div>
-  <span class="bold-kh">Wake Media Server</span>
-  <button class="img-btn-kh va-m-kh"
-    onclick="kameHouse.extension.vlcPlayer.wolMediaServer()"
-    data-background-img="/kame-house/img/pc/wol-red-dark.png"></button>
-  <br><br>
-  <span class="bold-kh">Refresh VlcPlayer</span>
-  <button class="img-btn-kh va-m-kh" 
-    onclick="kameHouse.extension.vlcPlayer.loadStateFromApi()" 
-    data-background-img="/kame-house/img/other/refresh.png"></button>
-  <br><br>
-  <span class="bold-kh">Suspend Server</span>
-  <button class="img-btn-kh va-m-kh"
-    onclick="kameHouse.extension.vlcPlayer.suspendServer()"
-    data-background-img="/kame-house/img/pc/power-off-red-dark.png"></button>
-  <br><br>
-  <span class="bold-kh">Single Left Click</span>
-  <button class="img-btn-kh va-m-kh"
-    onclick="kameHouse.extension.vlcPlayer.mouseSingleClick()"
-    data-background-img="/kame-house/img/pc/mouse-click-left.png"></button>
-  <br><br>  
+<div class="link-image-wrapper-w-80">
+  <table class="link-image-table link-image-table-reverse">
+    <caption class="hidden-kh">Image-Links</caption>
+    <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>
+          <button class="link-image-img" data-background-img="/kame-house/img/pc/wol-red-dark.png" onclick='kameHouse.extension.vlcPlayer.wolMediaServer()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">Wake Media Server</div>
+          <div class="link-image-desc">Send a WOL packet to the media server</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button class="link-image-img" data-background-img="/kame-house/img/other/refresh.png" onclick='kameHouse.extension.vlcPlayer.loadStateFromApi()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">Refresh VlcPlayer</div>
+          <div class="link-image-desc">Load the state of VLC player from the API</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.vlcPlayer.suspendServer()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">Suspend Server</div>
+          <div class="link-image-desc">Suspend the current server running vlc player</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button class="link-image-img" data-background-img="/kame-house/img/pc/mouse-click-left.png" onclick='kameHouse.extension.vlcPlayer.mouseSingleClick()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">Single Left Click</div>
+          <div class="link-image-desc"><span class="bold-kh">KameHouse</span> server running on main domain</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+<br><br>
