@@ -9,8 +9,8 @@ class PlaylistBrowser {
   static #mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
   static #mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
 
-  #dobleLeftImg = null;
-  #dobleRightImg = null;
+  #dobleLeftButton = null;
+  #dobleRightButton = null;
   #videoPlaylists = [];
   #videoPlaylistCategories = [];
   #currentPlaylist = null;
@@ -18,14 +18,14 @@ class PlaylistBrowser {
   #tbodyFilenames = null;
 
   constructor() {
-    this.#dobleLeftImg = this.#createDoubleArrowImg("left");
-    this.#dobleRightImg = this.#createDoubleArrowImg("right");
+    this.#dobleLeftButton = this.#createDoubleArrowButton("left");
+    this.#dobleRightButton = this.#createDoubleArrowButton("right");
   }
 
   /** Load Playlist Browser extension. */
   load() {
     kameHouse.logger.info("Started initializing playlist browser");
-    kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-img", this.#dobleRightImg);
+    kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-btn", this.#dobleRightButton);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.populateVideoPlaylistCategories();
       kameHouse.util.module.setModuleLoaded("playlistBrowser");
@@ -106,14 +106,17 @@ class PlaylistBrowser {
     kameHouse.extension.vlcPlayer.reloadPlaylist();
   }
 
-  /** Create an image object to toggle when expanding/collapsing playlist browser filenames. */
-  #createDoubleArrowImg(direction) {
-    return kameHouse.util.dom.getImgBtn({
-      id: "toggle-playlist-browser-filenames-img",
-      src: "/kame-house/img/other/double-" + direction + "-green.png",
-      className: "img-btn-kh img-btn-s-kh btn-playlist-controls",
-      alt: "Expand/Collapse Filename",
-      onClick: () => this.#toggleExpandPlaylistFilenames()
+  /** Create a button object to toggle when expanding/collapsing playlist browser filenames. */
+  #createDoubleArrowButton(direction) {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        id: "toggle-playlist-browser-filenames-btn",
+        class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
+      },
+      backgroundImg: "/kame-house/img/other/double-" + direction + "-green.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#toggleExpandPlaylistFilenames()
     });
   }
 
@@ -216,9 +219,9 @@ class PlaylistBrowser {
   /** Update the icon to expand or collapse the playlist filenames */
   #updateExpandPlaylistFilenamesIcon(isExpandedFilename) {
     if (isExpandedFilename) {
-      kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-img", this.#dobleLeftImg);
+      kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-btn", this.#dobleLeftButton);
     } else {
-      kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-img", this.#dobleRightImg);
+      kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-btn", this.#dobleRightButton);
     }
   }
 
