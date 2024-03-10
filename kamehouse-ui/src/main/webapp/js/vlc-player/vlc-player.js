@@ -47,7 +47,7 @@ class VlcPlayer {
           });
         }
       );
-      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/debug-mode-custom.html", () => {
+      kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/vlc-player-debug-mode-custom.html", () => {
         kameHouse.core.setButtonBackgrounds();
       });
     });
