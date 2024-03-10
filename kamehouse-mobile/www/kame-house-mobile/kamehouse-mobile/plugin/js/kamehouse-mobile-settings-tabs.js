@@ -13,7 +13,7 @@ class KameHouseMobileTabsManager {
     kameHouse.util.dom.loadById("kh-mobile-tabs-wrapper", "/kame-house-mobile/kamehouse-mobile/plugin/html/kamehouse-mobile-settings-tabs.html", () => {
       kameHouse.util.module.setModuleLoaded("mobileTabsManager");
     });
-    kameHouse.util.dom.loadById("tab-backend", "/kame-house-mobile/kamehouse-mobile/plugin/html/", () => {
+    kameHouse.util.dom.loadById("tab-backend", "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-backend.html", () => {
       kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
         kameHouse.extension.mobile.configManager.refreshBackendServerViewFromConfig();
       });
