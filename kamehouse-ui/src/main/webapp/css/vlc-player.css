@@ -141,7 +141,6 @@
   }
 }
 
-
 .media-btn-pressed {
   transform: scale(0.9);
   filter: brightness(0.6);
@@ -501,6 +500,13 @@
   .table-mplayer-btns-kh {
     width: 100%;
     text-align: center;
+  }
+}
+
+@media (max-width : 900px) {
+  .vlc-debug-img-btn {
+    width: 40px;
+    height: 40px;
   }
 }
 
