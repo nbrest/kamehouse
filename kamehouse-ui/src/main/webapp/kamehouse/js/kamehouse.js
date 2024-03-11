@@ -3030,7 +3030,6 @@ class KameHouseCore {
   #httpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     const requestId = this.#generateRequestId();
     config.requestId = requestId;
-    kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
     kameHouse.util.mobile.exec(
       () => {
         this.#webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback);
@@ -3045,10 +3044,11 @@ class KameHouseCore {
    * Execute http request on web.
    */
   #webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
+    kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
     let requestTimeout = KameHouseHttpClient.#DEFAULT_TIMEOUT_MS;
     if (!kameHouse.core.isEmpty(config.timeout)) {
       requestTimeout = config.timeout * 1000;
-      kameHouse.logger.debug("Setting timeout for web request to " + requestTimeout);
+      kameHouse.logger.trace("Setting timeout for web request to " + requestTimeout);
     }
     if (kameHouse.core.isEmpty(requestBody)) {
       kameHouse.jq.ajax({
