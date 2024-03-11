@@ -201,7 +201,7 @@ class KameHouseMobileCore {
       const message = "Couldn't find selected backend server in the config. Mobile app config manager may not have completed initialization yet";
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
     } else {
-      kameHouse.logger.debug("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(selectedBackendServer)));      
+      kameHouse.logger.trace("Selected backend server from the config: " + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(selectedBackendServer)));      
     }
     return selectedBackendServer;
   }
@@ -292,7 +292,7 @@ class KameHouseMobileCore {
     const selectedBackendServer = this.getSelectedBackendServer();
     const credentials = {};
     if (!kameHouse.core.isEmpty(selectedBackendServer)) {
-      kameHouse.logger.debug("Selecting credentials for username: " + selectedBackendServer.username + " and server: " + selectedBackendServer.name);
+      kameHouse.logger.trace("Selecting credentials for username: " + selectedBackendServer.username + " and server: " + selectedBackendServer.name);
       credentials.username = selectedBackendServer.username;
       credentials.password = selectedBackendServer.password;
     } else {
@@ -451,11 +451,11 @@ class KameHouseMobileCore {
    */
   #setMobileTimeout(config) {
     if (!kameHouse.core.isEmpty(config.timeout)) {
-      kameHouse.logger.debug("Setting timeout for mobile http request to " + config.timeout);
+      kameHouse.logger.trace("Setting timeout for mobile http request to " + config.timeout);
       kameHouse.cordova.plugin.http.setRequestTimeout(config.timeout);
       kameHouse.cordova.plugin.http.setReadTimeout(config.timeout);
     } else {
-      kameHouse.logger.debug("Using default timeout for mobile http request");
+      kameHouse.logger.trace("Using default timeout for mobile http request");
       kameHouse.cordova.plugin.http.setRequestTimeout(KameHouseMobileCore.#DEFAULT_TIMEOUT_SECONDS);
       kameHouse.cordova.plugin.http.setReadTimeout(KameHouseMobileCore.#DEFAULT_TIMEOUT_SECONDS);
     }
@@ -468,11 +468,11 @@ class KameHouseMobileCore {
     if (this.isLoggedIn()) {
       const credentials = this.#getBackendCredentials();
       if (!kameHouse.core.isEmpty(credentials.username) && !kameHouse.core.isEmpty(credentials.password)) {
-        kameHouse.logger.debug("Setting basicAuth header for mobile http request with username: " + credentials.username);
+        kameHouse.logger.trace("Setting basicAuth header for mobile http request with username: " + credentials.username);
         kameHouse.cordova.plugin.http.useBasicAuth(credentials.username, credentials.password);
       }
     } else {
-      kameHouse.logger.debug("User is not logged in. Unsetting basicAuth header for mobile http request");
+      kameHouse.logger.trace("User is not logged in. Unsetting basicAuth header for mobile http request");
       kameHouse.cordova.plugin.http.setHeader('Authorization', null);
     }
   }
@@ -481,7 +481,7 @@ class KameHouseMobileCore {
    * Set data serializer.
    */
   #setDataSerializer(headers, httpMethod) {
-    kameHouse.logger.debug("Setting data serializer to 'utf8'");
+    kameHouse.logger.trace("Setting data serializer to 'utf8'");
     kameHouse.cordova.plugin.http.setDataSerializer('utf8');
     if (kameHouse.core.isEmpty(headers)) {
       return;
@@ -489,14 +489,14 @@ class KameHouseMobileCore {
     for (const [key, value] of Object.entries(headers)) {
       if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" && !kameHouse.core.isEmpty(value)) {
         if (value.toLowerCase() == "application/json") {
-          kameHouse.logger.debug("Overriding data serializer to 'json'");
+          kameHouse.logger.trace("Overriding data serializer to 'json'");
           kameHouse.cordova.plugin.http.setDataSerializer('json');
         }
         if (value.toLowerCase() == "application/x-www-form-urlencoded") {
           // For GET, PUT, DELETE url encoded data in this http plugin, the data in the options object must be set to "" and serializer to utf8 and directly set the encoded url parameters in the request url.
           // For POST url encoded requests, the data in the options object must be a json object and the serializer needs to be set to urlencoded
           if (httpMethod != KameHouseMobileCore.#GET && httpMethod != KameHouseMobileCore.#PUT && httpMethod != KameHouseMobileCore.#DELETE) {
-            kameHouse.logger.debug("Overriding data serializer to 'urlencoded'");
+            kameHouse.logger.trace("Overriding data serializer to 'urlencoded'");
             kameHouse.cordova.plugin.http.setDataSerializer('urlencoded');
           }
         }
