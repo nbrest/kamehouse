@@ -55,7 +55,7 @@ try {
       modal.setAttribute("id", "kamehouse-chrome-extension-div");
       document.body.appendChild(modal);
       modal.innerHTML = this.getTimestamp() + " - KameHouse Chrome Extension is running<br><br>Auto closing in 5 seconds";
-      setTimeout(()=> {
+      setTimeout(() => {
         console.log(this.getTimestamp() + " Hiding KameHouse Chrome extension modal")
         modal.style.display = "none";
       }, 5000);

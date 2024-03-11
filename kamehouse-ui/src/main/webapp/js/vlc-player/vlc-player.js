@@ -40,10 +40,10 @@ class VlcPlayer {
     kameHouse.util.mobile.setMobileEventListeners(() => {this.#stopVlcPlayerLoops()}, () => {this.#restartVlcPlayerLoops()});
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       kameHouse.util.mobile.exec(
-        () => {this.loadStateFromApi(false);},
+        () => {this.loadStateFromApiRound();},
         () => {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-            this.loadStateFromApi(false);
+            this.loadStateFromApiRound();
           });
         }
       );
@@ -73,6 +73,19 @@ class VlcPlayer {
   loadStateFromApi(updateCursor) {
     this.#vlcPlayerDebugger.getVlcRcStatusFromApi(updateCursor);
     this.#vlcPlayerDebugger.getPlaylistFromApi(updateCursor);
+  }
+
+  /**
+   * Load the player state for a round of several seconds through http api.
+   */
+  loadStateFromApiRound() {
+    this.loadStateFromApi(false);
+    for (let i = 1; i < 10; i++) {
+      const timeoutMs = i * 1000;
+      setTimeout(() => {
+        this.loadStateFromApi(false);
+      }, timeoutMs);
+    }
   }
 
   /** Get the hostname for this instance of VlcPlayer */
@@ -454,18 +467,19 @@ class VlcPlayerCommandExecutor {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
-      () => {this.#vlcPlayer.loadStateFromApi(false)}, 
-      () => {}
+      () => {this.#vlcPlayer.loadStateFromApiRound()}, 
+      () => {this.#vlcPlayer.loadStateFromApiRound()}
     );
   }
 
   /** Close vlc player. */
   close() {
     this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
-      () => {this.#vlcPlayer.loadStateFromApi(false)}, 
-      () => {}
+      () => {this.#vlcPlayer.loadStateFromApiRound()}, 
+      () => {this.#vlcPlayer.loadStateFromApiRound()}
     );
   }
+
 } // End VlcPlayerCommandExecutor
 
 /** 
@@ -827,7 +841,7 @@ class VlcPlayerSynchronizer {
   restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
     kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
-    this.#vlcPlayer.loadStateFromApi(false);
+    this.#vlcPlayer.loadStateFromApiRound();
     this.#vlcRcStatusWebSocket.disconnect();
     this.#playlistWebSocket.disconnect();
     this.#restartSyncVlcPlayerHttpLoop(this.#getRestartLoopConfig());
