@@ -1470,7 +1470,7 @@ class CordovaHttpPluginMock {
    * Set server trust mode.
    */
   setServerTrustMode(trustMode, successCallback) {
-    kameHouse.logger.info("Called setServerTrustMode on cordova mock with " + trustMode);
+    kameHouse.logger.trace("Called setServerTrustMode on cordova mock with " + trustMode);
     successCallback();
   }
 
@@ -1478,7 +1478,7 @@ class CordovaHttpPluginMock {
    * Send http request.
    */
   sendRequest(requestUrl, options, successCallback, errorCallback) {
-    kameHouse.logger.info("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + kameHouse.json.stringify(options) + ". Mocking response");
+    kameHouse.logger.trace("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + kameHouse.json.stringify(options) + ". Mocking response");
     if (requestUrl.includes("/kame-house/api/v1/ui/session/status")) {
       return this.#mockSessionStatus(successCallback);
     }
@@ -1496,35 +1496,35 @@ class CordovaHttpPluginMock {
    * Use basic auth.
    */
   useBasicAuth() {
-    kameHouse.logger.info("Called useBasicAuth on cordova mock");
+    kameHouse.logger.trace("Called useBasicAuth on cordova mock");
   }
 
   /**
    * Set data serializer.
    */
   setDataSerializer(serializationType) {
-    kameHouse.logger.info("Called setDataSerializer on cordova mock with " + serializationType);
+    kameHouse.logger.trace("Called setDataSerializer on cordova mock with " + serializationType);
   }
 
   /**
    * Set header.
    */
   setHeader(key, value) {
-    kameHouse.logger.info("Called setHeader on cordova mock with " + key + ":" + value);
+    kameHouse.logger.trace("Called setHeader on cordova mock with " + key + ":" + value);
   }
 
   /**
    * Set request timeout.
    */
   setRequestTimeout(val) {
-    kameHouse.logger.info("Called setHeader on cordova mock with " + val);
+    kameHouse.logger.trace("Called setHeader on cordova mock with " + val);
   }
 
   /**
    * Set read timeout.
    */
   setReadTimeout(val) {
-    kameHouse.logger.info("Called setHeader on cordova mock with " + val);
+    kameHouse.logger.trace("Called setHeader on cordova mock with " + val);
   }
 
   /**
@@ -1594,7 +1594,7 @@ class CordovaInAppBrowserMock {
    * Open url.
    */
   open(url, target, options) {
-    kameHouse.logger.info("Called open in InAppBrowserMock with url " + url);
+    kameHouse.logger.trace("Called open in InAppBrowserMock with url " + url);
     setTimeout(() => {
       alert("kameHouse.cordova.InAppBrowser.open() call with:\n\nurl:\n" + url + "\n\ntarget:\n" + target + "\n\noptions:\n" + options);
     }, 100);
@@ -1621,21 +1621,21 @@ class CordovaInAppBrowserInstanceMock {
    * Add browser event listener.
    */
   addEventListener(eventName, callback) {
-    kameHouse.logger.info("Called addEventListener on the InAppBrowserInstanceMock for event " + eventName);
+    kameHouse.logger.trace("Called addEventListener on the InAppBrowserInstanceMock for event " + eventName);
   }
 
   /**
    * Show browser.
    */
   show() {
-    kameHouse.logger.info("Called show on the InAppBrowserInstanceMock");
+    kameHouse.logger.trace("Called show on the InAppBrowserInstanceMock");
   }
 
   /**
    * Close browser.
    */
   close() {
-    kameHouse.logger.info("Called close on the InAppBrowserInstanceMock");
+    kameHouse.logger.trace("Called close on the InAppBrowserInstanceMock");
   }
 } // CordovaInAppBrowserInstanceMock
 
