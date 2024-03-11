@@ -7,7 +7,7 @@
 
 #### v9.01
 
-- Added rewind and fast forward 10 seconds buttons to vlc debug mode
+- Added rewind and fast forward 10 seconds buttons to vlc player
 - Fixed new ui sonar bugs
 - Add id to request/response logs in the ui
 - Updated vlcrc status api to return initialized object rather than 404
