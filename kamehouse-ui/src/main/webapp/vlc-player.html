@@ -139,8 +139,9 @@
           <div id="current-volume" class="bold-kh">N/A</div>
         </td>
         <td> 
-          <button id="media-btn-stop" data-background-img="/kame-house/img/mplayer/stop-gray-dark.png" class="img-btn-kh"
-            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_stop')"></button>
+          <button class="img-btn-kh media-flow-button"
+            data-background-img="/kame-house/img/mplayer/audio-wave-gray-dark.png"
+            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'audio-track')"></button>
         </td>
         </tr> 
       </table>
@@ -165,9 +166,8 @@
               onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_loop')"></button>
           </td>
           <td> 
-            <button class="img-btn-kh media-flow-button"
-              data-background-img="/kame-house/img/mplayer/audio-wave-green.png"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'audio-track')"></button>
+            <button id="media-btn-stop" data-background-img="/kame-house/img/mplayer/stop-green.png" class="img-btn-kh"
+              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_stop')"></button>
           </td>
         </tr>
       </table>
