@@ -40,10 +40,10 @@ class VlcPlayer {
     kameHouse.util.mobile.setMobileEventListeners(() => {this.#stopVlcPlayerLoops()}, () => {this.#restartVlcPlayerLoops()});
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       kameHouse.util.mobile.exec(
-        () => {this.loadStateFromApi();},
+        () => {this.loadStateFromApi(false);},
         () => {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
-            this.loadStateFromApi();
+            this.loadStateFromApi(false);
           });
         }
       );
@@ -70,9 +70,9 @@ class VlcPlayer {
   /**
    * Load the vlc player state and refresh the view from API calls (not through websockets).
    */
-  loadStateFromApi() {
-    this.#vlcPlayerDebugger.getVlcRcStatusFromApi();
-    this.#vlcPlayerDebugger.getPlaylistFromApi();
+  loadStateFromApi(updateCursor) {
+    this.#vlcPlayerDebugger.getVlcRcStatusFromApi(updateCursor);
+    this.#vlcPlayerDebugger.getPlaylistFromApi(updateCursor);
   }
 
   /** Get the hostname for this instance of VlcPlayer */
@@ -295,14 +295,12 @@ class VlcPlayer {
   }
 
   /**
-   * Suspend the current server.
+   * Open modal to confirm suspending the server.
    */
-  suspendServer() {
-    const requestParam =  {
-      delay : 0
-    };
-    const SUSPEND_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/suspend";
-    this.getRestClient().post(SUSPEND_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
+  confirmSuspendServer() {
+    kameHouse.plugin.modal.basicModal.setHtml(this.#getSuspendServerModalMessage());
+    kameHouse.plugin.modal.basicModal.appendHtml(this.#createSuspendButton());
+    kameHouse.plugin.modal.basicModal.open();
   }
 
   /**
@@ -331,6 +329,49 @@ class VlcPlayer {
     };
     const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
     this.getRestClient().post(MOUSE_CLICK_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
+  }
+
+  /**
+   * Get suspend server modal message.
+   */
+  #getSuspendServerModalMessage() {
+    const rebootModalMessage = kameHouse.util.dom.getSpan({}, "Are you sure you want to suspend the server? ");
+    kameHouse.util.dom.append(rebootModalMessage, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(rebootModalMessage, kameHouse.util.dom.getBr());
+    return rebootModalMessage;
+  }
+
+  /**
+   * Create reboot button.
+   */
+  #createSuspendButton() {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh"
+      },
+      backgroundImg: "/kame-house/img/pc/shutdown-red.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#suspendServer()
+    });
+  }
+
+  /**
+   * Suspend the current server.
+   */
+  #suspendServer() {
+    kameHouse.plugin.modal.basicModal.close();
+    const requestParam =  {
+      delay : 0
+    };
+    const SUSPEND_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/suspend";
+    this.getRestClient().post(SUSPEND_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+      () => {
+        kameHouse.logger.info("Server suspended");
+      }, 
+      () => {
+        kameHouse.logger.error("Error suspending server"); 
+      });
   }
 
   /**
@@ -413,7 +454,7 @@ class VlcPlayerCommandExecutor {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
-      () => {this.#vlcPlayer.loadStateFromApi()}, 
+      () => {this.#vlcPlayer.loadStateFromApi(false)}, 
       () => {}
     );
   }
@@ -421,7 +462,7 @@ class VlcPlayerCommandExecutor {
   /** Close vlc player. */
   close() {
     this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
-      () => {this.#vlcPlayer.loadStateFromApi()}, 
+      () => {this.#vlcPlayer.loadStateFromApi(false)}, 
       () => {}
     );
   }
@@ -786,7 +827,7 @@ class VlcPlayerSynchronizer {
   restartVlcPlayerLoops() {
     const message = "KameHouse sent to foreground. Restarting sync loops and reconnecting websockets";
     kameHouse.logger.info(message, kameHouse.logger.getCyanText(message));
-    this.#vlcPlayer.loadStateFromApi();
+    this.#vlcPlayer.loadStateFromApi(false);
     this.#vlcRcStatusWebSocket.disconnect();
     this.#playlistWebSocket.disconnect();
     this.#restartSyncVlcPlayerHttpLoop(this.#getRestartLoopConfig());
@@ -980,7 +1021,7 @@ class VlcPlayerSynchronizer {
   #loadStateFromApiSyncVlcPlayerHttpLoop() {
     if (!this.#vlcRcStatusWebSocket.isConnected() || !this.#playlistWebSocket.isConnected()) {
       kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
-      this.#vlcPlayer.loadStateFromApi();
+      this.#vlcPlayer.loadStateFromApi(false);
     } else {
       kameHouse.logger.trace("syncVlcPlayerHttpLoop: Websockets connected. Skipping synchronization through http requests");
     }
@@ -1407,6 +1448,7 @@ class VlcPlayerRestClient {
     config.timeout = 10;
     kameHouse.plugin.debugger.http.get(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.util.cursor.setCursorDefault();
         if (!kameHouse.core.isEmpty(successCallback)) {
           successCallback(responseBody, responseCode, responseDescription, responseHeaders);
         } else {
@@ -1414,6 +1456,7 @@ class VlcPlayerRestClient {
         }
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.util.cursor.setCursorDefault();
         if (!kameHouse.core.isEmpty(errorCallback)) {
           errorCallback(responseBody, responseCode, responseDescription, responseHeaders);
         } else {
@@ -1431,12 +1474,14 @@ class VlcPlayerRestClient {
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.util.cursor.setCursorDefault();
         this.#apiCallSuccessDefault(responseBody);
         if (kameHouse.core.isFunction(successCallback)) {
           successCallback();
         }
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.util.cursor.setCursorDefault();
         this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
         if (kameHouse.core.isFunction(errorCallback)) {
           errorCallback();
@@ -1451,12 +1496,14 @@ class VlcPlayerRestClient {
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.delete(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.util.cursor.setCursorDefault();
         this.#apiCallSuccessDefault(responseBody)
         if (kameHouse.core.isFunction(successCallback)) {
           successCallback();
         }
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.util.cursor.setCursorDefault();
         this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
         if (kameHouse.core.isFunction(errorCallback)) {
           errorCallback();
@@ -1467,14 +1514,12 @@ class VlcPlayerRestClient {
 
   /** Default actions for succesful api responses */
   #apiCallSuccessDefault(responseBody) {
-    kameHouse.util.cursor.setCursorDefault();
     kameHouse.plugin.modal.loadingWheelModal.close();
     this.#vlcPlayer.pollVlcRcStatus();
   }
 
   /** Default actions for error api responses */
   #apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.util.cursor.setCursorDefault();
     kameHouse.plugin.modal.loadingWheelModal.close();
     // Don't display api errors for not found or service not available errors or cordova mock
     if (responseCode != 404 && responseCode != 503 && responseCode != 999 && responseCode > 300) {
@@ -1505,15 +1550,15 @@ class VlcPlayerDebugger {
   }
 
   /** Get the vlcRcStatus from an http api call instead of from the websocket. */
-  getVlcRcStatusFromApi() { 
-    this.#vlcPlayer.getRestClient().get(this.#vlcRcStatusApiUrl, null, null, false, 
+  getVlcRcStatusFromApi(updateCursor) { 
+    this.#vlcPlayer.getRestClient().get(this.#vlcRcStatusApiUrl, null, null, updateCursor, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders)}); 
   }
 
   /** Get the playlist from an http api call instead of from the websocket. */
-  getPlaylistFromApi() { 
-    this.#vlcPlayer.getRestClient().get(this.#playlistApiUrl, null, null, false, 
+  getPlaylistFromApi(updateCursor) { 
+    this.#vlcPlayer.getRestClient().get(this.#playlistApiUrl, null, null, updateCursor, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders)}); 
   }
