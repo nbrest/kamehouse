@@ -35,6 +35,8 @@
 .mobile-build-version-table {
   width:100%;
   margin:auto;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .mobile-build-version-table tbody {
