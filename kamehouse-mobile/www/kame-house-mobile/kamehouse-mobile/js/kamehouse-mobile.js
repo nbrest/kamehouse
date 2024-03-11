@@ -157,7 +157,7 @@ class KameHouseMobileCore {
         options.data = requestBody;
       }
     }
-    this.#logMobileHttpRequest(requestUrl, options);
+    this.#logMobileHttpRequest(requestUrl, options, config);
     this.#setMobileTimeout(config);
     if (this.#skipSslCheck()) {
       kameHouse.logger.trace("Skipping SSL check for mobile request");
@@ -507,8 +507,9 @@ class KameHouseMobileCore {
   /**
    * Log a mobile http request.
    */
-  #logMobileHttpRequest(url, options) {
+  #logMobileHttpRequest(url, options, config) {
     kameHouse.logger.debug("mobile http request: [ " 
+    + "'id' : '" + config.requestId + "', "
     + "'url' : '" + url + "', "
     + "'options' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(options)) + "' ]");
   }
