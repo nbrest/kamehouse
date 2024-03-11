@@ -5,6 +5,26 @@
     <tbody>
       <tr>
         <td>
+          <button class="link-image-img vlc-debug-img-btn" data-background-img="/kame-house/img/mplayer/rewind.png" 
+            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('seek', '-10s')"></button>
+        </td>
+        <td>
+          <div class="link-image-text">Rewind 10s</div>
+          <div class="link-image-desc">Rewind the current playing element 10 seconds</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button class="link-image-img vlc-debug-img-btn" data-background-img="/kame-house/img/mplayer/fast-forward.png" 
+            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('seek', '+10s')"></button>
+        </td>
+        <td>
+          <div class="link-image-text">Fast forward 10s</div>
+          <div class="link-image-desc">Fast forward the current playing element 10 seconds</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
           <button class="link-image-img vlc-debug-img-btn" data-background-img="/kame-house/img/pc/wol-red-dark.png" onclick='kameHouse.extension.vlcPlayer.wolMediaServer()'></button>
         </td>
         <td>
