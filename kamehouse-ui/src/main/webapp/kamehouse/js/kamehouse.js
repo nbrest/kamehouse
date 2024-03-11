@@ -2728,7 +2728,7 @@ class KameHouseCore {
    * Log the entry into the debug mode console log table.
    */
   #logToDebugMode(logEntry) {
-    const DEBUG_MODE_LOG_SIZE = 150;
+    const DEBUG_MODE_LOG_SIZE = 200;
     const debugModeConsoleLog = document.getElementById("debug-mode-console-log-entries");
     if (!kameHouse.core.isEmpty(debugModeConsoleLog)) {
       // Remove first log N entries
@@ -2748,6 +2748,11 @@ class KameHouseCore {
    * Scroll to the last entries of the console log.
    */
   #debugModeLogScroll() {
+    const scrollLogCheckbox = document.getElementById("debug-mode-scroll-log-checkbox");
+    const scrollLog = scrollLogCheckbox.checked;
+    if (!scrollLog) {
+      return;
+    }
     const logEntries = document.getElementById("debug-mode-console-log-entries");
     const height = logEntries.scrollHeight;
     kameHouse.core.animate(logEntries, {
