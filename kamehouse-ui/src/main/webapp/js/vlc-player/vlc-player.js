@@ -1104,10 +1104,10 @@ class VlcPlayerSynchronizer {
       let startLoop = true;
       while (this.#syncLoopsConfig[loopCountName] > 0) {
         retriesLeft--;
-        kameHouse.logger.trace("waiting for " + loopName + " to finish before restarting");
+        kameHouse.logger.trace("Waiting for " + loopName + " to finish before restarting");
         await kameHouse.core.sleep(config.restartLoopWaitMs);
         if (retriesLeft <= 0) {
-          kameHouse.logger.info("too many attempts to restart " + loopName + ". It seems to be running already. Skipping restart");
+          kameHouse.logger.debug("Too many attempts to restart " + loopName + ". It seems to be running already. Skipping restart");
           startLoop = false;
           break;
         }

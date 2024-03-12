@@ -9,6 +9,8 @@ class KameHouseDebugger {
   #requests = [];
   #toggleDebuggerModalHtml = null;
   #debuggerHttpClientDivTemplate = null;
+  #showRequestData = true;
+  #showResponseData = false;
 
   constructor() {
     this.#toggleDebuggerModalHtml = this.getToggleDebuggerModalHtml();
@@ -125,6 +127,9 @@ class KameHouseDebugger {
   displayRequestData(method, config, url, requestHeaders, requestBody) {
     this.#emptyDebuggerHttpClientDiv();
     kameHouse.util.dom.setHtmlById("debugger-http-client", this.#debuggerHttpClientDivTemplate);
+    this.#updateRequestDataVisibility(); 
+    this.#updateResponseDataVisibility(); 
+    kameHouse.core.setButtonBackgrounds();
     const requestTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-timestamp-val', requestTimestamp);
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-method-val', method);
@@ -155,6 +160,50 @@ class KameHouseDebugger {
   }
 
   /**
+   * Toggle view/hide response data.
+   */
+  toggleRequestData() {
+    this.#showRequestData = !this.#showRequestData;
+    this.#updateRequestDataVisibility();
+  }
+
+  /**
+   * Toggle view/hide response data.
+   */
+  toggleResponseData() {
+    this.#showResponseData = !this.#showResponseData;
+    this.#updateResponseDataVisibility();
+  }
+
+  /**
+   * Update request data visibility.
+   */
+  #updateRequestDataVisibility() {
+    const requestDataElements = document.getElementsByClassName("debug-mode-request-data");
+    for (const requestDataElement of requestDataElements) {
+      if (this.#showRequestData) {
+        kameHouse.util.dom.classListRemove(requestDataElement, "hidden-kh");
+      } else {
+        kameHouse.util.dom.classListAdd(requestDataElement, "hidden-kh");
+      }
+    }
+  }  
+
+  /**
+   * Update response data visibility.
+   */
+  #updateResponseDataVisibility() {
+    const responseDataElements = document.getElementsByClassName("debug-mode-response-data");
+    for (const responseDataElement of responseDataElements) {
+      if (this.#showResponseData) {
+        kameHouse.util.dom.classListRemove(responseDataElement, "hidden-kh");
+      } else {
+        kameHouse.util.dom.classListAdd(responseDataElement, "hidden-kh");
+      }
+    }
+  }
+
+  /**
    * Loads the debugger http client html snippet into a variable to be reused as a template on render.
    */
   async #loadDebuggerHttpClientTemplate() {
@@ -170,6 +219,7 @@ class KameHouseDebugger {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       this.displayRequestData(null, null, null, null);
       this.#setConsoleLogLevelDropdown();
+      kameHouse.core.setButtonBackgrounds();
     });
   }
 

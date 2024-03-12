@@ -3,44 +3,56 @@
   <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>
   <tbody>
   <tr class="table-kh-header">
-    <td colspan="2">Request Data</td>
+    <td colspan="2">
+      <span>Request Data</span>
+      <button class='img-btn-kh img-btn-s-kh va-m-kh fl-r-d-kh' 
+        data-background-img='/kame-house/img/other/resize-vertical-gray-dark.png'
+        onclick="kameHouse.plugin.debugger.toggleRequestData()">
+    </button>
+    </td>
   </tr>
-  <tr>
+  <tr class="debug-mode-request-data">
     <td>Timestamp</td>
     <td id="debugger-http-client-req-timestamp-val"></td>
   </tr>
-  <tr>
+  <tr class="debug-mode-request-data">
     <td>Method</td>
     <td id="debugger-http-client-req-method-val"></td>
   </tr>
-  <tr>
+  <tr class="debug-mode-request-data">
     <td>Url</td>
     <td id="debugger-http-client-req-url-val"></td>
   </tr>
-  <tr>
+  <tr class="debug-mode-request-data">
     <td>Config</td>
     <td id="debugger-http-client-req-config-val"></td>
   </tr>  
-  <tr>
+  <tr class="debug-mode-request-data">
     <td>Headers</td>
     <td id="debugger-http-client-req-headers-val"></td>
   </tr>  
-  <tr>
+  <tr class="debug-mode-request-data">
     <td>Body</td>
     <td id="debugger-http-client-req-body-val"></td>
   </tr>
   <tr class="table-kh-header">
-    <td colspan="2">Response Data</td>
+    <td colspan="2">
+      <span>Response Data</span>
+      <button class='img-btn-kh img-btn-s-kh va-m-kh fl-r-d-kh' 
+        data-background-img='/kame-house/img/other/resize-vertical-gray-dark.png'
+        onclick="kameHouse.plugin.debugger.toggleResponseData()">
+      </button>
+    </td>
   </tr>
-  <tr>
+  <tr class="debug-mode-response-data hidden-kh">
     <td>Response Code</td>
     <td id="debugger-http-client-res-code-val"></td>
   </tr>
-  <tr>
+  <tr class="debug-mode-response-data hidden-kh">
     <td>Timestamp</td>
     <td id="debugger-http-client-res-timestamp-val"></td>
   </tr>  
-  <tr>
+  <tr class="debug-mode-response-data hidden-kh">
     <td>Headers</td>
     <td id="debugger-http-client-res-headers-val"></td>
   </tr>    

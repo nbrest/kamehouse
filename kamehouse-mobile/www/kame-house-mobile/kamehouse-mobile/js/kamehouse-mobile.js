@@ -508,7 +508,7 @@ class KameHouseMobileCore {
    * Log a mobile http request.
    */
   #logMobileHttpRequest(httpMethod, config, url, requestHeaders, requestBody, options) {
-    kameHouse.logger.debug("mobile http request: [ " 
+    kameHouse.logger.debug("Http request (Mobile): [ " 
     + "'id' : '" + config.requestId + "', "
     + "'url' : '" + url + "', "
     + "'method' : '" + httpMethod + "', "

@@ -2685,7 +2685,7 @@ class KameHouseCore {
    * Log an http request.
    */
   logHttpRequest(httpMethod, config, url, requestHeaders, requestBody) {
-    this.debug("http request: [ " 
+    this.debug("Http request: [ " 
     + "'id' : '" + config.requestId + "', "
     + "'url' : '" + url + "', "
     + "'method' : '" + httpMethod + "', "
@@ -2698,7 +2698,7 @@ class KameHouseCore {
    * Log an http response.
    */
   logHttpResponse(config, url, responseBody, responseCode, responseDescription, responseHeaders) {
-    this.debug("http response: [ " 
+    this.debug("Http response: [ " 
     + "'id' : '" + config.requestId + "', "
     + "'url' : '" + url + "', "
     + "'responseCode' : '" + responseCode + "', "
