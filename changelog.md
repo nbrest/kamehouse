@@ -8,6 +8,7 @@
 #### v9.01
 
 - Added toggle visibility of request and response data on ui debugger
+- Set debugger http request/response table to use a single instance of the template
 - Added option to skip scrolling logs for ui debugger console log
 - Extended ui debugger console log size
 - Added rewind and fast forward 10 seconds buttons to vlc player

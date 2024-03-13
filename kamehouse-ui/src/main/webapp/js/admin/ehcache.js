@@ -153,7 +153,7 @@ class EhCacheManager {
       kameHouse.util.dom.toggleClass("toggle-ehcache-table-" + cache.name);
       this.#ehcacheToggleTableRowIds[webapp].push("toggle-ehcache-table-" + cache.name);
     });
-    kameHouse.core.setButtonBackgrounds();
+    kameHouse.core.configDynamicHtml();
   }
 
   /**

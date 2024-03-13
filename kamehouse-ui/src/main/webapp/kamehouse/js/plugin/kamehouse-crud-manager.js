@@ -33,7 +33,7 @@ class CrudManager {
     kameHouse.util.dom.loadById("crud-manager-body-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
       kameHouse.util.banner.setRandomAllBanner();
-      kameHouse.core.setButtonBackgrounds();
+      kameHouse.core.configDynamicHtml();
     });
   }
 

@@ -13,7 +13,7 @@ class KameHouseFooter {
       kameHouse.logger.info("Loading footer");
       kameHouse.util.dom.append(kameHouse.util.dom.getBody(), this.#getFooterContainerDiv());
       kameHouse.util.dom.loadById("kamehouse-footer-container", "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
-        kameHouse.util.mobile.configureApp();
+        kameHouse.core.configDynamicHtml();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();
           kameHouse.util.module.setModuleLoaded("kameHouseFooter");

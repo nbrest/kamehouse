@@ -125,11 +125,6 @@ class KameHouseDebugger {
    * Display debugger http client request data.
    */
   displayRequestData(method, config, url, requestHeaders, requestBody) {
-    this.#emptyDebuggerHttpClientDiv();
-    kameHouse.util.dom.setHtmlById("debugger-http-client", this.#debuggerHttpClientDivTemplate);
-    this.#updateRequestDataVisibility(); 
-    this.#updateResponseDataVisibility(); 
-    kameHouse.core.setButtonBackgrounds();
     const requestTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-timestamp-val', requestTimestamp);
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-method-val', method);
@@ -217,9 +212,12 @@ class KameHouseDebugger {
   #renderDebugMode() {
     kameHouse.util.dom.loadById("debug-mode-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-debugger.html", () => {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
+      this.#emptyDebuggerHttpClientDiv();
+      kameHouse.util.dom.setHtmlById("debugger-http-client", this.#debuggerHttpClientDivTemplate);
+      kameHouse.core.configDynamicHtml();
       this.displayRequestData(null, null, null, null);
       this.#setConsoleLogLevelDropdown();
-      kameHouse.core.setButtonBackgrounds();
+      kameHouse.core.configDynamicHtml();
     });
   }
 

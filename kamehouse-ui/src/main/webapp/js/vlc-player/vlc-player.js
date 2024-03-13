@@ -48,7 +48,7 @@ class VlcPlayer {
         }
       );
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house/html-snippets/vlc-player/vlc-player-debug-mode-custom.html", () => {
-        kameHouse.core.setButtonBackgrounds();
+        kameHouse.core.configDynamicHtml();
       });
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseWebSocket"], () => {

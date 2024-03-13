@@ -13,7 +13,7 @@ class KameHouseHeader {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
       kameHouse.util.dom.prepend(kameHouse.util.dom.getBody(), this.#getHeaderContainerDiv());
       kameHouse.util.dom.loadById("kamehouse-header-container", "/kame-house/kamehouse/html/kamehouse-header.html", () => {
-        kameHouse.util.mobile.configureApp();
+        kameHouse.core.configDynamicHtml();
         this.#updateActiveTab();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();

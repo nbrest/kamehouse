@@ -64,8 +64,8 @@ class KameHouse {
     this.logger.info("Started initializing kamehouse.js");
     this.core.setGlobalErrorHandler();
     this.core.initAuthorizeUser();
-    this.core.setButtonBackgrounds();
     this.util.mobile.init();
+    this.core.configDynamicHtml();
     this.core.loadSession();
     this.core.loadHeader();
     this.core.loadFooter();
@@ -73,7 +73,6 @@ class KameHouse {
     this.core.loadKameHouseModal();
     this.core.loadKameHouseDebugger();
     this.util.cursor.loadSpinningWheelCursorWait();
-    this.core.disablePageRefreshOnForms();
     this.logger.info("Finished initializing kamehouse.js");
   }
 
@@ -1296,7 +1295,7 @@ class KameHouseMobileUtils {
    * Configure elements that only need to be rendered on the web app app.
    */
   #configureWebAppOnlyElements() {
-    kameHouse.logger.info("Configuring webapp only elements");
+    kameHouse.logger.debug("Configuring webapp only elements");
     this.#disableMobileOnlyElements();
   }
 
@@ -1304,7 +1303,7 @@ class KameHouseMobileUtils {
    * Configure elements that only need to be rendered on the mobile app.
    */
   #configureMobileOnlyElements() {
-    kameHouse.logger.info("Configuring mobile app only elements");
+    kameHouse.logger.debug("Configuring mobile app only elements");
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
       this.#disableWebAppOnlyElements();
       this.#disableHoverOnImageButtons();
@@ -2030,39 +2029,13 @@ class KameHouseCore {
   }
 
   /**
-   * Set the background of link-image elements.
+   * Update dynamic html properties. Run this every time I insert a dynamic html element like loading an html snippet.
    */
-  setButtonBackgrounds() {
-    kameHouse.logger.debug("Setting button backgrounds");
-    kameHouse.logger.debug("Setting link-image backgrounds");
-    const linkImages = document.getElementsByClassName("link-image-img");
-    for (const linkImage of linkImages) {
-      const backgroundImg = linkImage.dataset.backgroundImg;
-      if (backgroundImg) {
-        kameHouse.util.dom.setBackgroundImage(linkImage, backgroundImg);
-      }
-    }
-    kameHouse.logger.debug("Setting img-btn-kh backgrounds");
-    const imgBtns = document.getElementsByClassName("img-btn-kh");
-    for (const imgBtn of imgBtns) {
-      const backgroundImg = imgBtn.dataset.backgroundImg;
-      if (backgroundImg) {
-        kameHouse.util.dom.setBackgroundImage(imgBtn, backgroundImg);
-      }
-    }
-  }
-
-  /**
-   * Disable default page refresh on form submit.
-   */
-  disablePageRefreshOnForms() {
-    kameHouse.logger.debug("Disabling page refresh on in-page forms");
-    const forms = document.getElementsByClassName("form-in-page-kh");
-    for (const form of forms) {
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-      });
-    }
+  configDynamicHtml() {
+    kameHouse.logger.debug("Configuring dynamic html");
+    this.#setButtonBackgrounds();
+    this.#disablePageRefreshOnForms();
+    kameHouse.util.mobile.configureApp();
   }
 
   /** 
@@ -2466,6 +2439,42 @@ class KameHouseCore {
   heightById(elementId) {
     const element = document.getElementById(elementId);
     return this.height(element);
+  }
+
+  /**
+   * Set the background of link-image elements.
+   */
+  #setButtonBackgrounds() {
+    kameHouse.logger.debug("Setting button backgrounds");
+    kameHouse.logger.debug("Setting link-image backgrounds");
+    const linkImages = document.getElementsByClassName("link-image-img");
+    for (const linkImage of linkImages) {
+      const backgroundImg = linkImage.dataset.backgroundImg;
+      if (backgroundImg) {
+        kameHouse.util.dom.setBackgroundImage(linkImage, backgroundImg);
+      }
+    }
+    kameHouse.logger.debug("Setting img-btn-kh backgrounds");
+    const imgBtns = document.getElementsByClassName("img-btn-kh");
+    for (const imgBtn of imgBtns) {
+      const backgroundImg = imgBtn.dataset.backgroundImg;
+      if (backgroundImg) {
+        kameHouse.util.dom.setBackgroundImage(imgBtn, backgroundImg);
+      }
+    }
+  }
+
+  /**
+   * Disable default page refresh on form submit.
+   */
+  #disablePageRefreshOnForms() {
+    kameHouse.logger.debug("Disabling page refresh on in-page forms");
+    const forms = document.getElementsByClassName("form-in-page-kh");
+    for (const form of forms) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+      });
+    }
   }
 
   /**

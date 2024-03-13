@@ -106,7 +106,7 @@ class Scheduler {
           this.#cancelJobExecution(jobEntry.key, webapp);
         });
       });
-      kameHouse.core.setButtonBackgrounds();
+      kameHouse.core.configDynamicHtml();
     }
   }
 

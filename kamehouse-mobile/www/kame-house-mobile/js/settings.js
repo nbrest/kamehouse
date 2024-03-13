@@ -14,14 +14,13 @@ class KameHouseMobileSettings {
     kameHouse.util.banner.setRandomAllBanner();
     kameHouse.util.module.waitForModules(["mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
-      kameHouse.core.setButtonBackgrounds();
-      kameHouse.core.disablePageRefreshOnForms();
+      kameHouse.core.configDynamicHtml();
     });
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseMobile", "mobileTabsManager"], () => {
       this.#handleUrlParams();
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house-mobile/kamehouse-mobile/plugin/html/settings-debug-mode-custom.html", () => {
         kameHouse.extension.mobile.core.setMobileBuildVersion();
-        kameHouse.core.setButtonBackgrounds();
+        kameHouse.core.configDynamicHtml();
       });
     });
   }
