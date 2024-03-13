@@ -25,6 +25,32 @@
   }
 }
 
+.table-kh tr td.debug-mode-client-table-header-td {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
+}
+
+.debug-mode-client-table-header-btn {
+  background: transparent;
+  border: none;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  color: #5e5e5e;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.debug-mode-client-table-header-btn:hover {
+  background-color: #0e1417;
+}
+
 .debug-mode-console-table {
   border: 3px solid #1e1e1e;
   background-color: #000000;

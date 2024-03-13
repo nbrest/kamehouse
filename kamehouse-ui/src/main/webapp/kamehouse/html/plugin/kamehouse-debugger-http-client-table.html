@@ -3,12 +3,10 @@
   <thead class="hidden-kh"><tr><th id="header-row">Header</th></tr></thead>
   <tbody>
   <tr class="table-kh-header">
-    <td colspan="2">
-      <span>Request Data</span>
-      <button class='img-btn-kh img-btn-s-kh va-m-kh fl-r-d-kh' 
-        data-background-img='/kame-house/img/other/resize-vertical-gray-dark.png'
-        onclick="kameHouse.plugin.debugger.toggleRequestData()">
-    </button>
+    <td colspan="2" class="debug-mode-client-table-header-td">
+      <button class='debug-mode-client-table-header-btn'
+        onclick="kameHouse.plugin.debugger.toggleRequestData()">Request Data
+      </button>
     </td>
   </tr>
   <tr class="debug-mode-request-data">
@@ -36,11 +34,9 @@
     <td id="debugger-http-client-req-body-val"></td>
   </tr>
   <tr class="table-kh-header">
-    <td colspan="2">
-      <span>Response Data</span>
-      <button class='img-btn-kh img-btn-s-kh va-m-kh fl-r-d-kh' 
-        data-background-img='/kame-house/img/other/resize-vertical-gray-dark.png'
-        onclick="kameHouse.plugin.debugger.toggleResponseData()">
+    <td colspan="2" class="debug-mode-client-table-header-td">
+      <button class='debug-mode-client-table-header-btn'
+        onclick="kameHouse.plugin.debugger.toggleResponseData()">Response Data
       </button>
     </td>
   </tr>
