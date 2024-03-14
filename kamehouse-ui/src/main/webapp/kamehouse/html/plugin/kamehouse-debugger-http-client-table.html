@@ -4,7 +4,7 @@
   <tbody>
   <tr class="table-kh-header">
     <td colspan="2" class="debug-mode-client-table-header-td">
-      <button class='debug-mode-client-table-header-btn'
+      <button id="debugger-http-client-req-header" class='debug-mode-client-table-header-btn debug-mode-client-table-header-btn-expanded'
         onclick="kameHouse.plugin.debugger.toggleRequestData()">Request Data
       </button>
     </td>
@@ -35,7 +35,7 @@
   </tr>
   <tr class="table-kh-header">
     <td colspan="2" class="debug-mode-client-table-header-td">
-      <button class='debug-mode-client-table-header-btn'
+      <button id="debugger-http-client-res-header" class='debug-mode-client-table-header-btn'
         onclick="kameHouse.plugin.debugger.toggleResponseData()">Response Data
       </button>
     </td>
@@ -51,14 +51,15 @@
   <tr class="debug-mode-response-data hidden-kh">
     <td>Headers</td>
     <td id="debugger-http-client-res-headers-val"></td>
-  </tr>    
+  </tr>   
+  <tr class="debug-mode-response-data hidden-kh">
+    <td>Body</td>
+    <td id="debugger-http-client-res-body-val" class="debugger-http-client-res-body-val">
+    </td>
+  </tr>      
   </tbody>
 </table>
-<button class="collapsible-kh collapsible-kh-btn">Response Body</button>
-<div class="collapsible-kh-content">
-  <pre id="debugger-http-client-res-body-val" class="debugger-http-client-collapsible"></pre>
-</div>
-<br><br>
+<br>
 <button class="collapsible-kh collapsible-kh-btn">Previous Requests</button>
 <div class="collapsible-kh-content">
   <pre id="debugger-http-client-previous-requests-val" class="debugger-http-client-collapsible"></pre>

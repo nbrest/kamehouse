@@ -4,7 +4,7 @@
 
 .collapsible-kh:after {
   content: '\2193';
-  color: #c0c0c0;
+  color: #3f3f3f;
   font-weight: bold;
   float: right;
   margin-left: 5px;
@@ -23,11 +23,12 @@
 } 
 
 .collapsible-kh-btn {
-  background-color: #0e1417;
-  color: #c0c0c0;
+  background-color: #131010;
+  color: #5e5e5e;
+  font-weight: bold;
   padding: 5px;
   width: 100%;
-  border: 1px solid #464646;
+  border: 1px solid #1d1d1d;
   border-radius: 0px;
   text-align: left;
   outline: none;
@@ -35,6 +36,8 @@
 }
 
 .collapsible-kh-content {
+  color: #c0c0c0;
+  font-weight: normal;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;

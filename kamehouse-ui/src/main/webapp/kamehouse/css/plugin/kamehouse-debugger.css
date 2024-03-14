@@ -48,7 +48,19 @@
 }
 
 .debug-mode-client-table-header-btn:hover {
-  background-color: #0e1417;
+  background-color: #310000;
+}
+
+.debug-mode-client-table-header-btn:after {
+  content: '\2193';
+  color: #3f3f3f;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+} 
+
+.debug-mode-client-table-header-btn-expanded:after {
+  content: "\2191";
 }
 
 .debug-mode-console-table {
@@ -85,8 +97,12 @@
 
 .debugger-http-client-collapsible {
   background-color: #12181a;
-  border:1px solid #414141;
+  border:1px solid #1d1d1d;
   padding: 0 18px;
   color: #c0c0c0;
   text-align: left;
+}
+
+.debugger-http-client-res-body-val {
+  color: #8b8b8b;
 }

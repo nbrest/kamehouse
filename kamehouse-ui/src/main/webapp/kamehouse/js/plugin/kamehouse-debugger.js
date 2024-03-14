@@ -112,30 +112,29 @@ class KameHouseDebugger {
   /**
    * Display debugger http client response data.
    */
-  displayResponseData(responseBody, responseCode, responseDescription, responseHeaders) {
+  displayResponseData(responseBody, responseCode, responseDescription, responseHeaders, requestData) {
+    this.displayRequestData(requestData);
     const responseTimestamp = kameHouse.util.time.getTimestamp();
     kameHouse.util.dom.setHtmlById("debugger-http-client-res-code-val", responseCode);
     kameHouse.util.dom.setHtmlById("debugger-http-client-res-timestamp-val", responseTimestamp);
     kameHouse.util.dom.setHtmlById("debugger-http-client-res-headers-val", kameHouse.json.stringify(responseHeaders));
     kameHouse.util.dom.setTextById("debugger-http-client-res-body-val", kameHouse.json.stringify(responseBody, null, 2));
-    kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }  
 
   /**
    * Display debugger http client request data.
    */
-  displayRequestData(method, config, url, requestHeaders, requestBody) {
-    const requestTimestamp = kameHouse.util.time.getTimestamp();
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-timestamp-val', requestTimestamp);
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-method-val', method);
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-url-val', url);
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-config-val', kameHouse.json.stringify(config));
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-headers-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders)));
-    kameHouse.util.dom.setTextById('debugger-http-client-req-body-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody, null, 2)));
+  displayRequestData(requestData) {
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-timestamp-val', requestData.timestamp);
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-method-val', requestData.method);
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-url-val', requestData.url);
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-config-val', kameHouse.json.stringify(requestData.config));
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-headers-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestData.headers)));
+    kameHouse.util.dom.setTextById('debugger-http-client-req-body-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestData.body, null, 2)));
     kameHouse.util.dom.setHtmlById('debugger-http-client-res-code-val', null);
     kameHouse.util.dom.setHtmlById('debugger-http-client-res-timestamp-val', null);
-    kameHouse.util.dom.setTextById('debugger-http-client-res-body-val', kameHouse.json.stringify(null, null, 2));
-    kameHouse.util.collapsibleDiv.setCollapsibleContent();
+    kameHouse.util.dom.setHtmlById('debugger-http-client-res-headers-val', null);
+    kameHouse.util.dom.setTextById('debugger-http-client-res-body-val', null);
   }
 
   /**
@@ -182,6 +181,12 @@ class KameHouseDebugger {
         kameHouse.util.dom.classListAdd(requestDataElement, "hidden-kh");
       }
     }
+    const requestDataHeader = document.getElementById("debugger-http-client-req-header");
+    if (this.#showRequestData) {
+      kameHouse.util.dom.classListAdd(requestDataHeader, "debug-mode-client-table-header-btn-expanded");
+    } else {
+      kameHouse.util.dom.classListRemove(requestDataHeader, "debug-mode-client-table-header-btn-expanded");
+    }    
   }  
 
   /**
@@ -195,6 +200,12 @@ class KameHouseDebugger {
       } else {
         kameHouse.util.dom.classListAdd(responseDataElement, "hidden-kh");
       }
+    }
+    const responseDataHeader = document.getElementById("debugger-http-client-res-header");
+    if (this.#showResponseData) {
+      kameHouse.util.dom.classListAdd(responseDataHeader, "debug-mode-client-table-header-btn-expanded");
+    } else {
+      kameHouse.util.dom.classListRemove(responseDataHeader, "debug-mode-client-table-header-btn-expanded");
     }
   }
 
@@ -214,8 +225,7 @@ class KameHouseDebugger {
       kameHouse.util.module.setModuleLoaded("kameHouseDebugger");
       this.#emptyDebuggerHttpClientDiv();
       kameHouse.util.dom.setHtmlById("debugger-http-client", this.#debuggerHttpClientDivTemplate);
-      kameHouse.core.configDynamicHtml();
-      this.displayRequestData(null, null, null, null);
+      this.displayRequestData({});
       this.#setConsoleLogLevelDropdown();
       kameHouse.core.configDynamicHtml();
     });
@@ -272,8 +282,8 @@ class DebuggerHttpClient {
    * data is any extra data I want to pass to the success and error functions
    */
   get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#GET, config, url,requestHeaders, requestBody);
-    this.#kameHouseDebugger.displayRequestData(DebuggerHttpClient.#GET, config, url, requestHeaders, requestBody);
+    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#GET, config, url, requestHeaders, requestBody);
+    this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.get(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
@@ -286,7 +296,7 @@ class DebuggerHttpClient {
    */
   put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#PUT, config, url, requestHeaders, requestBody);
-    this.#kameHouseDebugger.displayRequestData(DebuggerHttpClient.#PUT, config, url, requestHeaders, requestBody);
+    this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.put(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
@@ -299,7 +309,7 @@ class DebuggerHttpClient {
    */
   post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#POST, config, url, requestHeaders, requestBody);
-    this.#kameHouseDebugger.displayRequestData(DebuggerHttpClient.#POST, config, url, requestHeaders, requestBody);
+    this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.post(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
@@ -312,7 +322,7 @@ class DebuggerHttpClient {
    */
   delete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#DELETE, config, url, requestHeaders, requestBody);
-    this.#kameHouseDebugger.displayRequestData(DebuggerHttpClient.#DELETE, config, url, requestHeaders, requestBody);
+    this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.delete(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, errorCallback, requestData)
@@ -328,14 +338,14 @@ class DebuggerHttpClient {
     requestData.url = url;
     requestData.config = config;
     requestData.headers = requestHeaders;
-    requestData.requestBody = requestBody;
+    requestData.body = requestBody;
     requestData.timestamp = kameHouse.util.time.getTimestamp();
     return requestData;
   }
 
   /** Process the response of the api call */
   #processResponse(responseBody, responseCode, responseDescription, responseHeaders, responseCallback, requestData) {
-    this.#kameHouseDebugger.displayResponseData(responseBody, responseCode, responseDescription, responseHeaders);
+    this.#kameHouseDebugger.displayResponseData(responseBody, responseCode, responseDescription, responseHeaders, requestData);
     this.#kameHouseDebugger.displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders);
     if (kameHouse.core.isFunction(responseCallback)) {
       responseCallback(responseBody, responseCode, responseDescription, responseHeaders);
