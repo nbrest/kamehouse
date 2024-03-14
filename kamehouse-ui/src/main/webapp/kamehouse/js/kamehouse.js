@@ -686,10 +686,10 @@ class KameHouseDomUtils {
   /**
    * Load the specified htmlPath into the element.
    */
-  load(element, htmlPath, successCallback) {
+  load(element, htmlPath, completeCallback) {
     if (element) {
-      if (kameHouse.core.isFunction(successCallback)) {
-        kameHouse.jq(element).load(htmlPath, successCallback);
+      if (kameHouse.core.isFunction(completeCallback)) {
+        kameHouse.jq(element).load(htmlPath, completeCallback);
       } else {
         kameHouse.jq(element).load(htmlPath);
       }
@@ -699,9 +699,9 @@ class KameHouseDomUtils {
   /**
    * Load the specified htmlPath into the element.
    */
-  loadById(elementId, htmlPath, successCallback) {
+  loadById(elementId, htmlPath, completeCallback) {
     const element = document.getElementById(elementId);
-    return this.load(element, htmlPath, successCallback);
+    return this.load(element, htmlPath, completeCallback);
   }
 
   /**
