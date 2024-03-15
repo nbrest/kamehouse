@@ -198,6 +198,7 @@ class DragonBallUserServiceJsp {
       attr: {
         class: "img-btn-kh m-15-d-r-kh",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/other/edit.png",
       html: null,
       data: null,
@@ -213,6 +214,7 @@ class DragonBallUserServiceJsp {
       attr: {
         class: "img-btn-kh",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/other/delete.png",
       html: null,
       data: null,

@@ -131,6 +131,7 @@ class KameHouseHeader {
       attr: {
         class: "header-login-status-btn va-m-kh img-btn-kh",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/pc/login-red-dark.png",
       html: null,
       data: null,
@@ -146,6 +147,7 @@ class KameHouseHeader {
       attr: {
         class: "header-login-status-btn va-m-kh img-user-icon",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/dbz/goku.png",
       html: null,
       data: null,

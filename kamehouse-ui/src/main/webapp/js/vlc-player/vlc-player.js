@@ -362,6 +362,7 @@ class VlcPlayer {
       attr: {
         class: "img-btn-kh"
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/pc/shutdown-red.png",
       html: null,
       data: null,
@@ -1307,21 +1308,17 @@ class VlcPlayerPlaylist {
 
   /** Create a button to toggle when expanding/collapsing playlist browser filenames. */
   #createDoubleArrowButton(direction) {
-    const button = kameHouse.util.dom.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-playlist-filenames-btn",
         class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
       },
+      mobileClass: "img-btn-kh-mobile",
       backgroundImg: "/kame-house/img/other/double-" + direction + "-green.png",
       html: null,
       data: null,
       click: (event, data) => this.#toggleExpandPlaylistFilenames()
     });
-    kameHouse.util.mobile.exec(
-      () => {},
-      () => {kameHouse.util.dom.classListAdd(button, "img-btn-kh-mobile")}
-    );
-    return button;
   }
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */
@@ -1451,6 +1448,7 @@ class VlcPlayerPlaylist {
       attr: {
         class: "playlist-table-btn",
       },
+      mobileClass: null,
       backgroundImg: null,
       html: displayName,
       data: {

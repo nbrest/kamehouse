@@ -133,6 +133,7 @@ class GrootHeader {
       attr: {
         class: "groot-header-login-status-btn",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/pc/login-gray-dark.png",
       html: null,
       data: null,
@@ -148,6 +149,7 @@ class GrootHeader {
       attr: {
         class: "groot-header-login-status-btn img-user-icon",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/dbz/gohan.png",
       html: null,
       data: null,

@@ -354,6 +354,7 @@ class ServerManager {
       attr: {
         class: "img-btn-kh",
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/pc/shutdown-red.png",
       html: null,
       data: null,

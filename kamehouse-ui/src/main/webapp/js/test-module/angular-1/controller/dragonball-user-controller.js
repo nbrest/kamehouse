@@ -166,6 +166,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
       attr: {
         class: "btn go-back-btn-kh",
       },
+      mobileClass: null,
       backgroundImg: null,
       html: "Back",
       data: null,

@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added mobile class to buttons
 - Added vlc player playlist and playlist browser size
 - Fixed sync issue between shown request and response in the ui debugger
 - Moved ui debugger response body to the request/response table

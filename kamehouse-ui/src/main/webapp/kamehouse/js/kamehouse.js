@@ -953,6 +953,7 @@ class KameHouseDomUtils {
    *      id: "",
    *      class: ""
    *    },
+   *    mobileClass: "",
    *    html: htmlObject,
    *    backgroundImg: "/kame-house/img/url.png",
    *    data: {},
@@ -961,6 +962,12 @@ class KameHouseDomUtils {
    */
   getButton(config) {
     const btn = this.#getElement('button', config.attr, config.html);
+    if (!kameHouse.core.isEmpty(config.mobileClass)) {
+      kameHouse.util.mobile.exec(
+        () => {},
+        () => {kameHouse.util.dom.classListAdd(btn, config.mobileClass)}
+      );
+    }
     this.setClick(btn, config.data, config.click);
     if (config.backgroundImg) {
       this.setBackgroundImage(btn, config.backgroundImg);

@@ -189,6 +189,7 @@ class ServerManager {
       attr: {
         class: "img-btn-kh"
       },
+      mobileClass: null,
       backgroundImg: "/kame-house/img/pc/shutdown-red.png",
       html: null,
       data: null,
@@ -795,42 +796,34 @@ class TailLogManagerWrapper {
    * Create start tail log button.
    */
   #createStartButton() {
-    const button = kameHouse.util.dom.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-tail-log-btn",
         class: "link-image-img"
       },
+      mobileClass: "link-image-img-mobile",
       backgroundImg: "/kame-house/img/mplayer/play-circle-green.png",
       html: null,
       data: null,
       click: (event, data) => this.toggleTailLog()
     });
-    kameHouse.util.mobile.exec(
-      () => {},
-      () => {kameHouse.util.dom.classListAdd(button, "link-image-img-mobile")}
-    );
-    return button;
   }
 
   /**
    * Create stop tail log button.
    */
   #createStopButton() {
-    const button = kameHouse.util.dom.getButton({
+    return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-tail-log-btn",
         class: "link-image-img"
       },
+      mobileClass: "link-image-img-mobile",
       backgroundImg: "/kame-house/img/other/stop-red-dark.png",
       html: null,
       data: null,
       click: (event, data) => this.toggleTailLog()
     });
-    kameHouse.util.mobile.exec(
-      () => {},
-      () => {kameHouse.util.dom.classListAdd(button, "link-image-img-mobile")}
-    );
-    return button;
   }
   
 } // TailLogManagerWrapper

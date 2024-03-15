@@ -123,6 +123,7 @@ class KameHouseShellLoader {
       attr: {
         class: "kamehouse-shell-table-btn",
       },
+      mobileClass: null,
       backgroundImg: null,
       html: scriptName,
       data: {

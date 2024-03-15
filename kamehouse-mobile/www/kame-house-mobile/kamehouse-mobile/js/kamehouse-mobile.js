@@ -1115,6 +1115,7 @@ class KameHouseMobileConfigManager {
       attr: {
         class: "mobile-btn-kh reset-cfg-btn-kh",
       },
+      mobileClass: null,
       backgroundImg: null,
       html: "Yes",
       data: null,
