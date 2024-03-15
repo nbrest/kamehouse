@@ -29,12 +29,12 @@
 
 /** This css affects desktop, not mobile! */
 @media (min-width : 900px) {
-  .img-btn-mobile-kh:hover {
+  .img-btn-kh-mobile:hover {
     transform: scale(1);
   }
 }
 
-.img-btn-mobile-kh:active {
+.img-btn-kh-mobile:active {
   transform: scale(1);
   border-radius: 20px;
   background-color: #313131;

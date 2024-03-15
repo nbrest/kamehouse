@@ -370,8 +370,9 @@ class KameHouseCollapsibleDivUtils {
   refreshCollapsibleDiv() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
     for (const collapsibleElement of collapsibleElements) {
-      collapsibleElement.click();
-      collapsibleElement.click();
+      // need to trigger the 2 clicks to refresh
+      this.#collapsibleContentClickEvent(collapsibleElement);
+      this.#collapsibleContentClickEvent(collapsibleElement);
     }
   }
 
@@ -381,18 +382,17 @@ class KameHouseCollapsibleDivUtils {
   setCollapsibleContent() {
     const collapsibleElements = document.getElementsByClassName("collapsible-kh");
     for (const collapsibleElement of collapsibleElements) {
-      collapsibleElement.removeEventListener("click", this.#collapsibleContentListener);
-      collapsibleElement.addEventListener("click", this.#collapsibleContentListener);
+      collapsibleElement.removeEventListener("click", () => {this.#collapsibleContentClickEvent(collapsibleElement)});
+      collapsibleElement.addEventListener("click", () => {this.#collapsibleContentClickEvent(collapsibleElement)});
     }
   }
 
   /**
    * Function to toggle height of the collapsible elements from null to it's scrollHeight.
    */
-  #collapsibleContentListener() {
-    // Can't use self here, need to use this. Also can't use an annonymous function () => {}
-    kameHouse.util.dom.toggleClassOnElement(this, "collapsible-kh-active");
-    const content = this.nextElementSibling;
+  #collapsibleContentClickEvent(collapsibleElement) {
+    kameHouse.util.dom.toggleClassOnElement(collapsibleElement, "collapsible-kh-expanded");
+    const content = collapsibleElement.nextElementSibling;
     if (content.style.maxHeight != 0) {
       kameHouse.util.dom.setStyle(content, "maxHeight", null);
     } else {
@@ -1306,7 +1306,7 @@ class KameHouseMobileUtils {
     kameHouse.logger.debug("Configuring mobile app only elements");
     kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
       this.#disableWebAppOnlyElements();
-      this.#disableHoverOnImageButtons();
+      this.#addMobileClassOnElements();
     });
   }
 
@@ -1337,20 +1337,26 @@ class KameHouseMobileUtils {
   /**
    * Disable hover animations on image buttons on mobile.
    */
-  #disableHoverOnImageButtons() {
-    kameHouse.logger.debug("Disabling hover on image buttons");
-    const imageButtons = document.getElementsByClassName("img-btn-kh");
-    for (const imageButton of imageButtons) {
-      kameHouse.util.dom.classListAdd(imageButton, "img-btn-mobile-kh");
-    }
+  #addMobileClassOnElements() {
+    kameHouse.logger.debug("Adding mobile class on elements");
+    this.#addMobileClass("img-btn-kh");
+    this.#addMobileClass("link-image-img");
+    this.#addMobileClass("collapsible-kh");
+    this.#addMobileClass("debug-mode-client-table-header-btn");
     const mediaScreenCtrlButtons = document.getElementsByClassName("media-screen-ctrl-button");
     for (const mediaScreenCtrlButton of mediaScreenCtrlButtons) {
-      kameHouse.util.dom.classListAdd(mediaScreenCtrlButton, "img-btn-mobile-kh");
+      kameHouse.util.dom.classListAdd(mediaScreenCtrlButton, "img-btn-kh-mobile");
     } 
-    const linkImages = document.getElementsByClassName("link-image-img");
-    for (const linkImage of linkImages) {
-      kameHouse.util.dom.classListAdd(linkImage, "link-image-img-mobile");
-    }
+  }
+
+  /**
+   * Add mobile class names.
+   */
+  #addMobileClass(className) {
+    const elements = document.getElementsByClassName(className);
+    for (const element of elements) {
+      kameHouse.util.dom.classListAdd(element, className + "-mobile");
+    }   
   }
 
   /**

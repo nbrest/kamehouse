@@ -795,7 +795,7 @@ class TailLogManagerWrapper {
    * Create start tail log button.
    */
   #createStartButton() {
-    return kameHouse.util.dom.getButton({
+    const button = kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-tail-log-btn",
         class: "link-image-img"
@@ -805,13 +805,18 @@ class TailLogManagerWrapper {
       data: null,
       click: (event, data) => this.toggleTailLog()
     });
+    kameHouse.util.mobile.exec(
+      () => {},
+      () => {kameHouse.util.dom.classListAdd(button, "link-image-img-mobile")}
+    );
+    return button;
   }
 
   /**
    * Create stop tail log button.
    */
   #createStopButton() {
-    return kameHouse.util.dom.getButton({
+    const button = kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-tail-log-btn",
         class: "link-image-img"
@@ -821,6 +826,11 @@ class TailLogManagerWrapper {
       data: null,
       click: (event, data) => this.toggleTailLog()
     });
+    kameHouse.util.mobile.exec(
+      () => {},
+      () => {kameHouse.util.dom.classListAdd(button, "link-image-img-mobile")}
+    );
+    return button;
   }
   
 } // TailLogManagerWrapper

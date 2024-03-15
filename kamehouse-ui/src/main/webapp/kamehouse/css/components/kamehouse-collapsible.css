@@ -10,11 +10,23 @@
   margin-left: 5px;
 } 
 
-.collapsible-kh-active, .collapsible-kh:hover {
+.collapsible-kh:active {
+  background-color: #310000; 
+}
+
+.collapsible-kh:hover {
   background-color: #310000; 
 } 
 
-.collapsible-kh-active:after {
+.collapsible-kh-mobile:active {
+  background-color: #310000; 
+}
+
+.collapsible-kh-mobile:hover {
+  background-color: #131010;
+} 
+
+.collapsible-kh-expanded:after {
   content: "\2191";
 }
 

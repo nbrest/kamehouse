@@ -108,7 +108,7 @@ class PlaylistBrowser {
 
   /** Create a button object to toggle when expanding/collapsing playlist browser filenames. */
   #createDoubleArrowButton(direction) {
-    return kameHouse.util.dom.getButton({
+    const button = kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-playlist-browser-filenames-btn",
         class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
@@ -118,6 +118,11 @@ class PlaylistBrowser {
       data: null,
       click: (event, data) => this.#toggleExpandPlaylistFilenames()
     });
+    kameHouse.util.mobile.exec(
+      () => {},
+      () => {kameHouse.util.dom.classListAdd(button, "img-btn-kh-mobile")}
+    );
+    return button;
   }
 
   /** Returns the selected playlist from the dropdowns. */

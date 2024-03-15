@@ -355,7 +355,7 @@ class VlcPlayer {
   }
 
   /**
-   * Create reboot button.
+   * Create suspend button.
    */
   #createSuspendButton() {
     return kameHouse.util.dom.getButton({
@@ -1307,7 +1307,7 @@ class VlcPlayerPlaylist {
 
   /** Create a button to toggle when expanding/collapsing playlist browser filenames. */
   #createDoubleArrowButton(direction) {
-    return kameHouse.util.dom.getButton({
+    const button = kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-playlist-filenames-btn",
         class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
@@ -1317,6 +1317,11 @@ class VlcPlayerPlaylist {
       data: null,
       click: (event, data) => this.#toggleExpandPlaylistFilenames()
     });
+    kameHouse.util.mobile.exec(
+      () => {},
+      () => {kameHouse.util.dom.classListAdd(button, "img-btn-kh-mobile")}
+    );
+    return button;
   }
 
   /** Compares two playlists. Returns true if they are different or empty. Expects 2 vlc playlist arrays */

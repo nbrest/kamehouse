@@ -59,6 +59,10 @@
   margin-left: 5px;
 } 
 
+.debug-mode-client-table-header-btn-mobile:hover {
+  background-color: inherit;
+}
+
 .debug-mode-client-table-header-btn-expanded:after {
   content: "\2191";
 }
