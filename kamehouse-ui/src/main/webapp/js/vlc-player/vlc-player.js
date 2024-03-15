@@ -1291,10 +1291,10 @@ class VlcPlayerPlaylist {
    */
   #updatePlaylistSize() {
     if (!this.#isEmptyPlaylist()) {
-      kameHouse.util.dom.setHtmlById("playlist-size", this.#currentPlaylist.length);
+      kameHouse.util.dom.setHtmlById("playlist-size-val", this.#currentPlaylist.length);
       kameHouse.util.dom.classListRemoveById("playlist-size-wrapper", "hidden-kh");
     } else {
-      kameHouse.util.dom.setHtmlById("playlist-size", "0");
+      kameHouse.util.dom.setHtmlById("playlist-size-val", "0");
       kameHouse.util.dom.classListAddById("playlist-size-wrapper", "hidden-kh");
     }
   }
@@ -1372,6 +1372,10 @@ class VlcPlayerPlaylist {
     const currentPlaylistElement = document.querySelector("#" + currentPlIdAsRowId + " td button");
     if (currentPlaylistElement) {
       kameHouse.util.dom.classListAdd(currentPlaylistElement, "active");
+      // currentPlId starts at 4, so need -3
+      kameHouse.util.dom.setHtmlById("playlist-current-position-val", currentPlId - 3);
+    } else {
+      kameHouse.util.dom.setHtmlById("playlist-current-position-val", "0");
     }
   }
 

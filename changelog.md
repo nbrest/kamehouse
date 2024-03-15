@@ -9,6 +9,7 @@
 
 - Added mobile class to get button function
 - Added vlc player playlist and playlist browser size
+- Added row number on playlist of current element playing
 - Fixed sync issue between shown request and response in the ui debugger
 - Moved ui debugger response body to the request/response table
 - Added toggle visibility of request and response data on ui debugger
