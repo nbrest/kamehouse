@@ -1341,17 +1341,14 @@ class KameHouseMobileUtils {
     kameHouse.logger.debug("Disabling hover on image buttons");
     const imageButtons = document.getElementsByClassName("img-btn-kh");
     for (const imageButton of imageButtons) {
-      kameHouse.util.dom.classListRemove(imageButton, "img-btn-kh");
       kameHouse.util.dom.classListAdd(imageButton, "img-btn-mobile-kh");
     }
     const mediaScreenCtrlButtons = document.getElementsByClassName("media-screen-ctrl-button");
     for (const mediaScreenCtrlButton of mediaScreenCtrlButtons) {
-      kameHouse.util.dom.classListRemove(mediaScreenCtrlButton, "img-btn-kh");
       kameHouse.util.dom.classListAdd(mediaScreenCtrlButton, "img-btn-mobile-kh");
     } 
     const linkImages = document.getElementsByClassName("link-image-img");
     for (const linkImage of linkImages) {
-      kameHouse.util.dom.classListRemove(linkImage, "link-image-img");
       kameHouse.util.dom.classListAdd(linkImage, "link-image-img-mobile");
     }
   }

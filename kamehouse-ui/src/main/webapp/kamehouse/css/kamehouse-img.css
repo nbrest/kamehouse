@@ -27,16 +27,15 @@
   }
 }
 
-.img-btn-mobile-kh {
-  background: transparent;
-  background-size: 100% 100%;
-  border: none;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
+/** This css affects desktop, not mobile! */
+@media (min-width : 900px) {
+  .img-btn-mobile-kh:hover {
+    transform: scale(1);
+  }
 }
 
 .img-btn-mobile-kh:active {
+  transform: scale(1);
   border-radius: 20px;
   background-color: #313131;
   box-shadow: 0px 0px 15px 4px #4e4e4e;

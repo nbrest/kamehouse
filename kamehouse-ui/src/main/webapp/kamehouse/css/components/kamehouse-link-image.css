@@ -81,14 +81,22 @@
   transform: scale(1.1);
 }
 
-.link-image-img-mobile {
-  background: transparent;
-  background-size: 100% 100%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  margin: 30px;
-  border: none;
+.link-image-img:active {
+  transform: scale(0.9);
+}
+
+/** This css affects desktop, not mobile! */
+@media (min-width : 900px) {
+  .link-image-img-mobile:hover {
+    transform: scale(1);
+  }
+}
+
+.link-image-img-mobile:active {
+  transform: scale(1);
+  border-radius: 20px;
+  background-color: #313131;
+  box-shadow: 0px 0px 15px 4px #4e4e4e;
 }
 
 .link-image-text {
