@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added vlc player playlist and playlist browser size
 - Fixed sync issue between shown request and response in the ui debugger
 - Moved ui debugger response body to the request/response table
 - Added toggle visibility of request and response data on ui debugger

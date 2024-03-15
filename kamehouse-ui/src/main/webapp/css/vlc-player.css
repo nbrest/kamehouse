@@ -463,6 +463,20 @@
   }
 }
 
+.playlist-size-wrapper {
+  text-align: right;
+  color: #505050;
+  font-weight: bold;
+  margin: 10px 25px 15px 25px;
+}
+
+.playlist-browser-size-wrapper {
+  text-align: right;
+  color: #505050;
+  font-weight: bold;
+  margin: 10px 25px 15px 25px;
+}
+
 #subtitle-buttons {
   margin-top: 50px;
   margin-bottom: 20px;

@@ -1248,6 +1248,7 @@ class VlcPlayerPlaylist {
       this.#highlightCurrentPlayingItem();
       this.#vlcPlayer.filterPlaylistRows();
     }
+    this.#updatePlaylistSize();
   }
 
   /** Scroll to the current playing element in the playlist. */
@@ -1282,6 +1283,26 @@ class VlcPlayerPlaylist {
   resetView() {
     this.#updatedPlaylist = null;
     this.reload();
+  }
+
+  /**
+   * Update the playlist size view.
+   */
+  #updatePlaylistSize() {
+    if (!this.#isEmptyPlaylist()) {
+      kameHouse.util.dom.setHtmlById("playlist-size", this.#currentPlaylist.length);
+      kameHouse.util.dom.classListRemoveById("playlist-size-wrapper", "hidden-kh");
+    } else {
+      kameHouse.util.dom.setHtmlById("playlist-size", "0");
+      kameHouse.util.dom.classListAddById("playlist-size-wrapper", "hidden-kh");
+    }
+  }
+
+  /**
+   * Check if current playlist is empty.
+   */
+  #isEmptyPlaylist() {
+    return kameHouse.core.isEmpty(this.#currentPlaylist) || kameHouse.core.isEmpty(this.#currentPlaylist.length) || this.#currentPlaylist.length <= 0;
   }
 
   /** Create a button to toggle when expanding/collapsing playlist browser filenames. */

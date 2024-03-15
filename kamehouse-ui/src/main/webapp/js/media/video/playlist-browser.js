@@ -177,6 +177,28 @@ class PlaylistBrowser {
       kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyFilenames);
     }
     this.filterPlaylistRows();
+    this.#updatePlaylistBrowserSize();
+  }
+
+  /**
+   * Update the playlist browser size view.
+   */
+  #updatePlaylistBrowserSize() {
+    kameHouse.logger.trace("Updating playlist browser size");
+    if (!this.#isEmptyPlaylist()) {
+      kameHouse.util.dom.setHtmlById("playlist-browser-size", this.#currentPlaylist.files.length);
+      kameHouse.util.dom.classListRemoveById("playlist-browser-size-wrapper", "hidden-kh");
+    } else {
+      kameHouse.util.dom.setHtmlById("playlist-browser-size", "0");
+      kameHouse.util.dom.classListAddById("playlist-browser-size-wrapper", "hidden-kh");
+    }
+  }
+
+  /**
+   * Check if current playlist to browse is empty.
+   */
+  #isEmptyPlaylist() {
+    return kameHouse.core.isEmpty(this.#currentPlaylist) || kameHouse.core.isEmpty(this.#currentPlaylist.files) || kameHouse.core.isEmpty(this.#currentPlaylist.files.length) || this.#currentPlaylist.files.length <= 0;
   }
 
   /** Play the clicked element from the playlist. */
