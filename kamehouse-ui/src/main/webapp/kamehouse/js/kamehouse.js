@@ -1350,7 +1350,7 @@ class KameHouseMobileUtils {
     this.#addMobileClass("link-image-img");
     this.#addMobileClass("collapsible-kh");
     this.#addMobileClass("debug-mode-client-table-header-btn");
-    const mediaScreenCtrlButtons = document.getElementsByClassName("media-screen-ctrl-button");
+    const mediaScreenCtrlButtons = document.getElementsByClassName("vlc-player-btn");
     for (const mediaScreenCtrlButton of mediaScreenCtrlButtons) {
       kameHouse.util.dom.classListAdd(mediaScreenCtrlButton, "img-btn-kh-mobile");
     } 

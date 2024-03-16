@@ -179,11 +179,6 @@
   }
 }
 
-.media-flow-button {
-  width: 30px !important;
-  height: 30px !important;
-}
-
 #media-info {
   background-color: #101010;
   border: 1px solid #292929; 
@@ -199,11 +194,6 @@
     margin-top: 20px;
     margin-bottom: 35px;
   }
-}
-
-.media-screen-ctrl-button {
-  width: 32px !important;
-  height: 32px !important;
 }
 
 #media-title {
@@ -524,6 +514,11 @@
 
 .vlc-player {
   text-align: center;
+}
+
+.vlc-player-btn {
+  width: 32px !important;
+  height: 32px !important;
 }
 
 .vlc-player-config-wrapper {
