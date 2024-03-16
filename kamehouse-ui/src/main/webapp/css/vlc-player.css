@@ -487,15 +487,15 @@
   margin: 10px 25px 15px 25px;
 }
 
-#subtitle-delay {
+.subtitle-config-label {
   color: #5a5a5a;
   font-weight: bold;
+  margin-right: 15px;
 }
 
-@media (max-width : 900px) { 
-  #subtitle-delay {
-    color: #5a5a5a;
-  }
+.subtitle-delay {
+  color: #5a5a5a;
+  font-weight: bold;
 }
 
 /** Playlist selector dropdowns end */
