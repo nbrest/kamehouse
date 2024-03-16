@@ -277,29 +277,34 @@
     <div id="tab-config" class="vlc-player-tab-content">
 
       <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
-        <table id="media-screen-ctrl-buttons" class="table-mplayer-btns-kh">
+        <table class="table-mplayer-btns-kh">
           <caption class="hidden-kh">Screen control buttons</caption>
-          <tr><th scope="row" class="vlc-player-config-section-header" colspan="4">Screen control</th></tr>
+          <tr><th scope="row" class="vlc-player-config-section-header" colspan="3">Screen control</th></tr>
           <tr>
-            <td> 
-              <button id="media-btn-fullscreen" class="img-btn-kh media-screen-ctrl-button"
+            <td class="txt-l-d-kh" colspan="3"> 
+              <span class="vlc-player-config-label">Full Screen: </span>
+              <button id="media-btn-fullscreen" class="img-btn-kh media-screen-ctrl-button va-m-kh"
                 data-background-img="/kame-house/img/mplayer/fullscreen-blue.png"
                 onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
+                <br><br><br>
             </td>
-            <td> 
-              <button id="media-btn-4-3" class="img-btn-kh media-screen-ctrl-button"
+          </tr>
+          <tr>
+            <td class="aspect-ratio-td"> 
+              <span class="vlc-player-config-label">Aspect Ratio: </span>
+              <button id="media-btn-aspect-ratio-cycle" class="img-btn-kh media-screen-ctrl-button va-m-kh"
+                data-background-img="/kame-house/img/mplayer/aspect-ratio-blue.png"
+                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"></button>
+            </td>            
+            <td class="w-33-pc-kh"> 
+              <button id="media-btn-4-3" class="img-btn-kh media-screen-ctrl-button va-m-kh"
                 data-background-img="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png"
                 onclick="kameHouse.extension.vlcPlayer.updateAspectRatio('4:3')"></button>
             </td>
-            <td>
-              <button id="media-btn-16-9" class="img-btn-kh media-screen-ctrl-button"
+            <td class="w-33-pc-kh">
+              <button id="media-btn-16-9" class="img-btn-kh media-screen-ctrl-button va-m-kh"
                 data-background-img="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png"
                 onclick="kameHouse.extension.vlcPlayer.updateAspectRatio('16:9')"></button>
-            </td>
-            <td> 
-              <button id="media-btn-aspect-ratio-cycle" class="img-btn-kh media-screen-ctrl-button"
-                data-background-img="/kame-house/img/mplayer/aspect-ratio-blue.png"
-                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"></button>
             </td>
           </tr>
         </table>
@@ -332,7 +337,10 @@
               <button class="img-btn-kh media-flow-button va-m-kh"
                 data-background-img="/kame-house/img/mplayer/closed-captions-blue.png"
                 onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"></button>
+              <br><br><br>
             </td>
+          </tr>
+          <tr>
             <td class="txt-l-d-kh">
               <span id="subtitle-delay" class="vlc-player-config-label">Delay:</span>
               <button class="img-btn-kh media-flow-button va-m-kh"
@@ -358,7 +366,10 @@
               <button id="media-btn-repeat-1" class="img-btn-kh media-flow-button va-m-kh"
                 data-background-img="/kame-house/img/mplayer/repeat-1-blue.png"
                 onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_repeat')"></button>
+              <br><br><br>
             </td>
+          </tr>
+          <tr>
             <td class="txt-l-d-kh">
               <span class="vlc-player-config-label">Repeat All:</span>
               <button id="media-btn-repeat" class="img-btn-kh media-flow-button va-m-kh"

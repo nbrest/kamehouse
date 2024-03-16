@@ -11,6 +11,17 @@
   }
 }
 
+.aspect-ratio-td {
+  text-align: left;
+  width: 33%;
+}
+
+@media (max-width : 900px) {
+  .aspect-ratio-td {
+    min-width: 200px;
+  }
+}
+
 #audio-controls {
   margin-top: 50px;
   margin-bottom: 25px;
@@ -187,10 +198,6 @@
     margin-top: 20px;
     margin-bottom: 35px;
   }
-}
-
-#media-screen-ctrl-buttons td {
-  width: 25%;
 }
 
 .media-screen-ctrl-button {
