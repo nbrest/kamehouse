@@ -505,13 +505,6 @@
   }
 }
 
-@media (max-width : 900px) {
-  .vlc-debug-img-btn {
-    width: 40px;
-    height: 40px;
-  }
-}
-
 .vlc-player {
   text-align: center;
 }
