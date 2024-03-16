@@ -131,11 +131,6 @@
         <td>  
           <div id="current-volume" class="bold-kh">N/A</div>
         </td>
-        <td> 
-          <button class="img-btn-kh media-flow-button"
-            data-background-img="/kame-house/img/mplayer/audio-wave-gray-dark.png"
-            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'audio-track')"></button>
-        </td>
         </tr> 
       </table>
   
@@ -147,16 +142,6 @@
             <button id="media-btn-shuffle" class="img-btn-kh media-flow-button"
               data-background-img="/kame-house/img/mplayer/shuffle-green.png"
               onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_random')"></button>
-          </td>
-          <td> 
-            <button id="media-btn-repeat-1" class="img-btn-kh media-flow-button"
-              data-background-img="/kame-house/img/mplayer/repeat-1-green.png"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_repeat')"></button>
-          </td>
-          <td> 
-            <button id="media-btn-repeat" class="img-btn-kh media-flow-button"
-              data-background-img="/kame-house/img/mplayer/repeat-green.png"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_loop')"></button>
           </td>
           <td>    
             <button data-background-img="/kame-house/img/mplayer/previous-green.png" class="img-btn-kh"
@@ -290,8 +275,8 @@
     </div> <!--tab-playlist-browser -->
   
     <div id="tab-config" class="vlc-player-tab-content">
-      <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
 
+      <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
         <table id="media-screen-ctrl-buttons" class="table-mplayer-btns-kh">
           <caption class="hidden-kh">Screen control buttons</caption>
           <tr><th scope="row" class="vlc-player-config-section-header" colspan="4">Screen control</th></tr>
@@ -320,19 +305,36 @@
         </table>
       </div>
       <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
+        <table class="table-mplayer-btns-kh">
+          <caption class="hidden-kh">Audio</caption>
+          <tr><th scope="row" class="vlc-player-config-section-header" colspan="2">Audio</th></tr>
+          <tr>
+            <td class="txt-l-d-kh">
+              <span class="vlc-player-config-label">Track: </span>
+              <button class="img-btn-kh media-flow-button va-m-kh"
+                data-background-img="/kame-house/img/mplayer/audio-wave-gray-dark.png"
+                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'audio-track')"></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>      
+
       <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
         <table id="subtitle-buttons" class="table-mplayer-btns-kh">
-          <caption class="hidden-kh">Subtitle buttons</caption>
+          <caption class="hidden-kh">Subtitles</caption>
           <tr><th scope="row" class="vlc-player-config-section-header" colspan="2">Subtitles</th></tr>
           <tr>
-            <td>
-              <span class="subtitle-config-label">Track: </span>
+            <td class="txt-l-d-kh">
+              <span class="vlc-player-config-label">Track: </span>
               <button class="img-btn-kh media-flow-button va-m-kh"
                 data-background-img="/kame-house/img/mplayer/subtitles-cycle-gray-dark.png"
                 onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"></button>
             </td>
-            <td>
-              <span id="subtitle-delay" class="subtitle-config-label">Delay:</span>
+            <td class="txt-l-d-kh">
+              <span id="subtitle-delay" class="vlc-player-config-label">Delay:</span>
               <button class="img-btn-kh media-flow-button va-m-kh"
                 data-background-img="/kame-house/img/other/double-left-gray-dark.png"
                 onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('-1')"></button>
@@ -343,8 +345,30 @@
             </td>
           </tr>
         </table>
-
       </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>         
+
+      <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
+        <table class="table-mplayer-btns-kh">
+          <caption class="hidden-kh">Flow Control</caption>
+          <tr><th scope="row" class="vlc-player-config-section-header" colspan="4">Flow Control</th></tr>
+          <tr>
+            <td class="txt-l-d-kh vlc-player-config-flow-control-td"> 
+              <div class="vlc-player-config-label">
+                <button id="media-btn-repeat-1" class="img-btn-kh media-flow-button"
+                  data-background-img="/kame-house/img/mplayer/repeat-1-green.png"
+                  onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_repeat')"></button>
+               </div>
+            </td>
+            <td class="txt-l-d-kh">
+              <button id="media-btn-repeat" class="img-btn-kh media-flow-button"
+                data-background-img="/kame-house/img/mplayer/repeat-green.png"
+                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_loop')"></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
     </div> <!--tab-config -->
     
     <span id="debug-mode-wrapper"></span>

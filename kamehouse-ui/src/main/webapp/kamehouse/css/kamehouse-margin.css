@@ -160,6 +160,37 @@
   }
 }
 
+/** margin 30 */
+.m-30-d-kh {
+  margin: 30px;
+}
+
+@media (max-width : 900px) {
+  .m-30-m-kh {
+    margin: 30px;
+  }
+}
+
+.m-30-d-l-kh {
+  margin-left: 30px;
+}
+
+@media (max-width : 900px) {
+  .m-30-m-l-kh {
+    margin-left: 30px;
+  }
+}
+
+.m-30-d-r-kh {
+  margin-right: 30px;
+}
+
+@media (max-width : 900px) {
+  .m-30-m-r-kh {
+    margin-right: 25px;
+  }
+}
+
 /** margin 50 */
 .m-50-d-kh {
   margin: 50px;
