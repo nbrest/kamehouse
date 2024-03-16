@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Updated vlc player buttons layout and added a config tab
 - Added mobile class to get button function
 - Added vlc player playlist and playlist browser size
 - Added row number on playlist of current element playing

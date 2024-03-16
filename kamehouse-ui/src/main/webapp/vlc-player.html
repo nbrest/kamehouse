@@ -25,19 +25,20 @@
     <div class="vlc-player-tabs bg-lighter-0-kh">
     <div class="default-layout">
       <button id="tab-playing-link" class="vlc-player-tab-link"
-        onclick="kameHouse.extension.vlcPlayer.openTab('tab-playing')"
-        alt="Playling" title="Playing">
+        onclick="kameHouse.extension.vlcPlayer.openTab('tab-playing')">
         <img class="vlc-player-tab-img" src="/kame-house/img/mplayer/play-gray.png" alt="Playing"/>
       </button>
       <button id="tab-playlist-link" class="vlc-player-tab-link"
-        onclick="kameHouse.extension.vlcPlayer.openTab('tab-playlist')"
-        alt="Playlist" title="Playlist">
+        onclick="kameHouse.extension.vlcPlayer.openTab('tab-playlist')">
         <img class="vlc-player-tab-img" src="/kame-house/img/mplayer/playlist-gray.png" alt="Playlist"/>
       </button>
       <button id="tab-playlist-browser-link"  class="vlc-player-tab-link"
-        onclick="kameHouse.extension.vlcPlayer.openTab('tab-playlist-browser')"
-        alt="Playlist Browser" title="Playlist Browser">
+        onclick="kameHouse.extension.vlcPlayer.openTab('tab-playlist-browser')">
         <img class="vlc-player-tab-img" src="/kame-house/img/other/search-folder-gray.png" alt="Playlist Browser"/>
+      </button>
+      <button id="tab-config-link"  class="vlc-player-tab-link"
+        onclick="kameHouse.extension.vlcPlayer.openTab('tab-config')">
+        <img class="vlc-player-tab-img" src="/kame-house/img/pc/settings-gray.png" alt="Config"/>
       </button>
     </div>
     </div> <!-- vlc-player-tabs -->
@@ -79,10 +80,6 @@
         <caption class="hidden-kh">Main control buttons</caption>
         <tr class="hidden-kh"><th scope="row">Main control buttons</th></tr>
         <tr>
-          <td>    
-            <button data-background-img="/kame-house/img/mplayer/previous.png" class="img-btn-kh"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_previous')"></button> 
-          </td>
           <td> 
             <button data-background-img="/kame-house/img/mplayer/rewind.png" class="img-btn-kh"
               onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('seek', '-1m')"></button>
@@ -102,10 +99,6 @@
           <td> 
             <button data-background-img="/kame-house/img/mplayer/fast-forward.png" class="img-btn-kh" 
               onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('seek', '+1m')"></button>
-          </td>
-          <td> 
-            <button data-background-img="/kame-house/img/mplayer/next.png" class="img-btn-kh" 
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_next')"></button>
           </td>
         </tr>
       </table>
@@ -165,65 +158,36 @@
               data-background-img="/kame-house/img/mplayer/repeat-green.png"
               onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_loop')"></button>
           </td>
+          <td>    
+            <button data-background-img="/kame-house/img/mplayer/previous-green.png" class="img-btn-kh"
+              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_previous')"></button> 
+          </td>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/next-green.png" class="img-btn-kh" 
+              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_next')"></button>
+          </td>
           <td> 
             <button id="media-btn-stop" data-background-img="/kame-house/img/mplayer/stop-green.png" class="img-btn-kh"
               onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('pl_stop')"></button>
           </td>
         </tr>
       </table>
-  
-      <table id="media-screen-ctrl-buttons" class="table-mplayer-btns-kh">
-        <caption class="hidden-kh">Screen control buttons</caption>
-        <tr class="hidden-kh"><th scope="row">Screen control buttons</th></tr>
-        <tr>
-          <td> 
-            <button id="media-btn-fullscreen" class="img-btn-kh media-screen-ctrl-button"
-              data-background-img="/kame-house/img/mplayer/fullscreen-blue.png"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
-          </td>
-          <td> 
-            <button id="media-btn-4-3" class="img-btn-kh media-screen-ctrl-button"
-              data-background-img="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png"
-              onclick="kameHouse.extension.vlcPlayer.updateAspectRatio('4:3')"></button>
-          </td>
-          <td>
-            <button id="media-btn-16-9" class="img-btn-kh media-screen-ctrl-button"
-              data-background-img="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png"
-              onclick="kameHouse.extension.vlcPlayer.updateAspectRatio('16:9')"></button>
-          </td>
-          <td> 
-            <button id="media-btn-aspect-ratio-cycle" class="img-btn-kh media-screen-ctrl-button"
-              data-background-img="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"></button>
-          </td>
-        </tr>
-      </table>
-  
-      <table id="subtitle-buttons" class="table-mplayer-btns-kh">
-        <caption class="hidden-kh">Subtitle buttons</caption>
-        <tr class="hidden-kh">
-          <th scope="row">Subtitle buttons</th>
-        </tr>
-        <tr>
-          <td>
-            <button class="img-btn-kh media-flow-button fl-r-d-kh va-m-kh"
-              data-background-img="/kame-house/img/mplayer/subtitles-cycle-gray-dark.png"
-              onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"></button>
-          </td>
-          <td>
-            <button class="img-btn-kh media-flow-button va-m-kh"
-              data-background-img="/kame-house/img/other/double-left-gray-dark.png"
-              onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('-1')"></button>
-            <span id="subtitle-delay">Sub Delay: <span id="subtitle-delay-value">0</span>s</span>
-            <button class="img-btn-kh media-flow-button va-m-kh"
-              data-background-img="/kame-house/img/other/double-right-gray-dark.png"
-              onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('+1')"></button>
-          </td>
-        </tr>
-      </table>
-  
+    
       </div> <!-- vlc-player-main/media-buttons -->
       </div> <!-- vlc-player-main -->
+      
+      <div class="default-layout admin-cmds-section"> 
+        <button class="img-btn-kh m-50-d-r-kh"
+          data-background-img="/kame-house/img/pc/unlock-round-gray-dark.png"
+          onclick="kameHouse.extension.vlcPlayer.unlockScreen()"></button>
+        <button class="img-btn-kh"
+          data-background-img="/kame-house/img/pc/mouse-click-left.png"
+          onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>        
+        <button class="img-btn-kh m-50-d-l-kh"
+          data-background-img="/kame-house/img/pc/shutdown-red.png"
+          onclick="kameHouse.extension.vlcPlayer.close()"></button>
+      </div> <!-- admin-cmds-section -->
+
     </div> <!--tab-playing -->
   
     <div id="tab-playlist" class="vlc-player-tab-content">
@@ -269,8 +233,7 @@
     </div> <!--tab-playlist -->
   
     <div id="tab-playlist-browser" class="vlc-player-tab-content">
-      <div class="default-layout">
-      <div class="bg-lighter-0-kh playlist-browser-dropdowns-wrapper">
+      <div class="default-layout bg-lighter-0-kh playlist-browser-dropdowns-wrapper">
         <div id="playlist-selector"> 
           <select class="select-kh-dark vlc-player-select" id="playlist-category-dropdown" name="playlist-category" 
             onchange="kameHouse.extension.playlistBrowser.populateVideoPlaylists()"></select>
@@ -281,7 +244,6 @@
             data-background-img="/kame-house/img/mplayer/play-blue.png"></button> 
         </div>
       </div> 
-      </div>
       <div class="default-layout p-7-d-kh p-7-m-kh"></div>
       <div class="default-layout bg-lighter-0-kh playlist-browser-wrapper">
         <table id="playlist-browser-controls" class="playlist-controls-table">
@@ -327,17 +289,62 @@
       </div>
     </div> <!--tab-playlist-browser -->
   
-    <div class="default-layout admin-cmds-section"> 
-      <button class="img-btn-kh m-50-d-r-kh"
-        data-background-img="/kame-house/img/pc/unlock-round-gray-dark.png"
-        onclick="kameHouse.extension.vlcPlayer.unlockScreen()"></button>
-      <button class="img-btn-kh"
-        data-background-img="/kame-house/img/pc/mouse-click-left.png"
-        onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>        
-      <button class="img-btn-kh m-50-d-l-kh"
-        data-background-img="/kame-house/img/pc/shutdown-red.png"
-        onclick="kameHouse.extension.vlcPlayer.close()"></button>
-    </div> <!-- admin-cmds-section -->
+    <div id="tab-config" class="vlc-player-tab-content">
+      <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
+
+        <table id="media-screen-ctrl-buttons" class="table-mplayer-btns-kh">
+          <caption class="hidden-kh">Screen control buttons</caption>
+          <tr><th scope="row" class="vlc-player-config-section-header" colspan="4">Screen control</th></tr>
+          <tr>
+            <td> 
+              <button id="media-btn-fullscreen" class="img-btn-kh media-screen-ctrl-button"
+                data-background-img="/kame-house/img/mplayer/fullscreen-blue.png"
+                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
+            </td>
+            <td> 
+              <button id="media-btn-4-3" class="img-btn-kh media-screen-ctrl-button"
+                data-background-img="/kame-house/img/mplayer/aspect-ratio-4-3-blue.png"
+                onclick="kameHouse.extension.vlcPlayer.updateAspectRatio('4:3')"></button>
+            </td>
+            <td>
+              <button id="media-btn-16-9" class="img-btn-kh media-screen-ctrl-button"
+                data-background-img="/kame-house/img/mplayer/aspect-ratio-16-9-blue.png"
+                onclick="kameHouse.extension.vlcPlayer.updateAspectRatio('16:9')"></button>
+            </td>
+            <td> 
+              <button id="media-btn-aspect-ratio-cycle" class="img-btn-kh media-screen-ctrl-button"
+                data-background-img="/kame-house/img/mplayer/aspect-ratio-cycle-blue.png"
+                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+      <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
+        <table id="subtitle-buttons" class="table-mplayer-btns-kh">
+          <caption class="hidden-kh">Subtitle buttons</caption>
+          <tr><th scope="row" class="vlc-player-config-section-header" colspan="2">Subtitles</th></tr>
+          <tr>
+            <td>
+              <button class="img-btn-kh media-flow-button fl-r-d-kh va-m-kh"
+                data-background-img="/kame-house/img/mplayer/subtitles-cycle-gray-dark.png"
+                onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"></button>
+            </td>
+            <td>
+              <button class="img-btn-kh media-flow-button va-m-kh"
+                data-background-img="/kame-house/img/other/double-left-gray-dark.png"
+                onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('-1')"></button>
+              <span id="subtitle-delay">Delay: <span id="subtitle-delay-value">0</span>s</span>
+              <button class="img-btn-kh media-flow-button va-m-kh"
+                data-background-img="/kame-house/img/other/double-right-gray-dark.png"
+                onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('+1')"></button>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div> <!--tab-config -->
+    
     <span id="debug-mode-wrapper"></span>
   </div> <!-- main-body -->
 </body>

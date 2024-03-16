@@ -189,22 +189,8 @@
   }
 }
 
-#media-screen-ctrl-buttons {
-  margin-top: 55px;
-  margin-bottom: 55px;
-  width: 80%;
-}
-
 #media-screen-ctrl-buttons td {
   width: 25%;
-}
-
-@media (max-width: 900px) {
-  #media-screen-ctrl-buttons {
-    margin-top: 20px;
-    margin-bottom: 40px;
-    width: 90%;
-  }
 }
 
 .media-screen-ctrl-button {
@@ -343,15 +329,39 @@
 
 .playlist-browser-dropdowns-wrapper {
   border: 1px solid #292929;
+  width: 65%;
+  margin: auto;
+}
+
+@media (max-width: 900px) {
+  .playlist-browser-dropdowns-wrapper {
+    width: 100%;
+  }
 }
 
 .playlist-browser-wrapper {
   border: 1px solid #292929;
+  width: 65%;
+  margin: auto;
+}
+
+@media (max-width: 900px) {
+  .playlist-browser-wrapper {
+    width: 100%;
+  }
 }
 
 /** Playlist tab begin.*/
 .playlist-tab-content-wrapper {
   border: 1px solid #292929;
+  width: 65%;
+  margin: auto;
+}
+
+@media (max-width: 900px) {
+  .playlist-tab-content-wrapper {
+    width: 100%;
+  }
 }
 
 /** Playlist control begin.*/
@@ -477,20 +487,6 @@
   margin: 10px 25px 15px 25px;
 }
 
-#subtitle-buttons {
-  margin-top: 50px;
-  margin-bottom: 20px;
-  width: 50%;
-}
-
-@media (max-width: 900px) {
-  #subtitle-buttons {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 80%;
-  }
-}
-
 #subtitle-delay {
   color: #5a5a5a;
   font-weight: bold;
@@ -526,6 +522,33 @@
 
 .vlc-player {
   text-align: center;
+}
+
+.vlc-player-config-wrapper {
+  padding-top: 7px;
+  padding-bottom: 25px;
+  border: 1px solid #292929;
+  width: 65%;
+}
+
+@media (max-width : 900px) {
+  .vlc-player-config-wrapper {
+    width: 100%;
+  }
+}
+
+.vlc-player-config-section-header {
+  color: #5a5a5a;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 0px 0px 30px 15px;
+  width: 100%;
+}
+
+@media (max-width : 900px) {
+  .vlc-player-config-section-header {
+    font-size: 18px;
+  }
 }
 
 #vlc-player-main {
@@ -585,8 +608,8 @@
   text-align: center;
   padding-right: 80px;
   padding-left: 80px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   text-decoration: none;
 }
 @media (max-width : 900px) {
