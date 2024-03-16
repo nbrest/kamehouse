@@ -19,11 +19,11 @@
 } 
 
 .collapsible-kh-mobile:active {
-  background-color: #310000; 
+  background-color: #310000 !important; 
 }
 
 .collapsible-kh-mobile:hover {
-  background-color: #131010;
+  background-color: #131010 !important;
 } 
 
 .collapsible-kh-expanded:after {

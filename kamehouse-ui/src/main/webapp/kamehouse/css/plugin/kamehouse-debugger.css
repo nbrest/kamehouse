@@ -60,7 +60,7 @@
 } 
 
 .debug-mode-client-table-header-btn-mobile:hover {
-  background-color: inherit;
+  background-color: inherit !important;
 }
 
 .debug-mode-client-table-header-btn-expanded:after {
