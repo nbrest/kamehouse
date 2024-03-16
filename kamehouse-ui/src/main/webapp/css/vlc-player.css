@@ -485,11 +485,6 @@
   margin: 10px 25px 15px 25px;
 }
 
-.subtitle-delay {
-  color: #5a5a5a;
-  font-weight: bold;
-}
-
 /** Playlist selector dropdowns end */
 
 .table-mplayer-btns-kh {
@@ -614,14 +609,16 @@
   padding-left: 80px;
   padding-top: 12px;
   padding-bottom: 12px;
+  width: 25%;
   text-decoration: none;
 }
 @media (max-width : 900px) {
   .vlc-player-tabs button {
-     padding-right: 40px;
-     padding-left: 40px;
+     padding-right: 10px;
+     padding-left: 10px;
      padding-top: 10px;
      padding-bottom: 10px;
+     
   }
 }
 
