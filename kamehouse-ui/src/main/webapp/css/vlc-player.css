@@ -540,10 +540,10 @@
 }
 
 .vlc-player-config-section-header {
-  color: #5a5a5a;
+  color: #c0c0c0;
   font-weight: bold;
-  font-size: 19px;
-  padding: 0px 0px 30px 15px;
+  font-size: 20px;
+  padding: 15px 0px 30px 30px;
   width: 100%;
 }
 
