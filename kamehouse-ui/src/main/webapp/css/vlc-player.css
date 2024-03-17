@@ -500,6 +500,16 @@
   }
 }
 
+.tab-config-image-header-wrapper {
+  width: 65%;
+}
+
+@media (max-width : 900px) {
+  .tab-config-image-header-wrapper {
+    width: 100%;
+  }
+}
+
 .vlc-player {
   text-align: center;
 }

@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added new image header component
 - Updated vlc player buttons layout and added a config tab
 - Added mobile class to get button function
 - Added vlc player playlist and playlist browser size
