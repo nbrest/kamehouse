@@ -1,3 +1,13 @@
+.admin-btn {
+  margin-right: 75px;
+}
+
+@media (max-width : 900px) {
+  .admin-btn {
+    margin-right: 50px;
+  }
+}
+
 .admin-cmds-section {
   width: 55%;
   padding: 10px;
