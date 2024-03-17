@@ -1372,8 +1372,12 @@ class VlcPlayerPlaylist {
     const currentPlaylistElement = document.querySelector("#" + currentPlIdAsRowId + " td button");
     if (currentPlaylistElement) {
       kameHouse.util.dom.classListAdd(currentPlaylistElement, "active");
-      // currentPlId starts at 4, so need -3
-      kameHouse.util.dom.setHtmlById("playlist-current-position-val", currentPlId - 3);
+      if (!kameHouse.core.isEmpty(this.#currentPlaylist) && this.#currentPlaylist.length == 1) {
+        kameHouse.util.dom.setHtmlById("playlist-current-position-val", "1");
+      } else {
+        // In playlists with more than one element, currentPlId starts at 4, so need -3
+        kameHouse.util.dom.setHtmlById("playlist-current-position-val", currentPlId - 3);
+      }
     } else {
       kameHouse.util.dom.setHtmlById("playlist-current-position-val", "0");
     }
