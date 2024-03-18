@@ -271,6 +271,20 @@ class KameHouseBannerUtils {
   }
 
   /**
+   * Set the banner.
+   */
+  setBanner(bannerName) {
+    // Update banner
+    const element = document.getElementById("banner");
+    kameHouse.util.dom.classListRemoveAll(element, "banner-");
+    kameHouse.util.dom.classListAdd(element, bannerName);
+
+    // Trigger banner animation
+    const clonedElement = kameHouse.util.dom.cloneNode(element, true);
+    kameHouse.util.dom.replaceChild(element.parentNode, clonedElement, element);
+  }
+
+  /**
    * Get all baners.
    */
   #getAllBanners() {
@@ -316,16 +330,7 @@ class KameHouseBannerUtils {
     while (randomBannerIndex == indexOfCurrentBannerClass) {
       randomBannerIndex = Math.floor(Math.random() * bannerClasses.length);
     }
-    // Update banner
-    const element = document.getElementById("banner");
-    bannerClasses.forEach((bannerClass) => {
-      kameHouse.util.dom.classListRemove(element, bannerClass);
-    });
-    kameHouse.util.dom.classListAdd(element, bannerClasses[randomBannerIndex]);
-
-    // Trigger banner animation
-    const clonedElement = kameHouse.util.dom.cloneNode(element, true);
-    kameHouse.util.dom.replaceChild(element.parentNode, clonedElement, element);
+    this.setBanner(bannerClasses[randomBannerIndex]);
   }
 
   /** Set a random image banner from the classes list at the specified interval */
@@ -562,6 +567,24 @@ class KameHouseDomUtils {
   }
 
   /**
+   * Remove all classes starting with the specified prefix from the element.
+   */
+  classListRemoveAll(element, classPrefix) {
+    if (element) {
+      const classes = element.className.split(" ").filter(className => !className.startsWith(classPrefix));
+      element.className = classes.join(" ").trim();
+    }
+  }
+
+  /**
+   * Remove all classes starting with the specified prefix from the element.
+   */
+  classListRemoveAllById(elementId, classPrefix) {
+    const element = document.getElementById(elementId);
+    return this.classListRemoveAll(element, classPrefix);
+  }
+
+  /**
    * Clone an element.
    */
   cloneNode(element, deep) {
@@ -789,6 +812,7 @@ class KameHouseDomUtils {
   setBackgroundImage(element, imgUrl) {
     if (element) {
       this.setStyle(element, "background-image", "url('" + imgUrl + "')");
+      this.setStyle(element, "background-size", "cover");
     }
   }
 
@@ -2142,6 +2166,20 @@ class KameHouseCore {
       kameHouse.logger.info("Loaded kamehouse-websocket.js");
       kameHouse.util.module.setModuleLoaded("kameHouseWebSocket");
     });
+  }
+  
+  /**
+   * Scroll back to the top of the page.
+   */
+  backToTop() {
+    const currentHeight = document.documentElement.scrollTop || kameHouse.util.dom.getBody().scrollTop;
+    if (currentHeight > 0) {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
   }
 
   /** 

@@ -39,7 +39,7 @@ class KameHouseStickyBackToTop {
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
     kameHouse.util.dom.setClick(stickyBackToTopBtn, null, (event) => {
       event.preventDefault();
-      this.#backToTop();
+      kameHouse.core.backToTop();
     });
   }
 
@@ -55,20 +55,6 @@ class KameHouseStickyBackToTop {
     } else {
       kameHouse.util.dom.classListAdd(stickyBackToTopBtn, "hidden");
       kameHouse.util.dom.classListRemove(stickyBackToTopBtn, "active");
-    }
-  }
-
-  /**
-   * Scroll back to the top of the page.
-   */
-  #backToTop() {
-    const currentHeight = document.documentElement.scrollTop || kameHouse.util.dom.getBody().scrollTop;
-    if (currentHeight > 0) {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
     }
   }
 }

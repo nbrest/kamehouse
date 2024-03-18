@@ -12,7 +12,6 @@ class TestBannerRenderer {
    */
   load() {
     kameHouse.logger.info("Loading TestBannerRenderer");
-    kameHouse.util.banner.setRandomAllBanner();
     this.#setBannerCategoriesDropdown();
   }
 
@@ -26,7 +25,13 @@ class TestBannerRenderer {
     const bannerCategory = this.#getSelectedBannerCategory();
     const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
     for (const bannerName of selectedBanners) {
-      kameHouse.util.dom.append(bannersTbody, this.#getBannerImage(bannerCategory, bannerName));
+      const tr = kameHouse.util.dom.getTrTd();
+      kameHouse.util.dom.append(tr, this.#getBannerHeader(bannerName));
+      kameHouse.util.dom.append(tr, this.#getBannerButton(bannerCategory, bannerName));
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getBr());
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getBr());
+      kameHouse.util.dom.append(tr, kameHouse.util.dom.getBr());
+      kameHouse.util.dom.append(bannersTbody, tr);
     }
   }
 
@@ -63,14 +68,40 @@ class TestBannerRenderer {
   }
 
   /**
-   * Get banner image.
+   * Get banner header.
    */
-  #getBannerImage(bannerCategory, bannerName) {
-    return kameHouse.util.dom.getImg({
-      src: '/kame-house/img/banners/' + bannerCategory + '/' + bannerName + '.jpg',
-      className: "banners-table-entry",
-      alt: "Banner Table Entry"
+  #getBannerHeader(bannerName) {
+    return kameHouse.util.dom.getDiv({
+      class: "banners-table-title"
+    }, bannerName);
+  }
+
+  /**
+   * Get banner button.
+   */
+  #getBannerButton(bannerCategory, bannerName) {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "banners-table-btn",
+      },
+      mobileClass: null,
+      backgroundImg: '/kame-house/img/banners/' + bannerCategory + '/' + bannerName + '.jpg',
+      html: null,
+      data: {
+        bannerName: bannerName
+      },
+      click: (event, data) => this.#setBanner(event, data)
     });
+  }
+
+  /**
+   * Set selected banner.
+   */
+  #setBanner(event, data) {
+    kameHouse.util.dom.classListAddById("banner", "fade-in-out-15s");
+    kameHouse.util.banner.setBanner(data.bannerName);
+    kameHouse.util.dom.setHtmlById("banner-name", data.bannerName);
+    kameHouse.core.backToTop();
   }
 }
 

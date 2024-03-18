@@ -157,22 +157,31 @@
           </td>
         </tr>
       </table>
-    
+
+      <table id="admin-buttons" class="table-mplayer-btns-kh">
+        <caption class="hidden-kh">Admin buttons</caption>
+        <tr class="hidden-kh"><th scope="row">Admin buttons</th></tr>
+        <tr> 
+          <td> 
+            <button class="img-btn-kh"
+              data-background-img="/kame-house/img/pc/unlock-round-blue.png"
+              onclick="kameHouse.extension.vlcPlayer.unlockScreen()"></button>
+          </td>
+          <td>    
+            <button class="img-btn-kh"
+              data-background-img="/kame-house/img/mplayer/expand-blue.png"
+              onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>      
+          </td>
+          <td> 
+            <button class="img-btn-kh"
+              data-background-img="/kame-house/img/pc/shutdown-blue.png"
+              onclick="kameHouse.extension.vlcPlayer.close()"></button>
+          </td>
+        </tr>
+      </table>
+            
       </div> <!-- vlc-player-main/media-buttons -->
       </div> <!-- vlc-player-main -->
-      
-      <br>
-      <div class="default-layout admin-cmds-section"> 
-        <button class="img-btn-kh admin-btn"
-          data-background-img="/kame-house/img/pc/unlock-round-gray-dark.png"
-          onclick="kameHouse.extension.vlcPlayer.unlockScreen()"></button>
-        <button class="img-btn-kh admin-btn"
-          data-background-img="/kame-house/img/pc/mouse-click-left.png"
-          onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>        
-        <button class="img-btn-kh"
-          data-background-img="/kame-house/img/pc/shutdown-red.png"
-          onclick="kameHouse.extension.vlcPlayer.close()"></button>
-      </div> <!-- admin-cmds-section -->
 
     </div> <!--tab-playing -->
   
@@ -309,12 +318,12 @@
             <tr>
               <td>
                 <button id="media-btn-fullscreen" class="link-image-img vlc-player-btn va-m-kh"
-                  data-background-img="/kame-house/img/mplayer/fullscreen-blue.png"
+                  data-background-img="/kame-house/img/mplayer/expand-blue.png"
                   onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
               </td>
               <td>
                 <div class="link-image-text">Full Screen</div>
-                <div class="link-image-desc">Toggle full screen mode</div>
+                <div class="link-image-desc">Toggle full screen mode through vlc's api</div>
               </td>
             </tr>
             <tr>

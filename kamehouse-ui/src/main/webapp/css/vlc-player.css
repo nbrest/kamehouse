@@ -1,24 +1,8 @@
-.admin-btn {
-  margin-right: 75px;
-}
-
-@media (max-width : 900px) {
-  .admin-btn {
-    margin-right: 50px;
-  }
-}
-
-.admin-cmds-section {
-  width: 55%;
+#admin-buttons {
+  width: 78%;
   padding: 10px;
-  margin-top: 10px;
-}
-
-@media (max-width : 900px) {
-  .admin-cmds-section {
-    width: 100%;
-    padding: 7px;
-  }
+  margin-top: 65px;
+  margin-bottom: 40px;
 }
 
 .aspect-ratio-td {
@@ -175,6 +159,7 @@
 
 #media-buttons {
   padding-top: 10px;
+  margin-top: 20px;
 }
 
 #media-flow-buttons {
