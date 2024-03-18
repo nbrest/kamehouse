@@ -1,22 +1,22 @@
 /**
   * banners captain tsubasa
   */
-.banner-beni3 {
-  background: url(/kame-house/img/banners/captain-tsubasa/banner-beni3.jpg) 0 0;
+.banner-benji1 {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-benji1.jpg) 0 0;
   background-size: cover !important;
   background-repeat: round !important;
 }
 
 @media (max-width : 900px) {
-  .banner-beni3 {
+  .banner-benji1 {
     background-size: cover !important;
     background-repeat: no-repeat !important;
   }
 }
 
 @media (max-width : 499px) {
-  .banner-beni3 {
-    background-position-x: -90px;
+  .banner-benji1 {
+    background-position-x: 0px;
   }
 }
 
@@ -35,7 +35,7 @@
 
 @media (max-width : 499px) {
   .banner-benji-steve {
-    background-position-x: -90px;
+    background-position-x: 0px;
   }
 }
 
@@ -54,7 +54,7 @@
 
 @media (max-width : 499px) {
   .banner-benji {
-    background-position-x: -90px;
+    background-position-x: 0px;
   }
 }
 
@@ -73,7 +73,7 @@
 
 @media (max-width : 499px) {
   .banner-benji2 {
-    background-position-x: -40px;
+    background-position-x: 0px;
   }
 }
 
@@ -92,7 +92,7 @@
 
 @media (max-width : 499px) {
   .banner-benji3 {
-    background-position-x: -90px;
+    background-position-x: 0px;
   }
 }
 
@@ -111,7 +111,7 @@
 
 @media (max-width : 499px) {
   .banner-benji4 {
-    background-position-x: -40px;
+    background-position-x: 0px;
   }
 }
 
@@ -206,7 +206,7 @@
 
 @media (max-width : 499px) {
   .banner-oliver-steve {
-    background-position-x: -30px;
+    background-position-x: 0px;
   }
 }
 
@@ -244,6 +244,6 @@
 
 @media (max-width : 499px) {
   .banner-oliver2 {
-    background-position-x: -130px;
+    background-position-x: 0px;
   }
 }

@@ -35,7 +35,7 @@
   
   @media (max-width : 499px) {
     .banner-australia-messi-gol {
-      background-position-x: -130px;
+      background-position-x: 0px;
     }
   }
 
@@ -92,7 +92,7 @@
   
   @media (max-width : 499px) {
     .banner-francia-messi-festejando-mbappe {
-      background-position-x: -130px;
+      background-position-x: 0px;
     }
   }  
   
@@ -187,7 +187,7 @@
   
   @media (max-width : 499px) {
     .banner-mexico-messi-gol2 {
-      background-position-x: -130px;
+      background-position-x: 0px;
     }
   }  
 

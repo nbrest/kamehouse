@@ -16,7 +16,7 @@
   
   @media (max-width : 499px) {
     .banner-fuji {
-      background-position-x: -130px;
+      background-position-x: 0;
     }
   }
   
@@ -168,7 +168,7 @@
   
   @media (max-width : 499px) {
     .banner-tezuka {
-      background-position-x: -90px;
+      background-position-x: 0px;
     }
   }
   

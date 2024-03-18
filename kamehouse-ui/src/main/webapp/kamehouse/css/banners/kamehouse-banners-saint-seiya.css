@@ -130,7 +130,7 @@
   
   @media (max-width : 499px) {
     .banner-fuego-12-casas {
-      background-position-x: -130px;
+      background-position-x: 0;
     }
   }
   
@@ -206,7 +206,7 @@
   
   @media (max-width : 499px) {
     .banner-ikki2 {
-      background-position-x: -90px;
+      background-position-x: 0px;
     }
   }
   
@@ -320,7 +320,7 @@
   
   @media (max-width : 499px) {
     .banner-shiryu {
-      background-position-x: -60px;
+      background-position-x: 0px;
     }
   }
   
