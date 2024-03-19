@@ -80,7 +80,7 @@ class TestBannerRenderer {
    * Get banner button.
    */
   #getBannerButton(bannerCategory, bannerName) {
-    return kameHouse.util.dom.getButton({
+    const button = kameHouse.util.dom.getButton({
       attr: {
         class: "banners-table-btn",
       },
@@ -92,6 +92,8 @@ class TestBannerRenderer {
       },
       click: (event, data) => this.#setBanner(event, data)
     });
+    kameHouse.util.dom.setStyle(button, "background-size", "cover");
+    return button;
   }
 
   /**
