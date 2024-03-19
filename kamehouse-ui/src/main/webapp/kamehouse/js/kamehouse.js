@@ -370,34 +370,27 @@ class KameHouseBannerUtils {
 class KameHouseCollapsibleDivUtils {
 
   /**
-   * Refresh to resize all the collapsible divs in the current page.
+   * Resize the specified collapsible div id.
    */
-  refreshCollapsibleDiv() {
-    const collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    for (const collapsibleElement of collapsibleElements) {
-      // need to trigger the 2 clicks to refresh
-      this.#collapsibleContentClickEvent(collapsibleElement);
-      this.#collapsibleContentClickEvent(collapsibleElement);
-    }
+  resize(elementId) {
+    const element = document.getElementById(elementId);
+    // need to trigger the 2 clicks to refresh
+    this.toggle(element);
+    this.toggle(element);
   }
 
   /**
-   * Set collapsible content listeners.
+   * Function to toggle the view and update the height of a collapsible div.
    */
-  setCollapsibleContent() {
-    const collapsibleElements = document.getElementsByClassName("collapsible-kh");
-    for (const collapsibleElement of collapsibleElements) {
-      collapsibleElement.removeEventListener("click", () => {this.#collapsibleContentClickEvent(collapsibleElement)});
-      collapsibleElement.addEventListener("click", () => {this.#collapsibleContentClickEvent(collapsibleElement)});
+  toggle(collapsibleElement) {
+    if (kameHouse.core.isEmpty(collapsibleElement)) {
+      return;
     }
-  }
-
-  /**
-   * Function to toggle height of the collapsible elements from null to it's scrollHeight.
-   */
-  #collapsibleContentClickEvent(collapsibleElement) {
-    kameHouse.util.dom.toggleClassOnElement(collapsibleElement, "collapsible-kh-expanded");
     const content = collapsibleElement.nextElementSibling;
+    if (kameHouse.core.isEmpty(content)) {
+      return;
+    }
+    kameHouse.util.dom.toggleClassOnElement(collapsibleElement, "collapsible-kh-expanded");
     if (content.style.maxHeight != 0) {
       kameHouse.util.dom.setStyle(content, "maxHeight", null);
     } else {
@@ -812,7 +805,6 @@ class KameHouseDomUtils {
   setBackgroundImage(element, imgUrl) {
     if (element) {
       this.setStyle(element, "background-image", "url('" + imgUrl + "')");
-      this.setStyle(element, "background-size", "cover");
     }
   }
 
@@ -1427,8 +1419,10 @@ class KameHouseMobileUtils {
   #addCordovaErrorHandler() {
     kameHouse.logger.info("Adding cordova error handler");
     window.addEventListener("cordovacallbackerror", (event) => {
-      kameHouse.logger.error("Unexpected cordova error: " + kameHouse.json.stringify(event));
-      alert("Unexpected cordova error: " + kameHouse.json.stringify(event));
+      const message = "Unexpected cordova error: " + kameHouse.json.stringify(event);
+      kameHouse.logger.error(message);
+      kameHouse.plugin.modal.basicModal.setHtml(message);
+      kameHouse.plugin.modal.basicModal.open();
     });  
   }
 

@@ -17,7 +17,7 @@ class SystemCommandManager {
   /**
    * Render the system command output.
    */
-  renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId) {
+  renderCommandOutput(systemCommandOutputArray, displayCommandLine, systemCommandOutputDivId, collapsibleDivBtnId) {
     let systemCommandOutputDivSelector;
     if (!kameHouse.core.isEmpty(systemCommandOutputDivId)) {
       systemCommandOutputDivSelector = systemCommandOutputDivId;
@@ -49,17 +49,17 @@ class SystemCommandManager {
         kameHouse.util.dom.append(systemCommandOutputDiv, this.#getDaemonRunningLine(systemCommandOutput.command));
       }
     });
-    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
+    kameHouse.util.collapsibleDiv.resize(collapsibleDivBtnId);
   }
   
   /**
    * Display an error executing the system command.
    */
-  renderErrorExecutingCommand() {
+  renderErrorExecutingCommand(collapsibleDivBtnId) {
     const systemCommandOutputDiv = document.getElementById("system-command-output");
     kameHouse.util.dom.empty(systemCommandOutputDiv);
     kameHouse.util.dom.append(systemCommandOutputDiv, "Error executing system command. Check the logs on the backend...");
-    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
+    kameHouse.util.collapsibleDiv.resize(collapsibleDivBtnId);
   }
   
   /**

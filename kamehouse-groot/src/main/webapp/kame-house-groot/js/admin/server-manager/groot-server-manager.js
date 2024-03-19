@@ -23,6 +23,8 @@ class ServerManager {
     this.loadStateFromCookies();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
       this.#handleSessionStatus();
+      kameHouse.util.collapsibleDiv.resize("tail-log-output-wrapper");
+      kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
     });
   }
 
@@ -59,7 +61,7 @@ class ServerManager {
    */
   completeCommandCallback() {
     this.setCommandNotRunning();
-    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
+    kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
   }
 
   /**
@@ -520,7 +522,7 @@ class DeploymentManager {
    * Render tomcat modules status.
    */
   #displayTomcatModulesStatus(scriptOutput) {
-    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
+    kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
     scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("/kame-house")) {
         const scriptOutputLineArray = scriptOutputLine.split(":");
@@ -767,7 +769,7 @@ class TailLogManagerWrapper {
       let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
       let logLevel = document.getElementById("tail-log-level-dropdown").value;
       let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogFile);
-      this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, (responseBody) => kameHouse.util.collapsibleDiv.refreshCollapsibleDiv());
+      this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, () => {});
   
       await kameHouse.core.sleep(10000);
       if (this.#tailLogCount > 1) {

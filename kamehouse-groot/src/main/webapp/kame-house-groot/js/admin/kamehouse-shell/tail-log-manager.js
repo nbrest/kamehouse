@@ -61,6 +61,7 @@ class TailLogManager {
     }
     kameHouse.util.dom.empty(tailLogOutputTableBody);
     kameHouse.util.dom.replaceWith(tailLogOutputTableBody, tbody);
+    kameHouse.util.collapsibleDiv.resize("tail-log-output-wrapper");
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);
@@ -76,6 +77,7 @@ class TailLogManager {
       const errorMessage = kameHouse.logger.getCyanText(kameHouse.util.time.getTimestamp()) + " - [" + kameHouse.logger.getRedText("ERROR") + "] - " + kameHouse.logger.getRedText("Error response from the backend. responseCode : '" + responseCode + "'. responseBody : '" + responseBody + "'. responseDescription : '" + responseDescription + "'");
       kameHouse.util.dom.append(tbody, this.#getTailLogOutputErrorTr(errorMessage));
     }
+    kameHouse.util.collapsibleDiv.resize("tail-log-output-wrapper");
 
     if (kameHouse.core.isFunction(callback)) {
       callback(responseBody);

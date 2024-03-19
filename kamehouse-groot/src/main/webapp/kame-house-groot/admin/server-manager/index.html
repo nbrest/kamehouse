@@ -580,7 +580,7 @@
           </select>
         </div>
       </div>
-      <button id="tail-log-output-wrapper" class="collapsible-kh collapsible-kh-btn">Tail Log Output</button>
+      <button id="tail-log-output-wrapper" class="collapsible-kh collapsible-kh-btn" onclick="kameHouse.util.collapsibleDiv.toggle(this);">Tail Log Output</button>
       <div class="collapsible-kh-content">
         <button class="btn-svg-scroll-down fl-r-d-kh"
           onclick="kameHouse.core.scrollToBottomById('btn-tail-log-scroll-up')">
@@ -628,7 +628,7 @@
       </table>
     </div>
 
-    <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn">Aurora Execution Output</button>
+    <button id="command-output-wrapper" class="collapsible-kh collapsible-kh-btn" onclick="kameHouse.util.collapsibleDiv.toggle(this);">Aurora Execution Output</button>
     <div class="collapsible-kh-content">
       <button class="btn-svg-scroll-down fl-r-d-kh"
         onclick="kameHouse.core.scrollToTopById('btn-command-output-scroll-up')">

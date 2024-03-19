@@ -27,6 +27,7 @@ class KameHouseMobile {
 class KameHouseMobileCore {
 
   static #GET = "GET";
+  static #POST = "POST";
   static #PUT = "PUT";
   static #DELETE = "DELETE";
   static #DEFAULT_TIMEOUT_SECONDS = 60;
@@ -132,30 +133,17 @@ class KameHouseMobileCore {
     }
     let requestUrl = this.getSelectedBackendServerUrl() + url;   
     const options = {
-      method: httpMethod,
-      data: ""
+      method: httpMethod
     };
     
     if (!kameHouse.core.isEmpty(requestHeaders)) {
       options.headers = requestHeaders;
     }
     this.#setMobileBasicAuthHeader();
-    this.#setDataSerializer(requestHeaders, httpMethod);
-    if (kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
-      if (httpMethod == KameHouseMobileCore.#GET || httpMethod == KameHouseMobileCore.#PUT || httpMethod == KameHouseMobileCore.#DELETE) {
-        if (!kameHouse.core.isEmpty(requestBody)) {
-          requestUrl = requestUrl + "?" + kameHouse.http.urlEncodeParams(requestBody);
-        }
-      } else {
-        // http method is POST and urlEncoded
-        if (!kameHouse.core.isEmpty(requestBody)) {
-          options.data = requestBody;
-        }
-      }
-    } else {
-      if (!kameHouse.core.isEmpty(requestBody)) {
-        options.data = requestBody;
-      }
+    this.#setDataSerializer(options, httpMethod, requestHeaders);
+    this.#setData(options, httpMethod, requestHeaders, requestBody);
+    if (this.#shouldEncodeUrlParams(httpMethod, requestHeaders, requestBody)) {
+      requestUrl = requestUrl + "?" + kameHouse.http.urlEncodeParams(requestBody);
     }
     this.#logMobileHttpRequest(httpMethod, config, requestUrl, requestHeaders, requestBody, options);
     this.#setMobileTimeout(config);
@@ -256,6 +244,20 @@ class KameHouseMobileCore {
    */
   overrideWindowOpen() {
     window.open = kameHouse.cordova.InAppBrowser.open;
+  }
+
+  /**
+   * Is POST request.
+   */
+  #isPostRequest(httpMethod) {
+    return httpMethod == KameHouseMobileCore.#POST;
+  } 
+
+  /**
+   * True if the request needs url encoded params.
+   */
+  #shouldEncodeUrlParams(httpMethod, requestHeaders, requestBody) {
+    return kameHouse.http.isUrlEncodedRequest(requestHeaders) && !this.#isPostRequest(httpMethod) && !kameHouse.core.isEmpty(requestBody);
   }
 
   /**
@@ -478,11 +480,29 @@ class KameHouseMobileCore {
   }
 
   /**
+   * Set data.
+   */  
+  #setData(options, httpMethod, requestHeaders, requestBody) {
+    if (kameHouse.core.isEmpty(requestBody)) {
+      options.data = "";
+      return;
+    }
+    if (!kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
+      options.data = requestBody;   
+      return;
+    } 
+    if (this.#isPostRequest(httpMethod)) {
+      // http method is POST and urlEncoded
+      options.data = requestBody;
+    } 
+  }
+
+  /**
    * Set data serializer.
    */
-  #setDataSerializer(headers, httpMethod) {
+  #setDataSerializer(options, httpMethod, headers) {
     kameHouse.logger.trace("Setting data serializer to 'utf8'");
-    kameHouse.cordova.plugin.http.setDataSerializer('utf8');
+    options.serializer = 'utf8';
     if (kameHouse.core.isEmpty(headers)) {
       return;
     }
@@ -490,14 +510,14 @@ class KameHouseMobileCore {
       if (!kameHouse.core.isEmpty(key) && key.toLowerCase() == "content-type" && !kameHouse.core.isEmpty(value)) {
         if (value.toLowerCase() == "application/json") {
           kameHouse.logger.trace("Overriding data serializer to 'json'");
-          kameHouse.cordova.plugin.http.setDataSerializer('json');
+          options.serializer = 'json';
         }
         if (value.toLowerCase() == "application/x-www-form-urlencoded") {
           // For GET, PUT, DELETE url encoded data in this http plugin, the data in the options object must be set to "" and serializer to utf8 and directly set the encoded url parameters in the request url.
           // For POST url encoded requests, the data in the options object must be a json object and the serializer needs to be set to urlencoded
-          if (httpMethod != KameHouseMobileCore.#GET && httpMethod != KameHouseMobileCore.#PUT && httpMethod != KameHouseMobileCore.#DELETE) {
+          if (this.#isPostRequest(httpMethod)) {
             kameHouse.logger.trace("Overriding data serializer to 'urlencoded'");
-            kameHouse.cordova.plugin.http.setDataSerializer('urlencoded');
+            options.serializer = 'urlencoded';
           }
         }
       }

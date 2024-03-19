@@ -105,8 +105,8 @@ class KameHouseDebugger {
       this.#requests.shift();
     }
     this.#requests.push(request);
+    kameHouse.util.collapsibleDiv.resize("debugger-http-client-previous-requests");
     kameHouse.util.dom.setTextById('debugger-http-client-previous-requests-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(this.#requests, null, 2)));
-    kameHouse.util.collapsibleDiv.setCollapsibleContent();
   }
 
   /**

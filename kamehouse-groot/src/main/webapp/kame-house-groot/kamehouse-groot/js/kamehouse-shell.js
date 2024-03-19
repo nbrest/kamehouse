@@ -58,7 +58,6 @@ class KameHouseShell {
     kameHouse.util.dom.classListAddById('kamehouse-shell-output', "hidden-kh");
     kameHouse.util.dom.classListRemoveById('kamehouse-shell-output-executing-wrapper', "hidden-kh");
     kameHouse.util.dom.setHtmlById("kamehouse-shell-output-executing", this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
-    kameHouse.util.collapsibleDiv.refreshCollapsibleDiv();
   }
 
   /** Update the script script output with the result of the script */

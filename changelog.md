@@ -7,6 +7,8 @@
 
 #### v9.01
 
+- Fixed mobile requests data serializer
+- Refactored collapsible div utils
 - Added new image header component
 - Updated vlc player buttons layout and added a config tab
 - Added mobile class to get button function

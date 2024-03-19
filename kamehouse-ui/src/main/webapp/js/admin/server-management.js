@@ -277,7 +277,7 @@ class ServerManager {
    */
   #processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
+    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null, "system-health-command-output");
   }
 
   /**
@@ -286,7 +286,7 @@ class ServerManager {
   #processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
+    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand("system-health-command-output");
   }
 
   /**
@@ -297,7 +297,7 @@ class ServerManager {
    */
   #processSuccessHttpdStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status");
+    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status", null);
   }
 
   /**
@@ -318,7 +318,7 @@ class ServerManager {
    */
   #processSuccessHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null);
+    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null, null);
     setTimeout(() => { 
       this.getHttpdStatus(false);
     }, 5000);
@@ -330,7 +330,7 @@ class ServerManager {
   #processErrorHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand();
+    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand(null);
     setTimeout(() => { 
       this.getHttpdStatus(false);
     }, 5000);
