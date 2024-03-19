@@ -59,9 +59,9 @@ class PlaylistBrowser {
           kameHouse.util.dom.append(playlistCategoryDropdown, this.#getPlaylistCategoryOption(category, this.#capitalizeAllWords(categoryFormatted)));
         });
       },
-      (responseBody, responseCode, responseDescription, responseHeaders) => 
-        kameHouse.plugin.debugger.displayResponseData("Error populating video playlist categories", responseCode, responseDescription, responseHeaders)
-      );
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.trace("Error populating video playlist categories");
+      });
   }
 
   /** Populate video playlists dropdown when a playlist category is selected. */
@@ -93,9 +93,9 @@ class PlaylistBrowser {
         this.#currentPlaylist = responseBody;
         this.#populatePlaylistBrowserTable();
       },
-      (responseBody, responseCode, responseDescription, responseHeaders) =>
-        kameHouse.plugin.debugger.displayResponseData("Error getting playlist content. Error: " + kameHouse.json.stringify(responseBody), responseCode, responseDescription, responseHeaders)
-      );
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.logger.trace("Error getting playlist content");
+      });
   }
 
   /** Play selected file in the VlcPlayer */

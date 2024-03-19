@@ -1508,7 +1508,7 @@ class VlcPlayerRestClient {
         } else {
           this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
           if (responseCode == "404") {
-            kameHouse.plugin.debugger.displayResponseData("Could not connect to VLC player to get the status.", responseCode, responseDescription, responseHeaders);
+            kameHouse.logger.trace("Could not connect to VLC player to get the status.");
           }
         }
       });
