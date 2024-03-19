@@ -125,6 +125,9 @@ class KameHouseDebugger {
    * Display debugger http client request data.
    */
   displayRequestData(requestData) {
+    if (kameHouse.core.isEmpty(requestData)) {
+      return;
+    }
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-timestamp-val', requestData.timestamp);
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-method-val', requestData.method);
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-url-val', requestData.url);
