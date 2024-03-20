@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Added toggle for sync loops in vlc player debug mode
 - Fixed mobile requests data serializer
 - Refactored collapsible div utils
 - Added new image header component

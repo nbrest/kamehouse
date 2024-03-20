@@ -79,13 +79,25 @@ class VlcPlayer {
    * Load the player state for a round of several seconds through http api.
    */
   loadStateFromApiRound() {
-    this.loadStateFromApi(false);
-    for (let i = 1; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       const timeoutMs = i * 1000;
       setTimeout(() => {
-        this.loadStateFromApi(false);
+        if (this.isSyncEnabled()) {
+          this.loadStateFromApi(false);
+        }
       }, timeoutMs);
     }
+  }
+  
+  /**
+   * Returns true if the sync loops are enabled.
+   */
+  isSyncEnabled() {
+    const vlcStatusSyncCheckbox = document.getElementById("vlc-debug-status-sync-checkbox");
+    if (kameHouse.core.isEmpty(vlcStatusSyncCheckbox)) {
+      return true;
+    }
+    return vlcStatusSyncCheckbox.checked;
   }
 
   /** Get the hostname for this instance of VlcPlayer */
@@ -860,12 +872,14 @@ class VlcPlayerSynchronizer {
       let continueLoop = true;
       let printLoopStatusCount = 0;
       while (continueLoop) {
-        printLoopStatusCount++;
-        if (printLoopStatusCount >= 4) {
-          this.#printLoopStatus();
-          printLoopStatusCount = 0;
+        if (this.#vlcPlayer.isSyncEnabled()) {
+          printLoopStatusCount++;
+          if (printLoopStatusCount >= 4) {
+            this.#printLoopStatus();
+            printLoopStatusCount = 0;
+          }
+          this.#executeSyncLoopsHealthCheck();
         }
-        this.#executeSyncLoopsHealthCheck();
         await kameHouse.core.sleep(PERIODIC_HEALTH_CHECK_WAIT_MS);
         if (PERIODIC_HEALTH_CHECK_WAIT_MS < -10000) { // fix sonar bug
           continueLoop = false;
@@ -917,7 +931,11 @@ class VlcPlayerSynchronizer {
         await kameHouse.core.sleep(config.syncLoopStartDelayMs);
       }
       while (this.#syncLoopsConfig[isLoopRunningName]) {
-        await loopRunFunction(config);
+        if (this.#vlcPlayer.isSyncEnabled()) {
+          await loopRunFunction(config);
+        } else {
+          await kameHouse.core.sleep(3000);
+        }
         if (this.#syncLoopsConfig[loopCountName] > 1) {
           kameHouse.logger.info(loopName + ": Running multiple " + loopName + ", exiting this loop");
           break;
@@ -971,7 +989,7 @@ class VlcPlayerSynchronizer {
   }
 
   /**
-   * Playlist lopp run.
+   * Playlist loop run.
    */
   async #syncPlaylistLoopRun(config) {
     kameHouse.logger.trace("syncPlaylistLoop");
@@ -1508,7 +1526,7 @@ class VlcPlayerRestClient {
         } else {
           this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
           if (responseCode == "404") {
-            kameHouse.logger.trace("Could not connect to VLC player to get the status.");
+            kameHouse.logger.error("Could not connect to VLC player to get the status.");
           }
         }
       });

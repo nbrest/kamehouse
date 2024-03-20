@@ -60,7 +60,7 @@ class PlaylistBrowser {
         });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.trace("Error populating video playlist categories");
+        kameHouse.logger.error("Error populating video playlist categories");
       });
   }
 
@@ -94,7 +94,7 @@ class PlaylistBrowser {
         this.#populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.trace("Error getting playlist content");
+        kameHouse.logger.error("Error getting playlist content");
       });
   }
 
