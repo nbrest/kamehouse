@@ -514,6 +514,10 @@
   height: 32px !important;
 }
 
+.vlc-player-config-btn {
+  width: 30%;
+}
+
 .vlc-player-config-wrapper {
   padding-bottom: 15px;
   border: 1px solid #292929;
@@ -616,6 +620,7 @@
   width: 25%;
   text-decoration: none;
 }
+
 @media (max-width : 900px) {
   .vlc-player-tabs button {
      padding-right: 10px;
