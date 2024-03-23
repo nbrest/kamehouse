@@ -8,6 +8,31 @@
 .aspect-ratio-dropdown {
   margin-top: 30px;
   margin-bottom: 30px;
+  border-color: #4a90e2;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-width: 1px;
+  color: #4a90e2;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+}
+
+.aspect-ratio-dropdown:hover {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-color: #4a90e2;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-width: 1px;
+  color: #4a90e2;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
 }
 
 .aspect-ratio-td {
@@ -483,6 +508,10 @@
   color: #505050;
   font-weight: bold;
   margin: 10px 25px 15px 25px;
+}
+
+.subtitle-delay-value {
+  color: #4a90e2;
 }
 
 /** Playlist selector dropdowns end */

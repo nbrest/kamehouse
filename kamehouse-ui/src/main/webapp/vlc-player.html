@@ -331,7 +331,7 @@
                 <button class="img-btn-kh vlc-player-btn va-m-kh"
                   data-background-img="/kame-house/img/other/double-left-blue.png"
                   onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('-1')"></button>
-                <span><span id="subtitle-delay-value">0</span>s</span>
+                <span class="subtitle-delay-value"><span id="subtitle-delay-value">0</span>s</span>
                 <button class="img-btn-kh vlc-player-btn va-m-kh"
                   data-background-img="/kame-house/img/other/double-right-blue.png"
                   onclick="kameHouse.extension.vlcPlayer.updateSubtitleDelay('+1')"></button>
@@ -359,8 +359,8 @@
                   onclick="kameHouse.extension.vlcPlayer.unlockScreen()"></button>
               </td>
               <td>
-                <div class="link-image-text">Unlock Screen</div>
-                <div class="link-image-desc">Send an unlock screen command to the backend</div>
+                <div class="link-image-text">Unlock</div>
+                <div class="link-image-desc">Send an unlock screen command to the server</div>
               </td>
             </tr>
             <tr>
@@ -390,7 +390,7 @@
                 <select id="aspect-ratio-dropdown" class="select-kh-dark aspect-ratio-dropdown va-m-kh"
                     onclick="kameHouse.extension.vlcPlayer.updateAspectRatio()" 
                     onchange="kameHouse.extension.vlcPlayer.updateAspectRatio()">
-                  <option value="" selected></option>
+                  <option value="" selected>-</option>
                   <option value="16:9">16:9</option>
                   <option value="4:3">4:3</option>
                   <option value="1:1">1:1</option>
