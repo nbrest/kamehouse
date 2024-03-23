@@ -34,6 +34,7 @@ class VlcPlayer {
   load() {
     kameHouse.logger.info("Started initializing VLC Player");
     this.#mainViewUpdater.setStatefulButtons();
+    this.#mainViewUpdater.resetAspectRatioDropdown();
     kameHouse.core.loadKameHouseWebSocket();
     this.#loadStateFromCookies();
     this.#playlist.init();
@@ -181,6 +182,13 @@ class VlcPlayer {
     if (!kameHouse.core.isEmpty(aspectRatio)) {
       this.#commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
+  }
+
+  /**
+   * Reset aspect ratio dropdown.
+   */
+  resetAspectRatioDropdown() {
+    this.#mainViewUpdater.resetAspectRatioDropdown();
   }
 
   /**
@@ -481,16 +489,28 @@ class VlcPlayerCommandExecutor {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
-      () => {this.#vlcPlayer.loadStateFromApiRound()}, 
-      () => {this.#vlcPlayer.loadStateFromApiRound()}
+      () => {
+        this.#vlcPlayer.loadStateFromApiRound();
+        this.#vlcPlayer.resetAspectRatioDropdown();
+      }, 
+      () => {
+        this.#vlcPlayer.loadStateFromApiRound();
+        this.#vlcPlayer.resetAspectRatioDropdown();
+      }
     );
   }
 
   /** Close vlc player. */
   close() {
     this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
-      () => {this.#vlcPlayer.loadStateFromApiRound()}, 
-      () => {this.#vlcPlayer.loadStateFromApiRound()}
+      () => {
+        this.#vlcPlayer.loadStateFromApiRound();
+        this.#vlcPlayer.resetAspectRatioDropdown();
+      }, 
+      () => {
+        this.#vlcPlayer.loadStateFromApiRound();
+        this.#vlcPlayer.resetAspectRatioDropdown();
+      }
     );
   }
 
@@ -545,6 +565,14 @@ class VlcPlayerMainViewUpdater {
     this.#statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
 
+  /**
+   * Reset the aspect ratio dropdown view.
+   */
+  resetAspectRatioDropdown() {
+    const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
+    aspectRatioDropdown.selectedIndex = 0;
+  }
+
   /** Update the displayed current time. */
   updateCurrentTimeView(value) {
     const currentTime = document.getElementById("current-time");
@@ -570,8 +598,6 @@ class VlcPlayerMainViewUpdater {
     this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-shuffle', "random", true));
     this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-stop', "state", "stopped"));
     this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-mute', "volume", 0, 'btn-mute'));
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-16-9', "aspectRatio", "16:9"));
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-4-3', "aspectRatio", "4:3"));
   }
 
   /** Update the media title. */
@@ -1378,7 +1404,13 @@ class VlcPlayerPlaylist {
       name: 'pl_play',
       id: data.id
     };
-    this.#vlcPlayer.getRestClient().post(this.#playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody, () => {}, () => {});
+    this.#vlcPlayer.getRestClient().post(this.#playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody, 
+      () => {
+        this.#vlcPlayer.resetAspectRatioDropdown();
+      }, 
+      () => {
+        this.#vlcPlayer.resetAspectRatioDropdown();
+      });
   }
 
   /** Highlight currently playing item in the playlist. */
