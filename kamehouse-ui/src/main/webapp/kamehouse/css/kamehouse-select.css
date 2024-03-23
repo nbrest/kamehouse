@@ -11,6 +11,7 @@
 
 .select-kh-dark:hover {
   border: 1px solid #686868;
+  cursor: pointer;
 }
 
 .select-kh-dark.opened .select-kh-dark-trigger:after {
