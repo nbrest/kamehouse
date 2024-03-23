@@ -34,7 +34,6 @@ class VlcPlayer {
   load() {
     kameHouse.logger.info("Started initializing VLC Player");
     this.#mainViewUpdater.setStatefulButtons();
-    this.#mainViewUpdater.resetAspectRatioDropdown();
     kameHouse.core.loadKameHouseWebSocket();
     this.#loadStateFromCookies();
     this.#playlist.init();
@@ -182,13 +181,6 @@ class VlcPlayer {
     if (!kameHouse.core.isEmpty(aspectRatio)) {
       this.#commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
-  }
-
-  /**
-   * Reset aspect ratio dropdown.
-   */
-  resetAspectRatioDropdown() {
-    this.#mainViewUpdater.resetAspectRatioDropdown();
   }
 
   /**
@@ -491,11 +483,9 @@ class VlcPlayerCommandExecutor {
     this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
       () => {
         this.#vlcPlayer.loadStateFromApiRound();
-        this.#vlcPlayer.resetAspectRatioDropdown();
       }, 
       () => {
         this.#vlcPlayer.loadStateFromApiRound();
-        this.#vlcPlayer.resetAspectRatioDropdown();
       }
     );
   }
@@ -505,11 +495,9 @@ class VlcPlayerCommandExecutor {
     this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
       () => {
         this.#vlcPlayer.loadStateFromApiRound();
-        this.#vlcPlayer.resetAspectRatioDropdown();
       }, 
       () => {
         this.#vlcPlayer.loadStateFromApiRound();
-        this.#vlcPlayer.resetAspectRatioDropdown();
       }
     );
   }
@@ -550,9 +538,25 @@ class VlcPlayerMainViewUpdater {
       this.#updateTimeSlider();
       this.#updateVolumeSlider();
       this.#updateSubtitleDelay();
+      this.#updateAspectRatioDropdown();
       this.#statefulButtons.forEach((statefulButton) => statefulButton.updateState());
     } else {
       this.resetView();
+    }
+  }
+
+  /**
+   * Reset the aspect ratio dropdown view.
+   */
+  #updateAspectRatioDropdown() {
+    const aspectRatio = this.#vlcPlayer.getVlcRcStatus().aspectRatio;
+    const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
+    for (const option of aspectRatioDropdown.options) {
+      if (option.value == aspectRatio) {
+        option.selected = true;
+      } else {
+        option.selected = false;
+      }
     }
   }
 
@@ -562,13 +566,14 @@ class VlcPlayerMainViewUpdater {
     this.#resetTimeSlider();
     this.#resetVolumeSlider();
     this.#resetSubtitleDelay();
+    this.#resetAspectRatioDropdown();
     this.#statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
 
   /**
    * Reset the aspect ratio dropdown view.
    */
-  resetAspectRatioDropdown() {
+  #resetAspectRatioDropdown() {
     const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
     aspectRatioDropdown.selectedIndex = 0;
   }
@@ -1405,12 +1410,8 @@ class VlcPlayerPlaylist {
       id: data.id
     };
     this.#vlcPlayer.getRestClient().post(this.#playSelectedUrl, kameHouse.http.getApplicationJsonHeaders(), requestBody, 
-      () => {
-        this.#vlcPlayer.resetAspectRatioDropdown();
-      }, 
-      () => {
-        this.#vlcPlayer.resetAspectRatioDropdown();
-      });
+      () => {}, 
+      () => {});
   }
 
   /** Highlight currently playing item in the playlist. */
