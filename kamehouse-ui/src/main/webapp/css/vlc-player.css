@@ -516,6 +516,11 @@
   margin: 10px 25px 15px 25px;
 }
 
+.subtitle-delay-btn {
+  width: 20px;
+  height: 32px;
+}
+
 .subtitle-delay-value {
   color: #4a90e2;
 }
