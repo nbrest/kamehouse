@@ -6,13 +6,16 @@
 }
 
 .aspect-ratio-dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;  
   margin-top: 30px;
   margin-bottom: 30px;
   border-color: #4a90e2;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   border-width: 1px;
   color: #4a90e2;
   font-weight: bold;
@@ -21,13 +24,16 @@
 }
 
 .aspect-ratio-dropdown:hover {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;  
   margin-top: 30px;
   margin-bottom: 30px;
   border-color: #4a90e2;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   border-width: 1px;
   color: #4a90e2;
   font-weight: bold;
