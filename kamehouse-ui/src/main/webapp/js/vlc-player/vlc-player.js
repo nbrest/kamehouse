@@ -176,7 +176,8 @@ class VlcPlayer {
   /**
    * Set aspect ratio.
    */
-  updateAspectRatio(aspectRatio) {
+  updateAspectRatio() {
+    const aspectRatio = document.getElementById("aspect-ratio-dropdown").value;
     if (!kameHouse.core.isEmpty(aspectRatio)) {
       this.#commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
