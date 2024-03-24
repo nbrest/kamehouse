@@ -365,28 +365,6 @@
             </tr>
             <tr>
               <td class="vlc-player-config-btn">
-                <button id="media-btn-fullscreen" class="link-image-img vlc-player-btn va-m-kh"
-                  data-background-img="/kame-house/img/mplayer/expand-blue.png"
-                  onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
-              </td>
-              <td>
-                <div class="link-image-text">Full Screen</div>
-                <div class="link-image-desc">Toggle full screen mode through vlc's api</div>
-              </td>
-            </tr>
-            <tr>
-              <td class="vlc-player-config-btn">
-                <button id="media-btn-aspect-ratio-cycle" class="link-image-img vlc-player-btn va-m-kh"
-                  data-background-img="/kame-house/img/mplayer/aspect-ratio-blue.png"
-                  onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"></button>
-              </td>
-              <td>
-                <div class="link-image-text">Aspect Ratio Cycle</div>
-                <div class="link-image-desc">Loop through the screen aspect ratios</div>
-              </td>
-            </tr>
-            <tr>
-              <td class="vlc-player-config-btn">
                 <select id="aspect-ratio-dropdown" class="select-kh-dark aspect-ratio-dropdown va-m-kh"
                     onclick="kameHouse.extension.vlcPlayer.updateAspectRatio()" 
                     onchange="kameHouse.extension.vlcPlayer.updateAspectRatio()">
@@ -396,6 +374,7 @@
                   <option value="4:3">4:3</option>
                   <option value="1:1">1:1</option>
                   <option value="3:4">3:4</option>
+                  <option value="9:16">9:16</option>
                 </select>
               </td>
               <td>

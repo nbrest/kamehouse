@@ -5,20 +5,42 @@
     <tbody>
       <tr>
         <td>
+          <button id="media-btn-fullscreen" class="link-image-img vlc-player-btn"
+            data-background-img="/kame-house/img/mplayer/expand-blue.png"
+            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
+        </td>
+        <td>
+          <div class="link-image-text">Full Screen</div>
+          <div class="link-image-desc">Toggle full screen mode through vlc's api</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button id="media-btn-aspect-ratio-cycle" class="link-image-img vlc-player-btn"
+            data-background-img="/kame-house/img/mplayer/aspect-ratio-blue.png"
+            onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'aspect-ratio')"></button>
+        </td>
+        <td>
+          <div class="link-image-text">Aspect Ratio Cycle</div>
+          <div class="link-image-desc">Loop through the screen aspect ratios</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/mouse-click-left.png" onclick='kameHouse.extension.vlcPlayer.mouseSingleClick()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">Single Left Click</div>
+          <div class="link-image-desc">Send a single left click to the server</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
           <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/wol-red-dark.png" onclick='kameHouse.extension.vlcPlayer.wolMediaServer()'></button>
         </td>
         <td>
           <div class="link-image-text">Wake Media Server</div>
           <div class="link-image-desc">Send a WOL packet to the media server</div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/other/refresh.png" onclick='kameHouse.extension.vlcPlayer.loadStateFromApi(true)'></button>
-        </td>
-        <td>
-          <div class="link-image-text">Refresh VlcPlayer</div>
-          <div class="link-image-desc">Load the state of VLC player from the API</div>
         </td>
       </tr>
       <tr>
@@ -32,11 +54,11 @@
       </tr>
       <tr>
         <td>
-          <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/mouse-click-left.png" onclick='kameHouse.extension.vlcPlayer.mouseSingleClick()'></button>
+          <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/other/refresh.png" onclick='kameHouse.extension.vlcPlayer.loadStateFromApi(true)'></button>
         </td>
         <td>
-          <div class="link-image-text">Single Left Click</div>
-          <div class="link-image-desc">Send a single left click to the server</div>
+          <div class="link-image-text">Refresh VlcPlayer</div>
+          <div class="link-image-desc">Load the state of VLC player from the API</div>
         </td>
       </tr>
       <tr>
