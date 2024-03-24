@@ -551,11 +551,11 @@ class VlcPlayerMainViewUpdater {
   #updateAspectRatioDropdown() {
     const aspectRatio = this.#vlcPlayer.getVlcRcStatus().aspectRatio;
     const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
-    if (kameHouse.core.isEmpty(aspectRatio) && aspectRatioDropdown.options[0].selected == true) {
+    if (kameHouse.core.isEmpty(aspectRatio) && aspectRatioDropdown.options[0].selected) {
       return;
     }
     for (const option of aspectRatioDropdown.options) {
-      if (option.value == aspectRatio && option.selected == true) {
+      if (option.value == aspectRatio && option.selected) {
         return;
       } 
     }
