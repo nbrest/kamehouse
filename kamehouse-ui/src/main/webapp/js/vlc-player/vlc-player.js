@@ -546,11 +546,19 @@ class VlcPlayerMainViewUpdater {
   }
 
   /**
-   * Reset the aspect ratio dropdown view.
+   * Set the aspect ratio dropdown view.
    */
   #updateAspectRatioDropdown() {
     const aspectRatio = this.#vlcPlayer.getVlcRcStatus().aspectRatio;
     const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
+    if (kameHouse.core.isEmpty(aspectRatio) && aspectRatioDropdown.options[0].selected == true) {
+      return;
+    }
+    for (const option of aspectRatioDropdown.options) {
+      if (option.value == aspectRatio && option.selected == true) {
+        return;
+      } 
+    }
     for (const option of aspectRatioDropdown.options) {
       if (option.value == aspectRatio) {
         option.selected = true;
