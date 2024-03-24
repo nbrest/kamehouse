@@ -2545,6 +2545,10 @@ class KameHouseCore {
     };
     const errorMessage = "Uncaught KameHouse error: " + kameHouse.json.stringify(errorObject, null, 2);
     console.log(errorMessage);
+    kameHouse.util.module.waitForModules(["kameHouseModal"], () => {
+      kameHouse.plugin.modal.basicModal.setHtml(errorMessage);
+      kameHouse.plugin.modal.basicModal.open();
+    });
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
       kameHouse.logger.error(errorMessage);
     });
@@ -2556,6 +2560,10 @@ class KameHouseCore {
   #handleRejectionEvent(rejectionEvent) {
     const errorMessage = "Uncaught KameHouse rejection: " + kameHouse.json.stringify(rejectionEvent, null, 2);
     console.log(errorMessage);
+    kameHouse.util.module.waitForModules(["kameHouseModal"], () => {
+      kameHouse.plugin.modal.basicModal.setHtml(errorMessage);
+      kameHouse.plugin.modal.basicModal.open();
+    });
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
       kameHouse.logger.error(errorMessage);
     });

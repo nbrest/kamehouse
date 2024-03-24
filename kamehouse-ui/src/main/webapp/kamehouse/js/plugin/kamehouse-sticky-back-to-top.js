@@ -35,7 +35,7 @@ class KameHouseStickyBackToTop {
    * Configure event handlers for the sticky back to top button.
    */
   #setupEventHandlers() {
-    window.addEventListener("scroll", this.#showHideStickyBackToTopBtn);
+    window.addEventListener("scroll", () => {this.#showHideStickyBackToTopBtn()});
     const stickyBackToTopBtn = document.getElementById('btn-sticky-back-to-top');  
     kameHouse.util.dom.setClick(stickyBackToTopBtn, null, (event) => {
       event.preventDefault();
