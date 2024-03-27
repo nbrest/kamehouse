@@ -189,21 +189,25 @@
       <div class="default-layout playlist-tab-content-wrapper bg-lighter-0-kh">
         <table id="playlist-controls" class="playlist-controls-table">
           <caption class="hidden-kh">Playlist Controls</caption>
+          <colgroup>
+            <col class="w-90-pc-kh" />
+            <col class="w-10-pc-kh" />
+          </colgroup>
           <tr class="hidden-kh">
             <th scope="row" class="hidden-kh">Playlist Controls</th>
           </tr>
           <tr>
-            <td id="playlist-controls-filter-input-td">
+            <td>
               <input class="table-kh-filter-input" id="playlist-filter-input"
                 type="text" placeholder="Search..."
                 onkeyup="kameHouse.extension.vlcPlayer.filterPlaylistRows()" />
             </td>
-            <td class="txt-r-d-kh txt-r-m-kh">
-              <button id="toggle-playlist-filenames-btn"></button>
-              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls"
+            <td class="playlist-ctrl-btns-wrapper">
+              <button id="toggle-playlist-filenames-btn" class="va-m-kh"></button>
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh"
                 onclick="kameHouse.extension.vlcPlayer.scrollToCurrentlyPlaying()"
                 data-background-img="/kame-house/img/other/selected-item.png"></button>
-              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls"
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh"
                 onclick="kameHouse.core.scrollToTopOfDivById('playlist-table-wrapper')"
                 data-background-img="/kame-house/img/other/back-to-top-blue.png"></button>
             </td>
@@ -214,7 +218,7 @@
             <caption class="hidden-kh">Playlist</caption>
             <tr class="hidden-kh"><th scope="row" class="hidden-kh">Playlist</th></tr>
             <tbody id="playlist-table-body">
-              <tr><td>No playlist loaded yet. まだまだだね.</td></tr>
+              <tr><td>No playlist loaded. まだまだだね</td></tr>
             </tbody>
           </table>
         </div>
@@ -244,8 +248,8 @@
         <table id="playlist-browser-controls" class="playlist-controls-table">
           <caption class="hidden-kh">Playlist Browser Controls</caption>
           <colgroup>
-            <col class="w-80-pc-kh" />
-            <col class="w-20-pc-kh" />
+            <col class="w-90-pc-kh" />
+            <col class="w-10-pc-kh" />
           </colgroup>
           <tr class="hidden-kh">
             <th scope="row" class="hidden-kh">Playlist Browser Controls</th>
@@ -256,9 +260,9 @@
                 type="text" placeholder="Search..."
                 onkeyup="kameHouse.extension.playlistBrowser.filterPlaylistRows()" />
             </td>
-            <td class="txt-r-d-kh txt-r-m-kh playlist-browser-ctrl-btns-wrapper">
-              <button id="toggle-playlist-browser-filenames-btn"></button>
-              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls"
+            <td class="playlist-browser-ctrl-btns-wrapper va-m-kh">
+              <button id="toggle-playlist-browser-filenames-btn" class="va-m-kh"></button>
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh"
                 onclick="kameHouse.core.scrollToTopOfDivById('playlist-browser-table-wrapper')"
                 data-background-img="/kame-house/img/other/back-to-top-blue.png"></button>
             </td>
@@ -272,7 +276,7 @@
             </tr>
             <tbody id="playlist-browser-table-body">
               <tr>
-                <td>No playlist to browse loaded yet. まだまだだね.</td>
+                <td>No playlist to browse loaded. まだまだだね</td>
               </tr>
             </tbody>
           </table>

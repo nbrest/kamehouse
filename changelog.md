@@ -7,6 +7,8 @@
 
 #### v9.01
 
+- Updated footer logos
+- Fixed header layout in low res desktop view
 - Added toggle for sync loops in vlc player debug mode
 - Fixed mobile requests data serializer
 - Refactored collapsible div utils

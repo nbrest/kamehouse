@@ -143,7 +143,7 @@
 }
 
 .btn-load-playlist {
-  margin-left: 5px;
+  margin-left: 10px;
   margin-right: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -163,7 +163,7 @@
 .btn-playlist-controls {
   margin-left: 15px;
   margin-right: 15px;
-  margin-top: 3px;
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -293,10 +293,8 @@
 }
 
 /** Playlist browser */
-@media(max-width: 900px) {
-  .playlist-browser-ctrl-btns-wrapper {
-    min-width: 125px;
-  }
+.playlist-browser-ctrl-btns-wrapper {
+  min-width: 140px;
 }
 
 .playlist-browser-table-btn {
@@ -399,17 +397,11 @@
   }
 }
 
-#playlist-controls-filter-input-td {
-  width: 70%;
-}
-
-@media (max-width: 900px) {
-  #playlist-controls-filter-input-td {
-    width: 45%;
-  }
-}
-
 /** Playlist begin.*/
+.playlist-ctrl-btns-wrapper {
+  min-width: 195px;
+}
+
 .playlist-table-btn {
   font-weight: 400;
   padding: .5rem .75rem;

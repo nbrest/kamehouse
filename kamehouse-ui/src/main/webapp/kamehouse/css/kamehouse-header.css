@@ -64,6 +64,7 @@ header #header-top {
   display: block;
   overflow: hidden;
   margin-bottom: 5px;
+  margin-left: 5px;
 }
 
 header #header-top #branding {
@@ -86,6 +87,12 @@ header #header-top #login-status {
   padding-bottom: 10px;
   padding-right: 15px;
   float: right;
+}
+
+@media (max-width : 1110px) {
+  .header-kh {
+    width: 100%;
+  }
 }
 
 .header-login-status-text {
@@ -143,9 +150,7 @@ header #header-top #login-status {
   background-color: #d90000;
 }
 
-/* Media Queries */
-@media ( max-width : 900px) {
-	 
+@media (max-width : 900px) {
   header .default-layout {
     padding: 0px;
     width: 100%;
@@ -155,6 +160,7 @@ header #header-top #login-status {
   header #header-top {
     display: block;
     overflow: hidden;
+    margin-left: 0px;
   }
   
   header #header-top #branding {
@@ -181,7 +187,6 @@ header #header-top #login-status {
     font-size: 18px;
   }
 
-  
   header .header-nav a:nth-child(n+5) {display: none;}
   header .header-nav button.icon {
     float: right;

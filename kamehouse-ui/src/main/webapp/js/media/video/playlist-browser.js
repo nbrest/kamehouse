@@ -111,7 +111,7 @@ class PlaylistBrowser {
     return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-playlist-browser-filenames-btn",
-        class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
+        class: "img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh",
       },
       mobileClass: "img-btn-kh-mobile",
       backgroundImg: "/kame-house/img/other/double-" + direction + "-green.png",

@@ -77,6 +77,7 @@ header #header-top {
   display: block;
   overflow: hidden;
   margin-bottom: 5px;
+  margin-left: 5px;
 }
 
 header #header-top #branding {
@@ -99,6 +100,12 @@ header #header-top #login-status {
   float: right;
 }
 
+@media (max-width : 1110px) {
+  .header-kh {
+    width: 100%;
+  }
+}
+  
 .header-login-status-text {
   font-size: 1.25rem;
 	padding-right: 10px;
@@ -125,9 +132,7 @@ header #header-top #login-status {
   background-color: #d90000;
 }
 
-/* Media Queries */
-@media ( max-width : 900px) {
-	 
+@media (max-width : 900px) {
   header .default-layout {
     padding: 0px;
     width: 100%;
@@ -137,6 +142,7 @@ header #header-top #login-status {
   header #header-top {
     display: block;
     overflow: hidden;
+    margin-left: 0px;
   }
   
   header #header-top #branding {

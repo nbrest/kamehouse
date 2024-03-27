@@ -1369,7 +1369,7 @@ class VlcPlayerPlaylist {
     return kameHouse.util.dom.getButton({
       attr: {
         id: "toggle-playlist-filenames-btn",
-        class: "img-btn-kh img-btn-s-kh btn-playlist-controls",
+        class: "img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh",
       },
       mobileClass: "img-btn-kh-mobile",
       backgroundImg: "/kame-house/img/other/double-" + direction + "-green.png",
@@ -1487,7 +1487,7 @@ class VlcPlayerPlaylist {
    */
   #getEmptyPlaylistTr() {
     const madaMadaDane = 'まだまだだね';
-    return kameHouse.util.dom.getTrTd("No playlist loaded yet or unable to sync." + madaMadaDane + " :)");
+    return kameHouse.util.dom.getTrTd("No playlist loaded. " + madaMadaDane);
   }
   
   /**
