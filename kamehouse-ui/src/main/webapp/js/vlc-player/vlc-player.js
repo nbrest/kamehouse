@@ -1289,13 +1289,13 @@ class VlcPlayerPlaylist {
     const playlistTableBody = document.getElementById('playlist-table-body');
     // Clear playlist content. 
     kameHouse.util.dom.empty(playlistTableBody);
+    this.#tbodyFilenames = this.#getPlaylistTbody();
+    this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
     // Add the new playlist items received from the server.
     if (kameHouse.core.isEmpty(this.#currentPlaylist) || kameHouse.core.isEmpty(this.#currentPlaylist.length) ||
     this.#currentPlaylist.length <= 0) {
       kameHouse.util.dom.append(playlistTableBody, this.#getEmptyPlaylistTr());
     } else {
-      this.#tbodyFilenames = this.#getPlaylistTbody();
-      this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
       for (const currentPlaylistElement of this.#currentPlaylist) {
         const absolutePath = currentPlaylistElement.filename;
         const filename = kameHouse.util.file.getShortFilename(absolutePath);
