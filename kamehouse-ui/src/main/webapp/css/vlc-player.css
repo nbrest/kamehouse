@@ -320,7 +320,6 @@
 
 /** playlist-browser-table Set scrollbar style FIREFOX */
 #playlist-browser-table-wrapper {
-  scrollbar-color: #4a90e2 #060606 !important;
   scrollbar-width: thin !important;
 }
 
@@ -333,18 +332,6 @@
   #playlist-browser-table-wrapper::-webkit-scrollbar {
     width: 2px;
   }
-}
-
-#playlist-browser-table-wrapper::-webkit-scrollbar-track {
-  background: #060606;
-}
-
-#playlist-browser-table-wrapper::-webkit-scrollbar-thumb {
-  background: #4a90e2;
-}
-
-#playlist-browser-table-wrapper::-webkit-scrollbar-corner {
-  background: #060606;
 }
 
 .playlist-browser-dropdowns-wrapper {
