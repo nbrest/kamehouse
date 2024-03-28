@@ -2,174 +2,212 @@
 /**
   * banners dragonball
   */
+.banner-gogeta {
+  background: url(/kame-house/img/banners/dragonball/banner-gogeta.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-gogeta {
-    background: url(/kame-house/img/banners/dragonball/banner-gogeta.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-gogeta {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-gogeta {
+    background-position-x: -130px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-gogeta {
-      background-position-x: -130px;
-    }
-  }
-  
+}
+
+.banner-gohan-shen-long {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-shen-long.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-gohan-shen-long {
-    background: url(/kame-house/img/banners/dragonball/banner-gohan-shen-long.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-gohan-shen-long {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-shen-long {
+    background-position-x: -130px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-gohan-shen-long {
-      background-position-x: -130px;
-    }
-  }
-  
+}
+
+.banner-gohan-ssj2 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-gohan-ssj2 {
-    background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-gohan-ssj2 {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2 {
+    background-position-x: -130px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-gohan-ssj2 {
-      background-position-x: -130px;
-    }
+}
+
+.banner-gohan-ssj2-1 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-1.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-gohan-ssj2-1 {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
   }
-  
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-1 {
+    background-position-x: -40px;
+  }
+}
+
+.banner-gohan-ssj2-2 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-2.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-gohan-ssj2-2 {
-    background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-2.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-gohan-ssj2-2 {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-2 {
+    background-position-x: 0px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-gohan-ssj2-2 {
-      background-position-x: 0px;
-    }
-  }
-  
+}
+
+.banner-gohan-ssj2-3 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-3.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-gohan-ssj2-3 {
-    background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-3.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-gohan-ssj2-3 {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-3 {
+    background-position-x: -130px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-gohan-ssj2-3 {
-      background-position-x: -130px;
-    }
-  }
-  
+}
+
+.banner-gohan-ssj2-4 {
+  background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-gohan-ssj2-4 {
-    background: url(/kame-house/img/banners/dragonball/banner-gohan-ssj2-4.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-gohan-ssj2-4 {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-gohan-ssj2-4 {
+    background-position-x: 0px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-gohan-ssj2-4 {
-      background-position-x: 0px;
-    }
-  }
-  
+}
+
+.banner-goku-ssj1 {
+  background: url(/kame-house/img/banners/dragonball/banner-goku-ssj1.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-goku-ssj1 {
-    background: url(/kame-house/img/banners/dragonball/banner-goku-ssj1.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-goku-ssj1 {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-goku-ssj1 {
+    background-position-x: -130px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-goku-ssj1 {
-      background-position-x: -130px;
-    }
-  }
-  
+}
+
+.banner-goku-ssj4-earth {
+  background: url(/kame-house/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-goku-ssj4-earth {
-    background: url(/kame-house/img/banners/dragonball/banner-goku-ssj4-earth.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-goku-ssj4-earth {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-goku-ssj4-earth {
+    background-position-x: -100px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-goku-ssj4-earth {
-      background-position-x: -100px;
-    }
-  }
-  
+}
+
+.banner-trunks-mountains {
+  background: url(/kame-house/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
   .banner-trunks-mountains {
-    background: url(/kame-house/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
     background-size: cover !important;
-    background-repeat: round !important;
+    background-repeat: no-repeat !important;
   }
-  
-  @media (max-width : 900px) {
-    .banner-trunks-mountains {
-      background-size: cover !important;
-      background-repeat: no-repeat !important;
-    }
+}
+
+@media (max-width : 499px) {
+  .banner-trunks-mountains {
+    background-position-x: -130px;
   }
-  
-  @media (max-width : 499px) {
-    .banner-trunks-mountains {
-      background-position-x: -130px;
-    }
+}
+
+.banner-z-senshi {
+  background: url(/kame-house/img/banners/dragonball/banner-z-senshi.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-z-senshi {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
   }
+}
+
+@media (max-width : 499px) {
+  .banner-z-senshi {
+    background-position-x: -60px;
+  }
+}
   

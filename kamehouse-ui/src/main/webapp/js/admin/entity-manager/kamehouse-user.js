@@ -7,7 +7,7 @@ kameHouse.ready(() => {
       banner: "banner-gohan-ssj2-3",
       icon: "/kame-house/img/dbz/goku-icon.png",
       infoImage: {
-        img: "/kame-house/img/dbz/z-senshi.png",
+        img: "/kame-house/img/banners/dragonball/banner-z-senshi.jpg",
         title: "Enter KameHouse World",
         titlePosition: "bottom",
         desc: "Join the Z Senshi and become one of the most powerful beings in the universe by entering KameHouse",
