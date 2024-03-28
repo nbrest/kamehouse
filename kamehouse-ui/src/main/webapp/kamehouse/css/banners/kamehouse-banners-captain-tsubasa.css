@@ -247,3 +247,22 @@
     background-position-x: 0px;
   }
 }
+
+.banner-youth-arc-opening-3-messi {
+  background: url(/kame-house/img/banners/captain-tsubasa/banner-youth-arc-opening-3-messi.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-youth-arc-opening-3-messi {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-youth-arc-opening-3-messi {
+    background-position-x: 0px;
+  }
+}
