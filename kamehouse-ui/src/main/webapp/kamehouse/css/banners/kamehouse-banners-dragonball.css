@@ -173,6 +173,25 @@
   }
 }
 
+.banner-kamehouse {
+  background: url(/kame-house/img/banners/dragonball/banner-kamehouse.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-kamehouse {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-kamehouse {
+    background-position-x: 0px;
+  }
+}
+
 .banner-trunks-mountains {
   background: url(/kame-house/img/banners/dragonball/banner-trunks-mountains.jpg) 0 0;
   background-size: cover !important;
