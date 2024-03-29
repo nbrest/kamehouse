@@ -21,7 +21,7 @@
 
 .image-header-img img {
   width: 100%;
-  height: 400px;
+  height: 525px;
 }
 
 @media (max-width : 900px) {
@@ -32,7 +32,7 @@
 
 .image-header-title {
   position: absolute;
-  top: 175px;
+  top: 215px;
   width: 100%;
   margin: auto;
   text-align: center;
@@ -44,7 +44,7 @@
 
 .image-header-subtitle {
   position: absolute;
-  top: 230px;
+  top: 275px;
   width: 100%;
   margin: auto;
   text-align: center;
@@ -83,7 +83,7 @@
 }
 
 .image-header-title-bottom {
-  top: 310px;
+  top: 415px;
 }
 
 @media (max-width : 900px) {
@@ -93,7 +93,7 @@
 }
 
 .image-header-subtitle-bottom {
-  top: 365px;
+  top: 475px;
 }
 
 @media (max-width : 900px) {
