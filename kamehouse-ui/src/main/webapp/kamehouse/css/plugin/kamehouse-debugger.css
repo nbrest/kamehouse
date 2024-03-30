@@ -67,6 +67,10 @@
   content: "\2191";
 }
 
+.debug-mode-console-controls {
+  margin-bottom: 15px;
+}
+
 .debug-mode-console-table {
   border: 3px solid #1e1e1e;
   background-color: #000000;
@@ -96,7 +100,7 @@
 }
 
 .debugger-http-client  {
-  margin-bottom: 0;
+  margin-bottom: 15px;
 }
 
 .debugger-http-client-collapsible {

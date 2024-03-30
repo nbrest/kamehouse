@@ -28,9 +28,8 @@
   </div>
   <div id="debug-mode-custom-wrapper"></div>
   <div class="default-layout">
-    <div id="debugger-http-client"></div>
-    <br>
-    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh">Console Log</h5>
+    <div id="debugger-http-client" class="debugger-http-client"></div>
+    <h5 class="h5-kh txt-l-d-kh txt-l-m-kh m-50-d-kh">Console Log</h5>
     <table class="table-kh table-borderless-kh table-backgroundless-kh">
       <caption class="hidden-kh">Log Level</caption>
       <tbody>
@@ -39,21 +38,21 @@
       </tr>
       <tr>
         <td class="txt-l-d-kh txt-l-m-kh">
-        <div>
-          <span class="bold-kh txt-l-d-kh txt-l-m-kh">Log Level</span>
-          <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh"
-            id="debug-mode-log-level-dropdown" onclick="kameHouse.plugin.debugger.setConsoleLogLevel()" onchange="kameHouse.plugin.debugger.setConsoleLogLevel()">
-            <option value="0">ERROR</option>
-            <option value="1">WARN</option>
-            <option value="2" selected>INFO</option>
-            <option value="3">DEBUG</option>
-            <option value="4">TRACE</option>
-          </select>
-          <span class="bold-kh txt-l-d-kh txt-l-m-kh m-25-d-l-kh">Scroll Log</span>
-          <input id="debug-mode-scroll-log-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="debug-mode-scroll-log-checkbox" checked/>
-        </div>
-      </td>
-    </tr>
+          <div class="debug-mode-console-controls">
+            <span class="bold-kh txt-l-d-kh txt-l-m-kh">Log Level</span>
+            <select class="select-kh-dark m-10-d-r-kh m-10-m-r-kh m-25-d-l-kh"
+              id="debug-mode-log-level-dropdown" onclick="kameHouse.plugin.debugger.setConsoleLogLevel()" onchange="kameHouse.plugin.debugger.setConsoleLogLevel()">
+              <option value="0">ERROR</option>
+              <option value="1">WARN</option>
+              <option value="2" selected>INFO</option>
+              <option value="3">DEBUG</option>
+              <option value="4">TRACE</option>
+            </select>
+            <span class="bold-kh txt-l-d-kh txt-l-m-kh m-25-d-l-kh">Scroll Log</span>
+            <input id="debug-mode-scroll-log-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="debug-mode-scroll-log-checkbox" checked/>
+          </div>
+        </td>
+      </tr>
     </table>
     <table class="table-kh table-backgroundless-kh debug-mode-console-table">
       <caption class="hidden-kh">Console Output</caption>
