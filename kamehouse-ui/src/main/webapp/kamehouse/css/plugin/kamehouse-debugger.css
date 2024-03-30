@@ -1,3 +1,14 @@
+.console-log-btn {
+  width: 35px;
+  height: 35px;
+  margin: 10px 10px 10px 35px;
+}
+
+.console-log-title {
+  margin-top: 40px;
+  margin-bottom: 25px;
+}
+
 .debug-mode-toggler {
   cursor: pointer;
   user-select: none;
