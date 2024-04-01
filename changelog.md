@@ -7,6 +7,7 @@
 
 #### v9.01
 
+- Updated debug mode styles and layout
 - Updated footer logos
 - Fixed header layout in low res desktop view
 - Added toggle for sync loops in vlc player debug mode
