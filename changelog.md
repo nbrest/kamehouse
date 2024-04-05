@@ -5,6 +5,11 @@
 
 # ChangeLog:
 
+#### v9.02
+
+- Added undeploy rc-local script
+- Fixed bugs
+
 #### v9.01
 
 - Updated debug mode styles and layout
