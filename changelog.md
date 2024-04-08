@@ -7,6 +7,7 @@
 
 #### v9.02
 
+- Started logging stderr in kamehouse-shell log files
 - Added undeploy rc-local script
 - Fixed bugs
 
