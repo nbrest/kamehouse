@@ -128,17 +128,24 @@ class ServerManager {
   }
 
   /**
-   * Check the status of docker containers.
+   * Execute shell script.
    */
-  dockerStatus() {
+  executeShellScript(script, args) {
     if (this.isCommandRunning()) {
       return;
     }
     this.setCommandRunning();
-    kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/docker/docker-status-kamehouse.sh', "", true, 60, 
+    this.openExecutingCommandModal();
+    kameHouse.extension.kameHouseShell.execute(script, args, true, 600, 
       (scriptOutput) => this.completeCommandCallback(scriptOutput), 
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
+  }
+
+  /**
+   * Check the status of docker containers.
+   */
+  dockerStatus() {
+    this.executeShellScript('kamehouse/docker/docker-status-kamehouse.sh', "");
   }
 
   /** Handle Session Status */
@@ -163,14 +170,8 @@ class ServerManager {
    */
   #rebootServer() {
     kameHouse.plugin.modal.basicModal.close();
-    if (this.isCommandRunning()) {
-      return;
-    }
-    this.setCommandRunning();
     const hostOs = this.getExecutionOs();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/shutdown/reboot.sh', "", true, 60, 
-      (scriptOutput) => this.completeCommandCallback(scriptOutput), 
-      (scriptOutput) => this.completeCommandCallback(scriptOutput));
+    this.executeShellScript(hostOs + '/shutdown/reboot.sh', "");
   }
 
   /**
@@ -220,28 +221,14 @@ class GitManager {
    * Pull kamehouse repo.
    */
   pullKameHouse() {
-    if (kameHouse.extension.serverManager.isCommandRunning()) {
-      return;
-    }
-    kameHouse.extension.serverManager.setCommandRunning();
-    kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('common/git/git-pull-kamehouse.sh', "", true, 600, 
-      (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput), 
-      (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput));
+    kameHouse.extension.serverManager.executeShellScript('common/git/git-pull-kamehouse.sh', "");
   }
 
   /**
    * Pull kamehouse in all servers.
    */
   pullKameHouseAllServers() {
-    if (kameHouse.extension.serverManager.isCommandRunning()) {
-      return;
-    }
-    kameHouse.extension.serverManager.setCommandRunning();
-    kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s common/git/git-pull-kamehouse.sh", false, 600, 
-      (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput), 
-      (scriptOutput) => kameHouse.extension.serverManager.completeCommandCallback(scriptOutput));
+    kameHouse.extension.serverManager.executeShellScript('kamehouse/exec-kamehouse-all-servers.sh', "-s common/git/git-pull-kamehouse.sh");
   }
 
 } // GitManager
