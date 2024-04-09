@@ -1,5 +1,6 @@
 ### Message every time I open a shell
-if shopt -q login_shell; then
+# check if shell is interactive
+if [[ $- == *i* ]]; then
   if (( $EUID != 0 )); then
     # Normal user
     echo ""

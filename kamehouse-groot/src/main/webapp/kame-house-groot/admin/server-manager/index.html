@@ -63,14 +63,14 @@
         <tr>
           <td  id="tab-deployment-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-deployment', 'kh-groot-server-manager')">Deploy</td>  
+          <td id="tab-tail-log-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</td>
+          <td id="tab-docker-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-docker', 'kh-groot-server-manager')">Docker</td>  
           <td id="tab-git-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-git', 'kh-groot-server-manager')">Git</td>     
           <td id="tab-power-link" class="tab-kh-link"
-            onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>  
-          <td id="tab-docker-link" class="tab-kh-link"
-            onclick="kameHouse.util.tab.openTab('tab-docker', 'kh-groot-server-manager')">Docker</td>  
-          <td id="tab-tail-log-link" class="tab-kh-link"
-            onclick="kameHouse.util.tab.openTab('tab-tail-log', 'kh-groot-server-manager')">Tail Log</td>
+            onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>            
         </tr>
       </tbody>
     </table>
@@ -361,141 +361,6 @@
 
     </div> <!-- tab-deployment -->
 
-    <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
-      <div class="info-image-wrapper-m-80-40">
-        <table class="info-image-table">
-          <caption class="hidden-kh">Image-Info</caption>
-          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="info-image-img">
-                <img src="/kame-house/img/dbz/gotenks-fusion.jpg" alt="info img"/>
-              </td>
-              <td class="info-image-info">
-                <div class="info-image-title info-image-title-top">
-                  Synchronize
-                </div>
-                <div class="info-image-desc">
-                  <p>Keep git repos in perfect sync like <span class="bold-kh">Goten</span> and <span class="bold-kh">Trunks</span> doing the <span class="bold-kh">fusion</span></p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="link-image-wrapper-w-80">
-        <table class="link-image-table link-image-table-reverse">
-          <caption class="hidden-kh">Image-Links</caption>
-          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
-          <tbody>
-            <tr>
-              <td>
-                <button class="link-image-img" data-background-img="/kame-house/img/pc/git.png" onclick='kameHouse.extension.gitManager.pullKameHouse()'></button><br>
-                <button class="link-image-img" data-background-img="/kame-house/img/dbz/nimbus.png" onclick='kameHouse.extension.gitManager.pullKameHouseAllServers()'></button>
-              </td>
-              <td>
-                <div class="link-image-text">Git Pull</div>
-                <div class="link-image-desc">Pull latest changes in KameHouse git repo. Pull in all servers using the nimbus button</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <br><br>
-
-    </div> <!-- tab-git -->
-
-    <div id="tab-power" class="tab-content-kh">
-      <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
-        <div class="info-image-wrapper-m-80-40">
-          <table class="info-image-table">
-            <caption class="hidden-kh">Image-Info</caption>
-            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
-            <tbody>
-              <tr>
-                <td class="info-image-img">
-                  <img src="/kame-house/img/marvel/spiderman-swinging.jpg" alt="info img"/>
-                </td>
-                <td class="info-image-info">
-                  <div class="info-image-title info-image-title-bottom">
-                    Power Management
-                  </div>
-                  <div class="info-image-desc">
-                    <p>With Great Power Comes Great Responsibility</p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="link-image-wrapper-w-80">
-          <table class="link-image-table">
-            <caption class="hidden-kh">Image-Links</caption>
-            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
-            <tbody>
-              <tr>
-                <td>
-                  <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.confirmRebootServer()'></button>
-                </td>
-                <td>
-                  <div class="link-image-text">Restart the server</div>
-                  <div class="link-image-desc">Click to restart now. To schedule a shutdown or hibernate, it's possible to do from <span class="bold-kh">KameHouse</span>'s server management page</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <br><br>
-      </div>
-    </div> <!-- tab-power -->
-
-    <div id="tab-docker" class="tab-content-kh">
-      <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
-        <div class="info-image-wrapper-m-80-40">
-          <table class="info-image-table info-image-table-reverse">
-            <caption class="hidden-kh">Image-Info</caption>
-            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
-            <tbody>
-              <tr>
-                <td class="info-image-img">
-                  <img src="/kame-house/img/dbz/bulma-capsules.png" alt="info img"/>
-                </td>
-                <td class="info-image-info">
-                  <div class="info-image-title">
-                    Docker
-                  </div>
-                  <div class="info-image-desc">
-                    <p>Unpack capsules to run new instances of <span class="bold-kh">KameHouse</span></p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="link-image-wrapper-w-80">
-          <table class="link-image-table">
-            <caption class="hidden-kh">Image-Links</caption>
-            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
-            <tbody>
-              <tr>
-                <td>
-                  <button class="link-image-img" data-background-img="/kame-house/img/pc/docker.png" onclick='kameHouse.extension.serverManager.dockerStatus()'></button>
-                </td>
-                <td>
-                  <div class="link-image-text">Docker Status</div>
-                  <div class="link-image-desc">Check the status of <span class="bold-kh">KameHouse</span> Docker containers running in this server</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <br><br>
-      </div>
-    </div> <!-- tab-docker -->
-
     <div id="tab-tail-log" class="default-layout tab-content-kh p-15-d-kh">
 
       <div class="info-image-wrapper-m-80-40">
@@ -604,6 +469,141 @@
       <br><br>
     
     </div> <!-- tab-tail-log -->
+
+    <div id="tab-docker" class="tab-content-kh">
+      <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
+        <div class="info-image-wrapper-m-80-40">
+          <table class="info-image-table info-image-table-reverse">
+            <caption class="hidden-kh">Image-Info</caption>
+            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="info-image-img">
+                  <img src="/kame-house/img/dbz/bulma-capsules.png" alt="info img"/>
+                </td>
+                <td class="info-image-info">
+                  <div class="info-image-title">
+                    Docker
+                  </div>
+                  <div class="info-image-desc">
+                    <p>Unpack capsules to run new instances of <span class="bold-kh">KameHouse</span></p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="link-image-wrapper-w-80">
+          <table class="link-image-table">
+            <caption class="hidden-kh">Image-Links</caption>
+            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <button class="link-image-img" data-background-img="/kame-house/img/pc/docker.png" onclick='kameHouse.extension.serverManager.dockerStatus()'></button>
+                </td>
+                <td>
+                  <div class="link-image-text">Docker Status</div>
+                  <div class="link-image-desc">Check the status of <span class="bold-kh">KameHouse</span> Docker containers running in this server</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br>
+      </div>
+    </div> <!-- tab-docker -->
+
+    <div id="tab-git" class="default-layout tab-content-kh p-7-d-kh w-70-pc-kh w-100-pc-m-kh">
+      <div class="info-image-wrapper-m-80-40">
+        <table class="info-image-table">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/gotenks-fusion.jpg" alt="info img"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title info-image-title-top">
+                  Synchronize
+                </div>
+                <div class="info-image-desc">
+                  <p>Keep git repos in perfect sync like <span class="bold-kh">Goten</span> and <span class="bold-kh">Trunks</span> doing the <span class="bold-kh">fusion</span></p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="link-image-wrapper-w-80">
+        <table class="link-image-table link-image-table-reverse">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <button class="link-image-img" data-background-img="/kame-house/img/pc/git.png" onclick='kameHouse.extension.gitManager.pullKameHouse()'></button><br>
+                <button class="link-image-img" data-background-img="/kame-house/img/dbz/nimbus.png" onclick='kameHouse.extension.gitManager.pullKameHouseAllServers()'></button>
+              </td>
+              <td>
+                <div class="link-image-text">Git Pull</div>
+                <div class="link-image-desc">Pull latest changes in KameHouse git repo. Pull in all servers using the nimbus button</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br><br>
+
+    </div> <!-- tab-git -->
+
+    <div id="tab-power" class="tab-content-kh">
+      <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
+        <div class="info-image-wrapper-m-80-40">
+          <table class="info-image-table info-image-table-reverse">
+            <caption class="hidden-kh">Image-Info</caption>
+            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="info-image-img">
+                  <img src="/kame-house/img/marvel/spiderman-swinging.jpg" alt="info img"/>
+                </td>
+                <td class="info-image-info">
+                  <div class="info-image-title info-image-title-bottom">
+                    Power Management
+                  </div>
+                  <div class="info-image-desc">
+                    <p>With Great Power Comes Great Responsibility</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="link-image-wrapper-w-80">
+          <table class="link-image-table">
+            <caption class="hidden-kh">Image-Links</caption>
+            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.confirmRebootServer()'></button>
+                </td>
+                <td>
+                  <div class="link-image-text">Restart Server</div>
+                  <div class="link-image-desc">Click to restart now. To schedule a shutdown or hibernate, it's possible to do from <span class="bold-kh">KameHouse</span>'s server management page</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br>
+      </div>
+    </div> <!-- tab-power -->
 
   <div class="default-layout p-7-d-kh">
     <div class="info-image-wrapper-m-80-60">

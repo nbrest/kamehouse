@@ -7,8 +7,10 @@
 
 #### v9.02
 
+- Updated groot server manager tabs layout
 - Started logging stderr in kamehouse-shell log files
 - Added undeploy rc-local script
+- Fixed sftp get error with bashrc login message 
 - Fixed bugs
 
 #### v9.01
