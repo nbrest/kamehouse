@@ -36,6 +36,13 @@ class ServerManager {
   }
 
   /**
+   * Get shell to execute shell scripts.
+   */
+  getShell() {
+    return kameHouse.extension.kameHouseShell;
+  }
+
+  /**
    * Set random banners.
    */
   setBanners() {
@@ -136,7 +143,7 @@ class ServerManager {
     }
     this.setCommandRunning();
     this.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute(script, args, true, 600, 
+    this.getShell().execute(script, args, true, 600, 
       (scriptOutput) => this.completeCommandCallback(scriptOutput), 
       (scriptOutput) => this.completeCommandCallback(scriptOutput));
   }
