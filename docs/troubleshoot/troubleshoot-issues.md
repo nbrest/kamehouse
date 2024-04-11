@@ -203,6 +203,8 @@ keytool -importkeystore -srckeystore kamehouse.pkcs12 -destkeystore kamehouse.jk
 keytool -list -keystore kamehouse.jks
 ```
 
+- On windows define `JAVA_HOME` environment variable add `%JAVA_HOME%\bin` to `PATH` to execute `keytool`
+
 *********************
 
 ## Create rsa private/public key pair:
