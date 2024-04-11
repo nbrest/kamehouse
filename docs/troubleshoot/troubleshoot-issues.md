@@ -172,7 +172,7 @@ exit
 - to encrypt and decrypt files required by kamehouse
 
 ### Steps to create private key, certificate and keystore in a linux server:
-```
+```sh
 openssl genrsa -out kamehouse.key 2048
 openssl req -new -key kamehouse.key -out kamehouse.csr
 openssl x509 -req -in kamehouse.csr -signkey kamehouse.key -out kamehouse.crt
@@ -180,11 +180,28 @@ openssl x509 -req -in kamehouse.csr -signkey kamehouse.key -out kamehouse.crt
 cat kamehouse.key > kamehouse.pem
 cat kamehouse.crt >> kamehouse.pem 
 
-openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12 
+openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
+keytool-list -keystore kamehouse.pkcs12
 ```
 Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`
 
 To create an encrypted file with the content kamehouse needs encrypted, use kamehouse-cmd with the operation encrypt.
+
+*********************
+
+## Add key to existing jks keystore:
+
+- This step is not required for kamehouse to run
+- From an rsa public/private key pair generated in the above steps:
+
+```sh
+openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12 -name kamehouse
+keytool-list -keystore kamehouse.pkcs12
+
+# Add key to another keystore
+keytool -importkeystore -srckeystore kamehouse.pkcs12 -destkeystore kamehouse.jks -srcalias kamehouse -destalias kamehouse
+keytool-list -keystore kamehouse.jks
+```
 
 *********************
 
@@ -193,7 +210,7 @@ To create an encrypted file with the content kamehouse needs encrypted, use kame
 - readable by kamehouse to connect to the host through ssh from docker
 
 ### Steps to create the key files:
-```
+```sh
 openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
 openssl rsa -pubout -in private.pem -out public_key.pem
 mv private.pem id_rsa.pkcs8
