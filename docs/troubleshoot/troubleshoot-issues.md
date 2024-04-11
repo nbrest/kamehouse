@@ -181,7 +181,7 @@ cat kamehouse.key > kamehouse.pem
 cat kamehouse.crt >> kamehouse.pem 
 
 openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
-keytool-list -keystore kamehouse.pkcs12
+keytool -list -keystore kamehouse.pkcs12
 ```
 Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`
 
@@ -196,11 +196,11 @@ To create an encrypted file with the content kamehouse needs encrypted, use kame
 
 ```sh
 openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12 -name kamehouse
-keytool-list -keystore kamehouse.pkcs12
+keytool -list -keystore kamehouse.pkcs12
 
 # Add key to another keystore
 keytool -importkeystore -srckeystore kamehouse.pkcs12 -destkeystore kamehouse.jks -srcalias kamehouse -destalias kamehouse
-keytool-list -keystore kamehouse.jks
+keytool -list -keystore kamehouse.jks
 ```
 
 *********************
