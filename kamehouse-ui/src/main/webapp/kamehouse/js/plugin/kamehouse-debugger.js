@@ -145,7 +145,7 @@ class KameHouseDebugger {
    */
   getToggleDebuggerModalHtml() {
     const img = kameHouse.util.dom.getImg({
-      src: "/kame-house/img/dbz/cell.png",
+      src: "/kame-house/img/dbz/freezer.png",
       className: "debug-mode-btn",
       alt: "Debug Mode modal"
     });
