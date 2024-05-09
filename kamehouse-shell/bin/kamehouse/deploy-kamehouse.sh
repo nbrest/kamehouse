@@ -104,7 +104,6 @@ setDeploymentParameters() {
 }
 
 setSshParameters() {
-  SSH_SERVER=${KAMEHOUSE_SERVER}
   SSH_COMMAND="${SCRIPT_NAME} -s local -p ${MAVEN_PROFILE}"
   if [ -n "${MODULE_SHORT}" ]; then
     SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}

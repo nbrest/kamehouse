@@ -44,7 +44,6 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForKameHouseServer
-  SSH_SERVER=${KAMEHOUSE_SERVER}
 }
 
 printHelpOptions() {

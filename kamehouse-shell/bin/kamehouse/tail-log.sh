@@ -163,7 +163,6 @@ addFileToLogFiles() {
 }
 
 setSshParameters() {
-  SSH_SERVER=${KAMEHOUSE_SERVER}
   SSH_COMMAND="${SCRIPT_NAME} -s local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
   if ${FILTER_EXTRA_LINES}; then
     SSH_COMMAND=${SSH_COMMAND}" -x"

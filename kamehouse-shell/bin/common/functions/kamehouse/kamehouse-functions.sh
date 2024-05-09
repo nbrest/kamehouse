@@ -12,6 +12,8 @@ DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
 SSH_USER=${DEFAULT_SSH_USER}
 SSH_COMMAND=""
 SSH_SERVER=""
+SSH_OUTPUT=""
+SSH_EXIT_CODE=""
 SSH_PORT=22
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
@@ -204,6 +206,7 @@ setEnvForKameHouseModule() {
 }
 
 setEnvForKameHouseServer() {
+  SSH_SERVER=${KAMEHOUSE_SERVER}
   KAMEHOUSE_SERVER=$(echo "${KAMEHOUSE_SERVER}" | tr '[:upper:]' '[:lower:]')
 
   if [ "${KAMEHOUSE_SERVER}" != "docker" ] &&
@@ -313,14 +316,19 @@ printUsernameArgOption() {
 executeSshCommand() {
   log.info "Executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
   if ${IS_REMOTE_LINUX_HOST}; then
-    SSH_COMMAND="source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh ; "${SSH_COMMAND}
+    SSH_COMMAND="source ~/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh ; "${SSH_COMMAND}
     log.debug "ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
-    ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"
+    SSH_OUTPUT=`ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"`
+    SSH_EXIT_CODE=$?
   else
     log.debug "ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
-    ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""
+    SSH_OUTPUT=`ssh -p ${SSH_PORT} -t -o ServerAliveInterval=10 ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""`
+    SSH_EXIT_CODE=$?
   fi
-  checkCommandStatus "$?" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
+  log.info "Ssh ${SSH_USER}@${SSH_SERVER} command output ${COL_PURPLE}start"
+  echo "${SSH_OUTPUT}"
+  log.info "Ssh ${SSH_USER}@${SSH_SERVER} command output ${COL_PURPLE}end"
+  checkCommandStatus "${SSH_EXIT_CODE}" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
   log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
 }
 

@@ -47,13 +47,12 @@ kameHouseDockerContainersServerStatus() {
   if [ "${KAMEHOUSE_SERVER}" != "${HOSTNAME}" ]; then
     log.info "Checking docker status on kamehouse docker containers server ${COL_PURPLE}${KAMEHOUSE_SERVER}"
     setSshParameters
-    setEnvForKameHouseServer
     executeSshCommand
   fi
 }
 
 setSshParameters() {
-  SSH_SERVER=${KAMEHOUSE_SERVER}
+  setEnvForKameHouseServer
   SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh"
 }
 
