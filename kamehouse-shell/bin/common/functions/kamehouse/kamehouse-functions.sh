@@ -314,6 +314,7 @@ printUsernameArgOption() {
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER
 executeSshCommand() {
+  local SKIP_EXIT_CODE_CHECK=$1
   log.info "Executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
   if ${IS_REMOTE_LINUX_HOST}; then
     SSH_COMMAND="source ~/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh ; "${SSH_COMMAND}
@@ -328,7 +329,11 @@ executeSshCommand() {
   log.info "Ssh ${SSH_USER}@${SSH_SERVER} command output ${COL_PURPLE}start"
   echo "${SSH_OUTPUT}"
   log.info "Ssh ${SSH_USER}@${SSH_SERVER} command output ${COL_PURPLE}end"
-  checkCommandStatus "${SSH_EXIT_CODE}" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
+  if ${SKIP_EXIT_CODE_CHECK}; then
+    log.debug "Skipping ssh command exit code check"
+  else
+    checkCommandStatus "${SSH_EXIT_CODE}" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
+  fi
   log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
 }
 
