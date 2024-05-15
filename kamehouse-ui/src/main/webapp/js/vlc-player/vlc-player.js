@@ -71,8 +71,8 @@ class VlcPlayer {
    * Load the vlc player state and refresh the view from API calls (not through websockets).
    */
   loadStateFromApi(updateCursor) {
-    this.#vlcPlayerDebugger.getVlcRcStatusFromApi(updateCursor);
-    this.#vlcPlayerDebugger.getPlaylistFromApi(updateCursor);
+    this.getDebugger().getVlcRcStatusFromApi(updateCursor);
+    this.getDebugger().getPlaylistFromApi(updateCursor);
   }
 
   /**
@@ -356,6 +356,13 @@ class VlcPlayer {
     const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
     this.getRestClient().post(MOUSE_CLICK_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   }
+
+  /**
+   * Send a key press to the server.
+   */
+  keyPress(key, keyPresses) {
+    this.getDebugger().keyPress(key, keyPresses);
+  } 
 
   /**
    * Get suspend server modal message.
@@ -1645,6 +1652,9 @@ class VlcPlayerRestClient {
  */
 class VlcPlayerDebugger {
 
+  static #ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
+  static #KEY_PRESS = '/screen/key-press';
+
   #vlcPlayer = null;
   #vlcRcStatusApiUrl = null;
   #playlistApiUrl = null;
@@ -1667,6 +1677,25 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.getRestClient().get(this.#playlistApiUrl, null, null, updateCursor, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders)}); 
+  }
+
+  /**
+   * Send a key press to the server.
+   */
+  keyPress(key, keyPresses) {
+    if (kameHouse.core.isEmpty(keyPresses)) {
+      kameHouse.logger.trace("keyPresses not set. Using default value of 1");
+      keyPresses = 1;
+    }
+    const requestParam = {
+      "key" : key,
+      "keyPresses" : keyPresses
+    };
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    const config = kameHouse.http.getConfig();
+    kameHouse.plugin.debugger.http.post(config, VlcPlayerDebugger.#ADMIN_API_URL + VlcPlayerDebugger.#KEY_PRESS, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
+    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Update the main player view. */
@@ -1695,6 +1724,17 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.getPlaylist().reload();
   }
   
+  /** Generic process success response */
+  #processSuccess(responseBody, responseCode, responseDescription, responseHeaders) {
+    kameHouse.plugin.modal.loadingWheelModal.close();
+  }
+
+  /** Generic process error response */
+  #processError(responseBody, responseCode, responseDescription, responseHeaders) {
+    kameHouse.plugin.modal.loadingWheelModal.close();
+    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+  }
+
 } // End VlcPlayerDebugger
 
 kameHouse.ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
