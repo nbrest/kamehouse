@@ -361,7 +361,16 @@ class VlcPlayer {
    * Send a key press to the server.
    */
   keyPress(key, keyPresses) {
-    this.getDebugger().keyPress(key, keyPresses);
+    if (kameHouse.core.isEmpty(keyPresses)) {
+      kameHouse.logger.debug("keyPresses not set. Using default value of 1");
+      keyPresses = 1;
+    }
+    const requestParam = {
+      "key" : key,
+      "keyPresses" : keyPresses
+    };
+    const KEY_PRESS_URL = '/kame-house-admin/api/v1/admin/screen/key-press';
+    this.getRestClient().post(KEY_PRESS_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   } 
 
   /**
@@ -1652,9 +1661,6 @@ class VlcPlayerRestClient {
  */
 class VlcPlayerDebugger {
 
-  static #ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
-  static #KEY_PRESS = '/screen/key-press';
-
   #vlcPlayer = null;
   #vlcRcStatusApiUrl = null;
   #playlistApiUrl = null;
@@ -1677,25 +1683,6 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.getRestClient().get(this.#playlistApiUrl, null, null, updateCursor, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders)}); 
-  }
-
-  /**
-   * Send a key press to the server.
-   */
-  keyPress(key, keyPresses) {
-    if (kameHouse.core.isEmpty(keyPresses)) {
-      kameHouse.logger.trace("keyPresses not set. Using default value of 1");
-      keyPresses = 1;
-    }
-    const requestParam = {
-      "key" : key,
-      "keyPresses" : keyPresses
-    };
-    kameHouse.plugin.modal.loadingWheelModal.open();
-    const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, VlcPlayerDebugger.#ADMIN_API_URL + VlcPlayerDebugger.#KEY_PRESS, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
-    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
-    (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Update the main player view. */
