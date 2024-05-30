@@ -7,6 +7,7 @@
 
 #### v9.02
 
+- Moved shell scripts to default to log output to file
 - Added esc and enter key press buttons in vlc player debugger
 - Updated groot server manager tabs layout
 - Started logging stderr in kamehouse-shell log files
