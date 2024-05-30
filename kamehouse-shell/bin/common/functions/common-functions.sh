@@ -2,7 +2,7 @@
 # Import other dependencies #
 #############################
 COMMON_FUNCTIONS_PATH=`dirname ${BASH_SOURCE[0]}`
-sourceFiles=("colors-functions.sh" "default-functions.sh" "git/git-functions.sh" "log-functions.sh" "example-functions.sh")
+sourceFiles=("colors-functions.sh" "default-functions.sh" "log-functions.sh" "git/git-functions.sh")
 for INDEX in ${!sourceFiles[@]}; do
   source ${COMMON_FUNCTIONS_PATH}/${sourceFiles[$INDEX]}
   if [ "$?" != "0" ]; then
@@ -60,8 +60,8 @@ INITIAL_DIR="`pwd`"
 # absolute paths I define in the script.
 ROOT_PREFIX="/mnt"
 
-# Set to true to log the process output to ${PROCESS_LOG_FILE}
-LOG_PROCESS_TO_FILE=false
+# Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
+LOG_PROCESS_TO_FILE=true
 # File to log the output of the process to.
 PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME%.*}.log
 

@@ -15,7 +15,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-LOG_PROCESS_TO_FILE=true
 SQL_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/status-kamehouse.sql
 
 mainProcess() {

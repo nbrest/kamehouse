@@ -10,7 +10,6 @@ fi
 source ${HOME}/my.scripts/.cred/.gmail
 source ${HOME}/my.scripts/.cred/.telegram
 
-LOG_PROCESS_TO_FILE=true
 SCREEN_CAPTURE_EXE="C:\Users\nbrest\my.scripts\win\bat\screen-capture.exe"
 TESSERACT_EXE="C:\Program Files\Tesseract-OCR\tesseract.exe"
 TESSERACT_USER_WORDS="C:\Users\nbrest\my.scripts\conf\world-cup-bookings\eng.user-words"

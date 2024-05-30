@@ -22,8 +22,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-LOG_PROCESS_TO_FILE=true
-
 INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
 SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"
 DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_CI}

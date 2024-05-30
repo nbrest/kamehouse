@@ -15,7 +15,6 @@ if [ "$?" != "0" ]; then
 fi
 source ${HOME}/.kamehouse/.shell/.cred
 
-LOG_PROCESS_TO_FILE=true
 USE_CURRENT_DIR=true
 
 mainProcess() {

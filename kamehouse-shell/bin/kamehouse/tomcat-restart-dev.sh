@@ -14,8 +14,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
-
 mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-stop-dev.sh
   killRemainingTomcatProcess

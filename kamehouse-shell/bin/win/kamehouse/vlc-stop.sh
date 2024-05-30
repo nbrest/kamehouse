@@ -9,7 +9,6 @@ if [ "$?" != "0" ]; then
 	exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
 DEFAULT_VLC_PORT="8080"
 VLC_PORT=""
 

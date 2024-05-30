@@ -1,4 +1,3 @@
-LOG_PROCESS_TO_FILE=true
 # Replace GIT_PROJECT_DIR in each git pull script
 GIT_PROJECT_DIR="DEFAULT_INVALID_DIR"
 GIT_BRANCH="dev"

@@ -7,8 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
-
 mainProcess() {
   log.info "Creating sample video playlists"
   if [ -d "${HOME}/git/kamehouse-video-playlists/.git" ]; then

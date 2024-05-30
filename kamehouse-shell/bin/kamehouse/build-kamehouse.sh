@@ -16,7 +16,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-LOG_PROCESS_TO_FILE=true
 # Run the build on this script always from the current directory
 USE_CURRENT_DIR=true
 

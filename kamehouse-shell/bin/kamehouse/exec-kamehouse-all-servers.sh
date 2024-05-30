@@ -21,7 +21,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
 SCRIPT=""
 SCRIPT_ARGS=""
 SCRIPT_LOG_MESSAGE=""

@@ -7,9 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
-LOG_PROCESS_TO_FILE=true
-
 mainProcess() {
   cmd.exe "/c shutdown.exe /r /f /t 0"
 }

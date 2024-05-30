@@ -14,7 +14,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
 RELEASE_VERSION=""
 USE_CURRENT_DIR=true
 

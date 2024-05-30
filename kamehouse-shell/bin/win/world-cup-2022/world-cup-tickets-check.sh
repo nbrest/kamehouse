@@ -10,7 +10,6 @@ fi
 source ${HOME}/my.scripts/.cred/.gmail
 source ${HOME}/my.scripts/.cred/.telegram
 
-LOG_PROCESS_TO_FILE=true
 VERBOSE=false
 DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
 WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings

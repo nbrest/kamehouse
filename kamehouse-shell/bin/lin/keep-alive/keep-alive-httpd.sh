@@ -7,7 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
 PORT=443
 SERVICE="httpd"
 SERVICE_STARTUP="sudo service apache2 start"

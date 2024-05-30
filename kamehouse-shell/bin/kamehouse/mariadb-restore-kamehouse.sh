@@ -9,7 +9,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-LOG_PROCESS_TO_FILE=true
 MARIADB_DUMP_FILE=${HOME}/.kamehouse/mariadb/dump/dump-kamehouse.sql
 
 mainProcess() {

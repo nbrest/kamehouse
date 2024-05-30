@@ -20,7 +20,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
 USE_CURRENT_DIR=true
 
 mainProcess() {

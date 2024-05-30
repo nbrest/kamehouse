@@ -20,7 +20,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
 DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
 REINIT_SSH_KEYS_ONLY=false

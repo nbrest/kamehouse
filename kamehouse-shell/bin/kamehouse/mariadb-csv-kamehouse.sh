@@ -14,7 +14,6 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 # Global variables
-LOG_PROCESS_TO_FILE=true
 PATH_CSV=${HOME}/.kamehouse/mariadb/csv
 PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
 NUMBER_OF_BACKUPS=3

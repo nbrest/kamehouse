@@ -22,7 +22,6 @@ fi
 
 source ${HOME}/.kamehouse/.shell/.cred
 
-LOG_PROCESS_TO_FILE=true
 DEPLOYMENT_DIR=
 TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 FAST_BUILD=true

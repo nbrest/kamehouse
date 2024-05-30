@@ -17,7 +17,6 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 # Initial config
 DEFAULT_ENV=local
-LOG_PROCESS_TO_FILE=true
 KAMEHOUSE_MOBILE_APP_SERVER="pi"
 KAMEHOUSE_MOBILE_APP_USER="pi"
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"

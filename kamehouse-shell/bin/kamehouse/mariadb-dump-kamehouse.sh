@@ -10,7 +10,6 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 # Global variables
-LOG_PROCESS_TO_FILE=true
 PATH_DUMP_FILE=${HOME}/.kamehouse/mariadb/dump 
 NUMBER_OF_EXPORTS=3
 DUMP_FILENAME=dump-kamehouse.sql

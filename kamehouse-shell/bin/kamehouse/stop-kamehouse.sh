@@ -16,7 +16,6 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 # Initial config
-LOG_PROCESS_TO_FILE=true
 OPERATION=stop
 
 mainProcess() {

@@ -14,7 +14,6 @@ if [ "$?" != "0" ]; then
 fi
 
 source ${HOME}/.kamehouse/.shell/.cred
-LOG_PROCESS_TO_FILE=true
 PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
 REQUEST_CONFIRMATION_RX=^yes\|y$
 SKIP_CONFIRMATION=false

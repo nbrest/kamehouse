@@ -19,8 +19,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
-
 mainProcess() {
   log.info "Pulling docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   log.debug "docker pull nbrest/kamehouse:${DOCKER_IMAGE_TAG}"

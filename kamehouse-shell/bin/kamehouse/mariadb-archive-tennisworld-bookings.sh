@@ -10,7 +10,6 @@ fi
 source ${HOME}/.kamehouse/.shell/.cred
 
 # Global variables
-LOG_PROCESS_TO_FILE=true
 MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/archive-tennisworld-bookings.sql
 
 mainProcess() {

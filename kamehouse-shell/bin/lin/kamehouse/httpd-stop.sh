@@ -13,8 +13,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=true
-
 mainProcess() {
   log.info "Stopping apache httpd server"
   setSudoKameHouseCommand "/usr/sbin/service apache2 stop"
