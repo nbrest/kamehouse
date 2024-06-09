@@ -136,7 +136,7 @@ public class EncryptionUtils {
   public static String decryptFileToString(String filename, PrivateKey privateKey) {
     try {
       byte[] encryptedFile = FileUtils.readFileToByteArray(new File(filename));
-      return EncryptionUtils.decryptToString(encryptedFile, privateKey);
+      return decryptToString(encryptedFile, privateKey);
     } catch (IOException e) {
       LOGGER.error(ERROR_DECRYPTING_DATA, e);
       throw new KameHouseInvalidDataException(ERROR_DECRYPTING_DATA);
