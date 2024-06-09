@@ -106,7 +106,6 @@ checkRequiredOption() {
 # Exit the process with the status code specified as an argument
 exitProcess() {
   local EXIT_STATUS=$1
-  logRunTime
   logFinish ${EXIT_STATUS}
   cd "${INITIAL_DIR}"
   exit ${EXIT_STATUS}

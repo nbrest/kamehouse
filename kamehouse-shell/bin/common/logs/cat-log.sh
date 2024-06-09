@@ -14,7 +14,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_SCRIPT_RUN_TIME_IN_DEBUG=true
 LOG_PROCESS_TO_FILE=false
 LOG_FILE_TO_CAT=""
 CAT_LOG_LEVEL=""

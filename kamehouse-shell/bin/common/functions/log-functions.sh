@@ -20,9 +20,6 @@ COL_DEFAULT_LOG=${COL_GREEN}
 # Set to false to skip logging cmd args at start and end of script execution
 LOG_CMD_ARGS=true
 
-# Log script run time in debug
-LOG_SCRIPT_RUN_TIME_IN_DEBUG=false
-
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
 log() {
@@ -99,32 +96,24 @@ log.error() {
 # Log standard start of the script
 logStart() {
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
-    log.info "Started executing script with args ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
+    log.info "Started executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
   else
     log.info "Started executing script without args"
-  fi
-}
-
-# Log script run time at the end of the script
-logRunTime() {
-  local SCRIPT_FINISH_TIME="$(date +%s)"
-  local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
-  local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
-  local RUNTIME_MESSAGE="${COL_BLUE}run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (${SCRIPT_RUN_TIME_SS}s). Start time: ${SCRIPT_START_DATE}"
-  if ${LOG_SCRIPT_RUN_TIME_IN_DEBUG}; then
-    log.debug "${RUNTIME_MESSAGE}"
-  else
-    log.info "${RUNTIME_MESSAGE}"
   fi
 }
 
 # Log standard finish of process
 logFinish() {
   local EXIT_CODE=$1
+  local SCRIPT_FINISH_TIME="$(date +%s)"
+  local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
+  local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
+  local RUNTIME_MESSAGE="${COL_BLUE}run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (${SCRIPT_RUN_TIME_SS}s)"
+  log.debug "Start time: ${SCRIPT_START_DATE}"
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
-    log.info "Finished executing script with args ${COL_PURPLE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} and ${COL_PURPLE}status: ${EXIT_CODE}"
+    log.info "Finished executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} ${COL_BLUE}status: ${EXIT_CODE}${COL_DEFAULT_LOG} and ${RUNTIME_MESSAGE}"
   else
-    log.info "Finished executing script without args and ${COL_PURPLE}status: ${EXIT_CODE}"
+    log.info "Finished executing script without args ${COL_BLUE}status: ${EXIT_CODE}${COL_DEFAULT_LOG} and ${RUNTIME_MESSAGE}"
   fi
 }
 
