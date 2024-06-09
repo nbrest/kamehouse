@@ -66,7 +66,9 @@ log() {
     MESSAGE="${COL_RED}${MESSAGE}${COL_NORMAL}"
   fi
 
-  echo -e "${ENTRY_DATE} - [${LEVEL}] - ${MESSAGE}"
+  local CLASS_NAME="${COL_PURPLE_STD}${SCRIPT_NAME}${COL_NORMAL}"
+
+  echo -e "${ENTRY_DATE} - [${LEVEL}] - ${CLASS_NAME} - ${MESSAGE}"
 }
 
 # Log info
@@ -108,7 +110,7 @@ logRunTime() {
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
   local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
-  local RUNTIME_MESSAGE="${COL_BLUE}${SCRIPT_NAME} run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (${SCRIPT_RUN_TIME_SS}s). Start time: ${SCRIPT_START_DATE}"
+  local RUNTIME_MESSAGE="${COL_BLUE}run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (${SCRIPT_RUN_TIME_SS}s). Start time: ${SCRIPT_START_DATE}"
   if ${LOG_SCRIPT_RUN_TIME_IN_DEBUG}; then
     log.debug "${RUNTIME_MESSAGE}"
   else

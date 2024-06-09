@@ -7,6 +7,8 @@
 
 #### v9.02
 
+- Added more bash colors
+- Added script name to log entries
 - Moved shell scripts to default to log output to file
 - Added esc and enter key press buttons in vlc player debugger
 - Updated groot server manager tabs layout
