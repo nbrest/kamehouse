@@ -1710,17 +1710,6 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.getPlaylist().setUpdatedPlaylist(null);
     this.#vlcPlayer.getPlaylist().reload();
   }
-  
-  /** Generic process success response */
-  #processSuccess(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.plugin.modal.loadingWheelModal.close();
-  }
-
-  /** Generic process error response */
-  #processError(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-  }
 
 } // End VlcPlayerDebugger
 
