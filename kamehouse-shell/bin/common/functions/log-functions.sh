@@ -95,10 +95,11 @@ log.error() {
 
 # Log standard start of the script
 logStart() {
+  local COL_START_LOG="${COL_YELLOW_STD}"
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
-    log.info "Started executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG}"
+    log.info "${COL_START_LOG}Started executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_START_LOG}"
   else
-    log.info "Started executing script without args"
+    log.info "${COL_START_LOG}Started executing script without args"
   fi
 }
 
@@ -108,12 +109,13 @@ logFinish() {
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
   local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
-  local RUNTIME_MESSAGE="${COL_BLUE}run time: ${SCRIPT_RUN_TIME}m${COL_DEFAULT_LOG} (${SCRIPT_RUN_TIME_SS}s)"
+  local COL_FINISH_LOG="${COL_YELLOW_STD}"
+  local RUNTIME_MESSAGE="${COL_BLUE}run time: ${SCRIPT_RUN_TIME}m${COL_FINISH_LOG} (${SCRIPT_RUN_TIME_SS}s)"
   log.debug "Start time: ${SCRIPT_START_DATE}"
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
-    log.info "Finished executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_DEFAULT_LOG} ${COL_BLUE}status: ${EXIT_CODE}${COL_DEFAULT_LOG} and ${RUNTIME_MESSAGE}"
+    log.info "${COL_FINISH_LOG}Finished executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_FINISH_LOG} ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
   else
-    log.info "Finished executing script without args ${COL_BLUE}status: ${EXIT_CODE}${COL_DEFAULT_LOG} and ${RUNTIME_MESSAGE}"
+    log.info "${COL_FINISH_LOG}Finished executing script without args ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
   fi
 }
 
