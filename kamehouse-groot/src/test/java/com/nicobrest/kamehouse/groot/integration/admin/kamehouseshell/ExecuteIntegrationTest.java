@@ -40,9 +40,8 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     ArrayNode htmlConsoleOutput = (ArrayNode) responseBody.get("htmlConsoleOutput");
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
-    expected = "Started executing <span style=\"color:purple\">exec-script.sh<span style=\"c"
-        + "olor:green\"> with args <span style=\"color:purple\">\"-s "
-        + script + " -a -h\"<span style=\"color:green\"><span style=\"color:gray\">";
+    expected = "Started executing script with args <span style=\"color:#3996ff\">\"-s "
+        + script + " -a -h\"<span style=\"color:yellow\">";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Usage: <span style=\"color:purple\">exec-script.sh<span style=\"color:gray\"> "
         + "[options]";
@@ -79,14 +78,13 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     ArrayNode htmlConsoleOutput = (ArrayNode) responseBody.get("htmlConsoleOutput");
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
-    expected = "Started executing <span style=\"color:purple\">exec-script.sh<span style=\"c"
-        + "olor:green\"> with args <span style=\"color:purple\">\"-s "
-        + script + " -a \"<span style=\"color:green\"><span style=\"color:gray\">";
+    expected = "Started executing script with args <span style=\"color:#3996ff\">\"-s "
+        + script + " -a \"<span style=\"color:yellow\"><span style=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
-    expected = "<span style=\"color:green\">Finished executing <span style=\"color:purple\">exec-s"
-        + "cript.sh<span style=\"color:green\"> with args <span style=\"color:pu"
-        + "rple\">\"-s " + script + " -a \"<span style=\"color:green\"> and <span style=\"color:pu"
-        + "rple\">status: ";
+    expected =
+        "<span style=\"color:yellow\">Finished executing script with args <span style=\"color:#3996"
+            + "ff\">\"-s " + script + " -a \"<span style=\"color:yellow\"> <span style=\"color:#399"
+            + "6ff\">status: ";
     assertStringInArray(htmlConsoleOutput, expected);
 
     String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
