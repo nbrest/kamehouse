@@ -111,7 +111,7 @@ logFinish() {
   local SCRIPT_RUN_TIME=$((SCRIPT_RUN_TIME_SS / 60))
   local COL_FINISH_LOG="${COL_YELLOW_STD}"
   local RUNTIME_MESSAGE="${COL_BLUE}runtime: ${SCRIPT_RUN_TIME}m${COL_FINISH_LOG} (${SCRIPT_RUN_TIME_SS}s)"
-  log.debug "Start time: ${SCRIPT_START_DATE}"
+  log.debug "Script start time: ${SCRIPT_START_DATE}"
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
     log.info "${COL_FINISH_LOG}Finished executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_FINISH_LOG} ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
   else
