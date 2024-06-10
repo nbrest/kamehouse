@@ -63,7 +63,7 @@ log() {
     MESSAGE="${COL_RED}${MESSAGE}${COL_NORMAL}"
   fi
 
-  local CLASS_NAME="${COL_PURPLE_STD}${SCRIPT_NAME}${COL_NORMAL}"
+  local CLASS_NAME="${COL_CYAN_STD}${SCRIPT_NAME}${COL_NORMAL}"
 
   echo -e "${ENTRY_DATE} - [${LEVEL}] - ${CLASS_NAME} - ${MESSAGE}"
 }
