@@ -73,6 +73,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 # VS Code:
 
 * Create a vs code workspace and add either intellij or eclipse kamehouse folder
+* Run `npm i --save-dev @types/jquery` for vscode to detect `$`
 * To debug the frontend in vscode, use the chrome debugger launch configurations in .vscode/lauch.json
 * There's 2 debugger launch configurations there, one for /kame-house-groot app and the other for /kame-house to debug the frontend in vscode and the backend in intellij: Run > Start Debugging or open the debugger tab to select which debugger to launch
 * Create a symlink in kamehouse-ui/src/main: `mklink /D "kame-house" "webapp"` so that the vscode debugger picks up the files for /kame-house
