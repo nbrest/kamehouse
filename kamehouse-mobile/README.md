@@ -21,6 +21,7 @@ This module handles the following functionality:
 
 # Android build requirements on a windows host:
 
+- Install java jdk for mobile
 - Install gradle
 - Install node
 - Install cordova

@@ -15,4 +15,4 @@
 | MariaDB               | 10      |
 | Apache HttpD          | 2.4     |
 | PHP                   | 8       |
-| Mobile build Java JDK | 11      |
+| Java JDK Mobile build | 11      |
