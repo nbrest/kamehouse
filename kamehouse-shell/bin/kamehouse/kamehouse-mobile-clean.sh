@@ -15,7 +15,7 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  cdToRootDirFromMobile
+  cdToRootDirFromModule "kamehouse-mobile"
   log.info "Removing all non kamehouse-mobile files from directory ${COL_PURPLE}$(pwd)"
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c -d
 }

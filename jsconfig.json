@@ -1,3 +1,9 @@
 {
-  "include": ["kamehouse-ui/src/main/webapp/**/*", "kamehouse-groot/src/main/webapp/**/*", "kamehouse-mobile/www/kamehouse-mobile/**/*"]
+  "include": [
+    "kamehouse-ui/src/main/webapp/**/*", 
+    "kamehouse-ui/src/main/typescript/**/*", 
+    "kamehouse-groot/src/main/webapp/**/*", 
+    "kamehouse-groot/src/main/typescript/**/*", 
+    "kamehouse-mobile/www/kamehouse-mobile/**/*"
+  ]
 }

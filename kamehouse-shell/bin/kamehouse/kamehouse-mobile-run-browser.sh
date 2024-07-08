@@ -21,9 +21,9 @@ USE_CURRENT_DIR=true
 mainProcess() {
   setKameHouseRootProjectDir
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
-  cdToKameHouseMobile
+  cdToKameHouseModule "kamehouse-mobile"
   cordova run browser
-  cdToRootDirFromMobile
+  cdToRootDirFromModule "kamehouse-mobile"
 }
 
 cleanupAfterRun() {

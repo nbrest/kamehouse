@@ -32,8 +32,9 @@ mainProcess() {
   setKameHouseRootProjectDir
   setKameHouseBuildVersion
   deployKameHouseShell
-  buildKameHouseStaticUi
+  buildKameHouseUiStatic
   deployKameHouseUiStatic
+  buildKameHouseGroot
   deployKameHouseGroot
   buildKameHouseProject
   if ${DEPLOY_TO_TOMCAT}; then

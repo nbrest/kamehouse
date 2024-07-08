@@ -454,32 +454,48 @@ buildKameHouseProject() {
   cleanLogsInGitRepoFolder
 }
 
-buildKameHouseStaticUi() {
+buildKameHouseUiStatic() {
   if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
-    cdToKameHouseUi
-    cleanWebappDirectory
-    log.info "Building static code"
+    cdToKameHouseModule "kamehouse-ui"
+    cleanUiWebappDirectory
+    log.info "Building ui static code"
     tsc
-    cdToRootDirFromUi
+    cdToRootDirFromModule "kamehouse-ui"
   fi
 }
 
-cleanWebappDirectory() {
+cleanUiWebappDirectory() {
   log.info "Cleaning up webapp directory js files"
   rm -rf ./src/main/webapp/js
   rm -rf ./src/main/webapp/error/js
   rm -rf ./src/main/webapp/kamehouse/js
 }
 
+buildKameHouseGroot() {
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-groot" ]]; then
+    cdToKameHouseModule "kamehouse-groot"
+    cleanGrootWebappDirectory
+    log.info "Building groot static code"
+    tsc
+    cdToRootDirFromModule "kamehouse-groot"
+  fi
+}
+
+cleanGrootWebappDirectory() {
+  log.info "Cleaning up webapp directory js files"
+  rm -rf ./src/main/webapp/kame-house-groot/js
+  rm -rf ./src/main/webapp/kame-house-groot/kamehouse-groot/js
+}
+
 exportGitCommitHash() {
-  cdToRootDirFromMobile
+  cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting git commit hash to commons-core"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
 }
 
 exportBuildVersion() {
-  cdToRootDirFromMobile
+  cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting build version to commons-core"
   local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
   KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
@@ -487,7 +503,7 @@ exportBuildVersion() {
 }
 
 exportBuildDate() {
-  cdToRootDirFromMobile
+  cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting build date to commons-core"
   date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.txt
 }
@@ -549,7 +565,7 @@ buildMobile() {
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
   setKameHouseMobileApkPath
   syncStaticFilesOnMobile
-  cdToKameHouseMobile
+  cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
   if ${CLEAN_CORDOVA_BEFORE_BUILD}; then
@@ -567,37 +583,25 @@ buildMobile() {
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
   resetConfigFromGitHash
-  cdToRootDirFromMobile
+  cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile
   uploadKameHouseMobileApkToGDrive
 }
 
-cdToRootDirFromMobile() {
+cdToKameHouseModule() {
+  local KAMEHOUSE_MODULE=$1
+  checkValidRootKameHouseProject
+  cd ${KAMEHOUSE_MODULE}
+  checkCommandStatus "$?" "Error cd to ${KAMEHOUSE_MODULE}. Are you running the script from the root of kamehouse project?"
+}
+
+cdToRootDirFromModule() {
+  local KAMEHOUSE_MODULE=$1
   local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-mobile" ]; then
+  if [ "${CURRENT_DIR}" == "${KAMEHOUSE_MODULE}" ]; then
     cd ..
   fi
   checkValidRootKameHouseProject
-}
-
-cdToKameHouseMobile() {
-  checkValidRootKameHouseProject
-  cd kamehouse-mobile
-  checkCommandStatus "$?" "Error cd to kamehouse-mobile. Are you running the script from the root of kamehouse project?"
-}
-
-cdToRootDirFromUi() {
-  local CURRENT_DIR=`basename $(pwd)`
-  if [ "${CURRENT_DIR}" == "kamehouse-ui" ]; then
-    cd ..
-  fi
-  checkValidRootKameHouseProject
-}
-
-cdToKameHouseUi() {
-  checkValidRootKameHouseProject
-  cd kamehouse-ui
-  checkCommandStatus "$?" "Error cd to kamehouse-mobile. Are you running the script from the root of kamehouse project?"
 }
 
 setLinuxBuildEnv() {
