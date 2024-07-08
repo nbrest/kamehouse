@@ -459,9 +459,13 @@ buildKameHouseUiStatic() {
     cdToKameHouseModule "kamehouse-ui"
     cleanUiWebappDirectory
     log.info "Building ui static code"
-    npx tsc
+    runTypescriptCompiler
     cdToRootDirFromModule "kamehouse-ui"
   fi
+}
+
+runTypescriptCompiler() {
+  tsc --build --force --verbose --pretty
 }
 
 cleanUiWebappDirectory() {
@@ -476,7 +480,7 @@ buildKameHouseGroot() {
     cdToKameHouseModule "kamehouse-groot"
     cleanGrootWebappDirectory
     log.info "Building groot static code"
-    npx tsc
+    runTypescriptCompiler
     cdToRootDirFromModule "kamehouse-groot"
   fi
 }
@@ -492,7 +496,7 @@ buildKameHouseMobileStatic() {
     cdToKameHouseModule "kamehouse-mobile"
     cleanMobileWwwStaticDirectory
     log.info "Building mobile static code"
-    npx tsc
+    runTypescriptCompiler
     cdToRootDirFromModule "kamehouse-mobile"
   fi
 }
