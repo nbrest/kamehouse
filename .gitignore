@@ -16,8 +16,8 @@ kamehouse-ui/src/main/webapp/js/
 kamehouse-ui/src/main/webapp/kamehouse/js/
 
 # Compiled groot js code
-#kamehouse-groot/src/main/webapp/kame-house-groot/js/
-#kamehouse-groot/src/main/webapp/kame-house-groot/kamehouse-groot/js/
+kamehouse-groot/src/main/webapp/kame-house-groot/js/
+kamehouse-groot/src/main/webapp/kame-house-groot/kamehouse-groot/js/
 
 # Patch files
 *.diff
