@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./src/main/webapp",
+    "rootDir": "./src/main/typescript",
+    "allowJs": true,
+    "target": "ES2023"
+  },
+  "include": ["./src/main/typescript/**/*"]
+}

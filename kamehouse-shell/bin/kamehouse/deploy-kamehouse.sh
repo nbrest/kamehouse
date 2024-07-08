@@ -55,6 +55,7 @@ doLocalDeployment() {
   fi
   setKameHouseBuildVersion
   deployKameHouseShell
+  buildKameHouseStaticUi
   deployKameHouseUiStatic
   deployKameHouseGroot
   buildKameHouseProject

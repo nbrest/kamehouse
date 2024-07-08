@@ -8,7 +8,9 @@
 | Tech                  | Version |
 |-----------------------|---------|
 | Java JDK              | 17      |
+| Node                  | 20.10.0 |
 | Maven                 | 3.9.3   |
+| Gradle                | 5.6.2   |
 | Tomcat                | 10      |
 | MariaDB               | 10      |
 | Apache HttpD          | 2.4     |

@@ -21,8 +21,8 @@ This module handles the following functionality:
 
 # Android build requirements on a windows host:
 
-- Install gradle (currently v5.6.2)
-- Install node (currently v16)
+- Install gradle
+- Install node
 - Install cordova
 
 ```sh
@@ -48,17 +48,12 @@ npm install -g cordova
 
 # Android build requirements on a linux host (Ubuntu):
 
-- Install gradle (currently v4.4.1)
+- Install gradle 
 ```sh
 sudo apt-get install gradle
 ```
 
-- Install node (currently v16)
-```sh
-cd ~
-curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
-sudo apt-get -y install nodejs
-```
+- Install node. See [install docs](/docs/installation/installation.md)
 
 - Install cordova
 ```sh

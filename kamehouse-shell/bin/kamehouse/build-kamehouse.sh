@@ -18,9 +18,15 @@ source ${HOME}/.kamehouse/.shell/.cred
 
 # Run the build on this script always from the current directory
 USE_CURRENT_DIR=true
+STATIC_ONLY=false
 
 mainProcess() {
   setKameHouseRootProjectDir
+  buildKameHouseStaticUi
+  if ${STATIC_ONLY}; then
+    log.info "Finished building static code only"
+    exitSuccessfully
+  fi
   buildKameHouseProject
   cleanUpMavenRepository
 }
@@ -29,7 +35,7 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":abcfim:p:r" OPT; do
+  while getopts ":abcfim:p:rs" OPT; do
     case $OPT in 
     ("a")
       CLEAN_CORDOVA_BEFORE_BUILD=true
@@ -48,6 +54,9 @@ parseArguments() {
       ;;
     ("r")
       RESUME_BUILD=true
+      ;;   
+    ("s")
+      STATIC_ONLY=true
       ;;        
     (\?)
       parseInvalidArgument "$OPTARG"
@@ -70,6 +79,7 @@ printHelpOptions() {
   printKameHouseModuleOption "build"
   printMavenProfileOption
   addHelpOption "-r" "resume build. Continue where it failed in the last build. ${COL_YELLOW}Use with -m"
+  addHelpOption "-s" "build static ui code only"
 }
 
 main "$@"

@@ -7,6 +7,7 @@
 
 #### v9.02
 
+- Moved javascript code to typescript
 - Updated log script runtime function
 - Added more bash colors
 - Added script name to log entries

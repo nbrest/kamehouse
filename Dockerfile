@@ -29,6 +29,15 @@ RUN apt-get update -y && apt-get -y upgrade ; \
   apt-get autoclean -y ; \
   apt-get clean -y
 
+# Install node
+RUN cd ~ ; \
+  curl -sL https://deb.nodesource.com/setup_20.x | sudo bash - ; \
+  sudo apt-get install nodejs -y ; \
+  apt-get autopurge -y ; \
+  apt-get autoclean -y ; \
+  apt-get clean -y ; \
+  npm install -g typescript
+
 # Setup users 
 ARG KAMEHOUSE_USERNAME=goku
 ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}

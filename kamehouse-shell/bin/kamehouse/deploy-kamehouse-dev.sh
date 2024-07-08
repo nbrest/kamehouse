@@ -32,6 +32,7 @@ mainProcess() {
   setKameHouseRootProjectDir
   setKameHouseBuildVersion
   deployKameHouseShell
+  buildKameHouseStaticUi
   deployKameHouseUiStatic
   deployKameHouseGroot
   buildKameHouseProject

@@ -15,6 +15,15 @@
 
 * Install git (and git bash on windows)
 
+* Install node [(versions)](/docs/versions/versions.md) 
+```sh
+# Update dockerfile when updating node version here
+cd ~
+curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
+sudo apt-get -y install nodejs
+npm install -g typescript
+```
+
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
 
   - Update server configuration:

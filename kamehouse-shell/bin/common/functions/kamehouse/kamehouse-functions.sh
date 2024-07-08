@@ -454,6 +454,23 @@ buildKameHouseProject() {
   cleanLogsInGitRepoFolder
 }
 
+buildKameHouseStaticUi() {
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
+    cdToKameHouseUi
+    cleanWebappDirectory
+    log.info "Building static code"
+    tsc
+    cdToRootDirFromUi
+  fi
+}
+
+cleanWebappDirectory() {
+  log.info "Cleaning up webapp directory js files"
+  rm -rf ./src/main/webapp/js
+  rm -rf ./src/main/webapp/error/js
+  rm -rf ./src/main/webapp/kamehouse/js
+}
+
 exportGitCommitHash() {
   cdToRootDirFromMobile
   log.info "Exporting git commit hash to commons-core"
@@ -566,6 +583,20 @@ cdToRootDirFromMobile() {
 cdToKameHouseMobile() {
   checkValidRootKameHouseProject
   cd kamehouse-mobile
+  checkCommandStatus "$?" "Error cd to kamehouse-mobile. Are you running the script from the root of kamehouse project?"
+}
+
+cdToRootDirFromUi() {
+  local CURRENT_DIR=`basename $(pwd)`
+  if [ "${CURRENT_DIR}" == "kamehouse-ui" ]; then
+    cd ..
+  fi
+  checkValidRootKameHouseProject
+}
+
+cdToKameHouseUi() {
+  checkValidRootKameHouseProject
+  cd kamehouse-ui
   checkCommandStatus "$?" "Error cd to kamehouse-mobile. Are you running the script from the root of kamehouse project?"
 }
 
