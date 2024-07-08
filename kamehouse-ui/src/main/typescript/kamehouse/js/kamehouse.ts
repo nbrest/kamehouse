@@ -13,14 +13,14 @@
  */
 class KameHouse {
 
-  core = {};
+  core: KameHouseCore;
+  http: KameHouseHttpClient;
+  json: KameHouseJson;
+  logger: KameHouseLogger;
+  util: KameHouseUtil;
   extension = {};
-  http = {};
-  json = {};
-  logger = {};
   plugin = {};
   session = {};
-  util = {};
 
   cordova = null;
   jq = null;
@@ -43,19 +43,7 @@ class KameHouse {
     this.http = new KameHouseHttpClient();
 
     /** utils */
-    this.util.cookies = new KameHouseCookiesUtils();
-    this.util.banner = new KameHouseBannerUtils();
-    this.util.collapsibleDiv = new KameHouseCollapsibleDivUtils();
-    this.util.cursor = new KameHouseCursorUtils();
-    this.util.dom = new KameHouseDomUtils();
-    this.util.fetch = new KameHouseFetchUtils();
-    this.util.file = new KameHouseFileUtils();
-    this.util.mobile = new KameHouseMobileUtils();
-    this.util.module = new KameHouseModuleUtils();
-    this.util.tab = new KameHouseTabUtils();
-    this.util.table = new KameHouseTableUtils();
-    this.util.test = new KameHouseTestUtils();
-    this.util.time = new KameHouseTimeUtils();
+    this.util = new KameHouseUtil();
 
     /**
      * Init root elements and utils
@@ -2717,7 +2705,7 @@ class KameHouseCore {
   warn(message, coloredMessage) { this.#log("WARN", message, coloredMessage); }
 
   /** Log an info message */
-  info(message, coloredMessage) { this.#log("INFO", message, coloredMessage); }
+  info(message: String, coloredMessage: String) { this.#log("INFO", message, coloredMessage); }
 
   /** Log a debug message */
   debug(message, coloredMessage) { this.#log("DEBUG", message, coloredMessage); }
@@ -3216,6 +3204,27 @@ class KameHouseCore {
   }
 
 } // KameHouseHttpClient
+
+/**
+ * Utility classes in KameHouse js framework.
+ */
+class KameHouseUtil {
+  
+  cookies = new KameHouseCookiesUtils();
+  banner = new KameHouseBannerUtils();
+  collapsibleDiv = new KameHouseCollapsibleDivUtils();
+  cursor = new KameHouseCursorUtils();
+  dom = new KameHouseDomUtils();
+  fetch = new KameHouseFetchUtils();
+  file = new KameHouseFileUtils();
+  mobile = new KameHouseMobileUtils();
+  module = new KameHouseModuleUtils();
+  tab = new KameHouseTabUtils();
+  table = new KameHouseTableUtils();
+  test = new KameHouseTestUtils();
+  time = new KameHouseTimeUtils();
+
+} // KameHouseUtil
 
 const kameHouse = new KameHouse();
 kameHouse.ready(() => {kameHouse.init();});
