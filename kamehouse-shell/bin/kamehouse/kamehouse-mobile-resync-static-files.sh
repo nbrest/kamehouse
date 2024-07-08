@@ -91,7 +91,7 @@ exportBatcave() {
   if [ -d "${SOURCE_FILES_BATCAVE_DIR}" ]; then
     log.info "Copying all files from ${SOURCE_FILES_BATCAVE_DIR} to ${EXPORT_BATCAVE_DIR}"
     cd ${SOURCE_FILES_BATCAVE_DIR}
-    git pull origin dev
+    deploy-batcave.sh -m ui
     mkdir -p ${EXPORT_BATCAVE_DIR}
     cd ${EXPORT_BATCAVE_DIR}
     cp -r ${SOURCE_FILES_BATCAVE_DIR}/* .

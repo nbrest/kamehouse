@@ -24,6 +24,7 @@ mainProcess() {
   setKameHouseRootProjectDir
   buildKameHouseUiStatic
   buildKameHouseGroot
+  buildKameHouseMobileStatic
   if ${STATIC_ONLY}; then
     log.info "Finished building static code only"
     exitSuccessfully

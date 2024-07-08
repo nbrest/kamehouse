@@ -487,6 +487,23 @@ cleanGrootWebappDirectory() {
   rm -rf ./src/main/webapp/kame-house-groot/kamehouse-groot/js
 }
 
+buildKameHouseMobileStatic() {
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    cdToKameHouseModule "kamehouse-mobile"
+    cleanMobileWwwStaticDirectory
+    log.info "Building mobile static code"
+    tsc
+    cdToRootDirFromModule "kamehouse-mobile"
+  fi
+}
+
+cleanMobileWwwStaticDirectory() {
+  log.info "Cleaning up www directory js files"
+  rm -rf ./www/kame-house-mobile/js
+  rm -rf ./www/kame-house-mobile/kamehouse-mobile/js
+  rm -rf ./www/kame-house-mobile/kamehouse-mobile/plugin/js
+}
+
 exportGitCommitHash() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting git commit hash to commons-core"
@@ -564,6 +581,7 @@ cleanUpMavenRepository() {
 buildMobile() {
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
   setKameHouseMobileApkPath
+  buildKameHouseMobileStatic
   syncStaticFilesOnMobile
   cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
