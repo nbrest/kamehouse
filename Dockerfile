@@ -103,7 +103,10 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   chmod a+rx /var/log/apache2 ; \
   ln -s /var/log/apache2 /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd/logs ; \
   # Setup mocked bins
-  mv /usr/bin/vlc /usr/bin/vlc-bin
+  mv /usr/bin/vlc /usr/bin/vlc-bin ; \
+  # Setup bash prompt colors
+  sed -i "s/#force_color_prompt=yes/force_color_prompt=yes/I" /root/.bashrc ; \
+  sed -i "s/01;32m/01;31m/I" /root/.bashrc
 
 # Setup mocked bins
 COPY docker/mocked-bin/vlc /usr/bin/vlc
