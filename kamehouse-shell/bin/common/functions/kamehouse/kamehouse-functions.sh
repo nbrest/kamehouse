@@ -455,13 +455,11 @@ buildKameHouseProject() {
 }
 
 buildKameHouseUiStatic() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
-    cdToKameHouseModule "kamehouse-ui"
-    cleanUiWebappDirectory
-    log.info "Building ui static code"
-    runTypescriptCompiler
-    cdToRootDirFromModule "kamehouse-ui"
-  fi
+  cdToKameHouseModule "kamehouse-ui"
+  log.info "Building kamehouse-ui static code"
+  cleanUiWebappDirectory
+  runTypescriptCompiler
+  cdToRootDirFromModule "kamehouse-ui"
 }
 
 runTypescriptCompiler() {
@@ -476,13 +474,11 @@ cleanUiWebappDirectory() {
 }
 
 buildKameHouseGroot() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-groot" ]]; then
-    cdToKameHouseModule "kamehouse-groot"
-    cleanGrootWebappDirectory
-    log.info "Building groot static code"
-    runTypescriptCompiler
-    cdToRootDirFromModule "kamehouse-groot"
-  fi
+  cdToKameHouseModule "kamehouse-groot"
+  log.info "Building kamehouse-groot static code"
+  cleanGrootWebappDirectory
+  runTypescriptCompiler
+  cdToRootDirFromModule "kamehouse-groot"
 }
 
 cleanGrootWebappDirectory() {
@@ -492,13 +488,11 @@ cleanGrootWebappDirectory() {
 }
 
 buildKameHouseMobileStatic() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    cdToKameHouseModule "kamehouse-mobile"
-    cleanMobileWwwStaticDirectory
-    log.info "Building mobile static code"
-    runTypescriptCompiler
-    cdToRootDirFromModule "kamehouse-mobile"
-  fi
+  cdToKameHouseModule "kamehouse-mobile"
+  log.info "Building kamehouse-mobile static code"
+  cleanMobileWwwStaticDirectory
+  runTypescriptCompiler
+  cdToRootDirFromModule "kamehouse-mobile"
 }
 
 cleanMobileWwwStaticDirectory() {
