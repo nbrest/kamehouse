@@ -585,6 +585,8 @@ cleanUpMavenRepository() {
 buildMobile() {
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
   setKameHouseMobileApkPath
+  buildKameHouseUiStatic
+  buildKameHouseGroot
   buildKameHouseMobileStatic
   syncStaticFilesOnMobile
   cdToKameHouseModule "kamehouse-mobile"
