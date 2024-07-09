@@ -11,7 +11,7 @@ class SystemCommandManager {
    * Load kamehouse system command manager plugin.
    */
   load() {
-    kameHouse.logger.info("Started initializing systemCommandManager");
+    kameHouse.logger.info("Started initializing systemCommandManager", null);
   }
 
   /**

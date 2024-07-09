@@ -13,16 +13,17 @@
  */
 class KameHouseModalLoader {
 
+  basicModal = new BasicKamehouseModal();
+  loadingWheelModal = new LoadingWheelModal();
+
   /**
    * Load the kamehouse modal plugin.
    */
   async load() {
-    kameHouse.logger.info("Started initializing kamehouse modal framework");
+    kameHouse.logger.info("Started initializing kamehouse modal framework", null);
     this.#importKamehouseModalCss();
-    kameHouse.plugin.modal.basicModal = new BasicKamehouseModal();
-    kameHouse.plugin.modal.loadingWheelModal = new LoadingWheelModal();
-    await kameHouse.plugin.modal.basicModal.import();
-    await kameHouse.plugin.modal.loadingWheelModal.import();
+    await this.basicModal.import();
+    await this.loadingWheelModal.import();
     kameHouse.util.module.setModuleLoaded("kameHouseModal");
   }
 
@@ -57,7 +58,7 @@ class AbstractKameHouseModal {
     kameHouse.util.dom.append(kameHouse.util.dom.getBody(), modalDiv);
     const modalDivCloseBtn = document.getElementById(this.#modalId + "-close");
     kameHouse.util.dom.setClick(modalDivCloseBtn, null, () => this.close());
-    kameHouse.logger.info("Imported " + this.#modalId);
+    kameHouse.logger.info("Imported " + this.#modalId, null);
   }
 
   /** 
@@ -67,11 +68,11 @@ class AbstractKameHouseModal {
    **/
   open(message) {
     if (this.#isOpen) {
-      kameHouse.logger.error("There's a " + this.#modalId + " already open. Skipping this open call");
+      kameHouse.logger.error("There's a " + this.#modalId + " already open. Skipping this open call", null);
       return;
     }
     this.#isOpen = true;
-    kameHouse.logger.debug("Opening modal " + this.#modalId);
+    kameHouse.logger.debug("Opening modal " + this.#modalId, null);
     if (!kameHouse.core.isEmpty(message)) {
       this.setHtml(message);
     }
@@ -88,7 +89,7 @@ class AbstractKameHouseModal {
   /** Close modal */
   close() {
     this.#isOpen = false;
-    kameHouse.logger.debug("Closing modal " + this.#modalId);
+    kameHouse.logger.debug("Closing modal " + this.#modalId, null);
     const modal = document.getElementById(this.#modalId);
     kameHouse.util.dom.setDisplay(modal, "none");
   }
@@ -96,7 +97,7 @@ class AbstractKameHouseModal {
   /** Auto close modal after the specified miliseconds */
   async autoClose(autoCloseMs) {
     if (kameHouse.core.isEmpty(autoCloseMs)) {
-      kameHouse.logger.trace("autoCloseMs not set. Closing after default value of " + AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC + " ms");
+      kameHouse.logger.trace("autoCloseMs not set. Closing after default value of " + AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC + " ms", null);
       autoCloseMs = AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC;
     }
     const autoCloseId = this.#modalId + "-autoclose";
@@ -106,7 +107,7 @@ class AbstractKameHouseModal {
       kameHouse.util.dom.setHtmlById(autoCloseId, "Closing in " + secondsRemaining + " seconds");
       autoCloseMs = autoCloseMs - 1000;
       if (!this.#isOpen) {
-        kameHouse.logger.debug(this.#modalId + " is already closed. Leaving autoClose function");
+        kameHouse.logger.debug(this.#modalId + " is already closed. Leaving autoClose function", null);
         return;
       }
       await kameHouse.core.sleep(1000);
@@ -194,7 +195,7 @@ class BasicKamehouseModal extends AbstractKameHouseModal {
     kameHouse.util.dom.append(message, "Response body: ");
     kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
     const bodySpan = kameHouse.util.dom.getSpan({}, null);
-    kameHouse.util.dom.setText(bodySpan, kameHouse.json.stringify(responseBody));
+    kameHouse.util.dom.setText(bodySpan, kameHouse.json.stringify(responseBody, null, null));
     kameHouse.util.dom.append(message, bodySpan);
     return message;
   }

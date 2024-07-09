@@ -6,6 +6,8 @@
  */
 class KameHouseDebugger {
   
+  http: DebuggerHttpClient;
+
   #requests = [];
   #toggleDebuggerModalHtml = null;
   #debuggerHttpClientDivTemplate = null;
@@ -20,8 +22,8 @@ class KameHouseDebugger {
    * Load kamehouse debugger plugin.
    */
   async load() {
-    kameHouse.logger.info("Started initializing kameHouseDebugger");
-    kameHouse.plugin.debugger.http = new DebuggerHttpClient(this);
+    kameHouse.logger.info("Started initializing kameHouseDebugger", null);
+    this.http = new DebuggerHttpClient(this);
     this.importKameHouseDebuggerCss();
     await this.#loadDebuggerHttpClientTemplate();
     this.#renderDebugMode();
@@ -47,7 +49,7 @@ class KameHouseDebugger {
    * Set the log level of the console.
    */
   setConsoleLogLevel() {
-    const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
+    const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown") as HTMLSelectElement;
     const logLevel = logLevelDropdown.value;
     let logLevelName = "";
     for (const option of logLevelDropdown.options) {
@@ -75,8 +77,8 @@ class KameHouseDebugger {
     if (logLevelName == "TRACE") {
       kameHouse.logger.trace(message, kameHouse.logger.getCyanText(message));
     }
-    kameHouse.logger.trace("Setting kh-log-level cookie to " + logLevel);
-    kameHouse.util.cookies.setCookie("kh-log-level", logLevel);
+    kameHouse.logger.trace("Setting kh-log-level cookie to " + logLevel, null);
+    kameHouse.util.cookies.setCookie("kh-log-level", logLevel, null);
   }
 
   /**
@@ -90,17 +92,22 @@ class KameHouseDebugger {
    * Displays the list of the N previous requests.
    */
   displayPreviousRequestsTable(requestData, responseBody, responseCode, responseHeaders) {
-    const request = {};
-    request.requestData = requestData;
-    request.responseData = {};
-    request.responseData.responseCode = responseCode;
-    request.responseData.headers = responseHeaders;
-    let trimmedResponseBody = kameHouse.json.stringify(responseBody);
+    const responseData = {
+      responseCode: responseCode,
+      headers: responseHeaders,
+      responseBody: null,
+      timestamp: null
+    };
+    const request = {
+      requestData: requestData,
+      responseData: responseData
+    };
+    let trimmedResponseBody = kameHouse.json.stringify(responseBody, null, null);
     if (!kameHouse.core.isEmpty(trimmedResponseBody) && trimmedResponseBody.length > 1000) {
       trimmedResponseBody = trimmedResponseBody.slice(0, 1000) + "... [trimmed]";
     }
     request.responseData.responseBody = trimmedResponseBody;
-    request.responseData.timestamp = kameHouse.util.time.getTimestamp();
+    request.responseData.timestamp = kameHouse.util.time.getTimestamp(null);
     while (this.#requests.length >= 7) {
       this.#requests.shift();
     }
@@ -114,10 +121,10 @@ class KameHouseDebugger {
    */
   displayResponseData(responseBody, responseCode, responseDescription, responseHeaders, requestData) {
     this.displayRequestData(requestData);
-    const responseTimestamp = kameHouse.util.time.getTimestamp();
+    const responseTimestamp = kameHouse.util.time.getTimestamp(null);
     kameHouse.util.dom.setHtmlById("debugger-http-client-res-code-val", responseCode);
     kameHouse.util.dom.setHtmlById("debugger-http-client-res-timestamp-val", responseTimestamp);
-    kameHouse.util.dom.setHtmlById("debugger-http-client-res-headers-val", kameHouse.json.stringify(responseHeaders));
+    kameHouse.util.dom.setHtmlById("debugger-http-client-res-headers-val", kameHouse.json.stringify(responseHeaders, null, null));
     kameHouse.util.dom.setTextById("debugger-http-client-res-body-val", kameHouse.json.stringify(responseBody, null, 2));
   }  
 
@@ -131,8 +138,8 @@ class KameHouseDebugger {
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-timestamp-val', requestData.timestamp);
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-method-val', requestData.method);
     kameHouse.util.dom.setHtmlById('debugger-http-client-req-url-val', requestData.url);
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-config-val', kameHouse.json.stringify(requestData.config));
-    kameHouse.util.dom.setHtmlById('debugger-http-client-req-headers-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestData.headers)));
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-config-val', kameHouse.json.stringify(requestData.config, null, null));
+    kameHouse.util.dom.setHtmlById('debugger-http-client-req-headers-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestData.headers, null, null)));
     kameHouse.util.dom.setTextById('debugger-http-client-req-body-val', kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestData.body, null, 2)));
     kameHouse.util.dom.setHtmlById('debugger-http-client-res-code-val', null);
     kameHouse.util.dom.setHtmlById('debugger-http-client-res-timestamp-val', null);
@@ -150,7 +157,7 @@ class KameHouseDebugger {
       alt: "Debug Mode modal"
     });
     const text = "Toggled debug mode!";
-    const div = kameHouse.util.dom.getDiv();
+    const div = kameHouse.util.dom.getDiv(null, null);
     kameHouse.util.dom.append(div, img);
     kameHouse.util.dom.append(div, text);
     return div;
@@ -217,7 +224,7 @@ class KameHouseDebugger {
    */
   async #loadDebuggerHttpClientTemplate() {
     this.#debuggerHttpClientDivTemplate = await kameHouse.util.fetch.loadHtmlSnippet('/kame-house/kamehouse/html/plugin/kamehouse-debugger-http-client-table.html');
-    kameHouse.logger.debug("Loaded debuggerHttpClientDivTemplate");
+    kameHouse.logger.debug("Loaded debuggerHttpClientDivTemplate", null);
   }
 
   /**
@@ -247,10 +254,11 @@ class KameHouseDebugger {
    */
   #setConsoleLogLevelDropdown() {
     const currentLogLevel = kameHouse.logger.getLogLevel();
-    kameHouse.logger.debug("Updating debugger console log level dropdown to " + currentLogLevel);
-    const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown");
-    for (const option of logLevelDropdown.options) {
-      if (option.value == currentLogLevel) {
+    kameHouse.logger.debug("Updating debugger console log level dropdown to " + currentLogLevel, null);
+    const logLevelDropdown = document.getElementById("debug-mode-log-level-dropdown") as HTMLSelectElement;
+    let option: HTMLOptionElement;
+    for (option of logLevelDropdown.options) {
+      if (option.value == currentLogLevel.toString()) {
         option.selected = true;
       } else {
         option.selected = false;
@@ -336,13 +344,14 @@ class DebuggerHttpClient {
    * Creates a data object that contains the data already received and the request info to eventually log in the requests table.
    */
   #createRequestDataForLog(method, config, url, requestHeaders, requestBody) {
-    const requestData = {};
-    requestData.method = method;
-    requestData.url = url;
-    requestData.config = config;
-    requestData.headers = requestHeaders;
-    requestData.body = requestBody;
-    requestData.timestamp = kameHouse.util.time.getTimestamp();
+    const requestData = {
+      method: method,
+      url: url,
+      config: config,
+      headers: requestHeaders,
+      body: requestBody,
+      timestamp: kameHouse.util.time.getTimestamp(null)
+    };
     return requestData;
   }
 

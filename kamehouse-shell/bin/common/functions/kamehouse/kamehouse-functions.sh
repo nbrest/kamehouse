@@ -454,6 +454,10 @@ buildKameHouseProject() {
   cleanLogsInGitRepoFolder
 }
 
+runTypescriptCompiler() {
+  tsc ; tsc --build --force --verbose --pretty
+}
+
 buildKameHouseUiStatic() {
   cdToKameHouseModule "kamehouse-ui"
   log.info "Building kamehouse-ui static code"
@@ -462,12 +466,8 @@ buildKameHouseUiStatic() {
   cdToRootDirFromModule "kamehouse-ui"
 }
 
-runTypescriptCompiler() {
-  tsc --build --force --verbose --pretty
-}
-
 cleanUiWebappDirectory() {
-  log.info "Cleaning up webapp directory js files"
+  log.info "Cleaning up kamehouse-ui webapp directory js files"
   rm -rf ./src/main/webapp/js
   rm -rf ./src/main/webapp/error/js
   rm -rf ./src/main/webapp/kamehouse/js
@@ -482,7 +482,7 @@ buildKameHouseGroot() {
 }
 
 cleanGrootWebappDirectory() {
-  log.info "Cleaning up webapp directory js files"
+  log.info "Cleaning up kamehouse-groot webapp directory js files"
   rm -rf ./src/main/webapp/kame-house-groot/js
   rm -rf ./src/main/webapp/kame-house-groot/kamehouse-groot/js
 }
@@ -496,7 +496,7 @@ buildKameHouseMobileStatic() {
 }
 
 cleanMobileWwwStaticDirectory() {
-  log.info "Cleaning up www directory js files"
+  log.info "Cleaning up kamehouse-mobile www directory js files"
   rm -rf ./www/kame-house-mobile/js
   rm -rf ./www/kame-house-mobile/kamehouse-mobile/js
   rm -rf ./www/kame-house-mobile/kamehouse-mobile/plugin/js

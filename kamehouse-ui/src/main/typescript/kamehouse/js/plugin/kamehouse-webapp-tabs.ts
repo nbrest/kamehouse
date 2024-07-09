@@ -39,7 +39,7 @@ class KameHouseWebappTabsManager {
    */
   openTab(selectedTabDivId) {
     // Set current-tab cookie
-    kameHouse.util.cookies.setCookie(this.#cookiePrefix + '-current-tab', selectedTabDivId);
+    kameHouse.util.cookies.setCookie(this.#cookiePrefix + '-current-tab', selectedTabDivId, null);
 
     // Update tab links
     const kamehouseTabLinks = document.getElementsByClassName("kh-webapp-tab-link");

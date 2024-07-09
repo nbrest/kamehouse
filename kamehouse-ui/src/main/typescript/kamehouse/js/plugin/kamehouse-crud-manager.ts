@@ -28,11 +28,11 @@ class CrudManager {
    * Load the crud manager plugin.
    */
   load() {
-    kameHouse.logger.info("Started initializing crudManager");
+    kameHouse.logger.info("Started initializing crudManager", null);
     kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/plugin/kamehouse-crud-manager.css">');
     kameHouse.util.dom.loadById("crud-manager-body-wrapper", "/kame-house/kamehouse/html/plugin/kamehouse-crud-manager.html", () => {
       kameHouse.util.module.setModuleLoaded("crudManager");
-      kameHouse.util.banner.setRandomAllBanner();
+      kameHouse.util.banner.setRandomAllBanner(null);
       kameHouse.core.configDynamicHtml();
     });
   }
@@ -134,7 +134,7 @@ class CrudManager {
    * Get an entity by it's id.
    */
   read(id) {
-    kameHouse.logger.info("read");
+    kameHouse.logger.info("read", null);
     const getUrl = this.#url + "/" + id;
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.get(config, getUrl, null, null,
@@ -143,7 +143,7 @@ class CrudManager {
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        kameHouse.logger.error("Error reading entity");
+        kameHouse.logger.error("Error reading entity", null);
       });
   }
 
@@ -151,8 +151,12 @@ class CrudManager {
    * Get all entities.
    */
   readAll() {
-    kameHouse.logger.info("readAll");
-    const requestParam = {};
+    kameHouse.logger.info("readAll", null);
+    const requestParam = {
+      maxRows: null,
+      sortColumn: null,
+      sortAscending: null
+    };
     if (this.#readAllMaxRows) {
       requestParam.maxRows = this.#readAllMaxRows;
     }
@@ -171,7 +175,7 @@ class CrudManager {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
         this.#displayErrorGettingEntities();
-        kameHouse.logger.error("Error reading all entities");
+        kameHouse.logger.error("Error reading all entities", null);
       });
   }
 
@@ -179,7 +183,7 @@ class CrudManager {
    * Create an entity.
    */
   create() {
-    kameHouse.logger.info("create");
+    kameHouse.logger.info("create", null);
     if (this.#readOnly) {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
@@ -188,13 +192,13 @@ class CrudManager {
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, this.#url, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Created entity successfully. Id: " + responseBody);
+        kameHouse.logger.info("Created entity successfully. Id: " + responseBody, null);
         this.readAll();
         kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        kameHouse.logger.error("Error creating entity");
+        kameHouse.logger.error("Error creating entity", null);
         this.readAll();
       });
   }
@@ -203,7 +207,7 @@ class CrudManager {
    * Update an entity.
    */
   update() {
-    kameHouse.logger.info("update");
+    kameHouse.logger.info("update", null);
     if (this.#readOnly) {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
@@ -213,13 +217,13 @@ class CrudManager {
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Updated entity successfully. Id: " + entity.id);
+        kameHouse.logger.info("Updated entity successfully. Id: " + entity.id, null);
         this.readAll();
         kameHouse.util.tab.openTab('tab-list', 'kh-crud-manager');
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        kameHouse.logger.error("Error updating entity");
+        kameHouse.logger.error("Error updating entity", null);
         this.readAll();
       });
   }
@@ -229,7 +233,7 @@ class CrudManager {
    */
   delete(event, data) {
     const id = data.id;
-    kameHouse.logger.info("delete");
+    kameHouse.logger.info("delete", null);
     if (this.#readOnly) {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
@@ -238,14 +242,14 @@ class CrudManager {
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.delete(config, deleteUrl, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id);
+        kameHouse.logger.info("Deleted entity successfully. Id: " + responseBody.id, null);
         kameHouse.plugin.modal.basicModal.close();
         this.readAll();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.basicModal.close();
         kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-        kameHouse.logger.error("Error deleting entity");
+        kameHouse.logger.error("Error deleting entity", null);
         this.readAll();
       });
   }
@@ -272,30 +276,30 @@ class CrudManager {
    */
   filterRows() {
     // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
-    kameHouse.util.table.filterTableRows("", CrudManager.#TBODY_ID, null);
+    kameHouse.util.table.filterTableRows("", CrudManager.#TBODY_ID, null, null);
 
     const noDataRow = document.getElementById(CrudManager.#NO_DATA_ROW_ID);
     if (!kameHouse.core.isEmpty(noDataRow)) {
-      kameHouse.logger.info("No data received from the backend, skipping filters");
+      kameHouse.logger.info("No data received from the backend, skipping filters", null);
       return;
     }
 
-    const filters = document.getElementsByClassName("crud-manager-filter");
+    const filters = document.getElementsByClassName("crud-manager-filter") as HTMLCollectionOf<HTMLInputElement>;
     for (const filter of filters) {
       const filterString = filter.value;
-      kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString);
+      kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString, null);
       kameHouse.util.table.filterTableRows(filterString, CrudManager.#TBODY_ID, null, true);
     }
 
-    const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
+    const columnFilters = document.getElementsByClassName("crud-manager-column-filter") as HTMLCollectionOf<HTMLInputElement>;
     for (const columnFilter of columnFilters) {
       const filterString = columnFilter.value;
       const columnNumber = columnFilter.dataset.columnNumber;
-      kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString);
+      kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString, null);
       kameHouse.util.table.filterTableRowsByColumn(filterString, CrudManager.#TBODY_ID, columnNumber, null, true);
     }
     
-    const numRows = document.getElementById('num-rows').value;
+    const numRows = (document.getElementById('num-rows') as HTMLInputElement).value;
     kameHouse.util.table.limitRows('crud-manager-table', numRows, true);
   }
 
@@ -307,12 +311,16 @@ class CrudManager {
     
     const filters = document.getElementsByClassName("crud-manager-filter");
     for (const filter of filters) {
-      filter.selectedIndex = -1;
+      if (filter instanceof HTMLSelectElement) {
+        filter.selectedIndex = -1;
+      }
     }
 
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter");
     for (const columnFilter of columnFilters) {
-      columnFilter.selectedIndex = -1;
+      if (columnFilter instanceof HTMLSelectElement) {
+        columnFilter.selectedIndex = -1;
+      }
     }
     
     this.readAll();
@@ -380,7 +388,7 @@ class CrudManager {
    * Get CRUD list title.
    */
   #getListTitle() {
-    const span = kameHouse.util.dom.getSpan();
+    const span = kameHouse.util.dom.getSpan(null, null);
     kameHouse.util.dom.append(span, this.#getIcon());
     kameHouse.util.dom.append(span, this.#getEntityNames());
     return span;
@@ -390,7 +398,7 @@ class CrudManager {
    * Get CRUD add title.
    */
   #getAddTitle() {
-    const span = kameHouse.util.dom.getSpan();
+    const span = kameHouse.util.dom.getSpan(null, null);
     kameHouse.util.dom.append(span, this.#getIcon());
     kameHouse.util.dom.append(span, "Add " + this.#entityName);
     return span;
@@ -400,7 +408,7 @@ class CrudManager {
    * Get CRUD edit title.
    */
   #getEditTitle() {
-    const span = kameHouse.util.dom.getSpan();
+    const span = kameHouse.util.dom.getSpan(null, null);
     kameHouse.util.dom.append(span, this.#getIcon());
     kameHouse.util.dom.append(span, "Edit " + this.#entityName);
     return span;
@@ -544,7 +552,7 @@ class CrudManager {
    */
   #loadCustomSections(config) {
     if (!kameHouse.core.isEmpty(config.customListSection)) {
-      kameHouse.util.dom.loadById("custom-list-section", config.customListSection);
+      kameHouse.util.dom.loadById("custom-list-section", config.customListSection, null);
     }
   }
 
@@ -615,12 +623,12 @@ class CrudManager {
           if (!kameHouse.core.isEmpty(formField)) {
             kameHouse.util.dom.insertBefore(arraySourceNode.parentNode, formField, arraySourceNode.nextSibling);
           } else {
-            kameHouse.logger.warn("Unable to build form field from entity " + kameHouse.json.stringify(arrayElement));
+            kameHouse.logger.warn("Unable to build form field from entity " + kameHouse.json.stringify(arrayElement, null, null), null);
           }
           i++;
           continue;
         } else {
-          kameHouse.logger.warn("No buildFormField function defined for column " + name);
+          kameHouse.logger.warn("No buildFormField function defined for column " + name, null);
         }
       }
       const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, false);
@@ -651,11 +659,11 @@ class CrudManager {
    * Display all entities and reload forms.
    */
   #reloadView() {
-    kameHouse.logger.trace("reloadView");
+    kameHouse.logger.trace("reloadView", null);
     const crudTbody = document.getElementById(CrudManager.#TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
     if (this.#entities.length == 0 || this.#entities.length == null || this.#entities.length == undefined) {
-      kameHouse.logger.info("No data received from the backend");
+      kameHouse.logger.info("No data received from the backend", null);
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
       kameHouse.util.dom.setAttribute(noDataTd, "id", CrudManager.#NO_DATA_ROW_ID);
       kameHouse.util.dom.append(crudTbody, noDataTd);
@@ -664,7 +672,7 @@ class CrudManager {
         id: CrudManager.#TBODY_ID
       }, null);
       kameHouse.util.dom.append(updatedCrudTbody, this.#getCrudTableHeader());
-      kameHouse.logger.info("Received " + this.#entities.length + " entities from the backend");
+      kameHouse.logger.info("Received " + this.#entities.length + " entities from the backend", null);
       if (!this.#reverseDataOrder) {
         for (const entity of this.#entities) {
           kameHouse.util.dom.append(updatedCrudTbody, this.#getEntityTr(entity));
@@ -755,7 +763,7 @@ class CrudManager {
       if (kameHouse.core.isFunction(column.buildListDisplay)) {
         kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, column.buildListDisplay(value)));
       } else {
-        kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, kameHouse.json.stringify(value)));
+        kameHouse.util.dom.append(tr, kameHouse.util.dom.getTd({}, kameHouse.json.stringify(value, null, null)));
       }
       return;
     }
@@ -791,7 +799,7 @@ class CrudManager {
         return value;
       }
     } catch (error) {
-      kameHouse.logger.warn("Unable to parse " + value + " as a date");
+      kameHouse.logger.warn("Unable to parse " + value + " as a date", null);
       return value;
     }
   }
@@ -805,11 +813,11 @@ class CrudManager {
       if (kameHouse.util.time.isValidDate(date)) {
         return kameHouse.util.time.getTimestamp(date);
       } else {
-        kameHouse.logger.warn("Invalid timestamp " + value);
+        kameHouse.logger.warn("Invalid timestamp " + value, null);
         return value;
       }
     } catch (error) {
-      kameHouse.logger.warn("Unable to parse " + value + " as a date");
+      kameHouse.logger.warn("Unable to parse " + value + " as a date", null);
       return value;
     }
   }  
@@ -948,7 +956,7 @@ class CrudManager {
         title: "Sort by " + parentNodeChain + name
       }, parentNodeChain + name);
       const sortType = this.#getSortType(column);
-      kameHouse.logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType);
+      kameHouse.logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType, null);
       kameHouse.util.dom.setClick(td, null,
         () => {
           kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType, null, this.filterRows);
@@ -1006,7 +1014,9 @@ class CrudManager {
       id: fieldId,
       class: fieldClassList,
       type: inputFieldType,
-      name: column.name
+      name: column.name,
+      min: null,
+      max: null
     };
 
     if (this.#isSelectField(type)) {
@@ -1145,14 +1155,14 @@ class CrudManager {
    * Add a new entry to the array input field.
    */
   #addArrayInputFieldElement(buttonId, fieldId, columnType) {
-    kameHouse.logger.debug("Adding array element");
+    kameHouse.logger.debug("Adding array element", null);
     const arraySourceNode = document.getElementById(buttonId).previousSibling; 
     let deepClone = false;
     if (this.#isArrayField(columnType)) {
       deepClone = true;
     }
     if (arraySourceNode.name != fieldId + "[]") {
-      kameHouse.logger.error("Trying to clone a node that isn't an array element of the expected name. Something's wrong. Name of node to clone is: " + arraySourceNode.name + " and the expected value is " + fieldId + "[]");
+      kameHouse.logger.error("Trying to clone a node that isn't an array element of the expected name. Something's wrong. Name of node to clone is: " + arraySourceNode.name + " and the expected value is " + fieldId + "[]", null);
       return;
     }
     const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, deepClone);
@@ -1171,15 +1181,15 @@ class CrudManager {
    * Remove array input field element.
    */
   #removeArrayInputFieldElement(buttonId, fieldId) {
-    kameHouse.logger.debug("Removing array element");
+    kameHouse.logger.debug("Removing array element", null);
     const arrayNodes = document.getElementsByName(fieldId + "[]");
     if (kameHouse.core.isEmpty(arrayNodes) || arrayNodes.length <= 1) {
-      kameHouse.logger.warn("Trying to remove the last node of the array. Skipping...");
+      kameHouse.logger.warn("Trying to remove the last node of the array. Skipping...", null);
       return;
     }
     const nodeToRemove = document.getElementById(buttonId).previousSibling.previousSibling; 
     if (nodeToRemove.name != fieldId + "[]") {
-      kameHouse.logger.error("Trying to remove a node that isn't an array element of the expected name. Something's wrong. Name of node to remove is: " + nodeToRemove.name + " and the expected value is " + fieldId + "[]");
+      kameHouse.logger.error("Trying to remove a node that isn't an array element of the expected name. Something's wrong. Name of node to remove is: " + nodeToRemove.name + " and the expected value is " + fieldId + "[]", null);
       return;
     }
     kameHouse.util.dom.remove(nodeToRemove);
@@ -1285,7 +1295,7 @@ class CrudManager {
   /**
    * Build the entity to pass to the backend from the form data.
    */
-  #getEntityFromForm(formFieldsId) {
+  #getEntityFromForm(formFieldsId): CrudEntity {
     const entity = {};
     this.#setEntityProperties(entity, formFieldsId, this.#columns, null);
     return entity;
@@ -1373,7 +1383,7 @@ class CrudManager {
           return entityArrayElement;
         }
       } else {
-        kameHouse.logger.warn("No buildEntity function defined in config for " + name);
+        kameHouse.logger.warn("No buildEntity function defined in config for " + name, null);
       }
     }
     return arrayElement.value;
@@ -1389,9 +1399,13 @@ class CrudManager {
       this.filterRows();
       return;
     }
-    kameHouse.logger.trace("Sorting table data with default sorting config: " + kameHouse.json.stringify(this.#defaultSorting));
+    kameHouse.logger.trace("Sorting table data with default sorting config: " + kameHouse.json.stringify(this.#defaultSorting, null, null), null);
     kameHouse.util.table.sortTable("crud-manager-table", this.#defaultSorting.columnNumber, this.#defaultSorting.sortType, this.#defaultSorting.direction, this.filterRows);
   }
+}
+
+interface CrudEntity {
+  id: number
 }
 
 kameHouse.ready(() => {kameHouse.addPlugin("crudManager", new CrudManager())});

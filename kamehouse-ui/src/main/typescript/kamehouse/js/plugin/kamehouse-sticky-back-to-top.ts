@@ -10,7 +10,7 @@ class KameHouseStickyBackToTop {
    * Load kamehouse sticky back to top plugin.
    */
   load() {
-    kameHouse.logger.info("Started initializing sticky back to top");
+    kameHouse.logger.info("Started initializing sticky back to top", null);
     this.#importCss();
     this.#importHtml();
   }

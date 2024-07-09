@@ -18,9 +18,12 @@ class KameHouse {
   json: KameHouseJson;
   logger: KameHouseLogger;
   util: KameHouseUtil;
+  session: SessionStatus;
   extension = {};
-  plugin = {};
-  session = {};
+  plugin = {
+    debugger: null,
+    modal: null
+  };
 
   cordova = null;
   jq = null;
@@ -49,7 +52,7 @@ class KameHouse {
      * Init root elements and utils
      */
     this.logger.init();
-    this.logger.info("Started initializing kamehouse.js");
+    this.logger.info("Started initializing kamehouse.js", null);
     this.core.setGlobalErrorHandler();
     this.core.initAuthorizeUser();
     this.util.mobile.init();
@@ -61,7 +64,7 @@ class KameHouse {
     this.core.loadKameHouseModal();
     this.core.loadKameHouseDebugger();
     this.util.cursor.loadSpinningWheelCursorWait();
-    this.logger.info("Finished initializing kamehouse.js");
+    this.logger.info("Finished initializing kamehouse.js", null);
   }
 
   /**
@@ -69,10 +72,10 @@ class KameHouse {
    */
   addExtension(extensionName, extension) {
     if (this.#skipLoading(extensionName)) {
-      kameHouse.logger.info("Extension '" + extensionName + "' marked as skipped. Not loading");
+      kameHouse.logger.info("Extension '" + extensionName + "' marked as skipped. Not loading", null);
       return;
     }
-    kameHouse.logger.info("Adding extension " + extensionName);
+    kameHouse.logger.info("Adding extension " + extensionName, null);
     this.extension[extensionName] = extension;
     extension.load();
   }
@@ -82,10 +85,10 @@ class KameHouse {
    */
   addPlugin(pluginName, plugin) {
     if (this.#skipLoading(pluginName)) {
-      kameHouse.logger.info("Plugin '" + extensionName + "' marked as skipped. Not loading");
+      kameHouse.logger.info("Plugin '" + pluginName + "' marked as skipped. Not loading", null);
       return;
     }
-    kameHouse.logger.info("Adding plugin " + pluginName);
+    kameHouse.logger.info("Adding plugin " + pluginName, null);
     this.plugin[pluginName] = plugin;
     plugin.load();
   }
@@ -418,7 +421,7 @@ class KameHouseCookiesUtils {
   /**
    * Set a cookie.
    */
-  setCookie(cookieName, cookieValue, expiryDays) {
+  setCookie(cookieName: String, cookieValue: String, expiryDays: number) {
     kameHouse.logger.trace("Setting cookie " + cookieName + " to " + cookieValue);
     if (!kameHouse.core.isEmpty(expiryDays)) {
       const expiriyDate = new Date();
@@ -1970,7 +1973,7 @@ class KameHouseJson {
     try {
       return JSON.parse(string);
     } catch (error) {
-      kameHouse.logger.warn("Error on JSON.parse(). Returning initial value. " + error);
+      kameHouse.logger.warn("Error on JSON.parse(). Returning initial value. " + error, null);
     }
     return string;
   }
@@ -1982,7 +1985,7 @@ class KameHouseJson {
     try {
       return JSON.stringify(object, replacer, identation);
     } catch (error) {
-      kameHouse.logger.warn("Error on JSON.stringify(). Returning initial value. " + error);
+      kameHouse.logger.warn("Error on JSON.stringify(). Returning initial value. " + error, null);
     }
     return object;
   }
@@ -2074,7 +2077,7 @@ class KameHouseCore {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        kameHouse.session = {};
+        kameHouse.session = new SessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
         if (!this.#isGRootAuthorizedPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
@@ -3225,6 +3228,20 @@ class KameHouseUtil {
   time = new KameHouseTimeUtils();
 
 } // KameHouseUtil
+
+/**
+ * KameHouse session status.
+ */
+class SessionStatus {
+  username: String;
+  firstName: String;
+  lastName: String;
+  server: String;
+  sessionId: String;
+  buildVersion: String;
+  buildDate: String;
+  roles: String[];
+} // SessionStatus
 
 const kameHouse = new KameHouse();
 kameHouse.ready(() => {kameHouse.init();});
