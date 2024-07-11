@@ -59,7 +59,10 @@
 
         <label for="password">Password</label>
         <input id="password" class="form-input-kh" type="password" name="password">
-        <input type="checkbox" class="m-7-d-kh" onclick="kameHouse.extension.bookingService.togglePasswordField('password')">
+        <input type="checkbox" class="m-7-d-kh" 
+          onclick="kameHouse.extension.bookingService.togglePasswordField('password')"
+          onchange="kameHouse.extension.bookingService.togglePasswordField('password')"
+          onkeydown="kameHouse.extension.bookingService.togglePasswordField('password')" tabindex="0">
         <br>
 
         <label for="site">Site</label>
@@ -165,7 +168,10 @@
               <label for="card-cvv">CVV</label>
               <br>
               <input id="card-cvv" class="form-input-kh cc-cvv" type="password" maxlength="3" name="card-cvv">
-              <input type="checkbox" class="m-7-d-kh" onclick="kameHouse.extension.bookingService.togglePasswordField('card-cvv')">
+              <input type="checkbox" class="m-7-d-kh" 
+                onclick="kameHouse.extension.bookingService.togglePasswordField('card-cvv')"
+                onchange="kameHouse.extension.bookingService.togglePasswordField('card-cvv')"
+                onkeydown="kameHouse.extension.bookingService.togglePasswordField('card-cvv')" tabindex="0">
             </td>
             <td class="clear-payment-td">
               <button class="img-btn-kh"
