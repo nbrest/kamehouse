@@ -2514,7 +2514,7 @@ class KameHouseCore {
     kameHouse.logger.debug("Setting link-image backgrounds", null);
     const linkImages = document.getElementsByClassName("link-image-img") as HTMLCollectionOf<HTMLElement>;
     for (const linkImage of linkImages) {
-      const backgroundImg = linkImage.dataset.backgroundImg;
+      const backgroundImg = linkImage.dataset['backgroundImg'];
       if (backgroundImg) {
         kameHouse.util.dom.setBackgroundImage(linkImage, backgroundImg);
       }
@@ -2522,7 +2522,7 @@ class KameHouseCore {
     kameHouse.logger.debug("Setting img-btn-kh backgrounds", null);
     const imgBtns = document.getElementsByClassName("img-btn-kh") as HTMLCollectionOf<HTMLElement>;
     for (const imgBtn of imgBtns) {
-      const backgroundImg = imgBtn.dataset.backgroundImg;
+      const backgroundImg = imgBtn.dataset['backgroundImg'];
       if (backgroundImg) {
         kameHouse.util.dom.setBackgroundImage(imgBtn, backgroundImg);
       }

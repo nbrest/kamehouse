@@ -294,7 +294,7 @@ class CrudManager {
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter") as HTMLCollectionOf<HTMLInputElement>;
     for (const columnFilter of columnFilters) {
       const filterString = columnFilter.value;
-      const columnNumber = columnFilter.dataset.columnNumber;
+      const columnNumber = columnFilter.dataset['columnNumber'];
       kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString, null);
       kameHouse.util.table.filterTableRowsByColumn(filterString, CrudManager.#TBODY_ID, columnNumber, null, true);
     }

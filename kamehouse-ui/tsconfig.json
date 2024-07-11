@@ -7,10 +7,13 @@
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "strict": false,
+    "strictNullChecks": false,
     "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "strictFunctionTypes": true
   },
   "include": ["./src/main/typescript/**/*"]
 }

@@ -5,7 +5,17 @@
       "./src/main/typescript", "../kamehouse-ui/src/main/typescript"
     ],
     "allowJs": false,
-    "target": "ES2023"
+    "target": "ES2023",
+    "noImplicitAny": false,
+    "noUnusedParameters": false,
+    "strict": false,
+    "strictNullChecks": false,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictFunctionTypes": true
   },
   "include": [
     "./src/main/typescript/**/*", "../kamehouse-ui/src/main/typescript/**/*"

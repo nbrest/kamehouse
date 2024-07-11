@@ -5,7 +5,7 @@
  * 
  * @author nbrest
  */
-angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', '$location', function($scope, dragonBallUserService, $location) {
+angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'dragonBallUserService', '$location', function(this: any, $scope, dragonBallUserService, $location) {
   
   this.submit = submit;
   this.edit = edit;

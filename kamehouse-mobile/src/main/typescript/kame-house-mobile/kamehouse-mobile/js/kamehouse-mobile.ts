@@ -27,10 +27,10 @@ class KameHouseMobile {
  */
 class KameHouseMobileCore {
 
-  static #GET = "GET";
+  //static #GET = "GET";
+  //static #PUT = "PUT";
+  //static #DELETE = "DELETE";
   static #POST = "POST";
-  static #PUT = "PUT";
-  static #DELETE = "DELETE";
   static #DEFAULT_TIMEOUT_SECONDS = 60;
 
   #mockLocalhostServer = null;
@@ -1277,7 +1277,7 @@ class KameHouseMobileConfigManager {
    * Test file operations.
    * @deprecated
    */
-  #testFileManagement() {
+  testFileManagement() {
     setTimeout(() => { this.#createMobileConfigFile(); }, 1000);
     setTimeout(() => { this.#writeMobileConfigFile(); }, 10000);
     setTimeout(() => { this.#readMobileConfigFile(); }, 15000);
