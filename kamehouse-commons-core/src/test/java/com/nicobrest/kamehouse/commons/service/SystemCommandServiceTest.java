@@ -71,7 +71,7 @@ class SystemCommandServiceTest {
    * Executes process successful test.
    */
   @Test
-  void execKameHouseSystemCommandTest() throws Exception {
+  void execKameHouseSystemCommandTest() {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
 
@@ -93,7 +93,7 @@ class SystemCommandServiceTest {
    * Executes process successful for linux test.
    */
   @Test
-  void execLinuxCommandTest() throws Exception {
+  void execLinuxCommandTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
@@ -128,7 +128,7 @@ class SystemCommandServiceTest {
    * Executes daemon process successful test.
    */
   @Test
-  void execDaemonTest() throws Exception {
+  void execDaemonTest() {
     setupProcessStreamMocks("", "");
     SystemCommand systemCommand = new TestDaemonCommand("9");
 
@@ -159,7 +159,7 @@ class SystemCommandServiceTest {
    * Execute successful test with sleep set in one of the commands.
    */
   @Test
-  void executeWithSleepTimeTest() throws IOException {
+  void executeWithSleepTimeTest() {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
     KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
     kameHouseSystemCommand.getSystemCommands().get(0).setSleepTime(1);
@@ -181,8 +181,7 @@ class SystemCommandServiceTest {
   /**
    * Setup mock input and error streams.
    */
-  private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent)
-      throws IOException {
+  private void setupProcessStreamMocks(String inputStreamContent, String errorStreamContent) {
     InputStream processInputStream = new ByteArrayInputStream(
         inputStreamContent.getBytes(Charsets.UTF_8));
     InputStream processErrorStream = new ByteArrayInputStream(

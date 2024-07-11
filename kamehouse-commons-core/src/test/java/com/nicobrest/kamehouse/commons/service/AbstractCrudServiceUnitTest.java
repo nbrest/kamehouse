@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
 import java.util.List;
@@ -22,7 +21,6 @@ class AbstractCrudServiceUnitTest {
 
   @Autowired
   private TestEntityCrudService testEntityCrudService;
-  private CrudDao<TestEntity> crudDao = new TestEntityCrudService.CrudDaoMock();
 
   /**
    * read entity test.

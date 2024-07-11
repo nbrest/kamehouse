@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class PropertiesUtilsTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() throws IOException {
+  public void before() {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     when(PropertiesUtils.getProperty(any())).thenCallRealMethod();
   }

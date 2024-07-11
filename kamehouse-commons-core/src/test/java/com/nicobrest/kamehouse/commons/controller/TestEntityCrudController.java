@@ -44,6 +44,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Read a TestEntity.
    */
   @GetMapping(path = "/test-entity/{id}")
+  @Override
   public ResponseEntity<TestEntity> read(@PathVariable Long id) {
     return generatePasswordLessResponseEntity(super.read(id));
   }
@@ -52,6 +53,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Read all TestEntities.
    */
   @GetMapping(path = "/test-entity")
+  @Override
   public ResponseEntity<List<TestEntity>> readAll() {
     return super.readAll();
   }
@@ -60,6 +62,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Update a TestEntity.
    */
   @PutMapping(path = "/test-entity/{id}")
+  @Override
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TestEntityDto dto) {
     return super.update(id, dto);
   }
@@ -68,6 +71,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
    * Delete a TestEntity.
    */
   @DeleteMapping(path = "/test-entity/{id}")
+  @Override
   public ResponseEntity<TestEntity> delete(@PathVariable Long id) {
     return super.delete(id);
   }

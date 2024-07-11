@@ -199,6 +199,7 @@ class SchedulerServiceTest {
      * Dummy sample execute method for unit tests.
      */
     public void execute(JobExecutionContext context) {
+      // dummy method.
     }
   }
 }

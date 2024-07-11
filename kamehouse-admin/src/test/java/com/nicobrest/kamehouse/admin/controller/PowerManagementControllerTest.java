@@ -69,7 +69,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
    * Sets shutdown exception test.
    */
   @Test
-  void setShutdownExceptionTest() throws Exception {
+  void setShutdownExceptionTest() {
     assertThrows(
         ServletException.class,
         () -> {
@@ -101,7 +101,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
    * Cancels shutdown server error test.
    */
   @Test
-  void cancelShutdownServerErrorTest() throws Exception {
+  void cancelShutdownServerErrorTest() {
     assertThrows(
         ServletException.class,
         () -> {
@@ -148,7 +148,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
    * Sets suspend exception test.
    */
   @Test
-  void setSuspendExceptionTest() throws Exception {
+  void setSuspendExceptionTest() {
     assertThrows(
         ServletException.class,
         () -> {
@@ -180,7 +180,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
    * Cancels suspend server error test.
    */
   @Test
-  void cancelSuspendServerErrorTest() throws Exception {
+  void cancelSuspendServerErrorTest() {
     assertThrows(
         ServletException.class,
         () -> {
@@ -249,7 +249,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
    * WOL invalid request test.
    */
   @Test
-  void wolInvalidRequestTest() throws Exception {
+  void wolInvalidRequestTest() {
     doNothing().when(powerManagementService).wakeOnLan(anyString());
     assertThrows(
         ServletException.class,

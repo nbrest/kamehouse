@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.admin.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
-import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -40,10 +39,6 @@ class SystemStateControllerIntegrationTest extends AbstractControllerIntegration
     Assertions.assertDoesNotThrow(() -> {
       logger.info("Disabled:httpdRestartTest");
     });
-
-    //HttpResponse response = post(getWebappUrl() + API_URL + "/httpd");
-
-    //verifySuccessfulResponseList(response, SystemCommand.Output.class);
   }
 }
 

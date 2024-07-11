@@ -65,7 +65,7 @@ public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestE
     public TestEntity delete(Long id) {
       TestEntity testEntity = new TestEntity();
       testEntity.setId(id);
-      testEntity.setName("goku");
+      testEntity.setName("goku-deleted");
       return testEntity;
     }
   }

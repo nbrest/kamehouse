@@ -80,7 +80,7 @@ class SchedulerControllerTest extends AbstractControllerTest {
 
   /** Cancels scheduled job error test. */
   @Test
-  void cancelScheduledJobServerErrorTest() throws Exception {
+  void cancelScheduledJobServerErrorTest() {
     assertThrows(
         ServletException.class,
         () -> {

@@ -140,7 +140,7 @@ class LogLevelManagerControllerTest extends AbstractControllerTest<List<String>,
    * Tests setting an invalid log level for the default package.
    */
   @Test
-  void setLogLevelInvalidLogLevelTest() throws Exception {
+  void setLogLevelInvalidLogLevelTest() {
     assertThrows(
         ServletException.class,
         () -> {

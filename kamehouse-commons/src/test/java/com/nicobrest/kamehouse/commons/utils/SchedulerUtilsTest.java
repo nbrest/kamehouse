@@ -34,6 +34,8 @@ class SchedulerUtilsTest {
   class SampleTestJob implements Job {
 
     /** Dummy sample execute method for unit tests. */
-    public void execute(JobExecutionContext context) {}
+    public void execute(JobExecutionContext context) {
+      // dummy method.
+    }
   }
 }

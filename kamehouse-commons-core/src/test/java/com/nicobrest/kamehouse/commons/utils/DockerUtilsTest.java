@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
-import java.io.IOException;
 import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -33,7 +32,7 @@ class DockerUtilsTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() throws IOException {
+  public void before() {
     testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     sshClientUtils = Mockito.mockStatic(SshClientUtils.class);

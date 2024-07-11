@@ -149,7 +149,6 @@ class KameHouseCmdIntegrationTest {
    */
   private List<String> getCommand(String operationCommand) {
     List<String> command = new ArrayList<>();
-    ;
     if (PropertiesUtils.isWindowsHost()) {
       command.addAll(List.of("cmd.exe", "/c", "start", "/min", KAMEHOUSE_CMD_WIN));
     } else {
