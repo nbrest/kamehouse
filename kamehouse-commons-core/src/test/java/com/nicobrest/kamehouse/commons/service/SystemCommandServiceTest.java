@@ -15,7 +15,6 @@ import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +46,7 @@ class SystemCommandServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() throws IOException, InterruptedException {
+  public void before() throws InterruptedException {
     testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     processUtils = Mockito.mockStatic(ProcessUtils.class);

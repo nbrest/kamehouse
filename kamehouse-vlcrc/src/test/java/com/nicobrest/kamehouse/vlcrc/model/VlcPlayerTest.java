@@ -36,7 +36,7 @@ class VlcPlayerTest {
   private VlcRcFileListTestUtils vlcRcFileListTestUtils = new VlcRcFileListTestUtils();
   private VlcRcCommandTestUtils vlcRcCommandTestUtils = new VlcRcCommandTestUtils();
   private VlcPlayer vlcPlayer;
-  private VlcRcStatus vlcRcStatus;
+  private VlcRcStatus expectedVlcRcStatus;
   private List<VlcRcPlaylistItem> vlcRcPlaylist;
   private List<VlcRcFileListItem> vlcRcFileList;
 
@@ -54,7 +54,7 @@ class VlcPlayerTest {
     vlcPlayerTestUtils.initTestData();
     vlcPlayer = Mockito.spy(vlcPlayerTestUtils.getSingleTestData());
     vlcRcStatusTestUtils.initTestData();
-    vlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
+    expectedVlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();
     vlcRcPlaylist = vlcRcPlaylistTestUtils.getSingleTestData();
     vlcRcFileListTestUtils.initTestData();
@@ -85,7 +85,7 @@ class VlcPlayerTest {
 
     VlcRcStatus returnedVlcRcStatus = vlcPlayer.execute(vlcRcCommand);
 
-    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(expectedVlcRcStatus, returnedVlcRcStatus);
   }
 
   /** Executes a command in the VLC Player and return it's status. */
@@ -117,7 +117,7 @@ class VlcPlayerTest {
 
     VlcRcStatus returnedVlcRcStatus = vlcPlayer.getVlcRcStatus();
 
-    vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedVlcRcStatus);
+    vlcRcStatusTestUtils.assertEqualsAllAttributes(expectedVlcRcStatus, returnedVlcRcStatus);
   }
 
   /** Gets the current playlist of the VLC Player. */

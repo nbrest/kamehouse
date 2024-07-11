@@ -161,20 +161,4 @@ class DragonBallControllerTest
     verifyResponseStatus(response, HttpStatus.OK);
     testUtils.assertEqualsAllAttributes(dragonBallUser, responseBody);
   }
-
-  /*
-   * @Ignore("Disabled test example")
-   *
-   * @Test void disabledTest() { // @Ignore disables the execution of the
-   * test assertEquals("disabledTest not yet implemented", 0, 0);
-   *
-   * // Assert statements:
-   *
-   * // fail(message) assertTrue([message,] boolean condition) //
-   * assertFalse([message,] boolean condition) assertEquals([message,] //
-   * expected, actual) assertEquals([message,] expected, actual, tolerance) //
-   * assertNull([message,] object) assertNotNull([message,] object) //
-   * assertSame([message,] expected, actual) assertNotSame([message,] // expected,
-   * actual) }
-   */
 }
