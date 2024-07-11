@@ -22,6 +22,8 @@ cd ~
 curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
 sudo apt-get -y install nodejs
 sudo npm install typescript -g
+# to avoid jquery typescript compiler errors
+sudo npm install --save-dev @types/jquery -g
 ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows

@@ -276,10 +276,10 @@ class KameHouseDebugger {
  */
 class DebuggerHttpClient {
 
-  static #GET = "GET";
-  static #POST = "POST";
-  static #PUT = "PUT";
-  static #DELETE = "DELETE";
+  #GET = "GET";
+  #POST = "POST";
+  #PUT = "PUT";
+  #DELETE = "DELETE";
 
   #kameHouseDebugger = null;
 
@@ -293,7 +293,7 @@ class DebuggerHttpClient {
    * data is any extra data I want to pass to the success and error functions
    */
   get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#GET, config, url, requestHeaders, requestBody);
+    const requestData = this.#createRequestDataForLog(this.#GET, config, url, requestHeaders, requestBody);
     this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.get(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
@@ -306,7 +306,7 @@ class DebuggerHttpClient {
    * and perform the specified success or error functions 
    */
   put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#PUT, config, url, requestHeaders, requestBody);
+    const requestData = this.#createRequestDataForLog(this.#PUT, config, url, requestHeaders, requestBody);
     this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.put(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
@@ -319,7 +319,7 @@ class DebuggerHttpClient {
    * and perform the specified success or error functions 
    */
   post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#POST, config, url, requestHeaders, requestBody);
+    const requestData = this.#createRequestDataForLog(this.#POST, config, url, requestHeaders, requestBody);
     this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.post(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),
@@ -332,7 +332,7 @@ class DebuggerHttpClient {
    * and perform the specified success or error functions 
    */
   delete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    const requestData = this.#createRequestDataForLog(DebuggerHttpClient.#DELETE, config, url, requestHeaders, requestBody);
+    const requestData = this.#createRequestDataForLog(this.#DELETE, config, url, requestHeaders, requestBody);
     this.#kameHouseDebugger.displayRequestData(requestData);
     kameHouse.http.delete(config, url, requestHeaders, requestBody,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#processResponse(responseBody, responseCode, responseDescription, responseHeaders, successCallback, requestData),

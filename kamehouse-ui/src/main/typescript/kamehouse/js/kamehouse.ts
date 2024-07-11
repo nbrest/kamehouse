@@ -150,9 +150,9 @@ class KameHouse {
  */
 class KameHouseBannerUtils {
 
-  static #DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
-  static #PRELOAD_BANNERS_WAIT_MS = 25000;
-  static #BANNERS_LIST = [
+  #DEFAULT_BANNER_ROTATE_WAIT_MS = 10000;
+  #PRELOAD_BANNERS_WAIT_MS = 25000;
+  #BANNERS_LIST = [
     {
       category: "batcave",
       banners: ["banner-batman-animated", "banner-batman-1989-batcave-bw", "banner-batman-animated-batcave-01", "banner-batman-forever-batcave-02", "banner-batman-1989-batcave-01", "banner-batman-1989-batmobile-01", "banner-batman-animated-batcave-02", "banner-batman-forever-batcave-03", "banner-batman-1989-batcave-02", "banner-batman-1989-batmobile-02", "banner-batman-animated-batcave-03", "banner-batman-n-robin-batcave-01", "banner-batman-1989-batcave-03", "banner-batman-1989-batsignal-01", "banner-batman-animated-batcave-04", "banner-batman-1989-batcave-04", "banner-batman-1989-batsignal-02", "banner-batman-forever-batcave-01"]
@@ -263,7 +263,7 @@ class KameHouseBannerUtils {
    */
   getBannerCategories() {
     const allCategories = [];
-    KameHouseBannerUtils.#BANNERS_LIST.forEach((banner) => {
+    this.#BANNERS_LIST.forEach((banner) => {
       allCategories.push(banner.category);
     });
     return allCategories;
@@ -274,7 +274,7 @@ class KameHouseBannerUtils {
    */
   getBanners(bannerCategory) {
     let selectedBanners = [];
-    KameHouseBannerUtils.#BANNERS_LIST.forEach((banner) => {
+    this.#BANNERS_LIST.forEach((banner) => {
       if (bannerCategory === banner.category) {
         selectedBanners = banner.banners;
       }
@@ -301,7 +301,7 @@ class KameHouseBannerUtils {
    */
   #getAllBanners() {
     const allBanners = [];
-    KameHouseBannerUtils.#BANNERS_LIST.forEach((banner) => {
+    this.#BANNERS_LIST.forEach((banner) => {
       allBanners.push(...banner.banners);
     });
     return allBanners;
@@ -348,7 +348,7 @@ class KameHouseBannerUtils {
   /** Set a random image banner from the classes list at the specified interval */
   #setRandomBannerLoop(bannerClass, bannerRotateWaitMs) {
     if (kameHouse.core.isEmpty(bannerRotateWaitMs)) {
-      bannerRotateWaitMs = KameHouseBannerUtils.#DEFAULT_BANNER_ROTATE_WAIT_MS;
+      bannerRotateWaitMs = this.#DEFAULT_BANNER_ROTATE_WAIT_MS;
     }
     setInterval(() => {
       this.#setRandomBanner(bannerClass);
@@ -369,7 +369,7 @@ class KameHouseBannerUtils {
         preloadedBannerImages.push(img);
       });
       kameHouse.logger.trace("Preloaded " + preloadedBannerImages.length + " banners", null);
-    }, KameHouseBannerUtils.#PRELOAD_BANNERS_WAIT_MS);
+    }, this.#PRELOAD_BANNERS_WAIT_MS);
   }
   
 } // KameHouseBannerUtils
@@ -3009,38 +3009,38 @@ class KameHouseCore {
  */
  class KameHouseHttpClient {
 
-  static #GET = "GET";
-  static #POST = "POST";
-  static #PUT = "PUT";
-  static #DELETE = "DELETE";
-  static #DEFAULT_TIMEOUT_MS = 60000;
+  #GET = "GET";
+  #POST = "POST";
+  #PUT = "PUT";
+  #DELETE = "DELETE";
+  #DEFAULT_TIMEOUT_MS = 60000;
 
   /** Execute an http GET request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   get(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    this.#httpRequest(KameHouseHttpClient.#GET, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    this.#httpRequest(this.#GET, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http PUT request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   put(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    this.#httpRequest(KameHouseHttpClient.#PUT, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    this.#httpRequest(this.#PUT, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http POST request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   post(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    this.#httpRequest(KameHouseHttpClient.#POST, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    this.#httpRequest(this.#POST, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Execute an http DELETE request.
    * Implement and pass successCallback(responseBody, responseCode, responseDescription, responseHeaders) 
    * and errorCallback(responseBody, responseCode, responseDescription, responseHeaders) */
   delete(config, url, requestHeaders, requestBody, successCallback, errorCallback) {
-    this.#httpRequest(KameHouseHttpClient.#DELETE, config, url, requestHeaders, requestBody, successCallback, errorCallback);
+    this.#httpRequest(this.#DELETE, config, url, requestHeaders, requestBody, successCallback, errorCallback);
   }
 
   /** Get request headers object with Url Encoded content type. */
@@ -3129,7 +3129,7 @@ class KameHouseCore {
    */
   #webHttpRequest(httpMethod, config, url, requestHeaders, requestBody, successCallback, errorCallback) {
     kameHouse.logger.logHttpRequest(httpMethod, config, url, requestHeaders, requestBody);
-    let requestTimeout = KameHouseHttpClient.#DEFAULT_TIMEOUT_MS;
+    let requestTimeout = this.#DEFAULT_TIMEOUT_MS;
     if (!kameHouse.core.isEmpty(config.timeout)) {
       requestTimeout = config.timeout * 1000;
       kameHouse.logger.trace("Setting timeout for web request to " + requestTimeout, null);
