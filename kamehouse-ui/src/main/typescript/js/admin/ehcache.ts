@@ -19,8 +19,8 @@ class EhCacheManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing ehcache");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing ehcache", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
       kameHouse.plugin.webappTabsManager.cookiePrefix('kh-admin-ehcache');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
@@ -34,7 +34,7 @@ class EhCacheManager {
    * Get all cache data.
    */
   getAllCacheData(webapp) {
-    kameHouse.logger.trace("getAllCacheData");
+    kameHouse.logger.trace("getAllCacheData", null);
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.get(config, this.#getApiUrl(webapp), null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayCacheData(responseBody, webapp),
@@ -161,7 +161,7 @@ class EhCacheManager {
    */
   #getEhCacheTableFromTemplate(cacheName) {
     // Create a wrapper div to insert the table template
-    const ehcacheTableDiv = kameHouse.util.dom.getElementFromTemplate(this.#ehcacheTableTemplate);
+    const ehcacheTableDiv = kameHouse.util.dom.getElementFromTemplate(this.#ehcacheTableTemplate) as Element;
     
     // Update the ids and classes on the table generated from the template
     kameHouse.util.dom.setId(ehcacheTableDiv, "ehcache-table-" + cacheName);
@@ -187,7 +187,7 @@ class EhCacheManager {
    */
   #displayErrorGettingCache(webapp) {
     // Create a wrapper div to insert the error table template
-    const ehcacheErrorTableDiv = kameHouse.util.dom.getElementFromTemplate(this.#ehcacheErrorTableTemplate);
+    const ehcacheErrorTableDiv = kameHouse.util.dom.getElementFromTemplate(this.#ehcacheErrorTableTemplate) as Element;
     // Update the id
     kameHouse.util.dom.setId(ehcacheErrorTableDiv.querySelector('tr #ehcache-table-template-error-val'), "ehcache-table-" + webapp + "-error-val");
     // Attach the error table to the dom
@@ -195,7 +195,7 @@ class EhCacheManager {
     const cacheData = document.getElementById("cache-data-" + webapp);
     kameHouse.util.dom.append(cacheData, ehcacheErrorTableDiv);
     // Update the message
-    kameHouse.util.dom.setHtmlById("ehcache-table-" + webapp + "-error-val", kameHouse.util.time.getTimestamp() +
+    kameHouse.util.dom.setHtmlById("ehcache-table-" + webapp + "-error-val", kameHouse.util.time.getTimestamp(null) +
       " : Error retrieving cache data. Please try again later.");
 
     const message = "Error retrieving cache data. Please try again later.";

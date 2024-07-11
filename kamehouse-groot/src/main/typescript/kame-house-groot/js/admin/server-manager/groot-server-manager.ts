@@ -6,7 +6,7 @@
  * 
  * @author nbrest
  */
-class ServerManager {
+class GrootServerManager {
 
   #isLinuxHost = false;
   #isLinuxDockerHost = false;
@@ -18,7 +18,7 @@ class ServerManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading ServerManager");
+    kameHouse.logger.info("Loading ServerManager", null);
     this.setBanners();
     this.loadStateFromCookies();
     kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
@@ -46,7 +46,7 @@ class ServerManager {
    * Set random banners.
    */
   setBanners() {
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.banner.setRandomAllBanner(null);
   }
 
   /**
@@ -144,8 +144,8 @@ class ServerManager {
     this.setCommandRunning();
     this.openExecutingCommandModal();
     this.getShell().execute(script, args, true, 600, 
-      (scriptOutput) => this.completeCommandCallback(scriptOutput), 
-      (scriptOutput) => this.completeCommandCallback(scriptOutput));
+      () => this.completeCommandCallback(), 
+      () => this.completeCommandCallback());
   }
 
   /**
@@ -220,7 +220,7 @@ class GitManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading GitManager");
+    kameHouse.logger.info("Loading GitManager", null);
     kameHouse.util.module.setModuleLoaded("gitManager");
   }
 
@@ -265,7 +265,7 @@ class DeploymentManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading DeploymentManager");
+    kameHouse.logger.info("Loading DeploymentManager", null);
     kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseModal", "kameHouseDebugger", "kameHouseGrootSession"], () => {
       this.getTomcatModulesStatus();
       this.getNonTomcatModulesStatus();
@@ -285,7 +285,7 @@ class DeploymentManager {
    * Get status from non tomcat modules.
    */
   getNonTomcatModulesStatus() {
-    kameHouse.logger.debug("Getting non tomcat modules status");
+    kameHouse.logger.debug("Getting non tomcat modules status", null);
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 60, 
       (scriptOutput) => this.#displayModuleCmdStatus(scriptOutput), 
       () => {
@@ -319,7 +319,7 @@ class DeploymentManager {
    * Refresh the server view.
    */
   refreshServerView() {
-    kameHouse.logger.info("Refreshing server view");
+    kameHouse.logger.info("Refreshing server view", null);
     this.#resetAllModulesStatus();
     this.getTomcatModulesStatus();
     this.getTomcatProcessStatus();
@@ -338,7 +338,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/start-kamehouse.sh', args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/start-kamehouse.sh', args, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -351,7 +351,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/stop-kamehouse.sh', args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/stop-kamehouse.sh', args, false, 600, () => this.refreshServerView(), () => {});
   }  
 
   /**
@@ -371,7 +371,7 @@ class DeploymentManager {
     if (this.#isEclipseEnvironment()) {
       args = args + " -i eclipse";
     }
-    kameHouse.extension.kameHouseShell.execute(script, args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -384,7 +384,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/undeploy-kamehouse.sh', args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/undeploy-kamehouse.sh', args, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -398,7 +398,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-s kamehouse/deploy-kamehouse.sh -a -m" + SPACE + module;
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -418,7 +418,7 @@ class DeploymentManager {
     if (this.#isEclipseEnvironment()) {
       args = args + " -i eclipse";
     }
-    kameHouse.extension.kameHouseShell.execute(script, args, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -430,7 +430,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy-kamehouse.sh", false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy-kamehouse.sh", false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -447,7 +447,7 @@ class DeploymentManager {
       script = 'kamehouse/tomcat-restart-dev.sh';
     }
     const stringArgs = this.#getRestartTomcatParams();
-    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, 600, (scriptOutput) => this.refreshServerView(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -465,7 +465,7 @@ class DeploymentManager {
       () => {
         const selectedBackend = kameHouse.extension.mobile.core.getSelectedBackendServer();
         if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
-          kameHouse.logger.warn("Selected backend name is empty");
+          kameHouse.logger.warn("Selected backend name is empty", null);
           return false;
         }
         if (selectedBackend.name == "Dev Eclipse") {
@@ -486,10 +486,10 @@ class DeploymentManager {
         return !kameHouse.core.isEmpty(port) && DeploymentManager.#DEV_PORTS.includes(port);
       },
       () => {
-        kameHouse.logger.trace("Checking if it's dev environment on mobile");
+        kameHouse.logger.trace("Checking if it's dev environment on mobile", null);
         const selectedBackend = kameHouse.extension.mobile.core.getSelectedBackendServer();
         if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
-          kameHouse.logger.warn("Selected backend name is empty");
+          kameHouse.logger.warn("Selected backend name is empty", null);
           return false;
         }
         if (selectedBackend.name == "Dev Intellij" 
@@ -630,7 +630,7 @@ class DeploymentManager {
    * Get the parameters for tomcat restart script.
    */
   #getRestartTomcatParams() {
-    const tomcatDebugModeCheckbox = document.getElementById("tomcat-debug-mode");
+    const tomcatDebugModeCheckbox = document.getElementById("tomcat-debug-mode") as HTMLInputElement;
     if (tomcatDebugModeCheckbox.checked) {
       return "-d";
     } else {
@@ -701,7 +701,7 @@ class TailLogManagerWrapper {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading TailLogManagerWrapper");
+    kameHouse.logger.info("Loading TailLogManagerWrapper", null);
     kameHouse.util.module.setModuleLoaded("tailLogManagerWrapper");
     kameHouse.util.mobile.setMobileEventListeners(() => {this.#pauseTailLog()}, () => {this.#resumeTailLog()});
   }
@@ -723,10 +723,10 @@ class TailLogManagerWrapper {
    */
   #pauseTailLog() {
     if (this.#isTailLogRunning) {
-      kameHouse.logger.info("KameHouse sent to background. Pausing tail logs");
+      kameHouse.logger.info("KameHouse sent to background. Pausing tail logs", null);
       this.#resume = true;
     } else {
-      kameHouse.logger.info("KameHouse sent to background. Tail log not running");
+      kameHouse.logger.info("KameHouse sent to background. Tail log not running", null);
     }
     this.#isTailLogRunning = false;
   }
@@ -736,11 +736,11 @@ class TailLogManagerWrapper {
    */
   #resumeTailLog() {
     if (this.#resume) {
-      kameHouse.logger.info("KameHouse sent to foreground. Resuming tail logs");
+      kameHouse.logger.info("KameHouse sent to foreground. Resuming tail logs", null);
       this.#resume = false;
       this.#tailLog();
     } else {
-      kameHouse.logger.info("KameHouse sent to foreground. Tail log not running");
+      kameHouse.logger.info("KameHouse sent to foreground. Tail log not running", null);
     }
   }
 
@@ -753,21 +753,21 @@ class TailLogManagerWrapper {
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
     }
-    kameHouse.logger.info("Started tailLog loop");
+    kameHouse.logger.info("Started tailLog loop", null);
     kameHouse.util.dom.replaceWithById("toggle-tail-log-btn", this.#stopButton);
     this.#tailLogCount++;
     this.#isTailLogRunning = true;
     while (this.#isTailLogRunning) {
-      kameHouse.logger.trace("tailLog loop running. tailLogCount: " + this.#tailLogCount);
-      let tailLogFile = document.getElementById("tail-log-dropdown").value;
-      let numberOfLines = document.getElementById("tail-log-num-lines-dropdown").value;
-      let logLevel = document.getElementById("tail-log-level-dropdown").value;
+      kameHouse.logger.trace("tailLog loop running. tailLogCount: " + this.#tailLogCount, null);
+      let tailLogFile = (document.getElementById("tail-log-dropdown") as HTMLSelectElement).value;
+      let numberOfLines = (document.getElementById("tail-log-num-lines-dropdown") as HTMLSelectElement).value;
+      let logLevel = (document.getElementById("tail-log-level-dropdown") as HTMLSelectElement).value;
       let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogFile);
       this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, () => {});
   
       await kameHouse.core.sleep(10000);
       if (this.#tailLogCount > 1) {
-        kameHouse.logger.info("tailLog loop: Running multiple tailLog, exiting this loop");
+        kameHouse.logger.info("tailLog loop: Running multiple tailLog, exiting this loop", null);
         break;
       }
     }
@@ -775,7 +775,7 @@ class TailLogManagerWrapper {
     if (this.#tailLogCount == 0) {
       kameHouse.util.dom.replaceWithById("toggle-tail-log-btn", this.#startButton);
     }
-    kameHouse.logger.info("Finished tailLog loop");
+    kameHouse.logger.info("Finished tailLog loop", null);
     kameHouse.plugin.modal.loadingWheelModal.close();
   }
 
@@ -825,7 +825,7 @@ class TailLogManagerWrapper {
 } // TailLogManagerWrapper
 
 kameHouse.ready(() => {
-  kameHouse.addExtension("serverManager", new ServerManager());
+  kameHouse.addExtension("serverManager", new GrootServerManager());
   kameHouse.addExtension("gitManager", new GitManager());
   kameHouse.addExtension("deploymentManager", new DeploymentManager());
   kameHouse.addExtension("tailLogManagerWrapper", new TailLogManagerWrapper());

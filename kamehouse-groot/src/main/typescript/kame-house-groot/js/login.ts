@@ -9,7 +9,7 @@ class GrootLogin {
    * Load the groot login manager extension.
    */
   load() {
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.banner.setRandomAllBanner(null);
     const urlParams = new URLSearchParams(window.location.search);
     const referrer = urlParams.get('referrer');
     if (!kameHouse.core.isEmpty(referrer)) {

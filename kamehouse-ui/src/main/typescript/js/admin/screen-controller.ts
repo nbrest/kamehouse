@@ -14,8 +14,8 @@ class ScreenController {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing screen controller");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing screen controller", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     this.#importCss();
   }
 
@@ -24,7 +24,7 @@ class ScreenController {
    */
   keyPress(key, keyPresses) {
     if (kameHouse.core.isEmpty(keyPresses)) {
-      kameHouse.logger.trace("keyPresses not set. Using default value of 1");
+      kameHouse.logger.trace("keyPresses not set. Using default value of 1", null);
       keyPresses = 1;
     }
     const requestParam = {
@@ -42,8 +42,8 @@ class ScreenController {
    * Send a key press with the selected key presses in the specified dropdown.
    */
   keyPressWithDropdown(key, dropdownId) {
-    const keyPresses = document.getElementById(dropdownId).value;
-    kameHouse.logger.trace("Number of key presses: " + keyPresses);
+    const keyPresses = (document.getElementById(dropdownId) as HTMLSelectElement).value;
+    kameHouse.logger.trace("Number of key presses: " + keyPresses, null);
     this.keyPress(key, keyPresses);
   }
 

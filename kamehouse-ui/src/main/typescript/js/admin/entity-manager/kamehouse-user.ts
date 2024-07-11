@@ -96,14 +96,14 @@ class KameHouseUserCrudManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing kameHouseUserCrudManager");
+    kameHouse.logger.info("Started initializing kameHouseUserCrudManager", null);
   }
 
   /**
    * Build kamehouse user roles entity.
    */
   buildRolesEntity(element) {
-    kameHouse.logger.debug("Building kamehouse user roles entity");
+    kameHouse.logger.debug("Building kamehouse user roles entity", null);
     for (const option of element.options) {
       if (option.selected && option.value != "") {
         const role = {
@@ -111,12 +111,12 @@ class KameHouseUserCrudManager {
         };
         const id = element.getAttribute("data-kamehouse-id");
         if (!kameHouse.core.isEmpty(id)) {
-          kameHouse.logger.trace("Building role from element with data-kamehouse-id: " + id);
+          kameHouse.logger.trace("Building role from element with data-kamehouse-id: " + id, null);
         }
         return role;
       }
     }
-    kameHouse.logger.warn("Unable to build kamehouse user role");
+    kameHouse.logger.warn("Unable to build kamehouse user role", null);
     return null;
   }
   
@@ -124,7 +124,7 @@ class KameHouseUserCrudManager {
    * Build kamehouse user roles form field.
    */
   buildRolesFormField(baseRoleSelectElement, roleEntity) {
-    kameHouse.logger.debug("Building kamehouse user roles form field");
+    kameHouse.logger.debug("Building kamehouse user roles form field", null);
     const formField = kameHouse.util.dom.cloneNode(baseRoleSelectElement, true);
     kameHouse.util.dom.classListAdd(formField, "m-5-t-d-kh");
     kameHouse.util.dom.setAttribute(formField, "data-kamehouse-id", "");
@@ -145,7 +145,7 @@ class KameHouseUserCrudManager {
    * Build kamehouse user roles display list.
    */
   buildRolesListDisplay(roles) {
-    kameHouse.logger.debug("Building kamehouse user roles display list");
+    kameHouse.logger.debug("Building kamehouse user roles display list", null);
     if (kameHouse.core.isEmpty(roles)) {
       return "[]";
     }
@@ -153,7 +153,7 @@ class KameHouseUserCrudManager {
     roles.forEach((role) => {
       rolesToPrint.push(role.name);
     });
-    return kameHouse.json.stringify(rolesToPrint);
+    return kameHouse.json.stringify(rolesToPrint, null, null);
   }
   
 }

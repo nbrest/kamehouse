@@ -24,7 +24,7 @@ class PlaylistBrowser {
 
   /** Load Playlist Browser extension. */
   load() {
-    kameHouse.logger.info("Started initializing playlist browser");
+    kameHouse.logger.info("Started initializing playlist browser", null);
     kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-btn", this.#dobleRightButton);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.populateVideoPlaylistCategories();
@@ -34,8 +34,8 @@ class PlaylistBrowser {
 
   /** Filter playlist browser rows based on the search string. */
   filterPlaylistRows() {
-    const filterString = document.getElementById("playlist-browser-filter-input").value;
-    kameHouse.util.table.filterTableRows(filterString, 'playlist-browser-table-body');
+    const filterString = (document.getElementById("playlist-browser-filter-input") as HTMLInputElement).value;
+    kameHouse.util.table.filterTableRows(filterString, 'playlist-browser-table-body', null, null);
   }
 
   /** Populate playlist categories dropdown. */
@@ -49,8 +49,8 @@ class PlaylistBrowser {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         this.#videoPlaylists = responseBody;
         this.#videoPlaylistCategories = [...new Set(this.#videoPlaylists.map((playlist) => playlist.category))];
-        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(this.#videoPlaylists));
-        kameHouse.logger.debug("Playlist categories: " + this.#videoPlaylistCategories);
+        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(this.#videoPlaylists, null, null), null);
+        kameHouse.logger.debug("Playlist categories: " + this.#videoPlaylistCategories, null);
         const playlistCategoryDropdown = document.getElementById('playlist-category-dropdown');
         this.#videoPlaylistCategories.forEach((category) => {
           const categoryFormatted = category.replace(/\\/g, ' | ')
@@ -60,15 +60,15 @@ class PlaylistBrowser {
         });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error populating video playlist categories");
+        kameHouse.logger.error("Error populating video playlist categories", null);
       });
   }
 
   /** Populate video playlists dropdown when a playlist category is selected. */
   populateVideoPlaylists() {
-    const playlistCategoriesList = document.getElementById('playlist-category-dropdown');
+    const playlistCategoriesList = document.getElementById('playlist-category-dropdown') as HTMLSelectElement;
     const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
-    kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory);
+    kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory, null);
     this.#resetPlaylistDropdown();
     const playlistDropdown = document.getElementById('playlist-dropdown');
     this.#videoPlaylists.forEach((entry) => {
@@ -83,7 +83,7 @@ class PlaylistBrowser {
   /** Load the selected playlist's content in the view */
   loadPlaylistContent() {
     const playlistFilename = this.#getSelectedPlaylist();
-    kameHouse.logger.debug("Getting content for " + playlistFilename);
+    kameHouse.logger.debug("Getting content for " + playlistFilename, null);
     const requestParam = {
       "path" : playlistFilename
     };
@@ -94,7 +94,7 @@ class PlaylistBrowser {
         this.#populatePlaylistBrowserTable();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error getting playlist content");
+        kameHouse.logger.error("Error getting playlist content", null);
       });
   }
 
@@ -123,8 +123,8 @@ class PlaylistBrowser {
 
   /** Returns the selected playlist from the dropdowns. */
   #getSelectedPlaylist() {
-    const playlistSelected = document.getElementById("playlist-dropdown").value;
-    kameHouse.logger.debug("Playlist selected: " + playlistSelected);
+    const playlistSelected = (document.getElementById("playlist-dropdown") as HTMLSelectElement).value;
+    kameHouse.logger.debug("Playlist selected: " + playlistSelected, null);
     return playlistSelected;
   }
 
@@ -185,7 +185,7 @@ class PlaylistBrowser {
    * Update the playlist browser size view.
    */
   #updatePlaylistBrowserSize() {
-    kameHouse.logger.trace("Updating playlist browser size");
+    kameHouse.logger.trace("Updating playlist browser size", null);
     if (!this.#isEmptyPlaylist()) {
       kameHouse.util.dom.setHtmlById("playlist-browser-size", this.#currentPlaylist.files.length);
       kameHouse.util.dom.classListRemoveById("playlist-browser-size-wrapper", "hidden-kh");
@@ -205,7 +205,7 @@ class PlaylistBrowser {
   /** Play the clicked element from the playlist. */
   #clickEventOnPlaylistBrowserRow(event, data) {
     const filename = data.filename;
-    kameHouse.logger.info("Play selected playlist browser file : " + filename);
+    kameHouse.logger.info("Play selected playlist browser file : " + filename, null);
     kameHouse.extension.vlcPlayer.playFile(filename);
     kameHouse.extension.vlcPlayer.openTab('tab-playing');
   }

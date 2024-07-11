@@ -16,8 +16,8 @@ class TestScheduler {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading TestScheduler");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Loading TestScheduler", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.getSampleJobStatus(false);
     });
@@ -29,8 +29,8 @@ class TestScheduler {
    */
   /** Set a sample job command */
   setSampleJob() {
-    const delay = document.getElementById("sample-job-delay-dropdown").value;
-    kameHouse.logger.trace("Sample job delay: " + delay);
+    const delay = (document.getElementById("sample-job-delay-dropdown") as HTMLSelectElement).value;
+    kameHouse.logger.trace("Sample job delay: " + delay, null);
     const requestParam =  {
       "delay" : delay
     };

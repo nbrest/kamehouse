@@ -1,3 +1,3 @@
 kameHouse.ready(() => {
-  kameHouse.util.banner.setRandomSanctuaryBanner();
+  kameHouse.util.banner.setRandomSanctuaryBanner(null);
 });

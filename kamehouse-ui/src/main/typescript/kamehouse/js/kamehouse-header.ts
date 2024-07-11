@@ -7,7 +7,7 @@ class KameHouseHeader {
   
   /** Load the header */
   load() {
-    kameHouse.logger.info("Loading header");
+    kameHouse.logger.info("Loading header", null);
     kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-header.css">');
     kameHouse.ready(() => {
       // load the header after the other dom is ready to see if this fixes the very rare random header not loading
@@ -18,7 +18,7 @@ class KameHouseHeader {
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();
           kameHouse.util.module.setModuleLoaded("kameHouseHeader");
-          kameHouse.logger.info("Finished loading header");
+          kameHouse.logger.info("Finished loading header", null);
         });
         
       });
@@ -46,7 +46,7 @@ class KameHouseHeader {
       kameHouse.plugin.debugger.toggleDebugMode();
     } else {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("No debug mode in this page", 1000);
-      kameHouse.logger.info("No debug mode in this page");
+      kameHouse.logger.info("No debug mode in this page", null);
     }
   }
 
@@ -120,7 +120,7 @@ class KameHouseHeader {
   #getHeaderContainerDiv() {
     return kameHouse.util.dom.getDiv({
       id: "kamehouse-header-container"
-    });
+    }, null);
   }
 
   /**
@@ -168,7 +168,7 @@ class KameHouseHeader {
    * update the session status.
    */
   #updateSessionStatus() {
-    kameHouse.logger.info("Updating header with session status");
+    kameHouse.logger.info("Updating header with session status", null);
     this.#updateLoginStatus();
     kameHouse.util.banner.updateServerName();
   }  

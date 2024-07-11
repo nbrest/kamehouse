@@ -13,11 +13,11 @@ class KameHouseGroot {
    * Load the kamehouse groot extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing groot");
+    kameHouse.logger.info("Started initializing groot", null);
     this.#updateSplashScreen();
     kameHouse.extension.groot.header = new GrootHeader();
     kameHouse.extension.groot.header.renderGrootMenu();
-    kameHouse.logger.info("Finished initializing groot");
+    kameHouse.logger.info("Finished initializing groot", null);
   }
 
   /**
@@ -34,7 +34,7 @@ class KameHouseGroot {
     if (!this.isGrootPage()) {
       return;
     }
-    kameHouse.logger.debug("Updating splashscreen");
+    kameHouse.logger.debug("Updating splashscreen", null);
     const img = document.getElementById("kamehouse-splashscreen-img");
     if (!kameHouse.core.isEmpty(img)) {
       img.setAttribute("src", "/kame-house/img/marvel/captain-america-logo.png");
@@ -68,7 +68,7 @@ class GrootHeader {
     config.timeout = 15;
     kameHouse.http.get(config, SESSION_STATUS_API, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody));
+        kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody, null, null), null);
         kameHouse.extension.groot.session = responseBody;
         this.#updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
@@ -173,7 +173,7 @@ class GrootHeader {
     if (!kameHouse.extension.groot.isGrootPage()) {
       return;
     }
-    kameHouse.logger.debug("Updating kamehouse header with groot");
+    kameHouse.logger.debug("Updating kamehouse header with groot", null);
     const loginStatus = document.getElementById("login-status");
     kameHouse.util.dom.empty(loginStatus);
     kameHouse.util.dom.append(loginStatus, this.#getKameHouseButton());  

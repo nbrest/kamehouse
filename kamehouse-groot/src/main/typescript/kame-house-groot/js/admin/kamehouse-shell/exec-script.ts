@@ -20,7 +20,7 @@ class ExecScriptLoader {
    * Set random banners.
    */
   setBanners() {
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.banner.setRandomAllBanner(null);
   }
 
   /**
@@ -85,8 +85,8 @@ class ExecScriptLoader {
   #execute(scriptName, args, executeOnDockerHost, timeout) {
     kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
       this.getShell().execute(scriptName, args, executeOnDockerHost, timeout, 
-        (scriptOutput) => {this.#successCallback(scriptOutput)}, 
-        (scriptOutput) => {this.#errorCallback(scriptOutput)});
+        () => {this.#successCallback()}, 
+        () => {this.#errorCallback()});
     });  
   }
 

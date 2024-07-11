@@ -2,8 +2,15 @@
   "compilerOptions": {
     "outDir": "./src/main/webapp",
     "rootDir": "./src/main/typescript",
-    "allowJs": true,
-    "target": "ES2023"
+    "allowJs": false,
+    "target": "ES2023",
+    "noImplicitAny": false,
+    "noUnusedParameters": false,
+    "strict": false,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["./src/main/typescript/**/*"]
 }

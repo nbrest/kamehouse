@@ -13,8 +13,8 @@ class TestWebSocket {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing TestWebSocket");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing TestWebSocket", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     kameHouse.core.loadKameHouseWebSocket();
     kameHouse.logger.setLogLevel(4);
     document.querySelectorAll("form").forEach((form) => {
@@ -65,7 +65,7 @@ class TestWebSocket {
       if (this.#websocket.isConnected()) {
         kameHouse.plugin.modal.loadingWheelModal.close();
         this.#setConnected(true);
-        kameHouse.logger.debug("Connected WebSocket");
+        kameHouse.logger.debug("Connected WebSocket", null);
       } else {
         kameHouse.plugin.modal.loadingWheelModal.close();
         this.#setConnected(false);
@@ -82,7 +82,7 @@ class TestWebSocket {
   #disconnectWebSocket() {
     this.#websocket.disconnect();
     this.#setConnected(false);
-    kameHouse.logger.debug("Disconnected WebSocket");
+    kameHouse.logger.debug("Disconnected WebSocket", null);
   }
 
   /**
@@ -90,9 +90,9 @@ class TestWebSocket {
    */
   #sendWebSocketRequest() {
     const pollBody = kameHouse.json.stringify({
-      'firstName': document.getElementById("first-name").value,
-      'lastName': document.getElementById("last-name").value
-    });
+      'firstName': (document.getElementById("first-name") as HTMLInputElement).value,
+      'lastName': (document.getElementById("last-name") as HTMLInputElement).value
+    }, null, null);
     this.#websocket.poll(pollBody);
   }
 
@@ -100,7 +100,7 @@ class TestWebSocket {
    * Update the view after getting a response from the websocket.
    */
   #showTestWebSocketResponse(testWebSocketResponseBody) {
-    kameHouse.logger.trace("Received testWebSocketResponse from server: " + kameHouse.json.stringify(testWebSocketResponseBody));
+    kameHouse.logger.trace("Received testWebSocketResponse from server: " + kameHouse.json.stringify(testWebSocketResponseBody, null, null), null);
     const date = kameHouse.util.time.getDateFromEpoch(testWebSocketResponseBody.date);
     kameHouse.util.dom.appendById("websocket-responses", this.#getWebsocketResponseTr(date, testWebSocketResponseBody.message));
   }

@@ -87,7 +87,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
     if (!kameHouse.core.isEmpty(errResponse.data) && !kameHouse.core.isEmpty(errResponse.data.message)) {
       errorMessage = errorMessage + " : " + errResponse.data.message;
     }
-    kameHouse.logger.error(errorMessage);
+    kameHouse.logger.error(errorMessage, null);
     kameHouse.plugin.modal.basicModal.setHtml(errorMessage);
     kameHouse.plugin.modal.basicModal.appendHtml(kameHouse.util.dom.getBr());
     kameHouse.plugin.modal.basicModal.appendHtml(kameHouse.util.dom.getBr());
@@ -112,7 +112,7 @@ angular.module('myApp').controller('dragonBallUserController', [ '$scope', 'drag
    * Set the user to edit based on the id.
    */
   function edit(id) {
-    kameHouse.logger.info('id to be edited: ' + id);
+    kameHouse.logger.info('id to be edited: ' + id, null);
     for (const user of self.users) {
       if (user.id === id) {
         self.user = angular.copy(user);

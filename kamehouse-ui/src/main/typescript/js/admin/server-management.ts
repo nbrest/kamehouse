@@ -20,8 +20,8 @@ class ServerManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing server management");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing server management", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     this.#importServerManagementCss();
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.getSuspendStatus(false);
@@ -44,8 +44,8 @@ class ServerManager {
 
   /** Set a Shutdown command */
   setShutdownCommand() {
-    const shutdownDelay = document.getElementById("shutdown-delay-dropdown").value;
-    kameHouse.logger.trace("Shutdown delay: " + shutdownDelay);
+    const shutdownDelay = (document.getElementById("shutdown-delay-dropdown") as HTMLSelectElement).value;
+    kameHouse.logger.trace("Shutdown delay: " + shutdownDelay, null);
     const requestParam = {
       "delay" : shutdownDelay
     };
@@ -78,10 +78,10 @@ class ServerManager {
 
   /** Set a suspend command */
   setSuspendCommand() {
-    const suspendDelayHours = document.getElementById("suspend-delay-dropdown-hours").value;
-    const suspendDelayMinutes = document.getElementById("suspend-delay-dropdown-minutes").value;
+    const suspendDelayHours = (document.getElementById("suspend-delay-dropdown-hours") as HTMLSelectElement).value;
+    const suspendDelayMinutes = (document.getElementById("suspend-delay-dropdown-minutes") as HTMLSelectElement).value;
     const suspendDelay = Number(suspendDelayHours) + Number(suspendDelayMinutes);
-    kameHouse.logger.trace("Suspend delay: " + suspendDelay);
+    kameHouse.logger.trace("Suspend delay: " + suspendDelay, null);
     const requestParam = {
       "delay" : suspendDelay
     };
@@ -201,14 +201,14 @@ class ServerManager {
   /** Process the success response of a Shutdown command (set/cancel) */
   #processSuccessShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    this.getShutdownStatus();
+    this.getShutdownStatus(null);
   }
 
   /** Process the error response of a Shutdown command (set/cancel) */
   #processErrorShutdown(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    this.getShutdownStatus();
+    this.getShutdownStatus(null);
   }
 
   /** Update the status of Shutdown command */
@@ -231,14 +231,14 @@ class ServerManager {
   /** Process the success response of a suspend command (set/cancel) */
   #processSuccessSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    this.getSuspendStatus();
+    this.getSuspendStatus(null);
   }
 
   /** Process the error response of a suspend command (set/cancel) */
   #processErrorSuspend(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    this.getSuspendStatus();
+    this.getSuspendStatus(null);
   }
 
   /** Update the status of suspend command */

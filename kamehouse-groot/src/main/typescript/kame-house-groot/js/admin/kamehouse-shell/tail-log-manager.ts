@@ -11,7 +11,7 @@ class TailLogManager {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Initialized tailLogManager");
+    kameHouse.logger.info("Initialized tailLogManager", null);
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */
@@ -23,7 +23,7 @@ class TailLogManager {
    * Execute the tail on the specified url.
    */
   executeTailLog(url, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
-    kameHouse.logger.trace("Tailing log: " + logFileName);
+    kameHouse.logger.trace("Tailing log: " + logFileName, null);
     if (kameHouse.core.isEmpty(logLevel)) {
       logLevel = "";
     }    
@@ -71,10 +71,10 @@ class TailLogManager {
   /** Displays the error message in the tail log output */
   #updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback) {
     if ((responseCode == "0" && responseDescription == "timeout") || responseCode == "-4") {
-      kameHouse.logger.warn("Tail log request timed out");
+      kameHouse.logger.warn("Tail log request timed out", null);
     } else {
       const tbody = document.getElementById("tail-log-output-table-body");
-      const errorMessage = kameHouse.logger.getCyanText(kameHouse.util.time.getTimestamp()) + " - [" + kameHouse.logger.getRedText("ERROR") + "] - " + kameHouse.logger.getRedText("Error response from the backend. responseCode : '" + responseCode + "'. responseBody : '" + responseBody + "'. responseDescription : '" + responseDescription + "'");
+      const errorMessage = kameHouse.logger.getCyanText(kameHouse.util.time.getTimestamp(null)) + " - [" + kameHouse.logger.getRedText("ERROR") + "] - " + kameHouse.logger.getRedText("Error response from the backend. responseCode : '" + responseCode + "'. responseBody : '" + responseBody + "'. responseDescription : '" + responseDescription + "'");
       kameHouse.util.dom.append(tbody, this.#getTailLogOutputErrorTr(errorMessage));
     }
     kameHouse.util.collapsibleDiv.resize("tail-log-output-wrapper");

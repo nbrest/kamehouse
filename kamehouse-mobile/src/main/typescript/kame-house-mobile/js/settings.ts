@@ -10,8 +10,8 @@ class KameHouseMobileSettings {
    * Load the kamehouse mobile settings extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing kamehouse-mobile app settings page");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing kamehouse-mobile app settings page", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     kameHouse.util.module.waitForModules(["mobileTabsManager"], () => {
       kameHouse.plugin.mobileTabsManager.openTab('tab-backend');
       kameHouse.core.configDynamicHtml();
@@ -29,7 +29,7 @@ class KameHouseMobileSettings {
    * Handle settings url parameters.
    */
   #handleUrlParams() {
-    kameHouse.logger.debug("Settings query string: " + window.location.search);
+    kameHouse.logger.debug("Settings query string: " + window.location.search, null);
     const urlParams = new URLSearchParams(window.location.search);
     const requestTimeout = urlParams.get('requestTimeout');
     const sslError = urlParams.get('sslError');

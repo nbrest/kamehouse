@@ -41,12 +41,12 @@ class KameHouseShellLoader {
    * Set random banners.
    */
   setBanners() {
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.banner.setRandomAllBanner(null);
   }
 
   /** Filters rows for all kamehouse-shell table */
   filterKameHouseShellRows(filterString) {
-    kameHouse.util.table.filterTableRows(filterString, 'all-kamehouse-shell-table-body');
+    kameHouse.util.table.filterTableRows(filterString, 'all-kamehouse-shell-table-body', null, null);
   }  
 
   /** Populates all kamehouse-shell table */
@@ -70,10 +70,10 @@ class KameHouseShellLoader {
   
   /** Execute the specified script */
   #executeScript(scriptName, scriptArguments) {
-    kameHouse.logger.info("Executing script : " + scriptName + " with args: " + scriptArguments);
+    kameHouse.logger.info("Executing script : " + scriptName + " with args: " + scriptArguments, null);
     let url = this.#execScriptPageUrl + "?script=" + scriptName;
     if (!kameHouse.core.isEmpty(scriptArguments)) {
-      url = url + "&args=" + urlEncodedArgs;
+      url = url + "&args=" + scriptArguments;
     }
     kameHouse.core.windowLocation(url);
   }

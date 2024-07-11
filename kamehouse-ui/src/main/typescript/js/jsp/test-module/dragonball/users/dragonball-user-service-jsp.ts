@@ -9,7 +9,7 @@ class DragonBallUserServiceJsp {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading DragonBallUserServiceJsp");
+    kameHouse.logger.info("Loading DragonBallUserServiceJsp", null);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       kameHouse.util.module.setModuleLoaded("dragonBallUserServiceJsp");
     });
@@ -51,11 +51,11 @@ class DragonBallUserServiceJsp {
    */
   addDragonBallUser() {
     const params = {
-      username: document.getElementById("input-username").value,
-      email: document.getElementById("input-email").value,
-      age: document.getElementById("input-age").value,
-      powerLevel: document.getElementById("input-powerLevel").value,
-      stamina: document.getElementById("input-stamina").value
+      username: (document.getElementById("input-username") as HTMLInputElement).value,
+      email: (document.getElementById("input-email") as HTMLInputElement).value,
+      age: (document.getElementById("input-age") as HTMLInputElement).value,
+      powerLevel: (document.getElementById("input-powerLevel") as HTMLInputElement).value,
+      stamina: (document.getElementById("input-stamina") as HTMLInputElement).value
     };
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
@@ -71,12 +71,12 @@ class DragonBallUserServiceJsp {
    */
   updateDragonBallUser() {
     const params = {
-      id: document.getElementById("input-id").value,
-      username: document.getElementById("input-username").value,
-      email: document.getElementById("input-email").value,
-      age: document.getElementById("input-age").value,
-      powerLevel: document.getElementById("input-powerLevel").value,
-      stamina: document.getElementById("input-stamina").value
+      id: (document.getElementById("input-id") as HTMLInputElement).value,
+      username: (document.getElementById("input-username") as HTMLInputElement).value,
+      email: (document.getElementById("input-email") as HTMLInputElement).value,
+      age: (document.getElementById("input-age") as HTMLInputElement).value,
+      powerLevel: (document.getElementById("input-powerLevel") as HTMLInputElement).value,
+      stamina: (document.getElementById("input-stamina") as HTMLInputElement).value
     };
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
@@ -111,23 +111,23 @@ class DragonBallUserServiceJsp {
         errorMessage = errorMessage + " : " + kameHouse.json.parse(responseBody).message;
       } catch (error) {
         const message = "Error parsing api error response body. " + error;
-        kameHouse.logger.error(message);
+        kameHouse.logger.error(message, null);
       } 
     }
     kameHouse.plugin.modal.basicModal.open(errorMessage);
-    kameHouse.logger.error(errorMessage);
+    kameHouse.logger.error(errorMessage, null);
   }
 
   /**
    * Display the dragonball user to edit.
    */
   #displayDragonBallUserToEdit(dragonBallUser) {
-    document.getElementById("input-id").value = dragonBallUser.id;
-    document.getElementById("input-username").value = dragonBallUser.username;
-    document.getElementById("input-email").value = dragonBallUser.email;
-    document.getElementById("input-age").value = dragonBallUser.age;
-    document.getElementById("input-powerLevel").value = dragonBallUser.powerLevel;
-    document.getElementById("input-stamina").value = dragonBallUser.stamina;
+    (document.getElementById("input-id") as HTMLInputElement).value = dragonBallUser.id;
+    (document.getElementById("input-username") as HTMLInputElement).value = dragonBallUser.username;
+    (document.getElementById("input-email") as HTMLInputElement).value = dragonBallUser.email;
+    (document.getElementById("input-age") as HTMLInputElement).value = dragonBallUser.age;
+    (document.getElementById("input-powerLevel") as HTMLInputElement).value = dragonBallUser.powerLevel;
+    (document.getElementById("input-stamina") as HTMLInputElement).value = dragonBallUser.stamina;
   }
 
   /**

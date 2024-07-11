@@ -11,7 +11,7 @@ class TestBannerRenderer {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading TestBannerRenderer");
+    kameHouse.logger.info("Loading TestBannerRenderer", null);
     this.#setBannerCategoriesDropdown();
   }
 
@@ -19,13 +19,13 @@ class TestBannerRenderer {
    * Reload all banners from the selected banners list.
    */
   reloadBanners() {
-    kameHouse.logger.info("Reloading banners");
+    kameHouse.logger.info("Reloading banners", null);
     const bannersTbody = document.getElementById(TestBannerRenderer.#TBODY_ID);
     kameHouse.util.dom.empty(bannersTbody);
     const bannerCategory = this.#getSelectedBannerCategory();
     const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);
     for (const bannerName of selectedBanners) {
-      const tr = kameHouse.util.dom.getTrTd();
+      const tr = kameHouse.util.dom.getTrTd(null);
       kameHouse.util.dom.append(tr, this.#getBannerHeader(bannerName));
       kameHouse.util.dom.append(tr, this.#getBannerButton(bannerCategory, bannerName));
       kameHouse.util.dom.append(tr, kameHouse.util.dom.getBr());
@@ -63,7 +63,7 @@ class TestBannerRenderer {
    * Get selected banner category.
    */
   #getSelectedBannerCategory() {
-    const bannerCategoryDropdown = document.getElementById('banner-category-dropdown');
+    const bannerCategoryDropdown = document.getElementById('banner-category-dropdown') as HTMLSelectElement;
     return bannerCategoryDropdown.options[bannerCategoryDropdown.selectedIndex].value;
   }
 

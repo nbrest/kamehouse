@@ -11,8 +11,8 @@ class BackendLogLevelUtils {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing log-level");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing log-level", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
       kameHouse.plugin.webappTabsManager.cookiePrefix('kh-admin-log-level');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
@@ -46,7 +46,7 @@ class BackendLogLevelUtils {
 
   /** Set Kamehouse log level */
   setKamehouseLogLevel(webapp) {
-    const logLevel = document.getElementById("select-kamehouse-log-level-" + webapp).value;
+    const logLevel = (document.getElementById("select-kamehouse-log-level-" + webapp) as HTMLSelectElement).value;
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, this.#getApiUrl(webapp) + logLevel, null, null, 
@@ -188,7 +188,7 @@ class BackendLogLevelUtils {
   /** Set request logger config */
   #setRequestLoggerConfig(webapp, propertyToSet, urlParamName) {
     kameHouse.plugin.modal.loadingWheelModal.open();
-    const propertyValue = document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp).value;
+    const propertyValue = (document.getElementById("select-kh-req-logger-cfg-" + propertyToSet + "-" + webapp) as HTMLSelectElement).value;
     const url = this.#getRequestLoggerConfigApiUrl(webapp) + "/" + propertyToSet;
     const params = {};
     params[urlParamName] = propertyValue;

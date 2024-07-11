@@ -12,7 +12,7 @@ class KameHouseShell {
    * Load the kamehouse shell extension.
    */
   load() {
-    kameHouse.logger.info("Initialized kameHouseShell");
+    kameHouse.logger.info("Initialized kameHouseShell", null);
     kameHouse.util.module.setModuleLoaded("kameHouseShell");
   }
 
@@ -25,7 +25,7 @@ class KameHouseShell {
         executeOnDockerHost: executeOnDockerHost
       };
       this.#setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
-      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " and timeout " + timeout);
+      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " and timeout " + timeout, null);
       const config = kameHouse.http.getConfig();
       if (!kameHouse.core.isEmpty(timeout)) {
         config.timeout = timeout;

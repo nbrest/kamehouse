@@ -11,22 +11,22 @@ class BookingService {
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading BookingService");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Loading BookingService", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
   }
 
   /**
    * Execute a booking request.
    */
   book() {
-    kameHouse.logger.info("Executing booking request...");
+    kameHouse.logger.info("Executing booking request...", null);
     kameHouse.plugin.modal.loadingWheelModal.open("Executing booking request. This could take a few minutes...");
     const bookingRequest = this.#getBookingRequest();
     const config = kameHouse.http.getConfig();
     config.timeout = 300;
     kameHouse.plugin.debugger.http.post(config, BookingService.#BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.info("Booking request completed successfully");
+        kameHouse.logger.info("Booking request completed successfully", null);
         kameHouse.plugin.modal.loadingWheelModal.close();
         this.#updateBookingResponseTable(responseBody, responseCode);
       },
@@ -35,10 +35,10 @@ class BookingService {
         try {
           this.#updateBookingResponseTable(kameHouse.json.parse(responseBody), responseCode);
         } catch (error) {
-          kameHouse.logger.error("Error parsing the response: " + error);
+          kameHouse.logger.error("Error parsing the response: " + error, null);
           kameHouse.util.dom.setHtmlById('brt-status', "Error parsing response body");
         }
-        kameHouse.logger.error("Error executing the booking request");
+        kameHouse.logger.error("Error executing the booking request", null);
       });
   }
 
@@ -46,38 +46,38 @@ class BookingService {
    * Clear the booking details.
    */
   clearBookingDetails() {
-    kameHouse.logger.info("clearBookingDetails");
-    document.getElementById('username').value = "";
-    document.getElementById('password').value = "";
-    document.getElementById('session-type').value = "";
-    document.getElementById('site').value = "";
-    document.getElementById('time').value = "";
-    document.getElementById('date').value = "";
-    document.getElementById('duration').value = "";
-    document.getElementById('court-number').value = "";
-    document.getElementById('dry-run').checked = "";
+    kameHouse.logger.info("clearBookingDetails", null);
+    (document.getElementById('username') as HTMLInputElement).value = "";
+    (document.getElementById('password') as HTMLInputElement).value = "";
+    (document.getElementById('session-type') as HTMLInputElement).value = "";
+    (document.getElementById('site') as HTMLInputElement).value = "";
+    (document.getElementById('time') as HTMLInputElement).value = "";
+    (document.getElementById('date') as HTMLInputElement).value = "";
+    (document.getElementById('duration') as HTMLInputElement).value = "";
+    (document.getElementById('court-number') as HTMLInputElement).value = "";
+    (document.getElementById('dry-run') as HTMLInputElement).checked = null;
   }
 
   /**
    * Clear the payment details.
    */
   clearPaymentDetails() {
-    kameHouse.logger.info("clearPaymentDetails");
-    document.getElementById('card-holder-name').value = "";
-    document.getElementById('card-number-1').value = "";
-    document.getElementById('card-number-2').value = "";
-    document.getElementById('card-number-3').value = "";
-    document.getElementById('card-number-4').value = "";
-    document.getElementById('card-exp-month').value = "";
-    document.getElementById('card-exp-year').value = "";
-    document.getElementById('card-cvv').value = "";
+    kameHouse.logger.info("clearPaymentDetails", null);
+    (document.getElementById('card-holder-name') as HTMLInputElement).value = "";
+    (document.getElementById('card-number-1') as HTMLInputElement).value = "";
+    (document.getElementById('card-number-2') as HTMLInputElement).value = "";
+    (document.getElementById('card-number-3') as HTMLInputElement).value = "";
+    (document.getElementById('card-number-4') as HTMLInputElement).value = "";
+    (document.getElementById('card-exp-month') as HTMLInputElement).value = "";
+    (document.getElementById('card-exp-year') as HTMLInputElement).value = "";
+    (document.getElementById('card-cvv') as HTMLInputElement).value = "";
   }
 
   /**
    * Show/hide masked fields.
    */
   togglePasswordField(fieldId) {
-    const passwordField = document.getElementById(fieldId);
+    const passwordField = document.getElementById(fieldId) as HTMLInputElement;
     if (passwordField.type === "password") {
       kameHouse.util.dom.setAttribute(passwordField, "type", "text");
     } else {
@@ -90,27 +90,27 @@ class BookingService {
    */
   #getBookingRequest() {
     const bookingRequest = {};
-    bookingRequest['username'] = document.getElementById('username').value;
-    bookingRequest['password'] = document.getElementById('password').value;
-    bookingRequest['sessionType'] = document.getElementById('session-type').value;
-    bookingRequest['site'] = document.getElementById('site').value;
-    bookingRequest['time'] = document.getElementById('time').value;
-    bookingRequest['date'] = document.getElementById('date').value;
-    bookingRequest['duration'] = document.getElementById('duration').value;
-    bookingRequest['courtNumber'] = document.getElementById('court-number').value;
-    const dryRun = document.getElementById('dry-run').checked;
+    bookingRequest['username'] = (document.getElementById('username') as HTMLInputElement).value;
+    bookingRequest['password'] = (document.getElementById('password') as HTMLInputElement).value;
+    bookingRequest['sessionType'] = (document.getElementById('session-type') as HTMLInputElement).value;
+    bookingRequest['site'] = (document.getElementById('site') as HTMLInputElement).value;
+    bookingRequest['time'] = (document.getElementById('time') as HTMLInputElement).value;
+    bookingRequest['date'] = (document.getElementById('date') as HTMLInputElement).value;
+    bookingRequest['duration'] = (document.getElementById('duration') as HTMLInputElement).value;
+    bookingRequest['courtNumber'] = (document.getElementById('court-number') as HTMLInputElement).value;
+    const dryRun = (document.getElementById('dry-run') as HTMLInputElement).checked;
     if (!kameHouse.core.isEmpty(dryRun)) {
       bookingRequest['dryRun'] = dryRun;
     }
-    const cardHolder = document.getElementById('card-holder-name').value;
+    const cardHolder = (document.getElementById('card-holder-name') as HTMLInputElement).value;
     if (!kameHouse.core.isEmpty(cardHolder)) {
       const cardDetails = {};
       cardDetails['name'] = cardHolder;
-      const cardNumber = document.getElementById('card-number-1').value + "" + document.getElementById('card-number-2').value + "" + document.getElementById('card-number-3').value + "" + document.getElementById('card-number-4').value;
+      const cardNumber = (document.getElementById('card-number-1') as HTMLInputElement).value + "" + (document.getElementById('card-number-2') as HTMLInputElement).value + "" + (document.getElementById('card-number-3') as HTMLInputElement).value + "" + (document.getElementById('card-number-4') as HTMLInputElement).value;
       cardDetails['number'] = cardNumber;
-      const expiryDate = document.getElementById('card-exp-month').value + "/" + document.getElementById('card-exp-year').value;
+      const expiryDate = (document.getElementById('card-exp-month') as HTMLInputElement).value + "/" + (document.getElementById('card-exp-year') as HTMLInputElement).value;
       cardDetails['expiryDate'] = expiryDate;
-      cardDetails['cvv'] = document.getElementById('card-cvv').value;
+      cardDetails['cvv'] = (document.getElementById('card-cvv') as HTMLInputElement).value;
       bookingRequest['cardDetails'] = cardDetails;
     }
     bookingRequest['retries'] = 0;

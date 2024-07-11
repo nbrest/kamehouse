@@ -9,8 +9,8 @@ class LoginManager {
    * Load the login manager extension. 
    */
   load() {
-    kameHouse.logger.info("Started initializing LoginManager");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing LoginManager", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     this.#setAlertMessages();
   }
 

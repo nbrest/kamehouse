@@ -18,7 +18,7 @@ class VlcPlayer {
   #vlcPlayerDebugger = null;
   #synchronizer = null;
 
-  #vlcRcStatus = {};
+  #vlcRcStatus = new VlcRcStatus();
   #hostname = null;
 
   constructor(hostname) {
@@ -32,7 +32,7 @@ class VlcPlayer {
 
   /** Load VlcPlayer extension. */
   load() {
-    kameHouse.logger.info("Started initializing VLC Player");
+    kameHouse.logger.info("Started initializing VLC Player", null);
     this.#mainViewUpdater.setStatefulButtons();
     kameHouse.core.loadKameHouseWebSocket();
     this.#loadStateFromCookies();
@@ -93,7 +93,7 @@ class VlcPlayer {
    * Returns true if the sync loops are enabled.
    */
   isSyncEnabled() {
-    const vlcStatusSyncCheckbox = document.getElementById("vlc-debug-status-sync-checkbox");
+    const vlcStatusSyncCheckbox = document.getElementById("vlc-debug-status-sync-checkbox") as HTMLInputElement;
     if (kameHouse.core.isEmpty(vlcStatusSyncCheckbox)) {
       return true;
     }
@@ -115,7 +115,7 @@ class VlcPlayer {
    */
   openTab(vlcPlayerTabDivId) {
     // Set kh-vlc-player-current-tab cookie
-    kameHouse.util.cookies.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId);
+    kameHouse.util.cookies.setCookie('kh-vlc-player-current-tab', vlcPlayerTabDivId, null);
     // Update tab links
     const vlcPlayerTabLinks = document.getElementsByClassName("vlc-player-tab-link");
     for (const vlcPlayerTabLinkElement of vlcPlayerTabLinks) {
@@ -177,7 +177,7 @@ class VlcPlayer {
    * Set aspect ratio.
    */
   updateAspectRatio() {
-    const aspectRatio = document.getElementById("aspect-ratio-dropdown").value;
+    const aspectRatio = (document.getElementById("aspect-ratio-dropdown") as HTMLSelectElement).value;
     if (!kameHouse.core.isEmpty(aspectRatio)) {
       this.#commandExecutor.execVlcRcCommand('aspectratio', aspectRatio);
     }
@@ -220,7 +220,7 @@ class VlcPlayer {
     if (!kameHouse.core.isEmpty(vlcRcStatusParam)) {
       this.#vlcRcStatus = vlcRcStatusParam;
     } else {
-      this.#vlcRcStatus = {};
+      this.#vlcRcStatus = new VlcRcStatus();
     }
   }
 
@@ -248,8 +248,8 @@ class VlcPlayer {
    * Filter playlist rows.
    */
   filterPlaylistRows() {
-    const filterString = document.getElementById("playlist-filter-input").value;
-    kameHouse.util.table.filterTableRows(filterString, 'playlist-table-body');
+    const filterString = (document.getElementById("playlist-filter-input") as HTMLInputElement).value;
+    kameHouse.util.table.filterTableRows(filterString, 'playlist-table-body', null, null);
   }
 
   /**
@@ -362,7 +362,7 @@ class VlcPlayer {
    */
   keyPress(key, keyPresses) {
     if (kameHouse.core.isEmpty(keyPresses)) {
-      kameHouse.logger.debug("keyPresses not set. Using default value of 1");
+      kameHouse.logger.debug("keyPresses not set. Using default value of 1", null);
       keyPresses = 1;
     }
     const requestParam = {
@@ -410,10 +410,10 @@ class VlcPlayer {
     const SUSPEND_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/suspend";
     this.getRestClient().post(SUSPEND_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
       () => {
-        kameHouse.logger.info("Server suspended");
+        kameHouse.logger.info("Server suspended", null);
       }, 
       () => {
-        kameHouse.logger.error("Error suspending server"); 
+        kameHouse.logger.error("Error suspending server", null); 
       });
   }
 
@@ -421,7 +421,7 @@ class VlcPlayer {
    * Start synchronization loops.
    */
   #startSynchronizerLoops() {
-    kameHouse.logger.info("Started initializing vlc player websockets and sync loops");
+    kameHouse.logger.info("Started initializing vlc player websockets and sync loops", null);
     this.#synchronizer.initWebSockets();
     this.#synchronizer.connectVlcRcStatus();
     this.#synchronizer.connectPlaylist();
@@ -481,7 +481,8 @@ class VlcPlayerCommandExecutor {
   /** Create a vlcrc command with the parameters and execute the request to the server. */
   execVlcRcCommand(name, val) {
     const requestBody = {
-      name : name
+      name: name,
+      val: null
     };
     if (!kameHouse.core.isEmpty(val) || val == 0) {
       requestBody.val = val;
@@ -491,7 +492,7 @@ class VlcPlayerCommandExecutor {
 
   /** Play the selected file (or playlist) into vlc player and reload the current playlist. */
   playFile(fileName) {
-    kameHouse.logger.debug("File to play: " + fileName);
+    kameHouse.logger.debug("File to play: " + fileName, null);
     const requestParam =  {
       file : fileName
     };
@@ -566,7 +567,7 @@ class VlcPlayerMainViewUpdater {
    */
   #updateAspectRatioDropdown() {
     const aspectRatio = this.#vlcPlayer.getVlcRcStatus().aspectRatio;
-    const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
+    const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown") as HTMLSelectElement;
     if (kameHouse.core.isEmpty(aspectRatio) && aspectRatioDropdown.options[0].selected) {
       return;
     }
@@ -598,7 +599,7 @@ class VlcPlayerMainViewUpdater {
    * Reset the aspect ratio dropdown view.
    */
   #resetAspectRatioDropdown() {
-    const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown");
+    const aspectRatioDropdown = document.getElementById("aspect-ratio-dropdown") as HTMLSelectElement;
     aspectRatioDropdown.selectedIndex = 0;
   }
 
@@ -621,19 +622,20 @@ class VlcPlayerMainViewUpdater {
    * Set stateful buttons state.
    */
   setStatefulButtons() {
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-fullscreen', "fullscreen", true));
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-repeat-1', "repeat", true));
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-repeat', "loop", true));
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-shuffle', "random", true));
-    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-stop', "state", "stopped"));
+    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-fullscreen', "fullscreen", true, null));
+    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-repeat-1', "repeat", true, null));
+    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-repeat', "loop", true, null));
+    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-shuffle', "random", true, null));
+    this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-stop', "state", "stopped", null));
     this.#statefulButtons.push(new StatefulMediaButton(this.#vlcPlayer, 'media-btn-mute', "volume", 0, 'btn-mute'));
   }
 
   /** Update the media title. */
   #updateMediaTitle() {
-    const mediaName = {};
-    mediaName.filename = "No media loaded";
-    mediaName.title = "No media loaded";
+    const mediaName = {
+      filename: "No media loaded",
+      title: "No media loaded"
+    };
     if (!kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
       mediaName.filename = this.#vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = this.#vlcPlayer.getVlcRcStatus().information.meta.title;
@@ -643,9 +645,10 @@ class VlcPlayerMainViewUpdater {
 
   /** Reset the media title. */
   #resetMediaTitle() {
-    const mediaName = {};
-    mediaName.filename = "No media loaded";
-    mediaName.title = "No media loaded";
+    const mediaName = {
+      filename: "No media loaded",
+      title: "No media loaded"
+    };
     kameHouse.util.dom.setHtmlById("media-title", mediaName.filename);
   }
 
@@ -974,7 +977,7 @@ class VlcPlayerSynchronizer {
    */
   async #syncLoopExecution(config, loopName, loopRunFunction, isLoopRunningName, loopCountName) {
     setTimeout(async () => {
-      kameHouse.logger.info("Started " + loopName);
+      kameHouse.logger.info("Started " + loopName, null);
       if (this.#syncLoopsConfig[isLoopRunningName] || this.#syncLoopsConfig[loopCountName] > 1) {
         const message = loopName + " is already running";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
@@ -983,7 +986,7 @@ class VlcPlayerSynchronizer {
       this.#syncLoopsConfig[isLoopRunningName] = true;
       this.#syncLoopsConfig[loopCountName]++;
       if (config.syncLoopStartDelayMs) {
-        kameHouse.logger.info("Started " + loopName + " with initial delay of " + config.syncLoopStartDelayMs + " ms");
+        kameHouse.logger.info("Started " + loopName + " with initial delay of " + config.syncLoopStartDelayMs + " ms", null);
         await kameHouse.core.sleep(config.syncLoopStartDelayMs);
       }
       while (this.#syncLoopsConfig[isLoopRunningName]) {
@@ -993,12 +996,12 @@ class VlcPlayerSynchronizer {
           await kameHouse.core.sleep(3000);
         }
         if (this.#syncLoopsConfig[loopCountName] > 1) {
-          kameHouse.logger.info(loopName + ": Running multiple " + loopName + ", exiting this loop");
+          kameHouse.logger.info(loopName + ": Running multiple " + loopName + ", exiting this loop", null);
           break;
         }
       }
       this.#syncLoopsConfig[loopCountName]--;
-      kameHouse.logger.info("Finished " + loopName);
+      kameHouse.logger.info("Finished " + loopName, null);
     }, 0);
   }
 
@@ -1006,7 +1009,7 @@ class VlcPlayerSynchronizer {
    * VlcRcStatus loop run.
    */
   async #syncVlcRcStatusLoopRun(config) {
-    kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(this.#vlcPlayer.getVlcRcStatus()));
+    kameHouse.logger.trace("syncVlcRcStatusLoop - vlcRcStatus: " + kameHouse.json.stringify(this.#vlcPlayer.getVlcRcStatus(), null, null), null);
     this.#setVlcRcStatusPullWaitTimeMs(config);
     this.#updateViewSyncVlcRcStatusLoop();
     await kameHouse.core.sleep(config.vlcRcStatusPullWaitTimeMs);
@@ -1048,7 +1051,7 @@ class VlcPlayerSynchronizer {
    * Playlist loop run.
    */
   async #syncPlaylistLoopRun(config) {
-    kameHouse.logger.trace("syncPlaylistLoop");
+    kameHouse.logger.trace("syncPlaylistLoop", null);
     if (this.#playlistWebSocket.isConnected()) {
       // poll playlist from the websocket.
       this.#playlistWebSocket.poll();
@@ -1064,13 +1067,13 @@ class VlcPlayerSynchronizer {
    * Keep alive websockets loop run.
    */
   async #keepAliveWebSocketsLoopRun(config) {
-    kameHouse.logger.trace("keepAliveWebSocketsLoop");
+    kameHouse.logger.trace("keepAliveWebSocketsLoop", null);
     if (!this.#vlcRcStatusWebSocket.isConnected()) {
-      kameHouse.logger.trace("keepAliveWebSocketsLoop: VlcRcStatus webSocket not connected. Reconnecting...");
+      kameHouse.logger.trace("keepAliveWebSocketsLoop: VlcRcStatus webSocket not connected. Reconnecting...", null);
       this.#reconnectVlcRcStatus();
     }
     if (!this.#playlistWebSocket.isConnected()) {
-      kameHouse.logger.trace("keepAliveWebSocketsLoop: Playlist webSocket not connected. Reconnecting...");
+      kameHouse.logger.trace("keepAliveWebSocketsLoop: Playlist webSocket not connected. Reconnecting...", null);
       this.#reconnectPlaylist();
     }
     await kameHouse.core.sleep(config.keepAliveLoopWaitMs);
@@ -1109,10 +1112,10 @@ class VlcPlayerSynchronizer {
    */
   #loadStateFromApiSyncVlcPlayerHttpLoop() {
     if (!this.#vlcRcStatusWebSocket.isConnected() || !this.#playlistWebSocket.isConnected()) {
-      kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests");
+      kameHouse.logger.debug("syncVlcPlayerHttpLoop: Websockets disconnected, synchronizing vlc player through http requests", null);
       this.#vlcPlayer.loadStateFromApi(false);
     } else {
-      kameHouse.logger.trace("syncVlcPlayerHttpLoop: Websockets connected. Skipping synchronization through http requests");
+      kameHouse.logger.trace("syncVlcPlayerHttpLoop: Websockets connected. Skipping synchronization through http requests", null);
     }
   }
 
@@ -1125,15 +1128,15 @@ class VlcPlayerSynchronizer {
     const loopsStatus = "Sync loops status:";
     kameHouse.logger.trace(loopsStatus, kameHouse.logger.getYellowText(loopsStatus));
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
-    kameHouse.logger.trace("isRunningSyncVlcRcStatusLoop: " + this.#syncLoopsConfig.isRunningSyncVlcRcStatusLoop);
-    kameHouse.logger.trace("isRunningSyncPlaylistLoop: " + this.#syncLoopsConfig.isRunningSyncPlaylistLoop);
-    kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + this.#syncLoopsConfig.isRunningKeepAliveWebSocketLoop);
-    kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + this.#syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop);
+    kameHouse.logger.trace("isRunningSyncVlcRcStatusLoop: " + this.#syncLoopsConfig.isRunningSyncVlcRcStatusLoop, null);
+    kameHouse.logger.trace("isRunningSyncPlaylistLoop: " + this.#syncLoopsConfig.isRunningSyncPlaylistLoop, null);
+    kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + this.#syncLoopsConfig.isRunningKeepAliveWebSocketLoop, null);
+    kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + this.#syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop, null);
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
-    kameHouse.logger.trace("vlcRcStatusLoopCount: " + this.#syncLoopsConfig.vlcRcStatusLoopCount);
-    kameHouse.logger.trace("vlcPlaylistLoopCount: " + this.#syncLoopsConfig.vlcPlaylistLoopCount);
-    kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + this.#syncLoopsConfig.keepAliveWebSocketLoopCount);
-    kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + this.#syncLoopsConfig.syncVlcPlayerHttpLoopCount);        
+    kameHouse.logger.trace("vlcRcStatusLoopCount: " + this.#syncLoopsConfig.vlcRcStatusLoopCount, null);
+    kameHouse.logger.trace("vlcPlaylistLoopCount: " + this.#syncLoopsConfig.vlcPlaylistLoopCount, null);
+    kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + this.#syncLoopsConfig.keepAliveWebSocketLoopCount, null);
+    kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + this.#syncLoopsConfig.syncVlcPlayerHttpLoopCount, null);        
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
   }
 
@@ -1141,7 +1144,7 @@ class VlcPlayerSynchronizer {
    * Execute health checks on all sync loops.
    */
   #executeSyncLoopsHealthCheck() {
-    kameHouse.logger.trace("Checking state of sync loops");
+    kameHouse.logger.trace("Checking state of sync loops", null);
     if (this.#syncLoopsConfig.vlcRcStatusLoopCount <= 0) {
       this.#restartSyncVlcRcStatusLoop(this.#getRestartLoopConfig());
     }
@@ -1174,15 +1177,15 @@ class VlcPlayerSynchronizer {
    */
   #restartSyncLoopExecution(config, loopName, restartLoopFunction, loopCountName) {
     setTimeout(async () => {
-      kameHouse.logger.info("Restarting " + loopName);
+      kameHouse.logger.info("Restarting " + loopName, null);
       let retriesLeft = config.maxRetries;
       let startLoop = true;
       while (this.#syncLoopsConfig[loopCountName] > 0) {
         retriesLeft--;
-        kameHouse.logger.trace("Waiting for " + loopName + " to finish before restarting");
+        kameHouse.logger.trace("Waiting for " + loopName + " to finish before restarting", null);
         await kameHouse.core.sleep(config.restartLoopWaitMs);
         if (retriesLeft <= 0) {
-          kameHouse.logger.debug("Too many attempts to restart " + loopName + ". It seems to be running already. Skipping restart");
+          kameHouse.logger.debug("Too many attempts to restart " + loopName + ". It seems to be running already. Skipping restart", null);
           startLoop = false;
           break;
         }
@@ -1331,7 +1334,7 @@ class VlcPlayerPlaylist {
     const currentPlId = this.#vlcPlayer.getVlcRcStatus().currentPlId;
     const currentPlayingRowId = 'playlist-table-row-id-' + currentPlId;
     const currentPlayingRow = document.getElementById(currentPlayingRowId);
-    kameHouse.logger.debug("Scroll to " + currentPlayingRowId);
+    kameHouse.logger.debug("Scroll to " + currentPlayingRowId, null);
     if (!kameHouse.core.isEmpty(currentPlayingRow)) {
       const playlistTableWrapper = document.getElementById('playlist-table-wrapper');
       kameHouse.core.scrollTop(playlistTableWrapper, 0);
@@ -1428,7 +1431,7 @@ class VlcPlayerPlaylist {
 
   /** Play the clicked element from the playlist. */
   #clickEventOnPlaylistRow(event, data) {
-    kameHouse.logger.debug("Play playlist id: " + data.id);
+    kameHouse.logger.debug("Play playlist id: " + data.id, null);
     const requestBody = {
       name: 'pl_play',
       id: data.id
@@ -1512,7 +1515,7 @@ class VlcPlayerPlaylist {
   #getPlaylistTbody() {
     return kameHouse.util.dom.getTbody({
       id: "playlist-table-body"
-    });
+    }, null);
   }
 
   /**
@@ -1584,7 +1587,7 @@ class VlcPlayerRestClient {
         } else {
           this.#apiCallErrorDefault(responseBody, responseCode, responseDescription, responseHeaders);
           if (responseCode == "404") {
-            kameHouse.logger.error("Could not connect to VLC player to get the status.");
+            kameHouse.logger.error("Could not connect to VLC player to get the status.", null);
           }
         }
       });
@@ -1693,7 +1696,7 @@ class VlcPlayerDebugger {
 
   /** Reset view if there's an error getting the vlcRcStatus from the api. */
   #getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.logger.trace("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running");
+    kameHouse.logger.trace("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running", null);
     this.#vlcPlayer.setVlcRcStatus({});
     this.#vlcPlayer.updateView();
   }
@@ -1706,11 +1709,71 @@ class VlcPlayerDebugger {
 
   /** Reset playlist view if there's an error getting the playlist from the api. */
   #getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.logger.trace("Unable to get the playlist from an API call. This can happen if vlc player process isn't running");
+    kameHouse.logger.trace("Unable to get the playlist from an API call. This can happen if vlc player process isn't running", null);
     this.#vlcPlayer.getPlaylist().setUpdatedPlaylist(null);
     this.#vlcPlayer.getPlaylist().reload();
   }
 
 } // End VlcPlayerDebugger
+
+/**
+ * VlcRcStatus.
+ */
+class VlcRcStatus {
+
+  fullscreen: boolean;
+  repeat: boolean;
+  subtitleDelay: number;
+  aspectRatio: string;
+  audioDelay: number;
+  apiVersion: number;
+  currentPlId: number;
+  time: number;
+  volume: number;
+  length: number;
+  random: boolean;
+  rate: number;
+  state: string;
+  loop: boolean;
+  position: number;
+  version: string;
+  equalizer;
+  audioFilters: any;
+  stats: any;
+  videoEffects: any;
+  information: any;
+
+} // VlcRcStatus
+
+/**
+ * Information.
+ */
+class Information {
+
+  chapter: string;
+  chapters: string[];
+  title: string;
+  titles: string[];
+  audio: any;
+  meta: Meta;
+  subtitle: any;
+  video: any;
+
+} // Information
+
+/**
+ * Meta.
+ */
+class Meta {
+  
+  name: string;
+  filename: string;
+  title: string;
+  artist: string;
+  setting: string;
+  software: string;
+  artworkUrl: string;
+
+} // Meta
 
 kameHouse.ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});

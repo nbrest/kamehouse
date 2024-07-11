@@ -4,5 +4,5 @@
  * @author nbrest
  */
 kameHouse.ready(() => {
-  kameHouse.util.banner.setRandomAllBanner();
+  kameHouse.util.banner.setRandomAllBanner(null);
 });

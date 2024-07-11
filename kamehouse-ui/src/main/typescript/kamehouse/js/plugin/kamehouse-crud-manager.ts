@@ -1156,7 +1156,7 @@ class CrudManager {
    */
   #addArrayInputFieldElement(buttonId, fieldId, columnType) {
     kameHouse.logger.debug("Adding array element", null);
-    const arraySourceNode = document.getElementById(buttonId).previousSibling; 
+    const arraySourceNode = document.getElementById(buttonId).previousSibling as HTMLSelectElement; 
     let deepClone = false;
     if (this.#isArrayField(columnType)) {
       deepClone = true;
@@ -1165,7 +1165,7 @@ class CrudManager {
       kameHouse.logger.error("Trying to clone a node that isn't an array element of the expected name. Something's wrong. Name of node to clone is: " + arraySourceNode.name + " and the expected value is " + fieldId + "[]", null);
       return;
     }
-    const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, deepClone);
+    const newNode = kameHouse.util.dom.cloneNode(arraySourceNode, deepClone) as HTMLSelectElement;
     newNode.value = "";
     newNode.id = "";
     Array.from(newNode.attributes).forEach((attribute) => {
@@ -1187,7 +1187,7 @@ class CrudManager {
       kameHouse.logger.warn("Trying to remove the last node of the array. Skipping...", null);
       return;
     }
-    const nodeToRemove = document.getElementById(buttonId).previousSibling.previousSibling; 
+    const nodeToRemove = document.getElementById(buttonId).previousSibling.previousSibling as HTMLSelectElement; 
     if (nodeToRemove.name != fieldId + "[]") {
       kameHouse.logger.error("Trying to remove a node that isn't an array element of the expected name. Something's wrong. Name of node to remove is: " + nodeToRemove.name + " and the expected value is " + fieldId + "[]", null);
       return;
@@ -1214,7 +1214,7 @@ class CrudManager {
    * Toggle show or hide password.
    */
   #toggleShowHidePassword(passwordFieldId) {
-    const passwordField = document.getElementById(passwordFieldId);
+    const passwordField = document.getElementById(passwordFieldId) as HTMLInputElement;
     if (passwordField.type === "password") {
       kameHouse.util.dom.setAttribute(passwordField, "type", "text");
     } else {
@@ -1296,7 +1296,7 @@ class CrudManager {
    * Build the entity to pass to the backend from the form data.
    */
   #getEntityFromForm(formFieldsId): CrudEntity {
-    const entity = {};
+    const entity = {} as CrudEntity;
     this.#setEntityProperties(entity, formFieldsId, this.#columns, null);
     return entity;
   }
@@ -1327,7 +1327,7 @@ class CrudManager {
     const type = column.type;
     const name = column.name;
     const inputFieldId = formFieldsId + "-" + parentNodeChain + name;
-    const inputField = document.getElementById(inputFieldId);
+    const inputField = document.getElementById(inputFieldId) as HTMLInputElement;
     let val = null;
     if (inputField) {
       val = inputField.value;
@@ -1404,6 +1404,9 @@ class CrudManager {
   }
 }
 
+/**
+ * CRUD Entity interface.
+ */
 interface CrudEntity {
   id: number
 }

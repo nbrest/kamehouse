@@ -460,46 +460,56 @@ runTypescriptCompiler() {
 
 buildKameHouseUiStatic() {
   cdToKameHouseModule "kamehouse-ui"
-  log.info "Building kamehouse-ui static code"
-  cleanUiWebappDirectory
-  runTypescriptCompiler
-  cdToRootDirFromModule "kamehouse-ui"
-}
-
-cleanUiWebappDirectory() {
-  log.info "Cleaning up kamehouse-ui webapp directory js files"
+  log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
+  log.debug "Cleaning up kamehouse-ui webapp directory js files"
   rm -rf ./src/main/webapp/js
   rm -rf ./src/main/webapp/error/js
   rm -rf ./src/main/webapp/kamehouse/js
+
+  runTypescriptCompiler
+
+  cdToRootDirFromModule "kamehouse-ui"
 }
 
 buildKameHouseGroot() {
   cdToKameHouseModule "kamehouse-groot"
-  log.info "Building kamehouse-groot static code"
-  cleanGrootWebappDirectory
-  runTypescriptCompiler
-  cdToRootDirFromModule "kamehouse-groot"
-}
-
-cleanGrootWebappDirectory() {
-  log.info "Cleaning up kamehouse-groot webapp directory js files"
+  log.info "Building ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} static code"
+  log.debug "Cleaning up kamehouse-groot webapp directory js files"
+  rm -rf ./src/main/webapp/kamehouse-groot
+  rm -rf ./src/main/webapp/kamehouse-ui
   rm -rf ./src/main/webapp/kame-house-groot/js
   rm -rf ./src/main/webapp/kame-house-groot/kamehouse-groot/js
+
+  runTypescriptCompiler
+  
+  log.debug "Moving kamehouse-groot compiled js files"
+  mv ./src/main/webapp/kamehouse-groot/src/main/typescript/kame-house-groot/js ./src/main/webapp/kame-house-groot/js
+  mv ./src/main/webapp/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./src/main/webapp/kame-house-groot/kamehouse-groot/js
+  rm -rf ./src/main/webapp/kamehouse-groot
+  rm -rf ./src/main/webapp/kamehouse-ui
+
+  cdToRootDirFromModule "kamehouse-groot"
 }
 
 buildKameHouseMobileStatic() {
   cdToKameHouseModule "kamehouse-mobile"
-  log.info "Building kamehouse-mobile static code"
-  cleanMobileWwwStaticDirectory
-  runTypescriptCompiler
-  cdToRootDirFromModule "kamehouse-mobile"
-}
-
-cleanMobileWwwStaticDirectory() {
-  log.info "Cleaning up kamehouse-mobile www directory js files"
+  log.info "Building ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} static code"
+  log.debug "Cleaning up kamehouse-mobile www directory js files"
+  rm -rf ./www/kamehouse-mobile
+  rm -rf ./www/kamehouse-ui
   rm -rf ./www/kame-house-mobile/js
   rm -rf ./www/kame-house-mobile/kamehouse-mobile/js
   rm -rf ./www/kame-house-mobile/kamehouse-mobile/plugin/js
+
+  runTypescriptCompiler
+
+  log.debug "Moving kamehouse-groot compiled js files"
+  mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
+  mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js
+  rm -rf ./www/kamehouse-mobile
+  rm -rf ./www/kamehouse-ui
+
+  cdToRootDirFromModule "kamehouse-mobile"
 }
 
 exportGitCommitHash() {

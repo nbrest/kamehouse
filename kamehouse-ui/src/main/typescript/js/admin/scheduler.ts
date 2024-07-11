@@ -6,15 +6,15 @@
  */
 class Scheduler {
 
-  #jobs = [[]];
+  #jobs = [];
   #schedulerTableTemplate;
 
   /**
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Started initializing scheduler");
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.logger.info("Started initializing scheduler", null);
+    kameHouse.util.banner.setRandomAllBanner(null);
     kameHouse.util.module.waitForModules(["webappTabsManager"], () => {
       kameHouse.plugin.webappTabsManager.cookiePrefix('kh-admin-scheduler');
       kameHouse.plugin.webappTabsManager.loadStateFromCookies();
@@ -90,7 +90,7 @@ class Scheduler {
       const noJobsTd = kameHouse.util.dom.getTrTd(message);
       kameHouse.util.dom.append(jobsData, noJobsTd);
     } else {
-      this.#jobs.forEach((jobEntry) => {
+      this.#jobs.forEach((jobEntry: JobEntry) => {
         const tableIdKey = webapp + jobEntry.key.name;
         kameHouse.util.dom.append(jobsData, this.#getTableFromTemplate(tableIdKey));
         kameHouse.util.dom.append(jobsData, kameHouse.util.dom.getBr());
@@ -102,7 +102,7 @@ class Scheduler {
         kameHouse.util.dom.setHtmlById("scheduler-table-" + tableIdKey + "-schedule-val", this.#formatSchedule(jobEntry.schedules));
   
         kameHouse.util.dom.setClickById("clear-scheduler-table-" + tableIdKey, null, () => {
-          kameHouse.logger.debug("Clear schedule for " + kameHouse.json.stringify(jobEntry.key));
+          kameHouse.logger.debug("Clear schedule for " + kameHouse.json.stringify(jobEntry.key, null, null), null);
           this.#cancelJobExecution(jobEntry.key, webapp);
         });
       });
@@ -115,7 +115,7 @@ class Scheduler {
    */
   #getTableFromTemplate(tableIdKey) {
     // Create a wrapper div to insert the table template
-    const tableDiv = kameHouse.util.dom.getElementFromTemplate(this.#schedulerTableTemplate);
+    const tableDiv = kameHouse.util.dom.getElementFromTemplate(this.#schedulerTableTemplate) as Element;
     
     // Update the ids and classes on the table generated from the template
     kameHouse.util.dom.setId(tableDiv.querySelector('tr #scheduler-table-TEMPLATE-name-val'), "scheduler-table-" + tableIdKey + "-name-val");
@@ -138,7 +138,7 @@ class Scheduler {
           scheduleFormattedArray.push(date.toLocaleString());
         }
       });
-      return kameHouse.json.stringify(scheduleFormattedArray);
+      return kameHouse.json.stringify(scheduleFormattedArray, null, null);
     } else {
       return "Job not scheduled";
     }
@@ -169,6 +169,18 @@ class Scheduler {
     this.#updateJobsTableError(webapp);
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
   }
+}
+
+interface JobEntry {
+  key: JobEntryKey;
+  description: string,
+  jobClass: string
+  schedules: string
+}
+
+interface JobEntryKey {
+  name: string;
+  group: string
 }
 
 kameHouse.ready(() => {

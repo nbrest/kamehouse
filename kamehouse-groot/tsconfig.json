@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
     "outDir": "./src/main/webapp",
-    "rootDir": "./src/main/typescript",
-    "allowJs": true,
+    "rootDirs": [
+      "./src/main/typescript", "../kamehouse-ui/src/main/typescript"
+    ],
+    "allowJs": false,
     "target": "ES2023"
   },
-  "include": ["./src/main/typescript/**/*"]
+  "include": [
+    "./src/main/typescript/**/*", "../kamehouse-ui/src/main/typescript/**/*"
+  ]
 }

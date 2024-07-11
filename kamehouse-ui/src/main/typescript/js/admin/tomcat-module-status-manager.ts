@@ -10,7 +10,7 @@ class TomcatModuleStatusManager {
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
       this.#init();
       kameHouse.util.module.setModuleLoaded("moduleStatusManager");
-      kameHouse.logger.info("Initialized moduleStatusManager");
+      kameHouse.logger.info("Initialized moduleStatusManager", null);
     });
   }
 
@@ -48,7 +48,7 @@ class TomcatModuleStatusManager {
    * Get module status.
    */
   #getModuleStatus(webapp) {
-    kameHouse.logger.trace("getModuleStatus");
+    kameHouse.logger.trace("getModuleStatus", null);
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
     kameHouse.plugin.debugger.http.get(config, this.#getApiUrl(webapp), null, null,

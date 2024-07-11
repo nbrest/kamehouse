@@ -10,14 +10,14 @@ class KameHouseFooter {
     kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
     kameHouse.ready(() => {
       // load the footer after the other elements are loaded, if not it randomly puts the footer in the middle
-      kameHouse.logger.info("Loading footer");
+      kameHouse.logger.info("Loading footer", null);
       kameHouse.util.dom.append(kameHouse.util.dom.getBody(), this.#getFooterContainerDiv());
       kameHouse.util.dom.loadById("kamehouse-footer-container", "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
         kameHouse.core.configDynamicHtml();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateSessionStatus();
           kameHouse.util.module.setModuleLoaded("kameHouseFooter");
-          kameHouse.logger.info("Finished loading footer");
+          kameHouse.logger.info("Finished loading footer", null);
         });
       });
     });
@@ -42,14 +42,14 @@ class KameHouseFooter {
   #getFooterContainerDiv() {
     return kameHouse.util.dom.getDiv({
       id: "kamehouse-footer-container"
-    });
+    }, null);
   }
 
   /**
    * Wait for the footer to be loaded and then update the session status.
    */
   #updateSessionStatus() {
-    kameHouse.logger.info("Updating footer with session status");
+    kameHouse.logger.info("Updating footer with session status", null);
     this.#updateFooterWithSessionInfo();
     kameHouse.util.banner.updateServerName();
   }

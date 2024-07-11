@@ -9,7 +9,7 @@ class GrootHome {
    * Load the extension.
    */
   load() {
-    kameHouse.util.banner.setRandomAllBanner();
+    kameHouse.util.banner.setRandomAllBanner(null);
   }
 
   /** @deprecated Set client time and date */
