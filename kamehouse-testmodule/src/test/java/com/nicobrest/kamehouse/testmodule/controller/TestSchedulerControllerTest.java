@@ -76,7 +76,7 @@ class TestSchedulerControllerTest
 
   /** Cancels sample job error test. */
   @Test
-  void cancelSampleJobServerErrorTest() throws Exception {
+  void cancelSampleJobServerErrorTest() {
     assertThrows(
         ServletException.class,
         () -> {

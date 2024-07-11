@@ -50,7 +50,7 @@ class JspViewResolverControllerTest extends AbstractControllerTest<ModelAndView,
 
   /** Tests jsp urls. */
   @Test
-  void jspTest() throws Exception {
+  void jspTest() {
     jspUrlTest("/jsp/test-module/", "/jsp/test-module/index");
     jspUrlTest("/jsp/test-module/trunks", "/jsp/test-module/trunks");
   }

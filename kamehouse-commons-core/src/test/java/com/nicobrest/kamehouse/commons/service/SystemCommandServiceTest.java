@@ -110,7 +110,7 @@ class SystemCommandServiceTest {
    * Executes process with failing VncDo command test.
    */
   @Test
-  void execVncDoFailedTest() throws Exception {
+  void execVncDoFailedTest() {
     List<String> errorStream = Arrays.asList("no errors");
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), errorStream.get(0));
     when(ProcessUtils.getExitValue(any())).thenReturn(1);

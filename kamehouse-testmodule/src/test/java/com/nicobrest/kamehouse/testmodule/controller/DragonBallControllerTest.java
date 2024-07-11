@@ -104,7 +104,7 @@ class DragonBallControllerTest
       "NullPointerException",
       "IndexOutOfBoundsException"
   })
-  void readAllKameHouseExceptionTest(String exception) throws Exception {
+  void readAllKameHouseExceptionTest(String exception) {
     assertThrows(
         ServletException.class,
         () -> {
@@ -133,7 +133,7 @@ class DragonBallControllerTest
    * Tests user not found when getting a specific user from the repository.
    */
   @Test
-  void getByUsernameNotFoundExceptionTest() throws Exception {
+  void getByUsernameNotFoundExceptionTest() {
     assertThrows(
         ServletException.class,
         () -> {

@@ -124,7 +124,6 @@ class VideoPlaylistServiceTest {
   @Test
   void getAllWithContentOnWindowsDockerHostTest() {
     videoPlaylistTestUtils.setWindowsPaths();
-    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     when(DockerUtils.getDockerHostIp()).thenReturn("1.2.3.4");
     when(DockerUtils.getDockerHostUsername()).thenReturn("gohan");
     when(DockerUtils.isDockerControlHostEnabled()).thenReturn(true);
@@ -133,6 +132,7 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(true);
     Output playlistFilePaths = new Output();
+    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     playlistFilePaths.setStandardOutput(List.of("--------" + expectedPlaylists.get(0).getPath()
         + "\r\n" + expectedPlaylists.get(1).getPath() + "\r\n"));
     Output dcPlaylistContent = new Output();
@@ -160,7 +160,6 @@ class VideoPlaylistServiceTest {
   @Test
   void getAllWithContentOnLinuxDockerHostTest() {
     videoPlaylistTestUtils.setLinuxPaths();
-    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     when(DockerUtils.getDockerHostIp()).thenReturn("1.2.3.4");
     when(DockerUtils.getDockerHostUsername()).thenReturn("gohan");
     when(DockerUtils.isDockerControlHostEnabled()).thenReturn(true);
@@ -169,6 +168,7 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(false);
     Output playlistFilePaths = new Output();
+    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     playlistFilePaths.setStandardOutput(List.of(expectedPlaylists.get(0).getPath()
         + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
     Output dcPlaylistContent = new Output();
