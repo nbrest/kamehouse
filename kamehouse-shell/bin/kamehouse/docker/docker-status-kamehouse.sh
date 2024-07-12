@@ -20,7 +20,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-KAMEHOUSE_SERVER="niko-server-vm-ubuntu"
+KAMEHOUSE_SERVER="${DOCKER_SERVER}"
 
 mainProcess() {
   log.info "Checking docker status on current server ${COL_PURPLE}${HOSTNAME}"
