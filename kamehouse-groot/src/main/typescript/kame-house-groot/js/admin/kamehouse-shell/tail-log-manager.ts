@@ -5,7 +5,7 @@
  */
 class TailLogManager {
 
-  static #KAMEHOUSE_SHELL_EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
+  #KAMEHOUSE_SHELL_EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
 
   /**
    * Load the extension.
@@ -16,7 +16,7 @@ class TailLogManager {
 
   /** Tails the log based on the script parameter and the number of lines to display */
   tailLog(logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
-    return this.executeTailLog(TailLogManager.#KAMEHOUSE_SHELL_EXECUTE_API, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback);  
+    return this.executeTailLog(this.#KAMEHOUSE_SHELL_EXECUTE_API, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback);  
   }
 
   /**

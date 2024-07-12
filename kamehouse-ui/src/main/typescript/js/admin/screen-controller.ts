@@ -6,9 +6,9 @@
  */
 class ScreenController {
 
-  static #ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
-  static #KEY_PRESS = '/screen/key-press';
-  static #MOUSE_CLICK = '/screen/mouse-click';
+  #ADMIN_API_URL = "/kame-house-admin/api/v1/admin";
+  #KEY_PRESS = '/screen/key-press';
+  #MOUSE_CLICK = '/screen/mouse-click';
 
   /**
    * Load the extension.
@@ -33,7 +33,7 @@ class ScreenController {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ScreenController.#ADMIN_API_URL + ScreenController.#KEY_PRESS, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    kameHouse.plugin.debugger.http.post(config, this.#ADMIN_API_URL + this.#KEY_PRESS, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
     (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
     (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)});
   }
@@ -59,7 +59,7 @@ class ScreenController {
       clickCount: 1
     };
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ScreenController.#ADMIN_API_URL + ScreenController.#MOUSE_CLICK, kameHouse.http.getUrlEncodedHeaders(), params, 
+    kameHouse.plugin.debugger.http.post(config, this.#ADMIN_API_URL + this.#MOUSE_CLICK, kameHouse.http.getUrlEncodedHeaders(), params, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)}
       );
@@ -75,7 +75,7 @@ class ScreenController {
       headers = kameHouse.http.getApplicationJsonHeaders();
     }
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ScreenController.#ADMIN_API_URL + url, headers, requestBody, 
+    kameHouse.plugin.debugger.http.post(config, this.#ADMIN_API_URL + url, headers, requestBody, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccess(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processError(responseBody, responseCode, responseDescription, responseHeaders)}
       );

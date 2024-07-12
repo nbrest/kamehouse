@@ -247,9 +247,9 @@ class GitManager {
  */
 class DeploymentManager {
 
-  static #DEV_PORTS = ["9980", "9989", "9988", "9949", "9948"];
-  static #ECLIPSE_PORTS = ["9988", "9948"];
-  static #TOMCAT_DEV_PORT = "9980";
+  #DEV_PORTS = ["9980", "9989", "9988", "9949", "9948"];
+  #ECLIPSE_PORTS = ["9988", "9948"];
+  #TOMCAT_DEV_PORT = "9980";
 
   #statusBallBlueImg = null;
   #statusBallRedImg = null;
@@ -457,7 +457,7 @@ class DeploymentManager {
     return kameHouse.util.mobile.exec(
       () => {
         const port = location.port;
-        if (!kameHouse.core.isEmpty(port) && DeploymentManager.#ECLIPSE_PORTS.includes(port)) {
+        if (!kameHouse.core.isEmpty(port) && this.#ECLIPSE_PORTS.includes(port)) {
           return true;
         }
         return false;
@@ -483,7 +483,7 @@ class DeploymentManager {
     return kameHouse.util.mobile.exec(
       () => {
         const port = location.port;
-        return !kameHouse.core.isEmpty(port) && DeploymentManager.#DEV_PORTS.includes(port);
+        return !kameHouse.core.isEmpty(port) && this.#DEV_PORTS.includes(port);
       },
       () => {
         kameHouse.logger.trace("Checking if it's dev environment on mobile", null);
@@ -507,7 +507,7 @@ class DeploymentManager {
    */
   #getDevTomcatPortArgument() {
     if (this.#isDevEnvironment()) {
-      return "-p " + DeploymentManager.#TOMCAT_DEV_PORT;
+      return "-p " + this.#TOMCAT_DEV_PORT;
     }
     return "";
   }

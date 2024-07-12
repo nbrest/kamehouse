@@ -5,7 +5,7 @@
  */
 class TestBannerRenderer {
 
-  static #TBODY_ID = "banners-table-body";
+  #TBODY_ID = "banners-table-body";
 
   /**
    * Load the extension.
@@ -20,7 +20,7 @@ class TestBannerRenderer {
    */
   reloadBanners() {
     kameHouse.logger.info("Reloading banners", null);
-    const bannersTbody = document.getElementById(TestBannerRenderer.#TBODY_ID);
+    const bannersTbody = document.getElementById(this.#TBODY_ID);
     kameHouse.util.dom.empty(bannersTbody);
     const bannerCategory = this.#getSelectedBannerCategory();
     const selectedBanners = kameHouse.util.banner.getBanners(bannerCategory);

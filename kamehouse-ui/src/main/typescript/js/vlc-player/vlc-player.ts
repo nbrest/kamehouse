@@ -468,7 +468,7 @@ class VlcPlayer {
  */
 class VlcPlayerCommandExecutor {
 
-  static #VLC_PLAYER_PROCESS_CONTROL_URL = '/kame-house-vlcrc/api/v1/vlc-rc/vlc-process';
+  #VLC_PLAYER_PROCESS_CONTROL_URL = '/kame-house-vlcrc/api/v1/vlc-rc/vlc-process';
   
   #vlcPlayer = null;
   #vlcRcCommandUrl = null;
@@ -497,7 +497,7 @@ class VlcPlayerCommandExecutor {
       file : fileName
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
-    this.#vlcPlayer.getRestClient().post(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    this.#vlcPlayer.getRestClient().post(this.#VLC_PLAYER_PROCESS_CONTROL_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
       () => {
         this.#vlcPlayer.loadStateFromApiRound();
       }, 
@@ -509,7 +509,7 @@ class VlcPlayerCommandExecutor {
 
   /** Close vlc player. */
   close() {
-    this.#vlcPlayer.getRestClient().delete(VlcPlayerCommandExecutor.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
+    this.#vlcPlayer.getRestClient().delete(this.#VLC_PLAYER_PROCESS_CONTROL_URL, null, null, 
       () => {
         this.#vlcPlayer.loadStateFromApiRound();
       }, 
@@ -728,7 +728,7 @@ class VlcPlayerMainViewUpdater {
  */
 class StatefulMediaButton {
 
-  static #DEFAULT_BTN_PREFIX_CLASS = 'media-btn';
+  #DEFAULT_BTN_PREFIX_CLASS = 'media-btn';
 
   #vlcPlayer = null;
   #id = null;
@@ -742,7 +742,7 @@ class StatefulMediaButton {
     this.#pressedField = pressedField;
     this.#pressedCondition = pressedCondition;
     if (kameHouse.core.isEmpty(btnPrefixClass)) {
-      this.#buttonPrefixClass = StatefulMediaButton.#DEFAULT_BTN_PREFIX_CLASS;
+      this.#buttonPrefixClass = this.#DEFAULT_BTN_PREFIX_CLASS;
     } else {
       this.#buttonPrefixClass = btnPrefixClass;
     }

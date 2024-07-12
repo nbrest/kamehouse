@@ -42,7 +42,7 @@ class KameHouseModalLoader {
  */
 class AbstractKameHouseModal {
   
-  static #DEFAULT_AUTO_CLOSE_SEC = 7000;
+  #DEFAULT_AUTO_CLOSE_SEC = 7000;
 
   #isErrorMessage = false;
   #isOpen = false;
@@ -97,8 +97,8 @@ class AbstractKameHouseModal {
   /** Auto close modal after the specified miliseconds */
   async autoClose(autoCloseMs) {
     if (kameHouse.core.isEmpty(autoCloseMs)) {
-      kameHouse.logger.trace("autoCloseMs not set. Closing after default value of " + AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC + " ms", null);
-      autoCloseMs = AbstractKameHouseModal.#DEFAULT_AUTO_CLOSE_SEC;
+      kameHouse.logger.trace("autoCloseMs not set. Closing after default value of " + this.#DEFAULT_AUTO_CLOSE_SEC + " ms", null);
+      autoCloseMs = this.#DEFAULT_AUTO_CLOSE_SEC;
     }
     const autoCloseId = this.#modalId + "-autoclose";
     kameHouse.util.dom.classListRemoveById(autoCloseId, "hidden-kh");
@@ -154,14 +154,14 @@ class AbstractKameHouseModal {
  */
 class BasicKamehouseModal extends AbstractKameHouseModal {
 
-  static #KAMEHOUSE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet. Let's face it, this is low priority and will probably never get done";
+  #KAMEHOUSE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet.<br><br>Let's face it, this is low priority and will probably never get done";
 
   constructor() {
     super("kamehouse-modal-basic");
   }
 
   /** Open site under construction modal */
-  openSiteUnderConstruction() { super.open(BasicKamehouseModal.#KAMEHOUSE_UNDER_CONSTRUCTION); }
+  openSiteUnderConstruction() { super.open(this.#KAMEHOUSE_UNDER_CONSTRUCTION); }
 
   /** Open api call error message auto closeable modal */
   openApiError(responseBody, responseCode, responseDescription, responseHeaders) {

@@ -9,8 +9,8 @@
  */
 class TestScheduler {
 
-  static #TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
-  static #SAMPLE_JOB_URL = '/test-scheduler/sample-job';
+  #TEST_MODULE_API_URL = "/kame-house-testmodule/api/v1/test-module";
+  #SAMPLE_JOB_URL = '/test-scheduler/sample-job';
 
   /**
    * Load the extension.
@@ -36,7 +36,7 @@ class TestScheduler {
     };
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
+    kameHouse.plugin.debugger.http.post(config, this.#TEST_MODULE_API_URL + this.#SAMPLE_JOB_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders)});
   }
@@ -45,7 +45,7 @@ class TestScheduler {
   cancelSampleJob() {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, null, null, 
+    kameHouse.plugin.debugger.http.delete(config, this.#TEST_MODULE_API_URL + this.#SAMPLE_JOB_URL, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSampleJob(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSampleJob(responseBody, responseCode, responseDescription, responseHeaders)});
   }
@@ -56,7 +56,7 @@ class TestScheduler {
       kameHouse.plugin.modal.loadingWheelModal.open();
     }
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, TestScheduler.#TEST_MODULE_API_URL + TestScheduler.#SAMPLE_JOB_URL, null, null, this.#processSuccessSampleJobStatus, this.#processErrorSampleJobStatus);
+    kameHouse.plugin.debugger.http.get(config, this.#TEST_MODULE_API_URL + this.#SAMPLE_JOB_URL, null, null, this.#processSuccessSampleJobStatus, this.#processErrorSampleJobStatus);
   }
 
   /** Process the success response of a SampleJob command (set/cancel) */

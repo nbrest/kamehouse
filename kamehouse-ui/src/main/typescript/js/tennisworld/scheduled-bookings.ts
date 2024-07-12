@@ -5,7 +5,7 @@
  */
 class ScheduledBookingService {
 
-  static #SCHEDULED_BOOKINGS_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings';
+  #SCHEDULED_BOOKINGS_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings';
 
   /**
    * Load the extension.
@@ -22,7 +22,7 @@ class ScheduledBookingService {
     kameHouse.logger.info("Triggering execution of scheduled bookings...", null);
     kameHouse.plugin.modal.loadingWheelModal.open("Triggering execution of scheduled bookings...");
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, ScheduledBookingService.#SCHEDULED_BOOKINGS_API_URL, null, null,
+    kameHouse.plugin.debugger.http.post(config, this.#SCHEDULED_BOOKINGS_API_URL, null, null,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Scheduled bookings executed successfully", null);
         kameHouse.plugin.modal.loadingWheelModal.close();

@@ -5,7 +5,7 @@
  */
 class BookingService {
 
-  static #BOOK_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/bookings';
+  #BOOK_API_URL = '/kame-house-tennisworld/api/v1/tennis-world/bookings';
 
   /**
    * Load the extension.
@@ -24,7 +24,7 @@ class BookingService {
     const bookingRequest = this.#getBookingRequest();
     const config = kameHouse.http.getConfig();
     config.timeout = 300;
-    kameHouse.plugin.debugger.http.post(config, BookingService.#BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
+    kameHouse.plugin.debugger.http.post(config, this.#BOOK_API_URL, kameHouse.http.getApplicationJsonHeaders(), bookingRequest,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("Booking request completed successfully", null);
         kameHouse.plugin.modal.loadingWheelModal.close();

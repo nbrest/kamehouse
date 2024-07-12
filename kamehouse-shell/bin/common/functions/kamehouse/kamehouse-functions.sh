@@ -506,6 +506,7 @@ buildKameHouseMobileStatic() {
   log.debug "Moving kamehouse-groot compiled js files"
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js
+  mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/plugin/js ./www/kame-house-mobile/kamehouse-mobile/plugin/js  
   rm -rf ./www/kamehouse-mobile
   rm -rf ./www/kamehouse-ui
 

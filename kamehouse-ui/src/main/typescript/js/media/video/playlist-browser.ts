@@ -6,8 +6,8 @@
  */
 class PlaylistBrowser {
 
-  static #mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
-  static #mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
+  #mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
+  #mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
 
   #dobleLeftButton = null;
   #dobleRightButton = null;
@@ -45,7 +45,7 @@ class PlaylistBrowser {
     this.#resetPlaylistCategoryDropdown();
 
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, PlaylistBrowser.#mediaVideoAllPlaylistsUrl, null, null, 
+    kameHouse.plugin.debugger.http.get(config, this.#mediaVideoAllPlaylistsUrl, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         this.#videoPlaylists = responseBody;
         this.#videoPlaylistCategories = [...new Set(this.#videoPlaylists.map((playlist) => playlist.category))];
@@ -88,7 +88,7 @@ class PlaylistBrowser {
       "path" : playlistFilename
     };
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, PlaylistBrowser.#mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
+    kameHouse.plugin.debugger.http.get(config, this.#mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         this.#currentPlaylist = responseBody;
         this.#populatePlaylistBrowserTable();

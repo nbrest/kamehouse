@@ -3,7 +3,7 @@
  */
 class DragonBallUserServiceJsp {
 
-  static #SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
+  #SERVLET_SERVICE_URI = '/kame-house-testmodule/api/v1/servlet/test-module/dragonball/users';
 
   /**
    * Load the extension.
@@ -24,11 +24,11 @@ class DragonBallUserServiceJsp {
       "username" : urlParams.get('username')
     };
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params, 
+    kameHouse.plugin.debugger.http.get(config, this.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params, 
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayDragonBallUserToEdit(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         let errorMessage = 'Error getting dragonball user';
-        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(this.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -37,12 +37,12 @@ class DragonBallUserServiceJsp {
    */
   getAllDragonBallUsers() {
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, null, null, 
+    kameHouse.plugin.debugger.http.get(config, this.#SERVLET_SERVICE_URI, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#displayDragonBallUsers(responseBody),
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error getting dragonball users from the backend';
         this.#displayErrorTable(errorMessage);
-        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(this.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -58,11 +58,11 @@ class DragonBallUserServiceJsp {
       stamina: (document.getElementById("input-stamina") as HTMLInputElement).value
     };
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.post(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
+    kameHouse.plugin.debugger.http.post(config, this.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
       (responseBody, responseCode, responseDescription, responseHeaders) => {kameHouse.core.windowLocation('users-list')},
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error adding dragonball user';
-        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(this.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -79,11 +79,11 @@ class DragonBallUserServiceJsp {
       stamina: (document.getElementById("input-stamina") as HTMLInputElement).value
     };
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.put(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
+    kameHouse.plugin.debugger.http.put(config, this.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
       (responseBody, responseCode, responseDescription, responseHeaders) => {kameHouse.core.windowLocation('users-list')},
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error updating dragonball user';
-        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(this.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
 
@@ -95,12 +95,12 @@ class DragonBallUserServiceJsp {
       id: id
     };
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.delete(config, DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
+    kameHouse.plugin.debugger.http.delete(config, this.#SERVLET_SERVICE_URI, kameHouse.http.getUrlEncodedHeaders(), params,
       (responseBody, responseCode, responseDescription, responseHeaders) => this.getAllDragonBallUsers(),
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const errorMessage = 'Error deleting dragonball user';
         this.#displayErrorTable(errorMessage);
-        this.#handleApiErrorResponse(DragonBallUserServiceJsp.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
+        this.#handleApiErrorResponse(this.#SERVLET_SERVICE_URI, errorMessage, responseBody, responseCode, responseDescription, responseHeaders);
       });
   }
   

@@ -18,9 +18,9 @@ class KameHouse {
   json: KameHouseJson;
   logger: KameHouseLogger;
   util: KameHouseUtil;
-  session: SessionStatus;
   footer: KameHouseFooter;
   header: KameHouseHeader;
+  session = {} as SessionStatus;
   extension = {
     batcave: null,
     batcaveShell: null,

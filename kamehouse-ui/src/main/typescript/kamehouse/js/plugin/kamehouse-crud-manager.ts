@@ -5,11 +5,11 @@
  */
 class CrudManager {
 
-  static #TBODY_ID = "crud-manager-tbody";
-  static #ADD_INPUT_FIELDS_ID = "crud-add-input-fields";
-  static #EDIT_INPUT_FIELDS_ID = "crud-edit-input-fields";
-  static #DEFAULT_BANNER = "banner-goku-ssj4-earth";
-  static #NO_DATA_ROW_ID = "no-data-from-backend-row";
+  #TBODY_ID = "crud-manager-tbody";
+  #ADD_INPUT_FIELDS_ID = "crud-add-input-fields";
+  #EDIT_INPUT_FIELDS_ID = "crud-edit-input-fields";
+  #DEFAULT_BANNER = "banner-goku-ssj4-earth";
+  #NO_DATA_ROW_ID = "no-data-from-backend-row";
 
   #entityName = "Set EntityName";
   #entityNameJapanese = null;
@@ -188,7 +188,7 @@ class CrudManager {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
-    const entity = this.#getEntityFromForm(CrudManager.#ADD_INPUT_FIELDS_ID);
+    const entity = this.#getEntityFromForm(this.#ADD_INPUT_FIELDS_ID);
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.post(config, this.#url, kameHouse.http.getApplicationJsonHeaders(), entity,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
@@ -212,7 +212,7 @@ class CrudManager {
       kameHouse.plugin.modal.basicModal.openAutoCloseable("This crud manager is set to read-only. Can't execute updates", 5000);
       return;
     }
-    const entity = this.#getEntityFromForm(CrudManager.#EDIT_INPUT_FIELDS_ID);
+    const entity = this.#getEntityFromForm(this.#EDIT_INPUT_FIELDS_ID);
     const updateUrl = this.#url + "/" + entity.id;
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.put(config, updateUrl, kameHouse.http.getApplicationJsonHeaders(), entity,
@@ -276,9 +276,9 @@ class CrudManager {
    */
   filterRows() {
     // first show all rows, then apply sequentially each of the filters, ignoring hidden rows, then limit row number
-    kameHouse.util.table.filterTableRows("", CrudManager.#TBODY_ID, null, null);
+    kameHouse.util.table.filterTableRows("", this.#TBODY_ID, null, null);
 
-    const noDataRow = document.getElementById(CrudManager.#NO_DATA_ROW_ID);
+    const noDataRow = document.getElementById(this.#NO_DATA_ROW_ID);
     if (!kameHouse.core.isEmpty(noDataRow)) {
       kameHouse.logger.info("No data received from the backend, skipping filters", null);
       return;
@@ -288,7 +288,7 @@ class CrudManager {
     for (const filter of filters) {
       const filterString = filter.value;
       kameHouse.logger.trace("Applying filter " + filter.id + " with string " + filterString, null);
-      kameHouse.util.table.filterTableRows(filterString, CrudManager.#TBODY_ID, null, true);
+      kameHouse.util.table.filterTableRows(filterString, this.#TBODY_ID, null, true);
     }
 
     const columnFilters = document.getElementsByClassName("crud-manager-column-filter") as HTMLCollectionOf<HTMLInputElement>;
@@ -296,7 +296,7 @@ class CrudManager {
       const filterString = columnFilter.value;
       const columnNumber = columnFilter.dataset['columnNumber'];
       kameHouse.logger.trace("Applying filter " + columnFilter.id + " with string " + filterString, null);
-      kameHouse.util.table.filterTableRowsByColumn(filterString, CrudManager.#TBODY_ID, columnNumber, null, true);
+      kameHouse.util.table.filterTableRowsByColumn(filterString, this.#TBODY_ID, columnNumber, null, true);
     }
     
     const numRows = (document.getElementById('num-rows') as HTMLInputElement).value;
@@ -331,7 +331,7 @@ class CrudManager {
    */
   #replaceBanner(config) {
     if (!kameHouse.core.isEmpty(config.banner)) {
-      kameHouse.util.dom.classListRemoveById("banner", CrudManager.#DEFAULT_BANNER);
+      kameHouse.util.dom.classListRemoveById("banner", this.#DEFAULT_BANNER);
       kameHouse.util.dom.classListAddById("banner", config.banner);
     }
   }
@@ -562,7 +562,7 @@ class CrudManager {
    * Probably needs to be overriden if custom columns are set or the forms are loaded from a snippet.
    */
   #setEditFormValues(responseBody, responseCode, responseDescription, responseHeaders) { 
-    this.#reloadForm(CrudManager.#EDIT_INPUT_FIELDS_ID);
+    this.#reloadForm(this.#EDIT_INPUT_FIELDS_ID);
     this.#updateEditFormFieldValues(responseBody, this.#columns, null);
   }
 
@@ -589,7 +589,7 @@ class CrudManager {
   #updateEditFormFieldValue(entity, column, parentNodeChain) {
     const type = column.type;
     const name = column.name;
-    const inputFieldId = CrudManager.#EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
+    const inputFieldId = this.#EDIT_INPUT_FIELDS_ID + "-" + parentNodeChain + name;
     const inputField = document.getElementById(inputFieldId);
     kameHouse.util.dom.setValue(inputField, entity[name]); 
 
@@ -660,16 +660,16 @@ class CrudManager {
    */
   #reloadView() {
     kameHouse.logger.trace("reloadView", null);
-    const crudTbody = document.getElementById(CrudManager.#TBODY_ID);
+    const crudTbody = document.getElementById(this.#TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
     if (this.#entities.length == 0 || this.#entities.length == null || this.#entities.length == undefined) {
       kameHouse.logger.info("No data received from the backend", null);
       const noDataTd = kameHouse.util.dom.getTrTd("No data received from the backend");
-      kameHouse.util.dom.setAttribute(noDataTd, "id", CrudManager.#NO_DATA_ROW_ID);
+      kameHouse.util.dom.setAttribute(noDataTd, "id", this.#NO_DATA_ROW_ID);
       kameHouse.util.dom.append(crudTbody, noDataTd);
     } else {
       const updatedCrudTbody = kameHouse.util.dom.getTbody({
-        id: CrudManager.#TBODY_ID
+        id: this.#TBODY_ID
       }, null);
       kameHouse.util.dom.append(updatedCrudTbody, this.#getCrudTableHeader());
       kameHouse.logger.info("Received " + this.#entities.length + " entities from the backend", null);
@@ -684,8 +684,8 @@ class CrudManager {
       }
       kameHouse.util.dom.replaceWith(crudTbody, updatedCrudTbody);
     }
-    this.#reloadForm(CrudManager.#ADD_INPUT_FIELDS_ID);
-    this.#reloadForm(CrudManager.#EDIT_INPUT_FIELDS_ID);
+    this.#reloadForm(this.#ADD_INPUT_FIELDS_ID);
+    this.#reloadForm(this.#EDIT_INPUT_FIELDS_ID);
     this.#sortAndFilterTable();
   }
 
@@ -702,7 +702,7 @@ class CrudManager {
    * Display error getting entities.
    */
   #displayErrorGettingEntities() {
-    const crudTbody = document.getElementById(CrudManager.#TBODY_ID);
+    const crudTbody = document.getElementById(this.#TBODY_ID);
     kameHouse.util.dom.empty(crudTbody);
     kameHouse.util.dom.append(crudTbody, kameHouse.util.dom.getTrTd("Error getting data from the backend"));
   }
@@ -950,7 +950,7 @@ class CrudManager {
       }
       let currentColumnIndex = columnIndex + addedObjectColumnIndexes;
       const td = kameHouse.util.dom.getTd({
-        id: CrudManager.#TBODY_ID + "-col-" + currentColumnIndex,
+        id: this.#TBODY_ID + "-col-" + currentColumnIndex,
         class: "clickable",
         alt: "Sort by " + parentNodeChain + name,
         title: "Sort by " + parentNodeChain + name
