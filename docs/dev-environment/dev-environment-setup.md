@@ -77,6 +77,8 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 ## Debug typescript code:
 
+* Currently supported debugging `kamehouse-ui`, `kamehouse-groot` and `kamehouse-mobile` frontend code
+* Follow the setup guide to configure apache serve workspace-intellij static files
 * To debug the frontend in vscode, use the chrome debugger launch configurations in .vscode/lauch.json
 * Run > Start Debugging or open the debugger tab to select which debugger to launch
 * Set the breakpoints on the source `.ts` files, not in the generated `.js` files
