@@ -36,7 +36,8 @@ RUN cd ~ ; \
   apt-get autopurge -y ; \
   apt-get autoclean -y ; \
   apt-get clean -y ; \
-  npm install -g typescript
+  npm install -g typescript ; \
+  npm i --save-dev @types/jquery
 
 # Setup users 
 ARG KAMEHOUSE_USERNAME=goku
