@@ -1737,7 +1737,7 @@ class VlcRcStatus {
   loop: boolean;
   position: number;
   version: string;
-  equalizer;
+  equalizer: any;
   audioFilters: any;
   stats: any;
   videoEffects: any;
