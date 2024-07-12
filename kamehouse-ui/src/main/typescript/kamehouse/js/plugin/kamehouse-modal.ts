@@ -154,14 +154,26 @@ class AbstractKameHouseModal {
  */
 class BasicKamehouseModal extends AbstractKameHouseModal {
 
-  #KAMEHOUSE_UNDER_CONSTRUCTION = "KameHouse is still under construction and this functionality has not been implemented yet.<br><br>Let's face it, this is low priority and will probably never get done";
-
   constructor() {
     super("kamehouse-modal-basic");
   }
 
   /** Open site under construction modal */
-  openSiteUnderConstruction() { super.open(this.#KAMEHOUSE_UNDER_CONSTRUCTION); }
+  openSiteUnderConstruction() { 
+    const html = kameHouse.util.dom.getDiv(null, null);
+    kameHouse.util.dom.append(html, kameHouse.util.dom.getImg({
+      src: "/kame-house/img/other/warning-sign.png",
+      className: "under-construction-img",
+      alt: "Under construction"
+    }));
+    kameHouse.util.dom.append(html, kameHouse.util.dom.getDiv({
+      class: "under-construction-not-implemented-text"
+    }, "KameHouse is still under construction and this functionality has not been implemented yet"));
+    kameHouse.util.dom.append(html, kameHouse.util.dom.getDiv({
+      class: "under-construction-low-priority-text"
+    }, "Let's face it, this is low priority and will probably never get done"));
+    super.open(html); 
+  }
 
   /** Open api call error message auto closeable modal */
   openApiError(responseBody, responseCode, responseDescription, responseHeaders) {

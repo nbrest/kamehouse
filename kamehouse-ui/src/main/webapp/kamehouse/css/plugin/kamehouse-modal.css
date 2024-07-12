@@ -55,3 +55,21 @@
   display: block;
   margin: 10px;
 }
+
+.under-construction-not-implemented-text {
+  color: #c0c0c0;
+  margin-bottom: 10px;
+}
+
+.under-construction-low-priority-text {
+  color: #cb4343;
+}
+
+.under-construction-img {
+  background: transparent;
+  background-size: 100% 100%;
+  border: none;
+  width: 35px;
+  height: 35px;
+  margin-bottom: 10px;
+}
