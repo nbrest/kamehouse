@@ -10,32 +10,46 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "/kame-house ui workspace-intellij debugger",
+      "name": "/kame-house ui workspace-intellij",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:9989/kame-house/",
       "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-ui\\src\\main"
     },
     {
-      "name": "/kame-house-groot workspace-intellij debugger",
+      "name": "/kame-house-groot workspace-intellij",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:9989/kame-house-groot/",
       "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-groot\\src\\main"
     },
     {
-      "name": "/kame-house ui workspace-intellij docker dev debugger",
+      "name": "/kame-house-mobile workspace-intellij",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:9989/kame-house-mobile/settings.html?mockCordova=true",
+      "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-mobile\\www"
+    },
+    {
+      "name": "/kame-house ui docker dev workspace-intellij",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:6080/kame-house/",
       "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-ui\\src\\main"
     },
     {
-      "name": "/kame-house-groot workspace-intellij docker dev debugger",
+      "name": "/kame-house-groot docker dev workspace-intellij",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:6080/kame-house-groot/",
       "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-groot\\src\\main"
+    },
+    {
+      "name": "/kame-house-mobile docker dev workspace-intellij",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:6080/kame-house-mobile/settings.html?mockCordova=true",
+      "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-mobile\\www"
     }
   ]
 }

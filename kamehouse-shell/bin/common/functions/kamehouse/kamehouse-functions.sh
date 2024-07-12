@@ -506,6 +506,9 @@ buildKameHouseMobileStatic() {
 
   runTypescriptCompiler
 
+  log.debug "Updating sourcemap relative paths"
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
+  
   log.debug "Moving kamehouse-groot compiled js files"
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js

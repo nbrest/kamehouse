@@ -74,8 +74,9 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 * Create a vs code workspace and add either intellij or eclipse kamehouse folder
 * Run `npm i --save-dev @types/jquery` for vscode to detect `$`
+
+## Debug typescript code:
+
 * To debug the frontend in vscode, use the chrome debugger launch configurations in .vscode/lauch.json
-* There's 2 debugger launch configurations there, one for /kame-house-groot app and the other for /kame-house to debug the frontend in vscode and the backend in intellij: Run > Start Debugging or open the debugger tab to select which debugger to launch
-* Create a symlink in kamehouse-ui/src/main: `mklink /D "kame-house" "webapp"` so that the vscode debugger picks up the files for /kame-house
-* When setting the breakpoints to debug /kame-house, open the js files by browsing through kamehouse/kamehouse-ui/src/main/kame-house (through the symlink). Not by browsing through kamehouse/kamehouse-ui/src/main/webapp or they won't be bound
-* When setting the breakpoints to debug /kame-house-groot, open the js files by browsing through kamehouse/kamehouse-groot/src/main/webapp/kame-house-groot
+* Run > Start Debugging or open the debugger tab to select which debugger to launch
+* Set the breakpoints on the source `.ts` files, not in the generated `.js` files
