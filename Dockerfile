@@ -144,12 +144,13 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
-  # install jquery types
-  npm i --save-dev @types/jquery ; \
   # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
   cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
+  # install jquery types
+  npm i --save-dev @types/jquery ; \  
   chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/* ; \
+  # checkout git branch
   /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-git-checkout.sh ${DOCKER_IMAGE_TAG} ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
