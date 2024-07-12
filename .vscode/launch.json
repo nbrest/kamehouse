@@ -1,5 +1,5 @@
 {
-  // Launch configurations to debug on intellij on port 9989
+  // Launch configurations to debug on chrome/apache httpd on port 9989
   // on windows (for linux update webRoot to linux paths)
   "version": "0.2.0",
   "configurations": [
