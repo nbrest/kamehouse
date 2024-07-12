@@ -37,7 +37,7 @@ RUN cd ~ ; \
   apt-get autoclean -y ; \
   apt-get clean -y ; \
   npm install -g typescript ; \
-  npm i --save-dev @types/jquery
+  npm i @types/jquery -g
 
 # Setup users 
 ARG KAMEHOUSE_USERNAME=goku
@@ -147,10 +147,8 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
   cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
-  # install jquery types
-  npm i --save-dev @types/jquery ; \  
-  chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/* ; \
   # checkout git branch
+  chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/* ; \
   /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-git-checkout.sh ${DOCKER_IMAGE_TAG} ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
