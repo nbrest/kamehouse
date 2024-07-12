@@ -41,6 +41,8 @@ setScriptLogMessage() {
 execInAllServers() {
   # niko-server
   execInServer "niko-server" "80" "false" "false" &
+  execInServer "niko-server" "${DOCKER_PORT_HTTP_DEMO}" "true" "false" &
+  execInServer "niko-server" "${DOCKER_PORT_HTTP_PROD}" "false" "false" &
 
   # niko-server-vm-ubuntu
   execInServer "niko-server-vm-ubuntu" "80" "true" "false" &
