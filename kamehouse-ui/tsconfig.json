@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./src/main/webapp",
     "rootDir": "./src/main/typescript",
+    "sourceMap": true,
     "allowJs": false,
     "target": "ES2023",
     "noImplicitAny": false,

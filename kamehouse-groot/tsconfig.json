@@ -4,6 +4,7 @@
     "rootDirs": [
       "./src/main/typescript", "../kamehouse-ui/src/main/typescript"
     ],
+    "sourceMap": true,
     "allowJs": false,
     "target": "ES2023",
     "noImplicitAny": false,
