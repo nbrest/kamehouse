@@ -144,6 +144,8 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
+  # install jquery types
+  npm i --save-dev @types/jquery ; \
   # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
   cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
