@@ -17,12 +17,12 @@
       "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-ui\\src\\main"
     },
     {
-      "name": "/kame-house-groot workspace-intellij debugger (broken sourcemap relative path)",
+      "name": "/kame-house-groot workspace-intellij debugger",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:9989/kame-house-groot/",
-      "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-groot\\public"
-    },  
+      "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-groot\\src\\main"
+    },
     {
       "name": "/kame-house ui workspace-intellij docker dev debugger",
       "request": "launch",
@@ -31,11 +31,11 @@
       "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-ui\\src\\main"
     },
     {
-      "name": "/kame-house-groot workspace-intellij docker dev debugger (broken sourcemap relative path)",
+      "name": "/kame-house-groot workspace-intellij docker dev debugger",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:6080/kame-house-groot/",
-      "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-groot\\public"
+      "webRoot": "C:\\Users\\nbrest\\workspace-intellij\\kamehouse\\kamehouse-groot\\src\\main"
     }
   ]
 }

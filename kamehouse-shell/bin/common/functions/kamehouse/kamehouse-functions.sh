@@ -482,6 +482,9 @@ buildKameHouseGroot() {
 
   runTypescriptCompiler
   
+  log.debug "Updating sourcemap relative paths"
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../typescript#../../typescript#g" {} \;
+
   log.debug "Moving kamehouse-groot compiled js files"
   mv ./src/main/webapp/kamehouse-groot/src/main/typescript/kame-house-groot/js ./src/main/webapp/kame-house-groot/js
   mv ./src/main/webapp/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./src/main/webapp/kame-house-groot/kamehouse-groot/js
