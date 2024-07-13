@@ -461,7 +461,6 @@ buildFrontendCode() {
 }
 
 buildKameHouseUiStatic() {
-  cleanUpUiWebappDirectory
   cdToKameHouseModule "kamehouse-ui"
   log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
   log.debug "Cleaning up dist directory"
