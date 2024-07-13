@@ -471,7 +471,7 @@ buildKameHouseUiStatic() {
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
 
-  log.debug "Moving kamehouse-ui compiled frontend files"
+  log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
   echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
   cdToRootDirFromModule "kamehouse-ui"
@@ -488,8 +488,9 @@ buildKameHouseGroot() {
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../../src/main/typescript#g" {} \;
  
-  log.debug "Moving kamehouse-groot compiled frontend files"
+  log.info "Building kamehouse-groot bundle in dist folder"
   cp -r ./src/main/public/* ./dist
+  cp -r ./src/main/php/kame-house-groot/* ./dist/kame-house-groot
   echo "groot build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/kame-house-groot/groot-build-date.txt 
   mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/js ./dist/kame-house-groot/js
   mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./dist/kame-house-groot/kamehouse-groot/js
@@ -512,7 +513,7 @@ buildKameHouseMobileStatic() {
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
   
-  log.debug "Moving kamehouse-mobile compiled frontend files"
+  log.info "Building kamehouse-mobile bundle in www folder"
   mkdir -p ./www/kame-house-mobile
   cp -r ./src/main/public/* ./www/kame-house-mobile
   echo "mobile build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./www/mobile-build-date.txt 

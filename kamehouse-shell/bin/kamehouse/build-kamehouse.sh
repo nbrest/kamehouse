@@ -22,9 +22,7 @@ STATIC_ONLY=false
 
 mainProcess() {
   setKameHouseRootProjectDir
-  if ${STATIC_ONLY}; then
-    buildKameHouseStatic
-  fi
+  buildKameHouseStatic
   buildKameHouseProject
   cleanUpMavenRepository
 }
@@ -39,8 +37,10 @@ buildKameHouseStatic() {
   if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
     buildKameHouseMobileStatic
   fi
-  log.info "Finished building static code"
-  exitSuccessfully
+  if ${STATIC_ONLY}; then
+    log.info "Finished building static code"
+    exitSuccessfully    
+  fi 
 }
 
 parseArguments() {
