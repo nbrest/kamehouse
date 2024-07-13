@@ -159,7 +159,7 @@ deployKameHouseGroot() {
     local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
     mkdir -p ${HTTPD_CONTENT_ROOT}
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    cp -rf ./kamehouse-groot/src/main/webapp/kame-house-groot ${HTTPD_CONTENT_ROOT}/
+    cp -rf ./kamehouse-groot/dist/kame-house-groot ${HTTPD_CONTENT_ROOT}/kame-house-groot
     checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
     local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`

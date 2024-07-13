@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./src/main/webapp",
+    "outDir": "./dist",
     "rootDirs": [
       "./src/main/typescript", "../kamehouse-ui/src/main/typescript"
     ],

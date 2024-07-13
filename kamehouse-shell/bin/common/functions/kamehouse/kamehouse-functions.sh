@@ -472,30 +472,28 @@ buildKameHouseUiStatic() {
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
 
   cp -r ./src/main/public/* ./dist
-  echo "build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
+  echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
   cdToRootDirFromModule "kamehouse-ui"
 }
 
 buildKameHouseGroot() {
   cdToKameHouseModule "kamehouse-groot"
   log.info "Building ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} static code"
-  log.debug "Cleaning up kamehouse-groot webapp directory js files"
-  rm -rf ./src/main/webapp/kamehouse-groot
-  rm -rf ./src/main/webapp/kamehouse-ui
-  rm -rf ./src/main/webapp/kame-house-groot/js
-  rm -rf ./src/main/webapp/kame-house-groot/kamehouse-groot/js
+  log.debug "Cleaning up dist directory"
+  rm -rf ./dist/*
 
   buildFrontendCode
   
   log.debug "Updating sourcemap relative paths"
-  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../typescript#../../typescript#g" {} \;
-
-  log.debug "Moving kamehouse-groot compiled js files"
-  mv ./src/main/webapp/kamehouse-groot/src/main/typescript/kame-house-groot/js ./src/main/webapp/kame-house-groot/js
-  mv ./src/main/webapp/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./src/main/webapp/kame-house-groot/kamehouse-groot/js
-  rm -rf ./src/main/webapp/kamehouse-groot
-  rm -rf ./src/main/webapp/kamehouse-ui
-
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../../src/main/typescript#g" {} \;
+ 
+  cp -r ./src/main/public/* ./dist
+  echo "groot build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/kame-house-groot/groot-build-date.txt 
+  mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/js ./dist/kame-house-groot/js
+  mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./dist/kame-house-groot/kamehouse-groot/js
+  rm -rf ./dist/kamehouse-groot
+  rm -rf ./dist/kamehouse-ui
+  rm -rf ./dist/*.html
   cdToRootDirFromModule "kamehouse-groot"
 }
 

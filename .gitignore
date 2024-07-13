@@ -10,15 +10,9 @@ kamehouse-commons-core/src/main/resources/git-commit-hash.txt
 kamehouse-commons-core/src/main/resources/build-version.txt
 kamehouse-commons-core/src/main/resources/build-date.txt
 
-# Compiled kamehouse static code
-!kamehouse-ui/src/main/webapp
-kamehouse-ui/src/main/webapp/*
-!kamehouse-ui/src/main/webapp/WEB-INF
+# Compiled frontend static code
 kamehouse-ui/dist
-
-# Compiled groot static code
-kamehouse-groot/src/main/webapp/kame-house-groot/js/
-kamehouse-groot/src/main/webapp/kame-house-groot/kamehouse-groot/js/
+kamehouse-groot/dist
 
 # Patch files
 *.diff
