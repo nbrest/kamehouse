@@ -167,7 +167,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/kamehouse.crt" ; \
   # Httpd root index.html
   rm /var/www/html/index.html ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/src/main/webapp/index.html /var/www/html/index.html ; \
+  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/src/main/public/index.html /var/www/html/index.html ; \
   # Open mariadb to external connections and intial dump of mariadb data
   sed -i "s#bind-address            = 127.0.0.1#bind-address            = 0.0.0.0#g" /etc/mysql/mariadb.conf.d/50-server.cnf ; \
   service mariadb start ; \
