@@ -45,7 +45,7 @@ setGlobalVariables() {
   EXPORT_BATCAVE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-batcave
   EXPORT_MOCKED_APIS_DIR=${PROJECT_DIR}/kamehouse-mobile/www
 
-  MOCKED_KAMEHOUSE_API_DIR="${PROJECT_DIR}/kamehouse-mobile/apis"
+  MOCKED_KAMEHOUSE_API_DIR="${PROJECT_DIR}/kamehouse-mobile/mocked-apis"
 }
 
 exportKameHouseUi() {
