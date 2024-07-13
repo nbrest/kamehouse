@@ -6,7 +6,7 @@ sudo chown ${USER}:users -R /var/www/www-eclipse
 cd /var/www/www-eclipse
 
 rm kame-house
-ln -s ${HOME}/workspace-eclipse/kamehouse/kamehouse-ui/src/main/webapp kame-house
+ln -s ${HOME}/workspace-eclipse/kamehouse/kamehouse-ui/dist kame-house
 
 rm kame-house-groot
 ln -s ${HOME}/workspace-eclipse/kamehouse/kamehouse-groot/src/main/webapp/kame-house-groot kame-house-groot

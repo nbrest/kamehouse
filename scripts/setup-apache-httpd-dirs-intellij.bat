@@ -3,7 +3,7 @@
 mkdir "%USERPROFILE%\programs\apache-httpd\www\www-intellij"
 
 rmdir "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house"
-mklink /D "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house" "%USERPROFILE%\workspace-intellij\kamehouse\kamehouse-ui\src\main\webapp"
+mklink /D "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house" "%USERPROFILE%\workspace-intellij\kamehouse\kamehouse-ui\dist"
 
 rmdir "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house-groot"
 mklink /D "%USERPROFILE%\programs\apache-httpd\www\www-intellij\kame-house-groot" "%USERPROFILE%\workspace-intellij\kamehouse\kamehouse-groot\src\main\webapp\kame-house-groot"

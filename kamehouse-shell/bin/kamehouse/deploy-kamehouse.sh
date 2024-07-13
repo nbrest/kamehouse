@@ -67,6 +67,7 @@ doLocalDeployment() {
   fi
   deployKameHouseCmd
   deployKameHouseMobile
+  cleanUpUiWebappDirectory
   cleanUpMavenRepository
   checkForErrors 
 }
@@ -130,10 +131,10 @@ deployKameHouseUiStatic() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
     local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    mkdir -p ${HTTPD_CONTENT_ROOT}
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
-    cp -rf ./kamehouse-ui/src/main/webapp ${HTTPD_CONTENT_ROOT}/kame-house
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house/WEB-INF
+    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
+    cp -rf ./kamehouse-ui/dist/* ./kamehouse-ui/src/main/webapp/
+    cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
     checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
 
     local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`

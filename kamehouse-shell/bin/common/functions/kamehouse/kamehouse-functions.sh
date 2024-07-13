@@ -461,15 +461,19 @@ buildFrontendCode() {
 }
 
 buildKameHouseUiStatic() {
+  cleanUpUiWebappDirectory
   cdToKameHouseModule "kamehouse-ui"
   log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
-  log.debug "Cleaning up kamehouse-ui webapp directory js files"
-  rm -rf ./src/main/webapp/js
-  rm -rf ./src/main/webapp/error/js
-  rm -rf ./src/main/webapp/kamehouse/js
+  log.debug "Cleaning up dist directory"
+  rm -rf ./dist/*
 
   buildFrontendCode
 
+  log.debug "Updating sourcemap relative paths"
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
+
+  cp -r ./src/main/public/* ./dist
+  echo "build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
   cdToRootDirFromModule "kamehouse-ui"
 }
 
@@ -588,6 +592,13 @@ cleanLogsInGitRepoFolder() {
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
     rm -v -f ${KAMEHOUSE_MODULE}/logs/*.log
   done
+}
+
+cleanUpUiWebappDirectory() {
+  log.info "Cleaning up ui webapp directory"
+  mv ./kamehouse-ui/src/main/webapp/WEB-INF ./kamehouse-ui/src/main/WEB-INF
+  rm -rf ./kamehouse-ui/src/main/webapp/*
+  mv ./kamehouse-ui/src/main/WEB-INF ./kamehouse-ui/src/main/webapp/WEB-INF
 }
 
 cleanUpMavenRepository() {
