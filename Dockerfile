@@ -36,8 +36,7 @@ RUN cd ~ ; \
   apt-get autopurge -y ; \
   apt-get autoclean -y ; \
   apt-get clean -y ; \
-  npm install -g typescript ; \
-  npm i @types/jquery -g
+  npm install -g typescript
 
 # Setup users 
 ARG KAMEHOUSE_USERNAME=goku
@@ -143,6 +142,9 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
+  # Install node required types
+  cd /home/${KAMEHOUSE_USERNAME} ; \
+  npm i @types/jquery ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
   # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
