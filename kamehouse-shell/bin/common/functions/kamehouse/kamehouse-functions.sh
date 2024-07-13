@@ -471,6 +471,7 @@ buildKameHouseUiStatic() {
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
 
+  log.debug "Moving kamehouse-ui compiled frontend files"
   cp -r ./src/main/public/* ./dist
   echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
   cdToRootDirFromModule "kamehouse-ui"
@@ -487,6 +488,7 @@ buildKameHouseGroot() {
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../../src/main/typescript#g" {} \;
  
+  log.debug "Moving kamehouse-groot compiled frontend files"
   cp -r ./src/main/public/* ./dist
   echo "groot build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/kame-house-groot/groot-build-date.txt 
   mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/js ./dist/kame-house-groot/js
@@ -501,18 +503,19 @@ buildKameHouseMobileStatic() {
   cdToKameHouseModule "kamehouse-mobile"
   log.info "Building ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} static code"
   log.debug "Cleaning up kamehouse-mobile www directory js files"
+  rm -rf ./www/kame-house-mobile
   rm -rf ./www/kamehouse-mobile
   rm -rf ./www/kamehouse-ui
-  rm -rf ./www/kame-house-mobile/js
-  rm -rf ./www/kame-house-mobile/kamehouse-mobile/js
-  rm -rf ./www/kame-house-mobile/kamehouse-mobile/plugin/js
 
   buildFrontendCode
 
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
   
-  log.debug "Moving kamehouse-groot compiled js files"
+  log.debug "Moving kamehouse-mobile compiled frontend files"
+  mkdir -p ./www/kame-house-mobile
+  cp -r ./src/main/public/* ./www/kame-house-mobile
+  echo "mobile build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./www/mobile-build-date.txt 
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/plugin/js ./www/kame-house-mobile/kamehouse-mobile/plugin/js  
@@ -708,6 +711,9 @@ buildCordovaProject() {
   log.info "Executing: cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
+
+  log.info "Built apk file status"
+  ls -lh ${KAMEHOUSE_ANDROID_APK_PATH}
 }
 
 deleteStaticFilesOnMobile() {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="description" content="kame-house application">
+<meta name="keywords" content="kame-house nicobrest nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - Mobile</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data" data-skip-header="false" data-skip-footer="false"></script>
+<script src="/kame-house-mobile/js/settings.js"></script>
+<script src="/kame-house-mobile/kamehouse-mobile/plugin/js/kamehouse-mobile-settings-tabs.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house-mobile/kamehouse-mobile/css/kamehouse-mobile.css" />
+<link rel="stylesheet" href="/kame-house-mobile/kamehouse-mobile/plugin/css/kamehouse-mobile-settings-tabs.css">
+</head>
+<body class="mobile-body">
+  <div class="main-body">    
+    <div class="banner-wrapper">
+    <div id="banner" class="fade-in-out-15s banner-francia-messi-festejando-mbappe">
+      <div class="default-layout banner-text">
+        <h1 id="banner-header">かめはうす</h1>
+        <p id="banner-p">Settings</p>
+      </div>
+    </div>
+    </div>
+    <div id="kh-mobile-tabs-wrapper" class="hidden-kh"></div>
+    <div class="default-layout">
+      <div id="tab-backend" class="kh-mobile-tab-content"></div>      
+      <!-- The following is common to all tabs -->
+      <span id="debug-mode-wrapper"></span>
+    </div> <!-- default-layout -->
+  </div> <!-- main-body -->
+</body>
+</html>

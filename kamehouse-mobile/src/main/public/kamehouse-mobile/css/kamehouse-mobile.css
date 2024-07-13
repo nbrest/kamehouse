@@ -1,0 +1,187 @@
+.backend-tab-form-wrapper {
+  margin: auto;
+  margin-top: 20px;
+  padding: 15px;
+  width:65%;
+}
+
+@media (max-width : 900px) {
+  .backend-tab-form-wrapper {
+    width:100%;
+  }
+}
+
+.backend-username-password {
+  min-height: 175px;
+}
+
+.config-header {
+  text-align: center;
+  background-color: #1a0000;
+  padding: 10px;
+}
+
+.config-header-text {
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+.config-header-img {
+  width: 35px;
+  height: 35px;
+  margin-right: 20px;
+}
+
+.mobile-build-version-table {
+  width:100%;
+  margin:auto;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.mobile-build-version-table tbody {
+  background: none;
+}
+
+.mobile-body {
+  background-color: #000000;
+}
+
+.mobile-btn-kh {
+  padding: 10px 20px 10px 20px;
+  margin: auto;
+  text-align: center;
+  line-height:1.5;
+  color: #6b6b6b;
+  font-weight: bold;
+  background-color: #1a1a1a;
+  background-image: none;
+  border: 1px solid #383838;
+  outline: none;
+  display: block;
+  width: 70%;
+}
+
+.mobile-btn-kh:hover {
+  color: #969696;
+  background: #4d0000;
+}
+
+@media (max-width : 900px) {
+  .mobile-btn-kh {
+    width:80%;
+  }
+}
+
+.reset-cfg-btn-kh {
+  border: 1px solid #272727;
+  background: #210000;
+  width: 40%;
+  min-width: 180px;
+  max-width: 240px;
+}
+
+.save-settings-btn {
+  width: 50%;
+  min-width: 180px;
+  max-width: 280px;
+  margin-bottom: 20px;
+}
+
+/** animation: contract and expand in 10 seconds */
+.contract-10 {
+  animation: contract-10 10s infinite linear;
+}
+
+@keyframes contract-10 {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* animation: rotate 10 degrees forward and back over 10 seconds infinitely */
+.rotate-10-10 {
+  animation: rotation-10 10s infinite linear;
+}
+
+@keyframes rotation-10 {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(10deg);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.rotate-10 {
+  animation: rotation-full 10s infinite linear;
+}
+
+@keyframes rotation-full {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+/* animation: fade out and back in in 10 seconds */
+.fade-10 {
+  animation: fade 10s infinite linear;
+}
+
+/* animation: fade out and back in in 5 seconds */
+.fade-5 {
+  animation: fade 5s infinite linear;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-06-5 {
+  animation: fade-06 5s infinite linear;
+}
+
+@keyframes fade-06 {
+  0% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

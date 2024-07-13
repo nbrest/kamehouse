@@ -36,9 +36,9 @@ mainProcess() {
 setGlobalVariables() {
   setKameHouseRootProjectDir
 
-  SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/src/main/webapp
-  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/src/main/webapp/kame-house-groot
-  SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/src/main/webapp/kame-house-batcave"
+  SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/dist
+  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/dist/kame-house-groot
+  SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/dist/kame-house-batcave"
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
   EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
@@ -63,9 +63,6 @@ exportKameHouseUi() {
   log.info "Copying all files from ${SOURCE_FILES_KAMEHOUSE_DIR} to ${EXPORT_KAMEHOUSE_DIR}"
   cd ${EXPORT_KAMEHOUSE_DIR}
   cp -r ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
-
-  log.debug "Removing WEB-INF folder from ${EXPORT_KAMEHOUSE_DIR}"
-  rm -r ${EXPORT_KAMEHOUSE_DIR}/WEB-INF
 }
 
 exportGroot() {
