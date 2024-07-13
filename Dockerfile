@@ -133,7 +133,7 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/dock
 RUN chmod a+x /usr/bin/vlc ; \
   chmod a+x /usr/bin/gnome-screensaver-command
 
-# run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
+# Run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00
 RUN echo "${BUILD_DATE_KAMEHOUSE}" > /home/${KAMEHOUSE_USERNAME}/.docker-image-build-date; 
 
@@ -142,20 +142,17 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   mkdir -p /home/${KAMEHOUSE_USERNAME}/git ; \
   chmod a+xwr /home/${KAMEHOUSE_USERNAME}/git ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
-  # Install node required types
-  cd /home/${KAMEHOUSE_USERNAME} ; \
-  npm i @types/jquery ; \
   cd /home/${KAMEHOUSE_USERNAME}/git ; \
   # Clone and deploy kamehouse
   git clone https://github.com/nbrest/kamehouse.git ; \
   cd /home/${KAMEHOUSE_USERNAME}/git/kamehouse ; \
-  # checkout git branch
+  # Checkout git branch
   chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/* ; \
   /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-git-checkout.sh ${DOCKER_IMAGE_TAG} ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c -p docker ; \
-  # clear temporary files
+  # Clear temporary files
   /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin/mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
   # And recreate sample video playlists directories

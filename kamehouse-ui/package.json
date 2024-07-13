@@ -1,0 +1,14 @@
+{
+  "name": "kamehouse-ui",
+  "version": "latest",
+  "displayName": "KameHouse UI",
+  "description": "KameHouse UI frontend code",  
+  "scripts": {
+    "build": "tsc",
+    "scan": "tsc --build --force --verbose --pretty",
+    "test": "echo \"NO tests defined yet\" && exit 0"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.5.30"
+  }
+}

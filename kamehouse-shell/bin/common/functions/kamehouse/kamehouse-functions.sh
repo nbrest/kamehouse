@@ -454,8 +454,10 @@ buildKameHouseProject() {
   cleanLogsInGitRepoFolder
 }
 
-runTypescriptCompiler() {
-  tsc ; tsc --build --force --verbose --pretty
+buildFrontendCode() {
+  npm install
+  npm run build
+  npm run scan
 }
 
 buildKameHouseUiStatic() {
@@ -466,7 +468,7 @@ buildKameHouseUiStatic() {
   rm -rf ./src/main/webapp/error/js
   rm -rf ./src/main/webapp/kamehouse/js
 
-  runTypescriptCompiler
+  buildFrontendCode
 
   cdToRootDirFromModule "kamehouse-ui"
 }
@@ -480,7 +482,7 @@ buildKameHouseGroot() {
   rm -rf ./src/main/webapp/kame-house-groot/js
   rm -rf ./src/main/webapp/kame-house-groot/kamehouse-groot/js
 
-  runTypescriptCompiler
+  buildFrontendCode
   
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../typescript#../../typescript#g" {} \;
@@ -504,7 +506,7 @@ buildKameHouseMobileStatic() {
   rm -rf ./www/kame-house-mobile/kamehouse-mobile/js
   rm -rf ./www/kame-house-mobile/kamehouse-mobile/plugin/js
 
-  runTypescriptCompiler
+  buildFrontendCode
 
   log.debug "Updating sourcemap relative paths"
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;

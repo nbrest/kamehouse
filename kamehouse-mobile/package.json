@@ -1,10 +1,12 @@
 {
-  "name": "com.nicobrest.kamehouse",
+  "name": "kamehouse-mobile",
+  "version": "latest",
   "displayName": "KameHouse",
-  "version": "7.01.1",
   "description": "KameHouse Mobile App",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "scan": "tsc --build --force --verbose --pretty",
     "test": "echo \"NO tests defined yet\" && exit 0"
   },
   "keywords": [
@@ -31,5 +33,8 @@
       },
       "cordova-plugin-file": {}
     }
+  },
+  "dependencies": {
+    "@types/jquery": "^3.5.30"
   }
 }
