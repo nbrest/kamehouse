@@ -91,7 +91,7 @@ deployKameHouseMobileStatic() {
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
     mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
     cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
+    checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
     local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
     while read FILE; do
