@@ -24,7 +24,7 @@ mainProcess() {
   echo "********************************************************************************************"
   echo " Redirecting logs to ${TOMCAT_LOG}"
   echo ""
-  echo "               Tail the logs using the command 'tail-log.sh -n 2000'"
+  echo "               Tail the logs using the command '   tail-log.sh -f tomcat-dev -n 2000    '"
   echo "********************************************************************************************"
   cd ${TOMCAT_DIR}
   # Start with jpda start to be able to remote debug on port 8000 (default port)
