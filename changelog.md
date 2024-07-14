@@ -8,6 +8,7 @@
 #### v9.02
 
 - **Moved javascript code to typescript**
+- Removed ide specific setup and script parameters
 - Removed access to static kamehouse-ui files from tomcat. Only accessible through apache httpd
 - Refatored completely frontend code build process using typescript and npm
 - Updated log script runtime function
