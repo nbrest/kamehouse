@@ -126,33 +126,6 @@ pullLatestVersionFromGit() {
   fi
 }
 
-deployKameHouseUiStatic() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
-    cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
-
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
-  fi
-}
-
 deployKameHouseMobile() {
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"

@@ -26,6 +26,7 @@ DEPLOYMENT_DIR=
 TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 FAST_BUILD=true
 DEPLOY_TO_TOMCAT=false
+STATIC_ONLY=false
 
 mainProcess() {
   setGlobalVariables
@@ -36,6 +37,10 @@ mainProcess() {
   deployKameHouseUiStatic
   buildKameHouseGroot
   deployKameHouseGroot
+  if ${STATIC_ONLY}; then
+    log.info "Finished deploying static code"
+    exitSuccessfully    
+  fi 
   buildKameHouseProject
   if ${DEPLOY_TO_TOMCAT}; then
     executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
@@ -68,15 +73,27 @@ setGlobalVariables() {
   fi  
 }
 
+# Get kamehouse httpd content root directory
+getHttpdContentRoot() {
+  if ${IS_LINUX_HOST}; then
+    echo "/var/www/www-${IDE}"  
+  else
+    echo "${HOME}/programs/apache-httpd/www/www-${IDE}"
+  fi
+}
+
 parseArguments() {
   parseIde "$@"
   parseKameHouseModule "$@"
   
-  while getopts ":di:m:" OPT; do
+  while getopts ":di:m:s" OPT; do
     case $OPT in
     ("d")
       DEPLOY_TO_DOCKER=true
       ;;
+    ("s")
+      STATIC_ONLY=true
+      ;;   
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -93,21 +110,7 @@ printHelpOptions() {
   addHelpOption "-d" "deploy to docker"
   printIdeOption "ide's tomcat to deploy to"
   printKameHouseModuleOption "deploy"
-}
-
-deployKameHouseUiStatic() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
-    log.info "No need to deploy ui static files in dev environment"
-  fi
-}
-
-# Get kamehouse httpd content root directory
-getHttpdContentRoot() {
-  if ${IS_LINUX_HOST}; then
-    echo "/var/www/www-${IDE}"  
-  else
-    echo "${HOME}/programs/apache-httpd/www/www-${IDE}"
-  fi
+  addHelpOption "-s" "deploy static ui code only"
 }
 
 main "$@"
