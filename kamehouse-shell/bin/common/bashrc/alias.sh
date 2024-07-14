@@ -6,6 +6,7 @@ alias cd.programs="cd ${HOME}/programs"
 alias cd.tomcat="cd ${HOME}/programs/apache-tomcat"
 alias cd.shell="cd ${HOME}/programs/kamehouse-shell/bin"
 alias cd.webapps="cd ${HOME}/programs/apache-tomcat/webapps"
+alias cd.workspace="cd ${HOME}/workspace"
 
 alias reload.bashrc='source ${HOME}/.bashrc'
 
