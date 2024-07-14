@@ -37,6 +37,8 @@ mainProcess() {
   deployKameHouseUiStatic
   buildKameHouseGroot
   deployKameHouseGroot
+  buildKameHouseMobileStatic
+  deployKameHouseMobileStatic
   if ${STATIC_ONLY}; then
     log.info "Finished deploying static code"
     exitSuccessfully    
@@ -79,6 +81,33 @@ getHttpdContentRoot() {
     echo "/var/www/www-${IDE}"  
   else
     echo "${HOME}/programs/apache-httpd/www/www-${IDE}"
+  fi
+}
+
+deployKameHouseMobileStatic() {
+  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
+    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
+    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
+    cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
+    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
+
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
+    while read FILE; do
+      if [ -n "${FILE}" ]; then
+        chmod a+rx ${FILE}
+      fi
+    done <<< ${FILES}
+
+    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type d`
+    while read DIRECTORY; do
+      if [ -n "${DIRECTORY}" ]; then
+        chmod a+rx ${DIRECTORY}
+      fi
+    done <<< ${DIRECTORIES}
+
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
   fi
 }
 
