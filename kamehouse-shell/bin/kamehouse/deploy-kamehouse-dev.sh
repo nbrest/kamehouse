@@ -56,9 +56,6 @@ mainProcess() {
 setGlobalVariables() {
   PROJECT_DIR=${HOME}/workspace/kamehouse
   DEPLOYMENT_DIR=${HOME}/programs/apache-tomcat-dev/webapps
-  if ${IS_LINUX_HOST}; then
-    source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
-  fi
 
   if [ -n "${MODULE_SHORT}" ]; then
     if [ "${MODULE_SHORT}" == "admin" ] ||
