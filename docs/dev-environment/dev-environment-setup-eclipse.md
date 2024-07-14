@@ -5,8 +5,8 @@
 
 # Eclipse setup:
 
-- Clone git repo to *${HOME}/workspace-eclipse/kamehouse*
-- Import kamehouse root project into eclipse from *${HOME}/workspace-eclipse/kamehouse*
+- Clone git repo to *${HOME}/workspace/kamehouse*
+- Import kamehouse root project into eclipse from *${HOME}/workspace/kamehouse*
 - Build all modules
 
 - Don't configure a server in eclipse any more. It's too problematic. It's much easier and better to setup remote debugging the way I also do it in intellij
@@ -72,11 +72,11 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i eclipse'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory:
-        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i eclipse'
+        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh'
     - Common tab:
       - display in favorites menu > External tools: check       
 
@@ -87,11 +87,11 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i eclipse'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory: 
-        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i eclipse'
+        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh'
     - Common tab:
       - display in favorites menu > External tools: check
 
@@ -145,8 +145,8 @@
 ## Debug tomcat from eclipse:
 - debug > `debug-tomcat-kamehouse`
 
-## Tail kamehouse eclipse logs 
+## Tail kamehouse dev logs 
 - using tail-log.sh script to see it in colors and be able to filter through log level.
-```
-tail-log.sh -f eclipse
+```sh
+tail-log.sh -f tomcat-dev
 ```

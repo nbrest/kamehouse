@@ -54,8 +54,7 @@ mainProcess() {
 }
 
 setGlobalVariables() {
-  WORKSPACE=${HOME}/workspace-${IDE}
-  PROJECT_DIR=${WORKSPACE}/kamehouse
+  PROJECT_DIR=${HOME}/workspace/kamehouse
   DEPLOYMENT_DIR=${HOME}/programs/apache-tomcat-dev/webapps
   if ${IS_LINUX_HOST}; then
     source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
@@ -112,10 +111,9 @@ deployKameHouseMobileStatic() {
 }
 
 parseArguments() {
-  parseIde "$@"
   parseKameHouseModule "$@"
   
-  while getopts ":di:m:s" OPT; do
+  while getopts ":dm:s" OPT; do
     case $OPT in
     ("d")
       DEPLOY_TO_DOCKER=true
@@ -131,13 +129,11 @@ parseArguments() {
 }
 
 setEnvFromArguments() {
-  setEnvForIde
   setEnvForKameHouseModule
 }
 
 printHelpOptions() {
   addHelpOption "-d" "deploy to docker"
-  printIdeOption "ide's tomcat to deploy to"
   printKameHouseModuleOption "deploy"
   addHelpOption "-s" "deploy static ui code only"
 }

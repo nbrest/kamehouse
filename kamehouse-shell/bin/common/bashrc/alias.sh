@@ -1,7 +1,6 @@
-alias cd.eclipse='cd ${HOME}/workspace-eclipse/kamehouse'
 alias cd.git="cd ${HOME}/git"
-alias cd.intellij='cd ${HOME}/workspace-intellij/kamehouse'
-alias cd.kamehouse='cd ${HOME}/git/kamehouse'
+alias cd.kamehouse='cd ${HOME}/workspace/kamehouse'
+alias cd.git.kamehouse='cd ${HOME}/git/kamehouse'
 alias cd.logs='cd ${HOME}/logs'
 alias cd.programs="cd ${HOME}/programs"
 alias cd.tomcat="cd ${HOME}/programs/apache-tomcat"

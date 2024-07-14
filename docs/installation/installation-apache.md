@@ -9,7 +9,7 @@
 
 ## Configuration files: 
 
-- The folder [/local-setup/apache](/local-setup/apache) in the root of this repo contains sample apache configuration files needed to setup kamehouse locally for both windows and linux with the vhosts setup for both production and eclipse and intellij environments
+- The folder [/local-setup/apache](/local-setup/apache) in the root of this repo contains sample apache configuration files needed to setup kamehouse locally for both windows and linux with the vhosts setup for both production and dev environments
 
 ## Prod environment:
 

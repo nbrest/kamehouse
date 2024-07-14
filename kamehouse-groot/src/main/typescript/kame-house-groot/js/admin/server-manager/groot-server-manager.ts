@@ -366,9 +366,6 @@ class DeploymentManager {
     let args = "-m " + module;
     if (this.#isDevEnvironment()) {
       script = 'kamehouse/deploy-kamehouse-dev.sh';
-      if (this.#isEclipseEnvironment()) {
-        args = args + " -i eclipse";
-      }
     }
     kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
   }
@@ -413,9 +410,6 @@ class DeploymentManager {
     let args = "";
     if (this.#isDevEnvironment()) {
       script = 'kamehouse/deploy-kamehouse-dev.sh';
-      if (this.#isEclipseEnvironment()) {
-        args = args + " -i eclipse";
-      }
     }
     kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
   }
@@ -447,20 +441,6 @@ class DeploymentManager {
     }
     const stringArgs = this.#getRestartTomcatParams();
     kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, 600, () => this.refreshServerView(), () => {});
-  }
-
-  /**
-   * Check if it's eclipse dev environment.
-   */
-  #isEclipseEnvironment() {
-    return kameHouse.util.mobile.exec(
-      () => {
-        return false;
-      },
-      () => {
-        return false;
-      }
-    );
   }
 
   /**

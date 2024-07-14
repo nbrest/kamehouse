@@ -5,8 +5,8 @@
 
 # Intellij setup:
 
-- Clone git repo to *${HOME}/workspace-intellij/kamehouse*
-- Import kamehouse root project into intellij from *${HOME}/workspace-intellij/kamehouse*
+- Clone git repo to *${HOME}/workspace/kamehouse*
+- Import kamehouse root project into intellij from *${HOME}/workspace/kamehouse*
 - Build all modules
 
 ## Enable toolbar view:
@@ -37,24 +37,24 @@ Right click on toolbar > Customize
     - Windows:
       - Name: deploy-kamehouse-dev
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i intellij'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: deploy-kamehouse-dev
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh -i intellij
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh
       - Working directory: 
 
   ### `start-tomcat`
     - Windows:
       - Name: start-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i intellij'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: start-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh -i intellij
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh
       - Working directory: 
       
   ### `stop-tomcat`
@@ -88,8 +88,8 @@ Right click on toolbar > Customize
     
 ## Tail logs: 
 
-```
-tail-log.sh -f intellij
+```sh
+tail-log.sh -f tomcat-dev
 ```
 
 ## Setup remote debug:

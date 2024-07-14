@@ -130,9 +130,9 @@ runDockerImage() {
 
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
     local DOCKER_HOST_USERHOME=`getUserHome`
-    log.info "Mounting ${DOCKER_HOST_USERHOME}/workspace-${IDE}/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
+    log.info "Mounting ${DOCKER_HOST_USERHOME}/workspace/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -v ${DOCKER_HOST_USERHOME}/workspace-${IDE}/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
+    -v ${DOCKER_HOST_USERHOME}/workspace/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
     "
   fi
   
@@ -209,11 +209,10 @@ overrideDefaultValues() {
 }
 
 parseArguments() {
-  parseIde "$@"
   parseDockerProfile "$@"
   parseDockerTag "$@"
 
-  while getopts ":bcdfi:p:s:t:v" OPT; do
+  while getopts ":bcdfp:s:t:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
@@ -242,7 +241,6 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForDockerTag
-  setEnvForIde
   setEnvForDockerProfile
   configureDockerProfile
   overrideDefaultValues
@@ -261,7 +259,6 @@ printHelpOptions() {
   addHelpOption "-c" "control host through ssh. by default it runs standalone executing all commands within the container"
   addHelpOption "-d" "debug. start tomcat in debug mode"
   addHelpOption "-f" "fast startup. don't build and deploy"
-  printIdeOption "ide workspace to use for a dev docker container. Default is ${DEFAULT_IDE}"
   printDockerProfileOption
   addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   printDockerTagOption

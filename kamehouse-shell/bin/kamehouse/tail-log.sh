@@ -28,8 +28,6 @@ DEFAULT_LOG_LEVEL="trace"
 DEFAULT_NUM_LINES="30"
 
 TOMCAT_DEV_LOG_DIR="programs/apache-tomcat-dev/logs"
-INTELLIJ_LOG_DIR="${TOMCAT_DEV_LOG_DIR}"
-ECLIPSE_LOG_DIR="${TOMCAT_DEV_LOG_DIR}"
 TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
 
 # Variables set by command line arguments
@@ -95,17 +93,14 @@ setTailLogParameters() {
     fi
     addFileToLogFiles ${DEPLOY_LOG}
     ;;
-  "intellij")
-    setIntellijLogFiles
-    ;;
-  "eclipse")
-    setEclipseLogFiles
-    ;;
   "kamehouse")
     setKameHouseLogFiles
     ;;
   "tomcat")
     setTomcatLogFiles
+    ;;
+  "tomcat-dev")
+    setTomcatDevLogFiles
     ;;
   logs/*.log)
     addFileToLogFiles "${HOME}/${FILE_ARG}"
@@ -125,22 +120,6 @@ setApacheLogFiles() {
   addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/error.log"
 }
 
-setIntellijLogFiles() {
-  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.out"
-  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost.${LOG_DATE}.log"
-  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/kameHouse.log"
-  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
-  addFileToLogFiles "${USER_HOME}/${INTELLIJ_LOG_DIR}/catalina.${LOG_DATE}.log"
-}
-
-setEclipseLogFiles() {
-  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.out"
-  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost.${LOG_DATE}.log"
-  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/kameHouse.log"
-  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
-  addFileToLogFiles "${USER_HOME}/${ECLIPSE_LOG_DIR}/catalina.${LOG_DATE}.log"
-}
-
 setKameHouseLogFiles() {
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.${LOG_DATE}.log"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"  
@@ -152,6 +131,14 @@ setTomcatLogFiles() {
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.${LOG_DATE}.log"
+}
+
+setTomcatDevLogFiles() {
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/catalina.out"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/localhost.${LOG_DATE}.log"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/kameHouse.log"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
+  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/catalina.${LOG_DATE}.log"
 }
 
 addFileToLogFiles() {
@@ -224,10 +211,9 @@ setFileArg() {
     [ "${FILE_ARG}" != "build" ] &&
     [ "${FILE_ARG}" != "cmd" ] &&
     [ "${FILE_ARG}" != "deploy" ] &&
-    [ "${FILE_ARG}" != "eclipse" ] &&
-    [ "${FILE_ARG}" != "intellij" ] &&
     [ "${FILE_ARG}" != "kamehouse" ] &&
     [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
+    [ "${FILE_ARG}" != "tomcat-dev" ] &&
     [ "${FILE_ARG}" != "tomcat" ]; then
     log.error "Option -f has an invalid value of ${FILE_ARG}. See help with -h for valid values"
     printHelp
@@ -278,7 +264,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|apache-error|build|cmd|deploy|eclipse|intellij|kamehouse|tomcat|logs/*.log)" "log file to tail" "r"
+  addHelpOption "-f (apache|apache-error|build|cmd|deploy|kamehouse|tomcat|tomcat-dev|logs/*.log)" "log file to tail" "r"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption

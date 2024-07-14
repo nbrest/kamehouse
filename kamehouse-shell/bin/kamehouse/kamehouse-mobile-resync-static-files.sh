@@ -101,9 +101,8 @@ exportMockedApis() {
 }
 
 parseArguments() {
-  parseIde "$@"
 
-  while getopts ":cdi:" OPT; do
+  while getopts ":cd" OPT; do
     case $OPT in
     ("c")
       USE_CURRENT_DIR=true
@@ -118,14 +117,9 @@ parseArguments() {
   done
 }
 
-setEnvFromArguments() {
-  setEnvForIde
-}
-
 printHelpOptions() {
   addHelpOption "-c" "use current directory to sync static files. Default dir: ${PROJECT_DIR}"
   addHelpOption "-d" "only delete /kame-house folder from mobile app folder. don't resync"
-  printIdeOption "ide's path to export scripts to. Default is ${DEFAULT_IDE}"
 }
 
 main "$@"

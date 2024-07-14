@@ -760,7 +760,7 @@ class KameHouseMobileConfigManager {
     if (backendServerInput.value != "") {
       backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
     }
-    const editableServers = ["WiFi Hotspot", "Dev Intellij", "Dev Eclipse", "Dev Tomcat HTTP", "Custom Server"];
+    const editableServers = ["WiFi Hotspot", "Dev Apache", "Dev Tomcat HTTP", "Custom Server"];
     for (let i = 0; i < backendServerDropdown.options.length; ++i) {
       if (backendServerDropdown.options[i].textContent === selectedServer.name) {
         backendServerDropdown.options[i].selected = true;

@@ -14,7 +14,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# ide: eclipse or intellij
 LOG_PROCESS_TO_FILE=false
 TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
@@ -25,7 +24,7 @@ mainProcess() {
   echo "********************************************************************************************"
   echo " Redirecting logs to ${TOMCAT_LOG}"
   echo ""
-  echo "               Tail the logs using the command 'tail-log.sh -f ${IDE} -n 2000'"
+  echo "               Tail the logs using the command 'tail-log.sh -n 2000'"
   echo "********************************************************************************************"
   cd ${TOMCAT_DIR}
   # Start with jpda start to be able to remote debug on port 8000 (default port)
@@ -39,18 +38,6 @@ setGlobalVariables() {
   if ${IS_LINUX_HOST}; then
     source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
   fi
-}
-
-parseArguments() {
-  parseIde "$@"
-}
-
-setEnvFromArguments() {
-  setEnvForIde
-}
-
-printHelpOptions() {
-  printIdeOption "ide's tomcat to deploy to"
 }
 
 main "$@"

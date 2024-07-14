@@ -18,10 +18,6 @@ SSH_PORT=22
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
 
-IDE_LIST="(eclipse|intellij)"
-DEFAULT_IDE="intellij"
-IDE="${DEFAULT_IDE}"
-
 MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
 MODULE_SHORT=""
 MODULE=""
@@ -83,17 +79,6 @@ parseHttpdPort() {
     case "${ARGS[i]}" in
       -p)
         HTTPD_PORT="${ARGS[i+1]}"
-        ;;
-    esac
-  done
-}
-
-parseIde() {
-  local ARGS=("$@")
-  for i in "${!ARGS[@]}"; do
-    case "${ARGS[i]}" in
-      -i)
-        IDE="${ARGS[i+1]}"
         ;;
     esac
   done
@@ -170,17 +155,6 @@ setEnvForHttpdPort() {
   local REGEX_NUMBER='^[0-9]+$'
   if [[ ! ${HTTPD_PORT} =~ $REGEX_NUMBER ]]; then
     log.error "Option -p has an invalid value of ${HTTPD_PORT}"
-    printHelp
-    exitProcess ${EXIT_INVALID_ARG}
-  fi
-}
-
-setEnvForIde() {
-  IDE=`echo "${IDE}" | tr '[:upper:]' '[:lower:]'`
-  
-  if [ "${IDE}" != "eclipse" ] \
-      && [ "${IDE}" != "intellij" ]; then
-    log.error "Option -i ide needs to be in ${IDE_LIST}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}
   fi
@@ -280,11 +254,6 @@ setEnvForTomcatPort() {
 
 printHttpdPortOption() {
   addHelpOption "-p" "httpd port. Default ${DEFAULT_HTTPD_PORT}"
-}
-
-printIdeOption() {
-  local DESCRIPTION=$1
-  addHelpOption "-i ${IDE_LIST}" "${DESCRIPTION}"
 }
 
 printKameHouseModuleOption() {
