@@ -247,8 +247,7 @@ class GitManager {
  */
 class DeploymentManager {
 
-  #DEV_PORTS = ["9980", "9989", "9988", "9949", "9948"];
-  #ECLIPSE_PORTS = ["9988", "9948"];
+  #DEV_PORTS = ["9980", "9989", "9949"];
   #TOMCAT_DEV_PORT = "9980";
 
   #statusBallBlueImg = null;
@@ -364,12 +363,12 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'kamehouse/deploy-kamehouse.sh';
+    let args = "-m " + module;
     if (this.#isDevEnvironment()) {
       script = 'kamehouse/deploy-kamehouse-dev.sh';
-    }
-    let args = "-m " + module;
-    if (this.#isEclipseEnvironment()) {
-      args = args + " -i eclipse";
+      if (this.#isEclipseEnvironment()) {
+        args = args + " -i eclipse";
+      }
     }
     kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
   }
@@ -411,12 +410,12 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'kamehouse/deploy-kamehouse.sh';
+    let args = "";
     if (this.#isDevEnvironment()) {
       script = 'kamehouse/deploy-kamehouse-dev.sh';
-    }
-    let args = "";
-    if (this.#isEclipseEnvironment()) {
-      args = args + " -i eclipse";
+      if (this.#isEclipseEnvironment()) {
+        args = args + " -i eclipse";
+      }
     }
     kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
   }
@@ -456,21 +455,9 @@ class DeploymentManager {
   #isEclipseEnvironment() {
     return kameHouse.util.mobile.exec(
       () => {
-        const port = location.port;
-        if (!kameHouse.core.isEmpty(port) && this.#ECLIPSE_PORTS.includes(port)) {
-          return true;
-        }
         return false;
       },
       () => {
-        const selectedBackend = kameHouse.extension.mobile.core.getSelectedBackendServer();
-        if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
-          kameHouse.logger.warn("Selected backend name is empty", null);
-          return false;
-        }
-        if (selectedBackend.name == "Dev Eclipse") {
-          return true;
-        }
         return false;
       }
     );
@@ -492,8 +479,7 @@ class DeploymentManager {
           kameHouse.logger.warn("Selected backend name is empty", null);
           return false;
         }
-        if (selectedBackend.name == "Dev Intellij" 
-              || selectedBackend.name == "Dev Eclipse"
+        if (selectedBackend.name == "Dev Apache" 
               || selectedBackend.name == "Dev Tomcat HTTP") {
           return true;
         }

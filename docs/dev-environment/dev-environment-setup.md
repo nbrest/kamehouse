@@ -31,17 +31,20 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 * Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
 * Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
 * Start your local dev tomcat with `tomcat-startup-dev.sh`
-* Deploy your local working copy to dev tomcat with `deploy-kamehouse-dev.sh`
 * Tail dev tomcat logs with `tail-log.sh -f (eclipse|intellij)`
 * Stop your dev tomcat with `tomcat-stop.sh -p [dev-tomcat-port]`
 
 # Apache Httpd:
 
 - Follow [installation-apache.md](/docs/installation/installation-apache.md) guide to install apache 
-- Follow [dev-environment-setup-apache.md](/docs/dev-environment/dev-environment-setup-apache.md) to configure apache for intellij or eclipse dev
+- Follow [dev-environment-setup-apache.md](/docs/dev-environment/dev-environment-setup-apache.md) to configure apache for dev
 - Start apache httpd with `httpd-startup.sh`
 - Tail apache httpd logs with `tail-log.sh -f apache`
 - Stop apache httdd with `httpd-stop.sh`
+
+# Deploy changes to dev environment:
+
+* Deploy your local working copy changes of each module with `deploy-kamehouse-dev.sh`
 
 # Docker Dev environment:
 
@@ -72,13 +75,12 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 # VS Code:
 
-* Create a vs code workspace and add either intellij or eclipse kamehouse folder
-* Run `npm i --save-dev @types/jquery` for vscode to detect `$`
+* Create a vscode workspace and add either intellij or eclipse kamehouse folder
 
 ## Debug typescript code:
 
 * Currently supported debugging `kamehouse-ui`, `kamehouse-groot` and `kamehouse-mobile` frontend code
-* Follow the setup guide to configure apache serve workspace-intellij static files
+* Follow the setup guide to configure apache serve static files
 * To debug the frontend in vscode, use the chrome debugger launch configurations in .vscode/lauch.json
 * Run > Start Debugging or open the debugger tab to select which debugger to launch
 * Set the breakpoints on the source `.ts` files, not in the generated `.js` files

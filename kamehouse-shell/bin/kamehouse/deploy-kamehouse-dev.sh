@@ -78,9 +78,9 @@ setGlobalVariables() {
 # Get kamehouse httpd content root directory
 getHttpdContentRoot() {
   if ${IS_LINUX_HOST}; then
-    echo "/var/www/www-${IDE}"  
+    echo "/var/www/kamehouse-webserver-dev"  
   else
-    echo "${HOME}/programs/apache-httpd/www/www-${IDE}"
+    echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver-dev"
   fi
 }
 

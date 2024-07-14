@@ -26,16 +26,8 @@
       "isLoggedIn": false
     },
     { 
-      "name": "Dev Intellij", 
+      "name": "Dev Apache", 
       "url": "https://192.168.0.100:9949",
-      "skipSslCheck": true,
-      "username": "seiya",
-      "password": "ikki",
-      "isLoggedIn": false
-    },
-    { 
-      "name": "Dev Eclipse", 
-      "url": "https://192.168.0.100:9948",
       "skipSslCheck": true,
       "username": "seiya",
       "password": "ikki",
