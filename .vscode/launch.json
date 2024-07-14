@@ -25,21 +25,21 @@
       "webRoot": "C:\\Users\\nbrest\\workspace\\kamehouse\\kamehouse-mobile\\www"
     },
     {
-      "name": "/kame-house ui docker dev",
+      "name": "/kame-house ui [docker dev]",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:6080/kame-house/",
       "webRoot": "C:\\Users\\nbrest\\workspace\\kamehouse\\kamehouse-ui\\src\\main"
     },
     {
-      "name": "/kame-house-groot docker dev",
+      "name": "/kame-house-groot [docker dev]",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:6080/kame-house-groot/",
       "webRoot": "C:\\Users\\nbrest\\workspace\\kamehouse\\kamehouse-groot\\src\\main"
     },
     {
-      "name": "/kame-house-mobile docker dev",
+      "name": "/kame-house-mobile [docker dev]",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:6080/kame-house-mobile/settings.html?mockCordova=true",
