@@ -811,6 +811,42 @@ deployKameHouseCmd() {
   fi
 }
 
+deployKameHouseGroot() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
+    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
+    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
+    cp -rf ./kamehouse-groot/dist/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
+    checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
+
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
+    while read FILE; do
+      if [ -n "${FILE}" ]; then
+        chmod a+rx ${FILE}
+      fi
+    done <<< ${FILES}
+
+    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
+    while read DIRECTORY; do
+      if [ -n "${DIRECTORY}" ]; then
+        chmod a+rx ${DIRECTORY}
+      fi
+    done <<< ${DIRECTORIES}
+
+    local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
+    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
+    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+    echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
+
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
+
+    if [ "${MODULE_SHORT}" == "groot" ]; then
+      exitSuccessfully
+    fi
+  fi
+}
+
 setKameHouseBuildVersion() {
   KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
   log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"

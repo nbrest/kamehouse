@@ -101,13 +101,12 @@ deployKameHouseUiStatic() {
   fi
 }
 
-deployKameHouseGroot() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
-    log.info "No need to deploy groot in dev environment"
-
-    if [ "${MODULE_SHORT}" == "groot" ]; then
-      exitSuccessfully
-    fi
+# Get kamehouse httpd content root directory
+getHttpdContentRoot() {
+  if ${IS_LINUX_HOST}; then
+    echo "/var/www/www-${IDE}"  
+  else
+    echo "${HOME}/programs/apache-httpd/www/www-${IDE}"
   fi
 }
 
