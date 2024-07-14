@@ -492,6 +492,9 @@ buildKameHouseMobileStatic() {
   rm -rf ./www/kamehouse-mobile
   rm -rf ./www/kamehouse-ui
 
+  exportGitCommitHash
+  cdToKameHouseModule "kamehouse-mobile"
+  setMobileBuildVersionAndKeys
   cdToRootDirFromModule "kamehouse-mobile"
 }
 
