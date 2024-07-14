@@ -157,9 +157,9 @@ deployKameHouseGroot() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
     local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    mkdir -p ${HTTPD_CONTENT_ROOT}
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    cp -rf ./kamehouse-groot/dist/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot
+    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
+    cp -rf ./kamehouse-groot/dist/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
     checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
     local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
