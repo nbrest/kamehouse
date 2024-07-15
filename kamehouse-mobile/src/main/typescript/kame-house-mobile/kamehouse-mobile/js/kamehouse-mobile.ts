@@ -486,6 +486,9 @@ class KameHouseMobileCore {
    * Set data.
    */  
   #setData(options, httpMethod, requestHeaders, requestBody) {
+    if (kameHouse.core.isEmpty(requestBody)) {
+      return;
+    }
     if (!kameHouse.http.isUrlEncodedRequest(requestHeaders)) {
       options.data = requestBody;   
       return;

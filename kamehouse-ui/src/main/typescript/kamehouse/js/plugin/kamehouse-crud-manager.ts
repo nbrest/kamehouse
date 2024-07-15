@@ -959,7 +959,7 @@ class CrudManager {
       kameHouse.logger.trace("Setting sort for column name: " + parentNodeChain + name + ", column index: " + currentColumnIndex + ", sort type: " + sortType, null);
       kameHouse.util.dom.setClick(td, null,
         () => {
-          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType, null, this.filterRows);
+          kameHouse.util.table.sortTable("crud-manager-table", currentColumnIndex, sortType, null, () => {this.filterRows()});
         }
       );
       kameHouse.util.dom.append(tr, td);
@@ -1400,7 +1400,7 @@ class CrudManager {
       return;
     }
     kameHouse.logger.trace("Sorting table data with default sorting config: " + kameHouse.json.stringify(this.#defaultSorting, null, null), null);
-    kameHouse.util.table.sortTable("crud-manager-table", this.#defaultSorting.columnNumber, this.#defaultSorting.sortType, this.#defaultSorting.direction, this.filterRows);
+    kameHouse.util.table.sortTable("crud-manager-table", this.#defaultSorting.columnNumber, this.#defaultSorting.sortType, this.#defaultSorting.direction, () => {this.filterRows()});
   }
 }
 
