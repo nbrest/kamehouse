@@ -645,6 +645,8 @@ class DeploymentManager {
  */
 class TailLogManagerWrapper {
 
+  #TAIL_LOG_REFRESH_WAIT_MS = 5000;
+
   #stopButton = null;
   #startButton = null;
   #isTailLogRunning = false;
@@ -731,7 +733,7 @@ class TailLogManagerWrapper {
       let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogFile);
       this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, () => {});
   
-      await kameHouse.core.sleep(10000);
+      await kameHouse.core.sleep(this.#TAIL_LOG_REFRESH_WAIT_MS);
       if (this.#tailLogCount > 1) {
         kameHouse.logger.info("tailLog loop: Running multiple tailLog, exiting this loop", null);
         break;
