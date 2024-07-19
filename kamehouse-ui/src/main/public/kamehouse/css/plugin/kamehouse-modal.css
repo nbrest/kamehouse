@@ -62,7 +62,9 @@
 }
 
 .under-construction-low-priority-text {
-  color: #cb4343;
+  color: #868686;
+  font-weight: bold;
+  font-style: italic;
 }
 
 .under-construction-img {
