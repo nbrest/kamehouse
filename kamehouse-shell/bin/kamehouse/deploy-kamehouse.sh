@@ -37,33 +37,18 @@ LOG_LEVEL=INFO
 RESET_PACKAGE_JSON=true
 
 mainProcess() {
-  if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
-    deployKameHouseProject
-  else
-    # Execute remote deployment
-    setKameHouseDeploymentParameters
-    setSshParameters
-    executeSshCommand
-  fi
+  deployKameHouseProject
 }
 
 deployKameHouseMobileStatic() {
   log.debug "Skipping deploy kamehouse-mobile static code"
 }
 
-setSshParameters() {
-  SSH_COMMAND="${SCRIPT_NAME} -z local -p ${MAVEN_PROFILE}"
-  if [ -n "${MODULE_SHORT}" ]; then
-    SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}
-  fi
-}
-
 parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
-  parseKameHouseServer "$@"
 
-  while getopts ":bcm:l:p:sz:" OPT; do
+  while getopts ":bcm:l:p:s" OPT; do
     case $OPT in
     ("b")
       REFRESH_CORDOVA_PLUGINS=true
@@ -87,7 +72,6 @@ parseArguments() {
 setEnvFromArguments() {
   setEnvForKameHouseModule
   setEnvForMavenProfile
-  setEnvForKameHouseServer
 }
 
 printHelpOptions() {
@@ -97,7 +81,6 @@ printHelpOptions() {
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
   addHelpOption "-s" "deploy static ui code only"
-  printKameHouseServerOption
 }
 
 main "$@"
