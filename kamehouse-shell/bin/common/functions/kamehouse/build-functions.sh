@@ -21,6 +21,10 @@ buildFrontendCode() {
 }
 
 buildKameHouseStatic() {
+  if ${INTEGRATION_TESTS}; then
+    log.debug "Running integration tests, skippking static code build"
+    return
+  fi
   if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
     buildKameHouseUiStatic
   fi
