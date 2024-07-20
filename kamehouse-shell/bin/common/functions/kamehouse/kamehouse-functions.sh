@@ -100,7 +100,7 @@ parseKameHouseServer() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
-      -s)
+      -z)
         KAMEHOUSE_SERVER="${ARGS[i+1]}"
         ;;
     esac
