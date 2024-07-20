@@ -168,16 +168,7 @@ buildMobile() {
   cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
-  if ${CLEAN_CORDOVA_BEFORE_BUILD}; then
-    cleanCordovaProject
-  fi
-  refreshCordovaPlugins
-  if ${RESET_PACKAGE_JSON}; then
-    # Reset unnecessary git changes after platform remove/add
-    git checkout HEAD -- package.json
-    git checkout HEAD -- package-lock.json
-  fi
-  setCordovaPlatforms
+  cleanCordovaProject
   setMobileBuildVersionAndKeys
   updateConfigWithGitHash
   buildCordovaProject
@@ -197,33 +188,10 @@ setLinuxBuildEnv() {
 }
 
 cleanCordovaProject() {
-  log.debug "cordova clean ; cordova platform remove android ; cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}"
+  log.debug "npm install ; cordova clean"
+  npm install
   cordova clean
-  cordova platform remove android
-  cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}
 }
-
-# Do this only when I really want to upgrade plugins, it might break my code with newer versions
-refreshCordovaPlugins() {
-  if ${REFRESH_CORDOVA_PLUGINS}; then
-    log.info "Refreshing cordova plugins for this build"
-    # remove all plugins I ever added here, even the ones are no longer in the project
-    cordova plugin remove cordova-plugin-inappbrowser # removed from project
-    cordova plugin remove cordova-plugin-advanced-http
-    cordova plugin remove cordova-plugin-file
-
-    cordova plugin add cordova-plugin-advanced-http
-    cordova plugin add cordova-plugin-file
-  else
-    log.debug "Not refreshing cordova plugins for this build"
-  fi 
-}
-
-setCordovaPlatforms() {
-  log.info "Setting cordova platforms"
-  cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}
-}
-
 
 # runs from root directory of kamehouse project
 syncStaticFilesOnMobile() {

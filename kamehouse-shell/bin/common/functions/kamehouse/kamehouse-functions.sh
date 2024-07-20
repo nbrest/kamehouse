@@ -62,14 +62,10 @@ RESUME_BUILD=false
 FAST_BUILD=false
 
 # buildMobile defaults
-REFRESH_CORDOVA_PLUGINS=false
-CLEAN_CORDOVA_BEFORE_BUILD=false
-RESET_PACKAGE_JSON=false
 KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN="/d/Downloads/Google Drive/KameHouse/kamehouse-mobile"
 KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN="${HOME}/GoogleDrive/KameHouse/kamehouse-mobile"
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
-CORDOVA_ANDROID_PLATFORM_VERSION="10.1.2"
 
 KAMEHOUSE_MOBILE_APP_SERVER="pi"
 KAMEHOUSE_MOBILE_APP_USER="pi"

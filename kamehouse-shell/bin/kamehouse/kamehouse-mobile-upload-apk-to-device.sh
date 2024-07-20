@@ -28,11 +28,7 @@ mainProcess() {
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
     log.info "Building kamehouse-mobile app first"
-    if ${REFRESH_CORDOVA_PLUGINS}; then
-      ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile -b
-    else
-      ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
-    fi
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
   fi
   uploadApkToDeviceSftp
 }
@@ -55,7 +51,7 @@ uploadApkToDeviceSftp() {
 }
 
 parseArguments() {
-  while getopts ":i:p:rs" OPT; do
+  while getopts ":i:p:s" OPT; do
     case $OPT in
     ("i")
       ANDROID_IP=$OPTARG
@@ -63,9 +59,6 @@ parseArguments() {
     ("p")
       ANDROID_PORT=$OPTARG
       ;;
-    ("r")
-      REFRESH_CORDOVA_PLUGINS=true
-      ;;  
     ("s")
       SKIP_BUILD_MOBILE=true
       ;;
@@ -79,7 +72,6 @@ parseArguments() {
 printHelpOptions() {
   addHelpOption "-i [ip]" "android sftp server ip"
   addHelpOption "-p [port]" "android sftp server port"
-  addHelpOption "-r" "refresh cordova plugins. disabled by default. ${COL_YELLOW}USE WITH CAUTION!!"
   addHelpOption "-s" "skip build kamehouse-mobile module before uploading. By default it rebuilds the apk"
 }
 

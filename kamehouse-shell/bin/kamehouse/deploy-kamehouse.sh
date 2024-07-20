@@ -40,8 +40,6 @@ DEPLOY_TO_TOMCAT=false
 STATIC_ONLY=false
 LOG_LEVEL=INFO
 
-RESET_PACKAGE_JSON=true
-
 mainProcess() {
   deployKameHouseProject
 }
@@ -54,11 +52,8 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":bcm:l:p:s" OPT; do
+  while getopts ":cm:l:p:s" OPT; do
     case $OPT in
-    ("b")
-      REFRESH_CORDOVA_PLUGINS=true
-      ;;
     ("c")
       USE_CURRENT_DIR=true
       ;;
@@ -81,8 +76,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
-  addHelpOption "-c" "deploy current version of the current directory without pulling latest version. Default deployment dir: ${PROJECT_DIR}"
+  addHelpOption "-c" "deploy current version of the current directory without pulling latest version. Default deployment dir: ${COL_PURPLE}${PROJECT_DIR}"
   addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption

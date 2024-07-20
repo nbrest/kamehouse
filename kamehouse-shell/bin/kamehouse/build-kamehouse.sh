@@ -37,14 +37,8 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":abcfim:p:rs" OPT; do
+  while getopts ":cfim:p:rs" OPT; do
     case $OPT in 
-    ("a")
-      CLEAN_CORDOVA_BEFORE_BUILD=true
-      ;;   
-    ("b")
-      REFRESH_CORDOVA_PLUGINS=true
-      ;;  
     ("c")
       CONTINUE_INTEGRATION_TESTS_ON_ERRORS=true
       ;;    
@@ -73,9 +67,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-a" "mobile: reset platforms on project. ${COL_YELLOW}USE WHEN VERY SURE"
-  addHelpOption "-b" "mobile: refresh cordova plugins ${COL_YELLOW}USE WHEN VERY SURE"
-  addHelpOption "-c" "integration tests: continue even with errors when running integration tests"
+  addHelpOption "-c" "continue even with errors when running integration tests. ${COL_YELLOW}Use with -m"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "integration tests: run integration tests only"
   printKameHouseModuleOption "build"
