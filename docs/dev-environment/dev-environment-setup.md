@@ -32,7 +32,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 * Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
 * Start your local dev tomcat with `tomcat-startup-dev.sh`
 * Tail dev tomcat logs with `tail-log.sh -f tomcat-dev`
-* Stop your dev tomcat with `tomcat-stop.sh -p [dev-tomcat-port]`
+* Stop your dev tomcat with `tomcat-stop-dev.sh`
 
 # Apache Httpd:
 
@@ -45,6 +45,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 # Deploy changes to dev environment:
 
 * Deploy your local working copy changes of each module with `deploy-kamehouse-dev.sh`
+- `deploy-kamehouse-dev.sh` can be used to deploy all modules, including `mobile` to my `dev` android device
 
 # Docker Dev environment:
 

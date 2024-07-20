@@ -22,7 +22,6 @@ httpd-status.sh
 Use the following kamehouse-shell scripts to control the execution of tomcat
 ```sh
 tomcat-startup.sh 
-tomcat-startup-dev.sh
 tomcat-stop.sh 
 tomcat-status.sh 
 tomcat-restart.sh 
@@ -39,7 +38,6 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 ## Deploy:
 
 - Use the `deploy-kamehouse.sh` script to deploy all kamehouse modules
-- Use the `deploy-kamehouse-dev.sh` script to deploy all kamehouse modules to dev environment
 
 ## Build:
 
