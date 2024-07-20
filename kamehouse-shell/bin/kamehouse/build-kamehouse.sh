@@ -67,7 +67,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-c" "continue even with errors when running integration tests. ${COL_YELLOW}Use with -m"
+  addHelpOption "-c" "continue even with errors when running integration tests. ${COL_YELLOW}Use with -i"
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "integration tests: run integration tests only"
   printKameHouseModuleOption "build"
