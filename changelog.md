@@ -10,6 +10,9 @@
 - **Moved javascript code to typescript**
 - Refactored and simplified build and deployed scripts for both standard and dev deployments
 - Removed ide specific setup and script parameters
+- Updated under construction modal
+- Updated vscode debugger configurations
+- Updated groot tail log wait time
 - Simplified apache httpd dev setup and configuration
 - Removed access to static kamehouse-ui files from tomcat. Only accessible through apache httpd
 - Refatored completely frontend code build process using typescript and npm
