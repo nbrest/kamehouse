@@ -64,11 +64,8 @@ getHttpdContentRoot() {
 parseArguments() {
   parseKameHouseModule "$@"
   
-  while getopts ":dm:s" OPT; do
+  while getopts ":m:s" OPT; do
     case $OPT in
-    ("d")
-      DEPLOY_TO_DOCKER=true
-      ;;
     ("s")
       STATIC_ONLY=true
       ;;   
@@ -84,7 +81,6 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-d" "deploy to docker"
   printKameHouseModuleOption "deploy"
   addHelpOption "-s" "deploy static ui code only"
 }

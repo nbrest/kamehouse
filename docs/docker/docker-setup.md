@@ -98,6 +98,15 @@ In the container console, you can run the following scripts:
 - `deploy-kamehouse.sh -m shell` : Installs the latest version of kamehouse-shell
 - `kamehouse-cmd.sh` : Test the functionality of kamehouse-cmd
 
+### Deploy workspace changes on docker dev:
+
+- In docker `dev` profile, `${HOME}/git/kamehouse` directory inside the docker container is mapped to the host's `${HOME}/workspace/kamehouse`
+- Log in to docker `dev` through ssh, then run:
+```sh
+cd ${HOME}/git/kamehouse
+deploy-kamehouse.sh -c
+```
+
 ## Check the status
 
 - Check the status of the docker containers, images and volumes in the system with the command `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh`

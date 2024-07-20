@@ -47,7 +47,6 @@ KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 # docker defaults
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
-DEPLOY_TO_DOCKER=false
 
 CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
@@ -317,10 +316,6 @@ executeOperationInTomcatManager() {
   local OPERATION=$1
   local TOMCAT_PORT=$2
   local KAMEHOUSE_MODULE=$3
-
-  if ${DEPLOY_TO_DOCKER}; then
-    TOMCAT_PORT=${DOCKER_PORT_TOMCAT}
-  fi
 
   if [ -z "${KAMEHOUSE_MODULE}" ]; then
     log.info "Executing ${COL_PURPLE}${OPERATION}${COL_DEFAULT_LOG} kamehouse webapps in localhost:${TOMCAT_PORT} for all modules"

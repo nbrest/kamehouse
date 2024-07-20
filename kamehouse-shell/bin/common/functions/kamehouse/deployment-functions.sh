@@ -51,13 +51,8 @@ deployToTomcat() {
     local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
-      if ${DEPLOY_TO_DOCKER}; then
-        log.debug "scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps"
-        scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps
-      else
-        cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
-        checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
-      fi
+      cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
+      checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
     fi
   done
 
