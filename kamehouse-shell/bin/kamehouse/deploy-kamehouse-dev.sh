@@ -63,8 +63,9 @@ getHttpdContentRoot() {
 
 parseArguments() {
   parseKameHouseModule "$@"
-  
-  while getopts ":m:s" OPT; do
+  parseMavenProfile "$@"
+
+  while getopts ":m:p:s" OPT; do
     case $OPT in
     ("s")
       STATIC_ONLY=true
@@ -78,10 +79,12 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForKameHouseModule
+  setEnvForMavenProfile
 }
 
 printHelpOptions() {
   printKameHouseModuleOption "deploy"
+  printMavenProfileOption
   addHelpOption "-s" "deploy static ui code only"
 }
 
