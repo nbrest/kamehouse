@@ -1,38 +1,22 @@
-buildKameHouseProject() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
-  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
-  
-  exportGitCommitHash
-  exportBuildVersion
-  exportBuildDate
-  buildMavenCommand
-  executeMavenCommand
-  
-  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
-    buildMobile
-  fi
-  cleanLogsInGitRepoFolder
-}
-
-buildFrontendCode() {
-  log.debug "npm install ; npm run build ; npm run scan"
-  npm install
-  npm run build
-  npm run scan
-}
-
 buildKameHouseStatic() {
   if ${INTEGRATION_TESTS}; then
     log.debug "Running integration tests, skippking static code build"
     return
   fi
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
+  if [[ -z "${MODULE}" ]]; then
+    buildKameHouseUiStatic
+    buildKameHouseGroot
+    buildKameHouseMobileStatic
+  fi
+  if [[ "${MODULE}" == "kamehouse-ui" ]]; then
     buildKameHouseUiStatic
   fi
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-groot" ]]; then
+  if [[ "${MODULE}" == "kamehouse-groot" ]]; then
     buildKameHouseGroot
   fi
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
+  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
+    buildKameHouseUiStatic
+    buildKameHouseGroot
     buildKameHouseMobileStatic
   fi
   if ${STATIC_ONLY}; then
@@ -121,6 +105,45 @@ buildKameHouseMobileStatic() {
   fi
 }
 
+buildFrontendCode() {
+  log.debug "npm install ; npm run build ; npm run scan"
+  npm install
+  npm run build
+  npm run scan
+}
+
+buildKameHouseBackend() {
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
+  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
+  exportGitCommitHash
+  exportBuildVersion
+  exportBuildDate
+  buildMavenCommand
+  executeMavenCommand
+  cleanLogsInGitRepoFolder
+}
+
+exportGitCommitHash() {
+  cdToRootDirFromModule "kamehouse-mobile"
+  log.info "Exporting git commit hash to commons-core"
+  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
+  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+}
+
+exportBuildVersion() {
+  cdToRootDirFromModule "kamehouse-mobile"
+  log.info "Exporting build version to commons-core"
+  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
+  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
+  echo "${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.txt
+}
+
+exportBuildDate() {
+  cdToRootDirFromModule "kamehouse-mobile"
+  log.info "Exporting build date to commons-core"
+  date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.txt
+}
+
 buildMavenCommand() {
   MAVEN_COMMAND="mvn clean install -Dstyle.color=always -P ${MAVEN_PROFILE}"
 
@@ -159,24 +182,24 @@ executeMavenCommand() {
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
 }
 
-buildMobile() {
-  log.info "${COL_PURPLE}Building kamehouse-mobile app"
-  setKameHouseMobileApkPath
-  buildKameHouseUiStatic
-  buildKameHouseGroot
-  buildKameHouseMobileStatic
-  syncStaticFilesOnMobile
-  cdToKameHouseModule "kamehouse-mobile"
-  setLinuxBuildEnv
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
-  prepareCordovaProject
-  setMobileBuildVersionAndKeys
-  updateConfigWithGitHash
-  buildCordovaProject
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
-  resetConfigFromGitHash
-  cdToRootDirFromModule "kamehouse-mobile"
-  deleteStaticFilesOnMobile
+buildKameHouseMobile() {
+  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
+    log.info "${COL_PURPLE}Building kamehouse-mobile app"
+    setKameHouseMobileApkPath
+    syncStaticFilesOnMobile
+    cdToKameHouseModule "kamehouse-mobile"
+    setLinuxBuildEnv
+    source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
+    prepareCordovaProject
+    setMobileBuildVersionAndKeys
+    updateConfigWithGitHash
+    buildCordovaProject
+    source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
+    resetConfigFromGitHash
+    cdToRootDirFromModule "kamehouse-mobile"
+    deleteStaticFilesOnMobile
+    cleanLogsInGitRepoFolder
+  fi
 }
 
 setLinuxBuildEnv() {
@@ -235,25 +258,4 @@ updateConfigWithGitHash() {
 resetConfigFromGitHash() {
   log.debug "Resetting config.xml git commit hash after build"
   mv -f config-pre-build.xml config.xml
-}
-
-exportGitCommitHash() {
-  cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting git commit hash to commons-core"
-  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
-  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
-}
-
-exportBuildVersion() {
-  cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting build version to commons-core"
-  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
-  echo "${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.txt
-}
-
-exportBuildDate() {
-  cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting build date to commons-core"
-  date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.txt
 }

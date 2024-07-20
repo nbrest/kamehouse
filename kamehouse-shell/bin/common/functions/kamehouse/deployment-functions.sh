@@ -4,26 +4,14 @@ deployKameHouseProject() {
   pullLatestKameHouseChanges
   setKameHouseBuildVersion
   deployKameHouseShell
-  deployStaticCode
-  buildKameHouseProject
-  deployTomcatModules
-  deployKameHouseCmd
+  buildKameHouseStatic
+  deployKameHouseStatic
+  buildKameHouseBackend
+  deployKameHouseBackend
+  buildKameHouseMobile
   deployKameHouseMobile
   cleanUpMavenRepository
   checkForDeploymentErrors
-}
-
-deployStaticCode() {
-  buildKameHouseUiStatic
-  deployKameHouseUiStatic
-  buildKameHouseGroot
-  deployKameHouseGroot
-  buildKameHouseMobileStatic
-  deployKameHouseMobileStatic
-  if ${STATIC_ONLY}; then
-    log.info "Finished deploying static code"
-    exitSuccessfully    
-  fi 
 }
 
 setKameHouseDeploymentParameters() {
@@ -43,29 +31,9 @@ setKameHouseDeploymentParameters() {
   fi
 }
 
-deployToTomcat() {
-  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
-
-  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
-  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
-    if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
-      log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
-      cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
-      checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
-    fi
-  done
-
-  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -f tomcat -n 2000  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
-}
-
-deployTomcatModules() {
-  if ${DEPLOY_TO_TOMCAT}; then
-    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-    deployToTomcat
-  fi
+setKameHouseBuildVersion() {
+  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
 }
 
 deployKameHouseShell() {
@@ -81,6 +49,36 @@ deployKameHouseShell() {
       exitSuccessfully
     fi
   fi
+}
+
+deployKameHouseBackend() {
+  deployTomcatModules
+  deployKameHouseCmd  
+}
+
+deployTomcatModules() {
+  if ${DEPLOY_TO_TOMCAT}; then
+    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
+    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
+    deployToTomcat
+  fi
+}
+
+deployToTomcat() {
+  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
+
+  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
+  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
+    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
+    if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
+      log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
+      cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
+      checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
+    fi
+  done
+
+  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -f tomcat -n 2000  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
@@ -142,6 +140,43 @@ uploadKameHouseMobileApkToGDrive() {
   fi
 }
 
+deployKameHouseStatic() {
+  deployKameHouseUiStatic
+  deployKameHouseGroot
+  deployKameHouseMobileStatic
+  if ${STATIC_ONLY}; then
+    log.info "Finished deploying static code"
+    exitSuccessfully    
+  fi 
+}
+
+deployKameHouseUiStatic() {
+  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
+    log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
+    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
+    cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
+    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
+
+    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
+    while read FILE; do
+      if [ -n "${FILE}" ]; then
+        chmod a+rx ${FILE}
+      fi
+    done <<< ${FILES}
+
+    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
+    while read DIRECTORY; do
+      if [ -n "${DIRECTORY}" ]; then
+        chmod a+rx ${DIRECTORY}
+      fi
+    done <<< ${DIRECTORIES}
+
+    log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+  fi
+}
+
 deployKameHouseGroot() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
@@ -178,33 +213,6 @@ deployKameHouseGroot() {
   fi
 }
 
-deployKameHouseUiStatic() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
-    cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
-
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
-  fi
-}
-
 deployKameHouseMobileStatic() {
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
@@ -237,9 +245,4 @@ checkForDeploymentErrors() {
     log.error "Error executing kamehouse deployment"
     exitProcess ${EXIT_CODE}
   fi
-}
-
-setKameHouseBuildVersion() {
-  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
 }
