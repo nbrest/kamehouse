@@ -119,7 +119,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-c" "use current directory to sync static files. Default dir: ${PROJECT_DIR}"
-  addHelpOption "-d" "only delete /kame-house folder from mobile app folder. don't resync"
+  addHelpOption "-d" "delete already synced static folders from mobile app folder. don't resync"
 }
 
 main "$@"
