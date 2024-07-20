@@ -28,12 +28,22 @@ TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 FAST_BUILD=true
 DEPLOY_TO_TOMCAT=false
 STATIC_ONLY=false
+EXIT_CODE=${EXIT_SUCCESS}
 
 mainProcess() {
   setGlobalVariables
   setKameHouseRootProjectDir
   setKameHouseBuildVersion
   deployKameHouseShell
+  deployStaticCode
+  buildKameHouseProject
+  deployTomcatModules
+  deployKameHouseCmd
+  cleanUpMavenRepository
+  checkForErrors
+}
+
+deployStaticCode() {
   buildKameHouseUiStatic
   deployKameHouseUiStatic
   buildKameHouseGroot
@@ -44,14 +54,13 @@ mainProcess() {
     log.info "Finished deploying static code"
     exitSuccessfully    
   fi 
-  buildKameHouseProject
-  if ${DEPLOY_TO_TOMCAT}; then
-    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-    deployToTomcat
+}
+
+checkForErrors() {
+  if [ "${EXIT_CODE}" != "0" ]; then
+    log.error "Error executing kamehouse deployment"
+    exitProcess ${EXIT_CODE}
   fi
-  deployKameHouseCmd
-  cleanUpMavenRepository
 }
 
 setGlobalVariables() {

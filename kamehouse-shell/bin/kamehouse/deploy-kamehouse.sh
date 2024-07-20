@@ -57,6 +57,16 @@ doLocalDeployment() {
   fi
   setKameHouseBuildVersion
   deployKameHouseShell
+  deployStaticCode
+  buildKameHouseProject
+  deployTomcatModules
+  deployKameHouseCmd
+  deployKameHouseMobile
+  cleanUpMavenRepository
+  checkForErrors 
+}
+
+deployStaticCode() {
   buildKameHouseUiStatic
   deployKameHouseUiStatic
   buildKameHouseGroot
@@ -65,16 +75,6 @@ doLocalDeployment() {
     log.info "Finished deploying static code"
     exitSuccessfully    
   fi 
-  buildKameHouseProject
-  if ${DEPLOY_TO_TOMCAT}; then
-    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-    deployToTomcat
-  fi
-  deployKameHouseCmd
-  deployKameHouseMobile
-  cleanUpMavenRepository
-  checkForErrors 
 }
 
 checkForErrors() {

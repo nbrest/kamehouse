@@ -761,6 +761,14 @@ deployToTomcat() {
   log.info "Execute ${COL_CYAN}\`  tail-log.sh -z ${KAMEHOUSE_SERVER} -f tomcat -n 2000 \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
+deployTomcatModules() {
+  if ${DEPLOY_TO_TOMCAT}; then
+    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
+    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
+    deployToTomcat
+  fi
+}
+
 deployKameHouseShell() {
   if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
