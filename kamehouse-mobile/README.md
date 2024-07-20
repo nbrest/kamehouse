@@ -128,7 +128,7 @@ kamehouse-mobile-run-browser.sh
 
 ## Upload APK to device
 - Start the SSH/SFTP Server - Terminal from googleplay on the phone
-- Execute `kamehouse-mobile-upload-apk-to-device.sh` script to build the mobile app and upload it to the `Downloads` folder in the device
+- Execute `deploy-kamehouse-dev.sh -m mobile` or `kamehouse-mobile-upload-apk-to-device.sh` script to build the mobile app and upload it to the `Downloads` folder in the device
 - Update the app on the mobile device
 
 ## Install from google drive
