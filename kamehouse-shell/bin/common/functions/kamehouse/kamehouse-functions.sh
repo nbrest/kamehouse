@@ -191,7 +191,7 @@ setEnvForKameHouseServer() {
     [ "${KAMEHOUSE_SERVER}" != "niko-w" ] &&
     [ "${KAMEHOUSE_SERVER}" != "niko-w-vm-ubuntu" ] &&
     [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
-    log.error "Option -s server has an invalid value of ${KAMEHOUSE_SERVER}"
+    log.error "Option -z server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}
   fi
@@ -262,7 +262,7 @@ printKameHouseModuleOption() {
 }
 
 printKameHouseServerOption() {
-  addHelpOption "-s ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
+  addHelpOption "-z ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
 }
 
 printMavenProfileOption() {
@@ -758,7 +758,7 @@ deployToTomcat() {
   done
 
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -s ${KAMEHOUSE_SERVER} -f tomcat -n 2000 \`${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -z ${KAMEHOUSE_SERVER} -f tomcat -n 2000 \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseShell() {

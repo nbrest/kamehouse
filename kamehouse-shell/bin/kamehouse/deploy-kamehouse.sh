@@ -35,6 +35,8 @@ FAST_BUILD=true
 # buildMobile default settings override for deployment
 RESET_PACKAGE_JSON=true
 
+STATIC_ONLY=false
+
 EXIT_CODE=${EXIT_SUCCESS}
 
 mainProcess() {
@@ -59,6 +61,10 @@ doLocalDeployment() {
   deployKameHouseUiStatic
   buildKameHouseGroot
   deployKameHouseGroot
+  if ${STATIC_ONLY}; then
+    log.info "Finished deploying static code"
+    exitSuccessfully    
+  fi 
   buildKameHouseProject
   if ${DEPLOY_TO_TOMCAT}; then
     executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
@@ -105,7 +111,7 @@ setDeploymentParameters() {
 }
 
 setSshParameters() {
-  SSH_COMMAND="${SCRIPT_NAME} -s local -p ${MAVEN_PROFILE}"
+  SSH_COMMAND="${SCRIPT_NAME} -z local -p ${MAVEN_PROFILE}"
   if [ -n "${MODULE_SHORT}" ]; then
     SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}
   fi
@@ -150,7 +156,7 @@ parseArguments() {
   parseMavenProfile "$@"
   parseKameHouseServer "$@"
 
-  while getopts ":bcm:l:p:s:" OPT; do
+  while getopts ":bcm:l:p:sz:" OPT; do
     case $OPT in
     ("b")
       REFRESH_CORDOVA_PLUGINS=true
@@ -161,6 +167,9 @@ parseArguments() {
     ("l")
       LOG_LEVEL=$OPTARG
       ;;   
+    ("s")
+      STATIC_ONLY=true
+      ;; 
     (\?)
       parseInvalidArgument "$OPTARG"
       ;;
@@ -180,6 +189,7 @@ printHelpOptions() {
   addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
+  addHelpOption "-s" "deploy static ui code only"
   printKameHouseServerOption
 }
 

@@ -151,7 +151,7 @@ addFileToLogFiles() {
 }
 
 setSshParameters() {
-  SSH_COMMAND="${SCRIPT_NAME} -s local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
+  SSH_COMMAND="${SCRIPT_NAME} -z local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
   if ${FILTER_EXTRA_LINES}; then
     SSH_COMMAND=${SSH_COMMAND}" -x"
   fi
@@ -177,7 +177,7 @@ parseArguments() {
   parseDockerProfile "$@"
   parseKameHouseServer "$@"
   
-  while getopts ":f:l:n:p:s:qx" OPT; do
+  while getopts ":f:l:n:p:qxz:" OPT; do
     case $OPT in
     "f")
       setFileArg "$OPTARG"
@@ -268,9 +268,9 @@ printHelpOptions() {
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   printDockerProfileOption
-  printKameHouseServerOption
   addHelpOption "-q" "quit after tailing once. Don't follow log"
   addHelpOption "-x" "Filter extra lines that don't have a log level tag, like bash command outputs"
+  printKameHouseServerOption
 }
 
 main "$@"

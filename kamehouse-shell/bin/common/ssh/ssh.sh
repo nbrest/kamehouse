@@ -30,7 +30,7 @@ sshToRemoteServer() {
 parseArguments() {
   parseKameHouseServer "$@"
   
-  while getopts ":c:s:" OPT; do
+  while getopts ":c:z:" OPT; do
     case $OPT in
     "c")
       SSH_COMMAND="$OPTARG"
