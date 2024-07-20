@@ -168,6 +168,14 @@ buildMobile() {
   uploadKameHouseMobileApkToGDrive
 }
 
+setLinuxBuildEnv() {
+  if ${IS_LINUX_HOST}; then
+    log.info "Setting android build env"
+    export ANDROID_SDK_ROOT=${HOME}/Android/Sdk
+    export PATH=${PATH}:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin
+  fi
+}
+
 cleanCordovaProject() {
   log.debug "cordova clean ; cordova platform remove android ; cordova platform add android@${CORDOVA_ANDROID_PLATFORM_VERSION}"
   cordova clean
