@@ -76,7 +76,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-c" "deploy current version of the current directory without pulling latest version. Default deployment dir: ${COL_PURPLE}${PROJECT_DIR}"
+  addHelpOption "-c" "deploy from the current directory without pulling latest git changes. Default deployment dir: ${COL_PURPLE}${PROJECT_DIR}"
   addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
