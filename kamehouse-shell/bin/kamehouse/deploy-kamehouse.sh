@@ -45,7 +45,7 @@ mainProcess() {
 }
 
 deployKameHouseMobileStatic() {
-  log.debug "Skipping deploy kamehouse-mobile static code to httpd server (only done on dev)"
+  log.debug "Skipping deploy kamehouse-mobile static code to httpd server (only done on dev deployment)"
 }
 
 parseArguments() {

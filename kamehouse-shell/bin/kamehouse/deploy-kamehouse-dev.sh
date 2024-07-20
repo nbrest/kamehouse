@@ -49,7 +49,15 @@ mainProcess() {
 }
 
 deployKameHouseMobile() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-upload-apk-to-device.sh -s
+  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
+    if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
+      uploadKameHouseMobileApkToGDrive
+      ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-upload-apk-to-device.sh -s
+    else
+      log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
+      EXIT_CODE=${EXIT_ERROR}
+    fi
+  fi
 }
 
 # Get kamehouse httpd content root directory

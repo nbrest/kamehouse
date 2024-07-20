@@ -177,7 +177,6 @@ buildMobile() {
   resetConfigFromGitHash
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile
-  uploadKameHouseMobileApkToGDrive
 }
 
 setLinuxBuildEnv() {
@@ -236,24 +235,6 @@ updateConfigWithGitHash() {
 resetConfigFromGitHash() {
   log.debug "Resetting config.xml git commit hash after build"
   mv -f config-pre-build.xml config.xml
-}
-
-uploadKameHouseMobileApkToGDrive() {
-  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}" ]; then
-    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}"
-    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
-  fi
-
-  if [ -d "${HOME}/GoogleDrive" ]; then
-    log.info "Mounting google drive"
-    google-drive-ocamlfuse ${HOME}/GoogleDrive
-    sleep 8
-  fi
-
-  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
-    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}"
-    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
-  fi
 }
 
 exportGitCommitHash() {
