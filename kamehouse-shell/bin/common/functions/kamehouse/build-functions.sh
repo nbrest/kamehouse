@@ -20,6 +20,22 @@ buildFrontendCode() {
   npm run scan
 }
 
+buildKameHouseStatic() {
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
+    buildKameHouseUiStatic
+  fi
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-groot" ]]; then
+    buildKameHouseGroot
+  fi
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
+    buildKameHouseMobileStatic
+  fi
+  if ${STATIC_ONLY}; then
+    log.info "Finished building static code"
+    exitSuccessfully    
+  fi 
+}
+
 buildKameHouseUiStatic() {
   if [[ -z "${MODULE_SHORT}" 
     || "${MODULE_SHORT}" == "ui"

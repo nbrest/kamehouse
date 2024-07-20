@@ -33,22 +33,6 @@ mainProcess() {
   cleanUpMavenRepository
 }
 
-buildKameHouseStatic() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-ui" ]]; then
-    buildKameHouseUiStatic
-  fi
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-groot" ]]; then
-    buildKameHouseGroot
-  fi
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    buildKameHouseMobileStatic
-  fi
-  if ${STATIC_ONLY}; then
-    log.info "Finished building static code"
-    exitSuccessfully    
-  fi 
-}
-
 parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
