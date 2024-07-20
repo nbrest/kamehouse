@@ -15,6 +15,7 @@ buildKameHouseProject() {
 }
 
 buildFrontendCode() {
+  log.debug "npm install ; npm run build ; npm run scan"
   npm install
   npm run build
   npm run scan
@@ -168,7 +169,7 @@ buildMobile() {
   cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
-  cleanCordovaProject
+  prepareCordovaProject
   setMobileBuildVersionAndKeys
   updateConfigWithGitHash
   buildCordovaProject
@@ -187,10 +188,11 @@ setLinuxBuildEnv() {
   fi
 }
 
-cleanCordovaProject() {
-  log.debug "npm install ; cordova clean"
+prepareCordovaProject() {
+  log.debug "npm install ; cordova clean ; cordova prepare"
   npm install
   cordova clean
+  cordova prepare
 }
 
 # runs from root directory of kamehouse project
@@ -207,7 +209,7 @@ setMobileBuildVersionAndKeys() {
 }
 
 buildCordovaProject() {
-  log.info "Executing: cordova build android"
+  log.info "Executing: ${COL_PURPLE}cordova build android"
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
 
