@@ -30,6 +30,9 @@ KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu
 DEFAULT_KAMEHOUSE_SERVER="local"
 KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
 
+TOMCAT_DIR="${HOME}/programs/apache-tomcat"
+TOMCAT_DIR_DEV="${HOME}/programs/apache-tomcat-dev"
+
 DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
 TOMCAT_DEBUG_PORT=8000
@@ -38,7 +41,7 @@ DEFAULT_TOMCAT_DEV_PORT=9980
 DEFAULT_HTTPD_PORT=443
 HTTPD_PORT=${DEFAULT_HTTPD_PORT}
 
-KAMEHOUSE_BUILD_VERSION=
+KAMEHOUSE_BUILD_VERSION=""
 KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 
 # docker defaults
@@ -68,6 +71,10 @@ KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN="${HOME}/GoogleDrive/KameHouse/kamehouse-mobile
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 CORDOVA_ANDROID_PLATFORM_VERSION="10.1.2"
+
+KAMEHOUSE_MOBILE_APP_SERVER="pi"
+KAMEHOUSE_MOBILE_APP_USER="pi"
+KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
 
 # ---------------------------
 # Common kamehouse functions
@@ -398,13 +405,22 @@ checkValidRootKameHouseProject() {
 }
 
 pullLatestKameHouseChanges() {
-  if ! ${USE_CURRENT_DIR}; then
-    log.info "Pulling latest kamehouse changes from git"
-    git pull origin dev
-    checkCommandStatus "$?" "Error pulling kamehouse dev branch"
-  else
+  if ${USE_CURRENT_DIR}; then
     log.trace "Using USE_CURRENT_DIR so skipping git pull kamehouse"
+    return
   fi
+  if [ "${IS_DOCKER_CONTAINER}" == "true" ] && [ "${DOCKER_PROFILE}" == "dev" ]; then
+    log.info "Running on a dev docker container. Skipping reset git branch"
+    return
+  fi
+  log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} from repository"     
+  git checkout dev
+  checkCommandStatus "$?" "An error occurred checking out dev branch"
+  
+  git reset --hard
+
+  git pull origin dev
+  checkCommandStatus "$?" "An error occurred pulling origin dev"
 }
 
 buildKameHouseProject() {
@@ -736,132 +752,6 @@ uploadKameHouseMobileApkToGDrive() {
   if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
-  fi
-}
-
-deployToTomcat() {
-  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
-
-  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
-  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
-    if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
-      log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
-      if ${DEPLOY_TO_DOCKER}; then
-        log.debug "scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps"
-        scp -C -P ${DOCKER_PORT_SSH} ${KAMEHOUSE_MODULE_WAR} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/programs/apache-tomcat/webapps
-      else
-        cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
-        checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
-      fi
-    fi
-  done
-
-  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -z ${KAMEHOUSE_SERVER} -f tomcat -n 2000 \`${COL_DEFAULT_LOG} to check tomcat startup progress"
-}
-
-deployTomcatModules() {
-  if ${DEPLOY_TO_TOMCAT}; then
-    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-    deployToTomcat
-  fi
-}
-
-deployKameHouseShell() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-    chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
-    checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
-
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-
-    if [ "${MODULE_SHORT}" == "shell" ]; then
-      exitSuccessfully
-    fi
-  fi
-}
-
-deployKameHouseCmd() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "cmd" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
-    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
-    rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-    unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
-    mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
-    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
-    chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
-    checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
-  fi
-}
-
-deployKameHouseGroot() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    cp -rf ./kamehouse-groot/dist/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
-
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
-    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
-
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
-
-    if [ "${MODULE_SHORT}" == "groot" ]; then
-      exitSuccessfully
-    fi
-  fi
-}
-
-deployKameHouseUiStatic() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
-    cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
-
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
   fi
 }
 

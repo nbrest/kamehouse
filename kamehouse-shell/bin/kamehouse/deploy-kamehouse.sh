@@ -13,141 +13,48 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 99
 fi
+
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
+  exit 99
+fi
+
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/deployment-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing deployment-functions.sh\033[0;39m"
+  exit 99
+fi
 source ${HOME}/.kamehouse/.shell/.cred
 
-# Initial config
-DEFAULT_ENV=local
-KAMEHOUSE_MOBILE_APP_SERVER="pi"
-KAMEHOUSE_MOBILE_APP_USER="pi"
-KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
-
-# Global variables set during the process
+EXIT_CODE=${EXIT_SUCCESS}
 DEPLOYMENT_DIR=""
-TOMCAT_DIR=""
-TOMCAT_LOG=""
-KAMEHOUSE_BUILD_VERSION=""
+FAST_BUILD=true
 DEPLOY_TO_TOMCAT=false
+STATIC_ONLY=false
 LOG_LEVEL=INFO
 
-# buildMavenCommand default settings override for deployment
-FAST_BUILD=true
-
-# buildMobile default settings override for deployment
 RESET_PACKAGE_JSON=true
 
-STATIC_ONLY=false
-
-EXIT_CODE=${EXIT_SUCCESS}
-
 mainProcess() {
-  setDeploymentParameters
   if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
-    doLocalDeployment
+    deployKameHouseProject
   else
     # Execute remote deployment
+    setKameHouseDeploymentParameters
     setSshParameters
     executeSshCommand
   fi
 }
 
-doLocalDeployment() {
-  setKameHouseRootProjectDir
-  if ! ${USE_CURRENT_DIR}; then
-    pullLatestVersionFromGit
-  fi
-  setKameHouseBuildVersion
-  deployKameHouseShell
-  deployStaticCode
-  buildKameHouseProject
-  deployTomcatModules
-  deployKameHouseCmd
-  deployKameHouseMobile
-  cleanUpMavenRepository
-  checkForErrors 
-}
-
-deployStaticCode() {
-  buildKameHouseUiStatic
-  deployKameHouseUiStatic
-  buildKameHouseGroot
-  deployKameHouseGroot
-  if ${STATIC_ONLY}; then
-    log.info "Finished deploying static code"
-    exitSuccessfully    
-  fi 
-}
-
-checkForErrors() {
-  if [ "${EXIT_CODE}" != "0" ]; then
-    log.error "Error executing kamehouse deployment"
-    exitProcess ${EXIT_CODE}
-  fi
-}
-
-setDeploymentParameters() {
-  loadDockerContainerEnv
-  
-  TOMCAT_DIR="${HOME}/programs/apache-tomcat"
-  DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
-  if ${IS_LINUX_HOST}; then
-    TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.out"
-  else
-    local LOG_DATE=`date +%Y-%m-%d`
-    TOMCAT_LOG="${TOMCAT_DIR}/logs/catalina.${LOG_DATE}.log"
-  fi
-
-  if [ -n "${MODULE_SHORT}" ]; then
-    if [ "${MODULE_SHORT}" == "admin" ] ||
-       [ "${MODULE_SHORT}" == "media" ] ||
-       [ "${MODULE_SHORT}" == "tennisworld" ] ||
-       [ "${MODULE_SHORT}" == "testmodule" ] ||
-       [ "${MODULE_SHORT}" == "ui" ] ||
-       [ "${MODULE_SHORT}" == "vlcrc" ]; then
-      DEPLOY_TO_TOMCAT=true
-    fi
-  else
-    DEPLOY_TO_TOMCAT=true
-  fi
+deployKameHouseMobileStatic() {
+  log.debug "Skipping deploy kamehouse-mobile static code"
 }
 
 setSshParameters() {
   SSH_COMMAND="${SCRIPT_NAME} -z local -p ${MAVEN_PROFILE}"
   if [ -n "${MODULE_SHORT}" ]; then
     SSH_COMMAND=${SSH_COMMAND}" -m "${MODULE_SHORT}
-  fi
-}
-
-pullLatestVersionFromGit() {
-  if [ "${IS_DOCKER_CONTAINER}" == "true" ] && [ "${DOCKER_PROFILE}" == "dev" ]; then
-    log.info "Running on a dev docker container. Skipping reset git branch"
-  else
-    log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} from repository"     
-    git checkout dev
-    checkCommandStatus "$?" "An error occurred checking out dev branch"
-    
-    git reset --hard
-
-    git pull origin dev
-    checkCommandStatus "$?" "An error occurred pulling origin dev"
-  fi
-}
-
-deployKameHouseMobile() {
-  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
-    if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
-      log.debug "scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
-      scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
-      checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through ssh"
-
-      log.debug "ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C \"\\\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-regenerate-apk-html.sh -b ${KAMEHOUSE_BUILD_VERSION}\""
-      ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-regenerate-apk-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
-      checkCommandStatus "$?" "An error occurred regenerating apk html"
-
-    else
-      log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
-      EXIT_CODE=${EXIT_ERROR}
-    fi
   fi
 }
 
