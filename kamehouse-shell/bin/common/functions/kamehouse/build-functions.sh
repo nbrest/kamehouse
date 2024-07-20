@@ -23,7 +23,11 @@ buildKameHouseStatic() {
 
 checkBuildStaticOnly() {
   if ${STATIC_ONLY}; then
-    log.info "Finished building static code"
+    if [[ -z "${MODULE}" ]]; then
+      log.info "Finished building static code for all modules"
+    else 
+      log.info "Finished building static code for module ${COL_PURPLE}${MODULE}"
+    fi
     exitSuccessfully    
   fi 
 }

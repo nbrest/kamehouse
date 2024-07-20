@@ -145,7 +145,11 @@ deployKameHouseStatic() {
   deployKameHouseGroot
   deployKameHouseMobileStatic
   if ${STATIC_ONLY}; then
-    log.info "Finished deploying static code"
+    if [[ -z "${MODULE}" ]]; then
+      log.info "Finished deploying static code for all modules"
+    else 
+      log.info "Finished deploying static code for module ${COL_PURPLE}${MODULE}"
+    fi
     exitSuccessfully    
   fi 
 }
