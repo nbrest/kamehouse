@@ -221,3 +221,8 @@ checkForDeploymentErrors() {
     exitProcess ${EXIT_CODE}
   fi
 }
+
+setKameHouseBuildVersion() {
+  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
+}
