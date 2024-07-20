@@ -49,7 +49,7 @@ mainProcess() {
 }
 
 deployKameHouseMobile() {
-  log.debug "Skipping deploy kamehouse-mobile for dev deployment"
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-upload-apk-to-device.sh -s
 }
 
 # Get kamehouse httpd content root directory
