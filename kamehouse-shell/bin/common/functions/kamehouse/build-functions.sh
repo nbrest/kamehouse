@@ -19,6 +19,9 @@ buildKameHouseStatic() {
     buildKameHouseGroot
     buildKameHouseMobileStatic
   fi
+}
+
+checkBuildStaticOnly() {
   if ${STATIC_ONLY}; then
     log.info "Finished building static code"
     exitSuccessfully    

@@ -29,6 +29,7 @@ STATIC_ONLY=false
 mainProcess() {
   setKameHouseRootProjectDir
   buildKameHouseStatic
+  checkBuildStaticOnly
   buildKameHouseBackend
   buildKameHouseMobile
   cleanUpMavenRepository
