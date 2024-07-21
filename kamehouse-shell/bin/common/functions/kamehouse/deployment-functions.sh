@@ -17,16 +17,16 @@ deployKameHouseProject() {
 setKameHouseDeploymentParameters() {
   loadDockerContainerEnv
   DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
-  if [ -n "${MODULE_SHORT}" ]; then
-    if [ "${MODULE_SHORT}" == "admin" ] ||
-       [ "${MODULE_SHORT}" == "media" ] ||
-       [ "${MODULE_SHORT}" == "tennisworld" ] ||
-       [ "${MODULE_SHORT}" == "testmodule" ] ||
-       [ "${MODULE_SHORT}" == "ui" ] ||
-       [ "${MODULE_SHORT}" == "vlcrc" ]; then
-      DEPLOY_TO_TOMCAT=true
-    fi
-  else
+  if [ -z "${MODULE_SHORT}" ]; then
+    DEPLOY_TO_TOMCAT=true
+    return
+  fi
+  if [ "${MODULE_SHORT}" == "admin" ] ||
+     [ "${MODULE_SHORT}" == "media" ] ||
+     [ "${MODULE_SHORT}" == "tennisworld" ] ||
+     [ "${MODULE_SHORT}" == "testmodule" ] ||
+     [ "${MODULE_SHORT}" == "ui" ] ||
+     [ "${MODULE_SHORT}" == "vlcrc" ]; then
     DEPLOY_TO_TOMCAT=true
   fi
 }
