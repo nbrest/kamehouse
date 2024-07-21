@@ -37,17 +37,18 @@ setKameHouseBuildVersion() {
 }
 
 deployKameHouseShell() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "shell" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-    chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
-    checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "shell" ]]; then
+    return
+  fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
 
-    if [ "${MODULE_SHORT}" == "shell" ]; then
-      exitSuccessfully
-    fi
+  if [ "${MODULE_SHORT}" == "shell" ]; then
+    exitSuccessfully
   fi
 }
 
@@ -89,34 +90,36 @@ deployToTomcat() {
 }
 
 deployKameHouseCmd() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "cmd" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
-    mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
-    rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-    unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
-    mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
-    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
-    chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-    log.info "Deployed kamehouse-cmd status"
-    log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*"
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
-    ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
-    checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "cmd" ]]; then
+    return
   fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
+  mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
+  rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
+  unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
+  mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
+  local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
+  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+  echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
+  chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
+  log.info "Deployed kamehouse-cmd status"
+  log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*"
+  ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
+  ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
 
 deployKameHouseMobile() {
-  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
-    if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
-      uploadKameHouseMobileApkToGDrive
-      uploadKameHouseMobileApkToHttpdServer
-    else
-      log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
-      EXIT_CODE=${EXIT_ERROR}
-    fi
+  if [[ "${MODULE}" != "kamehouse-mobile" ]]; then
+    return
+  fi
+  if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
+    uploadKameHouseMobileApkToGDrive
+    uploadKameHouseMobileApkToHttpdServer
+  else
+    log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
+    EXIT_CODE=${EXIT_ERROR}
   fi
 }
 
@@ -170,102 +173,105 @@ deployKameHouseStatic() {
 }
 
 deployKameHouseUiStatic() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "ui" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
-    cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
-
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    log.info "Deployed kamehouse-ui status"
-    log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
-    ls -lh ${HTTPD_CONTENT_ROOT}/kame-house
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "ui" ]]; then
+    return
   fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+  local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+  rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
+  mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
+  cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
+  checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
+
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
+  while read FILE; do
+    if [ -n "${FILE}" ]; then
+      chmod a+rx ${FILE}
+    fi
+  done <<< ${FILES}
+
+  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
+  while read DIRECTORY; do
+    if [ -n "${DIRECTORY}" ]; then
+      chmod a+rx ${DIRECTORY}
+    fi
+  done <<< ${DIRECTORIES}
+
+  log.info "Deployed kamehouse-ui status"
+  log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
+  ls -lh ${HTTPD_CONTENT_ROOT}/kame-house
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
 
 deployKameHouseGroot() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "groot" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    cp -rf ./kamehouse-groot/dist/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "groot" ]]; then
+    return
+  fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
+  local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+  rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
+  mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
+  cp -rf ./kamehouse-groot/dist/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
+  checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
-    echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
-
-    log.info "Deployed kamehouse-groot status"
-    log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
-    ls -lh ${HTTPD_CONTENT_ROOT}/kame-house-groot
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
-
-    if [ "${MODULE_SHORT}" == "groot" ]; then
-      exitSuccessfully
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
+  while read FILE; do
+    if [ -n "${FILE}" ]; then
+      chmod a+rx ${FILE}
     fi
+  done <<< ${FILES}
+
+  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
+  while read DIRECTORY; do
+    if [ -n "${DIRECTORY}" ]; then
+      chmod a+rx ${DIRECTORY}
+    fi
+  done <<< ${DIRECTORIES}
+
+  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
+  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+  echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
+
+  log.info "Deployed kamehouse-groot status"
+  log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
+  ls -lh ${HTTPD_CONTENT_ROOT}/kame-house-groot
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
+
+  if [ "${MODULE_SHORT}" == "groot" ]; then
+    exitSuccessfully
   fi
 }
 
 deployKameHouseMobileStatic() {
-  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
-    log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
-    local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-    rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
-    mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
-    cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
-    checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
-
-    local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
-    while read FILE; do
-      if [ -n "${FILE}" ]; then
-        chmod a+rx ${FILE}
-      fi
-    done <<< ${FILES}
-
-    local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type d`
-    while read DIRECTORY; do
-      if [ -n "${DIRECTORY}" ]; then
-        chmod a+rx ${DIRECTORY}
-      fi
-    done <<< ${DIRECTORIES}
-
-    log.info "Deployed kamehouse-mobile status"
-    log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
-    ls -lh ${HTTPD_CONTENT_ROOT}/kame-house-mobile
-    log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
+  if [[ -n "${MODULE}" && "${MODULE}" != "kamehouse-mobile" ]]; then
+    return
   fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
+  local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+  rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
+  mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
+  cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
+  checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
+
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
+  while read FILE; do
+    if [ -n "${FILE}" ]; then
+      chmod a+rx ${FILE}
+    fi
+  done <<< ${FILES}
+
+  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type d`
+  while read DIRECTORY; do
+    if [ -n "${DIRECTORY}" ]; then
+      chmod a+rx ${DIRECTORY}
+    fi
+  done <<< ${DIRECTORIES}
+
+  log.info "Deployed kamehouse-mobile status"
+  log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
+  ls -lh ${HTTPD_CONTENT_ROOT}/kame-house-mobile
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }
 
 checkForDeploymentErrors() {

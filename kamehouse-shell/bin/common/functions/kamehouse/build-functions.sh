@@ -36,83 +36,86 @@ checkBuildStaticOnly() {
 }
 
 buildKameHouseUiStatic() {
-  if [[ -z "${MODULE_SHORT}" 
-    || "${MODULE_SHORT}" == "ui"
-    || "${MODULE_SHORT}" == "groot"
-    || "${MODULE_SHORT}" == "mobile" ]]; then
-    cdToKameHouseModule "kamehouse-ui"
-    log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
-    log.debug "Cleaning up dist directory"
-    rm -rf ./dist/*
-
-    buildFrontendCode
-
-    log.debug "Updating sourcemap relative paths"
-    find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
-
-    log.info "Building kamehouse-ui bundle in dist folder"
-    cp -r ./src/main/public/* ./dist
-    echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
-    cdToRootDirFromModule "kamehouse-ui"
+  if [[ -n "${MODULE_SHORT}" 
+    && "${MODULE_SHORT}" != "ui"
+    && "${MODULE_SHORT}" != "groot"
+    && "${MODULE_SHORT}" != "mobile" ]]; then
+    return
   fi
+  cdToKameHouseModule "kamehouse-ui"
+  log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
+  log.debug "Cleaning up dist directory"
+  rm -rf ./dist/*
+
+  buildFrontendCode
+
+  log.debug "Updating sourcemap relative paths"
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
+
+  log.info "Building kamehouse-ui bundle in dist folder"
+  cp -r ./src/main/public/* ./dist
+  echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
+  cdToRootDirFromModule "kamehouse-ui"
 }
 
 buildKameHouseGroot() {
-  if [[ -z "${MODULE_SHORT}"
-    || "${MODULE_SHORT}" == "groot"
-    || "${MODULE_SHORT}" == "mobile" ]]; then
-    cdToKameHouseModule "kamehouse-groot"
-    log.info "Building ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} static code"
-    log.debug "Cleaning up dist directory"
-    rm -rf ./dist/*
-
-    buildFrontendCode
-
-    log.debug "Updating sourcemap relative paths"
-    find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../../src/main/typescript#g" {} \;
-
-    log.info "Building kamehouse-groot bundle in dist folder"
-    cp -r ./src/main/public/* ./dist
-    cp -r ./src/main/php/kame-house-groot/* ./dist/kame-house-groot
-    echo "groot build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/kame-house-groot/groot-build-date.txt 
-    mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/js ./dist/kame-house-groot/js
-    mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./dist/kame-house-groot/kamehouse-groot/js
-    rm -rf ./dist/kamehouse-groot
-    rm -rf ./dist/kamehouse-ui
-    rm -rf ./dist/*.html
-    cdToRootDirFromModule "kamehouse-groot"
+  if [[ -n "${MODULE_SHORT}" 
+    && "${MODULE_SHORT}" != "groot"
+    && "${MODULE_SHORT}" != "mobile" ]]; then
+    return
   fi
+  cdToKameHouseModule "kamehouse-groot"
+  log.info "Building ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} static code"
+  log.debug "Cleaning up dist directory"
+  rm -rf ./dist/*
+
+  buildFrontendCode
+
+  log.debug "Updating sourcemap relative paths"
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../../src/main/typescript#g" {} \;
+
+  log.info "Building kamehouse-groot bundle in dist folder"
+  cp -r ./src/main/public/* ./dist
+  cp -r ./src/main/php/kame-house-groot/* ./dist/kame-house-groot
+  echo "groot build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/kame-house-groot/groot-build-date.txt 
+  mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/js ./dist/kame-house-groot/js
+  mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./dist/kame-house-groot/kamehouse-groot/js
+  rm -rf ./dist/kamehouse-groot
+  rm -rf ./dist/kamehouse-ui
+  rm -rf ./dist/*.html
+  cdToRootDirFromModule "kamehouse-groot"
 }
 
 buildKameHouseMobileStatic() {
-  if [[ -z "${MODULE_SHORT}" || "${MODULE_SHORT}" == "mobile" ]]; then
-    cdToKameHouseModule "kamehouse-mobile"
-    log.info "Building ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} static code"
-    log.debug "Cleaning up kamehouse-mobile www directory js files"
-    rm -rf ./www/kame-house-mobile
-    rm -rf ./www/kamehouse-mobile
-    rm -rf ./www/kamehouse-ui
-
-    buildFrontendCode
-
-    log.debug "Updating sourcemap relative paths"
-    find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
-    
-    log.info "Building kamehouse-mobile bundle in www folder"
-    mkdir -p ./www/kame-house-mobile
-    cp -r ./src/main/public/* ./www/kame-house-mobile
-    echo "mobile build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./www/mobile-build-date.txt 
-    mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
-    mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js
-    mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/plugin/js ./www/kame-house-mobile/kamehouse-mobile/plugin/js  
-    rm -rf ./www/kamehouse-mobile
-    rm -rf ./www/kamehouse-ui
-
-    exportGitCommitHash
-    cdToKameHouseModule "kamehouse-mobile"
-    setMobileBuildVersionAndKeys
-    cdToRootDirFromModule "kamehouse-mobile"
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "mobile" ]]; then
+    return
   fi
+  cdToKameHouseModule "kamehouse-mobile"
+  log.info "Building ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} static code"
+  log.debug "Cleaning up kamehouse-mobile www directory js files"
+  rm -rf ./www/kame-house-mobile
+  rm -rf ./www/kamehouse-mobile
+  rm -rf ./www/kamehouse-ui
+
+  buildFrontendCode
+
+  log.debug "Updating sourcemap relative paths"
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
+  
+  log.info "Building kamehouse-mobile bundle in www folder"
+  mkdir -p ./www/kame-house-mobile
+  cp -r ./src/main/public/* ./www/kame-house-mobile
+  echo "mobile build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./www/mobile-build-date.txt 
+  mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
+  mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js
+  mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/plugin/js ./www/kame-house-mobile/kamehouse-mobile/plugin/js  
+  rm -rf ./www/kamehouse-mobile
+  rm -rf ./www/kamehouse-ui
+
+  exportGitCommitHash
+  cdToKameHouseModule "kamehouse-mobile"
+  setMobileBuildVersionAndKeys
+  cdToRootDirFromModule "kamehouse-mobile"
 }
 
 buildFrontendCode() {
@@ -193,23 +196,24 @@ executeMavenCommand() {
 }
 
 buildKameHouseMobile() {
-  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
-    log.info "${COL_PURPLE}Building kamehouse-mobile app"
-    setKameHouseMobileApkPath
-    syncStaticFilesOnMobile
-    cdToKameHouseModule "kamehouse-mobile"
-    setLinuxBuildEnv
-    source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
-    prepareCordovaProject
-    setMobileBuildVersionAndKeys
-    updateConfigWithGitHash
-    buildCordovaProject
-    source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
-    resetConfigFromGitHash
-    cdToRootDirFromModule "kamehouse-mobile"
-    deleteStaticFilesOnMobile
-    cleanLogsInGitRepoFolder
+  if [[ "${MODULE}" != "kamehouse-mobile" ]]; then
+    return
   fi
+  log.info "${COL_PURPLE}Building kamehouse-mobile app"
+  setKameHouseMobileApkPath
+  syncStaticFilesOnMobile
+  cdToKameHouseModule "kamehouse-mobile"
+  setLinuxBuildEnv
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
+  prepareCordovaProject
+  setMobileBuildVersionAndKeys
+  updateConfigWithGitHash
+  buildCordovaProject
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
+  resetConfigFromGitHash
+  cdToRootDirFromModule "kamehouse-mobile"
+  deleteStaticFilesOnMobile
+  cleanLogsInGitRepoFolder
 }
 
 setLinuxBuildEnv() {
