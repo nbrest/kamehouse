@@ -139,7 +139,7 @@ uploadKameHouseMobileApkToGDrive() {
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
     log.info "Deployed kamehouse-mobile status"
-    log.info "ls -lh ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
+    log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
     ls -lh "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
   fi
 
