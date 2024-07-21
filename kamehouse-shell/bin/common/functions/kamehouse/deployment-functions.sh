@@ -239,7 +239,7 @@ deployKameHouseGroot() {
 }
 
 deployKameHouseMobileStatic() {
-  if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
+  if [[ -z "${MODULE}" || "${MODULE}" == "kamehouse-mobile" ]]; then
     log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
     local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
