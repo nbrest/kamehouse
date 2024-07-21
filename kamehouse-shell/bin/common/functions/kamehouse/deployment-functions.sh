@@ -81,7 +81,7 @@ deployToTomcat() {
 
   log.info "Deployed tomcat modules status"
   log.info "ls -lh ${COL_CYAN_STD}${DEPLOYMENT_DIR}/*.war"
-  ls -lh "${DEPLOYMENT_DIR}/*.war"
+  ls -lh "${DEPLOYMENT_DIR}"/*.war
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
   local TAIL_LOG_FILE="tomcat"
   if [[ ${DEPLOYMENT_DIR} =~ .*apache-tomcat-dev.* ]]; then
