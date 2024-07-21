@@ -346,15 +346,6 @@ executeOperationInTomcatManager() {
   done
 }
 
-# Loads the environment variables set when running in a docker container
-# Look at the docker-init script to see what variables are set in the container env
-loadDockerContainerEnv() {
-  if [ -f "${CONTAINER_ENV_FILE}" ]; then
-    log.debug "Running inside a docker container"
-    source ${CONTAINER_ENV_FILE}
-  fi
-}
-
 # Set sudo for a command that requires sudo
 setSudoKameHouseCommand() {
   SUDO_KAMEHOUSE_COMMAND=$1

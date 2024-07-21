@@ -209,3 +209,12 @@ printDockerProfileOption() {
 printDockerTagOption() {
   addHelpOption "-t vX.XX" "run this script for a specific KameHouse tag version. Minimum supported tag is ${DOCKER_TAG_MINIMUM_VERSION}"
 }
+
+# Loads the environment variables set when running in a docker container
+# Look at the docker-init script to see what variables are set in the container env
+loadDockerContainerEnv() {
+  if [ -f "${CONTAINER_ENV_FILE}" ]; then
+    log.debug "Running inside a docker container"
+    source ${CONTAINER_ENV_FILE}
+  fi
+}

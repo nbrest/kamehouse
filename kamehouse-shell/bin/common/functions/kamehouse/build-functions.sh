@@ -7,12 +7,15 @@ buildKameHouseStatic() {
     buildKameHouseUiStatic
     buildKameHouseGroot
     buildKameHouseMobileStatic
+    return
   fi
   if [[ "${MODULE}" == "kamehouse-ui" ]]; then
     buildKameHouseUiStatic
+    return
   fi
   if [[ "${MODULE}" == "kamehouse-groot" ]]; then
     buildKameHouseGroot
+    return
   fi
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     buildKameHouseUiStatic
