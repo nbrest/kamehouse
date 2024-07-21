@@ -52,6 +52,7 @@ main() {
   else
     log.info "Installing kamehouse-shell scripts only, so skipping the rest of the steps"
   fi
+  logKameHouseShellStatus
   log.info "Done installing ${COL_PURPLE}kamehouse-shell!"
 }
 
@@ -254,6 +255,12 @@ getKameHouseBuildVersion() {
     BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
   fi
   echo "${BUILD_VERSION}"
+}
+
+logKameHouseShellStatus() {
+  log.info "Deployed kamehouse-shell status"
+  log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_SHELL_PATH}"
+  ls -lh ${KAMEHOUSE_SHELL_PATH}
 }
 
 log.info() {

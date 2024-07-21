@@ -93,6 +93,8 @@ deployKameHouseCmd() {
     local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
     echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
     chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
+    log.info "Deployed kamehouse-cmd status"
+    log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*"
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
     checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
@@ -126,6 +128,9 @@ uploadKameHouseMobileApkToGDrive() {
   if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}" ]; then
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
+    log.info "Deployed kamehouse-mobile status"
+    log.info "ls -lh ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
+    ls -lh ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk
   fi
 
   if [ -d "${HOME}/GoogleDrive" ]; then
@@ -137,6 +142,9 @@ uploadKameHouseMobileApkToGDrive() {
   if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
+    log.info "Deployed kamehouse-mobile status"
+    log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
+    ls -lh ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk
   fi
 }
 
@@ -177,6 +185,9 @@ deployKameHouseUiStatic() {
       fi
     done <<< ${DIRECTORIES}
 
+    log.info "Deployed kamehouse-ui status"
+    log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
+    ls -lh ${HTTPD_CONTENT_ROOT}/kame-house
     log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
   fi
 }
@@ -209,6 +220,9 @@ deployKameHouseGroot() {
     local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
     echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
 
+    log.info "Deployed kamehouse-groot status"
+    log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
+    ls -lh ${HTTPD_CONTENT_ROOT}/kame-house-groot
     log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
     if [ "${MODULE_SHORT}" == "groot" ]; then
@@ -240,6 +254,9 @@ deployKameHouseMobileStatic() {
       fi
     done <<< ${DIRECTORIES}
 
+    log.info "Deployed kamehouse-mobile status"
+    log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
+    ls -lh ${HTTPD_CONTENT_ROOT}/kame-house-mobile
     log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
   fi
 }
