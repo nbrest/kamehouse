@@ -25,14 +25,15 @@ buildKameHouseStatic() {
 }
 
 checkBuildStaticOnly() {
-  if ${STATIC_ONLY}; then
-    if [[ -z "${MODULE}" ]]; then
-      log.info "Finished building static code for all modules"
-    else 
-      log.info "Finished building static code for module ${COL_PURPLE}${MODULE}"
-    fi
-    exitSuccessfully    
+  if ! ${STATIC_ONLY}; then
+    return
   fi 
+  if [[ -z "${MODULE}" ]]; then
+    log.info "Finished building static code for all modules"
+  else 
+    log.info "Finished building static code for module ${COL_PURPLE}${MODULE}"
+  fi
+  exitSuccessfully
 }
 
 buildKameHouseUiStatic() {
