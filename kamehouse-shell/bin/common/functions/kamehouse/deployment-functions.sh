@@ -106,8 +106,8 @@ deployKameHouseCmd() {
   chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   log.info "Deployed kamehouse-cmd status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*"
-  ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd*"
-  ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar"
+  ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd"*
+  ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd"*.jar
   checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
 
