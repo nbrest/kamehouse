@@ -218,11 +218,12 @@ buildKameHouseMobile() {
 }
 
 setLinuxBuildEnv() {
-  if ${IS_LINUX_HOST}; then
-    log.info "Setting android build env"
-    export ANDROID_SDK_ROOT=${HOME}/Android/Sdk
-    export PATH=${PATH}:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin
+  if ! ${IS_LINUX_HOST}; then
+    return
   fi
+  log.info "Setting android build env for linux"
+  export ANDROID_SDK_ROOT=${HOME}/Android/Sdk
+  export PATH=${PATH}:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin
 }
 
 prepareCordovaProject() {

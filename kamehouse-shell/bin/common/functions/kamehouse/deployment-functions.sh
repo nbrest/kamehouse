@@ -58,11 +58,12 @@ deployKameHouseBackend() {
 }
 
 deployTomcatModules() {
-  if ${DEPLOY_TO_TOMCAT}; then
-    executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
-    executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
-    deployToTomcat
+  if ! ${DEPLOY_TO_TOMCAT}; then
+    return
   fi
+  executeOperationInTomcatManager "stop" ${TOMCAT_PORT} ${MODULE_SHORT}
+  executeOperationInTomcatManager "undeploy" ${TOMCAT_PORT} ${MODULE_SHORT}
+  deployToTomcat
 }
 
 deployToTomcat() {
@@ -162,14 +163,15 @@ deployKameHouseStatic() {
   deployKameHouseUiStatic
   deployKameHouseGroot
   deployKameHouseMobileStatic
-  if ${STATIC_ONLY}; then
-    if [[ -z "${MODULE}" ]]; then
-      log.info "Finished deploying static code for all modules"
-    else 
-      log.info "Finished deploying static code for module ${COL_PURPLE}${MODULE}"
-    fi
-    exitSuccessfully    
+  if ! ${STATIC_ONLY}; then
+    return
   fi 
+  if [[ -z "${MODULE}" ]]; then
+    log.info "Finished deploying static code for all modules"
+  else 
+    log.info "Finished deploying static code for module ${COL_PURPLE}${MODULE}"
+  fi
+  exitSuccessfully    
 }
 
 deployKameHouseUiStatic() {
@@ -275,8 +277,9 @@ deployKameHouseMobileStatic() {
 }
 
 checkForDeploymentErrors() {
-  if [ "${EXIT_CODE}" != "0" ]; then
-    log.error "Error executing kamehouse deployment"
-    exitProcess ${EXIT_CODE}
+  if [ "${EXIT_CODE}" == "0" ]; then
+    return
   fi
+  log.error "Error executing kamehouse deployment"
+  exitProcess ${EXIT_CODE}
 }
