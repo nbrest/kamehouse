@@ -325,7 +325,9 @@ executeOperationInTomcatManager() {
   fi
 
   local URL_LIST="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list"
-  log.debug "curl url: ${URL_LIST}"
+  local URL_LIST_MASKED="${URL_LIST}"
+  URL_LIST_MASKED="`sed 's#://.*:.*@#://****:****@#' <<<"${URL_LIST_MASKED}"`"
+  log.debug "curl url: ${URL_LIST_MASKED}"
   local KAMEHOUSE_WEBAPPS=`curl "${URL_LIST}" 2>/dev/null | grep "/kame-house" | grep "${WEBAPP}" | awk -F':' '{print $1}'`
   
   if [ -z "${KAMEHOUSE_WEBAPPS}" ]; then
@@ -340,7 +342,9 @@ executeOperationInTomcatManager() {
   echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
     log.info "Executing ${COL_PURPLE}${OPERATION} ${KAMEHOUSE_WEBAPP}${COL_DEFAULT_LOG} in localhost:${TOMCAT_PORT}"
     local URL_OPERATION="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/${OPERATION}?path=${KAMEHOUSE_WEBAPP}"
-    log.debug "curl url: ${URL_OPERATION}"
+    local URL_OPERATION_MASKED="${URL_OPERATION}"
+    URL_OPERATION_MASKED="`sed 's#://.*:.*@#://****:****@#' <<<"${URL_OPERATION_MASKED}"`"
+    log.debug "curl url: ${URL_OPERATION_MASKED}"
     curl "${URL_OPERATION}" 2>/dev/null
     sleep 2
   done
