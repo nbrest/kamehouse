@@ -260,7 +260,7 @@ getKameHouseBuildVersion() {
 logKameHouseShellStatus() {
   log.info "Deployed kamehouse-shell status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_SHELL_PATH}"
-  ls -lh ${KAMEHOUSE_SHELL_PATH}
+  ls -lh "${KAMEHOUSE_SHELL_PATH}"
 }
 
 log.info() {

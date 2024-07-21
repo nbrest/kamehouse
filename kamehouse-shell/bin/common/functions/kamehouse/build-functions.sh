@@ -250,7 +250,7 @@ buildCordovaProject() {
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
 
   log.info "Built apk file status"
-  ls -lh ${KAMEHOUSE_ANDROID_APK_PATH}
+  ls -lh "${KAMEHOUSE_ANDROID_APK_PATH}"
 }
 
 deleteStaticFilesOnMobile() {
