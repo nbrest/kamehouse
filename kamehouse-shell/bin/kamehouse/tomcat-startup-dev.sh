@@ -19,8 +19,8 @@ TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 
 mainProcess() {
-  setGlobalVariables
-
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh false true
+  
   echo "********************************************************************************************"
   echo " Redirecting logs to ${TOMCAT_LOG}"
   echo ""
@@ -30,14 +30,6 @@ mainProcess() {
   # Start with jpda start to be able to remote debug on port 8000 (default port)
   log.debug "${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
   ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG} 
-}
-
-setGlobalVariables() {
-  TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
-  TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
-  if ${IS_LINUX_HOST}; then
-    source ${HOME}/programs/kamehouse-shell/bin/lin/bashrc/java-home.sh
-  fi
 }
 
 main "$@"
