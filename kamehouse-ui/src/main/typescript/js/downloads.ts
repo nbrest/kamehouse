@@ -35,6 +35,7 @@ class DownloadsManager {
         }
         kameHouse.logger.info("APK status iframe loaded", null);
         const apkStatusIframe = document.getElementById("apk-status-iframe") as HTMLIFrameElement;
+        apkStatusIframe.contentWindow.postMessage("apk-status-loaded-ack", "*");
         kameHouse.util.dom.classListRemove(apkStatusIframe, "hidden-kh");
         const apkStatusNotAvailableDiv = document.getElementById("apk-status-not-available");
         kameHouse.util.dom.classListAdd(apkStatusNotAvailableDiv, "hidden-kh");

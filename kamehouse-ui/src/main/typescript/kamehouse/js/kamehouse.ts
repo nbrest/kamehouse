@@ -22,6 +22,7 @@ class KameHouse {
   header: KameHouseHeader;
   session = {} as SessionStatus;
   extension = {
+    apkStatus: null,
     batcave: null,
     batcaveShell: null,
     batcaveServerManager: null,
