@@ -56,18 +56,19 @@ runFullContinuousIntegrationBuild() {
 }
 
 gitCloneKameHouse() {
-  if ! ${USE_CURRENT_DIR}; then
-    if [ ! -d "${PROJECT_DIR}" ]; then
-      log.info "Cloning kamehouse git repository into ${COL_PURPLE}${PROJECT_DIR}"
-      mkdir -p ${HOME}/git/jenkins
-      cd ${HOME}/git/jenkins
-      git clone https://github.com/nbrest/kamehouse.git
-      cd kamehouse
-      checkCommandStatus "$?" "Invalid kamehouse project root directory for jenkins `pwd`"
-    else
-      log.info "jenkins kamehouse repository already exists: ${COL_PURPLE}${PROJECT_DIR}"
-    fi
+  if ${USE_CURRENT_DIR}; then
+    return
   fi
+  if [ -d "${PROJECT_DIR}" ]; then
+    log.info "jenkins kamehouse repository already exists: ${COL_PURPLE}${PROJECT_DIR}"
+    return
+  fi
+  log.info "Cloning kamehouse git repository into ${COL_PURPLE}${PROJECT_DIR}"
+  mkdir -p ${HOME}/git/jenkins
+  cd ${HOME}/git/jenkins
+  git clone https://github.com/nbrest/kamehouse.git
+  cd kamehouse
+  checkCommandStatus "$?" "Invalid kamehouse project root directory for jenkins `pwd`"
 }
 
 gitResetBranch() {

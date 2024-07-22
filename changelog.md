@@ -8,14 +8,17 @@
 #### v9.02
 
 - **Moved javascript code to typescript**
-- Refactored and simplified build and deployed scripts for both standard and dev deployments
+- Refactored completely frontend code build process using typescript and npm
+- Refactored and simplified build and deploy scripts for both standard and dev deployments and other shell scripts
+- Refactored set-java-home script
+- Fixed scripts that need to avoid logging to file
+- Removed option to tail-log in remote servers
 - Removed ide specific setup and script parameters
 - Updated under construction modal
 - Updated vscode debugger configurations
 - Updated groot tail log wait time
 - Simplified apache httpd dev setup and configuration
 - Removed access to static kamehouse-ui files from tomcat. Only accessible through apache httpd
-- Refatored completely frontend code build process using typescript and npm
 - Updated log script runtime function
 - Added more bash colors
 - Added script name to log entries

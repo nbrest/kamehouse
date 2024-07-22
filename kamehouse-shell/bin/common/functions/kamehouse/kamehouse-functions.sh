@@ -26,9 +26,8 @@ MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
 DEFAULT_MAVEN_PROFILE="prod"
 MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
-KAMEHOUSE_SERVERS_LIST="(docker|local|niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
-DEFAULT_KAMEHOUSE_SERVER="local"
-KAMEHOUSE_SERVER="${DEFAULT_KAMEHOUSE_SERVER}"
+KAMEHOUSE_SERVERS_LIST="(niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
+KAMEHOUSE_SERVER=""
 
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
 TOMCAT_DIR_DEV="${HOME}/programs/apache-tomcat-dev"
@@ -163,21 +162,22 @@ setEnvForHttpdPort() {
 }
 
 setEnvForKameHouseModule() {
-  if [ -n "${MODULE_SHORT}" ]; then
-    if [ "${MODULE_SHORT}" != "admin" ] \
-        && [ "${MODULE_SHORT}" != "cmd" ] \
-        && [ "${MODULE_SHORT}" != "groot" ] \
-        && [ "${MODULE_SHORT}" != "media" ] \
-        && [ "${MODULE_SHORT}" != "mobile" ] \
-        && [ "${MODULE_SHORT}" != "shell" ] \
-        && [ "${MODULE_SHORT}" != "tennisworld" ] \
-        && [ "${MODULE_SHORT}" != "testmodule" ] \
-        && [ "${MODULE_SHORT}" != "ui" ] \
-        && [ "${MODULE_SHORT}" != "vlcrc" ]; then
-      log.error "Option -m module needs to be in ${MODULES_LIST}"
-      printHelp
-      exitProcess ${EXIT_INVALID_ARG}
-    fi
+  if [ -z "${MODULE_SHORT}" ]; then
+    return
+  fi
+  if [ "${MODULE_SHORT}" != "admin" ] \
+      && [ "${MODULE_SHORT}" != "cmd" ] \
+      && [ "${MODULE_SHORT}" != "groot" ] \
+      && [ "${MODULE_SHORT}" != "media" ] \
+      && [ "${MODULE_SHORT}" != "mobile" ] \
+      && [ "${MODULE_SHORT}" != "shell" ] \
+      && [ "${MODULE_SHORT}" != "tennisworld" ] \
+      && [ "${MODULE_SHORT}" != "testmodule" ] \
+      && [ "${MODULE_SHORT}" != "ui" ] \
+      && [ "${MODULE_SHORT}" != "vlcrc" ]; then
+    log.error "Option -m module needs to be in ${MODULES_LIST}"
+    printHelp
+    exitProcess ${EXIT_INVALID_ARG}
   fi
 }
 
@@ -185,25 +185,18 @@ setEnvForKameHouseServer() {
   SSH_SERVER=${KAMEHOUSE_SERVER}
   KAMEHOUSE_SERVER=$(echo "${KAMEHOUSE_SERVER}" | tr '[:upper:]' '[:lower:]')
 
-  if [ "${KAMEHOUSE_SERVER}" != "docker" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "local" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "niko-nba" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "niko-server" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "niko-server-vm-ubuntu" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "niko-w" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "niko-w-vm-ubuntu" ] &&
-    [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
+  if [ "${KAMEHOUSE_SERVER}" != "niko-nba" ] &&
+      [ "${KAMEHOUSE_SERVER}" != "niko-server" ] &&
+      [ "${KAMEHOUSE_SERVER}" != "niko-server-vm-ubuntu" ] &&
+      [ "${KAMEHOUSE_SERVER}" != "niko-w" ] &&
+      [ "${KAMEHOUSE_SERVER}" != "niko-w-vm-ubuntu" ] &&
+      [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
     log.error "Option -z server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
   case ${KAMEHOUSE_SERVER} in
-  "docker")
-    IS_REMOTE_LINUX_HOST=true
-    SSH_USER=${DEFAULT_SSH_USER}
-    ;;
-  "local") ;;
   "niko-nba")
     IS_REMOTE_LINUX_HOST=false
     SSH_USER=nbrest
@@ -264,7 +257,7 @@ printKameHouseModuleOption() {
 }
 
 printKameHouseServerOption() {
-  addHelpOption "-z ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on. Default is ${DEFAULT_KAMEHOUSE_SERVER}"
+  addHelpOption "-z ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on" "r"
 }
 
 printMavenProfileOption() {

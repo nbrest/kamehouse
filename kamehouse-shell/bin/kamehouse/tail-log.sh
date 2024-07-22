@@ -14,16 +14,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-functions.sh
-if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
-  exit 99
-fi
-
 LOG_PROCESS_TO_FILE=false
 # Initial config
 APACHE_LOG_DIR="programs/apache-httpd/logs"
-DEFAULT_ENV="local"
 DEFAULT_LOG_LEVEL="trace"
 DEFAULT_NUM_LINES="30"
 
@@ -45,13 +38,7 @@ USER_HOME=""
 
 mainProcess() {
   setTailLogParameters
-  if [ "${KAMEHOUSE_SERVER}" == "local" ]; then
-    tailLog
-  else
-    # Tail log remotely
-    setSshParameters
-    executeSshCommand
-  fi
+  tailLog
 }
 
 setTailLogParameters() {
@@ -150,17 +137,6 @@ addFileToLogFiles() {
   fi
 }
 
-setSshParameters() {
-  SSH_COMMAND="${SCRIPT_NAME} -z local -f ${FILE_ARG} -n ${NUM_LINES} -l ${LOG_LEVEL_ARG}"
-  if ${FILTER_EXTRA_LINES}; then
-    SSH_COMMAND=${SSH_COMMAND}" -x"
-  fi
-  if [ "${KAMEHOUSE_SERVER}" == "docker" ]; then
-    SSH_SERVER=localhost
-    SSH_PORT=${DOCKER_PORT_SSH}
-  fi
-}
-
 tailLog() {
   log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${KAMEHOUSE_SERVER}${COL_DEFAULT_LOG}"
   log.debug "tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG} -v filterExtraLines=${FILTER_EXTRA_LINES}"
@@ -173,11 +149,8 @@ ctrlC() {
   exitSuccessfully
 }
 
-parseArguments() {
-  parseDockerProfile "$@"
-  parseKameHouseServer "$@"
-  
-  while getopts ":f:l:n:p:qxz:" OPT; do
+parseArguments() {  
+  while getopts ":f:l:n:qx" OPT; do
     case $OPT in
     "f")
       setFileArg "$OPTARG"
@@ -252,9 +225,6 @@ setNumLinesArg() {
 }
 
 setEnvFromArguments() {
-  setEnvForDockerProfile
-  setEnvForKameHouseServer
-
   checkRequiredOption "-f" "${FILE_ARG}"
 
   if [ -z "${LOG_LEVEL_ARG}" ]; then
@@ -267,10 +237,8 @@ printHelpOptions() {
   addHelpOption "-f (apache|apache-error|build|cmd|deploy|kamehouse|tomcat|tomcat-dev|logs/*.log)" "log file to tail" "r"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
-  printDockerProfileOption
   addHelpOption "-q" "quit after tailing once. Don't follow log"
   addHelpOption "-x" "Filter extra lines that don't have a log level tag, like bash command outputs"
-  printKameHouseServerOption
 }
 
 main "$@"

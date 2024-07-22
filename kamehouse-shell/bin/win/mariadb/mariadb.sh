@@ -8,8 +8,10 @@ if [ "$?" != "0" ]; then
 fi
 
 source ${HOME}/.kamehouse/.shell/.cred
+LOG_PROCESS_TO_FILE=false
 
 mainProcess() {
+  log.info "mariadb -u root -p***"
   mariadb -u root -p${MARIADB_PASS_ROOT_WIN}
 }
 

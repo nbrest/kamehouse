@@ -6,12 +6,12 @@
 setJavaHome() {
   OVERRIDE=$1
   LOG_INFO=$2
-  setJavaHomeLogger.info "Current JAVA_HOME=${JAVA_HOME} OVERRIDE=${OVERRIDE}"  "${LOG_INFO}"
+  setJavaHomeLogger "Current JAVA_HOME=${JAVA_HOME} OVERRIDE=${OVERRIDE}" "${LOG_INFO}"
   if [[ "${OVERRIDE}" == "false" && -n "${JAVA_HOME}" ]]; then
-    setJavaHomeLogger.info "Using already set JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
+    setJavaHomeLogger "Using already set JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
     return
   fi
-  setJavaHomeLogger.info "Setting new value for JAVA_HOME" "${LOG_INFO}"
+  setJavaHomeLogger "Setting new value for JAVA_HOME" "${LOG_INFO}"
   ### Java 17
   # Sort them in order from less priority to highest priority 
   # so the last one that matches is the one I want
@@ -24,18 +24,14 @@ setJavaHome() {
   if [ -d "/usr/lib/jvm/java-17-openjdk-amd64" ]; then
     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
   fi
-  setJavaHomeLogger.info "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
+  setJavaHomeLogger "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
 }
 
-setJavaHomeLogger.info() {
+setJavaHomeLogger() {
   local LOG_MESSAGE=$1
   local LOG_INFO=$2
   if ${LOG_INFO}; then
-    local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-    local LOG_LEVEL="${COL_BLUE}INFO${COL_NORMAL}"
-    local CLASS_NAME="${COL_CYAN_STD}${SCRIPT_NAME}${COL_NORMAL}"
-    local MESSAGE="${COL_DEFAULT_LOG}${LOG_MESSAGE}${COL_NORMAL}"
-    echo -e "${ENTRY_DATE} - [${LOG_LEVEL}] - ${CLASS_NAME} - ${MESSAGE}"
+    log.info "${LOG_MESSAGE}"
   fi
 }
 
