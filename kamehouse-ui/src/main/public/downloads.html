@@ -53,41 +53,77 @@
           </tbody>
         </table>
       </div>
-      <div id="kamehouse-mobile-sample-section">
-        <table class="kamehouse-slideshow-table">
-          <caption class="hidden-kh">SlideShow table</caption>
-          <thead class="hidden-kh"><tr><th>SlideShow table</th></tr></thead>
+      <div class="android-sample-links-section">
+        <div id="kamehouse-mobile-sample-section">
+          <table class="kamehouse-slideshow-table">
+            <caption class="hidden-kh">SlideShow table</caption>
+            <thead class="hidden-kh"><tr><th>SlideShow table</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="kamehouse-slideshow-table-prev-td">
+                  <button class="kamehouse-slideshow-prev" onclick="kameHouse.plugin.slideshow.prevSlide()">&#10094;</button>
+                </td>
+                <td class="kamehouse-slideshow-table-slides-td">
+                  <img src="/kame-house/img/android/kamehouse-mobile-screenshot-1.jpg" class="kamehouse-slideshow-slide android-slideshow-img" alt="KameHouse Mobile Screenshot">
+                  <img src="/kame-house/img/android/kamehouse-mobile-screenshot-2.jpg" class="kamehouse-slideshow-slide android-slideshow-img" alt="KameHouse Mobile Screenshot">
+                  <img src="/kame-house/img/android/kamehouse-mobile-screenshot-3.jpg" class="kamehouse-slideshow-slide android-slideshow-img" alt="KameHouse Mobile Screenshot">
+                </td>
+                <td class="kamehouse-slideshow-table-next-td">
+                  <button class="kamehouse-slideshow-next" onclick="kameHouse.plugin.slideshow.nextSlide()">&#10095;</button>   
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="kamehouse-slideshow-dot" onclick="kameHouse.plugin.slideshow.setDotSlide(1)"></button>
+          <button class="kamehouse-slideshow-dot" onclick="kameHouse.plugin.slideshow.setDotSlide(2)"></button>
+          <button class="kamehouse-slideshow-dot" onclick="kameHouse.plugin.slideshow.setDotSlide(3)"></button>
+        </div>
+        <div id="kamehouse-mobile-links-section">
+          <div id="android-app-qrcode">
+            <img class="android-app-qrcode" src="/kame-house/img/qr-code/kamehouse-android-qr-code.png" alt="Android QR Code" />
+          </div>
+          <a class="" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk"><img class="mobile-app-btn" src="/kame-house/img/android/download-for-android.png" alt="android icon"></a>
+          <br><br>
+          <div class="disclaimer-warning">
+            <p class="disclaimer">Disclaimer: <span class="bold-kh">KameHouse</span> mobile app is provided without any warranties. Install in your phone at your own risk</p>
+            <p>Instructions on how to build the app yourself can also be found on <a class="mobile-href-link" href="https://github.com/nbrest/kamehouse/blob/dev/kamehouse-mobile/README.md">github</a></p>
+          </div>
+        </div>
+      </div>
+      <div id="apk-status-not-available" class="apk-status-not-available apk-status">
+        <h4 class="h4-kh">Android APK Status</h4>
+        <ul>
+          <li class="li-wc-kh">Primero, Argentina gano el mundial 2022. Segundo, Francia</li>
+          <li class="li-wc-kh"><span class="bold-kh">APK Build Version:</span> N/A</li>
+          <li class="li-wc-kh"><span class="bold-kh">APK Deploy Date:</span> N/A</li>
+          <li class="li-kh"><span class="bold-kh">APK sha256sum:</span> N/A</li>
+        </ul>
+      </div>
+      <div class="apk-status-iframe-wrapper">
+        <iframe src="https://kame.nicobrest.com/kame-house-mobile/kamehouse-apk.html" title="APK Status" id="apk-status-iframe" class="apk-status hidden-kh"></iframe>
+      </div>
+      <div class="info-image-wrapper-m-60-60">
+        <table class="info-image-table info-image-table">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
           <tbody>
             <tr>
-              <td class="kamehouse-slideshow-table-prev-td">
-                <button class="kamehouse-slideshow-prev" onclick="kameHouse.plugin.slideshow.prevSlide()">&#10094;</button>
+              <td class="info-image-img">
+                <img src="/kame-house/img/banners/world-cup-2022/banner-world-cup-champions.jpg" alt="info img"/>
               </td>
-              <td class="kamehouse-slideshow-table-slides-td">
-                <img src="/kame-house/img/android/kamehouse-mobile-screenshot-1.jpg" class="kamehouse-slideshow-slide android-slideshow-img" alt="KameHouse Mobile Screenshot">
-                <img src="/kame-house/img/android/kamehouse-mobile-screenshot-2.jpg" class="kamehouse-slideshow-slide android-slideshow-img" alt="KameHouse Mobile Screenshot">
-                <img src="/kame-house/img/android/kamehouse-mobile-screenshot-3.jpg" class="kamehouse-slideshow-slide android-slideshow-img" alt="KameHouse Mobile Screenshot">
-              </td>
-              <td class="kamehouse-slideshow-table-next-td">
-                <button class="kamehouse-slideshow-next" onclick="kameHouse.plugin.slideshow.nextSlide()">&#10095;</button>   
+              <td class="info-image-info">
+                <div class="info-image-title info-image-title-bottom">
+                  ARGENTINA
+                </div>
+                <div class="info-image-desc">
+                  <p>Somos campeones del mundo la p**a madre!! Ganamos el mundial 2022!!!</p>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
-        <button class="kamehouse-slideshow-dot" onclick="kameHouse.plugin.slideshow.setDotSlide(1)"></button>
-        <button class="kamehouse-slideshow-dot" onclick="kameHouse.plugin.slideshow.setDotSlide(2)"></button>
-        <button class="kamehouse-slideshow-dot" onclick="kameHouse.plugin.slideshow.setDotSlide(3)"></button>
       </div>
-      <div id="kamehouse-mobile-links-section">
-        <div id="android-app-qrcode">
-          <img class="android-app-qrcode" src="/kame-house/img/qr-code/kamehouse-android-qr-code.png" alt="Android QR Code" />
-        </div>
-        <a class="" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse.apk"><img class="mobile-app-btn" src="/kame-house/img/android/download-for-android.png" alt="android icon"></a>
-        <br><br>
-        <div class="disclaimer-warning">
-          <p class="disclaimer">Disclaimer: <span class="bold-kh">KameHouse</span> mobile app is provided without any warranties. Install in your phone at your own risk</p>
-          <p>I suggest you compare the SHA-256 of the downloaded apk file with the one found <a class="mobile-href-link" href="https://kame.nicobrest.com/kame-house-mobile/kamehouse-apk.html">here</a>. Instructions on how to build the app yourself can also be found on <a class="mobile-href-link" href="https://github.com/nbrest/kamehouse/tree/master/kamehouse-mobile">github</a></p>
-        </div>
-      </div>
+
     </div>
   </div>
   <span id="debug-mode-wrapper"></span>

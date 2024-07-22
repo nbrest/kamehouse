@@ -26,6 +26,7 @@ class KameHouse {
     batcaveShell: null,
     batcaveServerManager: null,
     batcaveTailLogManager: null,
+    downloadsManager: null,
     dragonBallUserServiceJsp: null,
     groot: null,
     kameHouseUserCrudManager: null,

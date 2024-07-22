@@ -26,6 +26,40 @@
   }
 }
 
+.android-sample-links-section {
+  display: flow-root;
+}
+
+.apk-status {
+  float: none;
+  width: 100%;
+  border: none;
+  margin-top: 60px;
+  min-height: 315px;
+}
+
+@media (max-width : 900px) {
+  .apk-status {
+    min-height: 400px;
+  }  
+}
+
+.apk-status-iframe-wrapper {
+  float: none;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin:auto;
+}
+
+.apk-status-not-available {
+  float: none;
+  display: block;
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
 .disclaimer {
   font-weight: bold;
 }
