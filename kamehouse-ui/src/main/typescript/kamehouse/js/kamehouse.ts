@@ -2154,9 +2154,14 @@ class KameHouseCore {
    * Load sticky back to top.
    */
   loadStickyBackToTop() {
-    kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-sticky-back-to-top.js", () => {
-      kameHouse.logger.info("Loaded sticky-back-to-top.js", null);
-    });
+    const skipStickyBackToTop = this.getBooleanKameHouseData("skip-sticky-back-to-top");
+    if (!skipStickyBackToTop) {
+      kameHouse.util.fetch.getScript("/kame-house/kamehouse/js/plugin/kamehouse-sticky-back-to-top.js", () => {
+        kameHouse.logger.info("Loaded sticky-back-to-top.js", null);
+      });
+    } else {
+      kameHouse.logger.info("Skip sticky-back-to-top data set to true", null);
+    }
   }
 
   /**
