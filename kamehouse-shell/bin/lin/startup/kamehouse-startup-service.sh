@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Startup script. This script is meant to be executed as a service at boot time by root.
-# It can be deployed using rc-local-deploy.sh and then it should execute at boot.
+# It can be deployed using kamehouse-startup-service-deploy.sh and then it should execute at boot.
 
 SCRIPT_NAME=`basename "$0"`
 COL_BLUE="\033[1;34m"
@@ -18,7 +18,7 @@ COL_MESSAGE=${COL_GREEN}
 
 # KAMEHOUSE_USER gets set during install kamehouse-shell
 KAMEHOUSE_USER=""
-LOG_FILE=/home/${KAMEHOUSE_USER}/logs/rc-local.log
+LOG_FILE=/home/${KAMEHOUSE_USER}/logs/kamehouse-startup-service.log
 
 # Exit codes
 EXIT_SUCCESS=0
@@ -28,11 +28,11 @@ EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
 main() {
-  log.info "Starting rc-local.sh" > ${LOG_FILE}
+  log.info "Starting kamehouse-startup-service.sh" > ${LOG_FILE}
   checkEnv
   startTomcat
   setPermissions
-  log.info "Finished rc-local.sh" >> ${LOG_FILE}
+  log.info "Finished kamehouse-startup-service.sh" >> ${LOG_FILE}
 }
 
 checkEnv() {

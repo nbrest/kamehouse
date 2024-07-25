@@ -8,11 +8,11 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  log.info "Undeploying rc-local.sh systemd service"
+  log.info "Undeploying kamehouse-startup-service.sh systemd service"
   log.warn "User running this script needs ${COL_RED}sudo rm,systemctl${COL_DEFAULT_LOG} permissions"
-  sudo rm /etc/systemd/system/rc-local.service 
+  sudo rm /etc/systemd/system/kamehouse-startup.service 
   sudo systemctl daemon-reload
-  sudo systemctl disable rc-local.service
+  sudo systemctl disable kamehouse-startup.service
 }
 
 main "$@"

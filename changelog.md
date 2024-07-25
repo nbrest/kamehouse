@@ -11,6 +11,7 @@
 - Refactored completely frontend code build process using typescript and npm
 - Refactored and simplified build and deploy scripts for both standard and dev deployments and other shell scripts
 - Refactored set-java-home script
+- Renamed rc-local service to kamehouse-startup-service
 - Embedded android apk status into an iframe on the downloads page
 - Fixed scripts that need to avoid logging to file
 - Removed option to tail-log in remote servers
