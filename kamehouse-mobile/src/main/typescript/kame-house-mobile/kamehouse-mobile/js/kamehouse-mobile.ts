@@ -64,11 +64,11 @@ class KameHouseMobileCore {
         if (responseBody.includes("KameHouse - Login")) {
           const message = "Login error - invalid credentials. Redirected back to login";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-          kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(" Invalid credentials"), 1000);
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("Invalid credentials"), 1000);
           return;
         }
         kameHouse.logger.info("Login successful", null);
-        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getSuccessModalHtml(" Success!"), 1000);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getSuccessModalHtml("Success!"), 1000);
         this.#setSuccessfulLoginView();
         this.#setSuccessfulLoginConfig();
         kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(false);
@@ -78,7 +78,7 @@ class KameHouseMobileCore {
         if (responseCode == 401 || responseCode == 403) {
           const message = "Login error - invalid credentials";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-          kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(" Invalid credentials"), 1000);
+          kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("Invalid credentials"), 1000);
           return;
         }
         const message = "Error connecting to the backend to login. Response code: " + responseCode;
@@ -111,7 +111,7 @@ class KameHouseMobileCore {
         }
         const message = "Logout error: " + kameHouse.json.stringify(responseBody, null, null);
         kameHouse.logger.error(message, null);
-        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(" Error logging out. Try again later"), 1000);
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("Error logging out. Try again later"), 1000);
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
@@ -330,7 +330,7 @@ class KameHouseMobileCore {
   #getSuccessModalHtml(message) {
     const img = kameHouse.util.dom.getImg({
       src: "/kame-house/img/dbz/goku.png",
-      className: "img-btn-kh",
+      className: "img-btn-kh status-modal-btn",
       alt: "Success modal"
     });
     const div = kameHouse.util.dom.getDiv(null, null);
@@ -345,7 +345,7 @@ class KameHouseMobileCore {
   #getErrorModalHtml(message) {
     const img = kameHouse.util.dom.getImg({
       src: "/kame-house/img/other/cancel-shallow-red-dark.png",
-      className: "img-btn-kh",
+      className: "img-btn-kh status-modal-btn",
       alt: "Error modal"
     });
     const div = kameHouse.util.dom.getDiv(null, null);

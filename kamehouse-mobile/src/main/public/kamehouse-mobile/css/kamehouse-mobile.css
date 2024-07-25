@@ -88,6 +88,13 @@
   margin-bottom: 20px;
 }
 
+.status-modal-btn {
+  margin-left: 0px;
+  margin-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 /** animation: contract and expand in 10 seconds */
 .contract-10 {
   animation: contract-10 10s infinite linear;
