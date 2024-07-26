@@ -165,7 +165,7 @@ executeIntegrationTestsLoop() {
 executeIntegrationTests() {
   local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
   log.info "Executing request to ${COL_PURPLE}${URL}"
-  local CURL_RESPONSE=`curl --max-time 420 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
+  local CURL_RESPONSE=`curl --max-time 900 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
   echo ${CURL_RESPONSE} | grep "${INTEGRATION_TESTS_SUCCESS_MESSAGE}" > /dev/null
   local INTEGRATION_TESTS_RESULT="$?"
   log.trace "INTEGRATION_TESTS_RESULT ${INTEGRATION_TESTS_RESULT}"
