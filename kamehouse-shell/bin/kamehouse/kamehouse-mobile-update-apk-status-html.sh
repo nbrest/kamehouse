@@ -14,8 +14,8 @@ if [ "$?" != "0" ]; then
 fi
 
 KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
-KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-template.html
-KAMEHOUSE_APK_HTML=kamehouse-apk.html
+KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-status-template.html
+KAMEHOUSE_APK_HTML=kamehouse-apk-status.html
 BUILD_VERSION=""
 
 mainProcess() {

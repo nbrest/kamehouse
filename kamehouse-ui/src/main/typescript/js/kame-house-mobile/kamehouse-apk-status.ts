@@ -1,5 +1,5 @@
 /**
- * Apk Status page. 
+ * Kamehouse Mobile Apk Status page. 
  * 
  * @author nbrest
  */
