@@ -24,6 +24,7 @@ mainProcess() {
 
   log.info "Copying html from template"
   cp ${KAMEHOUSE_APK_HTML_TEMPLATE} ${KAMEHOUSE_APK_HTML}
+  chmod a+r ${KAMEHOUSE_APK_HTML}
 
   log.info "Updating hash"
   local SHA_HASH=`sha256sum kamehouse.apk | awk '{print $1}'`
