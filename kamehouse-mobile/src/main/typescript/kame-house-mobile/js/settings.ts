@@ -37,23 +37,38 @@ class KameHouseMobileSettings {
     if (!kameHouse.core.isEmpty(requestTimeout)) {
       const message = "Unable to connect to the backend. Try again later. responseCode: " + responseCode;
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-      kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(message), 5000);
       return;
     }
     if (!kameHouse.core.isEmpty(sslError)) {
       const message = "SSL error connecting to the backend. Check SSL certificate on server or skip ssl validation. responseCode: " + responseCode;
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-      kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(message), 5000);
       return;
     }
     const unauthorizedPageAccess = urlParams.get('unauthorizedPageAccess');
     if (!kameHouse.core.isEmpty(unauthorizedPageAccess)) {
       const message = "User is not authorized to access the page. Login with an authorized user. responseCode: " + responseCode;
       kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-      kameHouse.plugin.modal.basicModal.openAutoCloseable(message, 5000);
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(message), 5000);
       return;
     }
   }
+
+  /**
+   * Get error modal html.
+   */
+  #getErrorModalHtml(message) {
+    const img = kameHouse.util.dom.getImg({
+      src: "/kame-house/img/other/cancel-shallow-red-dark.png",
+      className: "img-btn-kh status-modal-btn",
+      alt: "Error modal"
+    });
+    const div = kameHouse.util.dom.getDiv(null, null);
+    kameHouse.util.dom.append(div, img);
+    kameHouse.util.dom.append(div, message);
+    return div;
+  }  
 } 
 
 kameHouse.ready(() => {
