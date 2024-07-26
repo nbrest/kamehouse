@@ -5,6 +5,11 @@
 
 # ChangeLog:
 
+#### v9.03
+
+- Increased integration tests timeout to 20 minutes
+- Fixed bugs
+
 #### v9.02
 
 - **Moved javascript code to typescript**
