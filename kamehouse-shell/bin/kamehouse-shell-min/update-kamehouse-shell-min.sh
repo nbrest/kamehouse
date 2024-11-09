@@ -26,6 +26,7 @@ pullChangesFromGit() {
 
 updateKameHouseShellMin() {
   log.info "Updating kamehouse-shell-min source files from ${COL_PURPLE}${SRC_PROJECT_DIR}"
+  rm -rf ${PROJECT_DIR}/bin
   mkdir -p ${PROJECT_DIR}/bin/common/functions/git
   cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/colors-functions.sh ${PROJECT_DIR}/bin/common/functions/
   cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/common-functions.sh ${PROJECT_DIR}/bin/common/functions/
