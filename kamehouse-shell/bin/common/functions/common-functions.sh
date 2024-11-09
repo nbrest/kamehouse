@@ -62,6 +62,8 @@ ROOT_PREFIX="/mnt"
 
 # Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
 LOG_PROCESS_TO_FILE=true
+# Create logs dir
+mkdir -p ${HOME}/logs
 # File to log the output of the process to.
 PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME%.*}.log
 

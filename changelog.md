@@ -8,6 +8,7 @@
 #### v9.03
 
 - Increased integration tests timeout to 20 minutes
+- Added script to export minimal kamehouse shell to use on other projects
 - Fixed bugs
 
 #### v9.02

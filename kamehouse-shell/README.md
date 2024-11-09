@@ -24,4 +24,4 @@ sudo usermod -a -G adm username
 
 ### Windows:
 
-- Use windows task scheduler to schedule every X minutes the keep-alive-*.bat that calls the keep-alive-*.sh 
+- Use windows task scheduler to schedule every X minutes the keep-alive-\*.bat that calls the keep-alive-\*.sh 
