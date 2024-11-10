@@ -45,7 +45,7 @@ updateCommonFunctionsImport() {
 updateCommitVersionInReadme() {
   log.info "Updating readme with git commit hash ${COL_PURPLE}${GIT_COMMIT_HASH}"
   cd ${PROJECT_DIR}
-  sed -i -E "s#Currently using commit version \[.*\]\(https://github\.com/nbrest/kamehouse/tree/.*\)#Currently using commit version \[${GIT_COMMIT_HASH}\]\(https://github\.com/nbrest/kamehouse/tree/${GIT_COMMIT_HASH}\)#g" README.md
+  sed -i -E "s#Source files exported automatically from commit version \[.*\]\(https://github\.com/nbrest/kamehouse/tree/.*\)#Source files exported automatically from commit version \[${GIT_COMMIT_HASH}\]\(https://github\.com/nbrest/kamehouse/tree/${GIT_COMMIT_HASH}\)#g" README.md
 }
 
 pushChangesToGit() {
