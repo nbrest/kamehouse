@@ -1,6 +1,3 @@
-#######################################################################
-# This file should be imported through common-functions, not directly #
-#######################################################################
 # Default functions to execute default functionality when not overriden
 
 # Trap SIGINT to customize manual abort of the process.
