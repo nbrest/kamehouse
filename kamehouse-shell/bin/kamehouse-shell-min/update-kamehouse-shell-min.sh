@@ -15,7 +15,8 @@ mainProcess() {
   log.info "Updating kamehouse-shell-min git repo"
   pullChangesFromGit
   updateKameHouseShellMin
-  updateCommitVersionInReadme  
+  updateCommonFunctionsImport
+  updateCommitVersionInReadme
   pushChangesToGit
 }
 
@@ -27,12 +28,18 @@ pullChangesFromGit() {
 updateKameHouseShellMin() {
   log.info "Updating kamehouse-shell-min source files from ${COL_PURPLE}${SRC_PROJECT_DIR}"
   rm -rf ${PROJECT_DIR}/bin
-  mkdir -p ${PROJECT_DIR}/bin/common/functions/git
+  mkdir -p ${PROJECT_DIR}/bin/common/functions
   cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/colors-functions.sh ${PROJECT_DIR}/bin/common/functions/
   cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/common-functions.sh ${PROJECT_DIR}/bin/common/functions/
   cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/default-functions.sh ${PROJECT_DIR}/bin/common/functions/
   cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/log-functions.sh ${PROJECT_DIR}/bin/common/functions/
-  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/git/git-functions.sh ${PROJECT_DIR}/bin/common/functions/git/
+  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/minimal-functions.sh ${PROJECT_DIR}/bin/common/functions/
+}
+
+updateCommonFunctionsImport() {
+  log.info "Removing unnecessary imports from common-functions.sh"
+  cd ${PROJECT_DIR}/bin/common/functions/
+  sed -i "s# \"extended-functions.sh\" \"git/git-functions.sh\"##g" common-functions.sh
 }
 
 updateCommitVersionInReadme() {
