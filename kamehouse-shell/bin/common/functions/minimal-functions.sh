@@ -68,7 +68,7 @@ exitSuccessfully() {
 checkCommandStatus() {
   local COMMAND_RESULT="$1"
   local ERROR_MESSAGE="$2"
-  if [ "${ERROR_MESSAGE}" == "" ]; then
+  if [ -z "${ERROR_MESSAGE}" ]; then
     ERROR_MESSAGE="An error occurred executing last command"
   fi
   if [ "${COMMAND_RESULT}" != "0" ]; then

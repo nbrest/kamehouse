@@ -1,10 +1,7 @@
-#######################################################################
-# This file should be imported through common-functions, not directly #
-#######################################################################
-# Log functions to log events to the console with a more robust framework than just echoing.
+# Log functions to log events to the console with different log levels.
 # Default log level is INFO. Log everything included in this level and under.
-# Modify level by running scripts with LOG prefix. 
-# Example ` LOG=DEBUG scrit-name.sh ` or ` LOG=trace scrit-name.sh ` when executing script
+# Modify level by running scripts with LOG or log prefix. 
+# Example ` LOG=DEBUG scrit-name.sh ` or ` log=trace scrit-name.sh ` when executing script
 
 # 0: ERROR
 # 1: WARN
