@@ -35,13 +35,6 @@
   - Uncomment: `extension=mysqli`
   - Uncomment: `extension=pdo_mysql`
 
-#### For media server only:
-- Create link for streaming media-drive files through http
-```sh
-mklink /D "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver\kame-house-streaming\media-server\media-drive" "N:\"
-```
-- Then on the other servers in httpd config proxy /kame-house-streaming/media-server to media-server
-
 #### Run httpd through a startup script, not as a system service
 
 - Otherwise the command to start tomcat from kamehouse groot will start tomcat in the background and when I start vlc it will also start in the background. To avoid that, don't run httpd as a service. Start it up creating a shortcut in the startup directory
