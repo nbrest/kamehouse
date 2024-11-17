@@ -59,7 +59,7 @@ class VideoPlaylistServiceTest {
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_WINDOWS))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE_HTTP))
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_MEDIA_SERVER_NAME))
         .thenCallRealMethod();
@@ -103,7 +103,7 @@ class VideoPlaylistServiceTest {
 
     assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
     assertTrue(
-        returnedPlaylists.get(0).getPath().contains("http-media-server"));
+        returnedPlaylists.get(0).getPath().contains("video-kamehouse-remote"));
   }
 
   /**

@@ -20,9 +20,9 @@ mainProcess() {
 
 createPlaylists() {
   log.info "Creating playlists directories"
-  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/
-  mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/
-  cp -vr ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/
+  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
+  mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
+  cp -vr ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
 }
 
 updateMediaFiles() {
@@ -34,7 +34,7 @@ updateMediaFiles() {
 
 updatePlaylistEntriesHome() {
   log.info "Updating home path in playlist entries"
-  cd ${HOME}/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/
+  cd ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
   local USERNAME=`whoami`
   find . -regex ".*m3u" -type f -exec sed -i "s#/home/USERNAME#/home/${USERNAME}#g" {} \;
 }

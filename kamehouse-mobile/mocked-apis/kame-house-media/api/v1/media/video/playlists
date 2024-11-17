@@ -1,31 +1,31 @@
 [{
 	"name": "anime_all.m3u",
 	"category": "anime",
-	"path": "/home/goku/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/anime/anime_all.m3u",
+	"path": "/home/goku/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/anime/anime_all.m3u",
 	"files": null
 }, {
 	"name": "dbz.m3u",
 	"category": "anime",
-	"path": "/home/goku/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/anime/dbz.m3u",
+	"path": "/home/goku/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/anime/dbz.m3u",
 	"files": null
 }, {
 	"name": "batman_all.m3u",
 	"category": "movies/dc",
-	"path": "/home/goku/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/movies/dc/batman_all.m3u",
+	"path": "/home/goku/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/movies/dc/batman_all.m3u",
 	"files": null
 }, {
 	"name": "dc_comics_all.m3u",
 	"category": "movies/dc",
-	"path": "/home/goku/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/movies/dc/dc_comics_all.m3u",
+	"path": "/home/goku/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/movies/dc/dc_comics_all.m3u",
 	"files": null
 }, {
 	"name": "captain_america_all.m3u",
 	"category": "movies/marvel",
-	"path": "/home/goku/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/movies/marvel/captain_america_all.m3u",
+	"path": "/home/goku/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/movies/marvel/captain_america_all.m3u",
 	"files": null
 }, {
 	"name": "marvel_all.m3u",
 	"category": "movies/marvel",
-	"path": "/home/goku/git/kamehouse-video-playlists/playlists/http-media-server/media-drive/movies/marvel/marvel_all.m3u",
+	"path": "/home/goku/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/movies/marvel/marvel_all.m3u",
 	"files": null
 }]
