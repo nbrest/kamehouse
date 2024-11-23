@@ -67,12 +67,12 @@ https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonb
 https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonball/003-DBZ.avi
 ```
 
-- Assuming that your media server's ip is `192.168.0.2`
+- Assuming that your media server's ip is `192.168.0.2` and you are exposing the media in `D:\media\videos` through `http` on the url path `/kame-house-streaming/media-server/media/videos`
 
 ### Expose videos in media server to other local servers
 
 - Then expose your media server's `media` folder through `http` to your local network so that other servers can access the video files through http
 
-- One way to do that is creating a symlink from the `media` folder containing all your videos into your media server's http root content directory structure. Then all your videos in your media server should be accessible through `http` by your other devices in your local network
+- One way to do that is creating a symlink from the `D:\media` folder containing all your videos into your media server's http content path `/kame-house-streaming/media-server/media`. Then all your videos in your media server should be accessible through `http` by your other devices in your local network
 
 - You could also create the remote playlists using a network protocol different to `http`, like `sftp` or `smb` and create the remote playlists with that protocol instead
