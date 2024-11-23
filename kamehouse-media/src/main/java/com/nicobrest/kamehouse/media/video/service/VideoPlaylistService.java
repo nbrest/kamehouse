@@ -31,10 +31,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class VideoPlaylistService {
 
-  public static final String PROP_MEDIA_SERVER_NAME = "media.server.name";
-  public static final String PROP_PLAYLISTS_PATH_LINUX = "playlists.path.linux";
+  public static final String PROP_PLAYLISTS_SOURCE = "playlists.source";
+  public static final String PROP_PLAYLISTS_PATH_LOCAL = "playlists.path.local";
   public static final String PROP_PLAYLISTS_PATH_REMOTE = "playlists.path.remote";
-  public static final String PROP_PLAYLISTS_PATH_WINDOWS = "playlists.path.windows";
+  public static final String LOCAL = "local";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
   private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
@@ -219,14 +219,10 @@ public class VideoPlaylistService {
    */
   private static Path getBasePlaylistsPath() {
     String userHome = DockerUtils.getUserHome();
-    String mediaServer = PropertiesUtils.getProperty(PROP_MEDIA_SERVER_NAME);
     String playlistsPath;
-    if (isMediaServerLocalhost(mediaServer)) {
-      if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
-        playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_WINDOWS);
-      } else {
-        playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_LINUX);
-      }
+    String playlistsSource = PropertiesUtils.getProperty(PROP_PLAYLISTS_SOURCE);
+    if (LOCAL.equalsIgnoreCase(playlistsSource)) {
+      playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_LOCAL);
     } else {
       playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE);
     }
@@ -235,18 +231,6 @@ public class VideoPlaylistService {
       videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
     }
     return Paths.get(videoPlaylistsHome);
-  }
-
-  /**
-   * Checks if the current server running kamehouse is the media server.
-   */
-  private static boolean isMediaServerLocalhost(String mediaServer) {
-    if (StringUtils.isEmpty(mediaServer)) {
-      return false;
-    }
-    return mediaServer.equalsIgnoreCase(PropertiesUtils.getHostname())
-        || (DockerUtils.shouldControlDockerHost()
-        && mediaServer.equalsIgnoreCase(DockerUtils.getDockerHostHostname()));
   }
 
   /**
@@ -279,7 +263,7 @@ public class VideoPlaylistService {
     String absoluteParentFilePath = StringUtils.substringBeforeLast(filePath,
         FileUtils.getHostPathSeparator());
     String category = absoluteParentFilePath.substring(basePathLength + 1);
-    logger.trace("catetory: {}", category);
+    logger.trace("category: {}", category);
     if (category.startsWith(ANIME)) {
       return ANIME;
     }

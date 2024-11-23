@@ -20,7 +20,7 @@ import java.util.List;
 public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     implements TestUtils<Playlist, Object> {
 
-  public static final String MEDIA_SERVER = "niko-server";
+  public static final String MEDIA_SERVER = "kamehouse-media-server";
   public static final String API_V1_MEDIA_VIDEO_PLAYLIST = "/api/v1/media/video/playlist";
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
   public static final String TEST_PLAYLISTS_ROOT_DIR =
@@ -34,7 +34,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
           + File.separator
           + "playlists"
           + File.separator
-          + "localhost";
+          + "video-kamehouse-local";
 
   public static final String TEST_PLAYLISTS_REMOTE_HTTP_DIR =
       "src"

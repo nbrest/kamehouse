@@ -121,6 +121,7 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/maven/settings.xml /home/${KAMEH
 # /home/${KAMEHOUSE_USERNAME}/.config/vlc
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/vlc/* /home/${KAMEHOUSE_USERNAME}/.config/vlc/
 # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/config/.config /home/${KAMEHOUSE_USERNAME}/.kamehouse/.config
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.vnc.server.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.unlock.screen.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin

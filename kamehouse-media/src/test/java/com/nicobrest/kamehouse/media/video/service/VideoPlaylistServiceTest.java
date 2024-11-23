@@ -55,14 +55,12 @@ class VideoPlaylistServiceTest {
     when(PropertiesUtils.getHostname()).thenReturn(VideoPlaylistTestUtils.MEDIA_SERVER);
     when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
     when(DockerUtils.getUserHome()).thenReturn(""); // Use git project root as home
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_LINUX))
-        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_WINDOWS))
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_SOURCE))
+        .thenReturn(VideoPlaylistService.LOCAL);
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_LOCAL))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_MEDIA_SERVER_NAME))
-        .thenCallRealMethod();
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
   }
@@ -92,8 +90,10 @@ class VideoPlaylistServiceTest {
    */
   @Test
   void getAllRemoteMediaServerTest() {
-    when(PropertiesUtils.getHostname()).thenReturn("niko-kh-client");
-    when(DockerUtils.getHostname()).thenReturn("niko-kh-client");
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_SOURCE)).thenReturn(
+        "remote");
+    when(PropertiesUtils.getHostname()).thenReturn("kamehouse-remote-server");
+    when(DockerUtils.getHostname()).thenReturn("kamehouse-remote-server");
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenCallRealMethod();
 
     videoPlaylistTestUtils.clearFiles();

@@ -47,6 +47,7 @@ main() {
   generateKameHouseShellPathFile
   generateBuildVersion
   if ! ${INSTALL_SCRIPTS_ONLY}; then
+    installConfig
     installCred
     updateBashRc
   else
@@ -117,6 +118,15 @@ fixPermissions() {
       chmod u+rx ${DIRECTORY}
     fi
   done <<< ${DIRECTORIES}
+}
+
+installConfig() {
+  log.info "Installing config"
+  if [ ! -f "${HOME}/.kamehouse/.config" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/.config${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/
+    cp docker/config/.config ${HOME}/.kamehouse/.config
+  fi
 }
 
 installCred() {

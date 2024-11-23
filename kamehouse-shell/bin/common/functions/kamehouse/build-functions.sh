@@ -1,3 +1,5 @@
+source ${HOME}/.kamehouse/.config
+
 buildKameHouseStatic() {
   if ${INTEGRATION_TESTS}; then
     log.debug "Running integration tests, skippking static code build"
@@ -185,7 +187,8 @@ buildMavenCommand() {
   else
     log.info "Building all modules"
   fi
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE}"
+  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE} "
+  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.playlists.source=${PLAYLISTS_SOURCE_KAMEHOUSE} "
 }
 
 executeMavenCommand() {

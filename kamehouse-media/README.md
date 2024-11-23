@@ -23,17 +23,15 @@ This module handles the following functionality:
 
 ### Playlists folder structure
 
-- Create 3 separate directories under `/playlists`:
+- Create 2 separate directories under `/playlists`:
 
-    - `video-kamehouse-windows`: If the media server is a windows box, put the playlists here that will be accessed by a kamehouse instance running locally on the media server
+    - `video-kamehouse-local`: Put the playlists here to be accessed by kamehouse instances running on the media server which will access the video files locally
 
-    - `video-kamehouse-linux`: If the media server is a linux box, put the playlists here that will be accessed by a kamehouse instance running locally on the media server
-
-    - `video-kamehouse-remote`: Put the playlists here to be accessed by kamehouse instances running on all other servers except the media server. These instances will access the video files remotely
+    - `video-kamehouse-remote`: Put the playlists here to be accessed by kamehouse instances running on all other servers except the media server. These instances will access the video files remotely, most likely through `http`
 
 ### Playlist categories
 
-- The playlists in each of those directories need to be divided into `categories`, and each category is a folder. For example under `video-kamehouse-windows` you could have the subfolders `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
+- The playlists in each of those directories need to be divided into `categories`, and each category is a folder. For example under `video-kamehouse-local` you could have the subfolders `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
 
 - Put all the `m3u` for each category in the proper folder. For example you could **(and should!)** have a `dragonball.m3u` playlist under `anime`
 
@@ -41,11 +39,11 @@ This module handles the following functionality:
 
 ### Generate remote playlists
 
-- The remote playlists should be identical to the local windows or linux playlists, except that the prefix for each file will be changed. Instead of pointing to a local file, they will point to the remote media server that should be exposing the media files somehow
+- The remote playlists should be identical to the local playlists, except that the prefix for each file will be changed. Instead of pointing to a local file, they will point to the remote media server that should be exposing the media files somehow
 
 - One way to expose the video files in the media server to other servers, could be through the `http` server that runs kamehouse's ui in the media server
 
-- For example, assuming you are running the media server on windows, you could have a playlist `${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-windows/anime/dragonball.m3u` with the content:
+- For example, you could have a local playlist `${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-local/anime/dragonball.m3u` with the content:
 
 ```
 #EXTM3U
