@@ -1,4 +1,8 @@
 source ${HOME}/.kamehouse/.config
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mError importing ~/.kamehouse/.config\033[0;39m"
+  exit 99
+fi
 
 buildKameHouseStatic() {
   if ${INTEGRATION_TESTS}; then
