@@ -376,13 +376,13 @@ function getLogLevelColor(logLevel_fn_, logLevelColor_loc_) {
     logLevelColor_loc_ = COL_YELLOW;
   }
   if (isLogLevelInfo(logLevel_fn_)) {
-    logLevelColor_loc_ = COL_GREEN; 
+    logLevelColor_loc_ = COL_BLUE; 
   }
   if (isLogLevelDebug(logLevel_fn_)) {
-    logLevelColor_loc_ = COL_CYAN;
+    logLevelColor_loc_ = COL_GREEN;
   }
   if (isLogLevelTrace(logLevel_fn_)) { 
-    logLevelColor_loc_ = COL_BLUE; 
+    logLevelColor_loc_ = COL_CYAN; 
   }
   return logLevelColor_loc_;
 }
@@ -545,7 +545,7 @@ function printKamehouseJavaLog(date_loc_, time_loc_, thread_loc_, logLevel_loc_,
   addColumnToPrintLine(time_loc_, COL_CYAN);
   addColumnToPrintLine(thread_loc_, COL_PURPLE);
   addColumnToPrintLine(logLevel_loc_, logLevelColor_loc_);
-  addColumnToPrintLine(class_loc_, COL_PURPLE);
+  addColumnToPrintLine(class_loc_, COL_GREEN);
   addColumnToPrintLineNoOFS(dash_loc_, COL_BLUE);
   addColumnToPrintLineNoOFS(message_loc_, messageColor_loc_);
 
