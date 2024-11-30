@@ -55,7 +55,7 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 
 * [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/.shell/.cred` 
 
-* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/common/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
+* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
 
 * Then start both tomcat and apache to access kamehouse at http://localhost/kame-house or https://localhost/kame-house
 
