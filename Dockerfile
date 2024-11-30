@@ -121,11 +121,11 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/maven/settings.xml /home/${KAMEH
 # /home/${KAMEHOUSE_USERNAME}/.config/vlc
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/vlc/* /home/${KAMEHOUSE_USERNAME}/.config/vlc/
 # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/config/.config /home/${KAMEHOUSE_USERNAME}/.kamehouse/.config
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/config/kamehouse.cfg /home/${KAMEHOUSE_USERNAME}/.kamehouse/kamehouse.cfg
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.vnc.server.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.unlock.screen.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.cred /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/.cred
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/shell.pwd /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/shell.pwd
 
 # Copy docker setup folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
@@ -180,7 +180,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   service mariadb start ; \
   sleep 5 ; \
   service mariadb start ; \
-  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/.cred | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" ; \
+  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USERNAME}/docker/keys/shell.pwd | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" ; \
   mariadb < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql ; \
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql ; \
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql

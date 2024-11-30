@@ -122,19 +122,19 @@ fixPermissions() {
 
 installConfig() {
   log.info "Installing config"
-  if [ ! -f "${HOME}/.kamehouse/.config" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/.config${COL_MESSAGE} not found. Creating it from template"
+  if [ ! -f "${HOME}/.kamehouse/kamehouse.cfg" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/
-    cp docker/config/.config ${HOME}/.kamehouse/.config
+    cp docker/config/kamehouse.cfg ${HOME}/.kamehouse/kamehouse.cfg
   fi
 }
 
 installCred() {
   log.info "Installing credentials file"
-  if [ ! -f "${HOME}/.kamehouse/.shell/.cred" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/.shell/.cred${COL_MESSAGE} not found. Creating it from template"
+  if [ ! -f "${HOME}/.kamehouse/.shell/shell.pwd" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/.shell/shell.pwd${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/.shell/
-    cp docker/keys/.cred ${HOME}/.kamehouse/.shell/.cred
+    cp docker/keys/shell.pwd ${HOME}/.kamehouse/.shell/shell.pwd
   fi
   chmod -R 700 ${HOME}/.kamehouse
 }

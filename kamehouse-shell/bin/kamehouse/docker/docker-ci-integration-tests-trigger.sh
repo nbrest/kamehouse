@@ -20,7 +20,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 
 INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
 SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"

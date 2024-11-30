@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
 REQUEST_CONFIRMATION_RX=^yes\|y$
 SKIP_CONFIRMATION=false

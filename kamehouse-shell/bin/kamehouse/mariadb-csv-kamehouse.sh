@@ -11,7 +11,7 @@ fi
 # - Start mariadb server with secure-file-priv="" (my.ini or my.conf)
 # - Make sure ${PATH_CSV} is writable by everyone in windows
 
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 
 # Global variables
 PATH_CSV=${HOME}/.kamehouse/mariadb/csv

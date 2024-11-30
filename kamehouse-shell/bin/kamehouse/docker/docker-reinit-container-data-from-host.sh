@@ -77,14 +77,14 @@ reinitSsh() {
 reinitKameHouseFolder() {
   log.info "Setup .kamehouse folder"
   if [ "${DATA_SOURCE}" == "docker-init" ]; then
-    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.cred /home/${DOCKER_USERNAME}/.kamehouse/.shell/\""
-    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.cred /home/${DOCKER_USERNAME}/.kamehouse/.shell/"
+    log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/shell.pwd /home/${DOCKER_USERNAME}/.kamehouse/.shell/\""
+    ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/shell.pwd /home/${DOCKER_USERNAME}/.kamehouse/.shell/"
 
     log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.*.pwd.enc /home/${DOCKER_USERNAME}/.kamehouse/keys\""
     ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "cp -v -f /home/${DOCKER_USERNAME}/git/kamehouse/docker/keys/.*.pwd.enc /home/${DOCKER_USERNAME}/.kamehouse/keys"
   else
-    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.shell/.cred ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/.shell/"
-    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.shell/.cred ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/.shell/
+    log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.shell/shell.pwd ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/.shell/"
+    scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/.shell/shell.pwd ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/.shell/
 
     log.debug "scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/keys/.*.pwd.enc ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/keys"
     scp -C -P ${DOCKER_PORT_SSH} ${HOME}/.kamehouse/keys/.*.pwd.enc ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/keys

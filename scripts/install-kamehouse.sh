@@ -83,11 +83,11 @@ buildKameHouseConfigDir() {
   mkdir -p ${HOME}/.kamehouse/.shell
   mkdir -p ${HOME}/.kamehouse/keys
 
-  if [ ! -f "${HOME}/.kamehouse/.shell/.cred" ]; then
-    log.info ".kamehouse/.shell/.cred file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.cred ${HOME}/.kamehouse/.shell/
+  if [ ! -f "${HOME}/.kamehouse/.shell/shell.pwd" ]; then
+    log.info ".kamehouse/.shell/shell.pwd file doesn't exist, creating one from the sample"
+    cp -v docker/keys/shell.pwd ${HOME}/.kamehouse/.shell/
   else
-    log.info ".kamehouse/.shell/.cred file already exists. skipping"
+    log.info ".kamehouse/.shell/shell.pwd file already exists. skipping"
   fi
 
   if [ ! -f "${HOME}/.kamehouse/keys/.unlock.screen.pwd.enc" ]; then

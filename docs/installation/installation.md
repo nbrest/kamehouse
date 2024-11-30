@@ -51,9 +51,9 @@ wget https://raw.githubusercontent.com/nbrest/kamehouse/refs/heads/dev/scripts/i
 chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 ```
 
-* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/.shell/.cred` 
+* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/.shell/shell.pwd` 
 
-* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/.shell/.cred` 
+* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/.shell/shell.pwd` 
 
 * Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
 

@@ -7,7 +7,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 
 # Global variables
 PATH_DUMP_FILE=${HOME}/.kamehouse/mariadb/dump 

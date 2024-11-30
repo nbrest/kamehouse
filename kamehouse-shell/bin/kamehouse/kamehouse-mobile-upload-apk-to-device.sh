@@ -13,7 +13,7 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 99
 fi
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 
 ANDROID_IP="192.168.0.91"
 ANDROID_PORT=2222
@@ -38,7 +38,7 @@ uploadApkToDeviceSftp() {
   log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_DEFAULT_LOG} on the android phone before proceeding"
   log.warn "The server should be configured as specified in ${COL_PURPLE}export-sync-audio-playlists.md"
   log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
-  log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/.cred as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt"
+  log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/shell.pwd as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt"
   if ${IS_LINUX_HOST}; then 
     log.debug "sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< \"put ${KAMEHOUSE_ANDROID_APK_PATH} ${SD_CARD_APK_PATH}/kamehouse.apk\" "
     sftp -v -P ${ANDROID_PORT} ${SFTP_USER}@${ANDROID_IP} <<< "put ${KAMEHOUSE_ANDROID_APK_PATH} ${SD_CARD_APK_PATH}/kamehouse.apk" 

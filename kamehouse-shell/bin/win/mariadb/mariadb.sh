@@ -7,7 +7,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 LOG_PROCESS_TO_FILE=false
 
 mainProcess() {

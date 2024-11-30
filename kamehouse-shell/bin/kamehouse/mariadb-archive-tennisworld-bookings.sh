@@ -7,7 +7,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/.kamehouse/.shell/.cred
+source ${HOME}/.kamehouse/.shell/shell.pwd
 
 # Global variables
 MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/archive-tennisworld-bookings.sql

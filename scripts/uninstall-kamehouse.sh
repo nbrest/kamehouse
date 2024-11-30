@@ -114,7 +114,7 @@ deleteKameHouseGit() {
 purgeConfigFiles() {
   if ${PURGE_CONFIG}; then
     log.info "Deleting all config files"
-    rm -r -f -v ${HOME}/.kamehouse/.shell/.cred
+    rm -r -f -v ${HOME}/.kamehouse/.shell/shell.pwd
     rm -r -f -v ${HOME}/.kamehouse/keys
   else
     log.info "Running without -p so skipping purging config files"
