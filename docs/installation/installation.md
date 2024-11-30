@@ -35,7 +35,7 @@ sudo npm install typescript -g
       ```
     - linux:
       - The config files are in /etc/mysql
-      - The file to update depends on the mariadb version you are using. It could be mariadb.conf, 50-server.conf
+      - The file to update depends on the mariadb version you are using. It could be 50-server.conf in a subfolder of /etc/mysql or mariadb.conf 
       ```
       default-time-zone='+10:00'
       secure-file-priv=""
