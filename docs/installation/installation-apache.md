@@ -70,3 +70,8 @@ sudo apt-get install php-mysql libapache2-mod-php
   sudo mkdir -p /var/www/kamehouse-webserver
   sudo chown ${USER}:users -R /var/www/kamehouse-webserver
 ```
+
+- Allow kamehouse user to read apache logs:
+```sh
+sudo chmod a+rx /var/log/apache2
+```
