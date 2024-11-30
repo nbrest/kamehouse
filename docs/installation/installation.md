@@ -46,7 +46,10 @@ sudo npm install typescript -g
 * Install apache following [installation-apache.md](/docs/installation/installation-apache.md)
 
 * Once the above setup is complete, download and run the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, which will pull kamehouse from git into `${HOME}/git/kamehouse` and run the deployment script that will build and deploy all kamehouse modules
-  - Once downloaded, run the script on bash with the command `chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh`
+```sh
+wget https://raw.githubusercontent.com/nbrest/kamehouse/refs/heads/dev/scripts/install-kamehouse.sh
+chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
+```
 
 * In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/.shell/.cred` 
 

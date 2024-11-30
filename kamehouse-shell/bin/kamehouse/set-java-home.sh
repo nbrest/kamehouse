@@ -17,13 +17,22 @@ setJavaHome() {
   # so the last one that matches is the one I want
   export JAVA_HOME="C:\Program Files\Java\jdk-17"
 
+  if [ -d "/usr/lib/jvm/default-java" ]; then
+    export JAVA_HOME=/usr/lib/jvm/default-java
+  fi
+  
   if [ -d "/usr/lib/jvm/java-17-openjdk-armhf" ]; then
     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-armhf
+  fi
+
+  if [ -d "/usr/lib/jvm/java-17-openjdk-arm64" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
   fi
 
   if [ -d "/usr/lib/jvm/java-17-openjdk-amd64" ]; then
     export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
   fi
+
   setJavaHomeLogger "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
 }
 
