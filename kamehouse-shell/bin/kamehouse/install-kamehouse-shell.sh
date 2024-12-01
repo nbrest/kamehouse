@@ -47,8 +47,8 @@ main() {
   generateKameHouseShellPathFile
   generateBuildVersion
   if ! ${INSTALL_SCRIPTS_ONLY}; then
-    installConfig
-    installCred
+    installKamehouseConfig
+    installShellPwd
     updateBashRc
   else
     log.info "Installing kamehouse-shell scripts only, so skipping the rest of the steps"
@@ -120,21 +120,25 @@ fixPermissions() {
   done <<< ${DIRECTORIES}
 }
 
-installConfig() {
-  log.info "Installing config"
+installKamehouseConfig() {
+  log.info "Installing kamehouse.cfg"
   if [ ! -f "${HOME}/.kamehouse/kamehouse.cfg" ]; then
     log.info "${COL_PURPLE}${HOME}/.kamehouse/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/
     cp docker/config/kamehouse.cfg ${HOME}/.kamehouse/kamehouse.cfg
+  else
+    log.info "kamehouse.cfg file exists. skipping"
   fi
 }
 
-installCred() {
-  log.info "Installing credentials file"
+installShellPwd() {
+  log.info "Installing shell.pwd file"
   if [ ! -f "${HOME}/.kamehouse/.shell/shell.pwd" ]; then
     log.info "${COL_PURPLE}${HOME}/.kamehouse/.shell/shell.pwd${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/.shell/
     cp docker/keys/shell.pwd ${HOME}/.kamehouse/.shell/shell.pwd
+  else
+    log.info "shell.pwd file exists. skipping"
   fi
   chmod -R 700 ${HOME}/.kamehouse
 }
