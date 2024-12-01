@@ -58,7 +58,7 @@ setEnvironment() {
   fi
 
   if [ -z "${DOCKER_HOST_IP}" ]; then
-    log.error "DOCKER_HOST_IP needs to be set in kamehouse.cfg"
+    log.error "DOCKER_HOST_IP needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
 }

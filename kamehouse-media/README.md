@@ -21,7 +21,7 @@ This module handles the following functionality:
 
 - Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/kamehouse.cfg` with the path to the root directory that contains your playlists
 
-- This is a sample [kamehouse.cfg](/docker/config/kamehouse.cfg)
+- This is a sample [kamehouse.cfg](/docker/config/kamehouse.cfg) with all the possible configurations
 
 ### Playlists folder structure
 

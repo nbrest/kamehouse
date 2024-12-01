@@ -196,7 +196,7 @@ setEnvForKameHouseServer() {
       IS_VALID_KAMEHOUSE_SERVER=true
       IS_REMOTE_LINUX_HOST=${KAMEHOUSE_SERVER_CONFIG_ARRAY[6]}
       SSH_USER=${KAMEHOUSE_SERVER_CONFIG_ARRAY[1]}
-  fi
+    fi
   done
   if ! ${IS_VALID_KAMEHOUSE_SERVER}; then
     log.error "Option -z server has an invalid value of ${KAMEHOUSE_SERVER}"

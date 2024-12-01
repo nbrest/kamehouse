@@ -172,6 +172,20 @@ class KameHouseMobileCore {
   }
 
   /**
+   * Get backend servers.
+   */
+  getBackendServers() {
+    const mobileConfig = kameHouse.extension.mobile.config;
+    if (!kameHouse.core.isEmpty(mobileConfig) && !kameHouse.core.isEmpty(mobileConfig.backend)
+          && !kameHouse.core.isEmpty(mobileConfig.backend.servers)) {
+      return mobileConfig.backend.servers;
+    }
+    const message = "Couldn't find backend servers in the config. Mobile app config manager may not have completed initialization yet";
+    kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+    return null;
+  }
+
+  /**
    * Get selected backend server.
    */
   getSelectedBackendServer() {
@@ -751,6 +765,22 @@ class KameHouseMobileConfigManager {
   }
 
   /**
+   * Populate the ui with the list of backend servers.
+   */
+  initBackendOptionsFromConfig() {
+    kameHouse.logger.info("Initializing backend servers dropdown from config", null);
+    const backendServers = kameHouse.extension.mobile.core.getBackendServers();
+    if (kameHouse.core.isEmpty(backendServers)) {
+      kameHouse.logger.error("Unable to get backend servers from config to populate dropdown", null);
+      return;
+    }
+    const backendServerDropdown = document.getElementById("backend-server-dropdown") as HTMLSelectElement;
+    backendServers.forEach((server) => {
+      kameHouse.util.dom.append(backendServerDropdown, this.#getBackendServerDropdownOption(server));
+    });
+  }
+
+  /**
    * Refresh backend server tab view values from the config.
    */
   refreshBackendServerViewFromConfig() {
@@ -763,12 +793,11 @@ class KameHouseMobileConfigManager {
     if (backendServerInput.value != "") {
       backendServerDropdown.options[backendServerDropdown.options.length-1].selected = true;
     }
-    const editableServers = ["WiFi Hotspot", "Dev Apache", "Dev Tomcat HTTP", "Custom Server"];
     for (let i = 0; i < backendServerDropdown.options.length; ++i) {
       if (backendServerDropdown.options[i].textContent === selectedServer.name) {
         backendServerDropdown.options[i].selected = true;
         backendServerInput.value = selectedServer.url;
-        if (editableServers.includes(backendServerDropdown.options[i].textContent)) {
+        if (selectedServer.isEditable) {
           backendServerInput.readOnly = false;
         } else {
           backendServerInput.readOnly = true;
@@ -819,6 +848,15 @@ class KameHouseMobileConfigManager {
     this.refreshBackendServerViewFromConfig();
   }
     
+  /**
+   * Get a backend server dropdown option.
+   */
+  #getBackendServerDropdownOption(server) {
+    return kameHouse.util.dom.getOption({
+      value: server.url
+    }, server.name);
+  }
+
   /**
    * Set kamehouse mobile module loaded.
    */

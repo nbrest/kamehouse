@@ -15,6 +15,7 @@ class KameHouseMobileTabsManager {
     });
     kameHouse.util.dom.loadById("tab-backend", "/kame-house-mobile/kamehouse-mobile/plugin/html/tab-backend.html", () => {
       kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
+        kameHouse.extension.mobile.configManager.initBackendOptionsFromConfig();
         kameHouse.extension.mobile.configManager.refreshBackendServerViewFromConfig();
       });
     });

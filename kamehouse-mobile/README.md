@@ -87,7 +87,7 @@ echo "KAMEHOUSE_MOBILE_ENCRYPTION_KEY=yourkey" >> ${HOME}/.kamehouse/.shell/shel
 echo "" >> ${HOME}/.kamehouse/.shell/shell.pwd
 ```
 
-- Then use the `build-kamehouse.sh -m mobile` or `build-kamehouse.sh -m mobile -u` script from the root of kamehouse parent project or from kamehouse-mobile dir to build the apk for android (ios build not supported yet). Or use `deploy-kamehouse.sh -m mobile` to build and deploy it to kame.com
+- Then use the `build-kamehouse.sh -m mobile` or `build-kamehouse.sh -m mobile -u` script from the root of kamehouse parent project or from kamehouse-mobile dir to build the apk for android (ios build not supported yet). Or use `deploy-kamehouse.sh -m mobile` to build and deploy it to the mobile downloads server configured in `${HOME}/.kamehouse/kamehouse.cfg`
 
 # Install Instructions:
 
@@ -128,7 +128,8 @@ kamehouse-mobile-run-browser.sh
 
 ## Upload APK to device
 - Start the SSH/SFTP Server - Terminal from googleplay on the phone
-- Execute `deploy-kamehouse-dev.sh -m mobile` script to build the mobile app and upload it to the `Downloads` folder in the device
+- Set the `ANDROID_*` properties in `${HOME}/.kamehouse/kamehouse.cfg` to connect to your phone
+- Execute `deploy-kamehouse-dev.sh -m mobile` script to build the mobile app and upload it to the `Downloads` folder in the device 
 - Use `kamehouse-mobile-upload-apk-to-device.sh` script instead of  `deploy-kamehouse-dev.sh` if I need to pass a custom ip and port for the android device to upload to rather than the default
 - Update the app on the mobile device
 

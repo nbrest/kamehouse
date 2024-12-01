@@ -118,12 +118,37 @@ buildKameHouseMobileStatic() {
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/plugin/js ./www/kame-house-mobile/kamehouse-mobile/plugin/js  
   rm -rf ./www/kamehouse-mobile
   rm -rf ./www/kamehouse-ui
-
+  buildMobileBackendJson
   exportGitCommitHash
   cdToKameHouseModule "kamehouse-mobile"
   setMobileBuildVersionAndKeys
   cdToRootDirFromModule "kamehouse-mobile"
 }
+
+buildMobileBackendJson() {
+  log.info "Building backend.json for mobile app"
+  local BACKEND_JSON_FILE="./www/kame-house-mobile/json/config/backend.json"
+  mkdir -p ./www/kame-house-mobile/json/config
+  echo '{' > ${BACKEND_JSON_FILE}
+  echo '  "selected" : "'${MOBILE_BACKEND_SELECTED_SERVER}'",' >> ${BACKEND_JSON_FILE}
+  echo '  "servers": [' >> ${BACKEND_JSON_FILE}
+  for MOBILE_BACKEND_SERVER in ${MOBILE_BACKEND_SERVERS[@]}; do
+    IFS=',' read -r -a MOBILE_BACKEND_SERVER_ARRAY <<< "${MOBILE_BACKEND_SERVER}"
+    echo '    { ' >> ${BACKEND_JSON_FILE}
+    echo '      "name" : "'${MOBILE_BACKEND_SERVER_ARRAY[0]}'",' >> ${BACKEND_JSON_FILE}
+    echo '      "url" : "'${MOBILE_BACKEND_SERVER_ARRAY[1]}'",' >> ${BACKEND_JSON_FILE}
+    echo '      "skipSslCheck" : '${MOBILE_BACKEND_SERVER_ARRAY[2]}',' >> ${BACKEND_JSON_FILE}
+    echo '      "username" : "'${MOBILE_BACKEND_SERVER_ARRAY[3]}'",' >> ${BACKEND_JSON_FILE}
+    echo '      "password" : "'${MOBILE_BACKEND_SERVER_ARRAY[4]}'",' >> ${BACKEND_JSON_FILE}
+    echo '      "isLoggedIn" : '${MOBILE_BACKEND_SERVER_ARRAY[5]}',' >> ${BACKEND_JSON_FILE}
+    echo '      "isEditable" : '${MOBILE_BACKEND_SERVER_ARRAY[6]} >> ${BACKEND_JSON_FILE}
+    echo '    },' >> ${BACKEND_JSON_FILE}
+  done
+  sed -i '$ d' ${BACKEND_JSON_FILE}
+  echo '    }' >> ${BACKEND_JSON_FILE}
+  echo '  ]' >> ${BACKEND_JSON_FILE}
+  echo '}' >> ${BACKEND_JSON_FILE}
+} 
 
 buildFrontendCode() {
   log.debug "npm install ; npm run build ; npm run scan"
