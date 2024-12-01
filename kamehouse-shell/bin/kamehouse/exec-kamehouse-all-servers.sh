@@ -6,20 +6,19 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
   exit 99
 fi
-source ${HOME}/.kamehouse/.shell/shell.pwd
-
 # Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 99
 fi
-
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-functions.sh
 if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
 fi
+source ${HOME}/.kamehouse/.shell/shell.pwd
+source ${HOME}/.kamehouse/kamehouse.cfg
 
 SCRIPT=""
 SCRIPT_ARGS=""
@@ -39,27 +38,10 @@ setScriptLogMessage() {
 }
 
 execInAllServers() {
-  # niko-server
-  execInServer "niko-server" "80" "false" "false" &
-  execInServer "niko-server" "${DOCKER_PORT_HTTP_DEMO}" "true" "false" &
-  execInServer "niko-server" "${DOCKER_PORT_HTTP_PROD}" "false" "false" &
-
-  # niko-server-vm-ubuntu
-  execInServer "niko-server-vm-ubuntu" "80" "true" "false" &
-  execInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_DEMO}" "true" "false" &
-  execInServer "niko-server-vm-ubuntu" "${DOCKER_PORT_HTTP_PROD}" "false" "false" &
-
-  # pi
-  execInServer "pi" "443" "false" "true" &
-  
-  # niko-nba
-  execInServer "niko-nba" "80" "true" "false" &
-
-  # niko-w
-  execInServer "niko-w" "80" "true" "false" &
-
-  # niko-w-vm-ubuntu
-  execInServer "niko-w-vm-ubuntu" "80" "true" "false" &
+  for KAMEHOUSE_SERVER_CONFIG in ${KAMEHOUSE_SERVER_CONFIGS[@]}; do
+    IFS=',' read -r -a KAMEHOUSE_SERVER_CONFIG_ARRAY <<< "${KAMEHOUSE_SERVER_CONFIG}"
+    execInServer "${KAMEHOUSE_SERVER_CONFIG_ARRAY[0]}" "${KAMEHOUSE_SERVER_CONFIG_ARRAY[1]}" "${KAMEHOUSE_SERVER_CONFIG_ARRAY[2]}" "${KAMEHOUSE_SERVER_CONFIG_ARRAY[3]}" &
+  done
 
   log.info "Waiting for ${SCRIPT_LOG_MESSAGE} to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
   wait
@@ -69,10 +51,10 @@ execInAllServers() {
 execInServer() {
   local SERVER=$1
   local PORT=$2
-  local USE_DOCKER_DEMO_CRED=$3
-  local IS_HTTPS=$4
+  local IS_HTTPS=$3
+  local USE_DOCKER_DEMO_CRED=$4
   log.info "Started ${SCRIPT_LOG_MESSAGE} in ${COL_PURPLE}${SERVER}:${PORT}"
-  sendRequestToServer ${SERVER} ${PORT} ${USE_DOCKER_DEMO_CRED} ${IS_HTTPS} &
+  sendRequestToServer "${SERVER}" "${PORT}" "${IS_HTTPS}" "${USE_DOCKER_DEMO_CRED}" &
   wait
   log.info "${COL_RED}Finished ${SCRIPT_LOG_MESSAGE} in ${COL_CYAN}${SERVER}:${PORT}"
 }
@@ -80,8 +62,8 @@ execInServer() {
 sendRequestToServer() {
   local SERVER=$1
   local PORT=$2
-  local USE_DOCKER_DEMO_CRED=$3
-  local IS_HTTPS=$4
+  local IS_HTTPS=$3
+  local USE_DOCKER_DEMO_CRED=$4
   local URL=""
   local URL_ENCODED_PARAMS=""
   local BASIC_AUTH=""
