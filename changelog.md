@@ -12,6 +12,7 @@
 - Renamed kamehouse config files
 - Made the vlc video playlists path configurable
 - Removed dependency on media server hostname for accessing playlists
+- Moved configured kamehouse servers to kamehouse.cfg
 - Fixed bugs
 
 #### v9.02
