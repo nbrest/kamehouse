@@ -125,7 +125,8 @@ deployKameHouseMobile() {
 }
 
 uploadKameHouseMobileApkToHttpdServer() {
-  log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to kame.com server"
+  log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to downloads server"
+  log.info "Set KAMEHOUSE_MOBILE_APP_SERVER, KAMEHOUSE_MOBILE_APP_PATH and KAMEHOUSE_MOBILE_APP_USER in kamehouse.cfg"
   log.debug "scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
   scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
   checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through ssh"

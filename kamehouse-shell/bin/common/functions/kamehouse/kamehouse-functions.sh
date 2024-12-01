@@ -66,9 +66,9 @@ KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN="${HOME}/GoogleDrive/KameHouse/kamehouse-mobile
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 
-KAMEHOUSE_MOBILE_APP_SERVER="pi"
-KAMEHOUSE_MOBILE_APP_USER="pi"
-KAMEHOUSE_MOBILE_APP_PATH="/var/www/kamehouse-webserver/kame-house-mobile"
+KAMEHOUSE_MOBILE_APP_SERVER=""
+KAMEHOUSE_MOBILE_APP_USER=""
+KAMEHOUSE_MOBILE_APP_PATH=""
 
 # ---------------------------
 # Common kamehouse functions

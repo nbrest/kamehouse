@@ -14,9 +14,8 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 source ${HOME}/.kamehouse/.shell/shell.pwd
+source ${HOME}/.kamehouse/kamehouse.cfg
 
-ANDROID_IP="192.168.0.91"
-ANDROID_PORT=2222
 SKIP_BUILD_MOBILE=false
 SD_CARD_APK_PATH=/0/Download
 SFTP_USER=android
@@ -24,6 +23,7 @@ USE_CURRENT_DIR=true
 
 mainProcess() {
   setKameHouseRootProjectDir
+  log.info "Set ANDROID_IP and ANDROID_PORT in kamehouse.cfg"
   if ${SKIP_BUILD_MOBILE}; then
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
