@@ -13,6 +13,7 @@
 - Made the vlc video playlists path configurable
 - Removed dependency on media server hostname for accessing playlists
 - Moved hardcoded configured kamehouse servers to kamehouse.cfg
+- Moved docker host ip to be set in kamehouse.cfg
 - Fixed bugs
 
 #### v9.02

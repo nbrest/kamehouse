@@ -1,7 +1,7 @@
 DOCKER_USERNAME=${DEFAULT_KAMEHOUSE_USERNAME}
 IS_LINUX_DOCKER_HOST=""
 
-DOCKER_SERVER="niko-server"
+# DOCKER_SERVER="" set in kamehouse.cfg
 
 DOCKER_PORT_SSH_CI=15022
 DOCKER_PORT_HTTP_CI=15080
@@ -61,24 +61,6 @@ let DOCKER_TAG_MINIMUM_VER_NUMBER=815
 # When I update the base image here also update docker-setup.md
 DOCKER_IMAGE_BASE="ubuntu:22.04"
 DOCKER_IMAGE_TAG="latest"
-
-# This may not give me the correct host ip address if there's another adapter within the same subnet
-DOCKER_HOST_DEFAULT_SUBNET="192\.168\.0\.[0-9]\+"
-#DOCKER_HOST_DEFAULT_SUBNET="192\.168\.56\.[0-9]\+"
-
-# Get the ip address of the host running kamehouse in a docker container
-getKameHouseDockerHostIp() {
-  local DOCKER_HOST_SUBNET=$1
-  if [ -z "${DOCKER_HOST_SUBNET}" ]; then
-    DOCKER_HOST_SUBNET=${DOCKER_HOST_DEFAULT_SUBNET}
-  fi
-
-  if ${IS_LINUX_HOST}; then
-    echo `ifconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "inet" | head -n 1 | awk '{print $2}'`
-  else
-    echo `ipconfig | grep -e "${DOCKER_HOST_SUBNET}" | grep "IPv4" | head -n 1 | awk '{print $14}'`
-  fi
-}
 
 parseDockerProfile() {
   local ARGS=("$@")

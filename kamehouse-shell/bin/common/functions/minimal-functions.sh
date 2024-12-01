@@ -28,6 +28,7 @@ EXIT_ERROR=1
 EXIT_VAR_NOT_SET=2
 EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
+EXIT_INVALID_CONFIG=5
 
 # Adds a script option to the help menu
 addHelpOption() {

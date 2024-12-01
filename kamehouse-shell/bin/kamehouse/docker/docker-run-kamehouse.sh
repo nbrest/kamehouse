@@ -19,6 +19,7 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
 fi
+source ${HOME}/.kamehouse/kamehouse.cfg
 
 BUILD_ON_STARTUP=false
 BUILD_ON_STARTUP_PARAM=""
@@ -27,9 +28,7 @@ DEBUG_MODE_PARAM=""
 DOCKER_COMMAND="docker run --rm"
 DOCKER_CONTROL_HOST=false
 DOCKER_CONTROL_HOST_PARAM=""
-DOCKER_HOST_IP=""
 DOCKER_HOST_HOSTNAME=""
-DOCKER_HOST_SUBNET=""
 DOCKER_IMAGE_HOSTNAME=""
 USE_VOLUMES=false
 USE_VOLUMES_PARAM=""
@@ -49,7 +48,6 @@ setEnvironment() {
     IS_LINUX_DOCKER_HOST=false
   fi
   DOCKER_HOST_USERNAME=`whoami`
-  DOCKER_HOST_IP=`getKameHouseDockerHostIp ${DOCKER_HOST_SUBNET}`
   DOCKER_HOST_HOSTNAME=`hostname`
 
   if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
@@ -58,6 +56,11 @@ setEnvironment() {
       DOCKER_IMAGE_HOSTNAME=${DOCKER_IMAGE_HOSTNAME}"-"${DOCKER_PROFILE}
     fi
   fi
+
+  if [ -z "${DOCKER_HOST_IP}" ]; then
+    log.error "DOCKER_HOST_IP needs to be set in kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi 
 }
 
 printEnv() {
@@ -212,7 +215,7 @@ parseArguments() {
   parseDockerProfile "$@"
   parseDockerTag "$@"
 
-  while getopts ":bcdfp:s:t:v" OPT; do
+  while getopts ":bcdfp:t:v" OPT; do
     case $OPT in
     ("b")
       BUILD_ON_STARTUP_PARAM=true
@@ -225,9 +228,6 @@ parseArguments() {
       ;;
     ("f")
       BUILD_ON_STARTUP_PARAM=false
-      ;;
-    ("s")
-      DOCKER_HOST_SUBNET=$OPTARG      
       ;;
     ("v")
       USE_VOLUMES_PARAM=true
@@ -260,15 +260,8 @@ printHelpOptions() {
   addHelpOption "-d" "debug. start tomcat in debug mode"
   addHelpOption "-f" "fast startup. don't build and deploy"
   printDockerProfileOption
-  addHelpOption "-s" "docker subnet to determine host ip. Default: ${DOCKER_HOST_DEFAULT_SUBNET}"
   printDockerTagOption
   addHelpOption "-v" "use volumes to persist data"
-}
-
-printHelpFooter() {
-  echo ""
-  echo "Execute with '-s 192.168.56.*' for example, if the docker host's subnet ip is 192.168.56.0/24"
-  echo ""
 }
 
 main "$@"
