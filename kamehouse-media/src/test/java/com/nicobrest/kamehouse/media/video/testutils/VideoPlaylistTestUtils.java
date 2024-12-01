@@ -20,10 +20,10 @@ import java.util.List;
 public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     implements TestUtils<Playlist, Object> {
 
-  public static final String MEDIA_SERVER = "kamehouse-media-server";
+  public static final String KAMEHOUSE_SERVER = "kamehouse-server";
   public static final String API_V1_MEDIA_VIDEO_PLAYLIST = "/api/v1/media/video/playlist";
   public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
-  public static final String TEST_PLAYLISTS_ROOT_DIR =
+  public static final String TEST_PLAYLISTS_PATH =
       "src"
           + File.separator
           + "test"
@@ -34,20 +34,7 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
           + File.separator
           + "playlists"
           + File.separator
-          + "video-kamehouse-local";
-
-  public static final String TEST_PLAYLISTS_REMOTE_HTTP_DIR =
-      "src"
-          + File.separator
-          + "test"
-          + File.separator
-          + "resources"
-          + File.separator
-          + "media.video"
-          + File.separator
-          + "playlists"
-          + File.separator
-          + "video-kamehouse-remote";
+          + "video-kamehouse";
 
   @Override
   public void initTestData() {
@@ -96,10 +83,11 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
   }
 
   private void initSingleTestData() {
-    singleTestData = getHeroesPlaylist("dc");
+    singleTestData = getMoviesPlaylist("dc");
     List<String> files = new ArrayList<>();
-    files.add("N:\\movies\\heroes\\dc\\Batman - 1\\Batman 1989.mp4");
-    files.add("N:\\movies\\heroes\\dc\\Batman - 2 - Returns\\Batman Returns 1992.mp4");
+    files.add("http://niko-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4");
+    files.add(
+        "http://niko-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4");
     singleTestData.setFiles(files);
   }
 
@@ -107,22 +95,25 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     testDataList = new LinkedList<>();
     testDataList.add(singleTestData);
     List<String> files = new ArrayList<>();
-    files.add("N:\\movies\\heroes\\marvel\\Avengers Infinity War\\Avengers.Infinity.War.mp4");
     files.add(
-        "N:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age.of.Ultron.2015.mkv");
-    files.add("N:\\movies\\heroes\\marvel\\Avengers.The.2012\\The.Avengers.2012.mkv");
-    Playlist playlist = getHeroesPlaylist("marvel");
+        "http://niko-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4");
+    files.add(
+        "http://niko-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv");
+    files.add(
+        "http://niko-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv");
+    Playlist playlist = getMoviesPlaylist("marvel");
     playlist.setFiles(files);
     testDataList.add(playlist);
   }
 
-  private Playlist getHeroesPlaylist(String heroesStudio) {
+  private Playlist getMoviesPlaylist(String heroesStudio) {
     Playlist playlist = new Playlist();
-    String playlistName = heroesStudio + ".m3u";
-    playlist.setName(playlistName);
-    String category = "heroes" + File.separator + heroesStudio;
+    String playlistName = "movies_" + heroesStudio + "_all";
+    playlist.setName(playlistName + ".m3u");
+    String category = "movies";
     playlist.setPath(
-        TEST_PLAYLISTS_ROOT_DIR + File.separator + category + File.separator + playlistName);
+        TEST_PLAYLISTS_PATH + File.separator + category + File.separator + playlistName
+            + File.separator + playlistName + ".m3u");
     playlist.setCategory(category);
     return playlist;
   }

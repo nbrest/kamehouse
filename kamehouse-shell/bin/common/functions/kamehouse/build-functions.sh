@@ -191,7 +191,7 @@ buildMavenCommand() {
   else
     log.info "Building all modules"
   fi
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.playlists.source=${PLAYLISTS_SOURCE_KAMEHOUSE} "
+  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.playlists.path=${PLAYLISTS_PATH} "
   MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE} "
 }
 

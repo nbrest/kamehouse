@@ -89,7 +89,7 @@ class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Objec
     when(videoPlaylistService.getPlaylist(anyString(), anyBoolean())).thenReturn(expectedPlaylist);
 
     MockHttpServletResponse response =
-        doGet(API_V1_MEDIA_VIDEO_PLAYLIST + "?path=/home/goku/movies/dc.m3u");
+        doGet(API_V1_MEDIA_VIDEO_PLAYLIST + "?path=/home/goku/movies/dc-all.m3u");
     Playlist responseBody = getResponseBody(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);

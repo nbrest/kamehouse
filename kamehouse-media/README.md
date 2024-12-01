@@ -17,35 +17,38 @@ This module handles the following functionality:
 
 - These playlists will then be accessed by all servers running kamehouse
 
-- Generate the playlists for your video files and put them in your own private git repository `${HOME}/git/kamehouse-video-playlists/` and inside there create a `/playlists` folder
+- Generate the playlists for your video files and put them in your own path inside your user's home
 
-- Clone this repository with the playlists on any server running kamehouse
+- Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/kamehouse.cfg` with the path to the root directory that contains your playlists
+
+- This is a sample [kamehouse.cfg](/docker/config/kamehouse.cfg)
 
 ### Playlists folder structure
 
-- Create 2 separate directories under `/playlists`:
+- The playlists folder should contain the following structure
 
-    - `video-kamehouse-local`: Put the playlists here to be accessed by kamehouse instances running on the media server which will access the video files locally
+- In the root level of the playlists folder, there should be only subfolders. Each folder refers to a playlist **category**: like `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
 
-    - `video-kamehouse-remote`: Put the playlists here to be accessed by kamehouse instances running on all other servers except the media server. These instances will access the video files remotely, most likely through `http`
-
-### Playlist categories
-
-- The playlists in each of those directories need to be divided into `categories`, and each category is a folder. For example under `video-kamehouse-local` you could have the subfolders `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
-
-- Put all the `m3u` for each category in the proper folder. For example you could **(and should!)** have a `dragonball.m3u` playlist under `anime`
+- In each **category** folder, there should be a folder for each playlist, with the exact name of the playlist. For example, if you have the category `anime`, then you can **(and should!)** have a `dragonball_all` folder. Inside that `dragonball_all` folder, you would add the `dragonball_all.m3u` playlist
 
 - Then vlc player ui will render the contents of `dragonball.m3u` and allow you to play either the entire playlist or any element of the playlist individually
 
-### Generate remote playlists
-
-- The remote playlists should be identical to the local playlists, except that the prefix for each file will be changed. Instead of pointing to a local file, they will point to the remote media server that should be exposing the media files somehow
-
-- One way to expose the video files in the media server to other servers, could be through the `http` server that runs kamehouse's ui in the media server
-
-- For example, you could have a local playlist `${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-local/anime/dragonball.m3u` with the content:
-
+- The playlists folder structure could look something like this:
+```sh
+${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/anime/dragonball_all/dragonball_all.m3u
+${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/anime/saint_seiya_all/saint_seiya_all.m3u
+${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/movies/movies_dc_all/movies_dc_all.m3u
+${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/movies/movies_marvel_all/movies_marvel_all.m3u
+${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/series/game_of_thrones_all/game_of_thrones_all.m3u
 ```
+- The docker [playlist](/docker/media/playlist/) folder contains a sample structure of the playlists used in docker demo
+
+### Playlists content
+
+- The playlists could point to local files to be loaded from the filesystem or to remote files to be loaded externally
+
+- For example, the content of `${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/anime/dragonball_all/dragonball_all.m3u` could be pointing to local files:
+```sh
 #EXTM3U
 #EXTINF:0,\anime\dragonball\001-DBZ.avi
 D:\media\videos\anime\dragonball\001-DBZ.avi
@@ -55,9 +58,8 @@ D:\media\videos\anime\dragonball\002-DBZ.avi
 D:\media\videos\anime\dragonball\003-DBZ.avi
 ```
 
-- For that same playlist, you then create a remote playlist  `${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/anime/dragonball.m3u` with the content:
-
-```
+- Or they could be pointing to remote files to be loaded via `http` streamed through another server
+```sh
 #EXTM3U
 #EXTINF:0,\anime\dragonball\001-DBZ.avi
 https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonball/001-DBZ.avi
@@ -66,13 +68,3 @@ https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonb
 #EXTINF:0,\anime\dragonball\003-DBZ.avi
 https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonball/003-DBZ.avi
 ```
-
-- Assuming that your media server's ip is `192.168.0.2` and you are exposing the media in `D:\media\videos` through `http` on the url path `/kame-house-streaming/media-server/media/videos`
-
-### Expose videos in media server to other local servers
-
-- Then expose your media server's `media` folder through `http` to your local network so that other servers can access the video files through http
-
-- One way to do that is creating a symlink from the `D:\media` folder containing all your videos into your media server's http content path `/kame-house-streaming/media-server/media`. Then all your videos in your media server should be accessible through `http` by your other devices in your local network
-
-- You could also create the remote playlists using a network protocol different to `http`, like `sftp` or `smb` and create the remote playlists with that protocol instead

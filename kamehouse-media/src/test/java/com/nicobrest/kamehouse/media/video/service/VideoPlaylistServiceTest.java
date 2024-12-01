@@ -1,8 +1,6 @@
 package com.nicobrest.kamehouse.media.video.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.when;
@@ -52,15 +50,12 @@ class VideoPlaylistServiceTest {
     dockerUtils = Mockito.mockStatic(DockerUtils.class);
 
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
-    when(PropertiesUtils.getHostname()).thenReturn(VideoPlaylistTestUtils.MEDIA_SERVER);
+    when(PropertiesUtils.getHostname()).thenReturn(VideoPlaylistTestUtils.KAMEHOUSE_SERVER);
     when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
     when(DockerUtils.getUserHome()).thenReturn(""); // Use git project root as home
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_SOURCE))
-        .thenReturn(VideoPlaylistService.LOCAL);
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_LOCAL))
-        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_ROOT_DIR);
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH_REMOTE))
-        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_REMOTE_HTTP_DIR);
+    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH,
+        VideoPlaylistService.DEFAULT_PLAYLISTS_PATH))
+        .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_PATH);
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
   }
@@ -76,34 +71,13 @@ class VideoPlaylistServiceTest {
    * Gets all video playlists successful test.
    */
   @Test
-  void getAllLocalMediaServerTest() {
+  void getAllTest() {
     videoPlaylistTestUtils.clearFiles();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
 
     videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
-  }
-
-  /**
-   * Gets all video playlists from remote media server successful test.
-   */
-  @Test
-  void getAllRemoteMediaServerTest() {
-    when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_SOURCE)).thenReturn(
-        "remote");
-    when(PropertiesUtils.getHostname()).thenReturn("kamehouse-remote-server");
-    when(DockerUtils.getHostname()).thenReturn("kamehouse-remote-server");
-    when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenCallRealMethod();
-
-    videoPlaylistTestUtils.clearFiles();
-    List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
-
-    List<Playlist> returnedPlaylists = videoPlaylistService.getAll();
-
-    assertEquals(expectedPlaylists.size(), returnedPlaylists.size());
-    assertTrue(
-        returnedPlaylists.get(0).getPath().contains("video-kamehouse-remote"));
   }
 
   /**
@@ -137,15 +111,21 @@ class VideoPlaylistServiceTest {
         + "\r\n" + expectedPlaylists.get(1).getPath() + "\r\n"));
     Output dcPlaylistContent = new Output();
     dcPlaylistContent.setStandardOutput(
-        List.of("#EXTM3UN:\\movies\\heroes\\dc\\Batman - 1\\Batman 1989"
-            + ".mp4\r\nN:\\movies\\heroes\\dc\\Batman - 2 - Returns\\Batman Returns 1992.mp4"));
+        List.of(
+            "#EXTM3U\r\n"
+                + "http://niko-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\r\n"
+                + "http://niko-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\r\n"
+        )
+    );
     Output marvelPlaylistContent = new Output();
     marvelPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3UN:\\movies\\heroes\\marvel\\Avengers Infinity War\\Avengers.Infinity.War"
-                + ".mp4\r\nN:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age"
-                + ".of.Ultron.2015.mkv\r\nN:\\movies\\heroes\\marvel\\Avengers.The.2012\\The."
-                + "Avengers.2012.mkv\r\n"));
+            "#EXTM3U\r\n"
+                + "http://niko-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\r\n"
+                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\r\n"
+                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\r\n"
+        )
+    );
     when(SshClientUtils.executeShell(any(), any(), any(), anyBoolean())).thenReturn(
         playlistFilePaths, dcPlaylistContent, marvelPlaylistContent);
 
@@ -173,15 +153,21 @@ class VideoPlaylistServiceTest {
         + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
     Output dcPlaylistContent = new Output();
     dcPlaylistContent.setStandardOutput(
-        List.of("#EXTM3UN:\\movies\\heroes\\dc\\Batman - 1\\Batman 1989"
-            + ".mp4\nN:\\movies\\heroes\\dc\\Batman - 2 - Returns\\Batman Returns 1992.mp4"));
+        List.of(
+            "#EXTM3U\n"
+                + "http://niko-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\n"
+                + "http://niko-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
+        )
+    );
     Output marvelPlaylistContent = new Output();
     marvelPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3UN:\\movies\\heroes\\marvel\\Avengers Infinity War\\Avengers.Infinity.War"
-                + ".mp4\nN:\\movies\\heroes\\marvel\\Avengers.Age.of.Ultron.2015\\Avengers.Age"
-                + ".of.Ultron.2015.mkv\nN:\\movies\\heroes\\marvel\\Avengers.The.2012\\The."
-                + "Avengers.2012.mkv\n"));
+            "#EXTM3U\n"
+                + "http://niko-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\n"
+                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\n"
+                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
+        )
+    );
     when(SshClientUtils.executeShell(any(), any(), any(), anyBoolean())).thenReturn(
         playlistFilePaths, dcPlaylistContent, marvelPlaylistContent);
 
@@ -229,7 +215,9 @@ class VideoPlaylistServiceTest {
    */
   @Test
   void getPlaylistNonSupportedExtensionTest() {
-    String invalidExtension = expectedPlaylist.getPath().replace(".m3u", ".pdf");
+    String invalidExtension = expectedPlaylist.getPath()
+        .replaceAll("movies_dc_all", "movies_dc_invalid")
+        .replace(".m3u", ".pdf");
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidExtension, true);
 
@@ -237,14 +225,15 @@ class VideoPlaylistServiceTest {
   }
 
   /**
-   * Get a single video playlist path with non supported .. jumps test.
+   * Get a single video playlist path with non supported ".." jumps test.
    */
   @Test
   void getPlaylistNonSupportedPathJumpsTest() {
     String invalidPath =
         expectedPlaylist
             .getPath()
-            .replace("dc.m3u", ".." + File.separator + "dc" + File.separator + "dc.m3u");
+            .replace("movies_dc_all.m3u",
+                ".." + File.separator + "movies_dc_all" + File.separator + "movies_dc_all.m3u");
 
     Playlist returnedPlaylist = videoPlaylistService.getPlaylist(invalidPath, true);
 

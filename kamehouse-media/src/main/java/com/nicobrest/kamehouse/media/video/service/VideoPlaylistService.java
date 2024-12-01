@@ -31,15 +31,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class VideoPlaylistService {
 
-  public static final String PROP_PLAYLISTS_SOURCE = "playlists.source";
-  public static final String PROP_PLAYLISTS_PATH_LOCAL = "playlists.path.local";
-  public static final String PROP_PLAYLISTS_PATH_REMOTE = "playlists.path.remote";
-  public static final String LOCAL = "local";
+  public static final String DEFAULT_PLAYLISTS_PATH =
+      "/git/kamehouse-video-playlists/playlists/video-kamehouse";
+  public static final String PROP_PLAYLISTS_PATH = "playlists.path";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
   private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
-  private static final String ANIME = "anime";
-  private static final String CARTOONS = "cartoons";
 
   private static final Logger logger = LoggerFactory.getLogger(VideoPlaylistService.class);
 
@@ -219,13 +216,7 @@ public class VideoPlaylistService {
    */
   private static Path getBasePlaylistsPath() {
     String userHome = DockerUtils.getUserHome();
-    String playlistsPath;
-    String playlistsSource = PropertiesUtils.getProperty(PROP_PLAYLISTS_SOURCE);
-    if (LOCAL.equalsIgnoreCase(playlistsSource)) {
-      playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_LOCAL);
-    } else {
-      playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH_REMOTE);
-    }
+    String playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH, DEFAULT_PLAYLISTS_PATH);
     String videoPlaylistsHome = userHome + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
       videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
@@ -237,22 +228,21 @@ public class VideoPlaylistService {
    * Gets the category of the playlist based on the base path.
    */
   private static String getCategory(Path basePath, Path filePath) {
-    String absoluteBasePath = sanitizePath(basePath.toFile().getAbsolutePath());
-    int basePathLength = absoluteBasePath.length();
-    Path parentPath = filePath.getParent();
-    if (parentPath != null) {
-      String absoluteParentFilePath = sanitizePath(parentPath.toFile().getAbsolutePath());
-      String category = absoluteParentFilePath.substring(basePathLength + 1);
-      if (category.startsWith(ANIME)) {
-        return ANIME;
-      }
-      if (category.startsWith(CARTOONS)) {
-        return CARTOONS;
-      }
-      return category;
-    } else {
+    if (filePath.getParent() == null) {
       return null;
     }
+    Path fileParentPath = filePath.getParent();
+    if (fileParentPath == null) {
+      return null;
+    }
+    Path categoryPath = fileParentPath.getParent();
+    if (categoryPath == null) {
+      return null;
+    }
+    String categoryAbsoluteFilePath = sanitizePath(categoryPath.toFile().getAbsolutePath());
+    String absoluteBasePath = sanitizePath(basePath.toFile().getAbsolutePath());
+    int basePathLength = absoluteBasePath.length();
+    return categoryAbsoluteFilePath.substring(basePathLength + 1);
   }
 
   /**
@@ -262,15 +252,9 @@ public class VideoPlaylistService {
     int basePathLength = absoluteBasePath.length();
     String absoluteParentFilePath = StringUtils.substringBeforeLast(filePath,
         FileUtils.getHostPathSeparator());
-    String category = absoluteParentFilePath.substring(basePathLength + 1);
-    logger.trace("category: {}", category);
-    if (category.startsWith(ANIME)) {
-      return ANIME;
-    }
-    if (category.startsWith(CARTOONS)) {
-      return CARTOONS;
-    }
-    return category;
+    String categoryFilePath = StringUtils.substringBeforeLast(absoluteParentFilePath,
+        FileUtils.getHostPathSeparator());
+    return categoryFilePath.substring(basePathLength + 1);
   }
 
   /**

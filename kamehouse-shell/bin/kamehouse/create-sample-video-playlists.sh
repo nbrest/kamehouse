@@ -13,17 +13,16 @@ mainProcess() {
     log.error "${HOME}/git/kamehouse-video-playlists is a git repository. No need to create sample playlists. Exiting..."
     exitProcess ${EXIT_ERROR}
   fi
-  createRemotePlaylists
+  createPlaylists
   updateMediaFiles
-  updateRemotePlaylistsPath
-  createLocalPlaylists
+  updatePlaylistsPath
 }
 
-createRemotePlaylists() {
+createPlaylists() {
   log.info "Creating remote playlists"
-  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
-  mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
-  cp -rvf ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
+  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
+  mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
+  cp -rvf ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
 }
 
 updateMediaFiles() {
@@ -33,17 +32,11 @@ updateMediaFiles() {
   cp -r ${HOME}/git/kamehouse/docker/media/video ${HOME}/docker/media/
 }
 
-updateRemotePlaylistsPath() {
+updatePlaylistsPath() {
   log.info "Updating path with current user in remote playlists entries"
-  cd ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote/
+  cd ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
   local USERNAME=`whoami`
   find . -regex ".*m3u" -type f -exec sed -i "s#/home/USERNAME#/home/${USERNAME}#g" {} \;
-}
-
-createLocalPlaylists() {
-  log.info "Creating local playlists"
-  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-local/
-  cp -rvf ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-remote ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse-local
 }
 
 main "$@"

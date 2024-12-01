@@ -9,7 +9,8 @@
 
 - Increased integration tests timeout to 20 minutes
 - Added script to export minimal kamehouse shell to use on other projects
-- Updated paths where video playlists accessed by the media module are stored in the filesystem
+- Renamed kamehouse config files
+- Made the vlc video playlists path configurable
 - Removed dependency on media server hostname for accessing playlists
 - Fixed bugs
 
