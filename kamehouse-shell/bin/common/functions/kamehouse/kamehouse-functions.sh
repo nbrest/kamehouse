@@ -26,7 +26,7 @@ MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
 DEFAULT_MAVEN_PROFILE="prod"
 MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
-KAMEHOUSE_SERVERS_LIST="(niko-nba|niko-server|niko-server-vm-ubuntu|niko-w|niko-w-vm-ubuntu|pi)"
+KAMEHOUSE_SERVERS_LIST="(see sample kamehouse.cfg to add servers list)"
 KAMEHOUSE_SERVER=""
 
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
@@ -185,43 +185,24 @@ setEnvForKameHouseServer() {
   SSH_SERVER=${KAMEHOUSE_SERVER}
   KAMEHOUSE_SERVER=$(echo "${KAMEHOUSE_SERVER}" | tr '[:upper:]' '[:lower:]')
 
-  if [ "${KAMEHOUSE_SERVER}" != "niko-nba" ] &&
-      [ "${KAMEHOUSE_SERVER}" != "niko-server" ] &&
-      [ "${KAMEHOUSE_SERVER}" != "niko-server-vm-ubuntu" ] &&
-      [ "${KAMEHOUSE_SERVER}" != "niko-w" ] &&
-      [ "${KAMEHOUSE_SERVER}" != "niko-w-vm-ubuntu" ] &&
-      [ "${KAMEHOUSE_SERVER}" != "pi" ]; then
+  local IS_VALID_KAMEHOUSE_SERVER=false
+
+  for KAMEHOUSE_SERVER_CONFIG in ${KAMEHOUSE_SERVER_CONFIGS[@]}; do
+    IFS=',' read -r -a KAMEHOUSE_SERVER_CONFIG_ARRAY <<< "${KAMEHOUSE_SERVER_CONFIG}"
+    local KAMEHOUSE_SERVER_NAME=${KAMEHOUSE_SERVER_CONFIG_ARRAY[0]};
+    local IS_DOCKER_CONTAINER=${KAMEHOUSE_SERVER_CONFIG_ARRAY[5]};
+    if [ "${KAMEHOUSE_SERVER}" == "${KAMEHOUSE_SERVER_NAME}" ] &&
+      [ "${IS_DOCKER_CONTAINER}" == "false" ]; then
+      IS_VALID_KAMEHOUSE_SERVER=true
+      IS_REMOTE_LINUX_HOST=${KAMEHOUSE_SERVER_CONFIG_ARRAY[6]}
+      SSH_USER=${KAMEHOUSE_SERVER_CONFIG_ARRAY[1]}
+  fi
+  done
+  if ! ${IS_VALID_KAMEHOUSE_SERVER}; then
     log.error "Option -z server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}
   fi
-
-  case ${KAMEHOUSE_SERVER} in
-  "niko-nba")
-    IS_REMOTE_LINUX_HOST=false
-    SSH_USER=nbrest
-    ;;
-  "niko-server")
-    IS_REMOTE_LINUX_HOST=false
-    SSH_USER=nbrest
-    ;;
-  "niko-server-vm-ubuntu")
-    IS_REMOTE_LINUX_HOST=true
-    SSH_USER=nbrest
-    ;;  
-  "niko-w")
-    IS_REMOTE_LINUX_HOST=false
-    SSH_USER=nbrest
-    ;;
-  "niko-w-vm-ubuntu")
-    IS_REMOTE_LINUX_HOST=true
-    SSH_USER=nbrest
-    ;;
-  "pi")
-    IS_REMOTE_LINUX_HOST=true
-    SSH_USER=pi
-    ;;
-  esac
 }
 
 setEnvForMavenProfile() {
