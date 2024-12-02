@@ -264,6 +264,22 @@ printUsernameArgOption() {
   addHelpOption "-u" "username"
 }
 
+loadKamehouseCfg() {
+  source ${HOME}/.kamehouse/kamehouse.cfg
+  if [ "$?" != "0" ]; then
+    log.error "Error importing ~/.kamehouse/kamehouse.cfg"
+    exit 99
+  fi
+}
+
+loadKamehouseShellPwd() {
+  source ${HOME}/.kamehouse/.shell/shell.pwd
+  if [ "$?" != "0" ]; then
+    log.error "Error importing ~/.kamehouse/.shell/shell.pwd"
+    exit 99
+  fi  
+}
+
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER
 executeSshCommand() {
   local SKIP_EXIT_CODE_CHECK=$1

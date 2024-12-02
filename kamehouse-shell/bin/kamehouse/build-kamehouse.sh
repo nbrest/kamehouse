@@ -20,7 +20,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-source ${HOME}/.kamehouse/.shell/shell.pwd
+loadKamehouseShellPwd
 
 # Run the build on this script always from the current directory
 USE_CURRENT_DIR=true

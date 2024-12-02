@@ -19,7 +19,7 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
 fi
-source ${HOME}/.kamehouse/kamehouse.cfg
+loadKamehouseCfg
 
 BUILD_ON_STARTUP=false
 BUILD_ON_STARTUP_PARAM=""
@@ -28,7 +28,6 @@ DEBUG_MODE_PARAM=""
 DOCKER_COMMAND="docker run --rm"
 DOCKER_CONTROL_HOST=false
 DOCKER_CONTROL_HOST_PARAM=""
-DOCKER_HOST_HOSTNAME=""
 DOCKER_IMAGE_HOSTNAME=""
 USE_VOLUMES=false
 USE_VOLUMES_PARAM=""
@@ -40,15 +39,31 @@ mainProcess() {
 }
 
 setEnvironment() {
-  if ${IS_LINUX_HOST}; then
-    DOCKER_HOST_OS="linux"
-    IS_LINUX_DOCKER_HOST=true
-  else
-    DOCKER_HOST_OS="windows"
+  if [ -z "${DOCKER_HOST_IP}" ]; then
+    log.error "DOCKER_HOST_IP needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi 
+  
+  if [ -z "${DOCKER_HOST_HOSTNAME}" ]; then
+    log.error "DOCKER_HOST_HOSTNAME needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi 
+
+  if [ -z "${DOCKER_HOST_USERNAME}" ]; then
+    log.error "DOCKER_HOST_USERNAME needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi 
+
+  if [ -z "${DOCKER_HOST_OS}" ]; then
+    log.error "DOCKER_HOST_OS needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi 
+  
+  if  [ "${DOCKER_HOST_OS}" == "windows" ]; then
     IS_LINUX_DOCKER_HOST=false
+  else
+    IS_LINUX_DOCKER_HOST=true
   fi
-  DOCKER_HOST_USERNAME=`whoami`
-  DOCKER_HOST_HOSTNAME=`hostname`
 
   if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
     DOCKER_IMAGE_HOSTNAME=${DOCKER_HOST_HOSTNAME}"-docker"
@@ -56,11 +71,6 @@ setEnvironment() {
       DOCKER_IMAGE_HOSTNAME=${DOCKER_IMAGE_HOSTNAME}"-"${DOCKER_PROFILE}
     fi
   fi
-
-  if [ -z "${DOCKER_HOST_IP}" ]; then
-    log.error "DOCKER_HOST_IP needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
-    exitProcess ${EXIT_INVALID_CONFIG}
-  fi 
 }
 
 printEnv() {
