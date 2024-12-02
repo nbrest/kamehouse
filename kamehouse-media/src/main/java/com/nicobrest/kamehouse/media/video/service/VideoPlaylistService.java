@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.media.video.service;
 
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
@@ -126,17 +127,11 @@ public class VideoPlaylistService {
    */
   private List<Playlist> getAllFromDockerHost(boolean fetchContent) {
     logger.trace("getAllFromDockerHost");
-    Path basePlaylistPath = getBasePlaylistsPath();
     SystemCommand listPlaylistsCommand = new SystemCommand() {
       @Override
       public String getCommandForSsh() {
-        if (DockerUtils.isWindowsDockerHost()) {
-          String command = "powershell.exe -c \"cd " + basePlaylistPath
-              + "; Get-ChildItem -Recurse -Filter '*.m3u' | Select FullName\"";
-          command = command.replace("/", "\\");
-          return command;
-        }
-        return "find " + basePlaylistPath + " | grep -e  \"m3u\" | sort";
+        return KameHouseShellSystemCommand.getDockerHostKameHouseShellCommand(
+            "kamehouse/list-video-playlists.sh", null);
       }
     };
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
@@ -310,12 +305,9 @@ public class VideoPlaylistService {
     SystemCommand getPlaylistContentCommand = new SystemCommand() {
       @Override
       public String getCommandForSsh() {
-        if (DockerUtils.isWindowsDockerHost()) {
-          String command = "powershell.exe -c \"cat " + playlistFilename + "\"";
-          command = command.replace("/", "\\");
-          return command;
-        }
-        return "cat " + playlistFilename + " | sort";
+        return KameHouseShellSystemCommand.getDockerHostKameHouseShellCommand(
+            "kamehouse/get-video-playlist-content.sh",
+            "-f \"" + playlistFilename.replace("\\", "/") + "\"");
       }
     };
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),

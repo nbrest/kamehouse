@@ -16,6 +16,8 @@ COL_DEFAULT_LOG=${COL_GREEN}
 
 # Set to false to skip logging cmd args at start and end of script execution
 LOG_CMD_ARGS=true
+# Set to true to skip logging start and finish of script
+SKIP_LOG_START_FINISH=false
 
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
@@ -92,6 +94,9 @@ log.error() {
 
 # Log standard start of the script
 logStart() {
+  if ${SKIP_LOG_START_FINISH}; then
+    return
+  fi
   local COL_START_LOG="${COL_YELLOW_STD}"
   if [[ ${LOG_CMD_ARGS} && -n "${CMD_ARGUMENTS}" ]]; then
     log.info "${COL_START_LOG}Started executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_START_LOG}"
@@ -102,6 +107,9 @@ logStart() {
 
 # Log standard finish of process
 logFinish() {
+  if ${SKIP_LOG_START_FINISH}; then
+    return
+  fi  
   local EXIT_CODE=$1
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))

@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ import java.util.List;
 public abstract class KameHouseShellSystemCommand extends SystemCommand {
 
   private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
+  private static final String GIT_BASH_BAT = "win\\bat\\git-bash.bat";
+  private static final String GIT_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
 
   /**
    * Build the kamehouse-shell system command.
@@ -88,5 +91,29 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
       return DockerUtils.getUserHome() + KAMEHOUSE_SHELL_BASE;
     }
     return PropertiesUtils.getUserHome() + KAMEHOUSE_SHELL_BASE;
+  }
+
+  /**
+   * Build a kamehouse shell script command to execute on docker host.
+   */
+  public static String getDockerHostKameHouseShellCommand(String script, String args) {
+    StringBuilder command = new StringBuilder(DockerUtils.getDockerHostUserHome());
+    if (DockerUtils.isWindowsDockerHost()) {
+      command.append(KAMEHOUSE_SHELL_BASE.replace("/", "\\"));
+      command.append(GIT_BASH_BAT);
+      command.append(" -c \"");
+      command.append(GIT_BASH_SHELL_BASE);
+    } else {
+      command.append(KAMEHOUSE_SHELL_BASE);
+    }
+    command.append(script);
+    if (!StringUtils.isEmpty(args)) {
+      command.append(" ");
+      command.append(args);
+    }
+    if (DockerUtils.isWindowsDockerHost()) {
+      command.append("\"");
+    }
+    return command.toString();
   }
 }

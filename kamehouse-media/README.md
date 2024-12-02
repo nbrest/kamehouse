@@ -21,6 +21,8 @@ This module handles the following functionality:
 
 - Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/kamehouse.cfg` with the path to the root directory that contains your playlists
 
+- **IMPORTANT**: When running kamehouse on a docker container controlling a host, the value of `PLAYLISTS_PATH` inside the docker container's `${HOME}/.kamehouse/kamehouse.cfg` must match the value on the host's `${HOME}/.kamehouse/kamehouse.cfg` for the playlists to be populated properly on the vlc UI running on the container
+
 - This is a sample [kamehouse.cfg](/docker/config/kamehouse.cfg) with all the possible configurations
 
 ### Playlists folder structure
