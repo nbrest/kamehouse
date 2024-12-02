@@ -132,18 +132,26 @@ buildMobileBackendJson() {
   echo '{' > ${BACKEND_JSON_FILE}
   echo '  "selected" : "'${MOBILE_BACKEND_SELECTED_SERVER}'",' >> ${BACKEND_JSON_FILE}
   echo '  "servers": [' >> ${BACKEND_JSON_FILE}
-  for MOBILE_BACKEND_SERVER in ${MOBILE_BACKEND_SERVERS[@]}; do
-    IFS=',' read -r -a MOBILE_BACKEND_SERVER_ARRAY <<< "${MOBILE_BACKEND_SERVER}"
-    echo '    { ' >> ${BACKEND_JSON_FILE}
-    echo '      "name" : "'${MOBILE_BACKEND_SERVER_ARRAY[0]}'",' >> ${BACKEND_JSON_FILE}
-    echo '      "url" : "'${MOBILE_BACKEND_SERVER_ARRAY[1]}'",' >> ${BACKEND_JSON_FILE}
-    echo '      "skipSslCheck" : '${MOBILE_BACKEND_SERVER_ARRAY[2]}',' >> ${BACKEND_JSON_FILE}
-    echo '      "username" : "'${MOBILE_BACKEND_SERVER_ARRAY[3]}'",' >> ${BACKEND_JSON_FILE}
-    echo '      "password" : "'${MOBILE_BACKEND_SERVER_ARRAY[4]}'",' >> ${BACKEND_JSON_FILE}
-    echo '      "isLoggedIn" : '${MOBILE_BACKEND_SERVER_ARRAY[5]}',' >> ${BACKEND_JSON_FILE}
-    echo '      "isEditable" : '${MOBILE_BACKEND_SERVER_ARRAY[6]} >> ${BACKEND_JSON_FILE}
-    echo '    },' >> ${BACKEND_JSON_FILE}
-  done
+  while read KAMEHOUSE_CONFIG_ENTRY; do
+    if [ -n "${KAMEHOUSE_CONFIG_ENTRY}" ]; then
+      local KAMEHOUSE_CONFIG_ENTRY_SPLIT=$(echo ${KAMEHOUSE_CONFIG_ENTRY} | tr "," "\n")
+      local KAMEHOUSE_CONFIG=()
+      while read KAMEHOUSE_CONFIG_ENTRY_FIELD; do
+        if [ -n "${KAMEHOUSE_CONFIG_ENTRY_FIELD}" ]; then
+          KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
+        fi
+      done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
+      echo '    { ' >> ${BACKEND_JSON_FILE}
+      echo '      "name" : "'${KAMEHOUSE_CONFIG[0]}'",' >> ${BACKEND_JSON_FILE}
+      echo '      "url" : "'${KAMEHOUSE_CONFIG[1]}'",' >> ${BACKEND_JSON_FILE}
+      echo '      "skipSslCheck" : '${KAMEHOUSE_CONFIG[2]}',' >> ${BACKEND_JSON_FILE}
+      echo '      "username" : "'${KAMEHOUSE_CONFIG[3]}'",' >> ${BACKEND_JSON_FILE}
+      echo '      "password" : "'${KAMEHOUSE_CONFIG[4]}'",' >> ${BACKEND_JSON_FILE}
+      echo '      "isLoggedIn" : '${KAMEHOUSE_CONFIG[5]}',' >> ${BACKEND_JSON_FILE}
+      echo '      "isEditable" : '${KAMEHOUSE_CONFIG[6]} >> ${BACKEND_JSON_FILE}
+      echo '    },' >> ${BACKEND_JSON_FILE}
+    fi
+  done <<< ${MOBILE_BACKEND_SERVERS} 
   sed -i '$ d' ${BACKEND_JSON_FILE}
   echo '    }' >> ${BACKEND_JSON_FILE}
   echo '  ]' >> ${BACKEND_JSON_FILE}

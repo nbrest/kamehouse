@@ -85,9 +85,9 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
   private void initSingleTestData() {
     singleTestData = getMoviesPlaylist("dc");
     List<String> files = new ArrayList<>();
-    files.add("http://niko-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4");
+    files.add("http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4");
     files.add(
-        "http://niko-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4");
+        "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4");
     singleTestData.setFiles(files);
   }
 
@@ -96,11 +96,11 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     testDataList.add(singleTestData);
     List<String> files = new ArrayList<>();
     files.add(
-        "http://niko-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4");
+        "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4");
     files.add(
-        "http://niko-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv");
+        "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv");
     files.add(
-        "http://niko-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv");
+        "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv");
     Playlist playlist = getMoviesPlaylist("marvel");
     playlist.setFiles(files);
     testDataList.add(playlist);
@@ -111,9 +111,8 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     String playlistName = "movies_" + heroesStudio + "_all";
     playlist.setName(playlistName + ".m3u");
     String category = "movies";
-    playlist.setPath(
-        TEST_PLAYLISTS_PATH + File.separator + category + File.separator + playlistName
-            + File.separator + playlistName + ".m3u");
+    playlist.setPath("." + File.separator + TEST_PLAYLISTS_PATH + File.separator + category
+        + File.separator + playlistName + File.separator + playlistName + ".m3u");
     playlist.setCategory(category);
     return playlist;
   }

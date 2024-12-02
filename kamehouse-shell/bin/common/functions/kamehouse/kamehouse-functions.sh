@@ -186,18 +186,25 @@ setEnvForKameHouseServer() {
   KAMEHOUSE_SERVER=$(echo "${KAMEHOUSE_SERVER}" | tr '[:upper:]' '[:lower:]')
 
   local IS_VALID_KAMEHOUSE_SERVER=false
-
-  for KAMEHOUSE_SERVER_CONFIG in ${KAMEHOUSE_SERVER_CONFIGS[@]}; do
-    IFS=',' read -r -a KAMEHOUSE_SERVER_CONFIG_ARRAY <<< "${KAMEHOUSE_SERVER_CONFIG}"
-    local KAMEHOUSE_SERVER_NAME=${KAMEHOUSE_SERVER_CONFIG_ARRAY[0]};
-    local IS_DOCKER_CONTAINER=${KAMEHOUSE_SERVER_CONFIG_ARRAY[5]};
-    if [ "${KAMEHOUSE_SERVER}" == "${KAMEHOUSE_SERVER_NAME}" ] &&
-      [ "${IS_DOCKER_CONTAINER}" == "false" ]; then
-      IS_VALID_KAMEHOUSE_SERVER=true
-      IS_REMOTE_LINUX_HOST=${KAMEHOUSE_SERVER_CONFIG_ARRAY[6]}
-      SSH_USER=${KAMEHOUSE_SERVER_CONFIG_ARRAY[1]}
+  while read KAMEHOUSE_CONFIG_ENTRY; do
+    if [ -n "${KAMEHOUSE_CONFIG_ENTRY}" ]; then
+      local KAMEHOUSE_CONFIG_ENTRY_SPLIT=$(echo ${KAMEHOUSE_CONFIG_ENTRY} | tr "," "\n")
+      local KAMEHOUSE_CONFIG=()
+      while read KAMEHOUSE_CONFIG_ENTRY_FIELD; do
+        if [ -n "${KAMEHOUSE_CONFIG_ENTRY_FIELD}" ]; then
+          KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
+        fi
+      done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
+      local KAMEHOUSE_SERVER_NAME=${KAMEHOUSE_CONFIG[0]};
+      local IS_DOCKER_CONTAINER=${KAMEHOUSE_CONFIG[5]};
+      if [ "${KAMEHOUSE_SERVER}" == "${KAMEHOUSE_SERVER_NAME}" ] &&
+          [ "${IS_DOCKER_CONTAINER}" == "false" ]; then
+        IS_VALID_KAMEHOUSE_SERVER=true
+        IS_REMOTE_LINUX_HOST=${KAMEHOUSE_CONFIG[6]}
+        SSH_USER=${KAMEHOUSE_CONFIG[1]}
+      fi      
     fi
-  done
+  done <<< ${KAMEHOUSE_SERVER_CONFIGS}   
   if ! ${IS_VALID_KAMEHOUSE_SERVER}; then
     log.error "Option -z server has an invalid value of ${KAMEHOUSE_SERVER}"
     printHelp

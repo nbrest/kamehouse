@@ -69,7 +69,7 @@ class VlcRcServiceTest {
   void getVlcRcStatusTest() {
     when(vlcPlayer.getVlcRcStatus()).thenReturn(vlcRcStatus);
 
-    VlcRcStatus returnedStatus = vlcRcService.getVlcRcStatus("niko-nba");
+    VlcRcStatus returnedStatus = vlcRcService.getVlcRcStatus("kamehouse-server");
 
     vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedStatus);
     verify(vlcPlayer, times(1)).getVlcRcStatus();
@@ -81,7 +81,7 @@ class VlcRcServiceTest {
     when(vlcPlayer.execute(any())).thenReturn(vlcRcStatus);
     VlcRcCommand vlcRcCommand = vlcRcCommandTestUtils.getSingleTestData();
 
-    VlcRcStatus returnedStatus = vlcRcService.execute(vlcRcCommand, "niko-nba");
+    VlcRcStatus returnedStatus = vlcRcService.execute(vlcRcCommand, "kamehouse-server");
 
     vlcRcStatusTestUtils.assertEqualsAllAttributes(vlcRcStatus, returnedStatus);
     verify(vlcPlayer, times(1)).execute(any());
@@ -92,7 +92,7 @@ class VlcRcServiceTest {
   void getPlaylistTest() {
     when(vlcPlayer.getPlaylist()).thenReturn(vlcRcPlaylist);
 
-    List<VlcRcPlaylistItem> returnedPlaylist = vlcRcService.getPlaylist("niko-nba");
+    List<VlcRcPlaylistItem> returnedPlaylist = vlcRcService.getPlaylist("kamehouse-server");
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, returnedPlaylist);
     verify(vlcPlayer, times(1)).getPlaylist();
@@ -103,7 +103,7 @@ class VlcRcServiceTest {
   void browseTest() {
     when(vlcPlayer.browse(any())).thenReturn(vlcRcFileList);
 
-    List<VlcRcFileListItem> returnedFiles = vlcRcService.browse(null, "niko-nba");
+    List<VlcRcFileListItem> returnedFiles = vlcRcService.browse(null, "kamehouse-server");
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, returnedFiles);
     verify(vlcPlayer, times(1)).browse(any());

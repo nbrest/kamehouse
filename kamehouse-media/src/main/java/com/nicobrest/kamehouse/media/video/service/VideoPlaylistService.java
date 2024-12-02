@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 public class VideoPlaylistService {
 
   public static final String DEFAULT_PLAYLISTS_PATH =
-      "/git/kamehouse-video-playlists/playlists/video-kamehouse";
+      "git/kamehouse-video-playlists/playlists/video-kamehouse";
   public static final String PROP_PLAYLISTS_PATH = "playlists.path";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
@@ -217,7 +217,7 @@ public class VideoPlaylistService {
   private static Path getBasePlaylistsPath() {
     String userHome = DockerUtils.getUserHome();
     String playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH, DEFAULT_PLAYLISTS_PATH);
-    String videoPlaylistsHome = userHome + playlistsPath;
+    String videoPlaylistsHome = userHome + "/" + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
       videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
     }

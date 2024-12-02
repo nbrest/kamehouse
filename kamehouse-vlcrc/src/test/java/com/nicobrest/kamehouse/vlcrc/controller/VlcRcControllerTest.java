@@ -71,10 +71,10 @@ class VlcRcControllerTest extends AbstractControllerTest {
   @Test
   void getVlcRcStatusTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
-    when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(vlcRcStatus);
+    when(vlcRcServiceMock.getVlcRcStatus("kamehouse-server")).thenReturn(vlcRcStatus);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/status");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/kamehouse-server/status");
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
@@ -88,10 +88,10 @@ class VlcRcControllerTest extends AbstractControllerTest {
   @Test
   void getVlcRcStatusNotFoundTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
-    when(vlcRcServiceMock.getVlcRcStatus("niko-nba")).thenReturn(null);
+    when(vlcRcServiceMock.getVlcRcStatus("kamehouse-server")).thenReturn(null);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/status");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/kamehouse-server/status");
 
     verifyResponseStatus(response, HttpStatus.NOT_FOUND);
     verify(vlcRcServiceMock, times(1)).getVlcRcStatus(anyString());
@@ -109,7 +109,7 @@ class VlcRcControllerTest extends AbstractControllerTest {
     byte[] requestPayload = JsonUtils.toJsonByteArray(vlcRcCommand);
 
     MockHttpServletResponse response =
-        doPost(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/commands", requestPayload);
+        doPost(VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/kamehouse-server/commands", requestPayload);
     VlcRcStatus responseBody = getResponseBody(response, VlcRcStatus.class);
 
     verifyResponseStatus(response, HttpStatus.CREATED);
@@ -123,10 +123,10 @@ class VlcRcControllerTest extends AbstractControllerTest {
   @Test
   void getPlaylistTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
-    when(vlcRcServiceMock.getPlaylist("niko-nba")).thenReturn(vlcRcPlaylist);
+    when(vlcRcServiceMock.getPlaylist("kamehouse-server")).thenReturn(vlcRcPlaylist);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/playlist");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/kamehouse-server/playlist");
     List<VlcRcPlaylistItem> responseBody = getResponseBodyList(response, VlcRcPlaylistItem.class);
 
     vlcRcPlaylistTestUtils.assertEqualsAllAttributes(vlcRcPlaylist, responseBody);
@@ -139,10 +139,10 @@ class VlcRcControllerTest extends AbstractControllerTest {
   @Test
   void browseTest() throws Exception {
     Mockito.reset(vlcRcServiceMock);
-    when(vlcRcServiceMock.browse(null, "niko-nba")).thenReturn(vlcRcFileList);
+    when(vlcRcServiceMock.browse(null, "kamehouse-server")).thenReturn(vlcRcFileList);
 
     MockHttpServletResponse response = doGet(
-        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/niko-nba/browse");
+        VlcPlayerTestUtils.API_V1_VLCPLAYERS + "/kamehouse-server/browse");
     List<VlcRcFileListItem> responseBody = getResponseBodyList(response, VlcRcFileListItem.class);
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);

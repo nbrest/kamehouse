@@ -38,10 +38,18 @@ setScriptLogMessage() {
 }
 
 execInAllServers() {
-  for KAMEHOUSE_SERVER_CONFIG in ${KAMEHOUSE_SERVER_CONFIGS[@]}; do
-    IFS=',' read -r -a KAMEHOUSE_SERVER_CONFIG_ARRAY <<< "${KAMEHOUSE_SERVER_CONFIG}"
-    execInServer "${KAMEHOUSE_SERVER_CONFIG_ARRAY[0]}" "${KAMEHOUSE_SERVER_CONFIG_ARRAY[2]}" "${KAMEHOUSE_SERVER_CONFIG_ARRAY[3]}" "${KAMEHOUSE_SERVER_CONFIG_ARRAY[4]}" &
-  done
+  while read KAMEHOUSE_CONFIG_ENTRY; do
+    if [ -n "${KAMEHOUSE_CONFIG_ENTRY}" ]; then
+      local KAMEHOUSE_CONFIG_ENTRY_SPLIT=$(echo ${KAMEHOUSE_CONFIG_ENTRY} | tr "," "\n")
+      local KAMEHOUSE_CONFIG=()
+      while read KAMEHOUSE_CONFIG_ENTRY_FIELD; do
+        if [ -n "${KAMEHOUSE_CONFIG_ENTRY_FIELD}" ]; then
+          KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
+        fi
+      done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
+      execInServer "${KAMEHOUSE_CONFIG[0]}" "${KAMEHOUSE_CONFIG[2]}" "${KAMEHOUSE_CONFIG[3]}" "${KAMEHOUSE_CONFIG[4]}" &
+    fi
+  done <<< ${KAMEHOUSE_SERVER_CONFIGS} 
 
   log.info "Waiting for ${SCRIPT_LOG_MESSAGE} to finish in ALL servers. ${COL_YELLOW}This process can take several minutes"
   wait

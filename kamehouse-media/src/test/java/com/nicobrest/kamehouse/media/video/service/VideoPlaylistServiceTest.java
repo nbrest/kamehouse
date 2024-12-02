@@ -51,8 +51,8 @@ class VideoPlaylistServiceTest {
 
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
     when(PropertiesUtils.getHostname()).thenReturn(VideoPlaylistTestUtils.KAMEHOUSE_SERVER);
-    when(PropertiesUtils.getUserHome()).thenReturn(""); // Use git project root as home
-    when(DockerUtils.getUserHome()).thenReturn(""); // Use git project root as home
+    when(PropertiesUtils.getUserHome()).thenReturn("."); // Use git project root as home
+    when(DockerUtils.getUserHome()).thenReturn("."); // Use git project root as home
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH,
         VideoPlaylistService.DEFAULT_PLAYLISTS_PATH))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_PATH);
@@ -113,17 +113,17 @@ class VideoPlaylistServiceTest {
     dcPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\r\n"
-                + "http://niko-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\r\n"
-                + "http://niko-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\r\n"
+                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\r\n"
+                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\r\n"
         )
     );
     Output marvelPlaylistContent = new Output();
     marvelPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\r\n"
-                + "http://niko-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\r\n"
-                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\r\n"
-                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\r\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\r\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\r\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\r\n"
         )
     );
     when(SshClientUtils.executeShell(any(), any(), any(), anyBoolean())).thenReturn(
@@ -155,17 +155,17 @@ class VideoPlaylistServiceTest {
     dcPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\n"
-                + "http://niko-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\n"
-                + "http://niko-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
+                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\n"
+                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
         )
     );
     Output marvelPlaylistContent = new Output();
     marvelPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\n"
-                + "http://niko-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\n"
-                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\n"
-                + "http://niko-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
         )
     );
     when(SshClientUtils.executeShell(any(), any(), any(), anyBoolean())).thenReturn(
