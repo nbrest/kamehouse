@@ -8,6 +8,8 @@ alias cd.shell="cd ${HOME}/programs/kamehouse-shell/bin"
 alias cd.webapps="cd ${HOME}/programs/apache-tomcat/webapps"
 alias cd.workspace="cd ${HOME}/workspace"
 
+alias edit.kamehouse.cfg="vim ${HOME}/.kamehouse/kamehouse.cfg"
+
 alias reload.bashrc='source ${HOME}/.bashrc'
 
 alias ls='ls --color=auto'
