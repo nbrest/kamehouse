@@ -141,14 +141,14 @@ buildMobileBackendJson() {
           KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
         fi
       done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
-      echo '    { ' >> ${BACKEND_JSON_FILE}
+      echo '    {' >> ${BACKEND_JSON_FILE}
       echo '      "name" : "'${KAMEHOUSE_CONFIG[0]}'",' >> ${BACKEND_JSON_FILE}
       echo '      "url" : "'${KAMEHOUSE_CONFIG[1]}'",' >> ${BACKEND_JSON_FILE}
       echo '      "skipSslCheck" : '${KAMEHOUSE_CONFIG[2]}',' >> ${BACKEND_JSON_FILE}
       echo '      "username" : "'${KAMEHOUSE_CONFIG[3]}'",' >> ${BACKEND_JSON_FILE}
       echo '      "password" : "'${KAMEHOUSE_CONFIG[4]}'",' >> ${BACKEND_JSON_FILE}
       echo '      "isLoggedIn" : '${KAMEHOUSE_CONFIG[5]}',' >> ${BACKEND_JSON_FILE}
-      echo '      "isEditable" : '${KAMEHOUSE_CONFIG[6]} >> ${BACKEND_JSON_FILE}
+      echo '      "isUrlEditable" : '${KAMEHOUSE_CONFIG[6]} >> ${BACKEND_JSON_FILE}
       echo '    },' >> ${BACKEND_JSON_FILE}
     fi
   done <<< ${MOBILE_BACKEND_SERVERS} 

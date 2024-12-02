@@ -797,7 +797,7 @@ class KameHouseMobileConfigManager {
       if (backendServerDropdown.options[i].textContent === selectedServer.name) {
         backendServerDropdown.options[i].selected = true;
         backendServerInput.value = selectedServer.url;
-        if (selectedServer.isEditable) {
+        if (selectedServer.isUrlEditable) {
           backendServerInput.readOnly = false;
         } else {
           backendServerInput.readOnly = true;
