@@ -129,9 +129,9 @@ loginCheckLoop() {
 }
 
 loginCheck() {
-  local URL="localhost:${DOCKER_PORT_HTTP}/kame-house/admin/server-management"
+  local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house/admin/server-management"
   log.info "Executing request to ${COL_PURPLE}${URL}"
-  curl --max-time 60 -k --request POST "localhost:${DOCKER_PORT_HTTP}/kame-house/logout" > /dev/null
+  curl --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP}/kame-house/logout" > /dev/null
   local CURL_RESPONSE=`curl --max-time 60 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
   log.trace "CURL_RESPONSE ${CURL_RESPONSE}"
   echo ${CURL_RESPONSE} | grep '<title>KameHouse - Server Management</title>' > /dev/null
