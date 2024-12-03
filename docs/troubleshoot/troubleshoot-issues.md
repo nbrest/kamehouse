@@ -149,6 +149,14 @@ exit
 ### Run tomcat through a startup script, not as a system service
 * The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in **windows**. Check [Installation](/docs/installation/installation.md) to run tomcat from a startup script.
 
+### VLC fails to load audio on videos
+- This happened on raspberrypi bookworm
+- Vlc shows this popup sometimes on top of the playing video
+```sh
+audio output failed: the audio device "default" could not be used: unknown error 524
+```
+- solution: Prefix vlc start command with `XDG_RUNTIME_DIR=/run/user/$(id -u) ` 
+
 *********************
 
 ## Websockets keep reconnecting infinitely, sending data but not receiving:
