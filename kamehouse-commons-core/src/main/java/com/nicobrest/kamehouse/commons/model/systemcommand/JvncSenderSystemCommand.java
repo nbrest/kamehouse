@@ -14,12 +14,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * JvncSender system command to control a VNC server. When running on docker it sends the commands
- * through to the host directly from the webapps running in the docker container.
+ * JvncSender system command to control a VNC server. When running on a docker container controlling
+ * the host. If the host is a windows server, it runs jvncsender directly from the webapps. If the
+ * host is a linux server, it runs jvncsender through ssh and kamehouse-cmd to avoid the DISPLAY
+ * errors of running jvncsender remotely.
  *
  * @author nbrest
  */
-public abstract class JvncSenderSystemCommand extends SystemCommand {
+public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand {
 
   private static final int VNC_PORT = 5900;
 
@@ -27,6 +29,14 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
    * Set the output command.
    */
   protected JvncSenderSystemCommand() {
+    logCommand = false;
+    if (DockerUtils.isWindowsDockerHost()) {
+      // execute jvncsender directly from the webapps
+      executeOnDockerHost = false;
+    } else {
+      // execute jvncsender through ssh and kamehouse-cmd to avoid DISPLAY errors
+      executeOnDockerHost = true;
+    }
     setOutputCommand();
   }
 
@@ -34,6 +44,11 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
    * Send the command to execute an action on the vnc server.
    */
   protected abstract void sendCommand(VncServer vncServer) throws KameHouseException;
+
+  /**
+   * Set the jvncsender arguments to be executed by kamehouse-cmd in the docker host.
+   */
+  protected abstract String buildKameHouseCmdJvncSenderOperationArgs();
 
   @Override
   public SystemCommand.Output execute() {
@@ -92,6 +107,25 @@ public abstract class JvncSenderSystemCommand extends SystemCommand {
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }
+  }
+
+  /**
+   * Set the commands to execute jvncsender on the docker host. Call this after initializing the
+   * properties in each subclass.
+   */
+  protected void setDockerHostJvncSenderCommands() {
+    setKameHouseCmdCommands();
+  }
+
+  /**
+   * Get kamehouse-cmd command arguments for executing through ssh on docker host.
+   */
+  @Override
+  protected String getKameHouseCmdArguments() {
+    String host = DockerUtils.getHostname();
+    String password = getVncServerPassword();
+    return "-o jvncsender -password " + password + " -host " + host + " -port " + VNC_PORT + " "
+        + buildKameHouseCmdJvncSenderOperationArgs();
   }
 
   @Override

@@ -20,39 +20,40 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-KAMEHOUSE_SERVER="${DOCKER_SERVER}"
+KNOWN_KEY_TO_REMOVE=""
 
 mainProcess() {
-  log.info "Checking docker status on current server ${COL_PURPLE}${HOSTNAME}"
-  echo ""
-  log.info "Docker containers"
-  echo ""
-  docker container list
-
-  echo ""
-  log.info "Docker images"
-  echo ""
-  docker images
-
-  echo ""
-  log.info "Docker volumes"
-  echo ""
-  docker volume ls
-
-  kameHouseDockerContainersServerStatus
+  removeServerKey
 }
 
-kameHouseDockerContainersServerStatus() {
-  if [ "${KAMEHOUSE_SERVER}" != "${HOSTNAME}" ]; then
-    log.info "Checking docker status on kamehouse docker containers server ${COL_PURPLE}${KAMEHOUSE_SERVER}"
-    setSshParameters
-    executeSshCommand
-  fi
+removeServerKey() {
+  log.info "Listing ${KNOWN_KEY_TO_REMOVE} in known_hosts"
+  cat "${HOME}/.ssh/known_hosts" | grep "${KNOWN_KEY_TO_REMOVE}"
+  log.info "Removing ${KNOWN_KEY_TO_REMOVE} key from known hosts"
+  log.debug "ssh-keygen -f \"${HOME}/.ssh/known_hosts\" -R \"${KNOWN_KEY_TO_REMOVE}\""
+  ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${KNOWN_KEY_TO_REMOVE}"
 }
 
-setSshParameters() {
-  setEnvForKameHouseServer
-  SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh"
+parseArguments() {
+  while getopts ":k:" OPT; do
+    case $OPT in
+    ("k")
+      KNOWN_KEY_TO_REMOVE="$OPTARG"
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done 
 }
+
+setEnvFromArguments() {
+  checkRequiredOption "-k" "${KNOWN_KEY_TO_REMOVE}" 
+}
+
+printHelpOptions() {
+  addHelpOption "-k key" "'hostname/ip' or '[hostname/ip]:port' to remove from known_hosts" "r"
+}
+
 
 main "$@"

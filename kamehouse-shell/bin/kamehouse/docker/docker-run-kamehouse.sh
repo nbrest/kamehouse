@@ -19,7 +19,6 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
 fi
-loadKamehouseCfg
 
 BUILD_ON_STARTUP=false
 BUILD_ON_STARTUP_PARAM=""
@@ -59,11 +58,7 @@ setEnvironment() {
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
   
-  if  [ "${DOCKER_HOST_OS}" == "windows" ]; then
-    IS_LINUX_DOCKER_HOST=false
-  else
-    IS_LINUX_DOCKER_HOST=true
-  fi
+  setIsLinuxDockerHost
 
   if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
     DOCKER_IMAGE_HOSTNAME=${DOCKER_HOST_HOSTNAME}"-docker"
@@ -142,10 +137,10 @@ runDockerImage() {
   fi
 
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
-    local DOCKER_HOST_USERHOME=`getUserHome`
-    log.info "Mounting ${DOCKER_HOST_USERHOME}/workspace/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
+    local HOST_USERHOME=`getHostUserHomeGitBash`
+    log.info "Mounting ${HOST_USERHOME}/workspace/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -v ${DOCKER_HOST_USERHOME}/workspace/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
+    -v ${HOST_USERHOME}/workspace/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
     "
   fi
   
@@ -156,14 +151,6 @@ runDockerImage() {
   echo ""
   log.debug "${DOCKER_COMMAND}"
   ${DOCKER_COMMAND}
-}
-
-getUserHome() {
-  if ${IS_LINUX_HOST}; then
-    echo ${HOME}
-  else
-    echo "//c/Users/${USER}"
-  fi
 }
 
 configureDockerProfile() {

@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
+import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.jvncsender.VncServer;
 
 /**
@@ -17,9 +18,8 @@ public class TextJvncSenderSystemCommand extends JvncSenderSystemCommand {
    */
   public TextJvncSenderSystemCommand(String text) {
     super();
-    logCommand = false;
-    executeOnDockerHost = false;
     this.text = text;
+    setDockerHostJvncSenderCommands();
   }
 
   /**
@@ -27,10 +27,9 @@ public class TextJvncSenderSystemCommand extends JvncSenderSystemCommand {
    */
   public TextJvncSenderSystemCommand(String text, int sleepTime) {
     super();
-    logCommand = false;
-    executeOnDockerHost = false;
     setSleepTime(sleepTime);
     this.text = text;
+    setDockerHostJvncSenderCommands();
   }
 
   @Override
@@ -40,5 +39,10 @@ public class TextJvncSenderSystemCommand extends JvncSenderSystemCommand {
     } catch (Exception e) {
       throw new KameHouseException(e);
     }
+  }
+
+  @Override
+  protected String buildKameHouseCmdJvncSenderOperationArgs() {
+    return "-text " + text;
   }
 }

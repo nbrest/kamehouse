@@ -1,5 +1,3 @@
-loadKamehouseCfg
-
 buildKameHouseStatic() {
   if ${INTEGRATION_TESTS}; then
     log.debug "Running integration tests, skippking static code build"

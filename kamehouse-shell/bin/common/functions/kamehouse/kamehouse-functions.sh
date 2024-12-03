@@ -271,6 +271,7 @@ loadKamehouseCfg() {
     exit 99
   fi
 }
+loadKamehouseCfg
 
 loadKamehouseShellPwd() {
   source ${HOME}/.kamehouse/.shell/shell.pwd

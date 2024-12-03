@@ -9,6 +9,10 @@ The project is hosted on [docker hub](https://hub.docker.com/repository/docker/n
 
 The docker image loads kamehouse through tomcat and apache httpd and most of the functionality works out of the box.
 
+The kamehouse docker container can be used to control a remote host that has kamehouse-shell and kamehouse-cmd installed. 
+- The remote host doesn't need to have all the kamehouse tomcat and webapps up and running
+- The remote host needs to be reachable by `http` and `ssh` from the docker container
+
 ## Install kamehouse shell scripts to control docker (optional)
 
 - Download the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to install only kamehouse-shell scripts, without affecting the shell
@@ -152,10 +156,10 @@ You can then run the image as mentioned above either with temporary or permanent
 
 *********************
 
-## Sync ssh keys between host and container
+## Sync ssh keys and configuration between host and container
 
 - When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host. Such as starting and stopping vlc player, shutdown, reboot, suspend and others. By default in most profiles, the container is setup to execute the commands within the container
-- Those commands are executed through ssh from the docker container to the host. For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container-data-from-host.sh -s` from the host with the `-s` argument to only resync the ssh keys
+- Those commands are executed through ssh from the docker container to the host. For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container.sh` from the host to resync the ssh keys and configuration files to the docker container
 
 *********************
 
@@ -165,4 +169,4 @@ You can then run the image as mentioned above either with temporary or permanent
 - `docker-cleanup-kamehouse.sh` cleans up old untagged kamehouse images
 - `docker-server-key-remove.sh` removes an outdated key from the known hosts file so the ssh command doesn't fail next time
 - `docker-ci-integration-tests-trigger.sh` starts a ci docker container and runs all integration tests inside it
-- `docker-reinit-container-data-from-host.sh` re initializes the container data from the host or from docker's initial setup. Also synchronizes ssh keys between host and container which is necessary to execute passwordless ssh commands on the host from the webapps in the container
+- `docker-reinit-container.sh` re initializes the container data from the host or resets to inital docker setup. Also synchronizes ssh keys between host and container which is necessary to execute passwordless ssh commands on the host from the webapps in the container when using the docker container to control a remote host

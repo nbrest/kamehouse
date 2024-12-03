@@ -198,3 +198,27 @@ loadDockerContainerEnv() {
     source ${CONTAINER_ENV_FILE}
   fi
 }
+
+setIsLinuxDockerHost() {
+  if  [ "${DOCKER_HOST_OS}" == "windows" ]; then
+    IS_LINUX_DOCKER_HOST=false
+  else
+    IS_LINUX_DOCKER_HOST=true
+  fi  
+}
+
+getHostUserHomeGitBash() {
+  if ${IS_LINUX_HOST}; then
+    echo "${HOME}"
+  else
+    echo "//c/Users/${USER}"
+  fi
+}
+
+getDockerHostUserHome() {
+  if ${IS_LINUX_DOCKER_HOST}; then
+    echo "/home/${DOCKER_HOST_USERNAME}"
+  else
+    echo "/C:/Users/${DOCKER_HOST_USERNAME}"
+  fi
+}

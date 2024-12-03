@@ -9,12 +9,13 @@
 
 - Increased integration tests timeout to 20 minutes
 - Added script to export minimal kamehouse shell to use on other projects
-- Renamed kamehouse config files
+- Renamed kamehouse config and password files
 - Made the vlc video playlists path configurable
 - Removed dependency on media server hostname for accessing playlists
 - Moved hardcoded configured kamehouse servers to ${HOME}/.kamehouse/kamehouse.cfg
-- Moved docker host ip to be set in ${HOME}/.kamehouse/kamehouse.cfg
-- Moved mobile app servers list to ${HOME}/.kamehouse/kamehouse.cfg
+- Enabled docker containers to control any host by setting docker host parameters in kamehouse.cfg
+- Moved mobile app servers list to kamehouse.cfg
+- Fixed sync of data and files from remote host to docker container
 - Fixed bugs
 
 #### v9.02

@@ -55,7 +55,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 - Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p dev`
 
-- Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container-data-from-host.sh -s -p dev` to sync the ssh keys of the host to the container using default password `gohan`
+- Execute `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-reinit-container.sh -p dev` to sync the ssh keys and the configuration files of the host to the container using default password `gohan`
 
 - Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
   - Deploy your changes using `$cd {HOME}/git/kamehouse ; deploy-kamehouse.sh -c`

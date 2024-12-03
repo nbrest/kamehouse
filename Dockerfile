@@ -91,11 +91,6 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   ### Setup directories ###
   # /home/${KAMEHOUSE_USERNAME}/.config/vlc
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.config/vlc/" ; \
-  # /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse" ; \
-  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys" ; \
-  # /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
-  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/" ; \
   # /home/${KAMEHOUSE_USERNAME}/programs
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/apache-httpd ; \
   mkdir -p /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-cmd/bin ; \
@@ -120,12 +115,6 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/maven/settings.xml /home/${KAMEH
 ### Setup directories ###
 # /home/${KAMEHOUSE_USERNAME}/.config/vlc
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/vlc/* /home/${KAMEHOUSE_USERNAME}/.config/vlc/
-# /home/${KAMEHOUSE_USERNAME}/.kamehouse/
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/config/kamehouse.cfg /home/${KAMEHOUSE_USERNAME}/.kamehouse/kamehouse.cfg
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.vnc.server.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/.unlock.screen.pwd.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
-# /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/shell.pwd /home/${KAMEHOUSE_USERNAME}/.kamehouse/.shell/shell.pwd
 
 # Copy docker setup folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
@@ -152,6 +141,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-git-checkout.sh ${DOCKER_IMAGE_TAG} ; \
   chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c -p docker ; \
   # Clear temporary files
   /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin/mvn clean ; \
@@ -162,10 +152,6 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Install groot
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
-  # /home/${KAMEHOUSE_USERNAME}/.kamehouse
-  sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/httpd ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/kamehouse.pkcs12 ; \
-  cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/kamehouse.crt" ; \
   # Httpd root index.html
   rm /var/www/html/index.html ; \
   cp /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-groot/src/main/public/index.html /var/www/html/index.html ; \
@@ -184,8 +170,6 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   mariadb < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql ; \
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql ; \
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
-
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker/keys/integration-test-cred.enc /home/${KAMEHOUSE_USERNAME}/.kamehouse/keys/
 
 # Expose ports
 EXPOSE 22 80 443 3306 8000 8080 9090
