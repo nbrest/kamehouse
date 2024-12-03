@@ -89,7 +89,7 @@ syncSshKeys() {
   runCommand
 
   COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.ssh/authorised_keys"
+  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.ssh/authorized_keys"
   COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.ssh/"
   runCommand
 }
