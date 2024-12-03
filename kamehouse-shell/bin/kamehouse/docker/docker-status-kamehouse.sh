@@ -21,6 +21,7 @@ if [ "$?" != "0" ]; then
 fi
 
 KAMEHOUSE_SERVER="${DOCKER_SERVER}"
+SKIP_KAMEHOUSE_SERVER_CHECK=false
 
 mainProcess() {
   log.info "Checking docker status on current server ${COL_PURPLE}${HOSTNAME}"
@@ -39,7 +40,9 @@ mainProcess() {
   echo ""
   docker volume ls
 
-  kameHouseDockerContainersServerStatus
+  if ! ${SKIP_KAMEHOUSE_SERVER_CHECK}; then
+    kameHouseDockerContainersServerStatus
+  fi
 }
 
 kameHouseDockerContainersServerStatus() {
@@ -53,6 +56,23 @@ kameHouseDockerContainersServerStatus() {
 setSshParameters() {
   setEnvForKameHouseServer
   SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh"
+}
+
+parseArguments() {
+  while getopts ":s" OPT; do
+    case $OPT in
+    ("s")
+      SKIP_KAMEHOUSE_SERVER_CHECK=true
+      ;;
+    (\?)
+      parseInvalidArgument "$OPTARG"
+      ;;
+    esac
+  done 
+}
+
+printHelpOptions() {
+  addHelpOption "-s" "skip docker server status check"
 }
 
 main "$@"
