@@ -11,6 +11,9 @@ mainProcess() {
   log.info "${HOME}/.kamehouse"
   ls -ltra ${HOME}/.kamehouse
 
+  log.info "${HOME}/.kamehouse/.shell"
+  ls -ltra ${HOME}/.kamehouse/.shell
+
   log.info "${HOME}/.kamehouse/keys"
   ls -ltra ${HOME}/.kamehouse/keys
 
