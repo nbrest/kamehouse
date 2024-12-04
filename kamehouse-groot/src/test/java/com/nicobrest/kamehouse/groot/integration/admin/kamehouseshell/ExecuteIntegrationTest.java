@@ -40,8 +40,7 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     ArrayNode htmlConsoleOutput = (ArrayNode) responseBody.get("htmlConsoleOutput");
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
-    expected = "Started executing script with args <span style=\"color:#3996ff\">\"-s "
-        + script + " -a -h\"<span style=\"color:yellow\">";
+    expected = "Started executing script (masked args)";
     assertStringInArray(htmlConsoleOutput, expected);
     expected = "Usage: <span style=\"color:purple\">exec-script.sh<span style=\"color:gray\"> "
         + "[options]";
@@ -51,8 +50,6 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
 
     String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
     expected = "Started executing ";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "-s " + script + " -a -h";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "exec-script.sh";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
@@ -78,19 +75,14 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     ArrayNode htmlConsoleOutput = (ArrayNode) responseBody.get("htmlConsoleOutput");
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
     assertStringInArray(htmlConsoleOutput, expected);
-    expected = "Started executing script with args <span style=\"color:#3996ff\">\"-s "
-        + script + " -a \"<span style=\"color:yellow\"><span style=\"color:gray\">";
+    expected = "Started executing script (masked args)<span style=\"color:gray\">";
     assertStringInArray(htmlConsoleOutput, expected);
     expected =
-        "<span style=\"color:yellow\">Finished executing script with args <span style=\"color:#3996"
-            + "ff\">\"-s " + script + " -a \"<span style=\"color:yellow\"> <span style=\"color:#399"
-            + "6ff\">status: ";
+        "<span style=\"color:yellow\">Finished executing script (masked args)";
     assertStringInArray(htmlConsoleOutput, expected);
 
     String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
     expected = "Started executing ";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "-s " + script + " -a ";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "exec-script.sh";
     assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
