@@ -12,3 +12,12 @@ KH_ADMIN_API_BASIC_AUTH=c2VpeWE6aWtraQ==
 ### Tomcat text API
 TOMCAT_TEXT_USER=tomcathost
 TOMCAT_TEXT_PASS=tomcathost
+
+# Android SFTP
+ANDROID_SFTP_PASS=
+
+# Mobile app encryption key
+KAMEHOUSE_MOBILE_ENCRYPTION_KEY=
+
+# Sonarcloud Token:
+SONAR_TOKEN=

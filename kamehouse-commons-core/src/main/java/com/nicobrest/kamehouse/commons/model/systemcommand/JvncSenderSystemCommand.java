@@ -15,9 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * JvncSender system command to control a VNC server. When running on a docker container controlling
- * the host. If the host is a windows server, it runs jvncsender directly from the webapps. If the
- * host is a linux server, it runs jvncsender through ssh and kamehouse-cmd to avoid the DISPLAY
- * errors of running jvncsender remotely.
+ * the host.
  *
  * @author nbrest
  */
@@ -30,13 +28,7 @@ public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand 
    */
   protected JvncSenderSystemCommand() {
     logCommand = false;
-    if (DockerUtils.isWindowsDockerHost()) {
-      // execute jvncsender directly from the webapps
-      executeOnDockerHost = false;
-    } else {
-      // execute jvncsender through ssh and kamehouse-cmd to avoid DISPLAY errors
-      executeOnDockerHost = true;
-    }
+    executeOnDockerHost = true;
     setOutputCommand();
   }
 

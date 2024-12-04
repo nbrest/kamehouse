@@ -139,7 +139,7 @@ exit
 
 *********************
 
-## VLC start and stop commands:
+## VLC
 
 ### Make sure vlc executable is in the user's PATH 
 * In **linux** it's added by default when vlc is installed
@@ -156,6 +156,11 @@ exit
 audio output failed: the audio device "default" could not be used: unknown error 524
 ```
 - solution: Prefix vlc start command with `XDG_RUNTIME_DIR=/run/user/$(id -u) ` 
+
+### VLC open file from docker on windows also opens a file explorer window
+- Using docker to control a windows host has the side effect of sometimes a file explorer window gets opened minimized after vlc player.
+- To attemp to close it automatically with the `vlc-start.sh` script, configure windows to launch folders in separate process. In File Explorer:
+    - view > options > view > Check: launch folders in separate process
 
 *********************
 

@@ -302,7 +302,7 @@ class StringUtils {
    * Check that the input is valid to pass as an argument to a shell script.
    */
   public function isValidInputForShell($param) {
-    $MAX_LENGTH = 100;
+    $MAX_LENGTH = 400;
 
     if ($this->isEmptyStr($param)) {
       return true;
@@ -314,7 +314,7 @@ class StringUtils {
       $isValidInputForShell = false;
     }
 
-    $forbiddenChars = array(">", "<", ";", ":", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "\"", "'", "#", "\\", ",", "`", "´", "..", "%", "@", "!", "$", "?");
+    $forbiddenChars = array(">", "<", ";", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "#", ",", "`", "´", "..", "%", "!", "$", "?");
     foreach ($forbiddenChars as $forbiddenChar) {
       if($this->hasForbiddenCharSequence($param, $forbiddenChar)) {
         $isValidInputForShell = false;
@@ -363,7 +363,7 @@ class StringUtils {
   private function hasForbiddenCharSequence($param, $invalidCharSequence) {
     global $kameHouse;
     if ($this->contains($param, $invalidCharSequence)) {
-      $kameHouse->logger->info("Input contains forbidden characters");
+      $kameHouse->logger->info("Input [" . $param . "] contains forbidden character " . $invalidCharSequence);
       return true;
     } else {
       return false;

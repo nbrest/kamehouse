@@ -1,36 +1,34 @@
 @echo off
+rem Set DEBUG_GIT_BASH env variable to true to log debug
 setlocal EnableDelayedExpansion
-rem Set debug to true if I run into an issue and need to debug what is being executed
-set "debug=false"
-if "!debug!"=="true" (
-  echo "DEBUG: mode on"
-  echo "DEBUG: git-bash arguments: %*"
+set INFO=- [INFO] - git-bash.bat -
+set DEBUG=- [DEBUG] - git-bash.bat -
+echo "" > %USERPROFILE%/logs/git-bash.log
+echo %DATE% %TIME% %INFO% Started executing git-bash.bat >> %USERPROFILE%/logs/git-bash.log
+if "%DEBUG_GIT_BASH%"=="true" (
+  echo %DATE% %TIME% %DEBUG% Arguments: %* >> %USERPROFILE%/logs/git-bash.log
 )
 set "arguments=%*"
 
-rem Execute git-bash without arguments
+rem Execute bash.exe without arguments
 if "!arguments!"=="" ( 
-  if "!debug!"=="true" (
-    echo "DEBUG: executing git-bash without arguments" 
-  )
-
+  echo %DATE% %TIME% %INFO% Started executing bash.exe without arguments >> %USERPROFILE%/logs/git-bash.log
+  
   "C:\Program Files\Git\bin\bash.exe" 
-
-  if "!debug!"=="true" (
-    echo "DEBUG: finished executing git-bash without arguments"
-  )
+  
+  echo %DATE% %TIME% %INFO% Finished executing bash.exe without arguments >> %USERPROFILE%/logs/git-bash.log
 )
 
-rem Execute git-bash with arguments
+rem Execute bash.exe with arguments
 if defined arguments (
-  if "!debug!"=="true" ( 
-    echo "DEBUG: Executing git-bash with arguments !arguments!"
+  if "%DEBUG_GIT_BASH%"=="true" (
+    echo %DATE% %TIME% %DEBUG% Started executing bash.exe with arguments !arguments! >> %USERPROFILE%/logs/git-bash.log
   )
 
   "C:\Program Files\Git\bin\bash.exe" !arguments!
-
-  if "!debug!"=="true" (
-    echo "DEBUG: Finished executing git bash with arguments !arguments!"
+  
+  if "%DEBUG_GIT_BASH%"=="true" (
+    echo %DATE% %TIME% %DEBUG% Finished executing bash.exe with arguments !arguments! >> %USERPROFILE%/logs/git-bash.log
   )
 )
 

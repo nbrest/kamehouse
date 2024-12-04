@@ -9,9 +9,9 @@ The project is hosted on [docker hub](https://hub.docker.com/repository/docker/n
 
 The docker image loads kamehouse through tomcat and apache httpd and most of the functionality works out of the box.
 
-The kamehouse docker container can be used to control a remote host that has kamehouse-shell and kamehouse-cmd installed. 
-- The remote host doesn't need to have all the kamehouse tomcat and webapps up and running
-- The remote host needs to be reachable by `http` and `ssh` from the docker container
+The kamehouse docker container can be used stand alone or it can be used to control a remote host that has kamehouse shell, groot and cmd installed. 
+- The remote host doesn't need to have tomcat up and running and needs to be reachable by `http` and `ssh` from the docker container
+- Most of the commands are sent from the container to the remote host via ssh. A few are sent over http
 
 ## Install kamehouse shell scripts to control docker (optional)
 
@@ -20,6 +20,8 @@ The kamehouse docker container can be used to control a remote host that has kam
 chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 ```
 - Running the script with -s will install the full kamehouse-shell
+
+- Follow the guides to install kamehouse cmd and groot as well on the host (optional: if using docker to control a remote host)
 
 *********************
 

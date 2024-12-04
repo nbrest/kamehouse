@@ -20,7 +20,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
+LOG_CMD_ARGS=false
 SCRIPT=""
 SCRIPT_ARGS=""
 BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"
@@ -29,33 +29,35 @@ EXECUTE_ON_DOCKER_HOST=false
 IS_EXECUTABLE_ON_DOCKER_HOST=false
 
 mainProcess() {
-  log.info "Executing script  ${COL_PURPLE}'${BASE_PATH}${SCRIPT}'${COL_DEFAULT_LOG} with args ${COL_PURPLE}'${SCRIPT_ARGS}'"
+  validateCommandLineArguments "$@"
+  log.info "Executing script ${COL_PURPLE}'${BASE_PATH}${SCRIPT}'${COL_DEFAULT_LOG}"
+  log.trace "script args ${COL_PURPLE}'${SCRIPT_ARGS}'"
   setupEnv
 
   if ${EXECUTE_ON_DOCKER_HOST}; then
     local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
     if ${IS_LINUX_DOCKER_HOST}; then
-      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_COMMAND}\""
+      log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_COMMAND}\""
       ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_COMMAND}"
     else
-      log.debug "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_COMMAND}\\\"\""
+      log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_COMMAND}\\\"\""
       ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_COMMAND}\""
     fi
   else
     local LOCAL_COMMAND="${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
-    log.debug "${LOCAL_COMMAND}"
+    log.trace "${LOCAL_COMMAND}"
     ${LOCAL_COMMAND}  
   fi
 }
 
 validateCommandLineArguments() {
-  log.debug "Validating command line arguments"
+  log.info "Validating command line arguments"
   local SUBPATH_REGEX=.*\\.\\.\\/.*
   if [[ "$@" =~ ${SUBPATH_REGEX} ]]; then
     log.error "Command line arguments try to escape kamehouse shell base path. Can't procede to execute script"
     exitProcess ${EXIT_INVALID_ARG}
   fi
-  if [[ "$@" == *[\`'!'@#\$%^\&*()\<\>\|\;+]* ]]; then
+  if [[ "$@" == *[\`'!'#\$%^\&*()\<\>\|\;+]* ]]; then
     log.error "Invalid characters in command line arguments. Can't procede"
     exitProcess ${EXIT_INVALID_ARG}
   fi
@@ -111,5 +113,4 @@ printHelpOptions() {
   addHelpOption "-x" "execute the specified script on the docker host, when control host is enabled"
 }
 
-validateCommandLineArguments "$@"
 main "$@"
