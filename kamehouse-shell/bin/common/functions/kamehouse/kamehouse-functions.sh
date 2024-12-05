@@ -18,6 +18,9 @@ SSH_PORT=22
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
 
+WIN_USER_HOME="C:\\Users\\${USER}"
+KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
+
 MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
 MODULE_SHORT=""
 MODULE=""

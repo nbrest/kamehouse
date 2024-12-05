@@ -21,7 +21,7 @@ mainProcess() {
   else
     PLAYLISTS_PATH="`sed 's#/#\\\#Ig' <<<"${PLAYLISTS_PATH}"`"
     USER=`whoami`
-    PLAYLISTS_FULL_PATH="C:\\Users\\${USER}\\${PLAYLISTS_PATH}"
+    PLAYLISTS_FULL_PATH="${WIN_USER_HOME}\\${PLAYLISTS_PATH}"
     powershell.exe -c "cd ${PLAYLISTS_FULL_PATH}; Get-ChildItem -Recurse -Filter '*.m3u' | Select FullName"
   fi
 }

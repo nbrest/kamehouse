@@ -51,6 +51,8 @@ wget https://raw.githubusercontent.com/nbrest/kamehouse/refs/heads/dev/scripts/i
 chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 ```
 
+* Update the values in `${HOME}/.kamehouse/kamehouse.cfg` to match your local network setup then rebuild kamehouse with `deploy-kamehouse.sh`
+
 * In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/.shell/shell.pwd` 
 
 * [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/.shell/shell.pwd` 
@@ -62,6 +64,8 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 * From a new bash terminal access KameHouse CMD module through `kamehouse-cmd.sh` and all other kamehouse-shell scripts
 
 * All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
+
+* Create encrypted password files needed by kamehouse with [kamehouse-cmd](/kamehouse-cmd/README.md)
 
 **WARNING**
 The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](/scripts/uninstall-kamehouse.sh) script

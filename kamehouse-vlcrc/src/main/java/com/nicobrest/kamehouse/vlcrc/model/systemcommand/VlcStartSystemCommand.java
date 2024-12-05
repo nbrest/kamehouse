@@ -21,9 +21,9 @@ public class VlcStartSystemCommand extends SystemCommand {
     sshTimeout = 3000L;
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
       linuxCommand.add("XDG_RUNTIME_DIR=/run/user/$(id -u) DISPLAY=:0.0 vlc");
-      String vlcStartFromGroot = DockerUtils.getDockerHostUserHome()
-          + "\\programs\\kamehouse-shell\\bin\\win\\bat\\vlc-start-from-groot.bat";
-      windowsCommand.add(vlcStartFromGroot);
+      String vlcStartFromSsh = DockerUtils.getDockerHostUserHome()
+          + "\\programs\\kamehouse-shell\\bin\\win\\bat\\vlc-start-from-ssh.bat";
+      windowsCommand.add(vlcStartFromSsh);
     } else {
       linuxCommand.add("vlc");
       addWindowsCmdStartPrefix();

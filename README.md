@@ -115,15 +115,44 @@ The responsive layout and mobile app layout was developed and tested for several
 
 # External dependencies:
 
-This web application interacts with other applications that need to be installed on the server to execute certain functionality. These external dependencies are:
+KameHouse interacts with other applications that need to be installed on the server to execute certain functionality. These external dependencies are:
 
-* **VLC Player** (https://www.videolan.org/)
-* **VNC Server** Any vnc server will do (https://www.tightvnc.com/)
-* **gnome-screensaver-command** To lock screen in **Linux** (http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
-* **Git Bash** To run kamehouse shell scripts in **Windows** (https://www.git-scm.com/download/win)
-* **Unzip** To install kamehouse-cmd in **Windows** (Download an unzip tool and make sure unzip.exe is on the PATH)
+### VLC Player
+- Download [VLC Player](https://www.videolan.org/) 
+- One of the main functionalities of kamehouse is to control a vlc remote player through http
+- Configure the vlc player to expose it's LUA HTTP Web api so it can be accessed by kamehouse
+    - Tools > Preferences > All Settings > Interfaces > Main Interfaces: **[x]** Web
+    - Tools > Preferences > All Settings > Interfaces > Main Interfaces > Lua: Set HTTP password to 1 (or anything else and then update the password in the vlcplayer table in kamehouse)
 
-The application will load even without these installed, however some functionality will not work without them.
+### VNC Server 
+- Install any [VNC Server](https://www.tightvnc.com/) 
+- Store encrypted vnc server password as described in [kamehouse-cmd](/kamehouse-cmd/README.md)
+
+### PSTools (windows)
+- PSTools is only needed when controlling a remote windows host from a kamehouse docker container. It is not needed when kamehouse is running natively on a windows machine
+- Download [PSTools](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) 
+- To start vlc player and running GUI commands over ssh when controlling a remote host from a docker container
+- Download the zip file and extract to `${HOME}/programs/pstools` on the windows host that needs to be controlled by docker containers
+
+### Gnome Screensaver Command (linux)
+- Download [gnome-screensaver-command](http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
+- It is needed lock screen from kamehouse in debian/ubuntu based **Linux**
+- Store encrypted user password as described in [kamehouse-cmd](/kamehouse-cmd/README.md)
+
+### Git Bash (windows)
+- [Git Bash](https://www.git-scm.com/download/win) 
+- Needed to run kamehouse shell scripts in **Windows**
+- Make sure it's installed to `C:\Program Files\Git\bin\bash.exe`
+
+### SSH Server
+- This is only really needed in a remote host that will be controlled by a kamehouse docker container
+- When running kamehouse natively either in windows or linux, an ssh server is not needed
+
+### Unzip 
+- In linux it should be available out of the box
+- To install kamehouse-cmd in **Windows** (Download an unzip tool and make sure unzip.exe is on the PATH)
+
+KameHouse will load even without these installed, however some functionality will not work without them.
 
 *********************
 

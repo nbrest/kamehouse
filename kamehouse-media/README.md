@@ -5,6 +5,8 @@
 
 # Media Module:
 
+- Update the `kamehouse-media` values in `${HOME}/.kamehouse/kamehouse.cfg` to match your local media setup
+
 This module handles the following functionality:
 
 - Get all the video playlists and load them to kamehouse

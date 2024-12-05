@@ -58,7 +58,6 @@ DOCKER_BUILD_RELEASE_TAG=false
 DOCKER_TAG_MINIMUM_VERSION="v8.15"
 let DOCKER_TAG_MINIMUM_VER_NUMBER=815
 
-# When I update the base image here also update docker-setup.md
 DOCKER_IMAGE_BASE="ubuntu:22.04"
 DOCKER_IMAGE_TAG="latest"
 

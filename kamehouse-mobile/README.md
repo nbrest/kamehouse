@@ -79,6 +79,8 @@ sudo npm install -g cordova
 
 # Build Instructions:
 
+- Update the `kamehouse-mobile` values in `${HOME}/.kamehouse/kamehouse.cfg` to match your local network setup to build a mobile app that will connect to your backend servers
+
 - One time actions. On kamehouse-mobile root folder:
 ```sh
 # Setup encryption key

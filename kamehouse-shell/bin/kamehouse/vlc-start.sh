@@ -14,20 +14,7 @@ mainProcess() {
     XDG_RUNTIME_DIR=/run/user/$(id -u) DISPLAY=:0.0 vlc ${FILE_TO_PLAY} >> /dev/null 2>&1
   else 
     vlc.exe ${FILE_TO_PLAY} >> /dev/null 2>&1
-    killRogueFileExplorerProcesses
   fi
-}
-
-killRogueFileExplorerProcesses() {
-  log.info "Attempting to kill rogue file explorer windows, if present"
-  local ROUNDS=5
-  local ROUND=$((ROUNDS))
-  while [ $ROUND -gt 0 ]; do
-    log.info "Killing File Explorer windows. Round ${ROUND}"
-    powershell.exe -c "taskkill.exe /FI \"WINDOWTITLE eq File Explorer\""
-    sleep 3
-    : $((ROUND--))
-  done
 }
 
 parseArguments() {

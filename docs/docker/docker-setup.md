@@ -9,19 +9,25 @@ The project is hosted on [docker hub](https://hub.docker.com/repository/docker/n
 
 The docker image loads kamehouse through tomcat and apache httpd and most of the functionality works out of the box.
 
-The kamehouse docker container can be used stand alone or it can be used to control a remote host that has kamehouse shell, groot and cmd installed. 
-- The remote host doesn't need to have tomcat up and running and needs to be reachable by `http` and `ssh` from the docker container
-- Most of the commands are sent from the container to the remote host via ssh. A few are sent over http
+The kamehouse docker container can be used stand alone or it can be used to control a remote host. When controlling a remote host:
+- The remote host needs to have [kamehouse-shell](/kamehouse-shell/README.md) and [kamehouse-cmd](/kamehouse-cmd/README.md) installed
+- The remote host doesn't need to have httpd or tomcat installed or any other kamehouse module other than shell and cmd
+- The remote host needs to be reachable by `ssh` and `vnc` from the docker container 
+- Most of the commands are sent from the container to the remote host via `ssh`
+- For `vnc` commands on the remote host, the docker container first tries to send the request directly through `vnc` and fallsback to `ssh` if the vnc command fails
+- If the remote host is a windows host, it needs to have pstools installed as described [here](/README.md) for certain commands to work
+- Set the properties in `${HOME}/.kamehouse/kamehouse.cfg` to control a remote host and execute the docker run script with `-c`
 
-## Install kamehouse shell scripts to control docker (optional)
+## Install kamehouse shell scripts to control the kamehouse docker container
 
-- Download the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to install only kamehouse-shell scripts, without affecting the shell
+- Download the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to copy only kamehouse-shell scripts, without affecting the current user's shell at all
 ```sh
 chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 ```
-- Running the script with -s will install the full kamehouse-shell
+- Running the script with `-s` will install the full kamehouse-shell
 
-- Follow the guides to install kamehouse cmd and groot as well on the host (optional: if using docker to control a remote host)
+- After installing kamehouse shell, follow the guide to install [kamehouse-cmd](/kamehouse-cmd/README.md) and create the encrypted password files as well, when using the docker container to control a remote host
+- If you are using the container stand alone, kamehouse-cmd is not needed on the host. Only the kamehouse-shell scripts
 
 *********************
 
@@ -31,17 +37,13 @@ You can skip this step and directly run the image. If it doesn't find it locally
 
 Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh`
 
-```
-docker pull nbrest/kamehouse:latest
-```
-
 *********************
 
 ## Initial sample test users
 
 - Login with the following `user:password` to test different functionality
 
-```
+```sh
 seiya:ikki (admin)
 ryoma:fuji (user)
 vegeta:trunks (guest)
@@ -51,35 +53,9 @@ vegeta:trunks (guest)
 
 ## Run the image
 
-Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo` or run manually with the command:
-```sh
-docker run --rm -h kamehouse-docker-demo \
-  --env BUILD_ON_STARTUP=true \
-  --env DEBUG_MODE=false \
-  --env DOCKER_CONTROL_HOST=false \
-  --env DOCKER_PORT_HTTP=12080 \
-  --env DOCKER_PORT_HTTPS=12443 \
-  --env DOCKER_PORT_TOMCAT_DEBUG=12000 \
-  --env DOCKER_PORT_TOMCAT=12090 \
-  --env DOCKER_PORT_MARIADB=12306 \
-  --env DOCKER_PORT_SSH=12022 \
-  --env IS_DOCKER_CONTAINER=false \
-  --env PROFILE=demo \
-  --env USE_VOLUMES=false \
-  -p 12022:22 \
-  -p 12080:80 \
-  -p 12443:443 \
-  -p 12000:8000 \
-  -p 12090:9090 \
-  -p 12306:3306 \
-  nbrest/kamehouse:latest
-```
+Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo` 
 
 - Execute the script with `-h` to see all the profiles and options
-
-With the parameter `--rm` the container will be removed automatically after it exits. Without it, it will remain in your system.
-
-Passing `--env BUILD_ON_STARTUP=true` to `docker run` pulls and deploys the latest version of kamehouse during the container startup. By default it doesn't do either. If skipped, the container will start with the version of kamehouse that was used when the image was built. You can always update to the latest version once the container is started with the deployment script mentioned below.
 
 *********************
 
@@ -89,11 +65,7 @@ After that, once the init script finishes deploying kamehouse to tomcat in the c
 
 You can also access kamehouse groot at [https://localhost:12443/kame-house-groot/](https://localhost:12443/kame-house-groot/) or [http://localhost:12080/kame-house-groot/](http://localhost:12080/kame-house-groot/) and login to groot with the admin user mentioned above
 
-You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` or manually with the command
-
-```sh
-ssh -p 12022 goku@localhost
-``` 
+You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` 
 
 In the container console, you can run the following scripts:
 
@@ -129,18 +101,6 @@ docker volume ls
 
 Use the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p demo`
 
-Or check the running containers with the command: 
-
-```sh
-docker container list
-```
-
-Stop the kamehouse container with 
-
-```
-docker stop container-id-hash
-```
-
 *********************
 
 ## Build the image manually
@@ -149,19 +109,19 @@ If for any reason you can't pull the image from docker hub, you can build it man
 
 At the root of the project execute the script `./kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh`
 
-```
-docker build --build-arg DOCKER_IMAGE_BASE=ubuntu:22.04 -t nbrest/kamehouse:latest .
-```
-
-You can then run the image as mentioned above either with temporary or permanent container.
-
+You can then run the image as mentioned above 
 
 *********************
 
 ## Sync ssh keys and configuration between host and container
 
-- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host. Such as starting and stopping vlc player, shutdown, reboot, suspend and others. By default in most profiles, the container is setup to execute the commands within the container
-- Those commands are executed through ssh from the docker container to the host. For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container.sh` from the host to resync the ssh keys and configuration files to the docker container
+- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host specified in `${HOME}/.kamehouse/kamehouse.cfg` 
+- Commands such as starting and stopping vlc player, shutdown, reboot, suspend will run on the host
+- By default in most profiles, the container is setup to execute the commands within the container only
+- The commands executed on the host are done through `ssh` from the docker container to the host
+- For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container.sh` **from the host** to resync the ssh keys and configuration files to the docker container. The container needs to be up and running to execute the reinit script from the host
+- When running the reinit script, the console will show some sftp debugging messages and wait for the input of the docker container user password. Type `gohan` as the password to continue with the sftp sync
+- After resyninc the ssh keys and configuration files, ssh to the docker container and re deploy kamehouse with `deploy-kamehouse.sh`. Then the docker container will be able to control the remote host
 
 *********************
 
