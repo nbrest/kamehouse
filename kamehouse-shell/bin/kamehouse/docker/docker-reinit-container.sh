@@ -30,9 +30,8 @@ SCP_COMMAND="scp -v -3 -r"
 SSH_COMMAND=""
 
 mainProcess() {
-  log.info "Reinit folders and data in the docker kamehouse container"
-  log.info "This script should be executed from the host's command line. NOT inside the docker container"
-  
+  printReinitSettings
+
   requestConfirmation
   if ${REINIT_SSH_KEYS_ONLY}; then
     reinitSsh
@@ -52,8 +51,36 @@ mainProcess() {
   showContainerFolderStatus
 }
 
+printReinitSettings() {
+  log.info "Reinit folders and data in the docker kamehouse container from host ${COL_PURPLE}${DOCKER_HOST_IP}${COL_DEFAULT_LOG} and remote user ${COL_PURPLE}${DOCKER_HOST_USERNAME}"
+  log.info "This script should be executed from the host's command line. NOT inside the docker container"
+
+  if ${REINIT_SSH_KEYS_ONLY}; then
+    log.info "Only ssh keys will be reinited on this run"
+  fi
+
+  if ${REINIT_KAMEHOUSE_FOLDER_ONLY}; then
+    log.info "Only .kamehouse folder will be reinited on this run"
+  fi
+
+  if [ "${REINIT_SSH_KEYS_ONLY}" == "false" ] &&
+      [ "${REINIT_KAMEHOUSE_FOLDER_ONLY}" == "false" ]; then
+    log.info "Both ssh keys and .kamehouse folder will be reinited on this run"
+  fi
+
+  if [ "${DATA_SOURCE}" == "docker-defaults" ] ||
+      [ "${DATA_SOURCE}" == "docker-data" ] ||
+      [ "${DATA_SOURCE}" == "host-data" ]; then
+    if [ "${REINIT_SSH_KEYS_ONLY}" == "false" ] &&
+        [ "${REINIT_KAMEHOUSE_FOLDER_ONLY}" == "false" ]; then
+      log.warn "${COL_YELLOW}WARNING!! persisted data in the container's database will be overwritten with -d ${COL_RED}${DATA_SOURCE}"
+    fi
+  else
+    log.info "Persisted data in the container's database will NOT be overwritten on this run"  
+  fi
+}
+
 requestConfirmation() {
-  log.warn "${COL_YELLOW}This process will reset the selected configuration/data in the container"
   echo ""
   log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
   sleep 1
@@ -220,15 +247,6 @@ setEnvFromArguments() {
     log.error "Option -d [data source] has an invalid value of ${DATA_SOURCE}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}
-  fi
-
-  if [ "${DATA_SOURCE}" == "docker-defaults" ] ||
-      [ "${DATA_SOURCE}" == "docker-data" ] ||
-      [ "${DATA_SOURCE}" == "host-data" ]; then
-    if [ "${REINIT_SSH_KEYS_ONLY}" == "false" ] &&
-        [ "${REINIT_KAMEHOUSE_FOLDER_ONLY}" == "false" ]; then
-      log.warn "${COL_YELLOW}WARNING!! persisted data in the container's database will be overwritten with -d ${COL_RED}${DATA_SOURCE}"
-    fi
   fi
 
   setIsLinuxDockerHost

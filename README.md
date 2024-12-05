@@ -119,7 +119,7 @@ KameHouse interacts with other applications that need to be installed on the ser
 
 ### VLC Player
 - Download [VLC Player](https://www.videolan.org/) 
-- One of the main functionalities of kamehouse is to control a vlc remote player through http
+- One of the main functionalities of kamehouse is to control a vlc player on the local machine or remote, through http
 - Configure the vlc player to expose it's LUA HTTP Web api so it can be accessed by kamehouse
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces: **[x]** Web
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces > Lua: Set HTTP password to 1 (or anything else and then update the password in the vlcplayer table in kamehouse)
@@ -127,11 +127,12 @@ KameHouse interacts with other applications that need to be installed on the ser
 ### VNC Server 
 - Install any [VNC Server](https://www.tightvnc.com/) 
 - Store encrypted vnc server password as described in [kamehouse-cmd](/kamehouse-cmd/README.md)
+- VNC protocol is used for example to send a doble mouse click to toggle fullscreen on a vlc player, which works much more reliably than vlc's native fullscreen toggle. Another usage is to unlock a locked screen
 
 ### PSTools (windows)
 - PSTools is only needed when controlling a remote windows host from a kamehouse docker container. It is not needed when kamehouse is running natively on a windows machine
 - Download [PSTools](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) 
-- To start vlc player and running GUI commands over ssh when controlling a remote host from a docker container
+- It is used to start vlc player and can be used to run other GUI commands on windows over ssh, when controlling a remote host from a docker container
 - Download the zip file and extract to `${HOME}/programs/pstools` on the windows host that needs to be controlled by docker containers
 
 ### Gnome Screensaver Command (linux)

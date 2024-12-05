@@ -31,15 +31,33 @@ mainProcess() {
 }
 
 startTomcatLinux() {
-  USER_UID=`cat /etc/passwd | grep "/home/${USER}:" | cut -d ':' -f3`
+  if [ -z "${TERM}" ]; then
+    export TERM=xterm
+  fi
+
+  if [ -z "${DISPLAY}" ]; then
+    export DISPLAY=:0.0
+  fi
+
+  if [ -z "${DBUS_SESSION_BUS_ADDRESS}" ]; then
+    USER_UID=`cat /etc/passwd | grep "/home/${USER}:" | cut -d ':' -f3`
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus
+  fi
+
+  log.debug "TERM=${TERM}"
+  log.debug "DISPLAY=${DISPLAY}"
+  log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"
+
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
-    log.debug "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
-    cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}
+    log.debug "${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
+    cd ${TOMCAT_DIR}
+    ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}
   else
     log.info "Starting tomcat ${TOMCAT_DIR}"
-    log.debug "cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh"
-    cd ${TOMCAT_DIR} ; DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus DISPLAY=:0.0 ${TOMCAT_DIR}/bin/startup.sh
+    log.debug "${TOMCAT_DIR}/bin/startup.sh"
+    cd ${TOMCAT_DIR} 
+    ${TOMCAT_DIR}/bin/startup.sh
   fi
 }
 

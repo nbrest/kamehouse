@@ -28,7 +28,13 @@ startVlcFromSsh() {
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
   if ${IS_LINUX_HOST}; then
-    XDG_RUNTIME_DIR=/run/user/$(id -u) DISPLAY=:0.0 vlc ${FILE_TO_PLAY} >> /dev/null 2>&1
+    if [ -z "${DISPLAY}" ]; then
+      export DISPLAY=:0.0
+    fi
+    if [ -z "${XDG_RUNTIME_DIR}" ]; then
+      XDG_RUNTIME_DIR=/run/user/$(id -u)
+    fi
+    vlc ${FILE_TO_PLAY} >> /dev/null 2>&1
   else 
     mkdir -p ${TEMP_PLAYLIST_PATH}
     echo "${FILE_TO_PLAY}" > ${TEMP_PLAYLIST_FILE}

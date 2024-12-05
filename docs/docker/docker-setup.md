@@ -20,13 +20,15 @@ The kamehouse docker container can be used stand alone or it can be used to cont
 
 ## Install kamehouse shell scripts to control the kamehouse docker container
 
+- On windows install Git Bash as described [here](/README.md)
+
 - Download the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to copy only kamehouse-shell scripts, without affecting the current user's shell at all
 ```sh
 chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 ```
-- Running the script with `-s` will install the full kamehouse-shell
+- Running the script with `-s` will install the full [kamehouse-shell](/kamehouse-shell/README.md)
 
-- After installing kamehouse shell, follow the guide to install [kamehouse-cmd](/kamehouse-cmd/README.md) and create the encrypted password files as well, when using the docker container to control a remote host
+- After installing `kamehouse-shell`, follow the guide to install [kamehouse-cmd](/kamehouse-cmd/README.md) and create the encrypted password files as well, when using the docker container to control a remote host
 - If you are using the container stand alone, kamehouse-cmd is not needed on the host. Only the kamehouse-shell scripts
 
 *********************
