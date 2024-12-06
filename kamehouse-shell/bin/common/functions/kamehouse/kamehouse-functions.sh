@@ -39,6 +39,7 @@ DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
 TOMCAT_DEBUG_PORT=8000
 DEFAULT_TOMCAT_DEV_PORT=9980
+CMD_LINE_DEBUG_PORT=5000
 
 DEFAULT_HTTPD_PORT=443
 HTTPD_PORT=${DEFAULT_HTTPD_PORT}
@@ -49,8 +50,6 @@ KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
 # docker defaults
 IS_DOCKER_CONTAINER=false
 IS_REMOTE_LINUX_HOST=false
-
-CONTAINER_ENV_FILE="${HOME}/.kamehouse/.kamehouse-docker-container-env"
 
 # Generic username and password command line arguments
 USERNAME_ARG=""
@@ -76,6 +75,41 @@ KAMEHOUSE_MOBILE_APP_PATH=""
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
+loadKamehouseCfg() {
+  source ${HOME}/.kamehouse/kamehouse.cfg
+  if [ "$?" != "0" ]; then
+    log.error "Error importing ~/.kamehouse/kamehouse.cfg"
+    exit 99
+  fi
+  log.trace "Loaded ~/.kamehouse/kamehouse.cfg"
+}
+loadKamehouseCfg
+
+# Loads the environment variables set when running in a docker container
+# Look at the docker-init script to see what variables are set in the container env
+loadDockerContainerEnv() {
+  local CONTAINER_ENV_FILE=".kamehouse/.kamehouse-docker-container-env"
+  if [ ! -f "${HOME}/${CONTAINER_ENV_FILE}" ]; then
+    log.trace "No ~/${CONTAINER_ENV_FILE}. Running outside a docker container"
+    return
+  fi
+  source ${HOME}/${CONTAINER_ENV_FILE}
+  if [ "$?" != "0" ]; then
+    log.error "Error importing ~/${CONTAINER_ENV_FILE}"
+    exit 99
+  fi
+  log.trace "Loaded ~/${CONTAINER_ENV_FILE}. Running inside a docker container"
+}
+loadDockerContainerEnv
+
+loadKamehouseShellPwd() {
+  source ${HOME}/.kamehouse/.shell/shell.pwd
+  if [ "$?" != "0" ]; then
+    log.error "Error importing ~/.kamehouse/.shell/shell.pwd"
+    exit 99
+  fi
+  log.trace "Loaded ~/.kamehouse/.shell/shell.pwd"
+}
 
 parseHttpdPort() {
   local ARGS=("$@")
@@ -265,23 +299,6 @@ printTomcatPortOption() {
 
 printUsernameArgOption() {
   addHelpOption "-u" "username"
-}
-
-loadKamehouseCfg() {
-  source ${HOME}/.kamehouse/kamehouse.cfg
-  if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/kamehouse.cfg"
-    exit 99
-  fi
-}
-loadKamehouseCfg
-
-loadKamehouseShellPwd() {
-  source ${HOME}/.kamehouse/.shell/shell.pwd
-  if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/.shell/shell.pwd"
-    exit 99
-  fi  
 }
 
 # Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER

@@ -19,7 +19,7 @@ TOMCAT_LOG=""
 
 mainProcess() {
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh false true
-  export HOME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-userhome.sh`
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-userhome.sh
   TOMCAT_DIR="${HOME}/programs/apache-tomcat"
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   cd ${TOMCAT_DIR}
@@ -40,7 +40,7 @@ startTomcatLinux() {
   fi
 
   if [ -z "${DBUS_SESSION_BUS_ADDRESS}" ]; then
-    USER_UID=`cat /etc/passwd | grep "/home/${USER}:" | cut -d ':' -f3`
+    USER_UID=`cat /etc/passwd | grep "${HOME}:" | cut -d ':' -f3`
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus
   fi
 

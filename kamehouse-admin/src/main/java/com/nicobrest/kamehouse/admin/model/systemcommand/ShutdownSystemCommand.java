@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * System command to shutdown the server.
+ * System command to shut down the server.
  *
  * @author nbrest
  */

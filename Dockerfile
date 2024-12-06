@@ -172,7 +172,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   mariadb kamehouse < /home/${KAMEHOUSE_USERNAME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
 
 # Expose ports
-EXPOSE 22 80 443 3306 8000 8080 9090
+EXPOSE 22 80 443 3306 5000 8000 8080 9090
 
 # Set timezone
 ENV TZ=Australia/Sydney

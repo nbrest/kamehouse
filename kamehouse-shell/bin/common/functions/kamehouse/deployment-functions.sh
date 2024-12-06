@@ -15,7 +15,6 @@ deployKameHouseProject() {
 }
 
 setKameHouseDeploymentParameters() {
-  loadDockerContainerEnv
   DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
   if [ -z "${MODULE_SHORT}" ]; then
     DEPLOY_TO_TOMCAT=true

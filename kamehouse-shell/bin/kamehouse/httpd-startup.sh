@@ -19,8 +19,8 @@ mainProcess() {
     setSudoKameHouseCommand "/usr/sbin/service apache2 start"
     ${SUDO_KAMEHOUSE_COMMAND}
   else
-    export HOME=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-userhome.sh`
-    HTTPD_DIR=`${HOME}/programs/kamehouse-shell/bin/kamehouse/get-httpd-dir.sh`
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-userhome.sh
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-httpd-dir.sh
     cd ${HTTPD_DIR}/bin
     powershell.exe -c "Start-Process -WindowStyle Minimized ./httpd.exe" &
   fi

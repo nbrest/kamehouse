@@ -13,11 +13,20 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# USERNAME gets set during install kamehouse-shell
-USERNAME="${DEFAULT_KAMEHOUSE_USERNAME}"
+USERHOME_WIN="${HOME}"
+# USERHOME_LIN gets set during install kamehouse-shell
+USERHOME_LIN="/home/${DEFAULT_KAMEHOUSE_USERNAME}"
 
-main() {
-  echo "${USERNAME}"
+mainProcess() {
+  # WIN_USER_HOME=`cmd.exe '/c echo %USERPROFILE%'`
+  # WIN_USER_HOME=${WIN_USER_HOME::-1}
+
+  if ${IS_LINUX_HOST}; then
+    export HOME="${USERHOME_LIN}"
+  else
+    export HOME="${USERHOME_WIN}"
+  fi
+  log.trace "HOME=${HOME}"
 }
 
 main "$@"

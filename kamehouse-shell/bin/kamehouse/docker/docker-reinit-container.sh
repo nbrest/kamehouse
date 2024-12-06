@@ -26,7 +26,7 @@ REINIT_SSH_KEYS_ONLY=false
 REINIT_KAMEHOUSE_FOLDER_ONLY=false
 COMMAND=""
 DOCKER_HOST_USERHOME=""
-SCP_COMMAND="scp -v -3 -r"
+SCP_COMMAND="scp -vvv -3 -r"
 SSH_COMMAND=""
 
 mainProcess() {
@@ -252,7 +252,7 @@ setEnvFromArguments() {
   setIsLinuxDockerHost
   DOCKER_HOST_USERHOME=`getDockerHostUserHome`
   setEnvForDockerProfile
-  SSH_COMMAND="ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "
+  SSH_COMMAND="ssh -vvv -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "
 }
 
 printHelpOptions() {

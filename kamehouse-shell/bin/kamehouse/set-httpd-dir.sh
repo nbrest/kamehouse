@@ -9,11 +9,12 @@ fi
 
 HTTPD_DIR="${HOME}/programs/apache-httpd"
 
-main() {
+mainProcess() {
   if ${IS_LINUX_HOST}; then
     HTTPD_DIR="/etc/apache2"
   fi  
-  echo "${HTTPD_DIR}"
+  export HTTPD_DIR="${HTTPD_DIR}"
+  log.trace "HTTPD_DIR=${HTTPD_DIR}"
 }
 
 main "$@"
