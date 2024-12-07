@@ -138,10 +138,10 @@ KameHouse interacts with other applications that need to be installed on the ser
 ### Gnome Screensaver Command (linux)
 - Download [gnome-screensaver-command](http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
 - It is needed lock screen from kamehouse in debian/ubuntu based **Linux**
-- Store encrypted user password as described in [kamehouse-cmd](/kamehouse-cmd/README.md)
+- Store encrypted user password as described in [kamehouse-cmd](/kamehouse-cmd/README.md) in order to unlock the screen through kamehouse
 
 ### Git Bash (windows)
-- [Git Bash](https://www.git-scm.com/download/win) 
+- Download [Git Bash](https://www.git-scm.com/download/win) 
 - Needed to run kamehouse shell scripts in **Windows**
 - Make sure it's installed to `C:\Program Files\Git\bin\bash.exe`
 
@@ -151,7 +151,7 @@ KameHouse interacts with other applications that need to be installed on the ser
 
 ### Unzip 
 - In linux it should be available out of the box
-- To install kamehouse-cmd in **Windows** (Download an unzip tool and make sure unzip.exe is on the PATH)
+- Used in deployment script to install kamehouse-cmd in **Windows** (Download an unzip tool and make sure unzip.exe is on the PATH)
 
 KameHouse will load even without these installed, however some functionality will not work without them.
 

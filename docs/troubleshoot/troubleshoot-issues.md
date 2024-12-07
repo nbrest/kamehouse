@@ -162,11 +162,9 @@ audio output failed: the audio device "default" could not be used: unknown error
 - To attemp to close it automatically with the `vlc-start.sh` script, configure windows to launch folders in separate process. In File Explorer:
     - view > options > view > Check: launch folders in separate process
 
-*********************
+### VLC Websockets keep reconnecting infinitely, sending data but not receiving:
 
-## Websockets keep reconnecting infinitely, sending data but not receiving:
-
-### This happened several times on dev environment. 
+#### This happened several times on dev environment. 
 - Redeploying webapp and restarting tomcat several times didn't fix it
 - Restarting apache httpd didn't fix it
 - Accessing directly to tomcat without going through httpd didn't fix it (not httpd related)
@@ -175,8 +173,36 @@ audio output failed: the audio device "default" could not be used: unknown error
 - Using firefox, I see the same issue. Not chrome related
 - Only thing that worked was shutting down (not hibernate) computer
 
-### It happened also in my server niko-nba
+#### It happened also in my server niko-nba
 - Here I had to stop tomcat and restart it and it started working again
+
+*********************
+
+## Windows
+
+### Any permission errors when loading tomcat/httpd
+KameHouse should run fine without admin permissions, but you can configure windows startup shortcuts to run as administrator: 
+- properties > shortcut > run > minimized 
+- properties > shortcut > advanced > run as administrator 
+
+- If needed, also configure windows terminal app to run `Git Bash`, `PowerShell` and `Console` profiles as administrator
+
+### PSExec errors:
+
+#### Couldn't install PSEXESVC service: Access is denied.
+
+- Run from an administrator command line 
+```sh 
+.\programs\pstools\psexec -i -s -d explorer.exe
+```
+
+- Or from git bash:
+```sh
+./programs/pstools/psexec -i -s -d explorer.exe
+```
+- Try running the command over ssh as well
+
+- Configure windows terminal app to run the profiles as admin, as mentioned above
 
 *********************
 
@@ -304,3 +330,15 @@ mvn deploy:deploy-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0
 deploy-kamehouse.sh: line 137: unzip: command not found
 ```
 - Download unzip.exe and put it in a directory in your PATH
+
+*********************
+
+## Upgraded SSH Server stops accepting ssh keys
+
+When this happens the best thing to do is to update your ssh keys to a more secure type accepted by the server. To work around this with the current keys, update `sshd_config` with the key types you need to support. For example:
+
+```sh
+HostKeyAlgorithms +ssh-rsa,rsa-sha2-256,rsa-sha2-512,ecdsa-sha2-nistp256,ssh-rsa-cert-v01@openssh.com
+PubkeyAcceptedAlgorithms +ssh-rsa,rsa-sha2-256,rsa-sha2-512,ecdsa-sha2-nistp256,ssh-rsa-cert-v01@openssh.com
+PubkeyAcceptedKeyTypes +ssh-rsa,rsa-sha2-256,rsa-sha2-512,ecdsa-sha2-nistp256,ssh-rsa-cert-v01@openssh.com
+```

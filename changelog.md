@@ -7,15 +7,18 @@
 
 #### v9.03
 
+- Created ${HOME}/.kamehouse/kamehouse.cfg configuration to modify build and run parameters
+- Renamed kamehouse .config to kamehouse.cfg and .cred to shell.pwd
 - Increased integration tests timeout to 20 minutes
 - Added script to export minimal kamehouse shell to use on other projects
-- Renamed kamehouse config and password files
-- Made the vlc video playlists path configurable
-- Removed dependency on media server hostname for accessing playlists
-- Moved hardcoded configured kamehouse servers to ${HOME}/.kamehouse/kamehouse.cfg
+- Removed all hardcoded local network configurations and moved everything to be configurable in kamehouse.cfg
+- Made the vlc video playlists path configurable on each server, so each server can load playlists from different paths
+- Removed logic that uses the hostname to determine which playlists to access
+- Moved hardcoded configured kamehouse servers and made them editable in ${HOME}/.kamehouse/kamehouse.cfg
 - Enabled docker containers to control any host by setting docker host parameters in kamehouse.cfg
-- Moved mobile app servers list to kamehouse.cfg
-- Fixed sync of data and files from remote host to docker container
+- Moved mobile app servers list to kamehouse.cfg to build the app to control a custom list of servers
+- Fixed sync of data and files from remote host to docker container for any remote host
+- Moved windows vlc start over ssh to use psexec when using docker to control a remote windows host
 - Fixed bugs
 
 #### v9.02
