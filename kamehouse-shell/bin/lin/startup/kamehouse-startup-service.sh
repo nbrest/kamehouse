@@ -29,10 +29,19 @@ EXIT_PROCESS_CANCELLED=4
 
 main() {
   log.info "Starting kamehouse-startup-service.sh" > ${LOG_FILE}
+  loadKamehouseCfg
   checkEnv
   startTomcat
-  setPermissions
+  setLogFilePermissions
   log.info "Finished kamehouse-startup-service.sh" >> ${LOG_FILE}
+}
+
+loadKamehouseCfg() {
+  source /home/${KAMEHOUSE_USER}/.kamehouse/kamehouse.cfg
+  if [ "$?" != "0" ]; then
+    log.error "Error importing ~/.kamehouse/kamehouse.cfg" >> ${LOG_FILE}
+    exit 99
+  fi
 }
 
 checkEnv() {
@@ -50,11 +59,15 @@ checkEnv() {
 }
 
 startTomcat() {
+  log.info "KAMEHOUSE_STARTUP_START_TOMCAT=${KAMEHOUSE_STARTUP_START_TOMCAT}" >> ${LOG_FILE}
+  if ! ${KAMEHOUSE_STARTUP_START_TOMCAT}; then
+    return
+  fi  
   log.info "Starting tomcat" >> ${LOG_FILE}
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh
 }
 
-setPermissions() {
+setLogFilePermissions() {
   log.info "Changing permissions to log file" >> ${LOG_FILE}
   chown ${KAMEHOUSE_USER}:users ${LOG_FILE}
 }
