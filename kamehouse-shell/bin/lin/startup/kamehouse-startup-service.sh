@@ -28,24 +28,25 @@ EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
 main() {
-  log.info "Starting kamehouse-startup-service.sh" > ${LOG_FILE}
+  log.info "Starting kamehouse-startup-service.sh"
   loadKamehouseCfg
   checkEnv
   startTomcat
   setLogFilePermissions
-  log.info "Finished kamehouse-startup-service.sh" >> ${LOG_FILE}
+  log.info "Finished kamehouse-startup-service.sh"
 }
 
 loadKamehouseCfg() {
+  source "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
   source /home/${KAMEHOUSE_USER}/.kamehouse/kamehouse.cfg
   if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/kamehouse.cfg" >> ${LOG_FILE}
+    log.error "Error importing ~/.kamehouse/kamehouse.cfg" 
     exit 99
   fi
 }
 
 checkEnv() {
-  log.info "Checking environment" >> ${LOG_FILE}
+  log.info "Checking environment" 
   if (( $EUID != 0 )); then
     # User not root
     exitWithError "User not root. This script can only be executed as root"
@@ -55,20 +56,20 @@ checkEnv() {
     exitWithError "KAMEHOUSE_USER not set. Re run kamehouse-shell install script as non-root user"
   fi
 
-  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}" >> ${LOG_FILE}
+  log.info "KAMEHOUSE_USER=${KAMEHOUSE_USER}" 
 }
 
 startTomcat() {
-  log.info "KAMEHOUSE_STARTUP_START_TOMCAT=${KAMEHOUSE_STARTUP_START_TOMCAT}" >> ${LOG_FILE}
+  log.info "KAMEHOUSE_STARTUP_START_TOMCAT=${KAMEHOUSE_STARTUP_START_TOMCAT}"
   if ! ${KAMEHOUSE_STARTUP_START_TOMCAT}; then
     return
   fi  
-  log.info "Starting tomcat" >> ${LOG_FILE}
+  log.info "Starting tomcat" 
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh
 }
 
 setLogFilePermissions() {
-  log.info "Changing permissions to log file" >> ${LOG_FILE}
+  log.info "Changing permissions to log file" 
   chown ${KAMEHOUSE_USER}:users ${LOG_FILE}
 }
 
@@ -87,8 +88,11 @@ log.error() {
 exitWithError() {
   local ERROR_MESSAGE=$1
   log.error "${ERROR_MESSAGE}"
-  log.error "${ERROR_MESSAGE}" >> ${LOG_FILE}
   exit ${EXIT_ERROR}
 }
 
-main "$@"
+mainWrapper() {
+  main "$@" 2>&1 | tee ${LOG_FILE}
+}
+
+mainWrapper "$@"

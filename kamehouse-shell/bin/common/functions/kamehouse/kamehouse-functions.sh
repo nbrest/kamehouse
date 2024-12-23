@@ -29,7 +29,6 @@ MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
 DEFAULT_MAVEN_PROFILE="prod"
 MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
-KAMEHOUSE_SERVERS_LIST="(see sample kamehouse.cfg to add servers list)"
 KAMEHOUSE_SERVER=""
 
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
@@ -63,26 +62,24 @@ RESUME_BUILD=false
 FAST_BUILD=false
 
 # buildMobile defaults
-KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN="/d/Downloads/Google Drive/KameHouse/kamehouse-mobile"
-KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN="${HOME}/GoogleDrive/KameHouse/kamehouse-mobile"
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
-
-KAMEHOUSE_MOBILE_APP_SERVER=""
-KAMEHOUSE_MOBILE_APP_USER=""
-KAMEHOUSE_MOBILE_APP_PATH=""
 
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
 loadKamehouseCfg() {
+  source "${HOME}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
+  if [ ! -f "${HOME}/.kamehouse/kamehouse.cfg" ]; then
+    log.debug "~/.kamehouse/kamehouse.cfg not found. Using default values"
+    return
+  fi
   source ${HOME}/.kamehouse/kamehouse.cfg
   if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/kamehouse.cfg"
-    exit 99
+    log.error "Error importing ~/.kamehouse/kamehouse.cfg. Using default values"
   fi
-  log.trace "Loaded ~/.kamehouse/kamehouse.cfg"
 }
+# try to load cfg by default 
 loadKamehouseCfg
 
 # Loads the environment variables set when running in a docker container
