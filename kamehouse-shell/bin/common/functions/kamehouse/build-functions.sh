@@ -155,8 +155,18 @@ buildMobileBackendJson() {
 buildFrontendCode() {
   log.debug "npm install ; npm run build ; npm run scan"
   npm install
+
   npm run build
+  if [ "$?" != "0" ]; then
+    log.warn "npm run build failed, running manually tsc"
+    tsc
+  fi  
+  
   npm run scan
+  if [ "$?" != "0" ]; then
+    log.warn "npm run scan failed, running manually tsc --build --force --verbose --pretty"
+    tsc --build --force --verbose --pretty
+  fi  
 }
 
 buildKameHouseBackend() {
