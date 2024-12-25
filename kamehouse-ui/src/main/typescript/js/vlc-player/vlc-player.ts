@@ -1325,25 +1325,15 @@ class VlcPlayerPlaylist {
     // Clear the playlist
     const playlistTableBody = document.getElementById('playlist-table-body');
     kameHouse.util.dom.empty(playlistTableBody);
-    this.#tbodyFilenames = this.#getPlaylistTbody();
-    this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
-    this.#tbodyHiddenPlaylist = this.#getPlaylistTbody();
-    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistTr());
-    // Add the new playlist items received from the server.
-    if (kameHouse.core.isEmpty(this.#currentPlaylist) || kameHouse.core.isEmpty(this.#currentPlaylist.length) ||
-    this.#currentPlaylist.length <= 0) {
+    if (this.#isEmptyPlaylist()) {
       kameHouse.util.dom.append(playlistTableBody, this.#getEmptyPlaylistTr());
-    } else {
-      // build the playlist with the items received from the backend
-      for (const currentPlaylistElement of this.#currentPlaylist) {
-        const absolutePath = currentPlaylistElement.filename;
-        const filename = kameHouse.util.file.getShortFilename(absolutePath);
-        const playlistElementId = currentPlaylistElement.id;
-        kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistTr(filename, playlistElementId));
-        kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistTr(absolutePath, playlistElementId));
-      }
-      this.renderPlaylist();
+      this.#updatePlaylistSize();
+      return;
     }
+    // Add the new playlist items received from the server.
+    this.#initInternalPlaylists();
+    this.#rebuildInternalPlaylists();
+    this.renderPlaylist();
     this.#updatePlaylistSize();
   }
 
@@ -1399,6 +1389,29 @@ class VlcPlayerPlaylist {
   resetView() {
     this.#updatedPlaylist = null;
     this.reload();
+  }
+
+  /**
+   * Init internal playlists properties.
+   */
+  #initInternalPlaylists() {
+    this.#tbodyFilenames = this.#getPlaylistTbody();
+    this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
+    this.#tbodyHiddenPlaylist = this.#getPlaylistTbody();
+    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistTr());
+  }
+
+  /**
+   * build the playlist with the items received from the backend
+   */
+  #rebuildInternalPlaylists() {
+    for (const currentPlaylistElement of this.#currentPlaylist) {
+      const absolutePath = currentPlaylistElement.filename;
+      const filename = kameHouse.util.file.getShortFilename(absolutePath);
+      const playlistElementId = currentPlaylistElement.id;
+      kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistTr(filename, playlistElementId));
+      kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistTr(absolutePath, playlistElementId));
+    }
   }
 
   /**
