@@ -307,7 +307,9 @@ class PlaylistBrowser {
    * Get hidden playlist browser table row.
    */
   #getHiddenPlaylistBrowserTr() {
-    return kameHouse.util.dom.getTrTd("Playlist browser content is hidden");
+    const row = kameHouse.util.dom.getTrTd("Playlist browser content is hidden");
+    kameHouse.util.dom.classListAdd(row, "vlc-player-playlist-hidden");
+    return row;
   }
 
   /**

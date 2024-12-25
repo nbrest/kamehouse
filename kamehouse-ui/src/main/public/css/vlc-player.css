@@ -577,6 +577,11 @@
   }
 }
 
+.vlc-player-playlist-hidden {
+  font-weight: bold;
+  font-style: italic;
+}
+
 .vlc-player-select {
   border: 1px solid #292929;
   font-size: 18px;
