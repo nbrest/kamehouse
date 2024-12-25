@@ -79,8 +79,8 @@ class VlcPlayer {
    * Load the player state for a round of several seconds through http api.
    */
   loadStateFromApiRound() {
-    for (let i = 0; i < 10; i++) {
-      const timeoutMs = i * 2500;
+    for (let i = 0; i < 7; i++) {
+      const timeoutMs = i * 3000;
       setTimeout(() => {
         if (this.isSyncEnabled()) {
           this.loadStateFromApi(false);
