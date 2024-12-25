@@ -1767,11 +1767,9 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.updateView();
   }
 
-  /** Reset view if there's an error getting the vlcRcStatus from the api. */
+  /** Handle api error on get vlcrc status. */
   #getVlcRcStatusApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.logger.trace("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running", null);
-    this.#vlcPlayer.setVlcRcStatus({});
-    this.#vlcPlayer.updateView();
+    kameHouse.logger.error("Unable to get vlcRcStatus from an API call. This can happen if vlc player process isn't running or a timeout. ResponseCode: " + responseCode, null);
   }
 
   /** Update the playlist view. */
@@ -1780,11 +1778,9 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.getPlaylist().reload();
   }
 
-  /** Reset playlist view if there's an error getting the playlist from the api. */
+  /** Handle api error on get playlist. */
   #getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders) {
-    kameHouse.logger.trace("Unable to get the playlist from an API call. This can happen if vlc player process isn't running", null);
-    this.#vlcPlayer.getPlaylist().setUpdatedPlaylist(null);
-    this.#vlcPlayer.getPlaylist().reload();
+    kameHouse.logger.error("Unable to get the playlist from an API call. This can happen if vlc player process isn't running or a timeout. ResponseCode: " + responseCode, null);
   }
 
 } // End VlcPlayerDebugger
