@@ -112,18 +112,22 @@ class PlaylistBrowser {
    * Render playlist.
    */
   renderPlaylist() {
-    const playlistBrowserTableBody = document.getElementById('playlist-browser-table-body');      
+    const playlistBrowserTableBody = document.getElementById('playlist-browser-table-body');     
+    if (!kameHouse.core.isEmpty(playlistBrowserTableBody)) {
+      kameHouse.util.dom.detach(playlistBrowserTableBody);
+    }
+    const playlistBrowserTable = document.getElementById('playlist-browser-table');
     if (this.#showPlaylist()) {
       kameHouse.logger.info("Show playlist browser content", null);
       this.#isPlaylistShown = true;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "true", null);
-      kameHouse.util.dom.replaceWith(playlistBrowserTableBody, this.#tbodyFilenames);
+      kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyFilenames);
       this.filterPlaylistRows();
     } else {
       kameHouse.logger.info("Hide playlist browser content", null);
       this.#isPlaylistShown = false;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "false", null);
-      kameHouse.util.dom.replaceWith(playlistBrowserTableBody, this.#tbodyHiddenPlaylist);
+      kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyHiddenPlaylist);
     }
     this.#updatePlaylistBrowserSize();
   }
