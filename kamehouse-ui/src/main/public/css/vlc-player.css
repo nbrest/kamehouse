@@ -518,6 +518,10 @@
   width: 30%;
 }
 
+.vlc-player-config-checkbox {
+  margin: 50px;
+}
+
 .vlc-player-config-wrapper {
   padding-bottom: 15px;
   border: 1px solid #292929;

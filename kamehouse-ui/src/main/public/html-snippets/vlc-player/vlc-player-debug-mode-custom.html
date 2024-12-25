@@ -46,13 +46,13 @@
     </tr>
     <tr>
       <td class="vlc-player-config-btn">
-        <button id="media-btn-fullscreen" class="link-image-img vlc-player-btn"
+        <button class="link-image-img vlc-player-btn"
           data-background-img="/kame-house/img/mplayer/expand-blue.png"
-          onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('fullscreen')"></button>
+          onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>      
       </td>
       <td>
         <div class="link-image-text">Full Screen</div>
-        <div class="link-image-desc">Toggle full screen mode through vlc's api</div>
+        <div class="link-image-desc">Toggle full screen mode through a double mouse click</div>
       </td>
     </tr>
   </tbody>
@@ -103,16 +103,7 @@
         <div class="link-image-text">Refresh VlcPlayer</div>
         <div class="link-image-desc">Load the state of VLC player from the API</div>
       </td>
-    </tr>
-    <tr>
-      <td class="vlc-player-config-btn">
-        <input id="vlc-debug-status-sync-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="vlc-debug-status-sync-checkbox" checked/>
-      </td>
-      <td>
-        <div class="link-image-text">Toggle Vlc Player Sync</div>
-        <div class="link-image-desc">Enable/disable sync loops to synchronize vlc with the backend automatically</div>
-      </td>
-    </tr>
+    </tr> 
   </tbody>
 </table>
 </div>

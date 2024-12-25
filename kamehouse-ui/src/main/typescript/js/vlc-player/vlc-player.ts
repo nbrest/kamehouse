@@ -93,7 +93,7 @@ class VlcPlayer {
    * Returns true if the sync loops are enabled.
    */
   isSyncEnabled() {
-    const vlcStatusSyncCheckbox = document.getElementById("vlc-debug-status-sync-checkbox") as HTMLInputElement;
+    const vlcStatusSyncCheckbox = document.getElementById("vlc-player-status-sync-checkbox") as HTMLInputElement;
     if (kameHouse.core.isEmpty(vlcStatusSyncCheckbox)) {
       return true;
     }
@@ -238,6 +238,11 @@ class VlcPlayer {
    * Reload playlist.
    */
   reloadPlaylist() { this.#playlist.reload(); }
+
+  /**
+   * Render playlist.
+   */
+  renderPlaylist() { this.#playlist.renderPlaylist(); }
 
   /**
    * Scroll to currently playing item.
@@ -1279,6 +1284,8 @@ class VlcPlayerPlaylist {
   #updatedPlaylist = null;
   #tbodyAbsolutePaths = null;
   #tbodyFilenames = null;
+  #tbodyHiddenPlaylist = null;
+  #isPlaylistShown = true;
 
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
@@ -1305,16 +1312,19 @@ class VlcPlayerPlaylist {
       return;
     }
     this.#currentPlaylist = this.#updatedPlaylist;
+    // Clear the playlist
     const playlistTableBody = document.getElementById('playlist-table-body');
-    // Clear playlist content. 
     kameHouse.util.dom.empty(playlistTableBody);
     this.#tbodyFilenames = this.#getPlaylistTbody();
     this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
+    this.#tbodyHiddenPlaylist = this.#getPlaylistTbody();
+    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistTr());
     // Add the new playlist items received from the server.
     if (kameHouse.core.isEmpty(this.#currentPlaylist) || kameHouse.core.isEmpty(this.#currentPlaylist.length) ||
     this.#currentPlaylist.length <= 0) {
       kameHouse.util.dom.append(playlistTableBody, this.#getEmptyPlaylistTr());
     } else {
+      // build the playlist with the items received from the backend
       for (const currentPlaylistElement of this.#currentPlaylist) {
         const absolutePath = currentPlaylistElement.filename;
         const filename = kameHouse.util.file.getShortFilename(absolutePath);
@@ -1322,11 +1332,28 @@ class VlcPlayerPlaylist {
         kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistTr(filename, playlistElementId));
         kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistTr(absolutePath, playlistElementId));
       }
+      this.renderPlaylist();
+    }
+    this.#updatePlaylistSize();
+  }
+
+  /**
+   * Render playlist.
+   */
+  renderPlaylist() {
+    if (this.#showPlaylist()) {
+      kameHouse.logger.info("Show playlist content", null);
+      this.#isPlaylistShown = true;
+      const playlistTableBody = document.getElementById('playlist-table-body');      
       kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyFilenames);
       this.#highlightCurrentPlayingItem();
       this.#vlcPlayer.filterPlaylistRows();
+    } else {
+      kameHouse.logger.info("Hide playlist content", null);
+      this.#isPlaylistShown = false;
+      const playlistTableBody = document.getElementById('playlist-table-body');
+      kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyHiddenPlaylist);
     }
-    this.#updatePlaylistSize();
   }
 
   /** Scroll to the current playing element in the playlist. */
@@ -1361,6 +1388,17 @@ class VlcPlayerPlaylist {
   resetView() {
     this.#updatedPlaylist = null;
     this.reload();
+  }
+
+  /**
+   * Returns true if the playlist should be rendered.
+   */
+  #showPlaylist() {
+    const showPlaylistCheckbox = document.getElementById("vlc-player-show-playlist-checkbox") as HTMLInputElement;
+    if (kameHouse.core.isEmpty(showPlaylistCheckbox)) {
+      return true;
+    }
+    return showPlaylistCheckbox.checked;
   }
 
   /**
@@ -1467,6 +1505,9 @@ class VlcPlayerPlaylist {
     if (kameHouse.core.isEmpty(this.#tbodyFilenames) || kameHouse.core.isEmpty(this.#tbodyFilenames.firstElementChild)) {
       return;
     }
+    if (!this.#isPlaylistShown) {
+      return;
+    }
     const filenamesFirstFile = this.#tbodyFilenames.firstElementChild.textContent;
     const currentFirstFile = document.getElementById('playlist-table-body').firstElementChild.textContent;
     const playlistTable = document.getElementById('playlist-table');
@@ -1508,7 +1549,15 @@ class VlcPlayerPlaylist {
     const madaMadaDane = 'まだまだだね';
     return kameHouse.util.dom.getTrTd("No playlist loaded. " + madaMadaDane);
   }
-  
+
+  /**
+   * Get hidden playlist table row.
+   */
+  #getHiddenPlaylistTr() {
+    const madaMadaDane = 'まだまだだね';
+    return kameHouse.util.dom.getTrTd("Playlist is hidden in the configuration. " + madaMadaDane);
+  }
+
   /**
    * Get playlist table body.
    */
