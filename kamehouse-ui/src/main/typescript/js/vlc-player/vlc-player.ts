@@ -1334,7 +1334,6 @@ class VlcPlayerPlaylist {
     this.#initInternalPlaylists();
     this.#rebuildInternalPlaylists();
     this.renderPlaylist();
-    this.#updatePlaylistSize();
   }
 
   /**
@@ -1355,6 +1354,7 @@ class VlcPlayerPlaylist {
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-checkbox", "false", null);
       kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyHiddenPlaylist);
     }
+    this.#updatePlaylistSize();
   }
 
   /** Scroll to the current playing element in the playlist. */
@@ -1402,7 +1402,7 @@ class VlcPlayerPlaylist {
   }
 
   /**
-   * build the playlist with the items received from the backend
+   * Build the playlist with the items received from the backend
    */
   #rebuildInternalPlaylists() {
     for (const currentPlaylistElement of this.#currentPlaylist) {

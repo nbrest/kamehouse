@@ -118,12 +118,14 @@ class PlaylistBrowser {
       this.#isPlaylistShown = true;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "true", null);
       kameHouse.util.dom.replaceWith(playlistBrowserTableBody, this.#tbodyFilenames);
+      this.filterPlaylistRows();
     } else {
       kameHouse.logger.info("Hide playlist browser content", null);
       this.#isPlaylistShown = false;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "false", null);
       kameHouse.util.dom.replaceWith(playlistBrowserTableBody, this.#tbodyHiddenPlaylist);
     }
+    this.#updatePlaylistBrowserSize();
   }
 
   /** Create a button object to toggle when expanding/collapsing playlist browser filenames. */
@@ -182,27 +184,40 @@ class PlaylistBrowser {
 
   /** Populate the playlist table for browsing. */
   #populatePlaylistBrowserTable() {
-    this.#tbodyHiddenPlaylist = this.#getPlaylistBrowserTbody();
-    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistBrowserTr());
     const playlistTableBody = document.getElementById('playlist-browser-table-body');
     kameHouse.util.dom.empty(playlistTableBody);
     if (kameHouse.core.isEmpty(this.#currentPlaylist)) {
       kameHouse.util.dom.append(playlistTableBody, this.#getEmptyPlaylistTr());
-    } else {
-      this.#tbodyFilenames = this.#getPlaylistBrowserTbody();
-      this.#tbodyAbsolutePaths = this.#getPlaylistBrowserTbody();
-      for (const file of this.#currentPlaylist.files) {
-        const absolutePath = file;
-        const filename = kameHouse.util.file.getShortFilename(absolutePath);
-        kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistBrowserTr(filename, absolutePath));
-        kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistBrowserTr(absolutePath, absolutePath));
-      }
-      this.renderPlaylist();
+      this.#updatePlaylistBrowserSize();
+      return;
     }
-    this.filterPlaylistRows();
-    this.#updatePlaylistBrowserSize();
+    this.#initInternalPlaylists();
+    this.#rebuildInternalPlaylists();
+    this.renderPlaylist();
   }
 
+  /**
+   * Init internal playlists properties.
+   */
+  #initInternalPlaylists() {
+    this.#tbodyFilenames = this.#getPlaylistBrowserTbody();
+    this.#tbodyAbsolutePaths = this.#getPlaylistBrowserTbody();
+    this.#tbodyHiddenPlaylist = this.#getPlaylistBrowserTbody();
+    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistBrowserTr());
+  }
+
+  /**
+   * Build the playlist with the items received from the backend
+   */
+  #rebuildInternalPlaylists() {
+    for (const file of this.#currentPlaylist.files) {
+      const absolutePath = file;
+      const filename = kameHouse.util.file.getShortFilename(absolutePath);
+      kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistBrowserTr(filename, absolutePath));
+      kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistBrowserTr(absolutePath, absolutePath));
+    }
+  }
+  
   /**
    * Returns true if the playlist should be rendered.
    */
