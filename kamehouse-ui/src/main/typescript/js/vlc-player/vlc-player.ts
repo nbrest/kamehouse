@@ -1582,8 +1582,7 @@ class VlcPlayerPlaylist {
    * Get hidden playlist table row.
    */
   #getHiddenPlaylistTr() {
-    const madaMadaDane = 'まだまだだね';
-    return kameHouse.util.dom.getTrTd("Playlist is hidden in the configuration. " + madaMadaDane);
+    return kameHouse.util.dom.getTrTd("Playlist content is hidden");
   }
 
   /**

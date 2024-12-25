@@ -307,8 +307,7 @@ class PlaylistBrowser {
    * Get hidden playlist browser table row.
    */
   #getHiddenPlaylistBrowserTr() {
-    const madaMadaDane = 'まだまだだね';
-    return kameHouse.util.dom.getTrTd("Playlist browser is hidden in the configuration. " + madaMadaDane);
+    return kameHouse.util.dom.getTrTd("Playlist browser content is hidden");
   }
 
   /**
