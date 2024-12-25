@@ -459,6 +459,11 @@ class VlcPlayer {
       const showPlaylistCheckbox = document.getElementById("vlc-player-show-playlist-checkbox") as HTMLInputElement;
       showPlaylistCheckbox.checked = false;
     }
+    const showPlaylistBrowserCheckboxCookie = kameHouse.util.cookies.getCookie('kh-vlc-player-show-playlist-browser-checkbox');
+    if (!kameHouse.core.isEmpty(showPlaylistBrowserCheckboxCookie) && showPlaylistBrowserCheckboxCookie == "false") {
+      const showPlaylistBrowserCheckbox = document.getElementById("vlc-player-show-playlist-browser-checkbox") as HTMLInputElement;
+      showPlaylistBrowserCheckbox.checked = false;
+    }
     let currentTab = kameHouse.util.cookies.getCookie('kh-vlc-player-current-tab');
     if (!currentTab || currentTab == '') {
       currentTab = 'tab-playing';
@@ -1346,11 +1351,11 @@ class VlcPlayerPlaylist {
    * Render playlist.
    */
   renderPlaylist() {
+    const playlistTableBody = document.getElementById('playlist-table-body');     
     if (this.#showPlaylist()) {
       kameHouse.logger.info("Show playlist content", null);
       this.#isPlaylistShown = true;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-checkbox", "true", null);
-      const playlistTableBody = document.getElementById('playlist-table-body');      
       kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyFilenames);
       this.#highlightCurrentPlayingItem();
       this.#vlcPlayer.filterPlaylistRows();
@@ -1358,7 +1363,6 @@ class VlcPlayerPlaylist {
       kameHouse.logger.info("Hide playlist content", null);
       this.#isPlaylistShown = false;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-checkbox", "false", null);
-      const playlistTableBody = document.getElementById('playlist-table-body');
       kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyHiddenPlaylist);
     }
   }

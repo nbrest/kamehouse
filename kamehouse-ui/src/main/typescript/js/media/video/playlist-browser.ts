@@ -16,6 +16,8 @@ class PlaylistBrowser {
   #currentPlaylist = null;
   #tbodyAbsolutePaths = null;
   #tbodyFilenames = null;
+  #tbodyHiddenPlaylist = null;
+  #isPlaylistShown = true;
 
   constructor() {
     this.#dobleLeftButton = this.#createDoubleArrowButton("left");
@@ -106,6 +108,24 @@ class PlaylistBrowser {
     kameHouse.extension.vlcPlayer.reloadPlaylist();
   }
 
+  /**
+   * Render playlist.
+   */
+  renderPlaylist() {
+    const playlistBrowserTableBody = document.getElementById('playlist-browser-table-body');      
+    if (this.#showPlaylist()) {
+      kameHouse.logger.info("Show playlist browser content", null);
+      this.#isPlaylistShown = true;
+      kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "true", null);
+      kameHouse.util.dom.replaceWith(playlistBrowserTableBody, this.#tbodyFilenames);
+    } else {
+      kameHouse.logger.info("Hide playlist browser content", null);
+      this.#isPlaylistShown = false;
+      kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "false", null);
+      kameHouse.util.dom.replaceWith(playlistBrowserTableBody, this.#tbodyHiddenPlaylist);
+    }
+  }
+
   /** Create a button object to toggle when expanding/collapsing playlist browser filenames. */
   #createDoubleArrowButton(direction) {
     return kameHouse.util.dom.getButton({
@@ -162,6 +182,8 @@ class PlaylistBrowser {
 
   /** Populate the playlist table for browsing. */
   #populatePlaylistBrowserTable() {
+    this.#tbodyHiddenPlaylist = this.#getPlaylistBrowserTbody();
+    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistBrowserTr());
     const playlistTableBody = document.getElementById('playlist-browser-table-body');
     kameHouse.util.dom.empty(playlistTableBody);
     if (kameHouse.core.isEmpty(this.#currentPlaylist)) {
@@ -175,10 +197,21 @@ class PlaylistBrowser {
         kameHouse.util.dom.append(this.#tbodyFilenames, this.#getPlaylistBrowserTr(filename, absolutePath));
         kameHouse.util.dom.append(this.#tbodyAbsolutePaths, this.#getPlaylistBrowserTr(absolutePath, absolutePath));
       }
-      kameHouse.util.dom.replaceWith(playlistTableBody, this.#tbodyFilenames);
+      this.renderPlaylist();
     }
     this.filterPlaylistRows();
     this.#updatePlaylistBrowserSize();
+  }
+
+  /**
+   * Returns true if the playlist should be rendered.
+   */
+  #showPlaylist() {
+    const showPlaylistBrowserCheckbox = document.getElementById("vlc-player-show-playlist-browser-checkbox") as HTMLInputElement;
+    if (kameHouse.core.isEmpty(showPlaylistBrowserCheckbox)) {
+      return true;
+    }
+    return showPlaylistBrowserCheckbox.checked;
   }
 
   /**
@@ -215,6 +248,9 @@ class PlaylistBrowser {
     if (kameHouse.core.isEmpty(this.#tbodyFilenames) || kameHouse.core.isEmpty(this.#tbodyFilenames.firstElementChild)) {
       return;
     }
+    if (!this.#isPlaylistShown) {
+      return;
+    }
     let isExpandedFilename = null;
     const filenamesFirstFile = this.#tbodyFilenames.firstElementChild.textContent;
     const currentFirstFile = document.getElementById('playlist-browser-table-body').firstElementChild.textContent;
@@ -246,6 +282,14 @@ class PlaylistBrowser {
     } else {
       kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-btn", this.#dobleRightButton);
     }
+  }
+
+  /**
+   * Get hidden playlist browser table row.
+   */
+  #getHiddenPlaylistBrowserTr() {
+    const madaMadaDane = 'まだまだだね';
+    return kameHouse.util.dom.getTrTd("Playlist browser is hidden in the configuration. " + madaMadaDane);
   }
 
   /**
