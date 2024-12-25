@@ -80,7 +80,7 @@ class VlcPlayer {
    */
   loadStateFromApiRound() {
     for (let i = 0; i < 10; i++) {
-      const timeoutMs = i * 1000;
+      const timeoutMs = i * 2500;
       setTimeout(() => {
         if (this.isSyncEnabled()) {
           this.loadStateFromApi(false);
