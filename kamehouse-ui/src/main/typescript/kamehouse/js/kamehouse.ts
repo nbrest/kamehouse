@@ -1625,6 +1625,9 @@ class KameHouseTableUtils {
    */
   filterTableRows(filterString, tableBodyId, maxRows, skipHiddenRows) {
     const table = document.getElementById(tableBodyId) as HTMLTableElement;
+    if (kameHouse.core.isEmpty(table)) {
+      return;
+    }
     const rows = table.rows;
     if (kameHouse.core.isEmpty(maxRows) || maxRows == "all") {
       maxRows = rows.length;
