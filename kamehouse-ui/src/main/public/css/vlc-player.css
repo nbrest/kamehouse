@@ -471,6 +471,10 @@
   margin: 10px 25px 15px 25px;
 }
 
+.playlist-hidden-section {
+  margin-top: 30px;
+}
+
 .subtitle-delay-btn {
   width: 20px;
   height: 32px;
@@ -575,11 +579,6 @@
     width: 100%;
     text-align: center;
   }
-}
-
-.vlc-player-playlist-hidden {
-  font-weight: bold;
-  font-style: italic;
 }
 
 .vlc-player-select {

@@ -1350,6 +1350,7 @@ class VlcPlayerPlaylist {
       this.#isPlaylistShown = true;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-checkbox", "true", null);
       kameHouse.util.dom.append(playlistTable, this.#tbodyFilenames);
+      kameHouse.util.dom.classListAddById('playlist-hidden-section', "hidden-kh");
       this.#highlightCurrentPlayingItem();
       this.#vlcPlayer.filterPlaylistRows();
     } else {
@@ -1357,6 +1358,7 @@ class VlcPlayerPlaylist {
       this.#isPlaylistShown = false;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-checkbox", "false", null);
       kameHouse.util.dom.append(playlistTable, this.#tbodyHiddenPlaylist);
+      kameHouse.util.dom.classListRemoveById('playlist-hidden-section', "hidden-kh");
     }
     this.#updatePlaylistSize();
   }
@@ -1402,7 +1404,6 @@ class VlcPlayerPlaylist {
     this.#tbodyFilenames = this.#getPlaylistTbody();
     this.#tbodyAbsolutePaths = this.#getPlaylistTbody();
     this.#tbodyHiddenPlaylist = this.#getPlaylistTbody();
-    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistTr());
   }
 
   /**
@@ -1524,7 +1525,7 @@ class VlcPlayerPlaylist {
         kameHouse.util.dom.setHtmlById("playlist-current-position-val", currentPlId - 3);
       }
     } else {
-      kameHouse.util.dom.setHtmlById("playlist-current-position-val", "0");
+      kameHouse.util.dom.setHtmlById("playlist-current-position-val", "-");
     }
   }
 
@@ -1574,17 +1575,8 @@ class VlcPlayerPlaylist {
    * Get empty playlist table row.
    */
   #getEmptyPlaylistTr() {
-    const madaMadaDane = 'まだまだだね';
+    const madaMadaDane = 'まだ まだ だね';
     return kameHouse.util.dom.getTrTd("No playlist loaded. " + madaMadaDane);
-  }
-
-  /**
-   * Get hidden playlist table row.
-   */
-  #getHiddenPlaylistTr() {
-    const row = kameHouse.util.dom.getTrTd("Playlist content is hidden");
-    kameHouse.util.dom.classListAdd(row, "vlc-player-playlist-hidden");
-    return row;
   }
 
   /**

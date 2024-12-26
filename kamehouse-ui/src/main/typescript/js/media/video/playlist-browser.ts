@@ -122,12 +122,14 @@ class PlaylistBrowser {
       this.#isPlaylistShown = true;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "true", null);
       kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyFilenames);
+      kameHouse.util.dom.classListAddById('playlist-browser-hidden-section', "hidden-kh");
       this.filterPlaylistRows();
     } else {
       kameHouse.logger.info("Hide playlist browser content", null);
       this.#isPlaylistShown = false;
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "false", null);
       kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyHiddenPlaylist);
+      kameHouse.util.dom.classListRemoveById('playlist-browser-hidden-section', "hidden-kh");
     }
     this.#updatePlaylistBrowserSize();
   }
@@ -207,7 +209,6 @@ class PlaylistBrowser {
     this.#tbodyFilenames = this.#getPlaylistBrowserTbody();
     this.#tbodyAbsolutePaths = this.#getPlaylistBrowserTbody();
     this.#tbodyHiddenPlaylist = this.#getPlaylistBrowserTbody();
-    kameHouse.util.dom.append(this.#tbodyHiddenPlaylist, this.#getHiddenPlaylistBrowserTr());
   }
 
   /**
@@ -304,15 +305,6 @@ class PlaylistBrowser {
   }
 
   /**
-   * Get hidden playlist browser table row.
-   */
-  #getHiddenPlaylistBrowserTr() {
-    const row = kameHouse.util.dom.getTrTd("Playlist browser content is hidden");
-    kameHouse.util.dom.classListAdd(row, "vlc-player-playlist-hidden");
-    return row;
-  }
-
-  /**
    * Get initial dropdown option.
    */
   #getInitialDropdownOption(optionText) {
@@ -353,7 +345,7 @@ class PlaylistBrowser {
    * Get empty playlist table row.
    */
   #getEmptyPlaylistTr() {
-    return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync. まだまだだね :)");
+    return kameHouse.util.dom.getTrTd("No playlist to browse loaded yet or unable to sync. まだ まだ だね :)");
   }
 
   /**
