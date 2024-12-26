@@ -1525,7 +1525,7 @@ class VlcPlayerPlaylist {
         kameHouse.util.dom.setHtmlById("playlist-current-position-val", currentPlId - 3);
       }
     } else {
-      kameHouse.util.dom.setHtmlById("playlist-current-position-val", "-");
+      kameHouse.util.dom.setHtmlById("playlist-current-position-val", "--");
     }
   }
 

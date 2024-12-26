@@ -33,7 +33,6 @@ mainProcess() {
 uploadApkToDeviceSftp() {
   setKameHouseMobileApkPath
   log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_DEFAULT_LOG} on the android phone before proceeding"
-  log.warn "The server should be configured as specified in ${COL_PURPLE}export-sync-audio-playlists.md"
   log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
   log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/shell.pwd as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt"
   if ${IS_LINUX_HOST}; then 
