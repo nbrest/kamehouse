@@ -123,6 +123,8 @@ class PlaylistBrowser {
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "true", null);
       kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyFilenames);
       kameHouse.util.dom.classListAddById('playlist-browser-hidden-section', "hidden-kh");
+      kameHouse.util.dom.classListRemoveById('playlist-browser-controls', "hidden-kh");
+      kameHouse.util.dom.classListRemoveById('playlist-browser-table-wrapper', "hidden-kh");
       this.filterPlaylistRows();
     } else {
       kameHouse.logger.info("Hide playlist browser content", null);
@@ -130,6 +132,8 @@ class PlaylistBrowser {
       kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "false", null);
       kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyHiddenPlaylist);
       kameHouse.util.dom.classListRemoveById('playlist-browser-hidden-section', "hidden-kh");
+      kameHouse.util.dom.classListAddById('playlist-browser-controls', "hidden-kh");
+      kameHouse.util.dom.classListAddById('playlist-browser-table-wrapper', "hidden-kh");
     }
     this.#updatePlaylistBrowserSize();
   }

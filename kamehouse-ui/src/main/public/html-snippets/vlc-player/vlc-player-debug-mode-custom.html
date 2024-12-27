@@ -8,6 +8,17 @@
     <tr><td class="vlc-player-config-section-header" colspan="2">Screen</td></tr>
     <tr>
       <td class="vlc-player-config-btn">
+        <button class="link-image-img vlc-player-btn"
+          data-background-img="/kame-house/img/mplayer/expand-blue.png"
+          onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>
+      </td>
+      <td>
+        <div class="link-image-text">Full Screen</div>
+        <div class="link-image-desc">Toggle full screen mode through a double mouse click</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="vlc-player-config-btn">
         <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/key-esc-blue.png" onclick="kameHouse.extension.vlcPlayer.keyPress('ESC')"></button>
       </td>
       <td>
@@ -26,6 +37,24 @@
     </tr>
     <tr>
       <td class="vlc-player-config-btn">
+        <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/key-alt-tab.png" onclick="kameHouse.extension.vlcPlayer.keyPress('ALT_TAB')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">ALT+TAB Key Press</div>
+        <div class="link-image-desc">Send an ALT+TAB key press to the server</div>
+      </td>
+    </tr>    
+    <tr>
+      <td class="vlc-player-config-btn">
+        <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/key-alt-f4.png" onclick="kameHouse.extension.vlcPlayer.keyPress('ALT_F4')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">ALT+F4 Key Press</div>
+        <div class="link-image-desc">Send an ALT+F4 key press to the server</div>
+      </td>
+    </tr>    
+    <tr>
+      <td class="vlc-player-config-btn">
         <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/mouse-click-left.png" onclick='kameHouse.extension.vlcPlayer.mouseSingleClick()'></button>
       </td>
       <td>
@@ -42,17 +71,6 @@
       <td>
         <div class="link-image-text">Aspect Ratio Cycle</div>
         <div class="link-image-desc">Loop through the screen aspect ratios</div>
-      </td>
-    </tr>
-    <tr>
-      <td class="vlc-player-config-btn">
-        <button class="link-image-img vlc-player-btn"
-          data-background-img="/kame-house/img/mplayer/expand-blue.png"
-          onclick="kameHouse.extension.vlcPlayer.mouseDoubleClick()"></button>      
-      </td>
-      <td>
-        <div class="link-image-text">Full Screen</div>
-        <div class="link-image-desc">Toggle full screen mode through a double mouse click</div>
       </td>
     </tr>
   </tbody>
@@ -107,5 +125,4 @@
   </tbody>
 </table>
 </div>
-<div class="default-layout p-15-d-kh p-15-m-kh"></div>
 <div class="default-layout p-15-d-kh p-15-m-kh"></div>
