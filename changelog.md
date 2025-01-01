@@ -5,6 +5,17 @@
 
 # ChangeLog:
 
+#### v10.00
+- Refactored reload playlist and playlist browser in vlc
+- Added advanced options to vlc settings. Added options to hide playlist and playlist browser content
+- Swapped fullscreen toggle buttons in vlc between main view and debug mode
+- Added kamehouse startup service configuration to kamehouse.cfg
+- Moved default values in kamehouse.cfg to a separate file
+- Fixed initial http api sync configuration to reduce timeouts on large playlists
+- Fixed vlc websockets message size and timeout configuration
+- Fixed view resetting on api errors in vlc
+- Fixed bugs
+
 #### v9.03
 
 - Created ${HOME}/.kamehouse/kamehouse.cfg configuration to modify build and run parameters
