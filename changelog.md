@@ -11,6 +11,7 @@
 - Swapped fullscreen toggle buttons in vlc between main view and debug mode
 - Added kamehouse startup service configuration to kamehouse.cfg
 - Moved default values in kamehouse.cfg to a separate file
+- Renamed local kamehouse servers
 - Fixed initial http api sync configuration to reduce timeouts on large playlists
 - Fixed vlc websockets message size and timeout configuration
 - Fixed view resetting on api errors in vlc
