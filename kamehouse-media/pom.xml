@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.nicobrest</groupId>
     <artifactId>kamehouse-parent</artifactId>
-    <version>9.03.1-KAMEHOUSE-SNAPSHOT</version>
+    <version>10.00.1-KAMEHOUSE-SNAPSHOT</version>
   </parent>
 
   <name>KameHouse - Media</name>
