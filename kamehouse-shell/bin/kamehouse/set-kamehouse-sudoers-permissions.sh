@@ -69,22 +69,28 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${SCRIPT_NAME}${COL_NORMAL} - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseCmdLineArguments() {
-  while getopts ":hu:" OPT; do
-    case $OPT in
-    ("h")
-      printHelpMenu
-      exit ${EXIT_SUCCESS}
-      ;;
-    ("u")
-      KAMEHOUSE_USER=$OPTARG
-      ;;
-    (\?)
-      log.error "Invalid argument $OPTARG"
-      exit ${EXIT_INVALID_ARG}
-      ;;
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -h)
+        printHelpMenu
+        exit ${EXIT_SUCCESS}
+        ;;
+      -u)
+        KAMEHOUSE_USER="${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        log.error "Invalid argument ${CURRENT_OPTION}"
+        exit ${EXIT_INVALID_ARG}
+        ;;        
     esac
-  done
+  done    
 
   if [ -z "${KAMEHOUSE_USER}" ]; then
     log.error "Option -u is required"

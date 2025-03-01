@@ -142,29 +142,35 @@ ctrlC() {
   exitSuccessfully
 }
 
-parseArguments() {  
-  while getopts ":f:l:n:qx" OPT; do
-    case $OPT in
-    "f")
-      setFileArg "$OPTARG"
-      ;;
-    "l")
-      setLogLevelArg "$OPTARG"
-      ;;
-    "n")
-      setNumLinesArg "$OPTARG"
-      ;;
-    "q")
-      FOLLOW=""
-      ;;
-    "x")
-      FILTER_EXTRA_LINES=true
-      ;;
-    \?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -f)
+        setFileArg "${CURRENT_OPTION_ARG}"
+        ;;
+      -l)
+        setLogLevelArg "${CURRENT_OPTION_ARG}"
+        ;;
+      -n)
+        setNumLinesArg "${CURRENT_OPTION_ARG}"
+        ;;
+      -q)
+        FOLLOW=""
+        ;;
+      -x)
+        FILTER_EXTRA_LINES=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setFileArg() {

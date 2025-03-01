@@ -93,20 +93,26 @@ sendRequestToServer() {
 }
 
 parseArguments() {
-  while getopts ":a:s:" OPT; do
-    case $OPT in
-    ("a")
-      SCRIPT_ARGS=$OPTARG
-      SCRIPT_ARGS=$(echo "$SCRIPT_ARGS" | sed -e "s#EXEC_SCRIPT_ALL_SERVERS_ARG_SPACE# #g")
-      ;;
-    ("s")
-      SCRIPT=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -a)
+        SCRIPT_ARGS="${CURRENT_OPTION_ARG}"
+        SCRIPT_ARGS=$(echo "$SCRIPT_ARGS" | sed -e "s#EXEC_SCRIPT_ALL_SERVERS_ARG_SPACE# #g")
+        ;;
+      -s)
+        SCRIPT="${CURRENT_OPTION_ARG}"
+        ;;  
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

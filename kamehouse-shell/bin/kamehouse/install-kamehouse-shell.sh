@@ -289,28 +289,34 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${SCRIPT_NAME}${COL_NORMAL} - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseCmdLineArguments() {
-  while getopts ":hol:p" OPT; do
-    case $OPT in
-    ("h")
-      printHelpMenu
-      exit ${EXIT_SUCCESS}
-      ;;
-    ("o")
-      INSTALL_SCRIPTS_ONLY=true
-      ;;
-    ("l")
-      LOG_LEVEL=$OPTARG
-      ;;      
-    ("p")
-      KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
-      ;;
-    (\?)
-      log.error "Invalid argument $OPTARG"
-      exit ${EXIT_INVALID_ARG}
-      ;;
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -h)
+        printHelpMenu
+        exit ${EXIT_SUCCESS}
+        ;;
+      -o)
+        INSTALL_SCRIPTS_ONLY=true
+        ;;
+      -l)
+        LOG_LEVEL="${CURRENT_OPTION_ARG}"
+        ;;
+      -p)
+        KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
+        ;;
+      -?|-??*)
+        log.error "Invalid argument ${CURRENT_OPTION}"
+        exit ${EXIT_INVALID_ARG}
+        ;;        
     esac
-  done
+  done    
 }
 
 printHelpMenu() {

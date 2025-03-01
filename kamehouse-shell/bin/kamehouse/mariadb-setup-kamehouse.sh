@@ -81,20 +81,26 @@ requestConfirmation() {
   fi
 }
 
-parseArguments() {  
-  while getopts ":ds" OPT; do
-    case $OPT in
-    ("d")
-      ADD_DUMP_DATA=true
-      ;;
-    ("s")
-      SKIP_CONFIRMATION=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -d)
+        ADD_DUMP_DATA=true
+        ;;
+      -s)
+        SKIP_CONFIRMATION=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 printHelpOptions() {

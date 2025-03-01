@@ -45,22 +45,31 @@ parseArguments() {
   parseKameHouseModule "$@"
   parseMavenProfile "$@"
 
-  while getopts ":cm:l:p:s" OPT; do
-    case $OPT in
-    ("c")
-      USE_CURRENT_DIR=true
-      ;;
-    ("l")
-      LOG_LEVEL=$OPTARG
-      ;;   
-    ("s")
-      STATIC_ONLY=true
-      ;; 
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -m|-p)
+        # parsed in a previous parse options function 
+        ;;
+      -c)
+        USE_CURRENT_DIR=true
+        ;;
+      -l)
+        LOG_LEVEL="${CURRENT_OPTION_ARG}"
+        ;;  
+      -s)
+        STATIC_ONLY=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

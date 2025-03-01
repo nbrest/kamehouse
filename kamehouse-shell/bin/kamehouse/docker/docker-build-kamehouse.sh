@@ -90,19 +90,29 @@ restoreKameHouseShell() {
 
 parseArguments() {
   parseDockerTag "$@"
-  while getopts ":brt:" OPT; do
-    case $OPT in
-    ("b")
-      BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
-      ;;
-    ("r")
-      RUN_BUILD_STEP_FOR_RELEASE_TAG=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -t)
+        # parsed in a previous parse options function 
+        ;;
+      -b)
+        BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
+        ;;
+      -r)
+        RUN_BUILD_STEP_FOR_RELEASE_TAG=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

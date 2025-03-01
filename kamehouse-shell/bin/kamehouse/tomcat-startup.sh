@@ -68,16 +68,22 @@ startTomcatWindows() {
 }
 
 parseArguments() {
-  while getopts ":d" OPT; do
-    case $OPT in
-    ("d")
-      DEBUG_MODE=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -d)
+        DEBUG_MODE=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done 
+  done    
 }
 
 printHelpOptions() {

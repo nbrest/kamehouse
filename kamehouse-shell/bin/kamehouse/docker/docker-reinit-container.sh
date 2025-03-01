@@ -212,24 +212,34 @@ showContainerFolderStatus() {
 
 parseArguments() {
   parseDockerProfile "$@"
-  while getopts ":d:ksp:" OPT; do
-    case $OPT in
-    ("d")
-      DATA_SOURCE=$OPTARG
-      ;;
-    ("k")
-      log.info "${COL_RED}Only .kamehouse folder will be reinited"
-      REINIT_KAMEHOUSE_FOLDER_ONLY=true
-      ;;
-    ("s")
-      log.info "${COL_RED}Only ssh keys will be reinited"
-      REINIT_SSH_KEYS_ONLY=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -p)
+        # parsed in a previous parse options function 
+        ;;
+      -d)
+        DATA_SOURCE="${CURRENT_OPTION_ARG}"
+        ;;
+      -k)
+        log.info "${COL_RED}Only .kamehouse folder will be reinited"
+        REINIT_KAMEHOUSE_FOLDER_ONLY=true
+        ;;
+      -s)
+        log.info "${COL_RED}Only ssh keys will be reinited"
+        REINIT_SSH_KEYS_ONLY=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

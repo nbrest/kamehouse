@@ -48,19 +48,25 @@ gitCloneKameHouse() {
   sudo /bin/bash -c 'cd /root/git ; git clone https://github.com/nbrest/kamehouse.git ; cd kamehouse ; git checkout dev ; git pull origin dev'
 }
 
-parseCmdLineArguments() {
-  while getopts ":h" OPT; do
-    case $OPT in
-    ("h")
-      printHelpMenu
-      exit ${EXIT_SUCCESS}
-      ;;
-    (\?)
-      log.error "Invalid argument $OPTARG"
-      exit ${EXIT_INVALID_ARG}
-      ;;
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -h)
+        printHelpMenu
+        exit ${EXIT_SUCCESS}
+        ;;
+      -?|-??*)
+        log.error "Invalid argument ${CURRENT_OPTION}"
+        exit ${EXIT_INVALID_ARG}
+        ;;        
     esac
-  done
+  done    
 }
 
 printHelpMenu() {

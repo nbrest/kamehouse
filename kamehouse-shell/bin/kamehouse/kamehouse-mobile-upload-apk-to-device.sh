@@ -40,22 +40,28 @@ uploadApkToDeviceSftp() {
 }
 
 parseArguments() {
-  while getopts ":i:p:s" OPT; do
-    case $OPT in
-    ("i")
-      ANDROID_IP=$OPTARG
-      ;;
-    ("p")
-      ANDROID_PORT=$OPTARG
-      ;;
-    ("s")
-      SKIP_BUILD_MOBILE=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -i)
+        ANDROID_IP="${CURRENT_OPTION_ARG}"
+        ;;
+      -p)
+        ANDROID_PORT="${CURRENT_OPTION_ARG}"
+        ;;
+      -s)
+        SKIP_BUILD_MOBILE=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 printHelpOptions() {

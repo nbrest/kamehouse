@@ -208,28 +208,37 @@ parseArguments() {
   parseDockerProfile "$@"
   parseDockerTag "$@"
 
-  while getopts ":bcdfp:t:v" OPT; do
-    case $OPT in
-    ("b")
-      BUILD_ON_STARTUP_PARAM=true
-      ;;
-    ("c")
-      DOCKER_CONTROL_HOST_PARAM=true      
-      ;;
-    ("d")
-      DEBUG_MODE_PARAM=true      
-      ;;
-    ("f")
-      BUILD_ON_STARTUP_PARAM=false
-      ;;
-    ("v")
-      USE_VOLUMES_PARAM=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -p|-t)
+        # parsed in a previous parse options function 
+        ;;
+      -b)
+        BUILD_ON_STARTUP_PARAM=true
+        ;;
+      -c)
+        DOCKER_CONTROL_HOST_PARAM=true
+        ;;
+      -d)
+        DEBUG_MODE_PARAM=true
+        ;;
+      -f)
+        BUILD_ON_STARTUP_PARAM=false
+        ;;
+      -v)
+        USE_VOLUMES_PARAM=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {
