@@ -16,16 +16,22 @@ mainProcess() {
 }
 
 parseArguments() {
-  while getopts ":t:" OPT; do
-    case $OPT in
-    ("t")
-      TEST_PARAM="$OPTARG"
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -t)
+        TEST_PARAM="${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done 
+  done    
 }
 
 setEnvFromArguments() {
