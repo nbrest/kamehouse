@@ -8,6 +8,7 @@
 #### v10.01
 
 - Added a stop scrolling page
+- Refactored parseArguments to allow extended arguments
 - Fixed release version number on ui
 
 #### v10.00
