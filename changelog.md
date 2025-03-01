@@ -5,7 +5,12 @@
 
 # ChangeLog:
 
+#### v10.01
+
+- Added a stop scrolling page
+
 #### v10.00
+
 - Refactored reload playlist and playlist browser in vlc
 - Added advanced options to vlc settings. Added options to hide playlist and playlist browser content
 - Swapped fullscreen toggle buttons in vlc between main view and debug mode
