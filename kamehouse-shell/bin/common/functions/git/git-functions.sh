@@ -107,7 +107,7 @@ gitCdCommitAllChangesAndPush() {
 # This function assumes it's running on a kamehouse git repo root
 getKameHouseBuildVersion() {
   local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:6}`
+  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
   local GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   local BUILD_VERSION="${GIT_COMMIT_HASH}"
   if [ -n "${KAMEHOUSE_RELEASE_VERSION}" ]; then
