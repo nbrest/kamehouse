@@ -34,7 +34,7 @@ EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
 main() {
-  parseCmdLineArguments "$@"
+  parseArguments "$@"
   log.info "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SHELL_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath

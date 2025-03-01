@@ -35,16 +35,25 @@ mainProcess() {
 parseArguments() {
   parseDockerProfile "$@"
 
-  while getopts ":c:p:" OPT; do
-    case $OPT in
-    ("c")
-      CONTAINER=$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -p)
+        # parsed in a previous parse options function 
+        ;;
+      -c)
+        CONTAINER="${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

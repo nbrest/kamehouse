@@ -21,7 +21,7 @@ EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
 main() {
-  parseCmdLineArguments "$@"
+  parseArguments "$@"
   log.info "Setting up root user for kamehouse"
   gitCloneKameHouse
   sudo /bin/bash -c 'cd /root/git/kamehouse ; chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh'

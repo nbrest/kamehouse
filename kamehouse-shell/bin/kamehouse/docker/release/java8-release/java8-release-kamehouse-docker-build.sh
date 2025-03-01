@@ -29,19 +29,25 @@ setEnvForFirstRelease() {
 }
 
 parseArguments() {
-  while getopts ":fv:" OPT; do
-    case $OPT in
-    ("f")
-      FIRST_RELEASE=true
-      ;;
-    ("v")
-      RELEASE_VERSION="v"$OPTARG
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -f)
+        FIRST_RELEASE=true
+        ;;
+      -v)
+        RELEASE_VERSION="v${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

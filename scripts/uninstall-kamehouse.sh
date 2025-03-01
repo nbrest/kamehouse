@@ -28,7 +28,7 @@ EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
 main() {
-  parseCmdLineArguments "$@"
+  parseArguments "$@"
   checkUninstalForRoot
 
   log.info "Uninstalling ${COL_PURPLE}kamehouse"
@@ -133,28 +133,34 @@ log.error() {
   echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${SCRIPT_NAME}${COL_NORMAL} - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
 }
 
-parseCmdLineArguments() {
-  while getopts ":hpsr" OPT; do
-    case $OPT in
-    ("h")
-      printHelpMenu
-      exit ${EXIT_SUCCESS}
-      ;;
-    ("p")
-      PURGE_CONFIG=true
-      ;;
-    ("s")
-      KAMEHOUSE_SHELL_ONLY=true
-      ;;
-    ("r")
-      UNINSTALL_FOR_ROOT=true
-      ;;      
-    (\?)
-      log.error "Invalid argument $OPTARG"
-      exit ${EXIT_INVALID_ARG}
-      ;;
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -h)
+        printHelpMenu
+        exit ${EXIT_SUCCESS}
+        ;;
+      -p)
+        PURGE_CONFIG=true
+        ;;
+      -s)
+        KAMEHOUSE_SHELL_ONLY=true
+        ;;
+      -r)
+        UNINSTALL_FOR_ROOT=true
+        ;;
+      -?|-??*)
+        log.error "Invalid argument ${CURRENT_OPTION}"
+        exit ${EXIT_INVALID_ARG}
+        ;;        
     esac
-  done
+  done 
 }
 
 printHelpMenu() {

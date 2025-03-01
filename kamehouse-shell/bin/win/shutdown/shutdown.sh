@@ -41,34 +41,40 @@ countdown() {
 }
 
 parseArguments() {
-  while getopts ":irst:" OPT; do
-    case $OPT in
-    "i")
-      HIBERNATE=true
-      RESTART=false
-      SHUTDOWN=false
-      SHUTDOWN_ACTION="/h"
-      ;;
-    "r")
-      HIBERNATE=false
-      RESTART=true
-      SHUTDOWN=false
-      SHUTDOWN_ACTION="/r"
-      ;;
-    "s")
-      HIBERNATE=false
-      RESTART=false
-      SHUTDOWN=true
-      SHUTDOWN_ACTION="/s"
-      ;;
-    "t")
-      setDelay "$OPTARG"
-      ;;
-    \?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -i)
+        HIBERNATE=true
+        RESTART=false
+        SHUTDOWN=false
+        SHUTDOWN_ACTION="/h"
+        ;;
+      -r)
+        HIBERNATE=false
+        RESTART=true
+        SHUTDOWN=false
+        SHUTDOWN_ACTION="/r"
+        ;;
+      -s)
+        HIBERNATE=false
+        RESTART=false
+        SHUTDOWN=true
+        SHUTDOWN_ACTION="/s"
+        ;;
+      -t)
+        setDelay "${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setDelay() {

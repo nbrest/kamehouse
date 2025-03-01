@@ -218,17 +218,23 @@ sendTelegramBotMessage() {
 }
 
 parseArguments() {
-  while getopts ":v" OPT; do
-    case $OPT in
-    ("v")
-      VERBOSE=true
-      LOG=trace
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -v)
+        VERBOSE=true
+        LOG=trace
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 printHelpOptions() {
