@@ -169,7 +169,7 @@ class KameHouseBannerUtils {
     },
     {
       category: "dragonball",
-      banners: ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-1", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-kamehouse", "banner-trunks-mountains", "banner-z-senshi"]
+      banners: ["banner-gogeta", "banner-gohan-shen-long", "banner-gohan-ssj2", "banner-gohan-ssj2-1", "banner-gohan-ssj2-2", "banner-gohan-ssj2-3", "banner-gohan-ssj2-4", "banner-goku-ssj1", "banner-goku-ssj4-earth", "banner-kamehouse", "banner-trunks-mountains", "banner-trunks-vs-goku-sword-finger", "banner-z-senshi"]
     },
     {
       category: "game-of-thrones",

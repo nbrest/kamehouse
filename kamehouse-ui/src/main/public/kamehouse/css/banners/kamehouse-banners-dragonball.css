@@ -211,6 +211,25 @@
   }
 }
 
+.banner-trunks-vs-goku-sword-finger {
+  background: url(/kame-house/img/banners/dragonball/banner-trunks-vs-goku-sword-finger.jpg) 0 0;
+  background-size: cover !important;
+  background-repeat: round !important;
+}
+
+@media (max-width : 900px) {
+  .banner-trunks-vs-goku-sword-finger {
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+@media (max-width : 499px) {
+  .banner-trunks-vs-goku-sword-finger {
+    background-position-x: 0px;
+  }
+}
+
 .banner-z-senshi {
   background: url(/kame-house/img/banners/dragonball/banner-z-senshi.jpg) 0 0;
   background-size: cover !important;
