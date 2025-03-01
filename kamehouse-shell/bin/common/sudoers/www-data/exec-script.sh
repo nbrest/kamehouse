@@ -76,22 +76,28 @@ printEnv() {
 }
 
 parseArguments() {
-  while getopts ":a:s:x" OPT; do
-    case $OPT in
-    ("a")
-      SCRIPT_ARGS=$OPTARG
-      ;;
-    ("s")
-      SCRIPT=$OPTARG
-      ;;
-    ("x")
-      IS_EXECUTABLE_ON_DOCKER_HOST=true
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -a)
+        SCRIPT_ARGS="${CURRENT_OPTION_ARG}"
+        ;;
+      -s)
+        SCRIPT="${CURRENT_OPTION_ARG}"
+        ;;
+      -x)
+        IS_EXECUTABLE_ON_DOCKER_HOST=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

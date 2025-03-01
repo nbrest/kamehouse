@@ -32,18 +32,22 @@ parseHelpArgument() {
 # Override this function in the scripts that source this file
 parseArguments() {
   log.trace "Using default parseArguments() function. Override re defining this function in each script when needed."
-  unset OPTIND
-  while getopts ":s" OPT; do
-    case $OPT in
-    ("s")
-      log.info "-s sample argument passed to script"
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -s)
+        log.info "-s sample argument passed to script"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
-  unset OPTIND
+  done    
 }
 
 # Default print help message

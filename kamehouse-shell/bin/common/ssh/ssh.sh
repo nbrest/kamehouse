@@ -24,17 +24,26 @@ sshToRemoteServer() {
 
 parseArguments() {
   parseKameHouseServer "$@"
-  
-  while getopts ":c:z:" OPT; do
-    case $OPT in
-    "c")
-      SSH_COMMAND="$OPTARG"
-      ;;
-    \?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -z)
+        # parsed in a previous parse options function 
+        ;;
+      -c)
+        SSH_COMMAND="${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done
+  done    
 }
 
 setEnvFromArguments() {

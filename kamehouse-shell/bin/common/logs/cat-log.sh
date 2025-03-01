@@ -34,20 +34,25 @@ catLogFunction() {
 }
 
 parseArguments() {
-  unset OPTIND
-  while getopts ":f:l:" OPT; do
-    case $OPT in
-    ("f")
-      LOG_FILE_TO_CAT="$OPTARG"
-      ;;
-    ("l")
-      CAT_LOG_LEVEL="$OPTARG"
-      ;;      
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -f)
+        LOG_FILE_TO_CAT="${CURRENT_OPTION_ARG}"
+        ;;
+      -l)
+        CAT_LOG_LEVEL="${CURRENT_OPTION_ARG}"
+        ;;  
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done  
+  done    
 }
 
 setEnvFromArguments() {

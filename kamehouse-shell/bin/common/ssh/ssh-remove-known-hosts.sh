@@ -28,16 +28,22 @@ removeServerKey() {
 }
 
 parseArguments() {
-  while getopts ":k:" OPT; do
-    case $OPT in
-    ("k")
-      KNOWN_KEY_TO_REMOVE="$OPTARG"
-      ;;
-    (\?)
-      parseInvalidArgument "$OPTARG"
-      ;;
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -k)
+        KNOWN_KEY_TO_REMOVE="${CURRENT_OPTION_ARG}"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
     esac
-  done 
+  done    
 }
 
 setEnvFromArguments() {
