@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.utils.DockerUtils;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * System command to click the mouse in the server screen using VncDo. The coordinates start from
@@ -13,42 +12,28 @@ import java.util.Arrays;
 @Deprecated(since = "v9.00")
 public class VncDoMouseClickSystemCommand extends VncDoSystemCommand {
 
+  private String numberOfClicks = null;
+  private String horizontalPosition = null;
+  private String verticalPosition = null;
+
   /**
    * Sets the command line for each operation required for this SystemCommand.
    */
   public VncDoMouseClickSystemCommand(
       String numberOfClicks, String horizontalPosition, String verticalPosition) {
-    logCommand = false;
-    executeOnDockerHost = true;
-    String hostname = DockerUtils.getHostname();
-    String vncServerPassword = getVncServerPassword();
-    addBashPrefix();
-    String vncDoCommandLinux =
-        "/usr/local/bin/vncdo --server "
-            + hostname
-            + " --password "
-            + vncServerPassword
-            + " move "
-            + horizontalPosition
-            + " "
-            + verticalPosition
-            + " click "
-            + numberOfClicks;
-    linuxCommand.add(vncDoCommandLinux);
-    windowsCommand.addAll(
-        Arrays.asList(
-            "cmd.exe",
-            "/c",
-            "vncdo",
-            "--server",
-            hostname,
-            "--password",
-            vncServerPassword,
-            "move",
-            horizontalPosition,
-            verticalPosition,
-            "click",
-            numberOfClicks));
-    setOutputCommand();
+    super();
+    this.numberOfClicks = numberOfClicks;
+    this.horizontalPosition = horizontalPosition;
+    this.verticalPosition = verticalPosition;
+  }
+
+  @Override
+  protected String getVncDoActionLinux() {
+    return "move " + horizontalPosition + " " + verticalPosition + " click " + numberOfClicks;
+  }
+
+  @Override
+  protected List<String> getVncDoActionWindows() {
+    return List.of("move", horizontalPosition, verticalPosition, "click", numberOfClicks);
   }
 }

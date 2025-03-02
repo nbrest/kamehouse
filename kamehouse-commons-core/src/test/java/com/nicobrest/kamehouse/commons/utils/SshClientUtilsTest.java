@@ -117,7 +117,7 @@ class SshClientUtilsTest {
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
         new TestDaemonCommand("1"));
 
-    assertEquals("[vncdo (hidden as it contains passwords)]", output.getCommand());
+    assertEquals("Command executed is hidden", output.getCommand());
     assertEquals("completed", output.getStatus());
     assertEquals(-1, output.getExitCode());
     assertEquals(-1, output.getPid());
@@ -135,7 +135,7 @@ class SshClientUtilsTest {
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
         new TestDaemonCommand("1"));
 
-    assertEquals("[vncdo (hidden as it contains passwords)]", output.getCommand());
+    assertEquals("Command executed is hidden", output.getCommand());
     assertEquals("failed", output.getStatus());
     assertEquals(-1, output.getExitCode());
     assertEquals(-1, output.getPid());

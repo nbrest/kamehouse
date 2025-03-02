@@ -66,6 +66,7 @@ public class SshClientUtils {
   private static SystemCommand.Output execute(String host, String username,
       SystemCommand systemCommand, boolean useShellChannel, boolean isWindowsShell) {
     SystemCommand.Output commandOutput = systemCommand.getOutput();
+    systemCommand.initOutputCommand();
     String command = systemCommand.getCommandForSsh();
     if (systemCommand.logCommand()) {
       LOGGER.debug("Ssh command {}", command);

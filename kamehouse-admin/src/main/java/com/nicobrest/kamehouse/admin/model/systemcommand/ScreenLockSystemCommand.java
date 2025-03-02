@@ -1,31 +1,42 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * System command to lock the screen.
  *
  * @author nbrest
  */
-public class ScreenLockSystemCommand extends SystemCommand {
+public class ScreenLockSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation required for this SystemCommand.
-   */
-  public ScreenLockSystemCommand() {
-    executeOnDockerHost = true;
-    addBashPrefix();
-    linuxCommand.add("DISPLAY=:0.0 gnome-screensaver-command -l");
-    if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      String lockScreenFromDocker = DockerUtils.getDockerHostUserHome()
-          + "\\programs\\kamehouse-shell\\bin\\win\\bat\\lock-screen-from-docker.bat";
-      windowsCommand.add(lockScreenFromDocker);
-    } else {
-      addWindowsCmdStartPrefix();
-      windowsCommand.addAll(Arrays.asList("rundll32.exe", "user32.dll,LockWorkStation"));
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected String getWindowsKameHouseShellScript() {
+    return "win/screen/screen-lock.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
+      return null;
     }
-    setOutputCommand();
+    // when executing remotely from docker, run as a scheduled task
+    return List.of("--use-scheduled-task");
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/screen/screen-lock.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }

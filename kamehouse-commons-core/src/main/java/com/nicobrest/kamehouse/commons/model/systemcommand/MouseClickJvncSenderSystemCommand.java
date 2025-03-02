@@ -32,7 +32,6 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
     this.positionX = positionX;
     this.positionY = positionY;
     this.clickCount = clickCount;
-    setDockerHostJvncSenderCommands();
   }
 
   /**
@@ -54,7 +53,6 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
     this.positionX = positionX;
     this.positionY = positionY;
     this.clickCount = clickCount;
-    setDockerHostJvncSenderCommands();
   }
 
   @Override

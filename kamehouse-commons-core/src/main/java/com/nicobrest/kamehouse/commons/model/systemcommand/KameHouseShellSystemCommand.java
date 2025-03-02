@@ -26,35 +26,6 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
     executeOnDockerHost = executeOnDockerHost();
     sleepTime = getSleepTime();
     isDaemon = isDaemon();
-
-    addBashPrefix();
-    StringBuilder linuxShellCommand = new StringBuilder();
-    linuxShellCommand.append(getKameHouseShellBasePath());
-    linuxShellCommand.append(getLinuxKameHouseShellScript());
-    if (getLinuxKameHouseShellScriptArguments() != null) {
-      linuxShellCommand.append(" ");
-      linuxShellCommand.append(getLinuxKameHouseShellScriptArguments());
-    }
-    linuxCommand.add(linuxShellCommand.toString());
-
-    if (addCmdWindowsStartPrefix()) {
-      addWindowsCmdStartPrefix();
-    }
-    windowsCommand.add(getGitBashBatScript());
-    windowsCommand.add("-c");
-    String windowsShellScript = GIT_BASH_SHELL_BASE + getWindowsKameHouseShellScript();
-    List<String> winScriptArgs = getWindowsKameHouseShellScriptArguments();
-    if (winScriptArgs != null && !winScriptArgs.isEmpty()) {
-      StringBuilder windowsScriptWithArgs = new StringBuilder(windowsShellScript);
-      winScriptArgs.forEach(arg -> {
-        windowsScriptWithArgs.append(" ").append(arg);
-      });
-      windowsCommand.add(windowsScriptWithArgs.toString());
-    } else {
-      windowsCommand.add(windowsShellScript);
-    }
-
-    setOutputCommand();
   }
 
   /**
@@ -76,6 +47,49 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
    * Get the arguments to pass to the kamehouse-shell script.
    */
   protected abstract String getLinuxKameHouseShellScriptArguments();
+
+
+  @Override
+  protected List<String> buildLinuxCommand() {
+    addBashPrefix();
+    StringBuilder sb = new StringBuilder();
+    sb.append(getKameHouseShellBasePath());
+    sb.append(getLinuxKameHouseShellScript());
+    if (getLinuxKameHouseShellScriptArguments() != null) {
+      sb.append(" ");
+      sb.append(getLinuxKameHouseShellScriptArguments());
+    }
+    linuxCommand.add(sb.toString());
+    return linuxCommand;
+  }
+
+  @Override
+  protected List<String> buildWindowsCommand() {
+    if (addCmdWindowsStartPrefix()) {
+      addWindowsCmdStartPrefix();
+    }
+    windowsCommand.add(getGitBashBatScript());
+    windowsCommand.add("-c");
+    String script = GIT_BASH_SHELL_BASE + getWindowsKameHouseShellScript();
+    List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
+    if (scriptArgs == null || scriptArgs.isEmpty()) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("\"");
+      sb.append(script);
+      sb.append("\"");
+      windowsCommand.add(sb.toString());
+      return windowsCommand;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append("\"");
+    sb.append(script);
+    scriptArgs.forEach(arg -> {
+      sb.append(" ").append(arg);
+    });
+    sb.append("\"");
+    windowsCommand.add(sb.toString());
+    return windowsCommand;
+  }
 
   /**
    * Override in subclasses to add the cmd start prefix. This might be needed in some daemon

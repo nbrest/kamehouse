@@ -1,26 +1,26 @@
 package com.nicobrest.kamehouse.admin.model;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.ShutdownSystemCommand;
+import com.nicobrest.kamehouse.admin.model.systemcommand.DfSystemCommand;
 import com.nicobrest.kamehouse.commons.model.AbstractSystemCommandTest;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 
 /**
- * Test for the ShutdownSystemCommand.
+ * Test for the DfSystemCommand.
  */
-class ShutdownSystemCommandTest extends AbstractSystemCommandTest {
+class DfSystemCommandTest extends AbstractSystemCommandTest {
 
   @Override
   protected SystemCommand getSystemCommand() {
-    return new ShutdownSystemCommand(55);
+    return new DfSystemCommand();
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/shutdown/shutdown.sh -s -t 55";
+    return "win/sysadmin/df.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/shutdown/shutdown.sh -d 0";
+    return "lin/sysadmin/df.sh";
   }
 }

@@ -1,48 +1,77 @@
 package com.nicobrest.kamehouse.vlcrc.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
+import java.util.List;
 
 /**
  * System command to start a vlc player with an optional file (or playlist) to play.
  *
  * @author nbrest
  */
-public class VlcStartSystemCommand extends SystemCommand {
+public class VlcStartSystemCommand extends KameHouseShellSystemCommand {
+
+  private String filename = null;
 
   /**
    * Sets the command line for each operation required for this SystemCommand.
    */
   public VlcStartSystemCommand(String filename) {
-    isDaemon = true;
-    executeOnDockerHost = true;
+    super();
     sshTimeout = 3000L;
+    this.filename = filename;
+    validateFilename(filename);
+  }
+
+  @Override
+  public boolean isDaemon() {
+    return true;
+  }
+
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected String getWindowsKameHouseShellScript() {
+    return "win/vlc/vlc-start.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    List<String> args = List.of("-f", filename);
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      linuxCommand.add("XDG_RUNTIME_DIR=/run/user/$(id -u) DISPLAY=:0.0 vlc");
-      String vlcStartFromSsh = DockerUtils.getDockerHostUserHome()
-          + "\\programs\\kamehouse-shell\\bin\\win\\bat\\vlc-start-from-ssh.bat";
-      windowsCommand.add(vlcStartFromSsh);
+      args.add("--start-from-ssh");
+    }
+    return args;
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/vlc/vlc-start.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return "-f " + filename;
+  }
+
+  /**
+   * Validate filename parameter.
+   */
+  private void validateFilename(String filename) {
+    if (FileUtils.isRemoteFile(filename) || DockerUtils.shouldExecuteOnDockerHost(
+        executeOnDockerHost)) {
+      validateRemoteFile(filename);
     } else {
-      linuxCommand.add("vlc");
-      addWindowsCmdStartPrefix();
-      windowsCommand.add("vlc");
-    }
-    if (filename != null) {
-      if (FileUtils.isRemoteFile(filename) || DockerUtils.shouldExecuteOnDockerHost(
-          executeOnDockerHost)) {
-        validateRemoteFile(filename);
-      } else {
-        if (!FileUtils.isValidLocalFile(filename)) {
-          throw new KameHouseInvalidCommandException(
-              "File to play doesn't exist on the server: " + filename);
-        }
+      if (!FileUtils.isValidLocalFile(filename)) {
+        throw new KameHouseInvalidCommandException(
+            "File to play doesn't exist on the server: " + filename);
       }
-      linuxCommand.add(filename);
-      windowsCommand.add(filename);
     }
-    setOutputCommand();
   }
 
   /**

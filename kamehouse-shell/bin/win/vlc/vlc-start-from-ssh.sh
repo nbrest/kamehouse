@@ -15,29 +15,15 @@ TEMP_PLAYLIST_FILE="${TEMP_PLAYLIST_PATH}/${TEMP_PLAYLIST_NAME}"
 TEMP_PLAYLIST_FILE_WIN="${WIN_USER_HOME}\\programs\\kamehouse-shell\\data\\${SCRIPT_DATA_DIR}\\${TEMP_PLAYLIST_NAME}"
 
 mainProcess() {
-  startVlcFromSsh
-}
-
-startVlcFromSsh() {
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
-  if ${IS_LINUX_HOST}; then
-    if [ -z "${DISPLAY}" ]; then
-      export DISPLAY=:0.0
-    fi
-    if [ -z "${XDG_RUNTIME_DIR}" ]; then
-      export XDG_RUNTIME_DIR=/run/user/$(id -u)
-    fi
-    vlc ${FILE_TO_PLAY} >> /dev/null 2>&1
-  else 
-    mkdir -p ${TEMP_PLAYLIST_PATH}
-    echo "${FILE_TO_PLAY}" > ${TEMP_PLAYLIST_FILE}
-    log.info "${TEMP_PLAYLIST_FILE} contents"
-    cat ${TEMP_PLAYLIST_FILE}
-    log.info "Running vlc-start-from-ssh.ps1"
-    powershell.exe -c ${KAMEHOUSE_SHELL_PS1_PATH}\\vlc-start-from-ssh.ps1 "${TEMP_PLAYLIST_FILE_WIN}" ""
-    killRogueFileExplorerProcesses
-  fi
+  mkdir -p ${TEMP_PLAYLIST_PATH}
+  echo "${FILE_TO_PLAY}" > ${TEMP_PLAYLIST_FILE}
+  log.info "${TEMP_PLAYLIST_FILE} contents"
+  cat ${TEMP_PLAYLIST_FILE}
+  log.info "Running vlc-start-from-ssh.ps1"
+  powershell.exe -c ${KAMEHOUSE_SHELL_PS1_PATH}\\vlc-start-from-ssh.ps1 "${TEMP_PLAYLIST_FILE_WIN}" ""
+  killRogueFileExplorerProcesses
 }
 
 killRogueFileExplorerProcesses() {

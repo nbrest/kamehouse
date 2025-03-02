@@ -22,6 +22,7 @@ class JvncSenderSystemCommandTest {
     TextJvncSenderSystemCommand jvncSenderTextSystemCommand = new TextJvncSenderSystemCommand("");
     Output output = jvncSenderTextSystemCommand.execute();
     assertNotNull(output);
-    assertTrue(output.getCommand().contains("jvncsender"), "Invalid output command");
+    assertTrue(output.getCommand().contains("Command executed is hidden"),
+        "Invalid output command");
   }
 }

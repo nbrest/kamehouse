@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.commons.utils.NetworkUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.List;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -90,6 +91,16 @@ public class PowerManagementService {
     NetworkUtils.wakeOnLan(macAddress, broadcastAddress);
     if (DockerUtils.isDockerContainer()) {
       SystemCommand wolCommand = new SystemCommand() {
+        @Override
+        protected List<String> buildLinuxCommand() {
+          return null;
+        }
+
+        @Override
+        protected List<String> buildWindowsCommand() {
+          return null;
+        }
+
         @Override
         public String getCommandForSsh() {
           String sshCommand;

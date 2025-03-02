@@ -21,6 +21,7 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.MouseClickJvncSenderS
 import com.nicobrest.kamehouse.commons.model.systemcommand.TextJvncSenderSystemCommand;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**

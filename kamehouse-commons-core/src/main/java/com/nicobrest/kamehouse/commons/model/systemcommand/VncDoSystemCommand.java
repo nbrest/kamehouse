@@ -8,6 +8,7 @@ import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Base class for VncDo system commands to send text and mouse clicks to a VNC server.
@@ -19,11 +20,30 @@ import java.util.Arrays;
 public abstract class VncDoSystemCommand extends SystemCommand {
 
   /**
-   * Sets a VncDo system command that is specified by an action and a parameter.
+   * Sets the command line for each operation required for this SystemCommand.
    */
-  protected void setVncDoSystemCommand(String action, String parameter) {
+  public VncDoSystemCommand() {
     logCommand = false;
     executeOnDockerHost = true;
+  }
+
+  /**
+   * Return the action to execute through vncdo.
+   */
+  protected abstract String getVncDoActionLinux();
+
+  /**
+   * Return the action list to execute through vncdo.
+   */
+  protected abstract List<String> getVncDoActionWindows();
+
+  @Override
+  protected boolean hideOutputCommand() {
+    return true;
+  }
+
+  @Override
+  protected List<String> buildLinuxCommand() {
     String hostname = DockerUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
     addBashPrefix();
@@ -33,10 +53,15 @@ public abstract class VncDoSystemCommand extends SystemCommand {
             + " --password "
             + vncServerPassword
             + " "
-            + action
-            + " "
-            + parameter;
+            + getVncDoActionLinux();
     linuxCommand.add(vncDoCommandLinux);
+    return linuxCommand;
+  }
+
+  @Override
+  protected List<String> buildWindowsCommand() {
+    String hostname = DockerUtils.getHostname();
+    String vncServerPassword = getVncServerPassword();
     windowsCommand.addAll(
         Arrays.asList(
             "cmd.exe",
@@ -45,10 +70,9 @@ public abstract class VncDoSystemCommand extends SystemCommand {
             "--server",
             hostname,
             "--password",
-            vncServerPassword,
-            action,
-            parameter));
-    setOutputCommand();
+            vncServerPassword));
+    windowsCommand.addAll(getVncDoActionWindows());
+    return windowsCommand;
   }
 
   /**
@@ -66,15 +90,6 @@ public abstract class VncDoSystemCommand extends SystemCommand {
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }
-  }
-
-  /**
-   * Hide the output of vncdo commands, as it contains passwords. Call this method in the
-   * constructor of <b>EVERY</b> concrete subclass, after initializing the command lists.
-   */
-  @Override
-  protected void setOutputCommand() {
-    output.setCommand("[vncdo (hidden as it contains passwords)]");
   }
 
   @Override

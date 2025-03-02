@@ -83,6 +83,16 @@ public abstract class SystemCommand {
   }
 
   /**
+   * Build the command to execute on a linux box.
+   */
+  protected abstract List<String> buildLinuxCommand();
+
+  /**
+   * Build the command to execute on a windows box.
+   */
+  protected abstract List<String> buildWindowsCommand();
+
+  /**
    * Gets the specified system command for the correct operating system.
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
@@ -90,9 +100,9 @@ public abstract class SystemCommand {
     if (PropertiesUtils.isWindowsHost()
         || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)
         && DockerUtils.isWindowsDockerHost())) {
-      return windowsCommand;
+      return buildWindowsCommand();
     } else {
-      return linuxCommand;
+      return buildLinuxCommand();
     }
   }
 
@@ -139,14 +149,6 @@ public abstract class SystemCommand {
   }
 
   /**
-   * Sets the Output command. Call this method in the constructor of <b>EVERY</b> concrete subclass,
-   * after initializing the command lists.
-   */
-  protected void setOutputCommand() {
-    output.setCommand(getCommand().toString());
-  }
-
-  /**
    * Get sleep time (in seconds) to sleep AFTER the command executes.
    */
   public int getSleepTime() {
@@ -179,8 +181,10 @@ public abstract class SystemCommand {
    */
   public SystemCommand.Output execute() {
     SystemCommand.Output commandOutput = getOutput();
+    List<String> command = getCommand();
+    initOutputCommand();
     ProcessBuilder processBuilder = new ProcessBuilder();
-    processBuilder.command(getCommand());
+    processBuilder.command(command);
     logger.debug("execute {}", commandOutput.getCommand());
     Process process;
     try {
@@ -233,6 +237,25 @@ public abstract class SystemCommand {
       Thread.currentThread().interrupt();
     }
     return commandOutput;
+  }
+
+  /**
+   * Set the command in the output returned through the apis. This is just for display, it's not
+   * used to get the actual command to execute.
+   */
+  public void initOutputCommand() {
+    if (hideOutputCommand()) {
+      output.setCommand("Command executed is hidden");
+      return;
+    }
+    output.setCommand(getCommand().toString());
+  }
+
+  /**
+   * Override in classes that need to hide the output command.
+   */
+  protected boolean hideOutputCommand() {
+    return false;
   }
 
   /**

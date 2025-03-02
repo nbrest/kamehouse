@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
 
+  private int shutdownDelaySeconds = -1;
+
   /**
    * Sets the command line for each operation required for this SystemCommand.
    */
@@ -20,8 +22,7 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
       throw new KameHouseInvalidCommandException(
           "Invalid time for shutdown command " + shutdownDelaySeconds);
     }
-    addShutdownDelayToCommand(shutdownDelaySeconds);
-    setOutputCommand();
+    this.shutdownDelaySeconds = shutdownDelaySeconds;
   }
 
   @Override
@@ -36,7 +37,7 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return List.of("-s", "-t");
+    return List.of("-s", "-t", String.valueOf(shutdownDelaySeconds));
   }
 
   @Override
@@ -46,22 +47,10 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
 
   @Override
   protected String getLinuxKameHouseShellScriptArguments() {
-    return null;
-  }
-
-  private void addShutdownDelayToCommand(int shutdownDelaySeconds) {
     int shutdownDelayMinutes = 0;
     if (shutdownDelaySeconds >= 60) {
       shutdownDelayMinutes = shutdownDelaySeconds / 60;
     }
-    String linuxCmd = linuxCommand.get(linuxCommand.size() - 1);
-    linuxCmd = linuxCmd + " -d " + shutdownDelayMinutes;
-    linuxCommand.remove(linuxCommand.size() - 1);
-    linuxCommand.add(linuxCmd);
-
-    String windowsCmd = windowsCommand.get(windowsCommand.size() - 1);
-    windowsCmd = windowsCmd + " " + shutdownDelaySeconds;
-    windowsCommand.remove(windowsCommand.size() - 1);
-    windowsCommand.add(windowsCmd);
+    return "-d " + shutdownDelayMinutes;
   }
 }

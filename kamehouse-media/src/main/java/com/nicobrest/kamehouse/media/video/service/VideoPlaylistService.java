@@ -129,6 +129,16 @@ public class VideoPlaylistService {
     logger.trace("getAllFromDockerHost");
     SystemCommand listPlaylistsCommand = new SystemCommand() {
       @Override
+      protected List<String> buildLinuxCommand() {
+        return null;
+      }
+
+      @Override
+      protected List<String> buildWindowsCommand() {
+        return null;
+      }
+
+      @Override
       public String getCommandForSsh() {
         return KameHouseShellSystemCommand.getDockerHostKameHouseShellCommand(
             "kamehouse/list-video-playlists.sh", null);
@@ -303,6 +313,16 @@ public class VideoPlaylistService {
   private static List<String> getPlaylistContentFromDockerHost(String playlistFilename) {
     logger.trace("Getting content for playlist {}", playlistFilename);
     SystemCommand getPlaylistContentCommand = new SystemCommand() {
+      @Override
+      protected List<String> buildLinuxCommand() {
+        return null;
+      }
+
+      @Override
+      protected List<String> buildWindowsCommand() {
+        return null;
+      }
+
       @Override
       public String getCommandForSsh() {
         return KameHouseShellSystemCommand.getDockerHostKameHouseShellCommand(
