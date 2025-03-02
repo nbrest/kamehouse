@@ -17,7 +17,7 @@ mainProcess() {
   fi
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
-  vlc.exe ${FILE_TO_PLAY} >> /dev/null 2>&1
+  vlc.exe ${FILE_TO_PLAY} &
 }
 
 parseArguments() {

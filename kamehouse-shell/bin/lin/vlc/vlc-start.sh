@@ -18,7 +18,7 @@ mainProcess() {
   if [ -z "${XDG_RUNTIME_DIR}" ]; then
     export XDG_RUNTIME_DIR=/run/user/$(id -u)
   fi
-  vlc ${FILE_TO_PLAY} >> /dev/null 2>&1  
+  vlc ${FILE_TO_PLAY} &
 }
 
 parseArguments() {
