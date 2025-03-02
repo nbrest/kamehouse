@@ -4,18 +4,18 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemC
 import java.util.List;
 
 /**
- * Test Daemon command that should execute on the docker host to test the SystemCommandService.
+ * Test Non Daemon command that should execute on the docker host to test the SystemCommandService.
  *
  * @author nbrest
  */
-public class TestDaemonCommand extends KameHouseShellSystemCommand {
+public class TestNonDaemonCommand extends KameHouseShellSystemCommand {
 
   /**
    * Test Daemon command.
    */
-  public TestDaemonCommand() {
+  public TestNonDaemonCommand() {
     super();
-    isDaemon = true;
+    isDaemon = false;
     executeOnDockerHost = true;
     sshTimeout = 20000L;
   }

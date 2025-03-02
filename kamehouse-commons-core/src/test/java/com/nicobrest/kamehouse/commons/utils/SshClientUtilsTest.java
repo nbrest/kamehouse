@@ -115,9 +115,10 @@ class SshClientUtilsTest {
   @Test
   void executeSuccessTest() {
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
-        new TestDaemonCommand("1"));
+        new TestDaemonCommand());
 
-    assertEquals("Command executed is hidden", output.getCommand());
+    assertEquals("[/bin/bash, -c, ./programs/kamehouse-shell/bin/test-script.sh]",
+        output.getCommand());
     assertEquals("completed", output.getStatus());
     assertEquals(-1, output.getExitCode());
     assertEquals(-1, output.getPid());
@@ -133,9 +134,10 @@ class SshClientUtilsTest {
     when(channelExecMock.open()).thenThrow(new IOException("Test Exception"));
 
     Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
-        new TestDaemonCommand("1"));
+        new TestDaemonCommand());
 
-    assertEquals("Command executed is hidden", output.getCommand());
+    assertEquals("[/bin/bash, -c, ./programs/kamehouse-shell/bin/test-script.sh]",
+        output.getCommand());
     assertEquals("failed", output.getStatus());
     assertEquals(-1, output.getExitCode());
     assertEquals(-1, output.getPid());

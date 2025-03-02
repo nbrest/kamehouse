@@ -6,10 +6,11 @@ import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
-import com.nicobrest.kamehouse.commons.model.TestKameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.TestDaemonKameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.TestNonDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.TestNonDaemonKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.VncDoKeyPressSystemCommand;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
@@ -54,6 +55,7 @@ class SystemCommandServiceTest {
     systemCommandService = Mockito.spy(new SystemCommandService());
     when(ProcessUtils.waitFor(any(), any())).thenReturn(true);
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+    when(DockerUtils.getHostname()).thenReturn("kamehouse-server");
   }
 
   /**
@@ -72,7 +74,7 @@ class SystemCommandServiceTest {
   @Test
   void execKameHouseSystemCommandTest() {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
-    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
+    KameHouseSystemCommand kameHouseSystemCommand = new TestNonDaemonKameHouseSystemCommand();
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
 
@@ -80,12 +82,6 @@ class SystemCommandServiceTest {
     testUtils.assertSystemCommandOutputFields(
         0, -1, SystemCommandStatus.COMPLETED.getStatus(), INPUT_STREAM_LIST, EMPTY_LIST,
         returnedList.get(0));
-    testUtils.assertSystemCommandOutputFields(
-        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
-        returnedList.get(1));
-    testUtils.assertSystemCommandOutputFields(
-        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
-        returnedList.get(2));
   }
 
   /**
@@ -95,7 +91,7 @@ class SystemCommandServiceTest {
   void execLinuxCommandTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
-    List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("9"));
+    List<SystemCommand> systemCommands = Arrays.asList(new TestNonDaemonCommand());
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
@@ -106,14 +102,14 @@ class SystemCommandServiceTest {
   }
 
   /**
-   * Executes process with failing VncDo command test.
+   * Executes process with failing command test.
    */
   @Test
-  void execVncDoFailedTest() {
+  void execNonDaemonFailedTest() {
     List<String> errorStream = Arrays.asList("no errors");
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), errorStream.get(0));
     when(ProcessUtils.getExitValue(any())).thenReturn(1);
-    List<SystemCommand> systemCommands = Arrays.asList(new VncDoKeyPressSystemCommand("esc"));
+    List<SystemCommand> systemCommands = Arrays.asList(new TestNonDaemonCommand());
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(systemCommands);
 
@@ -129,7 +125,7 @@ class SystemCommandServiceTest {
   @Test
   void execDaemonTest() {
     setupProcessStreamMocks("", "");
-    SystemCommand systemCommand = new TestDaemonCommand("9");
+    SystemCommand systemCommand = new TestDaemonCommand();
 
     SystemCommand.Output returnedCommandOutput = systemCommandService.execute(systemCommand);
 
@@ -145,13 +141,11 @@ class SystemCommandServiceTest {
   void executeOnDockerHostSuccessTest() {
     when(DockerUtils.shouldExecuteOnDockerHost(any())).thenReturn(true);
     when(DockerUtils.executeOnDockerHost(any())).thenReturn(testUtils.getSingleTestData());
-    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
+    KameHouseSystemCommand kameHouseSystemCommand = new TestDaemonKameHouseSystemCommand();
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
 
     assertEquals(testUtils.getSingleTestData(), returnedList.get(0));
-    assertEquals(testUtils.getSingleTestData(), returnedList.get(1));
-    assertEquals(testUtils.getSingleTestData(), returnedList.get(2));
   }
 
   /**
@@ -160,7 +154,7 @@ class SystemCommandServiceTest {
   @Test
   void executeWithSleepTimeTest() {
     setupProcessStreamMocks(INPUT_STREAM_LIST.get(0), "");
-    KameHouseSystemCommand kameHouseSystemCommand = new TestKameHouseSystemCommand();
+    KameHouseSystemCommand kameHouseSystemCommand = new TestNonDaemonKameHouseSystemCommand();
     kameHouseSystemCommand.getSystemCommands().get(0).setSleepTime(1);
 
     List<SystemCommand.Output> returnedList = systemCommandService.execute(kameHouseSystemCommand);
@@ -169,12 +163,6 @@ class SystemCommandServiceTest {
     testUtils.assertSystemCommandOutputFields(
         0, -1, SystemCommandStatus.COMPLETED.getStatus(), INPUT_STREAM_LIST, EMPTY_LIST,
         returnedList.get(0));
-    testUtils.assertSystemCommandOutputFields(
-        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
-        returnedList.get(1));
-    testUtils.assertSystemCommandOutputFields(
-        0, -1, SystemCommandStatus.COMPLETED.getStatus(), EMPTY_LIST, EMPTY_LIST,
-        returnedList.get(2));
   }
 
   /**

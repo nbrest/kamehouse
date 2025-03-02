@@ -54,7 +54,7 @@ class DockerUtilsTest {
   void executeOnDockerHostTest() {
     when(SshClientUtils.execute(any(), any(), any())).thenReturn(testUtils.getSingleTestData());
 
-    Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand("1"));
+    Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
 
     assertEquals(testUtils.getSingleTestData(), output);
   }
@@ -67,7 +67,7 @@ class DockerUtilsTest {
     when(PropertiesUtils.getBooleanProperty("IS_DOCKER_CONTAINER")).thenReturn(true);
     when(PropertiesUtils.getBooleanProperty("DOCKER_CONTROL_HOST")).thenReturn(true);
 
-    assertTrue(DockerUtils.shouldExecuteOnDockerHost(new TestDaemonCommand("1")));
+    assertTrue(DockerUtils.shouldExecuteOnDockerHost(new TestDaemonCommand()));
   }
 
   /**

@@ -7,7 +7,6 @@ import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  * @deprecated use {@link JvncSenderSystemCommand}.
  */
 @Deprecated(since = "v9.00")
-public abstract class VncDoSystemCommand extends SystemCommand {
+public abstract class VncDoSystemCommand extends KameHouseShellSystemCommand {
 
   /**
    * Sets the command line for each operation required for this SystemCommand.
@@ -43,36 +42,30 @@ public abstract class VncDoSystemCommand extends SystemCommand {
   }
 
   @Override
-  protected List<String> buildLinuxCommand() {
-    String hostname = DockerUtils.getHostname();
-    String vncServerPassword = getVncServerPassword();
-    addBashPrefix();
-    String vncDoCommandLinux =
-        "/usr/local/bin/vncdo --server "
-            + hostname
-            + " --password "
-            + vncServerPassword
-            + " "
-            + getVncDoActionLinux();
-    linuxCommand.add(vncDoCommandLinux);
-    return linuxCommand;
+  protected String getWindowsKameHouseShellScript() {
+    return "kamehouse/vncdo.sh";
   }
 
   @Override
-  protected List<String> buildWindowsCommand() {
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
     String hostname = DockerUtils.getHostname();
     String vncServerPassword = getVncServerPassword();
-    windowsCommand.addAll(
-        Arrays.asList(
-            "cmd.exe",
-            "/c",
-            "vncdo",
-            "--server",
-            hostname,
-            "--password",
-            vncServerPassword));
-    windowsCommand.addAll(getVncDoActionWindows());
-    return windowsCommand;
+    List<String> args = List.of("--server", hostname, "--password", vncServerPassword);
+    args.addAll(getVncDoActionWindows());
+    return args;
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "kamehouse/vncdo.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    String hostname = DockerUtils.getHostname();
+    String vncServerPassword = getVncServerPassword();
+    return "--server " + hostname + " --password " + vncServerPassword + " "
+        + getVncDoActionLinux();
   }
 
   /**
