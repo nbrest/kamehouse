@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.commons.model;
+package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 
@@ -7,12 +7,12 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCom
  *
  * @author nbrest
  */
-public class TestDaemonKameHouseSystemCommand extends KameHouseSystemCommand {
+public class TestNonDaemonKameHouseSystemCommand extends KameHouseSystemCommand {
 
   /**
    * Test KameHouseSystemCommand to test the SystemCommandService.
    */
-  public TestDaemonKameHouseSystemCommand() {
-    systemCommands.add(new TestDaemonCommand());
+  public TestNonDaemonKameHouseSystemCommand() {
+    systemCommands.add(new TestNonDaemonCommand());
   }
 }

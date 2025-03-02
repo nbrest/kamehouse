@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.controller;
 
-import com.nicobrest.kamehouse.commons.model.TestDaemonKameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.service.SystemCommandService;
 import java.util.List;

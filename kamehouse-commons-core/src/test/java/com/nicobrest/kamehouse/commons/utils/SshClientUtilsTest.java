@@ -7,7 +7,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import java.io.IOException;
 import java.io.OutputStream;

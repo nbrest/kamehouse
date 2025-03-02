@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.commons.model;
+package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -283,6 +283,14 @@ class CommonsCoreModelTest {
     };
     assertNotNull(kameHouseSystemCommand.toString());
 
+    KameHouseCmdSystemCommand kameHouseCmdSystemCommand = new KameHouseCmdSystemCommand() {
+      @Override
+      protected String getKameHouseCmdArguments() {
+        return "-o encrypt";
+      }
+    };
+    assertNotNull(kameHouseCmdSystemCommand.toString());
+
     TextJvncSenderSystemCommand jvncSenderTextSystemCommand = new TextJvncSenderSystemCommand("");
     assertNotNull(jvncSenderTextSystemCommand.toString());
 

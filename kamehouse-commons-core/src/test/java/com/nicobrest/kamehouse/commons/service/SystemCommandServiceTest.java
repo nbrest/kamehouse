@@ -5,10 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
-import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
-import com.nicobrest.kamehouse.commons.model.TestDaemonKameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.model.TestNonDaemonCommand;
-import com.nicobrest.kamehouse.commons.model.TestNonDaemonKameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonKameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestNonDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestNonDaemonKameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;

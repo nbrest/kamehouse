@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.commons.model;
+package com.nicobrest.kamehouse.commons.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import java.util.List;

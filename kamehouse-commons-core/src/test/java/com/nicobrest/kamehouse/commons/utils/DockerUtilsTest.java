@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
 import java.util.Properties;
