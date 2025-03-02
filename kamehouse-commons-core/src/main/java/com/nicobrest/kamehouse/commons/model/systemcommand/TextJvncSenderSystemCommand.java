@@ -39,7 +39,7 @@ public class TextJvncSenderSystemCommand extends JvncSenderSystemCommand {
   }
 
   @Override
-  protected String buildKameHouseCmdJvncSenderOperationArgs() {
+  protected String getKameHouseCmdJvncSenderOperationArgs() {
     return "-text " + text;
   }
 }

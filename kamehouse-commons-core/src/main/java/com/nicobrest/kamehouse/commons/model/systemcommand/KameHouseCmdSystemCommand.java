@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.utils.DockerUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,11 +9,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public abstract class KameHouseCmdSystemCommand extends SystemCommand {
-
-  private static final String KAMEHOUSE_CMD_WIN =
-      "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
-  private static final String KAMEHOUSE_CMD_LINUX = "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
+public abstract class KameHouseCmdSystemCommand extends KameHouseShellSystemCommand {
 
   /**
    * Get the arguments to pass to kamehouse-cmd including the operation to execute. For example "-o
@@ -22,31 +18,26 @@ public abstract class KameHouseCmdSystemCommand extends SystemCommand {
   protected abstract String getKameHouseCmdArguments();
 
   @Override
-  protected List<String> buildLinuxCommand() {
-    linuxCommand.add(getKameHouseCmdLinuxPath());
-    linuxCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
-    return linuxCommand;
+  protected String getWindowsKameHouseShellScript() {
+    return "kamehouse/kamehouse-cmd.sh";
   }
 
   @Override
-  protected List<String> buildWindowsCommand() {
-    addWindowsCmdStartPrefix();
-    windowsCommand.add(getKameHouseCmdWinPath());
-    windowsCommand.addAll(Arrays.asList(getKameHouseCmdArguments().split(" ")));
-    return windowsCommand;
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    String args = getKameHouseCmdArguments();
+    if (StringUtils.isEmpty(args)) {
+      return null;
+    }
+    return Arrays.asList(getKameHouseCmdArguments().split(" "));
   }
 
-  /**
-   * Get kamehouse cmd win path.
-   */
-  private String getKameHouseCmdWinPath() {
-    return DockerUtils.getUserHome(executeOnDockerHost()) + KAMEHOUSE_CMD_WIN;
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "kamehouse/kamehouse-cmd.sh";
   }
 
-  /**
-   * Get kamehouse cmd linux path.
-   */
-  private String getKameHouseCmdLinuxPath() {
-    return "DISPLAY=:0.0 " + DockerUtils.getUserHome(executeOnDockerHost()) + KAMEHOUSE_CMD_LINUX;
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return getKameHouseCmdArguments();
   }
 }

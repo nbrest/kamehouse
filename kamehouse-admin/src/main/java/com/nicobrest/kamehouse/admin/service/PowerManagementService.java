@@ -1,14 +1,13 @@
 package com.nicobrest.kamehouse.admin.service;
 
+import com.nicobrest.kamehouse.admin.model.systemcommand.WolSystemCommand;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.NetworkUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.util.List;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -90,28 +89,7 @@ public class PowerManagementService {
   public void wakeOnLan(String macAddress, String broadcastAddress) {
     NetworkUtils.wakeOnLan(macAddress, broadcastAddress);
     if (DockerUtils.isDockerContainer()) {
-      SystemCommand wolCommand = new SystemCommand() {
-        @Override
-        protected List<String> buildLinuxCommand() {
-          return null;
-        }
-
-        @Override
-        protected List<String> buildWindowsCommand() {
-          return null;
-        }
-
-        @Override
-        public String getCommandForSsh() {
-          String sshCommand;
-          if (DockerUtils.isWindowsDockerHost()) {
-            sshCommand = KAMEHOUSE_CMD_WIN;
-          } else {
-            sshCommand = KAMEHOUSE_CMD_LIN;
-          }
-          return sshCommand + " -o wol -mac " + macAddress + " -broadcast " + broadcastAddress;
-        }
-      };
+      WolSystemCommand wolCommand = new WolSystemCommand(macAddress, broadcastAddress);
       DockerUtils.executeOnDockerHost(wolCommand);
     }
   }

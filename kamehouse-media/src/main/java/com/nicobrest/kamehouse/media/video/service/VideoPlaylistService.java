@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.media.video.service;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
@@ -9,6 +7,8 @@ import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.SshClientUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
+import com.nicobrest.kamehouse.media.video.model.systemcommand.GetPlaylistContentSystemCommand;
+import com.nicobrest.kamehouse.media.video.model.systemcommand.ListPlaylistsSystemCommand;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -127,23 +127,7 @@ public class VideoPlaylistService {
    */
   private List<Playlist> getAllFromDockerHost(boolean fetchContent) {
     logger.trace("getAllFromDockerHost");
-    SystemCommand listPlaylistsCommand = new SystemCommand() {
-      @Override
-      protected List<String> buildLinuxCommand() {
-        return null;
-      }
-
-      @Override
-      protected List<String> buildWindowsCommand() {
-        return null;
-      }
-
-      @Override
-      public String getCommandForSsh() {
-        return KameHouseShellSystemCommand.getDockerHostKameHouseShellCommand(
-            "kamehouse/list-video-playlists.sh", null);
-      }
-    };
+    ListPlaylistsSystemCommand listPlaylistsCommand = new ListPlaylistsSystemCommand();
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
         DockerUtils.getDockerHostUsername(),
         listPlaylistsCommand, DockerUtils.isWindowsDockerHost());
@@ -312,24 +296,8 @@ public class VideoPlaylistService {
    */
   private static List<String> getPlaylistContentFromDockerHost(String playlistFilename) {
     logger.trace("Getting content for playlist {}", playlistFilename);
-    SystemCommand getPlaylistContentCommand = new SystemCommand() {
-      @Override
-      protected List<String> buildLinuxCommand() {
-        return null;
-      }
-
-      @Override
-      protected List<String> buildWindowsCommand() {
-        return null;
-      }
-
-      @Override
-      public String getCommandForSsh() {
-        return KameHouseShellSystemCommand.getDockerHostKameHouseShellCommand(
-            "kamehouse/get-video-playlist-content.sh",
-            "-f \"" + playlistFilename.replace("\\", "/") + "\"");
-      }
-    };
+    GetPlaylistContentSystemCommand getPlaylistContentCommand = new GetPlaylistContentSystemCommand(
+        playlistFilename);
     Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
         DockerUtils.getDockerHostUsername(), getPlaylistContentCommand,
         DockerUtils.isWindowsDockerHost());

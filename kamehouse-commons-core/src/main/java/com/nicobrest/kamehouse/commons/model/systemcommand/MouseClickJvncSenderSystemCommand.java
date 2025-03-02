@@ -65,7 +65,7 @@ public class MouseClickJvncSenderSystemCommand extends JvncSenderSystemCommand {
   }
 
   @Override
-  protected String buildKameHouseCmdJvncSenderOperationArgs() {
+  protected String getKameHouseCmdJvncSenderOperationArgs() {
     return "-mouseClick " + mouseButton.name() + "," + positionX + "," + positionY + ","
         + clickCount;
   }

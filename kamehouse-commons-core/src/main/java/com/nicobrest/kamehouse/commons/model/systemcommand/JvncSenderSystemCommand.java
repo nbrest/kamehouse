@@ -37,10 +37,11 @@ public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand 
   protected abstract void sendCommand(VncServer vncServer) throws KameHouseException;
 
   /**
-   * Set the jvncsender arguments to be executed by kamehouse-cmd in the docker host when running in
-   * a docker container controlling the host.
+   * Get the jvncsender arguments to be executed by kamehouse-cmd in the docker host when running in
+   * a docker container controlling the host. Though currently that is not being used, even from
+   * docker it's still going through the execute method defined in this class.
    */
-  protected abstract String buildKameHouseCmdJvncSenderOperationArgs();
+  protected abstract String getKameHouseCmdJvncSenderOperationArgs();
 
   @Override
   public SystemCommand.Output execute() {
@@ -90,7 +91,7 @@ public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand 
     String host = DockerUtils.getHostname();
     String password = getVncServerPassword();
     return "-o jvncsender -password " + password + " -host " + host + " -port " + VNC_PORT + " "
-        + buildKameHouseCmdJvncSenderOperationArgs();
+        + getKameHouseCmdJvncSenderOperationArgs();
   }
 
   /**
