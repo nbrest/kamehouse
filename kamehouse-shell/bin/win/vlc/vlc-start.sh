@@ -12,7 +12,7 @@ START_FROM_SSH=false
 
 mainProcess() {
   if ${START_FROM_SSH}; then
-    ${HOME}/programs/kamehouse-shell/bin/win/vlc/vlc-start-from-ssh.sh
+    ${HOME}/programs/kamehouse-shell/bin/win/vlc/vlc-start-from-ssh.sh -f "${FILE_TO_PLAY}"
     exitSuccessfully
   fi
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"

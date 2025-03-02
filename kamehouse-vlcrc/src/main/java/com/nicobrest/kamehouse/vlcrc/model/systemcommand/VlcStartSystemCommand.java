@@ -42,7 +42,7 @@ public class VlcStartSystemCommand extends KameHouseShellSystemCommand {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    List<String> args = List.of("-f", filename);
+    List<String> args = List.of("-f", "'" + filename + "'");
     if (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
       args.add("--start-from-ssh");
     }
@@ -56,7 +56,7 @@ public class VlcStartSystemCommand extends KameHouseShellSystemCommand {
 
   @Override
   protected String getLinuxKameHouseShellScriptArguments() {
-    return "-f " + filename;
+    return "-f " + "'" + filename + "'";
   }
 
   /**
