@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import java.util.Arrays;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import java.util.List;
 
 /**
@@ -9,7 +8,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class SuspendSystemCommand extends KameHouseShellSystemCommand {
+public class SuspendSystemCommand extends SystemCommand {
 
   @Override
   public boolean executeOnDockerHost() {

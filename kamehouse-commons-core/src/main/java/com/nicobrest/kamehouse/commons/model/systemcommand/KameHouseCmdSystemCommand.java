@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public abstract class KameHouseCmdSystemCommand extends KameHouseShellSystemCommand {
+public abstract class KameHouseCmdSystemCommand extends SystemCommand {
 
   /**
    * Get the arguments to pass to kamehouse-cmd including the operation to execute. For example "-o

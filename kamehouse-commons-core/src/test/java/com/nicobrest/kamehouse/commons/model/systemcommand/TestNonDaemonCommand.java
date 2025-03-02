@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.commons.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import java.util.List;
 
 /**
@@ -8,7 +7,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class TestNonDaemonCommand extends KameHouseShellSystemCommand {
+public class TestNonDaemonCommand extends SystemCommand {
 
   /**
    * Test Daemon command.

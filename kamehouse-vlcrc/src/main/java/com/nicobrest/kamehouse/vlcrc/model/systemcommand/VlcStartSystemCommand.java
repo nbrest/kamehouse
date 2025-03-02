@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class VlcStartSystemCommand extends KameHouseShellSystemCommand {
+public class VlcStartSystemCommand extends SystemCommand {
 
   private String filename = null;
 

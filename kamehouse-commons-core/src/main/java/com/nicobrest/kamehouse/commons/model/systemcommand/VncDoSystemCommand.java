@@ -16,7 +16,7 @@ import java.util.List;
  * @deprecated use {@link JvncSenderSystemCommand}.
  */
 @Deprecated(since = "v9.00")
-public abstract class VncDoSystemCommand extends KameHouseShellSystemCommand {
+public abstract class VncDoSystemCommand extends SystemCommand {
 
   /**
    * Sets the command line for each operation required for this SystemCommand.

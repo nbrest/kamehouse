@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.media.video.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 
@@ -10,11 +10,12 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class GetPlaylistContentSystemCommand extends KameHouseShellSystemCommand {
+public class GetPlaylistContentSystemCommand extends SystemCommand {
 
   String playlistFilename = null;
 
   public GetPlaylistContentSystemCommand(String playlistFilename) {
+    super();
     this.playlistFilename = playlistFilename;
   }
 

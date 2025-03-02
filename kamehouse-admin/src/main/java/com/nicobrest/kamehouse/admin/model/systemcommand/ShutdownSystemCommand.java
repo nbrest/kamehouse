@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import java.util.List;
 
 /**
@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
+public class ShutdownSystemCommand extends SystemCommand {
 
   private int shutdownDelaySeconds = -1;
 

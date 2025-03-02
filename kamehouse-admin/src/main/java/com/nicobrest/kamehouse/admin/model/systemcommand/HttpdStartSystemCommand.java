@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import java.util.List;
 
 /**
@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class HttpdStartSystemCommand extends KameHouseShellSystemCommand {
+public class HttpdStartSystemCommand extends SystemCommand {
 
   @Override
   public boolean isDaemon() {

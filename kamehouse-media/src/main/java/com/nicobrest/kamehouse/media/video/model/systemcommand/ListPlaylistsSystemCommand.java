@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.media.video.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import java.util.List;
 
 /**
@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author nbrest
  */
-public class ListPlaylistsSystemCommand extends KameHouseShellSystemCommand {
+public class ListPlaylistsSystemCommand extends SystemCommand {
 
   @Override
   public boolean executeOnDockerHost() {

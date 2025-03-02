@@ -24,13 +24,20 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Represents a command to execute as a system process. It's a single operation executed through the
- * command line.
+ * command line via kamehouse-shell. This is the base class for KameHouse Shell system commands that
+ * need to be executed from the exec-script.sh on linux to handle sudo calls. By default, linux
+ * kamehouse-shell commands here are executed with sudo. But it can be overriden to execute without
+ * it.
  *
  * @author nbrest
  */
 public abstract class SystemCommand {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+  private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
+  private static final String GIT_BASH_BAT = "win/bat/git-bash.bat";
+  private static final String GIT_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
 
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
@@ -72,82 +79,6 @@ public abstract class SystemCommand {
     this.windowsCmdStartMinimized = windowsCmdStartMinimized;
   }
 
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-  public Output getOutput() {
-    return output;
-  }
-
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public void setOutput(Output output) {
-    this.output = output;
-  }
-
-  /**
-   * Build the command to execute on a linux box.
-   */
-  protected abstract List<String> buildLinuxCommand();
-
-  /**
-   * Build the command to execute on a windows box.
-   */
-  protected abstract List<String> buildWindowsCommand();
-
-  /**
-   * Gets the specified system command for the correct operating system.
-   */
-  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-  public List<String> getCommand() {
-    if (PropertiesUtils.isWindowsHost()
-        || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)
-        && DockerUtils.isWindowsDockerHost())) {
-      return buildWindowsCommand();
-    } else {
-      return buildLinuxCommand();
-    }
-  }
-
-  /**
-   * Get the command as a string to execute over ssh.
-   */
-  public String getCommandForSsh() {
-    List<String> commandList = getCommand();
-    StringBuilder sb = new StringBuilder();
-    for (String command : commandList) {
-      sb.append(command).append(" ");
-    }
-    return sb.toString();
-  }
-
-  /**
-   * Add cmd.exe start command prefix when not executing the windows command on docker host from
-   * docker.
-   */
-  protected void addWindowsCmdStartPrefix() {
-    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      if (getWindowsCmdStartMinimized()) {
-        windowsCommand.addAll(WINDOWS_CMD_START_MIN);
-      } else {
-        windowsCommand.addAll(WINDOWS_CMD_START);
-      }
-    }
-  }
-
-  /**
-   * Add powershell.exe command prefix to windows commands.
-   */
-  protected void addPowerShellPrefix() {
-    windowsCommand.addAll(POWERSHELL_START);
-  }
-
-  /**
-   * Add bash -c prefix to linux commands.
-   */
-  protected void addBashPrefix() {
-    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
-      linuxCommand.addAll(BASH_START);
-    }
-  }
-
   /**
    * Get sleep time (in seconds) to sleep AFTER the command executes.
    */
@@ -174,6 +105,62 @@ public abstract class SystemCommand {
    */
   public void setSshTimeout(long sshTimeout) {
     this.sshTimeout = sshTimeout;
+  }
+
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public Output getOutput() {
+    return output;
+  }
+
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
+  public void setOutput(Output output) {
+    this.output = output;
+  }
+
+  /**
+   * Build the kamehouse-shell system command.
+   */
+  public SystemCommand() {
+    executeOnDockerHost = executeOnDockerHost();
+    sleepTime = getSleepTime();
+    isDaemon = isDaemon();
+  }
+
+  /**
+   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
+   */
+  protected abstract String getWindowsKameHouseShellScript();
+
+  /**
+   * Get the arguments to pass to the kamehouse-shell script.
+   */
+  protected abstract List<String> getWindowsKameHouseShellScriptArguments();
+
+  /**
+   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
+   */
+  protected abstract String getLinuxKameHouseShellScript();
+
+  /**
+   * Get the arguments to pass to the kamehouse-shell script.
+   */
+  protected abstract String getLinuxKameHouseShellScriptArguments();
+
+  /**
+   * Override in subclasses to add the cmd start prefix. This might be needed in some daemon
+   * processes like starting vlc so that it starts in the UI and not in the background. However,
+   * when adding the prefix, I won't get the kamehouse-shell scripts output returned in the
+   * SystemCommand Output.
+   */
+  protected boolean addCmdWindowsStartPrefix() {
+    return false;
+  }
+
+  /**
+   * Override in classes that need to hide the output command.
+   */
+  protected boolean hideOutputCommand() {
+    return false;
   }
 
   /**
@@ -240,6 +227,32 @@ public abstract class SystemCommand {
   }
 
   /**
+   * Gets the specified system command for the correct operating system.
+   */
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
+  public List<String> getCommand() {
+    if (PropertiesUtils.isWindowsHost()
+        || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)
+        && DockerUtils.isWindowsDockerHost())) {
+      return buildWindowsCommand();
+    } else {
+      return buildLinuxCommand();
+    }
+  }
+
+  /**
+   * Get the command as a string to execute over ssh.
+   */
+  public String getCommandForSsh() {
+    List<String> commandList = getCommand();
+    StringBuilder sb = new StringBuilder();
+    for (String command : commandList) {
+      sb.append(command).append(" ");
+    }
+    return sb.toString();
+  }
+
+  /**
    * Set the command in the output returned through the apis. This is just for display, it's not
    * used to get the actual command to execute.
    */
@@ -252,10 +265,96 @@ public abstract class SystemCommand {
   }
 
   /**
-   * Override in classes that need to hide the output command.
+   * Build system command to run on linux.
    */
-  protected boolean hideOutputCommand() {
-    return false;
+  protected List<String> buildLinuxCommand() {
+    addBashPrefix();
+    StringBuilder sb = new StringBuilder();
+    sb.append(getKameHouseShellBasePath());
+    sb.append(getLinuxKameHouseShellScript());
+    if (getLinuxKameHouseShellScriptArguments() != null) {
+      sb.append(" ");
+      sb.append(getLinuxKameHouseShellScriptArguments());
+    }
+    linuxCommand.add(sb.toString());
+    return linuxCommand;
+  }
+
+  /**
+   * Build system command to run on windows.
+   */
+  protected List<String> buildWindowsCommand() {
+    if (addCmdWindowsStartPrefix()) {
+      addWindowsCmdStartPrefix();
+    }
+    windowsCommand.add(getGitBashBatScript());
+    windowsCommand.add("-c");
+    String script = GIT_BASH_SHELL_BASE + getWindowsKameHouseShellScript();
+    List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
+    if (scriptArgs == null || scriptArgs.isEmpty()) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("\"");
+      sb.append(script);
+      sb.append("\"");
+      windowsCommand.add(sb.toString());
+      return windowsCommand;
+    }
+    StringBuilder sb = new StringBuilder();
+    sb.append("\"");
+    sb.append(script);
+    scriptArgs.forEach(arg -> {
+      sb.append(" ").append(arg);
+    });
+    sb.append("\"");
+    windowsCommand.add(sb.toString());
+    return windowsCommand;
+  }
+
+  /**
+   * Add cmd.exe start command prefix when not executing the windows command on docker host from
+   * docker.
+   */
+  protected void addWindowsCmdStartPrefix() {
+    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
+      if (getWindowsCmdStartMinimized()) {
+        windowsCommand.addAll(WINDOWS_CMD_START_MIN);
+      } else {
+        windowsCommand.addAll(WINDOWS_CMD_START);
+      }
+    }
+  }
+
+  /**
+   * Add powershell.exe command prefix to windows commands.
+   */
+  protected void addPowerShellPrefix() {
+    windowsCommand.addAll(POWERSHELL_START);
+  }
+
+  /**
+   * Add bash -c prefix to linux commands.
+   */
+  protected void addBashPrefix() {
+    if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
+      linuxCommand.addAll(BASH_START);
+    }
+  }
+
+  /**
+   * Get kamehouse shell scripts base path.
+   */
+  private String getKameHouseShellBasePath() {
+    if (executeOnDockerHost()) {
+      return DockerUtils.getUserHome() + KAMEHOUSE_SHELL_BASE;
+    }
+    return PropertiesUtils.getUserHome() + KAMEHOUSE_SHELL_BASE;
+  }
+
+  /**
+   * Get git-bash.bat to run kamehouse shell scripts on windows.
+   */
+  private String getGitBashBatScript() {
+    return getKameHouseShellBasePath() + GIT_BASH_BAT;
   }
 
   /**
