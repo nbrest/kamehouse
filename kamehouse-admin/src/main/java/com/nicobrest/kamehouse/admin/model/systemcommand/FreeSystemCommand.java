@@ -1,23 +1,37 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import java.util.List;
 
 /**
  * System command to get the available memory of the server.
  *
  * @author nbrest
  */
-public class FreeSystemCommand extends SystemCommand {
+public class FreeSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation required for this SystemCommand.
-   */
-  public FreeSystemCommand() {
-    executeOnDockerHost = true;
-    addBashPrefix();
-    linuxCommand.add("free -h");
-    addPowerShellPrefix();
-    windowsCommand.add("\"systeminfo | Select-String -Pattern Memory\"");
-    setOutputCommand();
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected String getWindowsKameHouseShellScript() {
+    return "win/sysadmin/free.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/sysadmin/free.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }

@@ -1,23 +1,37 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import java.util.List;
 
 /**
  * System command to get the available disk space of the server.
  *
  * @author nbrest
  */
-public class DfSystemCommand extends SystemCommand {
+public class DfSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation required for this SystemCommand.
-   */
-  public DfSystemCommand() {
-    executeOnDockerHost = true;
-    addBashPrefix();
-    linuxCommand.add("df -h");
-    addPowerShellPrefix();
-    windowsCommand.add("gdr");
-    setOutputCommand();
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected String getWindowsKameHouseShellScript() {
+    return "win/sysadmin/df.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/sysadmin/df.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }

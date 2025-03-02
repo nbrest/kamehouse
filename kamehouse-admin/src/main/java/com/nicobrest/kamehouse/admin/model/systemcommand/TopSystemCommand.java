@@ -1,23 +1,37 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
+import java.util.List;
 
 /**
  * System commandto get the current state of the processes of the server.
  *
  * @author nbrest
  */
-public class TopSystemCommand extends SystemCommand {
+public class TopSystemCommand extends KameHouseShellSystemCommand {
 
-  /**
-   * Sets the command line for each operation required for this SystemCommand.
-   */
-  public TopSystemCommand() {
-    executeOnDockerHost = true;
-    addBashPrefix();
-    linuxCommand.add("TERM=xterm top -b -n 1");
-    addPowerShellPrefix();
-    windowsCommand.add("\"ps | sort -desc cpu | select -first 20\"");
-    setOutputCommand();
+  @Override
+  public boolean executeOnDockerHost() {
+    return true;
+  }
+
+  @Override
+  protected String getWindowsKameHouseShellScript() {
+    return "win/sysadmin/top.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScript() {
+    return "lin/sysadmin/top.sh";
+  }
+
+  @Override
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
   }
 }
