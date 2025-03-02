@@ -17,8 +17,13 @@ public class SuspendSystemCommand extends KameHouseShellSystemCommand {
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    return Arrays.asList("rundll32.exe", "powrprof.dll,SetSuspendState", "0,1,0");
+  protected String getWindowsKameHouseShellScript() {
+    return "win/shutdown/suspend.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
   }
 
   @Override

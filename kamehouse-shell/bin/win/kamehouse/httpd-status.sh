@@ -7,8 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
-
 mainProcess() {
   log.info "Searching for apache httpd process"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | tail -n 1

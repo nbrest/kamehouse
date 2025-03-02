@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,8 +20,7 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
       throw new KameHouseInvalidCommandException(
           "Invalid time for shutdown command " + shutdownDelaySeconds);
     }
-    buildLinuxCommand(shutdownDelaySeconds);
-    windowsCommand.add(String.valueOf(shutdownDelaySeconds));
+    addShutdownDelayToCommand(shutdownDelaySeconds);
     setOutputCommand();
   }
 
@@ -32,8 +30,13 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    return Arrays.asList("shutdown", "/s", "/t ");
+  protected String getWindowsKameHouseShellScript() {
+    return "win/shutdown/shutdown.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return List.of("-s", "-t");
   }
 
   @Override
@@ -46,14 +49,19 @@ public class ShutdownSystemCommand extends KameHouseShellSystemCommand {
     return null;
   }
 
-  private void buildLinuxCommand(int shutdownDelaySeconds) {
+  private void addShutdownDelayToCommand(int shutdownDelaySeconds) {
     int shutdownDelayMinutes = 0;
     if (shutdownDelaySeconds >= 60) {
       shutdownDelayMinutes = shutdownDelaySeconds / 60;
     }
-    String command = linuxCommand.get(linuxCommand.size() - 1);
-    command = command + " -d " + shutdownDelayMinutes;
+    String linuxCmd = linuxCommand.get(linuxCommand.size() - 1);
+    linuxCmd = linuxCmd + " -d " + shutdownDelayMinutes;
     linuxCommand.remove(linuxCommand.size() - 1);
-    linuxCommand.add(command);
+    linuxCommand.add(linuxCmd);
+
+    String windowsCmd = windowsCommand.get(windowsCommand.size() - 1);
+    windowsCmd = windowsCmd + " " + shutdownDelaySeconds;
+    windowsCommand.remove(windowsCommand.size() - 1);
+    windowsCommand.add(windowsCmd);
   }
 }

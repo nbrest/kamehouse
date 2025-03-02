@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,8 +16,13 @@ public class HttpdStopSystemCommand extends KameHouseShellSystemCommand {
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    return Arrays.asList("taskkill", "/im", "httpd.exe", "&", "echo", "Stopping apache httpd");
+  protected String getWindowsKameHouseShellScript() {
+    return "win/kamehouse/httpd-stop.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
   }
 
   @Override

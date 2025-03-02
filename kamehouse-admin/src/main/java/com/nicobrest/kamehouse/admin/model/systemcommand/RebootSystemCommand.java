@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,8 +16,13 @@ public class RebootSystemCommand extends KameHouseShellSystemCommand {
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    return Arrays.asList("shutdown", "/r", "/f", "/t", "0");
+  protected String getWindowsKameHouseShellScript() {
+    return "win/shutdown/reboot.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
   }
 
   @Override

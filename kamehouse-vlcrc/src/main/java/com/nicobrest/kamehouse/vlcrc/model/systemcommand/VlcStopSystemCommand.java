@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,13 +24,13 @@ public class VlcStopSystemCommand extends KameHouseShellSystemCommand {
   }
 
   @Override
-  protected boolean isSudo() {
-    return false;
+  protected String getWindowsKameHouseShellScript() {
+    return "win/kamehouse/vlc-stop.sh";
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    return Arrays.asList("taskkill", "/im", "vlc.exe", "/f");
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
   }
 
   @Override

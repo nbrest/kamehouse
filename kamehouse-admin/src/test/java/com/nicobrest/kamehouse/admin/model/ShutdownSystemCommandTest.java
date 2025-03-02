@@ -14,7 +14,9 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-/** Test for the ShutdownSystemCommand. */
+/**
+ * Test for the ShutdownSystemCommand.
+ */
 class ShutdownSystemCommandTest {
 
   private MockedStatic<PropertiesUtils> propertiesUtils;
@@ -33,10 +35,13 @@ class ShutdownSystemCommandTest {
   @Test
   void shutdownSystemCommandWindowsTest() {
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
+    when(PropertiesUtils.getUserHome()).thenReturn("C:\\Users\\goku");
 
     ShutdownSystemCommand command = new ShutdownSystemCommand(180);
     assertEquals(0, command.getSleepTime());
-    assertEquals("[cmd.exe, /c, start, /min, shutdown, /s, /t , 180]", command.getCommand().toString());
+    String expectedCommand = "[C:\\Users\\goku/programs/kamehouse-shell/bin/win/bat/git-bash.bat, "
+        + "-c, ${HOME}/programs/kamehouse-shell/bin/win/shutdown/shutdown.sh -s -t 180]";
+    assertEquals(expectedCommand, command.getCommand().toString());
   }
 
   @Test

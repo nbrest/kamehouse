@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,13 +11,13 @@ import java.util.List;
 public class HttpdStatusSystemCommand extends KameHouseShellSystemCommand {
 
   @Override
-  protected boolean addCmdWindowsStartPrefix() {
-    return false;
+  protected String getWindowsKameHouseShellScript() {
+    return "win/kamehouse/httpd-status.sh";
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    return Arrays.asList("tasklist", "/FI", "IMAGENAME eq httpd.exe");
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
   }
 
   @Override

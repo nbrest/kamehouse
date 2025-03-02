@@ -7,6 +7,7 @@
 
 #### v10.01
 
+- Refactored kamehouse system commands to go through kamehouse-shell for most commands
 - Added a stop scrolling page
 - Refactored parseArguments to allow extended arguments
 - Fixed release version number on ui

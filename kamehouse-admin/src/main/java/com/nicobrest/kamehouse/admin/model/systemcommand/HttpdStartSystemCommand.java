@@ -1,8 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.systemcommand;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,10 +16,13 @@ public class HttpdStartSystemCommand extends KameHouseShellSystemCommand {
   }
 
   @Override
-  protected List<String> getWindowsCommand() {
-    String userHome = PropertiesUtils.getUserHome();
-    String httpdExecutableWin = PropertiesUtils.getProperty("httpd.executable.win");
-    return Arrays.asList(userHome + httpdExecutableWin);
+  protected String getWindowsKameHouseShellScript() {
+    return "kamehouse/httpd-startup.sh";
+  }
+
+  @Override
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return null;
   }
 
   @Override

@@ -7,8 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
-LOG_PROCESS_TO_FILE=false
 RESTART=false
 HIBERNATE=true
 SHUTDOWN=false

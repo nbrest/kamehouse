@@ -7,18 +7,16 @@ import java.util.List;
 
 /**
  * Base class for KameHouse Shell system commands that need to be executed from the exec-script.sh
- * on linux to handle sudo calls. For windows the command at the moment is a standard windows
- * command, not going through kamehouse-shell. <br/><br/> By default linux kamehouse-shell commands
- * here are executed with sudo. But it can be overriden to execute without it. <br/><br/>  For
- * Windows, it's usually makes more sense to execute the commands straight on the cmd.exe console
- * rather than going through git bash to execute kamehouse-shell commands.
+ * on linux to handle sudo calls. <br/><br/> By default linux kamehouse-shell commands here are
+ * executed with sudo. But it can be overriden to execute without it.
  *
  * @author nbrest
  */
 public abstract class KameHouseShellSystemCommand extends SystemCommand {
 
   private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
-  private static final String GIT_BASH_BAT = "win\\bat\\git-bash.bat";
+  private static final String GIT_BASH_BAT = "win/bat/git-bash.bat";
+  private static final String GIT_BASH_BAT_WIN = "win\\bat\\git-bash.bat";
   private static final String GIT_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
 
   /**
@@ -28,33 +26,46 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
     executeOnDockerHost = executeOnDockerHost();
     sleepTime = getSleepTime();
     isDaemon = isDaemon();
+
     addBashPrefix();
-    linuxCommand.add(buildLinuxCommand());
+    StringBuilder linuxShellCommand = new StringBuilder();
+    linuxShellCommand.append(getKameHouseShellBasePath());
+    linuxShellCommand.append(getLinuxKameHouseShellScript());
+    if (getLinuxKameHouseShellScriptArguments() != null) {
+      linuxShellCommand.append(" ");
+      linuxShellCommand.append(getLinuxKameHouseShellScriptArguments());
+    }
+    linuxCommand.add(linuxShellCommand.toString());
+
     if (addCmdWindowsStartPrefix()) {
       addWindowsCmdStartPrefix();
     }
-    windowsCommand.addAll(getWindowsCommand());
+    windowsCommand.add(getGitBashBatScript());
+    windowsCommand.add("-c");
+    String windowsShellScript = GIT_BASH_SHELL_BASE + getWindowsKameHouseShellScript();
+    List<String> winScriptArgs = getWindowsKameHouseShellScriptArguments();
+    if (winScriptArgs != null && !winScriptArgs.isEmpty()) {
+      StringBuilder windowsScriptWithArgs = new StringBuilder(windowsShellScript);
+      winScriptArgs.forEach(arg -> {
+        windowsScriptWithArgs.append(" ").append(arg);
+      });
+      windowsCommand.add(windowsScriptWithArgs.toString());
+    } else {
+      windowsCommand.add(windowsShellScript);
+    }
+
     setOutputCommand();
   }
 
   /**
-   * Override in subclasses to add sudo prefix.
+   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
    */
-  protected boolean isSudo() {
-    return false;
-  }
+  protected abstract String getWindowsKameHouseShellScript();
 
   /**
-   * Override in subclasses to skip adding the cmd start prefix.
+   * Get the arguments to pass to the kamehouse-shell script.
    */
-  protected boolean addCmdWindowsStartPrefix() {
-    return true;
-  }
-
-  /**
-   * Get the entire windows command as a list, including it's arguments.
-   */
-  protected abstract List<String> getWindowsCommand();
+  protected abstract List<String> getWindowsKameHouseShellScriptArguments();
 
   /**
    * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
@@ -67,20 +78,13 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
   protected abstract String getLinuxKameHouseShellScriptArguments();
 
   /**
-   * Returns the linux command to excute.
+   * Override in subclasses to add the cmd start prefix. This might be needed in some daemon
+   * processes like starting vlc so that it starts in the UI and not in the background. However,
+   * when adding the prefix, I won't get the kamehouse-shell scripts output returned in the
+   * SystemCommand Output.
    */
-  private String buildLinuxCommand() {
-    StringBuilder linuxCommand = new StringBuilder();
-    if (isSudo()) {
-      linuxCommand.append("sudo ");
-    }
-    linuxCommand.append(getKameHouseShellBasePath());
-    linuxCommand.append(getLinuxKameHouseShellScript());
-    if (getLinuxKameHouseShellScriptArguments() != null) {
-      linuxCommand.append(" ");
-      linuxCommand.append(getLinuxKameHouseShellScriptArguments());
-    }
-    return linuxCommand.toString();
+  protected boolean addCmdWindowsStartPrefix() {
+    return false;
   }
 
   /**
@@ -94,13 +98,20 @@ public abstract class KameHouseShellSystemCommand extends SystemCommand {
   }
 
   /**
+   * Get git-bash.bat to run kamehouse shell scripts on windows.
+   */
+  private String getGitBashBatScript() {
+    return getKameHouseShellBasePath() + GIT_BASH_BAT;
+  }
+
+  /**
    * Build a kamehouse shell script command to execute on docker host.
    */
   public static String getDockerHostKameHouseShellCommand(String script, String args) {
     StringBuilder command = new StringBuilder(DockerUtils.getDockerHostUserHome());
     if (DockerUtils.isWindowsDockerHost()) {
       command.append(KAMEHOUSE_SHELL_BASE.replace("/", "\\"));
-      command.append(GIT_BASH_BAT);
+      command.append(GIT_BASH_BAT_WIN);
       command.append(" -c \"");
       command.append(GIT_BASH_SHELL_BASE);
     } else {
