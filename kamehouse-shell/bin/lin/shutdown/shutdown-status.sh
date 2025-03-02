@@ -7,12 +7,8 @@ if [ "$?" != "0" ]; then
 	exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
-DEFAULT_VLC_PORT="8080"
-VLC_PORT=${DEFAULT_VLC_PORT}
-
 mainProcess() {
-  netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
+  ps aux | grep -e "shutdown\|COMMAND" | grep -v grep
 }
 
 main "$@"
