@@ -1,1 +1,1 @@
-top -n 1
+TERM=xterm top -b -n 1
