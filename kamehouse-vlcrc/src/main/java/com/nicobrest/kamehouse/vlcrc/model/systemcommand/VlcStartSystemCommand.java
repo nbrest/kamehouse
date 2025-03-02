@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandExceptio
 import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseShellSystemCommand;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
+import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 
 /**
@@ -63,6 +64,9 @@ public class VlcStartSystemCommand extends KameHouseShellSystemCommand {
    * Validate filename parameter.
    */
   private void validateFilename(String filename) {
+    if (StringUtils.isEmpty(filename)) {
+      return;
+    }
     if (FileUtils.isRemoteFile(filename) || DockerUtils.shouldExecuteOnDockerHost(
         executeOnDockerHost)) {
       validateRemoteFile(filename);
