@@ -88,7 +88,7 @@ public class PowerManagementService {
    */
   public void wakeOnLan(String macAddress, String broadcastAddress) {
     NetworkUtils.wakeOnLan(macAddress, broadcastAddress);
-    if (DockerUtils.isDockerContainer()) {
+    if (DockerUtils.isDockerContainer() && DockerUtils.isDockerControlHostEnabled()) {
       WolSystemCommand wolCommand = new WolSystemCommand(macAddress, broadcastAddress);
       DockerUtils.executeOnDockerHost(wolCommand);
     }
