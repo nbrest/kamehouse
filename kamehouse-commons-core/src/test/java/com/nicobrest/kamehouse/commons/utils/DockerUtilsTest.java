@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -24,9 +27,12 @@ import org.mockito.Mockito;
  */
 class DockerUtilsTest {
 
+  private static final String DOCKER_HOST_AUTH = "c2VpeWE6aWtraQ==";
+
   private SystemCommandOutputTestUtils testUtils = new SystemCommandOutputTestUtils();
   private MockedStatic<PropertiesUtils> propertiesUtils;
   private MockedStatic<SshClientUtils> sshClientUtils;
+  private MockedStatic<HttpClientUtils> httpClientUtils;
 
   /**
    * Tests setup.
@@ -36,6 +42,7 @@ class DockerUtilsTest {
     testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     sshClientUtils = Mockito.mockStatic(SshClientUtils.class);
+    httpClientUtils = Mockito.mockStatic(HttpClientUtils.class);
   }
 
   /**
@@ -45,18 +52,41 @@ class DockerUtilsTest {
   public void close() {
     propertiesUtils.close();
     sshClientUtils.close();
+    httpClientUtils.close();
   }
 
   /**
-   * Execute command on docker host successful test.
+   * Execute command on docker windows host successful test.
    */
   @Test
-  void executeOnDockerHostTest() {
-    when(SshClientUtils.execute(any(), any(), any())).thenReturn(testUtils.getSingleTestData());
+  void executeOnDockerWindowsHostTest() throws IOException {
+    when(DockerUtils.getDockerHostAuth()).thenReturn(DOCKER_HOST_AUTH);
+    when(HttpClientUtils.getInputStream(any())).thenReturn(
+        getInputStream("docker-utils/groot-execute-response-success-win.json"));
 
     Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
 
-    assertEquals(testUtils.getSingleTestData(), output);
+    assertEquals(SystemCommandStatus.COMPLETED.getStatus(), output.getStatus());
+    assertEquals(0, output.getExitCode());
+    assertNotNull(output.getStandardOutput());
+    assertTrue(!output.getStandardOutput().isEmpty());
+  }
+
+  /**
+   * Execute command on docker linux host successful test.
+   */
+  @Test
+  void executeOnDockerLinuxHostTest() throws IOException {
+    when(DockerUtils.getDockerHostAuth()).thenReturn(DOCKER_HOST_AUTH);
+    when(HttpClientUtils.getInputStream(any())).thenReturn(
+        getInputStream("docker-utils/groot-execute-response-success-lin.json"));
+
+    Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
+
+    assertEquals(SystemCommandStatus.COMPLETED.getStatus(), output.getStatus());
+    assertEquals(0, output.getExitCode());
+    assertNotNull(output.getStandardOutput());
+    assertTrue(!output.getStandardOutput().isEmpty());
   }
 
   /**
@@ -171,5 +201,13 @@ class DockerUtilsTest {
           DockerUtils.getUserHome();
           DockerUtils.getUserHome(false);
         });
+  }
+
+  /**
+   * Gets the input stream of the specified resource.
+   */
+  public static InputStream getInputStream(String resourceName) {
+    ClassLoader classLoader = DockerUtilsTest.class.getClassLoader();
+    return classLoader.getResourceAsStream(resourceName);
   }
 }

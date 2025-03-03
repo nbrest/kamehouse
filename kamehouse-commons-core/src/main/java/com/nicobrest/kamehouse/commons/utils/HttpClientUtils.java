@@ -1,10 +1,14 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
@@ -20,8 +24,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.util.UriUtils;
@@ -45,6 +52,13 @@ public class HttpClientUtils {
    * Creates an instance of HttpClient with the provided credentials.
    */
   public static HttpClient getClient(String username, String password) {
+    return getClient(username, password, false);
+  }
+
+  /**
+   * Creates an instance of HttpClient with the provided credentials.
+   */
+  public static HttpClient getClient(String username, String password, boolean skipSslCheck) {
     if (username == null) {
       username = "";
     }
@@ -54,6 +68,24 @@ public class HttpClientUtils {
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
     credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+    if (skipSslCheck) {
+      try {
+        return HttpClientBuilder.create()
+            .setDefaultCredentialsProvider(credentialsProvider)
+            .setSSLContext(
+                new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
+            .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+            .disableConnectionState()
+            .disableAutomaticRetries()
+            .setConnectionTimeToLive(TIME_TO_LIVE, TimeUnit.SECONDS)
+            .setMaxConnPerRoute(MAX_CONNECTIONS)
+            .setMaxConnTotal(MAX_CONNECTIONS)
+            .build();
+      } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+        LOGGER.error("Unable to create http client");
+        throw new KameHouseServerErrorException(e.getMessage());
+      }
+    }
     return HttpClientBuilder.create()
         .setDefaultCredentialsProvider(credentialsProvider)
         .disableConnectionState()

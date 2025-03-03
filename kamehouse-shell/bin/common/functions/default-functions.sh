@@ -73,7 +73,8 @@ printHelpFooter() {
 
 # Display the invalid argument error and exit printing help message
 parseInvalidArgument() {
-  log.error "Invalid option: -$1"
+  local OPTION=$1
+  log.error "Invalid option: ${OPTION}"
   printHelp
   exitProcess ${EXIT_INVALID_ARG}
 }

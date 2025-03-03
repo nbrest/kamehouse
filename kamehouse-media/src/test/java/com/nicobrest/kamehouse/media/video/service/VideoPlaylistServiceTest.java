@@ -2,13 +2,11 @@ package com.nicobrest.kamehouse.media.video.service;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import com.nicobrest.kamehouse.commons.utils.SshClientUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 import java.io.File;
@@ -33,7 +31,6 @@ class VideoPlaylistServiceTest {
 
   private MockedStatic<DockerUtils> dockerUtils;
   private MockedStatic<PropertiesUtils> propertiesUtils;
-  private MockedStatic<SshClientUtils> sshClientUtils;
 
   @BeforeAll
   public static void beforeClass() {
@@ -46,7 +43,6 @@ class VideoPlaylistServiceTest {
   @BeforeEach
   public void before() {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
-    sshClientUtils = Mockito.mockStatic(SshClientUtils.class);
     dockerUtils = Mockito.mockStatic(DockerUtils.class);
 
     when(PropertiesUtils.isWindowsHost()).thenCallRealMethod();
@@ -63,7 +59,6 @@ class VideoPlaylistServiceTest {
   @AfterEach
   public void close() {
     propertiesUtils.close();
-    sshClientUtils.close();
     dockerUtils.close();
   }
 
@@ -107,27 +102,27 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(true);
     Output playlistFilePaths = new Output();
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
-    playlistFilePaths.setStandardOutput(List.of("--------" + expectedPlaylists.get(0).getPath()
-        + "\r\n" + expectedPlaylists.get(1).getPath() + "\r\n"));
+    playlistFilePaths.setStandardOutput(List.of(expectedPlaylists.get(0).getPath()
+        + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
     Output dcPlaylistContent = new Output();
     dcPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3U\r\n"
-                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\r\n"
-                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\r\n"
+            "#EXTM3U\n"
+                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\n"
+                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
         )
     );
     Output marvelPlaylistContent = new Output();
     marvelPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3U\r\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\r\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\r\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\r\n"
+            "#EXTM3U\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\n"
+                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
         )
     );
-    when(SshClientUtils.executeShell(any(), any(), any(), anyBoolean())).thenReturn(
-        playlistFilePaths, dcPlaylistContent, marvelPlaylistContent);
+    when(DockerUtils.executeOnDockerHost(any())).thenReturn(playlistFilePaths, dcPlaylistContent,
+        marvelPlaylistContent);
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll(true);
 
@@ -168,8 +163,8 @@ class VideoPlaylistServiceTest {
                 + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
         )
     );
-    when(SshClientUtils.executeShell(any(), any(), any(), anyBoolean())).thenReturn(
-        playlistFilePaths, dcPlaylistContent, marvelPlaylistContent);
+    when(DockerUtils.executeOnDockerHost(any())).thenReturn(playlistFilePaths, dcPlaylistContent,
+        marvelPlaylistContent);
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll(true);
 

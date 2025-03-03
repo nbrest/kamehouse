@@ -1,10 +1,29 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
@@ -22,6 +41,9 @@ public class DockerUtils {
   private static final String DOCKER_CONTAINER_ENV = ".kamehouse/.kamehouse-docker-container-env";
   private static final String WINDOWS_HOME_PREFIX = "C:\\Users\\";
   private static final String LINUX_HOME_PREFIX = "/home/";
+  private static final String GROOT_EXECUTE_URL =
+      "/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?";
+  private static final String GROOT_LOGIN_URL = "/kame-house-groot/api/v1/auth/login.php";
 
   private DockerUtils() {
     throw new IllegalStateException("Utility class");
@@ -31,9 +53,42 @@ public class DockerUtils {
    * Execute the system command on the host running the docker container.
    */
   public static SystemCommand.Output executeOnDockerHost(SystemCommand systemCommand) {
-    String host = getDockerHostIp();
-    String username = getDockerHostUsername();
-    return SshClientUtils.execute(host, username, systemCommand);
+    HttpClient client = getGrootExecuteHttpClient();
+    HttpGet request = HttpClientUtils.httpGet(getDockerHostGrootExecuteUrl(systemCommand));
+    systemCommand.initOutputCommand();
+    SystemCommand.Output commandOutput = systemCommand.getOutput();
+    try {
+      loginToGroot(client);
+      HttpResponse response = HttpClientUtils.execRequest(client, request);
+      try (InputStream resInStream = HttpClientUtils.getInputStream(response);
+          BufferedReader responseReader =
+              new BufferedReader(new InputStreamReader(resInStream, StandardCharsets.UTF_8))) {
+        StringBuilder responseBodyStr = new StringBuilder();
+        String line = "";
+        while ((line = responseReader.readLine()) != null) {
+          responseBodyStr.append(line);
+        }
+        String responseBody = responseBodyStr.toString();
+        LOGGER.debug("Groot responseBody: {}", responseBody);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode responseBodyJson = mapper.readTree(responseBody);
+        JsonNode bashConsoleOutput = responseBodyJson.get("bashConsoleOutput");
+        if (bashConsoleOutput != null) {
+          commandOutput.setStandardOutput(Arrays.asList(bashConsoleOutput.asText()));
+          commandOutput.setStandardError(List.of(""));
+          commandOutput.setExitCode(0);
+          commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
+          return commandOutput;
+        }
+      }
+    } catch (IOException e) {
+      LOGGER.error("Error sending groot execute request. Message: {}", e.getMessage());
+    }
+    commandOutput.setStandardOutput(List.of(""));
+    commandOutput.setStandardError(List.of(""));
+    commandOutput.setExitCode(1);
+    commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
+    return commandOutput;
   }
 
   /**
@@ -91,10 +146,24 @@ public class DockerUtils {
   }
 
   /**
+   * Get the docker host's auth header.
+   */
+  public static String getDockerHostAuth() {
+    return PropertiesUtils.getProperty("DOCKER_HOST_AUTH");
+  }
+
+  /**
    * Get the docker host's ip address.
    */
   public static String getDockerHostIp() {
     return PropertiesUtils.getProperty("DOCKER_HOST_IP");
+  }
+
+  /**
+   * Get the docker host's port.
+   */
+  public static String getDockerHostPort() {
+    return PropertiesUtils.getProperty("DOCKER_HOST_PORT");
   }
 
   /**
@@ -175,9 +244,71 @@ public class DockerUtils {
   }
 
   /**
+   * Get http client to send groot execute request.
+   */
+  private static HttpClient getGrootExecuteHttpClient() {
+    String[] loginCredentials = getLoginCredentials();
+    return HttpClientUtils.getClient(loginCredentials[0], loginCredentials[0], true);
+  }
+
+  /**
+   * Get login credentials to docker host.
+   */
+  private static String[] getLoginCredentials() {
+    String basicAuth = getDockerHostAuth();
+    try {
+      byte[] basicAuthByteArray = Base64.getDecoder().decode(basicAuth);
+      if (basicAuthByteArray == null) {
+        throw new KameHouseServerErrorException("Unable to decode docker host auth");
+      }
+      String basicAuthDecoded = new String(basicAuthByteArray, StandardCharsets.UTF_8);
+      if (StringUtils.isEmpty(basicAuthDecoded) || !basicAuthDecoded.contains(":")) {
+        throw new KameHouseServerErrorException("Invalid value for docker host auth");
+      }
+      return basicAuthDecoded.split(":");
+    } catch (IllegalArgumentException e) {
+      throw new KameHouseServerErrorException("Unable to decode docker host auth");
+    }
+  }
+
+  /**
+   * Build url to execute system command on remote host via groot.
+   */
+  private static String getDockerHostGrootExecuteUrl(SystemCommand systemCommand) {
+    String host = getDockerHostIp();
+    String port = getDockerHostPort();
+    StringBuilder sb = new StringBuilder("https://");
+    sb.append(host).append(":").append(port).append(GROOT_EXECUTE_URL).append("script=");
+    sb.append(systemCommand.getShellScriptScript());
+    String args = systemCommand.getShellScriptScriptArgs();
+    if (!StringUtils.isEmpty(args)) {
+      String urlEncodedArgs = HttpClientUtils.urlEncode(args.trim());
+      sb.append("&args=").append(urlEncodedArgs);
+    }
+    return sb.toString().trim();
+  }
+
+  /**
    * Get the OS of the docker host.
    */
   private static String getDockerHostOs() {
     return PropertiesUtils.getProperty("DOCKER_HOST_OS");
+  }
+
+  /**
+   * Login to kamehouse-groot to send the execute request.
+   */
+  private static void loginToGroot(HttpClient client) throws IOException {
+    String host = getDockerHostIp();
+    String port = getDockerHostPort();
+    StringBuilder loginUrl = new StringBuilder("https://");
+    loginUrl.append(host).append(":").append(port).append(GROOT_LOGIN_URL);
+    String[] loginCredentials = getLoginCredentials();
+    List<NameValuePair> loginBody = new ArrayList<>();
+    loginBody.add(new BasicNameValuePair("username", loginCredentials[0]));
+    loginBody.add(new BasicNameValuePair("password", loginCredentials[1]));
+    HttpPost login = new HttpPost(loginUrl.toString());
+    login.setEntity(new UrlEncodedFormEntity(loginBody));
+    HttpClientUtils.execRequest(client, login);
   }
 }

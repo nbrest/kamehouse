@@ -7,8 +7,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
+import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
@@ -119,8 +120,8 @@ class SshClientUtilsTest {
 
     assertEquals("[/bin/bash, -c, ./programs/kamehouse-shell/bin/test-script.sh]",
         output.getCommand());
-    assertEquals("completed", output.getStatus());
-    assertEquals(-1, output.getExitCode());
+    assertEquals(SystemCommandStatus.COMPLETED.getStatus(), output.getStatus());
+    assertEquals(0, output.getExitCode());
     assertEquals(-1, output.getPid());
     assertEquals(Arrays.asList(""), output.getStandardOutput());
     assertNull(output.getStandardError());
@@ -138,8 +139,8 @@ class SshClientUtilsTest {
 
     assertEquals("[/bin/bash, -c, ./programs/kamehouse-shell/bin/test-script.sh]",
         output.getCommand());
-    assertEquals("failed", output.getStatus());
-    assertEquals(-1, output.getExitCode());
+    assertEquals(SystemCommandStatus.FAILED.getStatus(), output.getStatus());
+    assertEquals(1, output.getExitCode());
     assertEquals(-1, output.getPid());
     assertEquals(null, output.getStandardOutput());
     assertEquals(null, output.getStandardError());

@@ -120,8 +120,8 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/vlc/* /home/${KAMEHOUSE_USERNAME
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
 
 # Setup mocked bins
-RUN chmod a+x /usr/bin/vlc ; \
-  chmod a+x /usr/bin/gnome-screensaver-command
+RUN chmod a+rx /usr/bin/vlc ; \
+  chmod a+rx /usr/bin/gnome-screensaver-command
 
 # Run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00

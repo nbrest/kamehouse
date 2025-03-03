@@ -12,6 +12,7 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
 fi
+loadKamehouseShellPwd
 
 BUILD_ON_STARTUP=false
 BUILD_ON_STARTUP_PARAM=""
@@ -31,6 +32,11 @@ mainProcess() {
 }
 
 setEnvironment() {
+  if [ -z "${DOCKER_HOST_AUTH}" ]; then
+    log.info "DOCKER_HOST_AUTH is NOT set in ${HOME}/.kamehouse/kamehouse.cfg. Using GROOT_API_BASIC_AUTH value set in shell.pwd"
+    DOCKER_HOST_AUTH=${GROOT_API_BASIC_AUTH}
+  fi 
+
   if [ -z "${DOCKER_HOST_IP}" ]; then
     log.error "DOCKER_HOST_IP needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
@@ -50,7 +56,12 @@ setEnvironment() {
     log.error "DOCKER_HOST_OS needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
-  
+
+  if [ -z "${DOCKER_HOST_PORT}" ]; then
+    log.error "DOCKER_HOST_PORT needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi 
+
   setIsLinuxDockerHost
 
   if [ -n "${DOCKER_HOST_HOSTNAME}" ]; then
@@ -68,6 +79,7 @@ printEnv() {
   log.info "DEBUG_MODE=${DEBUG_MODE}"
   log.info "DOCKER_BASE_OS=${DOCKER_ENVIRONMENT}"
   log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
+  log.info "DOCKER_HOST_AUTH=****"
   log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
@@ -97,6 +109,7 @@ runDockerImage() {
       --env DEBUG_MODE=${DEBUG_MODE} \
       --env DOCKER_BASE_OS=${DOCKER_ENVIRONMENT} \
       --env DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST} \
+      --env DOCKER_HOST_AUTH=${DOCKER_HOST_AUTH} \
       --env DOCKER_HOST_IP=${DOCKER_HOST_IP} \
       --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
@@ -219,19 +232,19 @@ parseArguments() {
       -p|-t)
         # parsed in a previous parse options function 
         ;;
-      -b)
+      -b|--build)
         BUILD_ON_STARTUP_PARAM=true
         ;;
-      -c)
+      -c|--control-host)
         DOCKER_CONTROL_HOST_PARAM=true
         ;;
-      -d)
+      -d|--debug)
         DEBUG_MODE_PARAM=true
         ;;
-      -f)
+      -f|--fast-start)
         BUILD_ON_STARTUP_PARAM=false
         ;;
-      -v)
+      -v|--use-volumes)
         USE_VOLUMES_PARAM=true
         ;;
       -?|-??*)
@@ -257,13 +270,13 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-b" "build and deploy kamehouse on startup"
-  addHelpOption "-c" "control host through ssh. by default it runs standalone executing all commands within the container"
-  addHelpOption "-d" "debug. start tomcat in debug mode"
-  addHelpOption "-f" "fast startup. don't build and deploy"
+  addHelpOption "-b --build" "build and deploy kamehouse on startup"
+  addHelpOption "-c --control-host" "control docker container host. by default it runs standalone executing all commands within the container"
+  addHelpOption "-d --debug" "debug. start tomcat in debug mode"
+  addHelpOption "-f --fast-startup" "fast startup. don't build and deploy"
   printDockerProfileOption
   printDockerTagOption
-  addHelpOption "-v" "use volumes to persist data"
+  addHelpOption "-v --use-volumes" "use volumes to persist data"
 }
 
 main "$@"

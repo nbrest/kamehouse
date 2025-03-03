@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
 import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,7 +54,19 @@ public class SshClientUtils {
   }
 
   /**
-   * Execute the system command over ssh on the docker host setting up the channel as exec.
+   * Execute the system command over ssh on the docker host setting up the channel as a shell. This
+   * was used when getting the video playlists and playlists content from docker via ssh. Now those
+   * are retrieved via https using groot.
+   */
+  public static SystemCommand.Output executeShell(String host, String username,
+      SystemCommand systemCommand, boolean isWindowsShell) {
+    return execute(host, username, systemCommand, true, isWindowsShell);
+  }
+
+  /**
+   * Execute the system command over ssh on the docker host setting up the channel as exec. This was
+   * used to execute remote commands from docker on the host via ssh. Now those commands are being
+   * executed by https via groot.
    */
   public static SystemCommand.Output execute(String host, String username,
       SystemCommand systemCommand) {
@@ -108,10 +121,12 @@ public class SshClientUtils {
         commandOutput.setStandardError(Arrays.asList(standardError));
         LOGGER.debug("standardError: {}", standardError);
       }
-      commandOutput.setStatus("completed");
+      commandOutput.setExitCode(0);
+      commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       LOGGER.error("Error executing ssh command", e);
-      commandOutput.setStatus("failed");
+      commandOutput.setExitCode(1);
+      commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
     } finally {
       if (channel != null) {
         channel.close(false);
@@ -119,14 +134,6 @@ public class SshClientUtils {
       client.stop();
     }
     return commandOutput;
-  }
-
-  /**
-   * Execute the system command over ssh on the docker host setting up the channel as a shell.
-   */
-  public static SystemCommand.Output executeShell(String host, String username,
-      SystemCommand systemCommand, boolean isWindowsShell) {
-    return execute(host, username, systemCommand, true, isWindowsShell);
   }
 
   /**

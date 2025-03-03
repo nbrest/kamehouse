@@ -4,7 +4,6 @@ import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import com.nicobrest.kamehouse.commons.utils.SshClientUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.model.systemcommand.GetPlaylistContentSystemCommand;
@@ -128,15 +127,13 @@ public class VideoPlaylistService {
   private List<Playlist> getAllFromDockerHost(boolean fetchContent) {
     logger.trace("getAllFromDockerHost");
     ListPlaylistsSystemCommand listPlaylistsCommand = new ListPlaylistsSystemCommand();
-    Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
-        DockerUtils.getDockerHostUsername(),
-        listPlaylistsCommand, DockerUtils.isWindowsDockerHost());
+    Output output = DockerUtils.executeOnDockerHost(listPlaylistsCommand);
     List<Playlist> playlists = new ArrayList<>();
-    String sshShellOutput = output.getStandardOutput().get(0);
-    if (StringUtils.isEmpty(sshShellOutput)) {
+    String shellOutput = output.getStandardOutput().get(0);
+    if (StringUtils.isEmpty(shellOutput)) {
       return playlists;
     }
-    List<String> playlistFilePaths = getPlaylistFilePaths(sshShellOutput);
+    List<String> playlistFilePaths = getPlaylistFilePaths(shellOutput);
     for (String playlistFilePath : playlistFilePaths) {
       Playlist playlist = getPlaylist(playlistFilePath, fetchContent);
       if (playlist != null) {
@@ -147,31 +144,17 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Get the file paths for all the playlists from the ssh's shell output.
+   * Get the file paths for all the playlists from the remote shell output.
    */
-  private static List<String> getPlaylistFilePaths(String sshShellOutput) {
-    if (DockerUtils.isWindowsDockerHost()) {
-      logger.trace("Windows shell");
-      sshShellOutput = StringUtils.substringAfter(sshShellOutput, "--------");
-      List<String> playlistFilePaths = Arrays.stream(sshShellOutput.split("\r\n"))
-          .filter(e -> e.contains(".m3u"))
-          .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
-          .toList();
-      if (logger.isTraceEnabled()) {
-        logger.trace(playlistFilePaths.toString());
-      }
-      return playlistFilePaths;
-    } else {
-      logger.trace("Linux shell");
-      List<String> playlistFilePaths = Arrays.stream(sshShellOutput.split("\n"))
-          .filter(e -> e.contains(".m3u"))
-          .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
-          .toList();
-      if (logger.isTraceEnabled()) {
-        logger.trace(playlistFilePaths.toString());
-      }
-      return playlistFilePaths;
+  private static List<String> getPlaylistFilePaths(String shellOutput) {
+    List<String> playlistFilePaths = Arrays.stream(shellOutput.split("\n"))
+        .filter(e -> e.contains(".m3u"))
+        .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
+        .toList();
+    if (logger.isTraceEnabled()) {
+      logger.trace(playlistFilePaths.toString());
     }
+    return playlistFilePaths;
   }
 
   /**
@@ -298,18 +281,11 @@ public class VideoPlaylistService {
     logger.trace("Getting content for playlist {}", playlistFilename);
     GetPlaylistContentSystemCommand getPlaylistContentCommand = new GetPlaylistContentSystemCommand(
         playlistFilename);
-    Output output = SshClientUtils.executeShell(DockerUtils.getDockerHostIp(),
-        DockerUtils.getDockerHostUsername(), getPlaylistContentCommand,
-        DockerUtils.isWindowsDockerHost());
-    String sshShellOutput = output.getStandardOutput().get(0);
-    sshShellOutput = StringUtils.substringAfter(sshShellOutput, "#EXTM3U");
-    String[] sshShellOutputArray;
-    if (DockerUtils.isWindowsDockerHost()) {
-      sshShellOutputArray = sshShellOutput.split("\r\n");
-    } else {
-      sshShellOutputArray = sshShellOutput.split("\n");
-    }
-    List<String> playlistContent = Arrays.stream(sshShellOutputArray)
+    Output output = DockerUtils.executeOnDockerHost(getPlaylistContentCommand);
+    String shellOutput = output.getStandardOutput().get(0);
+    shellOutput = StringUtils.substringAfter(shellOutput, "#EXTM3U");
+    String[] shellOutputArray = shellOutput.split("\n");
+    List<String> playlistContent = Arrays.stream(shellOutputArray)
         .filter(file -> !StringUtils.isEmpty(file))
         .filter(file -> !StringUtils.isEmpty(file.trim()))
         .filter(file -> !file.startsWith("#"))
@@ -322,7 +298,7 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Remove the strange characters added after the file extension during the ssh session.
+   * Remove the strange characters added after the file extension during the session.
    */
   private static String removeCharactersPastFileExtension(String file) {
     return StringUtils.substring(file, 0, StringUtils.lastIndexOf(file, ".") + 4);

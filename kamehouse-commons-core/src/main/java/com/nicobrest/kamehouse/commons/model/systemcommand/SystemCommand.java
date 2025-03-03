@@ -231,12 +231,40 @@ public abstract class SystemCommand {
    */
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public List<String> getCommand() {
-    if (PropertiesUtils.isWindowsHost()
-        || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)
-        && DockerUtils.isWindowsDockerHost())) {
+    if (isCommandExecutedOnWindows()) {
       return buildWindowsCommand();
     } else {
       return buildLinuxCommand();
+    }
+  }
+
+  /**
+   * Get the kamehouse shell script to execute.
+   */
+  public String getShellScriptScript() {
+    if (isCommandExecutedOnWindows()) {
+      return getWindowsKameHouseShellScript();
+    } else {
+      return getLinuxKameHouseShellScript();
+    }
+  }
+
+  /**
+   * Get the kamehouse shell script args to execute.
+   */
+  public String getShellScriptScriptArgs() {
+    if (isCommandExecutedOnWindows()) {
+      List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
+      if (scriptArgs == null || scriptArgs.isEmpty()) {
+        return null;
+      }
+      StringBuilder sb = new StringBuilder();
+      scriptArgs.forEach(arg -> {
+        sb.append(arg).append(" ");
+      });
+      return sb.toString().trim();
+    } else {
+      return getLinuxKameHouseShellScriptArguments();
     }
   }
 
@@ -249,7 +277,7 @@ public abstract class SystemCommand {
     for (String command : commandList) {
       sb.append(command).append(" ");
     }
-    return sb.toString();
+    return sb.toString().trim();
   }
 
   /**
@@ -261,7 +289,7 @@ public abstract class SystemCommand {
       output.setCommand("Command executed is hidden");
       return;
     }
-    output.setCommand(getCommand().toString());
+    output.setCommand(getCommand().toString().trim());
   }
 
   /**
@@ -276,7 +304,7 @@ public abstract class SystemCommand {
       sb.append(" ");
       sb.append(getLinuxKameHouseShellScriptArguments());
     }
-    linuxCommand.add(sb.toString());
+    linuxCommand.add(sb.toString().trim());
     return linuxCommand;
   }
 
@@ -296,7 +324,7 @@ public abstract class SystemCommand {
       sb.append("\"");
       sb.append(script);
       sb.append("\"");
-      windowsCommand.add(sb.toString());
+      windowsCommand.add(sb.toString().trim());
       return windowsCommand;
     }
     StringBuilder sb = new StringBuilder();
@@ -306,7 +334,7 @@ public abstract class SystemCommand {
       sb.append(" ").append(arg);
     });
     sb.append("\"");
-    windowsCommand.add(sb.toString());
+    windowsCommand.add(sb.toString().trim());
     return windowsCommand;
   }
 
@@ -338,6 +366,15 @@ public abstract class SystemCommand {
     if (!DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)) {
       linuxCommand.addAll(BASH_START);
     }
+  }
+
+  /**
+   * Check if the command should be executed on a windows host.
+   */
+  private boolean isCommandExecutedOnWindows() {
+    return PropertiesUtils.isWindowsHost()
+        || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost)
+        && DockerUtils.isWindowsDockerHost());
   }
 
   /**

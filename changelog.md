@@ -7,6 +7,7 @@
 
 #### v10.01
 
+- Moved remote control of docker host from ssh to https via groot when running from a docker container
 - Refactored kamehouse system commands to go through kamehouse-shell for all commands
 - Added a stop scrolling page
 - Refactored parseArguments to allow extended arguments

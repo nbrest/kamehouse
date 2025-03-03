@@ -261,7 +261,7 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
    * payload as a String.
    */
   private String execRequestToVlcServer(String url) {
-    HttpClient client = HttpClientUtils.getClient(username, password);
+    HttpClient client = HttpClientUtils.getClient(username, password, true);
     HttpGet request = HttpClientUtils.httpGet(url);
     HttpResponse response;
     if (LOGGER.isTraceEnabled()) {

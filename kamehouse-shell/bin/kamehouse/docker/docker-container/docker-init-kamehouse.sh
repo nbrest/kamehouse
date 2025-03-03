@@ -49,7 +49,6 @@ loadEnv() {
     log.info "Setting default BUILD_ON_STARTUP=false"
     BUILD_ON_STARTUP=false
   fi
-  findHostIpAddress
   printEnv
 
   local CONTAINER_ENV=/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/.kamehouse-docker-container-env
@@ -58,10 +57,12 @@ loadEnv() {
   echo "DEBUG_MODE=${DEBUG_MODE}" >> ${CONTAINER_ENV}
   echo "DOCKER_BASE_OS=${DOCKER_BASE_OS}" >> ${CONTAINER_ENV}
   echo "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}" >> ${CONTAINER_ENV}
+  echo "DOCKER_HOST_AUTH=${DOCKER_HOST_AUTH}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_IP=${DOCKER_HOST_IP}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_OS=${DOCKER_HOST_OS}" >> ${CONTAINER_ENV}
   echo "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}" >> ${CONTAINER_ENV}
+  echo "DOCKER_HOST_PORT=${DOCKER_HOST_PORT}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}" >> ${CONTAINER_ENV}
   echo "DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB}" >> ${CONTAINER_ENV}
@@ -74,6 +75,7 @@ loadEnv() {
   echo "DOCKER_PROFILE=${DOCKER_PROFILE}" >> ${CONTAINER_ENV}
   echo "USE_VOLUMES=${USE_VOLUMES}" >> ${CONTAINER_ENV}
   chown ${DOCKER_CONTAINER_USERNAME}:${DOCKER_CONTAINER_USERNAME} ${CONTAINER_ENV}
+  chmod go-rwx ${CONTAINER_ENV}
 }
 
 printEnv() {
@@ -83,10 +85,12 @@ printEnv() {
   log.info "DEBUG_MODE=${DEBUG_MODE}"
   log.info "DOCKER_BASE_OS=${DOCKER_BASE_OS}"
   log.info "DOCKER_CONTROL_HOST=${DOCKER_CONTROL_HOST}"
+  log.info "DOCKER_HOST_AUTH=****"
   log.info "DOCKER_HOST_IP=${DOCKER_HOST_IP}"
   log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  log.info "DOCKER_HOST_PORT=${DOCKER_HOST_PORT}"
   log.info "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}"
   log.info "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}"
   log.info "DOCKER_PORT_MARIADB=${DOCKER_PORT_MARIADB}"
@@ -99,25 +103,6 @@ printEnv() {
   log.info "DOCKER_PROFILE=${DOCKER_PROFILE}"
   log.info "USE_VOLUMES=${USE_VOLUMES}"
   echo ""
-}
-
-findHostIpAddress() {
-  if [ -z "${DOCKER_HOST_IP}" ]; then
-    log.info "Host IP not set by docker run script. Attempting to find it now"
-    local IP=`ifconfig | grep inet | grep -v 127.0.0.1 | awk '{print $2}'`
-    local IP_SPLIT=(${IP//./ })
-    local IP_LAST=`echo ${IP_SPLIT[3]}`
-    local IP_LAST_HOST=`echo "$(($IP_LAST-1))"`
-    local IP_HOST=`echo "${IP_SPLIT[0]}.${IP_SPLIT[1]}.${IP_SPLIT[2]}.${IP_LAST_HOST}"`
-    ping -c 1 $IP_HOST >/dev/null
-    local RESULT=`echo $?`
-    if [ "$RESULT" == "0" ]; then
-       log.info "Host IP assigned successfully to ${IP_HOST}"
-       DOCKER_HOST_IP=${IP_HOST}
-    else
-      log.info "ERROR!! Unable to set host IP address"
-    fi
-  fi
 }
 
 configGitDevDir() {
@@ -148,12 +133,7 @@ checkKameHouseWar() {
 }
 
 startTomcat() {
-  local START_TOMCAT_CMD="export USER_UID=`cat /etc/passwd | grep "/home/${DOCKER_CONTAINER_USERNAME}:" | cut -d ':' -f3` ; \
-    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus \
-    export DISPLAY=:0.0 ; \
-    cd /home/${DOCKER_CONTAINER_USERNAME}/programs/apache-tomcat ; \
-    /home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
-
+  local START_TOMCAT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat in debug mode"
     START_TOMCAT_CMD=${START_TOMCAT_CMD}" -d"

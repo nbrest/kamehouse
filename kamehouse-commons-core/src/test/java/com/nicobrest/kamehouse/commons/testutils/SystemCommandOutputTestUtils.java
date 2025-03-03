@@ -53,7 +53,9 @@ public class SystemCommandOutputTestUtils {
         kameHouseSystemCommand.getSystemCommands(), returnedSystemCommandOutputs);
   }
 
-  /** Checks that the commands in the SystemCommandOutput list match the executed SystemCommands. */
+  /**
+   * Checks that the commands in the SystemCommandOutput list match the executed SystemCommands.
+   */
   public void assertCommandExecutedMatch(
       List<SystemCommand> systemCommands, List<SystemCommand.Output> returnedSystemCommandOutputs) {
     assertEquals(systemCommands.size(), returnedSystemCommandOutputs.size());
@@ -62,7 +64,9 @@ public class SystemCommandOutputTestUtils {
     }
   }
 
-  /** Checks that the command in the SystemCommandOutput matches the executed command. */
+  /**
+   * Checks that the command in the SystemCommandOutput matches the executed command.
+   */
   public void assertCommandExecutedMatch(
       SystemCommand systemCommand, SystemCommand.Output returnedSystemCommandOutput) {
     String expectedCommand = systemCommand.getOutput().getCommand();
@@ -70,7 +74,9 @@ public class SystemCommandOutputTestUtils {
     assertEquals(expectedCommand, returnedCommand);
   }
 
-  /** Checks the SystemCommandOutput fields, except the command string. */
+  /**
+   * Checks the SystemCommandOutput fields, except the command string.
+   */
   public void assertSystemCommandOutputFields(
       int expectedExitCode,
       int expectedPid,

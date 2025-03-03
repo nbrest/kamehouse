@@ -14,7 +14,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * JvncSender system command to control a VNC server.
+ * JvncSender system command to control a VNC server. This class extends KameHouseCmdSystemCommand
+ * because jvncsender can also be used via kamehouse-cmd. The current implementation sends the vnc
+ * command to the vnc server directly from the app executing this system command by default. Set
+ * useKameHouseCmd to true in subclasses to use kamehouse-cmd instead. When executing from docker
+ * over ssh, it executes through kamehouse-cmd over ssh on the docker host.
  *
  * @author nbrest
  */
@@ -22,9 +26,8 @@ public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand 
 
   private static final int VNC_PORT = 5900;
 
-  /**
-   * Set the output command.
-   */
+  protected boolean useKameHouseCmd = false;
+
   protected JvncSenderSystemCommand() {
     logCommand = false;
     executeOnDockerHost = true;
@@ -37,45 +40,16 @@ public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand 
   protected abstract void sendCommand(VncServer vncServer) throws KameHouseException;
 
   /**
-   * Get the jvncsender arguments to be executed by kamehouse-cmd in the docker host when running in
-   * a docker container controlling the host. Though currently that is not being used, even from
-   * docker it's still going through the execute method defined in this class.
+   * Get the jvncsender arguments to be executed by kamehouse-cmd.
    */
   protected abstract String getKameHouseCmdJvncSenderOperationArgs();
 
   @Override
   public SystemCommand.Output execute() {
-    String host = DockerUtils.getHostname();
-    String password = getVncServerPassword();
-    initOutputCommand();
-    logger.debug("execute {}", output.getCommand());
-    try {
-      VncServer vncServer = new VncServer(host, VNC_PORT, password);
-      sendCommand(vncServer);
-      output.setExitCode(0);
-      output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
-      output.setStandardOutput(List.of("JVNCSender command executed successfully"));
-    } catch (KameHouseException e) {
-      logger.error("Error sending command to vnc server", e);
-      output.setExitCode(1);
-      output.setStatus(SystemCommandStatus.FAILED.getStatus());
-      output.setStandardError(List.of("Error executing VNC command", e.getMessage()));
+    if (useKameHouseCmd) {
+      return super.execute();
     }
-    if (SystemCommandStatus.FAILED.getStatus().equals(output.getStatus())) {
-      logger.error("execute {} response {}", output.getCommand(), output);
-    } else {
-      logger.debug("execute {} response {}", output.getCommand(), output);
-    }
-    try {
-      if (getSleepTime() > 0) {
-        logger.debug("Sleeping for {} seconds", getSleepTime());
-        TimeUnit.SECONDS.sleep(getSleepTime());
-      }
-    } catch (InterruptedException e) {
-      logger.warn("Interrupted exception", e);
-      Thread.currentThread().interrupt();
-    }
-    return getOutput();
+    return sendCommandToVncServer();
   }
 
   @Override
@@ -109,6 +83,43 @@ public abstract class JvncSenderSystemCommand extends KameHouseCmdSystemCommand 
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }
+  }
+
+  /**
+   * Send the command to the vnc server directly from the current app.
+   */
+  private SystemCommand.Output sendCommandToVncServer() {
+    String host = DockerUtils.getHostname();
+    String password = getVncServerPassword();
+    initOutputCommand();
+    logger.debug("execute {}", output.getCommand());
+    try {
+      VncServer vncServer = new VncServer(host, VNC_PORT, password);
+      sendCommand(vncServer);
+      output.setExitCode(0);
+      output.setStatus(SystemCommandStatus.COMPLETED.getStatus());
+      output.setStandardOutput(List.of("JVNCSender command executed successfully"));
+    } catch (KameHouseException e) {
+      logger.error("Error sending command to vnc server", e);
+      output.setExitCode(1);
+      output.setStatus(SystemCommandStatus.FAILED.getStatus());
+      output.setStandardError(List.of("Error executing VNC command", e.getMessage()));
+    }
+    if (SystemCommandStatus.FAILED.getStatus().equals(output.getStatus())) {
+      logger.error("execute {} response {}", output.getCommand(), output);
+    } else {
+      logger.debug("execute {} response {}", output.getCommand(), output);
+    }
+    try {
+      if (getSleepTime() > 0) {
+        logger.debug("Sleeping for {} seconds", getSleepTime());
+        TimeUnit.SECONDS.sleep(getSleepTime());
+      }
+    } catch (InterruptedException e) {
+      logger.warn("Interrupted exception", e);
+      Thread.currentThread().interrupt();
+    }
+    return getOutput();
   }
 
   @Override
