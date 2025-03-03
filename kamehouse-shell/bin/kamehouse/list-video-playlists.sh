@@ -18,7 +18,7 @@ mainProcess() {
     PLAYLISTS_PATH="`sed 's#/#\\\#Ig' <<<"${PLAYLISTS_PATH}"`"
     USER=`whoami`
     PLAYLISTS_FULL_PATH="${WIN_USER_HOME}\\${PLAYLISTS_PATH}"
-    powershell.exe -c "cd ${PLAYLISTS_FULL_PATH}; Get-ChildItem -Recurse -Filter '*.m3u' | Select FullName"
+    powershell.exe -c "cd ${PLAYLISTS_FULL_PATH}; Get-ChildItem -Recurse -Filter '*.m3u' | Select FullName" | grep -e "m3u" | sort
   fi
 }
 
