@@ -57,6 +57,11 @@ setEnvironment() {
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
 
+  if [ -z "${DOCKER_HOST_PLAYLIST_PATH}" ]; then
+    log.info "DOCKER_HOST_PLAYLIST_PATH is NOT set in ${HOME}/.kamehouse/kamehouse.cfg. Using PLAYLIST_PATH value"
+    DOCKER_HOST_PLAYLIST_PATH=${PLAYLIST_PATH}
+  fi 
+
   if [ -z "${DOCKER_HOST_PORT}" ]; then
     log.error "DOCKER_HOST_PORT needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
@@ -84,6 +89,8 @@ printEnv() {
   log.info "DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME}"
   log.info "DOCKER_HOST_OS=${DOCKER_HOST_OS}"
   log.info "DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME}"
+  log.info "DOCKER_HOST_PLAYLIST_PATH=${DOCKER_HOST_PLAYLIST_PATH}"
+  log.info "DOCKER_HOST_PORT=${DOCKER_HOST_PORT}"
   log.info "DOCKER_PORT_SSH=${DOCKER_PORT_SSH}"
   log.info "DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP}"
   log.info "DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS}"
@@ -114,6 +121,8 @@ runDockerImage() {
       --env DOCKER_HOST_HOSTNAME=${DOCKER_HOST_HOSTNAME} \
       --env DOCKER_HOST_OS=${DOCKER_HOST_OS} \
       --env DOCKER_HOST_USERNAME=${DOCKER_HOST_USERNAME} \
+      --env DOCKER_HOST_PLAYLIST_PATH=${DOCKER_HOST_PLAYLIST_PATH} \
+      --env DOCKER_HOST_PORT=${DOCKER_HOST_PORT} \
       --env DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP} \
       --env DOCKER_PORT_HTTPS=${DOCKER_PORT_HTTPS} \
       --env DOCKER_PORT_TOMCAT_DEBUG=${DOCKER_PORT_TOMCAT_DEBUG} \

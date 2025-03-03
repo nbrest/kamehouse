@@ -52,6 +52,8 @@ class VideoPlaylistServiceTest {
     when(PropertiesUtils.getProperty(VideoPlaylistService.PROP_PLAYLISTS_PATH,
         VideoPlaylistService.DEFAULT_PLAYLISTS_PATH))
         .thenReturn(VideoPlaylistTestUtils.TEST_PLAYLISTS_PATH);
+    when(DockerUtils.getDockerHostPlaylistPath()).thenReturn(
+        VideoPlaylistTestUtils.TEST_PLAYLISTS_PATH);
     videoPlaylistTestUtils.initTestData();
     expectedPlaylist = videoPlaylistTestUtils.getSingleTestData();
   }

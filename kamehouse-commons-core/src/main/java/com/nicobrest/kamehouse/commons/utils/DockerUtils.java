@@ -167,6 +167,13 @@ public class DockerUtils {
   }
 
   /**
+   * Get the docker host's playlists path.
+   */
+  public static String getDockerHostPlaylistPath() {
+    return PropertiesUtils.getProperty("DOCKER_HOST_PLAYLIST_PATH");
+  }
+
+  /**
    * Get the docker host's hostname.
    */
   public static String getDockerHostHostname() {
