@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
  *
  * @author nbrest
  */
-public class AbstractSystemCommandController extends AbstractController {
+public abstract class AbstractSystemCommandController extends AbstractController {
 
   private SystemCommandService systemCommandService;
 

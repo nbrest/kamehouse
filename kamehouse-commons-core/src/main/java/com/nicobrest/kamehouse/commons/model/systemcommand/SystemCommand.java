@@ -23,11 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents a command to execute as a system process. It's a single operation executed through the
- * command line via kamehouse-shell. This is the base class for KameHouse Shell system commands that
- * need to be executed from the exec-script.sh on linux to handle sudo calls. By default, linux
- * kamehouse-shell commands here are executed with sudo. But it can be overriden to execute without
- * it.
+ * Represents a command to execute as a system process via kamehouse-shell. It's a single operation
+ * executed through the command line via kamehouse-shell.
  *
  * @author nbrest
  */
@@ -250,9 +247,9 @@ public abstract class SystemCommand {
   }
 
   /**
-   * Get the kamehouse shell script args to execute.
+   * Get the kamehouse shell script args to execute via groot execute api.
    */
-  public String getShellScriptScriptArgs() {
+  public String getShellScriptScriptArgsForGroot() {
     if (isCommandExecutedOnWindows()) {
       List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
       if (scriptArgs == null || scriptArgs.isEmpty()) {

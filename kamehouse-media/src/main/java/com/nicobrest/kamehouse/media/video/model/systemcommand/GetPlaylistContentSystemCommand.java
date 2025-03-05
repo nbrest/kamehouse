@@ -6,7 +6,8 @@ import java.util.List;
 
 /**
  * System command to get a playlist content. This is used when running on a docker container to get
- * the playlist contents from the host.
+ * the playlist contents from the host. When running natively, it loads the files directly on the
+ * webapp from the filesystem without going through a system command.
  *
  * @author nbrest
  */

@@ -287,7 +287,7 @@ public class DockerUtils {
     StringBuilder sb = new StringBuilder("https://");
     sb.append(host).append(":").append(port).append(GROOT_EXECUTE_URL).append("script=");
     sb.append(systemCommand.getShellScriptScript());
-    String args = systemCommand.getShellScriptScriptArgs();
+    String args = systemCommand.getShellScriptScriptArgsForGroot();
     if (!StringUtils.isEmpty(args)) {
       String urlEncodedArgs = HttpClientUtils.urlEncode(args.trim());
       sb.append("&args=").append(urlEncodedArgs);
