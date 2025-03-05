@@ -108,9 +108,7 @@ parseArguments() {
       -s)
         SCRIPT="${CURRENT_OPTION_ARG}"
         ;;  
-      -?|-??*)
-        parseInvalidArgument "${CURRENT_OPTION}"
-        ;;        
+      # I can't use parseInvalidArgument here because the script arg might start with "-"     
     esac
   done    
 }

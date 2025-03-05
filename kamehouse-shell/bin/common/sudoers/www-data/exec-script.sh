@@ -93,9 +93,7 @@ parseArguments() {
       -x)
         IS_EXECUTABLE_ON_DOCKER_HOST=true
         ;;
-      -?|-??*)
-        parseInvalidArgument "${CURRENT_OPTION}"
-        ;;        
+      # I can't use parseInvalidArgument here because the script arg might start with "-"
     esac
   done    
 }
