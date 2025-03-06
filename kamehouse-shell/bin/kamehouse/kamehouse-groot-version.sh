@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Disable logs
+LOG=ERROR
+SKIP_LOG_START_FINISH=true
+
 # Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
@@ -7,7 +11,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-main() {
+mainProcess() {
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
   local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
   cat "${GROOT_VERSION_FILE}"

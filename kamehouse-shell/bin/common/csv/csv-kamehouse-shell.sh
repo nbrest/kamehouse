@@ -2,6 +2,10 @@
 
 # Returns kamehouse-shell scripts as csv as a relative path from kamehouse-shell
 
+# Disable logs
+LOG=ERROR
+SKIP_LOG_START_FINISH=true
+
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -9,11 +13,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
-LOG_PROCESS_TO_FILE=false
 BASE_DIR=${HOME}/programs/kamehouse-shell/bin
 
-main() {  
+mainProcess() {  
   # List all files
   SCRIPTS_PATH=$(find ${BASE_DIR} -name '.*' -prune -o -type f)
 

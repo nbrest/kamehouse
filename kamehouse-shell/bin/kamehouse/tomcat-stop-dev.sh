@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Disable logs
+LOG=ERROR
+SKIP_LOG_START_FINISH=true
+
 # Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
@@ -7,9 +11,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
-
-main() {
+mainProcess() {
   if ${IS_LINUX_HOST}; then
     ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh -p ${DEFAULT_TOMCAT_DEV_PORT}
   else

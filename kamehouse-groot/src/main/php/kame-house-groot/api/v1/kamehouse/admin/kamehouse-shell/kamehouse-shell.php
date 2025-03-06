@@ -14,7 +14,7 @@ class KameHouseShell {
   }
 
   /**
-   * execute a kamehouse shell script.
+   * execute a kamehouse shell script and return a kamehouse command result.
    */
   public function execute() {
     global $kameHouse;
@@ -24,12 +24,12 @@ class KameHouseShell {
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
     $executeOnDockerHost = $kameHouse->util->string->getBoolean($executeOnDockerHost);
 
-    $shellKameHouseCommandResult = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
-    $htmlKameHouseCommandResult = $this->getHtmlOutput($shellKameHouseCommandResult);
+    $shellConsoleOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
+    $htmlConsoleOutput = $this->getHtmlOutput($shellConsoleOutput);
   
-    $consoleOutput = [ 'htmlConsoleOutput' => $htmlKameHouseCommandResult, 'bashConsoleOutput' => $shellKameHouseCommandResult ];
+    $kameHouseCommandResult = [ 'htmlConsoleOutput' => $htmlConsoleOutput, 'bashConsoleOutput' => $shellConsoleOutput ];
   
-    $kameHouse->core->setJsonResponseBody($consoleOutput);
+    $kameHouse->core->setJsonResponseBody($kameHouseCommandResult);
   }
 
   /**
@@ -117,9 +117,31 @@ class KameHouseShell {
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
     $kameHouse->logger->info("Started executing script " . $script);
     $kameHouse->logger->info("Running shell command " . $shellCommand);
-    $shellKameHouseCommandResult = shell_exec($shellCommand);
+    shell_exec($shellCommand);
+    $userHome = $this->getUserHome();
+    $scriptLog = $userHome . "/logs/" . substr(basename($script), 0, -2) . "log";
+    $kameHouse->logger->info("scriptLog " . $scriptLog);
+    $shellOutout = file_get_contents($scriptLog);
+
     $kameHouse->logger->info("Finished executing script " . $script);
-    return $shellKameHouseCommandResult;
+    return $shellOutout;
+  }
+
+  /**
+   * Return the kamehouse user home.
+   */
+  private function getUserHome() {
+    global $kameHouse;
+    if ($kameHouse->core->isLinuxHost()) {
+      /**
+       * Run `install-kamehouse-groot.sh` and `set-kamehouse-sudoers-permissions.sh` to successfully execute kamehouse shell scripts through groot.
+       */
+      $kameHouse->core->loadKameHouseUserToEnv();
+      $username = getenv("KAMEHOUSE_USER");
+      return "/home/" . $username;
+    } else {
+      return "C:/Users/" . get_current_user();
+    }
   }
 
   /**
@@ -128,14 +150,10 @@ class KameHouseShell {
   private function buildShellCommand($script, $scriptArgs, $executeOnDockerHost) {
     global $kameHouse;
     $shellCommand = "";
+    $userHome = $this->getUserHome();
     if ($kameHouse->core->isLinuxHost()) {
-      /**
-       * Run `install-kamehouse-groot.sh` and `set-kamehouse-sudoers-permissions.sh` to successfully execute kamehouse shell scripts through groot.
-       */
-      $kameHouse->core->loadKameHouseUserToEnv();
-      $username = getenv("KAMEHOUSE_USER");
       $suScript = $this->getSuScript();
-      $shellCommand = "sudo /home/" . $username . $suScript;
+      $shellCommand = "sudo " . $userHome . $suScript;
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
       $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
