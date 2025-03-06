@@ -103,7 +103,6 @@ parseArguments() {
     case "${CURRENT_OPTION}" in
       -a)
         SCRIPT_ARGS="${CURRENT_OPTION_ARG}"
-        SCRIPT_ARGS=$(echo "$SCRIPT_ARGS" | sed -e "s#EXEC_SCRIPT_ALL_SERVERS_ARG_SPACE# #g")
         ;;
       -s)
         SCRIPT="${CURRENT_OPTION_ARG}"

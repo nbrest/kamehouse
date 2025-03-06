@@ -387,13 +387,12 @@ class DeploymentManager {
    * Deploy module in all servers.
    */
   deployModuleAllServers(module) {
-    const SPACE = "EXEC_SCRIPT_ALL_SERVERS_ARG_SPACE";
     if (kameHouse.extension.serverManager.isCommandRunning()) {
       return;
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-s kamehouse/deploy-kamehouse.sh -a -m" + SPACE + module;
+    const args = "-s kamehouse/deploy-kamehouse.sh -a -m " + module;
     kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, 600, () => this.refreshServerView(), () => {});
   }
 
