@@ -24,10 +24,10 @@ class KameHouseShell {
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
     $executeOnDockerHost = $kameHouse->util->string->getBoolean($executeOnDockerHost);
 
-    $shellCommandOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
-    $htmlCommandOutput = $this->getHtmlOutput($shellCommandOutput);
+    $shellKameHouseCommandResult = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
+    $htmlKameHouseCommandResult = $this->getHtmlOutput($shellKameHouseCommandResult);
   
-    $consoleOutput = [ 'htmlConsoleOutput' => $htmlCommandOutput, 'bashConsoleOutput' => $shellCommandOutput ];
+    $consoleOutput = [ 'htmlConsoleOutput' => $htmlKameHouseCommandResult, 'bashConsoleOutput' => $shellKameHouseCommandResult ];
   
     $kameHouse->core->setJsonResponseBody($consoleOutput);
   }
@@ -117,9 +117,9 @@ class KameHouseShell {
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
     $kameHouse->logger->info("Started executing script " . $script);
     $kameHouse->logger->info("Running shell command " . $shellCommand);
-    $shellCommandOutput = shell_exec($shellCommand);
+    $shellKameHouseCommandResult = shell_exec($shellCommand);
     $kameHouse->logger->info("Finished executing script " . $script);
-    return $shellCommandOutput;
+    return $shellKameHouseCommandResult;
   }
 
   /**
@@ -154,11 +154,11 @@ class KameHouseShell {
   /**
    * Convert the specified bash output to html output.
    */
-  private function getHtmlOutput($shellCommandOutput) {
+  private function getHtmlOutput($shellKameHouseCommandResult) {
     global $kameHouse;
-    $htmlCommandOutput = $kameHouse->util->string->convertBashColorsToHtml($shellCommandOutput);
-    $htmlCommandOutput = explode("\n", $htmlCommandOutput);
-    return $htmlCommandOutput;
+    $htmlKameHouseCommandResult = $kameHouse->util->string->convertBashColorsToHtml($shellKameHouseCommandResult);
+    $htmlKameHouseCommandResult = explode("\n", $htmlKameHouseCommandResult);
+    return $htmlKameHouseCommandResult;
   }
   
 } // KameHouseShell

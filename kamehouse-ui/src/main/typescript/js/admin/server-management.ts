@@ -277,7 +277,7 @@ class ServerManager {
    */
   #processSuccessKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.kameHouseCommandManager.renderCommandOutput(responseBody, false, null, "system-health-command-output");
+    kameHouse.plugin.kameHouseCommandManager.renderKameHouseCommandResult(responseBody, false, null, "system-health-command-output");
   }
 
   /**
@@ -297,7 +297,7 @@ class ServerManager {
    */
   #processSuccessHttpdStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.kameHouseCommandManager.renderCommandOutput(responseBody, false, "httpd-status", null);
+    kameHouse.plugin.kameHouseCommandManager.renderKameHouseCommandResult(responseBody, false, "httpd-status", null);
   }
 
   /**
@@ -318,7 +318,7 @@ class ServerManager {
    */
   #processSuccessHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.kameHouseCommandManager.renderCommandOutput(responseBody, false, null, null);
+    kameHouse.plugin.kameHouseCommandManager.renderKameHouseCommandResult(responseBody, false, null, null);
     setTimeout(() => { 
       this.getHttpdStatus(false);
     }, 5000);

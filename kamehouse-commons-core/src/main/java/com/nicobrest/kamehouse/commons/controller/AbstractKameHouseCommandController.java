@@ -31,27 +31,27 @@ public abstract class AbstractKameHouseCommandController extends AbstractControl
   public ResponseEntity<List<KameHouseCommandResult>> execKameHouseCommands(
       List<KameHouseCommand> kameHouseCommands) {
     logger.trace("Executing command {}", kameHouseCommands);
-    List<KameHouseCommandResult> commandOutputs = kameHouseCommandService.execute(
+    List<KameHouseCommandResult> kameHouseCommandResults = kameHouseCommandService.execute(
         kameHouseCommands);
-    return generateResponseEntity(commandOutputs);
+    return generateResponseEntity(kameHouseCommandResults);
   }
 
   /**
    * Generates a response entity for a list of KameHouseCommandResults.
    */
   public static ResponseEntity<List<KameHouseCommandResult>> generateResponseEntity(
-      List<KameHouseCommandResult> commandOutputs) {
+      List<KameHouseCommandResult> kameHouseCommandResults) {
     HttpStatus httpStatus = HttpStatus.OK;
-    for (KameHouseCommandResult commandOutput : commandOutputs) {
-      if (commandOutput.getExitCode() > 0) {
+    for (KameHouseCommandResult kameHouseCommandResult : kameHouseCommandResults) {
+      if (kameHouseCommandResult.getExitCode() > 0) {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
       }
     }
     if (httpStatus.equals(HttpStatus.OK)) {
-      STATIC_LOGGER.trace("Response {}", commandOutputs);
+      STATIC_LOGGER.trace("Response {}", kameHouseCommandResults);
     } else {
-      STATIC_LOGGER.error("Response {}", commandOutputs);
+      STATIC_LOGGER.error("Response {}", kameHouseCommandResults);
     }
-    return new ResponseEntity<>(commandOutputs, httpStatus);
+    return new ResponseEntity<>(kameHouseCommandResults, httpStatus);
   }
 }

@@ -17,7 +17,7 @@ class KameHouseCommandManager {
   /**
    * Render the kamehouse command kameHouseCommandResult.
    */
-  renderCommandOutput(kameHouseCommandResultArray, displayCommandLine, kameHouseCommandResultDivId, collapsibleDivBtnId) {
+  renderKameHouseCommandResult(kameHouseCommandResultArray, displayCommandLine, kameHouseCommandResultDivId, collapsibleDivBtnId) {
     let kameHouseCommandResultDivSelector;
     if (!kameHouse.core.isEmpty(kameHouseCommandResultDivId)) {
       kameHouseCommandResultDivSelector = kameHouseCommandResultDivId;
