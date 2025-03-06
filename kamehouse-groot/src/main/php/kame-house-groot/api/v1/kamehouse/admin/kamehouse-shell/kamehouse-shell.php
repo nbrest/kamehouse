@@ -120,7 +120,6 @@ class KameHouseShell {
     shell_exec($shellCommand);
     $userHome = $this->getUserHome();
     $scriptLog = $userHome . "/logs/" . substr(basename($script), 0, -2) . "log";
-    $kameHouse->logger->info("scriptLog " . $scriptLog);
     $shellOutout = file_get_contents($scriptLog);
 
     $kameHouse->logger->info("Finished executing script " . $script);
