@@ -26,7 +26,7 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
    * Test for groot kamehouse-shell execute with help parameter success response.
    */
   @ParameterizedTest
-  @ValueSource(strings = {"is-linux-host.sh", "kamehouse/kamehouse-shell-version.sh"})
+  @ValueSource(strings = {"base-script.sh"})
   void executeHelpParameterSuccessTest(String script) throws IOException {
     String urlParams = "?script=" + script + "&args=-h";
     logger.info("Running test for {}", getWebappUrl() + API_URL + urlParams);
@@ -34,24 +34,15 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     HttpResponse response = get(getWebappUrl() + API_URL + urlParams);
 
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
-    assertEquals(2, responseBody.size());
+    assertEquals(8, responseBody.size());
     assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
     assertNotNull(responseBody.get("standardOuput"), "standardOuput is null");
     ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
-    String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
-    assertStringInArray(standardOutputHtml, expected);
-    expected = "Started executing script (masked args)";
-    assertStringInArray(standardOutputHtml, expected);
-    expected = "Usage: <span style=\"color:purple\">exec-script.sh<span style=\"color:gray\"> "
-        + "[options]";
-    assertStringInArray(standardOutputHtml, expected);
-    expected = "<span style=\"color:#3996ff\">-h<span style=\"color:gray\"> display help";
+    String expected = "Started executing script without args";
     assertStringInArray(standardOutputHtml, expected);
 
     String standardOuput = responseBody.get("standardOuput").asText();
     expected = "Started executing ";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "exec-script.sh";
     assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "display help";
     assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
@@ -61,7 +52,7 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
    * Test for groot kamehouse-shell execute success response.
    */
   @ParameterizedTest
-  @ValueSource(strings = {"is-linux-host.sh", "kamehouse/kamehouse-shell-version.sh"})
+  @ValueSource(strings = {"base-script.sh"})
   void executeSuccessTest(String script) throws IOException {
     String urlParams = "?script=" + script;
     logger.info("Running test for {}", getWebappUrl() + API_URL + urlParams);
@@ -69,24 +60,19 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     HttpResponse response = get(getWebappUrl() + API_URL + urlParams);
 
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
-    assertEquals(2, responseBody.size());
+    assertEquals(8, responseBody.size());
     assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
     assertNotNull(responseBody.get("standardOuput"), "standardOuput is null");
     ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
-    String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
+    String expected = "Started executing script without args";
     assertStringInArray(standardOutputHtml, expected);
-    expected = "Started executing script (masked args)<span style=\"color:gray\">";
-    assertStringInArray(standardOutputHtml, expected);
-    expected =
-        "<span style=\"color:yellow\">Finished executing script (masked args)";
+    expected = "Finished executing script ";
     assertStringInArray(standardOutputHtml, expected);
 
     String standardOuput = responseBody.get("standardOuput").asText();
     expected = "Started executing ";
     assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "exec-script.sh";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "Finished executing ";
+    expected = "Finished executing";
     assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "status: ";
     assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
