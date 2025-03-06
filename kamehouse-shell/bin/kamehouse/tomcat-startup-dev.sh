@@ -7,7 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
 TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 

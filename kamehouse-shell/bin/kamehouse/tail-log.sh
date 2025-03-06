@@ -7,7 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
 # Initial config
 APACHE_LOG_DIR="programs/apache-httpd/logs"
 DEFAULT_LOG_LEVEL="trace"

@@ -7,7 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
 TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 
 mainProcess() {

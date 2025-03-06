@@ -7,8 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
-
 mainProcess() {
   log.info "Searching for tomcat process"
   netstat -ano | grep "LISTENING" | grep ":${TOMCAT_PORT} " | tail -n 1
