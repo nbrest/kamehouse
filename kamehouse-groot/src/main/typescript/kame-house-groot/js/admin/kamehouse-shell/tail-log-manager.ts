@@ -41,7 +41,7 @@ class TailLogManager {
 
   /** Update the script tail log output with the result of the script */
   #updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback) {
-    const tailLogOutputArray = responseBody.htmlConsoleOutput;
+    const tailLogOutputArray = responseBody.standardOutputHtml;
     const tailLogOutputTableBody = document.getElementById('tail-log-output-table-body');  
     const tbody = this.#getTailLogOutputTbody();
     const tailLogOutputLength = tailLogOutputArray.length;

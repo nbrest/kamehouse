@@ -24,10 +24,19 @@ class KameHouseShell {
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
     $executeOnDockerHost = $kameHouse->util->string->getBoolean($executeOnDockerHost);
 
-    $shellConsoleOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
-    $htmlConsoleOutput = $this->getHtmlOutput($shellConsoleOutput);
+    $standardOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
+    $standardOutputHtml = $this->getHtmlOutput($standardOutput);
   
-    $kameHouseCommandResult = [ 'htmlConsoleOutput' => $htmlConsoleOutput, 'bashConsoleOutput' => $shellConsoleOutput ];
+    $kameHouseCommandResult = [ 
+      'command' => $script,
+      'exitCode' => -1,
+      'pid' => -1,
+      'status' => "completed",
+      'standardOuput' => $standardOutput,
+      'standardOutputHtml' => $standardOutputHtml, 
+      'standardError' => [],
+      'standardErrorHtml' => [] 
+    ];
   
     $kameHouse->core->setJsonResponseBody($kameHouseCommandResult);
   }
@@ -117,13 +126,16 @@ class KameHouseShell {
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
     $kameHouse->logger->info("Started executing script " . $script);
     $kameHouse->logger->info("Running shell command " . $shellCommand);
-    shell_exec($shellCommand);
+    $standardOutput = shell_exec($shellCommand);
     $userHome = $this->getUserHome();
     $scriptLog = $userHome . "/logs/" . substr(basename($script), 0, -2) . "log";
-    $shellOutout = file_get_contents($scriptLog);
+    if (file_exists($scriptLog)) {
+      // if the script log exits, replace the script output with the log file, which is more reliable than shell_exec output
+      $standardOutput = file_get_contents($scriptLog);
+    }
 
     $kameHouse->logger->info("Finished executing script " . $script);
-    return $shellOutout;
+    return $standardOutput;
   }
 
   /**

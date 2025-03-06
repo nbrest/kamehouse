@@ -81,9 +81,9 @@ public class DockerUtils {
         LOGGER.debug("Groot responseBody: {}", responseBody);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode responseBodyJson = mapper.readTree(responseBody);
-        JsonNode bashConsoleOutput = responseBodyJson.get("bashConsoleOutput");
-        if (bashConsoleOutput != null) {
-          kameHouseCommandResult.setStandardOutput(Arrays.asList(bashConsoleOutput.asText()));
+        JsonNode standardOuput = responseBodyJson.get("standardOuput");
+        if (standardOuput != null) {
+          kameHouseCommandResult.setStandardOutput(Arrays.asList(standardOuput.asText()));
           kameHouseCommandResult.setExitCode(0);
           kameHouseCommandResult.setStatus(KameHouseCommandStatus.COMPLETED.getStatus());
           return kameHouseCommandResult;

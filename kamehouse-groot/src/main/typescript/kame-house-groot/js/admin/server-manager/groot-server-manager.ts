@@ -482,7 +482,7 @@ class DeploymentManager {
    */
   #displayTomcatModulesStatus(scriptOutput) {
     kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
-    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
+    scriptOutput.standardOutputHtml.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("/kame-house")) {
         const scriptOutputLineArray = scriptOutputLine.split(":");
         const webapp = scriptOutputLineArray[0];
@@ -524,7 +524,7 @@ class DeploymentManager {
    * Render non tomcat module status.
    */
   #displayNonTomcatModuleStatus(scriptOutput, module) {
-    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
+    scriptOutput.standardOutputHtml.forEach((scriptOutputLine) => {
       if (scriptOutputLine.startsWith("buildVersion")) {
         const scriptOutputLineArray = scriptOutputLine.split("=");
         const buildVersion = scriptOutputLineArray[1];
@@ -545,7 +545,7 @@ class DeploymentManager {
     const tomcatProcessStatusDivId = "tomcat-process-status-val";
     const tomcatProcessStatusDiv = document.getElementById(tomcatProcessStatusDivId);
     kameHouse.util.dom.empty(tomcatProcessStatusDiv);
-    scriptOutput.htmlConsoleOutput.forEach((scriptOutputLine) => {
+    scriptOutput.standardOutputHtml.forEach((scriptOutputLine) => {
       if (!scriptOutputLine.includes("Started executing") && 
           !scriptOutputLine.includes("Finished executing") &&
           !scriptOutputLine.includes("Script start time: ") &&

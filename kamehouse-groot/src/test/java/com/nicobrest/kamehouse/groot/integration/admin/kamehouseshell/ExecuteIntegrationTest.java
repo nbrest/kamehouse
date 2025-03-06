@@ -35,26 +35,26 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
 
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
     assertEquals(2, responseBody.size());
-    assertNotNull(responseBody.get("htmlConsoleOutput"), "htmlConsoleOutput is null");
-    assertNotNull(responseBody.get("bashConsoleOutput"), "bashConsoleOutput is null");
-    ArrayNode htmlConsoleOutput = (ArrayNode) responseBody.get("htmlConsoleOutput");
+    assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
+    assertNotNull(responseBody.get("standardOuput"), "standardOuput is null");
+    ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
     expected = "Started executing script (masked args)";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
     expected = "Usage: <span style=\"color:purple\">exec-script.sh<span style=\"color:gray\"> "
         + "[options]";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
     expected = "<span style=\"color:#3996ff\">-h<span style=\"color:gray\"> display help";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
 
-    String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
+    String standardOuput = responseBody.get("standardOuput").asText();
     expected = "Started executing ";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "exec-script.sh";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "display help";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
   }
 
   /**
@@ -70,26 +70,26 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
 
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
     assertEquals(2, responseBody.size());
-    assertNotNull(responseBody.get("htmlConsoleOutput"), "htmlConsoleOutput is null");
-    assertNotNull(responseBody.get("bashConsoleOutput"), "bashConsoleOutput is null");
-    ArrayNode htmlConsoleOutput = (ArrayNode) responseBody.get("htmlConsoleOutput");
+    assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
+    assertNotNull(responseBody.get("standardOuput"), "standardOuput is null");
+    ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
     String expected = "[<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">]";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
     expected = "Started executing script (masked args)<span style=\"color:gray\">";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
     expected =
         "<span style=\"color:yellow\">Finished executing script (masked args)";
-    assertStringInArray(htmlConsoleOutput, expected);
+    assertStringInArray(standardOutputHtml, expected);
 
-    String bashConsoleOutput = responseBody.get("bashConsoleOutput").asText();
+    String standardOuput = responseBody.get("standardOuput").asText();
     expected = "Started executing ";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "exec-script.sh";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "Finished executing ";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "status: ";
-    assertTrue(bashConsoleOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
   }
 
   /**
