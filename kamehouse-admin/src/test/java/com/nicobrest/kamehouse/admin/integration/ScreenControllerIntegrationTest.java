@@ -2,7 +2,7 @@ package com.nicobrest.kamehouse.admin.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -44,6 +44,6 @@ class ScreenControllerIntegrationTest extends AbstractControllerIntegrationTest 
     HttpResponse response = post(getWebappUrl() + API_URL + apiEndpoint);
 
     verifyResponseList(response, List.of(HttpStatus.SC_OK, HttpStatus.SC_INTERNAL_SERVER_ERROR),
-        List.of(SystemCommand.Output.class, KameHouseGenericResponse.class));
+        List.of(KameHouseCommandResult.class, KameHouseGenericResponse.class));
   }
 }

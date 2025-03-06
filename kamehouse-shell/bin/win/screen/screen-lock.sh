@@ -7,39 +7,9 @@ if [ "$?" != "0" ]; then
 	exit 99
 fi
 
-USE_SCHEDULED_TASK=false
-
 mainProcess() {
-  if ${USE_SCHEDULED_TASK}; then
-    log.info "Locking screen using scheduled task"
-    ${HOME}/programs/kamehouse-shell/bin/win/bat/screen-lock-scheduled-task.bat
-  else
-    log.info "Locking screen"
-    rundll32.exe user32.dll,LockWorkStation
-  fi
-}
-
-parseArguments() {
-  local OPTIONS=("$@")
-  for i in "${!OPTIONS[@]}"; do
-    local CURRENT_OPTION="${OPTIONS[i]}"
-    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
-      continue
-    fi
-    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
-    case "${CURRENT_OPTION}" in
-      --use-scheduled-task)
-        USE_SCHEDULED_TASK=true
-        ;;
-      -?|-??*)
-        parseInvalidArgument "${CURRENT_OPTION}"
-        ;;        
-    esac
-  done    
-}
-
-printHelpOptions() {
-  addHelpOption "--use-scheduled-task" "Use scheduled task to lock screen. Use this when running from an ssh session"
+  log.info "Locking screen"
+  rundll32.exe user32.dll,LockWorkStation
 }
 
 main "$@"

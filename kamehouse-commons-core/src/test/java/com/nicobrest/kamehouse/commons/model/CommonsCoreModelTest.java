@@ -15,13 +15,11 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.KameHouseCmdSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.MouseClickJvncSenderSystemCommand;
-import com.nicobrest.kamehouse.commons.model.systemcommand.TextJvncSenderSystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCmdKameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.MouseClickJvncSenderKameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.TextJvncSenderKameHouseCommand;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,7 +40,7 @@ class CommonsCoreModelTest {
     validateKameHouseUserDto();
     validateKameHouseRole();
     validateKameHouseUser();
-    validateKameHouseSystemCommand();
+    validateKameHouseCommands();
   }
 
   /**
@@ -278,25 +276,23 @@ class CommonsCoreModelTest {
   /**
    * Test KameHouseGenericResponse.
    */
-  private void validateKameHouseSystemCommand() {
-    KameHouseSystemCommand kameHouseSystemCommand = new KameHouseSystemCommand() {
-    };
-    assertNotNull(kameHouseSystemCommand.toString());
-
-    KameHouseCmdSystemCommand kameHouseCmdSystemCommand = new KameHouseCmdSystemCommand() {
+  private void validateKameHouseCommands() {
+    KameHouseCmdKameHouseCommand kameHouseCmdKameHouseCommand = new KameHouseCmdKameHouseCommand() {
       @Override
       protected String getKameHouseCmdArguments() {
         return "-o encrypt";
       }
     };
-    assertNotNull(kameHouseCmdSystemCommand.toString());
+    assertNotNull(kameHouseCmdKameHouseCommand.toString());
 
-    TextJvncSenderSystemCommand jvncSenderTextSystemCommand = new TextJvncSenderSystemCommand("");
-    assertNotNull(jvncSenderTextSystemCommand.toString());
+    TextJvncSenderKameHouseCommand jvncSenderTextKameHouseCommand = new TextJvncSenderKameHouseCommand(
+        "");
+    assertNotNull(jvncSenderTextKameHouseCommand.toString());
 
-    MouseClickJvncSenderSystemCommand jvncSenderMouseClickSystemCommand = new MouseClickJvncSenderSystemCommand(
+    MouseClickJvncSenderKameHouseCommand jvncSenderMouseClickKameHouseCommand = new MouseClickJvncSenderKameHouseCommand(
         1, 2, 3);
-    assertNotNull(jvncSenderMouseClickSystemCommand.getCommand());
+    jvncSenderMouseClickKameHouseCommand.init();
+    assertNotNull(jvncSenderMouseClickKameHouseCommand.getCommand());
   }
 
   /**

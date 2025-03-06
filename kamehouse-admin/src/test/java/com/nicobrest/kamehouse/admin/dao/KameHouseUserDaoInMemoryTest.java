@@ -23,7 +23,9 @@ class KameHouseUserDaoInMemoryTest {
   private KameHouseUser kameHouseUser;
   private KameHouseUserDaoInMemory kameHouseUserDao;
 
-  /** Initializes test repositories. */
+  /**
+   * Initializes test repositories.
+   */
   @BeforeEach
   public void init() {
     testUtils = new KameHouseUserTestUtils();
@@ -32,7 +34,9 @@ class KameHouseUserDaoInMemoryTest {
     kameHouseUserDao = new KameHouseUserDaoInMemory();
   }
 
-  /** Tests creating a KameHouseUser in the repository. */
+  /**
+   * Tests creating a KameHouseUser in the repository.
+   */
   @Test
   void createTest() {
     kameHouseUserDao.create(kameHouseUser);
@@ -42,13 +46,17 @@ class KameHouseUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(kameHouseUser, createdUser);
   }
 
-  /** Tests getting all the KameHouseUser in the repository. */
+  /**
+   * Tests getting all the KameHouseUser in the repository.
+   */
   @Test
   void readAllTest() {
     assertEquals(4, kameHouseUserDao.readAll().size());
   }
 
-  /** Tests updating an existing user in the repository. */
+  /**
+   * Tests updating an existing user in the repository.
+   */
   @Test
   void updateTest() {
     KameHouseUser originalUser = kameHouseUserDao.loadUserByUsername("admin");
@@ -61,7 +69,9 @@ class KameHouseUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(kameHouseUser, updatedUser);
   }
 
-  /** Tests updating an existing user in the repository Exception flows. */
+  /**
+   * Tests updating an existing user in the repository Exception flows.
+   */
   @Test
   void updateNotFoundExceptionTest() {
     kameHouseUser.setUsername(KameHouseUserTestUtils.INVALID_USERNAME);
@@ -72,7 +82,9 @@ class KameHouseUserDaoInMemoryTest {
         });
   }
 
-  /** Tests deleting an existing user from the repository. */
+  /**
+   * Tests deleting an existing user from the repository.
+   */
   @Test
   void deleteTest() {
     KameHouseUser userToDelete = kameHouseUserDao.loadUserByUsername("admin");
@@ -82,7 +94,9 @@ class KameHouseUserDaoInMemoryTest {
     testUtils.assertEqualsAllAttributes(userToDelete, deletedUser);
   }
 
-  /** Tests deleting an existing user from the repository Exception flows. */
+  /**
+   * Tests deleting an existing user from the repository Exception flows.
+   */
   @Test
   void deleteNotFoundExceptionTest() {
     assertThrows(
@@ -92,7 +106,9 @@ class KameHouseUserDaoInMemoryTest {
         });
   }
 
-  /** Tests getting a single KameHouseUser in the repository by its username. */
+  /**
+   * Tests getting a single KameHouseUser in the repository by its username.
+   */
   @Test
   void loadUserByUsernameTest() {
     KameHouseUser user = kameHouseUserDao.loadUserByUsername("admin");
@@ -101,7 +117,9 @@ class KameHouseUserDaoInMemoryTest {
     assertEquals("admin", user.getUsername());
   }
 
-  /** Tests getting a single KameHouseUser in the repository Exception flows. */
+  /**
+   * Tests getting a single KameHouseUser in the repository Exception flows.
+   */
   @Test
   void loadUserByUsernameNotFoundExceptionTest() {
     assertThrows(

@@ -3,8 +3,10 @@ package com.nicobrest.kamehouse.commons.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -50,13 +52,20 @@ public class DockerUtils {
   }
 
   /**
-   * Execute the system command on the host running the docker container.
+   * Execute the kamehouse command on the host running the docker container.
    */
-  public static SystemCommand.Output executeOnDockerHost(SystemCommand systemCommand) {
+  public static KameHouseCommandResult executeOnDockerHost(
+      KameHouseCommand kameHouseCommand) {
+    if (!(kameHouseCommand instanceof KameHouseShellScript)) {
+      throw new KameHouseServerErrorException(
+          "Only KameHouseShellScript commands can be executed on the docker host at the moment");
+    }
+    KameHouseShellScript kameHouseShellScript = (KameHouseShellScript) kameHouseCommand;
+    kameHouseShellScript.init();
+    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(
+        kameHouseShellScript);
     HttpClient client = getGrootExecuteHttpClient();
-    HttpGet request = HttpClientUtils.httpGet(getDockerHostGrootExecuteUrl(systemCommand));
-    systemCommand.initOutputCommand();
-    SystemCommand.Output commandOutput = systemCommand.getOutput();
+    HttpGet request = HttpClientUtils.httpGet(getDockerHostGrootExecuteUrl(kameHouseShellScript));
     try {
       loginToGroot(client);
       HttpResponse response = HttpClientUtils.execRequest(client, request);
@@ -74,37 +83,34 @@ public class DockerUtils {
         JsonNode responseBodyJson = mapper.readTree(responseBody);
         JsonNode bashConsoleOutput = responseBodyJson.get("bashConsoleOutput");
         if (bashConsoleOutput != null) {
-          commandOutput.setStandardOutput(Arrays.asList(bashConsoleOutput.asText()));
-          commandOutput.setStandardError(List.of(""));
-          commandOutput.setExitCode(0);
-          commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
-          return commandOutput;
+          kameHouseCommandResult.setStandardOutput(Arrays.asList(bashConsoleOutput.asText()));
+          kameHouseCommandResult.setExitCode(0);
+          kameHouseCommandResult.setStatus(KameHouseCommandStatus.COMPLETED.getStatus());
+          return kameHouseCommandResult;
         }
       }
     } catch (IOException e) {
       LOGGER.error("Error sending groot execute request. Message: {}", e.getMessage());
     }
-    commandOutput.setStandardOutput(List.of(""));
-    commandOutput.setStandardError(List.of(""));
-    commandOutput.setExitCode(1);
-    commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
-    return commandOutput;
+    kameHouseCommandResult.setExitCode(1);
+    kameHouseCommandResult.setStatus(KameHouseCommandStatus.FAILED.getStatus());
+    return kameHouseCommandResult;
   }
 
   /**
-   * Checks if it should execute the specified system command on the host running the docker
+   * Checks if it should execute the specified kamehouse command on the host running the docker
    * container.
    */
-  public static boolean shouldExecuteOnDockerHost(SystemCommand systemCommand) {
-    return shouldExecuteOnDockerHost(systemCommand.executeOnDockerHost());
+  public static boolean shouldExecuteOnDockerHost(KameHouseCommand kameHouseCommand) {
+    return shouldExecuteOnDockerHost(kameHouseCommand.executeOnDockerHost());
   }
 
   /**
-   * Checks if it should execute the specified system command on the host running the docker
+   * Checks if it should execute the specified kamehouse command on the host running the docker
    * container.
    */
-  public static boolean shouldExecuteOnDockerHost(boolean isSystemCommandSetToExecuteOnHost) {
-    return shouldControlDockerHost() && isSystemCommandSetToExecuteOnHost;
+  public static boolean shouldExecuteOnDockerHost(boolean isKameHouseCommandExecuteOnDockerHost) {
+    return shouldControlDockerHost() && isKameHouseCommandExecuteOnDockerHost;
   }
 
   /**
@@ -279,15 +285,15 @@ public class DockerUtils {
   }
 
   /**
-   * Build url to execute system command on remote host via groot.
+   * Build url to execute kamehouse command on remote host via groot.
    */
-  private static String getDockerHostGrootExecuteUrl(SystemCommand systemCommand) {
+  private static String getDockerHostGrootExecuteUrl(KameHouseShellScript kameHouseShellScript) {
     String host = getDockerHostIp();
     String port = getDockerHostPort();
     StringBuilder sb = new StringBuilder("https://");
     sb.append(host).append(":").append(port).append(GROOT_EXECUTE_URL).append("script=");
-    sb.append(systemCommand.getShellScriptScript());
-    String args = systemCommand.getShellScriptScriptArgsForGroot();
+    sb.append(kameHouseShellScript.getShellScript());
+    String args = kameHouseShellScript.getShellScriptArgs();
     if (!StringUtils.isEmpty(args)) {
       String urlEncodedArgs = HttpClientUtils.urlEncode(args.trim());
       sb.append("&args=").append(urlEncodedArgs);

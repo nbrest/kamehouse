@@ -92,7 +92,8 @@ class KameHouseUserControllerTest
               .loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
 
           doGet(
-              API_V1_ADMIN_KAMEHOUSE_USERS + "/username/" + KameHouseUserTestUtils.INVALID_USERNAME);
+              API_V1_ADMIN_KAMEHOUSE_USERS + "/username/"
+                  + KameHouseUserTestUtils.INVALID_USERNAME);
         });
   }
 }

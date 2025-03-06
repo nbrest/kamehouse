@@ -4,10 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
+import com.nicobrest.kamehouse.media.video.model.kamehousecommand.GetPlaylistContentKameHouseCommand;
 import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
 import java.io.File;
 import java.util.List;
@@ -102,11 +103,13 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.isWindowsDockerHost()).thenReturn(true);
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(true);
-    Output playlistFilePaths = new Output();
+    KameHouseCommandResult playlistFilePaths = new KameHouseCommandResult(
+        new GetPlaylistContentKameHouseCommand(""));
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     playlistFilePaths.setStandardOutput(List.of(expectedPlaylists.get(0).getPath()
         + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
-    Output dcPlaylistContent = new Output();
+    KameHouseCommandResult dcPlaylistContent = new KameHouseCommandResult(
+        new GetPlaylistContentKameHouseCommand(""));
     dcPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\n"
@@ -114,7 +117,8 @@ class VideoPlaylistServiceTest {
                 + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
         )
     );
-    Output marvelPlaylistContent = new Output();
+    KameHouseCommandResult marvelPlaylistContent = new KameHouseCommandResult(
+        new GetPlaylistContentKameHouseCommand(""));
     marvelPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\n"
@@ -144,11 +148,13 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.isWindowsDockerHost()).thenReturn(false);
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(false);
-    Output playlistFilePaths = new Output();
+    KameHouseCommandResult playlistFilePaths = new KameHouseCommandResult(
+        new GetPlaylistContentKameHouseCommand(""));
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
     playlistFilePaths.setStandardOutput(List.of(expectedPlaylists.get(0).getPath()
         + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
-    Output dcPlaylistContent = new Output();
+    KameHouseCommandResult dcPlaylistContent = new KameHouseCommandResult(
+        new GetPlaylistContentKameHouseCommand(""));
     dcPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\n"
@@ -156,7 +162,8 @@ class VideoPlaylistServiceTest {
                 + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
         )
     );
-    Output marvelPlaylistContent = new Output();
+    KameHouseCommandResult marvelPlaylistContent = new KameHouseCommandResult(
+        new GetPlaylistContentKameHouseCommand(""));
     marvelPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U\n"

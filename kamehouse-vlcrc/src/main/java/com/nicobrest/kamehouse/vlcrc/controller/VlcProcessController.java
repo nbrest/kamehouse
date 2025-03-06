@@ -1,12 +1,14 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.commons.service.SystemCommandService;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandController;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseCommand;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,38 +25,45 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/v1/vlc-rc")
-public class VlcProcessController extends AbstractSystemCommandController {
+public class VlcProcessController extends AbstractKameHouseCommandController {
 
   private static final String INPUT_FILE_SANITIZER_REGEX = "[\n\r\t\"<>?|]";
 
   public VlcProcessController(
-      SystemCommandService systemCommandService) {
-    super(systemCommandService);
+      KameHouseCommandService kameHouseCommandService) {
+    super(kameHouseCommandService);
   }
 
   /**
    * Starts a vlc player in the local server.
    */
   @PostMapping(path = "/vlc-process")
-  public ResponseEntity<List<SystemCommand.Output>> startVlcPlayer(
+  public ResponseEntity<List<KameHouseCommandResult>> startVlcPlayer(
       @RequestParam(value = "file", required = false) String file) {
     String fileSanitized = StringUtils.sanitize(file, INPUT_FILE_SANITIZER_REGEX);
-    return execKameHouseSystemCommand(new VlcStartKameHouseSystemCommand(fileSanitized));
+    List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
+    kameHouseCommands.add(new VlcStopKameHouseCommand(2));
+    kameHouseCommands.add(new VlcStartKameHouseCommand(fileSanitized));
+    return execKameHouseCommands(kameHouseCommands);
   }
 
   /**
    * Stops vlc player in the local server.
    */
   @DeleteMapping(path = "/vlc-process")
-  public ResponseEntity<List<SystemCommand.Output>> stopVlcPlayer() {
-    return execKameHouseSystemCommand(new VlcStopKameHouseSystemCommand());
+  public ResponseEntity<List<KameHouseCommandResult>> stopVlcPlayer() {
+    List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
+    kameHouseCommands.add(new VlcStopKameHouseCommand(2));
+    return execKameHouseCommands(kameHouseCommands);
   }
 
   /**
    * Gets the status of vlc player in the local server.
    */
   @GetMapping(path = "/vlc-process")
-  public ResponseEntity<List<SystemCommand.Output>> statusVlcPlayer() {
-    return execKameHouseSystemCommand(new VlcStatusKameHouseSystemCommand());
+  public ResponseEntity<List<KameHouseCommandResult>> statusVlcPlayer() {
+    List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
+    kameHouseCommands.add(new VlcStatusKameHouseCommand());
+    return execKameHouseCommands(kameHouseCommands);
   }
 }

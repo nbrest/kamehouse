@@ -1,7 +1,10 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
+import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
@@ -54,38 +57,41 @@ public class SshClientUtils {
   }
 
   /**
-   * Execute the system command over ssh on the docker host setting up the channel as a shell. This
-   * was used when getting the video playlists and playlists content from docker via ssh. Now those
-   * are retrieved via https using groot.
+   * Execute the kamehouse command over ssh on the docker host setting up the channel as a shell.
+   * This was used when getting the video playlists and playlists content from docker via ssh. Now
+   * those are retrieved via https using groot.
    */
-  public static SystemCommand.Output executeShell(String host, String username,
-      SystemCommand systemCommand, boolean isWindowsShell) {
-    return execute(host, username, systemCommand, true, isWindowsShell);
+  public static KameHouseCommandResult executeShell(String host, String username,
+      KameHouseCommand kameHouseCommand, boolean isWindowsShell) {
+    return execute(host, username, kameHouseCommand, true, isWindowsShell);
   }
 
   /**
-   * Execute the system command over ssh on the docker host setting up the channel as exec. This was
-   * used to execute remote commands from docker on the host via ssh. Now those commands are being
-   * executed by https via groot.
+   * Execute the kamehouse command over ssh on the docker host setting up the channel as exec. This
+   * was used to execute remote commands from docker on the host via ssh. Now those commands are
+   * being executed by https via groot.
    */
-  public static SystemCommand.Output execute(String host, String username,
-      SystemCommand systemCommand) {
-    return execute(host, username, systemCommand, false, false);
+  public static KameHouseCommandResult execute(String host, String username,
+      KameHouseCommand kameHouseCommand) {
+    return execute(host, username, kameHouseCommand, false, false);
   }
 
   /**
-   * Execute the system command over ssh on the docker host.
+   * Execute the kamehouse command over ssh on the docker host. Only kamehouse-shell commands are
+   * supported.
    */
-  private static SystemCommand.Output execute(String host, String username,
-      SystemCommand systemCommand, boolean useShellChannel, boolean isWindowsShell) {
-    SystemCommand.Output commandOutput = systemCommand.getOutput();
-    systemCommand.initOutputCommand();
-    String command = systemCommand.getCommandForSsh();
-    if (systemCommand.logCommand()) {
-      LOGGER.debug("Ssh command {}", command);
-    } else {
-      LOGGER.debug("Ssh command {} hidden from logs", systemCommand.getClass().getSimpleName());
+  private static KameHouseCommandResult execute(String host, String username,
+      KameHouseCommand kameHouseCommand, boolean useShellChannel, boolean isWindowsShell) {
+    if (!(kameHouseCommand instanceof KameHouseShellScript)) {
+      throw new KameHouseServerErrorException(
+          "Only KameHouseShellScript commands can be executed via ssh at the moment");
     }
+    KameHouseShellScript kameHouseShellScript = (KameHouseShellScript) kameHouseCommand;
+    kameHouseShellScript.init();
+    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(
+        kameHouseShellScript);
+    String command = kameHouseShellScript.getCommand();
+    LOGGER.debug("Command to execute {}", kameHouseShellScript);
     SshClient client = SshClient.setUpDefaultClient();
     client.start();
     client.setServerKeyVerifier(AcceptAllServerKeyVerifier.INSTANCE);
@@ -108,32 +114,32 @@ public class SshClientUtils {
       sshChannelWriter.write(getCommandBytes(command, useShellChannel, isWindowsShell));
       sshChannelWriter.flush();
       long sshTimeout = SSH_CONNECTION_TIMEOUT_MS;
-      if (systemCommand.getSshTimeout() > 0) {
-        sshTimeout = systemCommand.getSshTimeout();
+      if (kameHouseShellScript.getSshTimeout() > 0) {
+        sshTimeout = kameHouseShellScript.getSshTimeout();
       }
       channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), sshTimeout);
       String standardOutput = responseStream.toString(Charsets.UTF_8);
-      commandOutput.setStandardOutput(Arrays.asList(standardOutput));
+      kameHouseCommandResult.setStandardOutput(Arrays.asList(standardOutput));
       LOGGER.debug("standardOutput: {}", standardOutput);
 
       String standardError = errorStream.toString(Charsets.UTF_8);
       if (!StringUtils.isEmpty(standardError)) {
-        commandOutput.setStandardError(Arrays.asList(standardError));
+        kameHouseCommandResult.setStandardError(Arrays.asList(standardError));
         LOGGER.debug("standardError: {}", standardError);
       }
-      commandOutput.setExitCode(0);
-      commandOutput.setStatus(SystemCommandStatus.COMPLETED.getStatus());
+      kameHouseCommandResult.setExitCode(0);
+      kameHouseCommandResult.setStatus(KameHouseCommandStatus.COMPLETED.getStatus());
     } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
       LOGGER.error("Error executing ssh command", e);
-      commandOutput.setExitCode(1);
-      commandOutput.setStatus(SystemCommandStatus.FAILED.getStatus());
+      kameHouseCommandResult.setExitCode(1);
+      kameHouseCommandResult.setStatus(KameHouseCommandStatus.FAILED.getStatus());
     } finally {
       if (channel != null) {
         channel.close(false);
       }
       client.stop();
     }
-    return commandOutput;
+    return kameHouseCommandResult;
   }
 
   /**

@@ -1,13 +1,13 @@
 package com.nicobrest.kamehouse.media.video.service;
 
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
-import com.nicobrest.kamehouse.media.video.model.systemcommand.GetPlaylistContentSystemCommand;
-import com.nicobrest.kamehouse.media.video.model.systemcommand.ListPlaylistsSystemCommand;
+import com.nicobrest.kamehouse.media.video.model.kamehousecommand.GetPlaylistContentKameHouseCommand;
+import com.nicobrest.kamehouse.media.video.model.kamehousecommand.ListPlaylistsKameHouseCommand;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -126,10 +126,11 @@ public class VideoPlaylistService {
    */
   private List<Playlist> getAllFromDockerHost(boolean fetchContent) {
     logger.trace("getAllFromDockerHost");
-    ListPlaylistsSystemCommand listPlaylistsCommand = new ListPlaylistsSystemCommand();
-    Output output = DockerUtils.executeOnDockerHost(listPlaylistsCommand);
+    ListPlaylistsKameHouseCommand listPlaylistsCommand = new ListPlaylistsKameHouseCommand();
+    KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
+        listPlaylistsCommand);
     List<Playlist> playlists = new ArrayList<>();
-    String shellOutput = output.getStandardOutput().get(0);
+    String shellOutput = kameHouseCommandResult.getStandardOutput().get(0);
     if (StringUtils.isEmpty(shellOutput)) {
       return playlists;
     }
@@ -144,7 +145,7 @@ public class VideoPlaylistService {
   }
 
   /**
-   * Get the file paths for all the playlists from the remote shell output.
+   * Get the file paths for all the playlists from the remote shell kameHouseCommandResult.
    */
   private static List<String> getPlaylistFilePaths(String shellOutput) {
     List<String> playlistFilePaths = Arrays.stream(shellOutput.split("\n"))
@@ -292,10 +293,11 @@ public class VideoPlaylistService {
    */
   private static List<String> getPlaylistContentFromDockerHost(String playlistFilename) {
     logger.trace("Getting content for playlist {}", playlistFilename);
-    GetPlaylistContentSystemCommand getPlaylistContentCommand = new GetPlaylistContentSystemCommand(
-        playlistFilename);
-    Output output = DockerUtils.executeOnDockerHost(getPlaylistContentCommand);
-    String shellOutput = output.getStandardOutput().get(0);
+    GetPlaylistContentKameHouseCommand getPlaylistContentCommand =
+        new GetPlaylistContentKameHouseCommand(playlistFilename);
+    KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
+        getPlaylistContentCommand);
+    String shellOutput = kameHouseCommandResult.getStandardOutput().get(0);
     shellOutput = StringUtils.substringAfter(shellOutput, "#EXTM3U");
     String[] shellOutputArray = shellOutput.split("\n");
     List<String> playlistContent = Arrays.stream(shellOutputArray)

@@ -1,11 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.KeyPressKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.MouseClickKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenLockKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenUnlockKameHouseSystemCommand;
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.ScreenWakeUpKameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,14 +20,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest {
+class ScreenControllerTest extends AbstractKameHouseCommandControllerTest {
 
   @InjectMocks
   private ScreenController screenController;
 
   @BeforeEach
   void beforeTest() {
-    kameHouseSystemCommandControllerTestSetup();
+    kameHouseCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(screenController).build();
   }
 
@@ -41,8 +36,7 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
    */
   @Test
   void lockScreenSuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/lock", ScreenLockKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest("/api/v1/admin/screen/lock");
   }
 
   /**
@@ -50,8 +44,7 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
    */
   @Test
   void unlockScreenSuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/unlock", ScreenUnlockKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest("/api/v1/admin/screen/unlock");
   }
 
   /**
@@ -59,8 +52,7 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
    */
   @Test
   void wakeUpScreenSuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/screen/wake-up", ScreenWakeUpKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest("/api/v1/admin/screen/wake-up");
   }
 
   /**
@@ -82,7 +74,7 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
   })
   void keyPressSuccessfulTest(String key, Integer keyPresses) throws Exception {
     String apiUrl = "/api/v1/admin/screen/key-press?key=" + key + "&keyPresses=" + keyPresses;
-    execPostKameHouseSystemCommandTest(apiUrl, KeyPressKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest(apiUrl);
   }
 
   /**
@@ -98,7 +90,7 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
     String apiUrl =
         "/api/v1/admin/screen/mouse-click?mouseButton=" + mouseButton + "&positionX=" + positionX
             + "&positionY=" + positionY + "&clickCount=" + clickCount;
-    execPostKameHouseSystemCommandTest(apiUrl, MouseClickKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest(apiUrl);
   }
 
   /**
@@ -115,6 +107,6 @@ class ScreenControllerTest extends AbstractKameHouseSystemCommandControllerTest 
     String apiUrl =
         "/api/v1/admin/screen/mouse-click?mouseButton=" + mouseButton + "&positionX=" + positionX
             + "&positionY=" + positionY + "&clickCount=" + clickCount;
-    execPostInvalidKameHouseSystemCommandTest(apiUrl);
+    execPostInvalidKameHouseCommandsTest(apiUrl);
   }
 }

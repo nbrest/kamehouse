@@ -7,6 +7,11 @@
 
 #### v10.01
 
+- Refactored SystemCommand to KameHouseShellScript and added a KameHouseCommand interface
+- Extracted SystemCommand.Output to a separate class KameHouseCommandResult
+- Removed unnecessary layer of KameHouseSystemCommands
+- Renamed SystemCommand references in the ui to KameHouseCommand
+- Added option to skip building static code
 - Moved remote control of docker host from ssh to https via groot when running from a docker container
 - Refactored kamehouse system commands to go through kamehouse-shell for all commands
 - Added a stop scrolling page

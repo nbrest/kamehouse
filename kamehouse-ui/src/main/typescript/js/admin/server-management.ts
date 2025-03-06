@@ -128,8 +128,8 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.get(config, this.#ADMIN_API_URL + this.#UPTIME_URL, null, null, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)});
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /**
@@ -139,8 +139,8 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.get(config, this.#ADMIN_API_URL + this.#FREE_URL, null, null, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)});
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /**
@@ -150,8 +150,8 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.get(config, this.#ADMIN_API_URL + this.#DF_URL, null, null, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)});
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /**
@@ -161,8 +161,8 @@ class ServerManager {
     kameHouse.plugin.modal.loadingWheelModal.open();
     const config = kameHouse.http.getConfig();
     kameHouse.plugin.debugger.http.get(config, this.#ADMIN_API_URL + this.#TOP_URL, null, null, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
-      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders)});
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processSuccessKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)}, 
+      (responseBody, responseCode, responseDescription, responseHeaders) => {this.#processErrorKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders)});
   }
 
   /** Get the httpd server status */
@@ -273,20 +273,20 @@ class ServerManager {
    * SYSTEM STATE functions
    */
   /**
-   * Callback after successful system command execution.
+   * Callback after successful kamehouse command execution.
    */
-  #processSuccessSystemCommand(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processSuccessKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null, "system-health-command-output");
+    kameHouse.plugin.kameHouseCommandManager.renderCommandOutput(responseBody, false, null, "system-health-command-output");
   }
 
   /**
-   * Callback after error executing a system command.
+   * Callback after error executing a kamehouse command.
    */
-  #processErrorSystemCommand(responseBody, responseCode, responseDescription, responseHeaders) {
+  #processErrorKameHouseCommand(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand("system-health-command-output");
+    kameHouse.plugin.kameHouseCommandManager.renderErrorExecutingCommand("system-health-command-output");
   }
 
   /**
@@ -297,7 +297,7 @@ class ServerManager {
    */
   #processSuccessHttpdStatus(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, "httpd-status", null);
+    kameHouse.plugin.kameHouseCommandManager.renderCommandOutput(responseBody, false, "httpd-status", null);
   }
 
   /**
@@ -318,7 +318,7 @@ class ServerManager {
    */
   #processSuccessHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    kameHouse.plugin.systemCommandManager.renderCommandOutput(responseBody, false, null, null);
+    kameHouse.plugin.kameHouseCommandManager.renderCommandOutput(responseBody, false, null, null);
     setTimeout(() => { 
       this.getHttpdStatus(false);
     }, 5000);
@@ -330,7 +330,7 @@ class ServerManager {
   #processErrorHttpdRestart(responseBody, responseCode, responseDescription, responseHeaders) {
     kameHouse.plugin.modal.loadingWheelModal.close();
     kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
-    kameHouse.plugin.systemCommandManager.renderErrorExecutingCommand(null);
+    kameHouse.plugin.kameHouseCommandManager.renderErrorExecutingCommand(null);
     setTimeout(() => { 
       this.getHttpdStatus(false);
     }, 5000);

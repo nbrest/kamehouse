@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.admin.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -30,7 +30,7 @@ class SystemStateControllerIntegrationTest extends AbstractControllerIntegration
 
     HttpResponse response = get(getWebappUrl() + API_URL + "/" + suffix);
 
-    verifySuccessfulResponseList(response, SystemCommand.Output.class);
+    verifySuccessfulResponseList(response, KameHouseCommandResult.class);
   }
 
   @Test

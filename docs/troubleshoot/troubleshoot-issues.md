@@ -22,7 +22,7 @@
 * Setup a **vnc server** (I use **tightvnc** on **windows** and the **native desktop sharing tool in ubuntu**) running in the same server as the application. *Unlock screen and wake-up screen are done through jvncsender*.
 * Encrypt the user password with kamehouse keys and store it in a file specified by the property *unlock.screen.pwd.file*. This file should be readable only by the user, hidden from anyone else. The application will decrypt and type this password to unlock the screen. Check below how to create the encrypted file.
 * If the vnc server is configured with a password (it should!), also set the file pointed by *vnc.server.pwd.file* with the vnc server password encrypted. This password will be used by jvncsender to execute the commands through vnc. Again, this file contains an encrypted password so it should be only readable by the user owning this process. Check below how to create the encrypted file.
-* *Lock screen command on linux relies on gnome-screensaver-command* to do the lock. Install **gnome-screensaver** with `sudo apt-get install gnome-screensaver`. The `SystemCommand` to lock the screen though kamehouse could easily be changed to use jvncsender to lock the screen for other **linux** versions (tested on **ubuntu 16**)
+* *Lock screen command on linux relies on gnome-screensaver-command* to do the lock. Install **gnome-screensaver** with `sudo apt-get install gnome-screensaver`. The `KameHouseCommand` to lock the screen though kamehouse could easily be changed to use jvncsender to lock the screen for other **linux** versions (tested on **ubuntu 16**)
 
 ## Lock screen on raspbian:
 
@@ -147,7 +147,7 @@ exit
 * To test that it works, open a command prompt and type vlc to see if it finds the executable or if it throws an error that it can't find it
 
 ### Run tomcat through a startup script, not as a system service
-* The commands to start and stop vlc (and possibly other system commands) don't work if tomcat is run as a service in **windows**. Check [Installation](/docs/installation/installation.md) to run tomcat from a startup script.
+* The commands to start and stop vlc (and possibly other kamehouse commands) don't work if tomcat is run as a service in **windows**. Check [Installation](/docs/installation/installation.md) to run tomcat from a startup script.
 
 ### VLC fails to load audio on videos
 - This happened on raspberrypi bookworm

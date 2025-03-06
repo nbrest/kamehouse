@@ -3,7 +3,7 @@ package com.nicobrest.kamehouse.cmd.executor;
 import com.nicobrest.kamehouse.cmd.model.CmdArgumentHandler;
 import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
-import com.nicobrest.kamehouse.commons.model.systemcommand.MouseButton;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.MouseButton;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.jvncsender.VncServer;
 import org.springframework.stereotype.Component;

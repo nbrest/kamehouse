@@ -1,9 +1,6 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseSystemCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseSystemCommand;
-import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseSystemCommand;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,14 +18,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerTest {
+class VlcProcessControllerTest extends AbstractKameHouseCommandControllerTest {
 
   @InjectMocks
   private VlcProcessController vlcProcessController;
 
   @BeforeEach
   void beforeTest() {
-    kameHouseSystemCommandControllerTestSetup();
+    kameHouseCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(vlcProcessController).build();
   }
 
@@ -37,9 +34,8 @@ class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerT
    */
   @Test
   void startVlcPlayerTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/vlc-rc/vlc-process?file=src/test/resources/vlcrc/playlists/marvel.m3u",
-        VlcStartKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest(
+        "/api/v1/vlc-rc/vlc-process?file=src/test/resources/vlcrc/playlists/marvel.m3u");
   }
 
   /**
@@ -47,7 +43,7 @@ class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerT
    */
   @Test
   void startVlcExceptionTest() {
-    execPostInvalidKameHouseSystemCommandTest("/api/v1/vlc-rc/vlc-process?file=invalid-file");
+    execPostInvalidKameHouseCommandsTest("/api/v1/vlc-rc/vlc-process?file=invalid-file");
   }
 
   /**
@@ -55,8 +51,7 @@ class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerT
    */
   @Test
   void stopVlcPlayerTest() throws Exception {
-    execDeleteKameHouseSystemCommandTest(
-        "/api/v1/vlc-rc/vlc-process", VlcStopKameHouseSystemCommand.class);
+    execDeleteKameHouseCommandsTest("/api/v1/vlc-rc/vlc-process");
   }
 
   /**
@@ -64,8 +59,7 @@ class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerT
    */
   @Test
   void stopVlcPlayerServerErrorTest() throws Exception {
-    execDeleteServerErrorKameHouseSystemCommandTest(
-        "/api/v1/vlc-rc/vlc-process", VlcStopKameHouseSystemCommand.class);
+    execDeleteServerErrorKameHouseCommandsTest("/api/v1/vlc-rc/vlc-process");
   }
 
   /**
@@ -73,7 +67,6 @@ class VlcProcessControllerTest extends AbstractKameHouseSystemCommandControllerT
    */
   @Test
   void statusVlcPlayerTest() throws Exception {
-    execGetKameHouseSystemCommandTest(
-        "/api/v1/vlc-rc/vlc-process", VlcStatusKameHouseSystemCommand.class);
+    execGetKameHouseCommandsTest("/api/v1/vlc-rc/vlc-process");
   }
 }

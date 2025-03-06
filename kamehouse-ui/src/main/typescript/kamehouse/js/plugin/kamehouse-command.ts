@@ -1,0 +1,105 @@
+/** 
+ * Handles the kamehouse commands on the ui's side.
+ * 
+ * Handles the functionality for the kamehouse commands.
+ * 
+ * @author nbrest
+ */
+class KameHouseCommandManager {
+
+  /**
+   * Load kamehouse command manager plugin.
+   */
+  load() {
+    kameHouse.logger.info("Started initializing kameHouseCommandManager", null);
+  }
+
+  /**
+   * Render the kamehouse command kameHouseCommandResult.
+   */
+  renderCommandOutput(kameHouseCommandResultArray, displayCommandLine, kameHouseCommandResultDivId, collapsibleDivBtnId) {
+    let kameHouseCommandResultDivSelector;
+    if (!kameHouse.core.isEmpty(kameHouseCommandResultDivId)) {
+      kameHouseCommandResultDivSelector = kameHouseCommandResultDivId;
+    } else {
+      kameHouseCommandResultDivSelector = "kamehouse-command-result";
+    }
+    const kameHouseCommandResultDiv = document.getElementById(kameHouseCommandResultDivSelector);
+    kameHouse.util.dom.empty(kameHouseCommandResultDiv);
+    kameHouseCommandResultArray.forEach((kameHouseCommandResult) => {
+      if (displayCommandLine) {
+        kameHouse.util.dom.append(kameHouseCommandResultDiv, this.#getCommandLine(kameHouseCommandResult.command));
+      }
+      if (!kameHouse.core.isEmpty(kameHouseCommandResult.standardOutput) && 
+          kameHouseCommandResult.standardOutput.length > 0) {
+        kameHouseCommandResult.standardOutput.forEach((standardOutputLine) => {
+          kameHouse.util.dom.append(kameHouseCommandResultDiv, kameHouse.core.convertBashColorsToHtml(standardOutputLine));
+          kameHouse.util.dom.append(kameHouseCommandResultDiv, kameHouse.util.dom.getBr());
+        });
+      }
+      if (!kameHouse.core.isEmpty(kameHouseCommandResult.standardError) && 
+          kameHouseCommandResult.standardError.length > 0) {
+        kameHouse.util.dom.append(kameHouseCommandResultDiv, this.#getCommandErrorHeaderLine());
+        kameHouseCommandResult.standardError.forEach((standardErrorLine) => {
+          kameHouse.util.dom.append(kameHouseCommandResultDiv, standardErrorLine);
+          kameHouse.util.dom.append(kameHouseCommandResultDiv, kameHouse.util.dom.getBr());
+        });
+      }
+      if (kameHouseCommandResult.status == "running") {
+        kameHouse.util.dom.append(kameHouseCommandResultDiv, this.#getDaemonRunningLine(kameHouseCommandResult.command));
+      }
+    });
+    kameHouse.util.collapsibleDiv.resize(collapsibleDivBtnId);
+  }
+  
+  /**
+   * Display an error executing the kamehouse command.
+   */
+  renderErrorExecutingCommand(collapsibleDivBtnId) {
+    const kameHouseCommandResultDiv = document.getElementById("kamehouse-command-result");
+    kameHouse.util.dom.empty(kameHouseCommandResultDiv);
+    kameHouse.util.dom.append(kameHouseCommandResultDiv, "Error executing kamehouse command. Check the logs on the backend...");
+    kameHouse.util.collapsibleDiv.resize(collapsibleDivBtnId);
+  }
+  
+  /**
+   * Get command line.
+   */
+  #getCommandLine(command) {
+    const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
+      class: "bold-kh"
+    }, "command: " + command));
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    return message;
+  }
+
+  /**
+   * Get daemon running line.
+   */
+  #getDaemonRunningLine(command) {
+    const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
+      class: "bold-kh"
+    }, command));
+    kameHouse.util.dom.append(message, " is ");
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getSpan({
+      class: "bold-kh"
+    }, "running"));
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    return message;
+  }
+
+  /**
+   * Get command error header line.
+   */
+  #getCommandErrorHeaderLine() {
+    const message = kameHouse.util.dom.getSpan({}, kameHouse.util.dom.getSpan({
+      class: "bold-kh"
+    }, "errors:"));
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(message, kameHouse.util.dom.getBr());
+    return message;
+  }
+}
+
+ kameHouse.ready(() => {kameHouse.addPlugin("kameHouseCommandManager", new KameHouseCommandManager());});

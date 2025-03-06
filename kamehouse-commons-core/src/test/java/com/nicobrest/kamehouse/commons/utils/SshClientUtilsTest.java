@@ -1,17 +1,19 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
-import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonCommand;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
@@ -115,16 +117,19 @@ class SshClientUtilsTest {
    */
   @Test
   void executeSuccessTest() {
-    Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
+    KameHouseCommandResult kameHouseCommandResult = SshClientUtils.execute("local.kamehouse.com",
+        "goku",
         new TestDaemonCommand());
 
-    assertEquals("[/bin/bash, -c, ./programs/kamehouse-shell/bin/test-script.sh]",
-        output.getCommand());
-    assertEquals(SystemCommandStatus.COMPLETED.getStatus(), output.getStatus());
-    assertEquals(0, output.getExitCode());
-    assertEquals(-1, output.getPid());
-    assertEquals(Arrays.asList(""), output.getStandardOutput());
-    assertNull(output.getStandardError());
+    assertEquals("/bin/bash -c ./programs/kamehouse-shell/bin/test-script.sh",
+        kameHouseCommandResult.getCommand());
+    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), kameHouseCommandResult.getStatus());
+    assertEquals(0, kameHouseCommandResult.getExitCode());
+    assertEquals(-1, kameHouseCommandResult.getPid());
+    var standardOutput = kameHouseCommandResult.getStandardOutput();
+    assertNotNull(standardOutput);
+    assertEquals(1, standardOutput.size());
+    assertEquals(new ArrayList<>(), kameHouseCommandResult.getStandardError());
   }
 
   /**
@@ -134,15 +139,16 @@ class SshClientUtilsTest {
   void executeIOExceptionTest() throws IOException {
     when(channelExecMock.open()).thenThrow(new IOException("Test Exception"));
 
-    Output output = SshClientUtils.execute("local.kamehouse.com", "goku",
+    KameHouseCommandResult kameHouseCommandResult = SshClientUtils.execute("local.kamehouse.com",
+        "goku",
         new TestDaemonCommand());
 
-    assertEquals("[/bin/bash, -c, ./programs/kamehouse-shell/bin/test-script.sh]",
-        output.getCommand());
-    assertEquals(SystemCommandStatus.FAILED.getStatus(), output.getStatus());
-    assertEquals(1, output.getExitCode());
-    assertEquals(-1, output.getPid());
-    assertEquals(null, output.getStandardOutput());
-    assertEquals(null, output.getStandardError());
+    assertEquals("/bin/bash -c ./programs/kamehouse-shell/bin/test-script.sh",
+        kameHouseCommandResult.getCommand());
+    assertEquals(KameHouseCommandStatus.FAILED.getStatus(), kameHouseCommandResult.getStatus());
+    assertEquals(1, kameHouseCommandResult.getExitCode());
+    assertEquals(-1, kameHouseCommandResult.getPid());
+    assertEquals(new ArrayList<>(), kameHouseCommandResult.getStandardOutput());
+    assertEquals(new ArrayList<>(), kameHouseCommandResult.getStandardError());
   }
 }

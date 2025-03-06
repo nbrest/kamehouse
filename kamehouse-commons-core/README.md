@@ -11,4 +11,4 @@ This module handles the following functionality:
 * Custom exception definitions
 * Model objects reused in all modules
 * Utility classes needed in commons-test
-* System command execution service
+* Kamehouse command execution service

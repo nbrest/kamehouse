@@ -44,7 +44,7 @@ class KameHouse {
     modal: null,
     mobileTabsManager: null,
     slideshow: null,
-    systemCommandManager: null,
+    kameHouseCommandManager: null,
     webappTabsManager: null
   };
 

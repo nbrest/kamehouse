@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.service;
 
-import com.nicobrest.kamehouse.admin.model.systemcommand.WolSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.WolKameHouseCommand;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
@@ -32,10 +32,6 @@ public class PowerManagementService {
   private static final Logger logger = LoggerFactory.getLogger(PowerManagementService.class);
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
-  private static final String KAMEHOUSE_CMD_WIN = DockerUtils.getDockerHostUserHome()
-      + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
-  private static final String KAMEHOUSE_CMD_LIN = DockerUtils.getDockerHostUserHome()
-      + "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
 
   private Scheduler scheduler;
   private JobDetail shutdownJobDetail;
@@ -89,7 +85,7 @@ public class PowerManagementService {
   public void wakeOnLan(String macAddress, String broadcastAddress) {
     NetworkUtils.wakeOnLan(macAddress, broadcastAddress);
     if (DockerUtils.isDockerContainer() && DockerUtils.isDockerControlHostEnabled()) {
-      WolSystemCommand wolCommand = new WolSystemCommand(macAddress, broadcastAddress);
+      WolKameHouseCommand wolCommand = new WolKameHouseCommand(macAddress, broadcastAddress);
       DockerUtils.executeOnDockerHost(wolCommand);
     }
   }

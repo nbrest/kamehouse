@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.SystemCommandStatus;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand.Output;
-import com.nicobrest.kamehouse.commons.model.systemcommand.TestDaemonCommand;
-import com.nicobrest.kamehouse.commons.testutils.SystemCommandOutputTestUtils;
+import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonCommand;
+import com.nicobrest.kamehouse.commons.testutils.KameHouseCommandResultCoreTestUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -29,7 +29,7 @@ class DockerUtilsTest {
 
   private static final String DOCKER_HOST_AUTH = "c2VpeWE6aWtraQ==";
 
-  private SystemCommandOutputTestUtils testUtils = new SystemCommandOutputTestUtils();
+  private KameHouseCommandResultCoreTestUtils testUtils = new KameHouseCommandResultCoreTestUtils();
   private MockedStatic<PropertiesUtils> propertiesUtils;
   private MockedStatic<SshClientUtils> sshClientUtils;
   private MockedStatic<HttpClientUtils> httpClientUtils;
@@ -64,12 +64,13 @@ class DockerUtilsTest {
     when(HttpClientUtils.getInputStream(any())).thenReturn(
         getInputStream("docker-utils/groot-execute-response-success-win.json"));
 
-    Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
+    KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
+        new TestDaemonCommand());
 
-    assertEquals(SystemCommandStatus.COMPLETED.getStatus(), output.getStatus());
-    assertEquals(0, output.getExitCode());
-    assertNotNull(output.getStandardOutput());
-    assertTrue(!output.getStandardOutput().isEmpty());
+    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), kameHouseCommandResult.getStatus());
+    assertEquals(0, kameHouseCommandResult.getExitCode());
+    assertNotNull(kameHouseCommandResult.getStandardOutput());
+    assertTrue(!kameHouseCommandResult.getStandardOutput().isEmpty());
   }
 
   /**
@@ -81,12 +82,13 @@ class DockerUtilsTest {
     when(HttpClientUtils.getInputStream(any())).thenReturn(
         getInputStream("docker-utils/groot-execute-response-success-lin.json"));
 
-    Output output = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
+    KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
+        new TestDaemonCommand());
 
-    assertEquals(SystemCommandStatus.COMPLETED.getStatus(), output.getStatus());
-    assertEquals(0, output.getExitCode());
-    assertNotNull(output.getStandardOutput());
-    assertTrue(!output.getStandardOutput().isEmpty());
+    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), kameHouseCommandResult.getStatus());
+    assertEquals(0, kameHouseCommandResult.getExitCode());
+    assertNotNull(kameHouseCommandResult.getStandardOutput());
+    assertTrue(!kameHouseCommandResult.getStandardOutput().isEmpty());
   }
 
   /**
@@ -155,7 +157,6 @@ class DockerUtilsTest {
    */
   @Test
   void getDockerContainerPropertiesTest() {
-    //TODO mock user home to load the file from test resources as I did in other tests
     Properties properties = DockerUtils.getDockerContainerProperties();
 
     assertNotNull(properties);

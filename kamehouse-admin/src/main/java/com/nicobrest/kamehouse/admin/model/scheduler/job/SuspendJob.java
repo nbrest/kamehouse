@@ -1,8 +1,11 @@
 package com.nicobrest.kamehouse.admin.model.scheduler.job;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.SuspendKameHouseSystemCommand;
-import com.nicobrest.kamehouse.commons.service.SystemCommandService;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.SuspendKameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
+import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
+import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
@@ -18,30 +21,35 @@ public class SuspendJob implements Job {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private SystemCommandService systemCommandService;
+  private KameHouseCommandService kameHouseCommandService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public SuspendJob(SystemCommandService systemCommandService) {
-    this.systemCommandService = systemCommandService;
+  public SuspendJob(KameHouseCommandService kameHouseCommandService) {
+    this.kameHouseCommandService = kameHouseCommandService;
   }
 
   public SuspendJob() {
     // empty constructor
   }
 
-  public SystemCommandService getSystemCommandService() {
-    return systemCommandService;
+  public KameHouseCommandService getKameHouseCommandService() {
+    return kameHouseCommandService;
   }
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public void setSystemCommandService(SystemCommandService systemCommandService) {
-    this.systemCommandService = systemCommandService;
+  public void setKameHouseCommandService(KameHouseCommandService kameHouseCommandService) {
+    this.kameHouseCommandService = kameHouseCommandService;
   }
 
+  /**
+   * Execute suspend job.
+   */
   public void execute(JobExecutionContext context) {
     logger.debug("Suspending the system now");
-    systemCommandService.execute(new SuspendKameHouseSystemCommand());
+    List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
+    kameHouseCommands.add(new SuspendKameHouseCommand());
+    kameHouseCommandService.execute(kameHouseCommands);
   }
 }

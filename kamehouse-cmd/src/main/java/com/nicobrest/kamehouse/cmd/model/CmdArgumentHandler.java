@@ -52,7 +52,8 @@ public class CmdArgumentHandler {
 
     ALL_OPTIONS.addOption(new Option("v", "verbose", false, "Verbose mode"));
     ALL_OPTIONS.addOption(new Option("if", "input-file", true, "Input file"));
-    ALL_OPTIONS.addOption(new Option("of", "output-file", true, "Output file"));
+    ALL_OPTIONS.addOption(
+        new Option("of", "output-file", true, "KameHouseCommandResult file"));
     ALL_OPTIONS.addOption(new Option("host", "host", true, "Host"));
     ALL_OPTIONS.addOption(new Option("password", "password", true, "Password"));
     ALL_OPTIONS.addOption(new Option("port", "port", true, "Port"));

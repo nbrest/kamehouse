@@ -8,13 +8,8 @@ if [ "$?" != "0" ]; then
 fi
 
 FILE_TO_PLAY=""
-START_FROM_SSH=false
 
 mainProcess() {
-  if ${START_FROM_SSH}; then
-    ${HOME}/programs/kamehouse-shell/bin/win/vlc/vlc-start-from-ssh.sh -f "${FILE_TO_PLAY}"
-    exitSuccessfully
-  fi
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
   vlc.exe ${FILE_TO_PLAY} &
@@ -32,9 +27,6 @@ parseArguments() {
       -f)
         FILE_TO_PLAY="${CURRENT_OPTION_ARG}"
         ;;
-      --start-from-ssh)
-        START_FROM_SSH=true
-        ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
         ;;        
@@ -48,7 +40,6 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-f file" "File to play" "r"
-  addHelpOption "--start-from-ssh" "Use this when starting vlc from ssh from a remote docker container"
 }
 
 main "$@"

@@ -27,7 +27,8 @@ class ErrorControllerTest {
   @BeforeEach
   void beforeTest() {
     MockitoAnnotations.openMocks(this);
-    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("404"));
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(
+        Integer.parseInt("404"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("mock message");
   }
 
@@ -43,7 +44,8 @@ class ErrorControllerTest {
 
   @Test
   void handleErrors400Test() {
-    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("400"));
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(
+        Integer.parseInt("400"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);
@@ -55,7 +57,8 @@ class ErrorControllerTest {
 
   @Test
   void handleErrors401Test() {
-    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("401"));
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(
+        Integer.parseInt("401"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);
@@ -67,7 +70,8 @@ class ErrorControllerTest {
 
   @Test
   void handleErrors403Test() {
-    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(new Integer("403"));
+    when(request.getAttribute("jakarta.servlet.error.status_code")).thenReturn(
+        Integer.parseInt("403"));
     when(request.getAttribute("jakarta.servlet.error.message")).thenReturn("");
     ResponseEntity<KameHouseApiErrorResponse> responseEntity = errorController.errors(request);
     assertNotNull(responseEntity);

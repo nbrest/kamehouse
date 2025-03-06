@@ -8,12 +8,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.RebootKameHouseSystemCommand;
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
-import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseSystemCommandControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandControllerTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import jakarta.servlet.ServletException;
 
 /**
  * Unit tests for PowerManagementController class.
@@ -36,7 +35,7 @@ import jakarta.servlet.ServletException;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-class PowerManagementControllerTest extends AbstractKameHouseSystemCommandControllerTest {
+class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTest {
 
   @InjectMocks
   private PowerManagementController powerManagementController;
@@ -46,7 +45,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
 
   @BeforeEach
   void beforeTest() {
-    kameHouseSystemCommandControllerTestSetup();
+    kameHouseCommandControllerTestSetup();
     mockMvc = MockMvcBuilders.standaloneSetup(powerManagementController).build();
   }
 
@@ -213,8 +212,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
    */
   @Test
   void rebootSuccessfulTest() throws Exception {
-    execPostKameHouseSystemCommandTest(
-        "/api/v1/admin/power-management/reboot", RebootKameHouseSystemCommand.class);
+    execPostKameHouseCommandsTest("/api/v1/admin/power-management/reboot");
   }
 
   /**
@@ -225,7 +223,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
     doNothing().when(powerManagementService).wakeOnLan(anyString(), anyString());
 
     MockHttpServletResponse response =
-        doPost("/api/v1/admin/power-management/wol" + "?server=media.server");
+        doPost("/api/v1/admin/power-management/wol?server=media.server");
 
     assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }
@@ -239,8 +237,7 @@ class PowerManagementControllerTest extends AbstractKameHouseSystemCommandContro
 
     MockHttpServletResponse response =
         doPost(
-            "/api/v1/admin/power-management/wol"
-                + "?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.0.255");
+            "/api/v1/admin/power-management/wol?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.0.255");
 
     assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }

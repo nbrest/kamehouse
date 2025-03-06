@@ -1,14 +1,16 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.RebootKameHouseSystemCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.RebootKameHouseCommand;
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
-import com.nicobrest.kamehouse.commons.controller.AbstractSystemCommandController;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandController;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
-import com.nicobrest.kamehouse.commons.model.systemcommand.SystemCommand;
-import com.nicobrest.kamehouse.commons.service.SystemCommandService;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/v1/admin/power-management")
-public class PowerManagementController extends AbstractSystemCommandController {
+public class PowerManagementController extends AbstractKameHouseCommandController {
 
   private PowerManagementService powerManagementService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public PowerManagementController(PowerManagementService powerManagementService,
-      SystemCommandService systemCommandService) {
-    super(systemCommandService);
+      KameHouseCommandService kameHouseCommandService) {
+    super(kameHouseCommandService);
     this.powerManagementService = powerManagementService;
   }
 
@@ -111,8 +113,10 @@ public class PowerManagementController extends AbstractSystemCommandController {
    * Reboot the server.
    */
   @PostMapping(path = "/reboot")
-  public ResponseEntity<List<SystemCommand.Output>> reboot() {
-    return execKameHouseSystemCommand(new RebootKameHouseSystemCommand());
+  public ResponseEntity<List<KameHouseCommandResult>> reboot() {
+    List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
+    kameHouseCommands.add(new RebootKameHouseCommand());
+    return execKameHouseCommands(kameHouseCommands);
   }
 
   /**
