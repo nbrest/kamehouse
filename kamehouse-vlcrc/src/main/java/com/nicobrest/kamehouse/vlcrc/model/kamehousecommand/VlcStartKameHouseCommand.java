@@ -52,7 +52,7 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return List.of("-f", "'" + filename + "'");
+    return List.of("-f", filename);
   }
 
   @Override
@@ -62,7 +62,7 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScriptArguments() {
-    return "-f " + "'" + filename + "'";
+    return "-f " + filename;
   }
 
   /**
@@ -88,8 +88,8 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
    * code execution.
    */
   private static void validateRemoteFile(String filename) {
-    if (filename == null) {
-      throw new KameHouseInvalidCommandException("Empty file");
+    if (StringUtils.isEmpty(filename)) {
+      throw new KameHouseInvalidCommandException("Empty file provided to vlc start");
     }
   }
 }

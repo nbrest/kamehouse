@@ -37,7 +37,7 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return List.of("-f", "'" + playlistFilename + "'");
+    return List.of("-f", playlistFilename);
   }
 
   @Override
@@ -50,6 +50,6 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
     if (StringUtils.isEmpty(playlistFilename)) {
       return null;
     }
-    return "-f '" + playlistFilename.replace("\\", "/") + "'";
+    return "-f " + playlistFilename.replace("\\", "/");
   }
 }
