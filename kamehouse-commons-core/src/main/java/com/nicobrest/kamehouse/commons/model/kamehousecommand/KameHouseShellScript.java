@@ -72,6 +72,12 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
 
   /**
    * Get the arguments to pass to the kamehouse-shell script.
+   *
+   * <p>Avoid using quotes, escape characters such as \\ and other characters that could break the
+   * script execution in windows or even in linux. Though it's more unlikely they will break in
+   * linux. If I need to pass special characters to the scripts as arguments, consider encoding the
+   * arguments with either base64, base64url, urlencode or other encoding that will not break the
+   * execution on the shell or break while being transferred to a remote server via groot api.</p>
    */
   protected abstract List<String> getWindowsKameHouseShellScriptArguments();
 
@@ -82,6 +88,8 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
 
   /**
    * Get the arguments to pass to the kamehouse-shell script.
+   *
+   * <p>Same as for windows arguments. Avoid certain characters that can break the flow.</p>
    */
   protected abstract String getLinuxKameHouseShellScriptArguments();
 
