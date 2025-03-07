@@ -8,8 +8,10 @@ if [ "$?" != "0" ]; then
 fi
 
 FILE_TO_PLAY=""
+VLC_LOG_FILE="${HOME}/logs/vlc.log"
 
 mainProcess() {
+  rotateVlcLog
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
   if [ -z "${DISPLAY}" ]; then
@@ -19,6 +21,13 @@ mainProcess() {
     export XDG_RUNTIME_DIR=/run/user/$(id -u)
   fi
   vlc ${FILE_TO_PLAY} &
+}
+
+rotateVlcLog() {
+  log.trace "Rotating vlc logs"
+  if [ -f "${VLC_LOG_FILE}" ]; then
+    mv ${VLC_LOG_FILE} ${VLC_LOG_FILE}.old
+  fi
 }
 
 parseArguments() {
