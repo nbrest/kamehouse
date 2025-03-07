@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.media.video.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
 import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -45,6 +46,7 @@ public class VideoPlaylistController extends AbstractController {
   @GetMapping(path = "/playlist")
   public ResponseEntity<Playlist> getPlaylist(
       @RequestParam(value = "path", required = true) String path) {
+    InputValidator.validateForbiddenCharsForShell(path);
     Playlist playlist = videoPlaylistService.getPlaylist(StringUtils.sanitize(path), true);
     return generateGetResponseEntity(playlist);
   }

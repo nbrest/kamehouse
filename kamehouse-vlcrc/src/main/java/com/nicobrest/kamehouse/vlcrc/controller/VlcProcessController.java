@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStartKameHouseCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatusKameHouseCommand;
 import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStopKameHouseCommand;
@@ -40,6 +41,7 @@ public class VlcProcessController extends AbstractKameHouseCommandController {
   @PostMapping(path = "/vlc-process")
   public ResponseEntity<List<KameHouseCommandResult>> startVlcPlayer(
       @RequestParam(value = "file", required = true) String file) {
+    InputValidator.validateForbiddenCharsForShell(file);
     String fileSanitized = StringUtils.sanitize(file, INPUT_FILE_SANITIZER_REGEX);
     List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
     kameHouseCommands.add(new VlcStopKameHouseCommand(2));

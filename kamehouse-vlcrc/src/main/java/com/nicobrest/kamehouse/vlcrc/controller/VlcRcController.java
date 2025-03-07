@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
@@ -41,6 +42,7 @@ public class VlcRcController extends AbstractController {
    */
   @GetMapping(path = "/{hostname}/status")
   public ResponseEntity<VlcRcStatus> getVlcRcStatus(@PathVariable String hostname) {
+    InputValidator.validateForbiddenCharsForShell(hostname);
     String hostnameSanitized = StringUtils.sanitize(hostname);
     VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(hostnameSanitized);
     return generateGetResponseEntity(vlcRcStatus, false);
@@ -52,6 +54,7 @@ public class VlcRcController extends AbstractController {
   @PostMapping(path = "/{hostname}/commands")
   public ResponseEntity<VlcRcStatus> execCommand(
       @RequestBody VlcRcCommand vlcRcCommand, @PathVariable String hostname) {
+    InputValidator.validateForbiddenCharsForShell(hostname);
     String hostnameSanitized = StringUtils.sanitize(hostname);
     VlcRcStatus vlcRcStatus = vlcRcService.execute(vlcRcCommand, hostnameSanitized);
     return generatePostResponseEntity(vlcRcStatus, false);
@@ -62,6 +65,7 @@ public class VlcRcController extends AbstractController {
    */
   @GetMapping(path = "/{hostname}/playlist")
   public ResponseEntity<List<VlcRcPlaylistItem>> getPlaylist(@PathVariable String hostname) {
+    InputValidator.validateForbiddenCharsForShell(hostname);
     String hostnameSanitized = StringUtils.sanitize(hostname);
     List<VlcRcPlaylistItem> vlcPlaylist = vlcRcService.getPlaylist(hostnameSanitized);
     return generateGetResponseEntity(vlcPlaylist, false);
@@ -73,6 +77,8 @@ public class VlcRcController extends AbstractController {
   @GetMapping(path = "/{hostname}/browse")
   public ResponseEntity<List<VlcRcFileListItem>> browse(
       @RequestParam(value = "uri", required = false) String uri, @PathVariable String hostname) {
+    InputValidator.validateForbiddenCharsForShell(uri);
+    InputValidator.validateForbiddenCharsForShell(hostname);
     String uriSanitized = StringUtils.sanitize(uri);
     String hostnameSanitized = StringUtils.sanitize(hostname);
     List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uriSanitized, hostnameSanitized);

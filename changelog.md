@@ -7,6 +7,7 @@
 
 #### v10.01
 
+- Updated input validation in most endpoints to block forbidden chars for shell execution
 - Added isDaemon option to execute shell scripts via groot
 - Added html output lists to KameHouseCommandResult and moved conversion of outputs to html to the backend
 - Moved standardOutput to be returned as a list rather than a string in groot execute as well

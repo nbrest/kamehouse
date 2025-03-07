@@ -73,7 +73,7 @@ public class VideoPlaylistService {
    * Get the specified playlist from the docker host.
    */
   private static Playlist getPlaylistFromDockerHost(String playlistFilename, boolean fetchContent) {
-    playlistFilename = playlistFilename.replaceAll("\\\\", "/");
+    playlistFilename = playlistFilename.replace("\\", "/");
     logger.trace("getPlaylistFromDockerHost {}", playlistFilename);
     Path basePlaylistsPath = getBasePlaylistsPathFromDockerHost();
     Playlist playlist = new Playlist();
@@ -190,7 +190,7 @@ public class VideoPlaylistService {
     String playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH, DEFAULT_PLAYLISTS_PATH);
     String videoPlaylistsHome = userHome + "/" + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
-      videoPlaylistsHome = videoPlaylistsHome.replaceAll("/", "\\");
+      videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
     }
     return Paths.get(videoPlaylistsHome);
   }
@@ -233,7 +233,7 @@ public class VideoPlaylistService {
    * Gets the category of the playlist based on the base path.
    */
   private static String getCategoryFromDockerHost(String absoluteBasePath, String filePath) {
-    absoluteBasePath = absoluteBasePath.replaceAll("\\\\", "/");
+    absoluteBasePath = absoluteBasePath.replace("\\", "/");
     int basePathLength = absoluteBasePath.length();
     String absoluteParentFilePath = StringUtils.substringBeforeLast(filePath, "/");
     String categoryFilePath = StringUtils.substringBeforeLast(absoluteParentFilePath, "/");

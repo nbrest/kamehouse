@@ -1,10 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model.kamehousecommand;
 
-import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidCommandException;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
-import com.nicobrest.kamehouse.commons.utils.DockerUtils;
-import com.nicobrest.kamehouse.commons.utils.FileUtils;
-import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import java.util.List;
 
 /**
@@ -21,8 +18,8 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
    */
   public VlcStartKameHouseCommand(String filename) {
     super();
-    validateFilename(filename);
-    this.filename = filename.replaceAll("\\\\", "/");
+    InputValidator.validateForbiddenCharsForShell(filename);
+    this.filename = filename.replace("\\", "/");
   }
 
   @Override
@@ -63,33 +60,5 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
   @Override
   protected String getLinuxKameHouseShellScriptArguments() {
     return "-f " + filename;
-  }
-
-  /**
-   * Validate filename parameter.
-   */
-  private void validateFilename(String filename) {
-    if (StringUtils.isEmpty(filename)) {
-      throw new KameHouseInvalidCommandException("No file specified to play on vlc");
-    }
-    if (FileUtils.isRemoteFile(filename) || DockerUtils.shouldExecuteOnDockerHost(
-        executeOnDockerHost())) {
-      validateRemoteFile(filename);
-    } else {
-      if (!FileUtils.isValidLocalFile(filename)) {
-        throw new KameHouseInvalidCommandException(
-            "File to play doesn't exist on the server: " + filename);
-      }
-    }
-  }
-
-  /**
-   * Throw an exception if the filename contains unauthorized characters that could allow remote
-   * code execution.
-   */
-  private static void validateRemoteFile(String filename) {
-    if (StringUtils.isEmpty(filename)) {
-      throw new KameHouseInvalidCommandException("Empty file provided to vlc start");
-    }
   }
 }

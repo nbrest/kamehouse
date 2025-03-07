@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.model.KameHouseCache;
 import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class EhCacheController extends AbstractController {
   @GetMapping
   public ResponseEntity<List<KameHouseCache>> read(
       @RequestParam(value = "name", required = false) String cacheName) {
+    InputValidator.validateForbiddenCharsForShell(cacheName);
     String cacheNameSanitized = StringUtils.sanitize(cacheName);
     List<KameHouseCache> cacheList;
     if (!StringUtils.isEmpty(cacheNameSanitized)) {
@@ -57,6 +59,7 @@ public class EhCacheController extends AbstractController {
   @DeleteMapping
   public ResponseEntity<Void> clear(
       @RequestParam(value = "name", required = false) String cacheName) {
+    InputValidator.validateForbiddenCharsForShell(cacheName);
     String cacheNameSanitized = StringUtils.sanitize(cacheName);
     if (!StringUtils.isEmpty(cacheNameSanitized)) {
       ehCacheService.clear(cacheNameSanitized);

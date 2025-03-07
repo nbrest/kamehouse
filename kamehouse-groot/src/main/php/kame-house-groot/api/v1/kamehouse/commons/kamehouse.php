@@ -314,6 +314,9 @@ class StringUtils {
       $isValidInputForShell = false;
     }
 
+    /**
+     * When I update the forbidden chars here I also need to update them in InputValidator.java
+     */
     $forbiddenChars = array(">", "<", ";", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "#", ",", "`", "´", "..", "%", "!", "$", "?");
     foreach ($forbiddenChars as $forbiddenChar) {
       if($this->hasForbiddenCharSequence($param, $forbiddenChar)) {

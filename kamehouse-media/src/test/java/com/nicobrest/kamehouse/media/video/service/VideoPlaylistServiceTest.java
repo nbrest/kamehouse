@@ -134,7 +134,7 @@ class VideoPlaylistServiceTest {
 
     for (Playlist playlist : expectedPlaylists) {
       // for playlists using docker controlling remote host the playlists path are /
-      playlist.setPath(playlist.getPath().replaceAll("\\\\", "/"));
+      playlist.setPath(playlist.getPath().replace("\\", "/"));
     }
     videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
   }

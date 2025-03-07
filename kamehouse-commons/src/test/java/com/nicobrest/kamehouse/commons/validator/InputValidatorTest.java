@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.validator;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
@@ -35,5 +36,31 @@ class InputValidatorTest {
         () -> {
           InputValidator.validateStringLength(username);
         });
+  }
+
+  /**
+   * Tests the success flow of validateForbiddenCharsForShell.
+   */
+  @Test
+  void validateForbiddenCharsForShellSuccessTest() {
+    String arg = "-m module ";
+    assertDoesNotThrow(() -> {
+      InputValidator.validateForbiddenCharsForShell(arg);
+    });
+  }
+
+  /**
+   * Tests the failure flow of validateForbiddenCharsForShell.
+   */
+  @Test
+  void validateForbiddenCharsForShellExceptionTest() {
+    InputValidator.FORBIDDEN_CHARS_FOR_SHELL.forEach(forbiddenChar -> {
+      String arg = "-m module " + forbiddenChar;
+      assertThrows(
+          KameHouseInvalidDataException.class,
+          () -> {
+            InputValidator.validateForbiddenCharsForShell(arg);
+          });
+    });
   }
 }

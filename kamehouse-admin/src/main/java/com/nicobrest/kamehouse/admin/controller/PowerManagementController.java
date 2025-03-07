@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +128,9 @@ public class PowerManagementController extends AbstractKameHouseCommandControlle
       @RequestParam(value = "server", required = false) String server,
       @RequestParam(value = "mac", required = false) String mac,
       @RequestParam(value = "broadcast", required = false) String broadcast) {
+    InputValidator.validateForbiddenCharsForShell(server);
+    InputValidator.validateForbiddenCharsForShell(mac);
+    InputValidator.validateForbiddenCharsForShell(broadcast);
     String serverSanitized = StringUtils.sanitize(server);
     String macSanitized = StringUtils.sanitize(mac);
     String broadcastSanitized = StringUtils.sanitize(broadcast);

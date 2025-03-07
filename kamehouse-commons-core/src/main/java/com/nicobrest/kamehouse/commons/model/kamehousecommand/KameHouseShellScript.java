@@ -77,7 +77,9 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
    * script execution in windows or even in linux. Though it's more unlikely they will break in
    * linux. If I need to pass special characters to the scripts as arguments, consider encoding the
    * arguments with either base64, base64url, urlencode or other encoding that will not break the
-   * execution on the shell or break while being transferred to a remote server via groot api.</p>
+   * execution on the shell or break while being transferred to a remote server via groot api. But
+   * if I do use some encoding, I need to validate the decoded string in the script before
+   * processing it</p>
    */
   protected abstract List<String> getWindowsKameHouseShellScriptArguments();
 

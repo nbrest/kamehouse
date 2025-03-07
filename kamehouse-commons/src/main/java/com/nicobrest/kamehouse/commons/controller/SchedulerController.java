@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.controller;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.service.SchedulerService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
+import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.quartz.JobKey;
@@ -48,6 +49,8 @@ public class SchedulerController extends AbstractController {
   public ResponseEntity<List<KameHouseJob>> cancelJob(
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group) {
+    InputValidator.validateForbiddenCharsForShell(name);
+    InputValidator.validateForbiddenCharsForShell(group);
     String nameSanitized = StringUtils.sanitize(name);
     String groupSanitized = StringUtils.sanitize(group);
     JobKey jobKey = new JobKey(nameSanitized, groupSanitized);
@@ -64,6 +67,8 @@ public class SchedulerController extends AbstractController {
       @RequestParam(value = "name", required = true) String name,
       @RequestParam(value = "group", required = true) String group,
       @RequestParam(value = "delay", required = true) Integer delay) {
+    InputValidator.validateForbiddenCharsForShell(name);
+    InputValidator.validateForbiddenCharsForShell(group);
     String nameSanitized = StringUtils.sanitize(name);
     String groupSanitized = StringUtils.sanitize(group);
     JobKey jobKey = new JobKey(nameSanitized, groupSanitized);
