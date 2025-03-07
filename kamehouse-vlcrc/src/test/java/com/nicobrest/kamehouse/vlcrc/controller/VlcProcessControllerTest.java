@@ -43,7 +43,7 @@ class VlcProcessControllerTest extends AbstractKameHouseCommandControllerTest {
    */
   @Test
   void startVlcExceptionTest() {
-    execPostInvalidKameHouseCommandsTest("/api/v1/vlc-rc/vlc-process?file=invalid-file");
+    execPostInvalidKameHouseCommandsTest("/api/v1/vlc-rc/vlc-process?file=invalid..-file");
   }
 
   /**
