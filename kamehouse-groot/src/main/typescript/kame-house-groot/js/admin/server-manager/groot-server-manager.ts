@@ -277,7 +277,7 @@ class DeploymentManager {
    */
   getTomcatModulesStatus() {
     const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, 60, (scriptOutput) => this.#displayTomcatModulesStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesStatus(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -286,19 +286,19 @@ class DeploymentManager {
   getNonTomcatModulesStatus() {
     kameHouse.logger.debug("Getting non tomcat modules status", null);
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 60, 
-      (scriptOutput) => this.#displayModuleCmdStatus(scriptOutput), 
+      (kameHouseCommandResult) => this.#displayModuleCmdStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-cmd-build-version-val", "Error getting data");  
         kameHouse.util.dom.setHtmlById("mst-cmd-build-date-val", "Error getting data");   
       });
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, 60, 
-      (scriptOutput) => this.#displayModuleGrootStatus(scriptOutput), 
+      (kameHouseCommandResult) => this.#displayModuleGrootStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-groot-build-version-val", "Error getting data");   
         kameHouse.util.dom.setHtmlById("mst-groot-build-date-val", "Error getting data");   
       });
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, 60, 
-      (scriptOutput) => this.#displayModuleShellStatus(scriptOutput), 
+      (kameHouseCommandResult) => this.#displayModuleShellStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-shell-build-version-val", "Error getting data");
         kameHouse.util.dom.setHtmlById("mst-shell-build-date-val", "Error getting data");   
@@ -311,7 +311,7 @@ class DeploymentManager {
   getTomcatProcessStatus() {
     const hostOs = kameHouse.extension.serverManager.getHostOs();
     const args = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, 60, (scriptOutput) => this.#displayTomcatProcessStatus(scriptOutput), () => {});
+    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
   }
   
   /**
@@ -480,13 +480,13 @@ class DeploymentManager {
   /**
    * Render tomcat modules status.
    */
-  #displayTomcatModulesStatus(scriptOutput) {
+  #displayTomcatModulesStatus(kameHouseCommandResult) {
     kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
-    scriptOutput.standardOutputHtml.forEach((scriptOutputLine) => {
-      if (scriptOutputLine.startsWith("/kame-house")) {
-        const scriptOutputLineArray = scriptOutputLine.split(":");
-        const webapp = scriptOutputLineArray[0];
-        const status = scriptOutputLineArray[1];
+    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+      if (line.startsWith("/kame-house")) {
+        const lineArray = line.split(":");
+        const webapp = lineArray[0];
+        const status = lineArray[1];
         const module = this.#getModule(webapp);
         if (status == "running") {
           kameHouse.util.dom.setHtmlById("mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallGreenImg, true));
@@ -502,37 +502,37 @@ class DeploymentManager {
   /**
    * Render cmd module status.
    */
-  #displayModuleCmdStatus(scriptOutput) {
-    this.#displayNonTomcatModuleStatus(scriptOutput, "cmd");
+  #displayModuleCmdStatus(kameHouseCommandResult) {
+    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "cmd");
   }
 
   /**
    * Render groot module status.
    */
-  #displayModuleGrootStatus(scriptOutput) {
-    this.#displayNonTomcatModuleStatus(scriptOutput, "groot");
+  #displayModuleGrootStatus(kameHouseCommandResult) {
+    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "groot");
   }
 
   /**
    * Render shell module status.
    */
-  #displayModuleShellStatus(scriptOutput) {
-    this.#displayNonTomcatModuleStatus(scriptOutput, "shell");
+  #displayModuleShellStatus(kameHouseCommandResult) {
+    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "shell");
   }
 
   /**
    * Render non tomcat module status.
    */
-  #displayNonTomcatModuleStatus(scriptOutput, module) {
-    scriptOutput.standardOutputHtml.forEach((scriptOutputLine) => {
-      if (scriptOutputLine.startsWith("buildVersion")) {
-        const scriptOutputLineArray = scriptOutputLine.split("=");
-        const buildVersion = scriptOutputLineArray[1];
+  #displayNonTomcatModuleStatus(kameHouseCommandResult, module) {
+    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+      if (line.startsWith("buildVersion")) {
+        const lineArray = line.split("=");
+        const buildVersion = lineArray[1];
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", buildVersion);    
       }
-      if (scriptOutputLine.startsWith("buildDate")) {
-        const scriptOutputLineArray = scriptOutputLine.split("=");
-        const buildDate = scriptOutputLineArray[1];
+      if (line.startsWith("buildDate")) {
+        const lineArray = line.split("=");
+        const buildDate = lineArray[1];
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-date-val", buildDate);    
       }
     });
@@ -541,19 +541,21 @@ class DeploymentManager {
   /**
    * Render tomcat process status.
    */
-  #displayTomcatProcessStatus(scriptOutput) {
+  #displayTomcatProcessStatus(kameHouseCommandResult) {
     const tomcatProcessStatusDivId = "tomcat-process-status-val";
     const tomcatProcessStatusDiv = document.getElementById(tomcatProcessStatusDivId);
     kameHouse.util.dom.empty(tomcatProcessStatusDiv);
-    scriptOutput.standardOutputHtml.forEach((scriptOutputLine) => {
-      if (!scriptOutputLine.includes("Started executing") && 
-          !scriptOutputLine.includes("Finished executing") &&
-          !scriptOutputLine.includes("Script start time: ") &&
-          !scriptOutputLine.includes("Searching for tomcat process") &&
-          !scriptOutputLine.includes("TCP") &&
-          !scriptOutputLine.includes("tcp") &&
-          !scriptOutputLine.includes("Executing script")) {
-        kameHouse.util.dom.append(tomcatProcessStatusDiv, scriptOutputLine);
+    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+      if (!line.includes("Started executing") && 
+          !line.includes("Finished executing") &&
+          !line.includes("Script start time: ") &&
+          !line.includes("Searching for tomcat process") &&
+          !line.includes("Not all processes could be identified, non-owned process info") &&
+          !line.includes("will not be shown, you would have to be root to see it all.") &&
+          !line.includes("will not be shown, you would have to be root to see it all.") &&
+          !line.includes("Validating command line arguments") &&
+          !line.includes("Executing script")) {
+        kameHouse.util.dom.append(tomcatProcessStatusDiv, line);
         kameHouse.util.dom.append(tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
       }
     });

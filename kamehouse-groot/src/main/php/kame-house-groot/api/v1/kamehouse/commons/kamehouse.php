@@ -221,7 +221,7 @@ class StringUtils {
 
   /** 
    * Replaces bash colors in the input string for the equivalent css styled color.
-   * When updating color mappings here, also update them on kamehouse.js
+   * When updating color mappings here, also update them on KameHouseCommandResult.java
    */
   public function convertBashColorsToHtml($bashOutput) {
     $colorMappings = array(

@@ -1,24 +1,21 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -62,38 +59,26 @@ public class DockerUtils {
     }
     KameHouseShellScript kameHouseShellScript = (KameHouseShellScript) kameHouseCommand;
     kameHouseShellScript.init();
-    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(
-        kameHouseShellScript);
     HttpClient client = getGrootExecuteHttpClient();
     HttpGet request = HttpClientUtils.httpGet(getDockerHostGrootExecuteUrl(kameHouseShellScript));
     try {
       loginToGroot(client);
       HttpResponse response = HttpClientUtils.execRequest(client, request);
-      try (InputStream resInStream = HttpClientUtils.getInputStream(response);
-          BufferedReader responseReader =
-              new BufferedReader(new InputStreamReader(resInStream, StandardCharsets.UTF_8))) {
-        StringBuilder responseBodyStr = new StringBuilder();
-        String line = "";
-        while ((line = responseReader.readLine()) != null) {
-          responseBodyStr.append(line);
-        }
-        String responseBody = responseBodyStr.toString();
+      try (InputStream inputStream = HttpClientUtils.getInputStream(response)) {
+        String responseBody = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
         LOGGER.debug("Groot responseBody: {}", responseBody);
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode responseBodyJson = mapper.readTree(responseBody);
-        JsonNode standardOuput = responseBodyJson.get("standardOuput");
-        if (standardOuput != null) {
-          kameHouseCommandResult.setStandardOutput(Arrays.asList(standardOuput.asText()));
-          kameHouseCommandResult.setExitCode(0);
-          kameHouseCommandResult.setStatus(KameHouseCommandStatus.COMPLETED.getStatus());
-          return kameHouseCommandResult;
-        }
+        return mapper.readValue(responseBody, KameHouseCommandResult.class);
       }
     } catch (IOException e) {
       LOGGER.error("Error sending groot execute request. Message: {}", e.getMessage());
     }
+    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(
+        kameHouseShellScript);
     kameHouseCommandResult.setExitCode(1);
+    kameHouseCommandResult.setPid(-1);
     kameHouseCommandResult.setStatus(KameHouseCommandStatus.FAILED.getStatus());
+    kameHouseCommandResult.setHtmlOutputs();
     return kameHouseCommandResult;
   }
 

@@ -21,8 +21,8 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
    */
   public VlcStartKameHouseCommand(String filename) {
     super();
-    this.filename = filename;
     validateFilename(filename);
+    this.filename = filename.replaceAll("\\\\", "/");
   }
 
   @Override
@@ -70,7 +70,7 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
    */
   private void validateFilename(String filename) {
     if (StringUtils.isEmpty(filename)) {
-      return;
+      throw new KameHouseInvalidCommandException("No file specified to play on vlc");
     }
     if (FileUtils.isRemoteFile(filename) || DockerUtils.shouldExecuteOnDockerHost(
         executeOnDockerHost())) {

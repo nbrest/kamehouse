@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseCommandResultCoreTestUtils;
 import java.io.IOException;
@@ -64,13 +63,15 @@ class DockerUtilsTest {
     when(HttpClientUtils.getInputStream(any())).thenReturn(
         getInputStream("docker-utils/groot-execute-response-success-win.json"));
 
-    KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
-        new TestDaemonCommand());
+    var result = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
 
-    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), kameHouseCommandResult.getStatus());
-    assertEquals(0, kameHouseCommandResult.getExitCode());
-    assertNotNull(kameHouseCommandResult.getStandardOutput());
-    assertTrue(!kameHouseCommandResult.getStandardOutput().isEmpty());
+    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), result.getStatus());
+    assertEquals(-1, result.getExitCode());
+    assertEquals(-1, result.getPid());
+    assertEquals(17, result.getStandardOutput().size());
+    assertEquals(17, result.getStandardOutputHtml().size());
+    assertEquals(0, result.getStandardError().size());
+    assertEquals(0, result.getStandardErrorHtml().size());
   }
 
   /**
@@ -82,13 +83,15 @@ class DockerUtilsTest {
     when(HttpClientUtils.getInputStream(any())).thenReturn(
         getInputStream("docker-utils/groot-execute-response-success-lin.json"));
 
-    KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
-        new TestDaemonCommand());
+    var result = DockerUtils.executeOnDockerHost(new TestDaemonCommand());
 
-    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), kameHouseCommandResult.getStatus());
-    assertEquals(0, kameHouseCommandResult.getExitCode());
-    assertNotNull(kameHouseCommandResult.getStandardOutput());
-    assertTrue(!kameHouseCommandResult.getStandardOutput().isEmpty());
+    assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), result.getStatus());
+    assertEquals(-1, result.getExitCode());
+    assertEquals(-1, result.getPid());
+    assertEquals(19, result.getStandardOutput().size());
+    assertEquals(19, result.getStandardOutputHtml().size());
+    assertEquals(0, result.getStandardError().size());
+    assertEquals(0, result.getStandardErrorHtml().size());
   }
 
   /**

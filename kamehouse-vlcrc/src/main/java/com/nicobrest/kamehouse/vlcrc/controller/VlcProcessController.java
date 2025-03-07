@@ -39,7 +39,7 @@ public class VlcProcessController extends AbstractKameHouseCommandController {
    */
   @PostMapping(path = "/vlc-process")
   public ResponseEntity<List<KameHouseCommandResult>> startVlcPlayer(
-      @RequestParam(value = "file", required = false) String file) {
+      @RequestParam(value = "file", required = true) String file) {
     String fileSanitized = StringUtils.sanitize(file, INPUT_FILE_SANITIZER_REGEX);
     List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
     kameHouseCommands.add(new VlcStopKameHouseCommand(2));

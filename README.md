@@ -129,12 +129,6 @@ KameHouse interacts with other applications that need to be installed on the ser
 - Store encrypted vnc server password as described in [kamehouse-cmd](/kamehouse-cmd/README.md)
 - VNC protocol is used for example to send a doble mouse click to toggle fullscreen on a vlc player, which works much more reliably than vlc's native fullscreen toggle. Another usage is to unlock a locked screen
 
-### PSTools (windows)
-- PSTools is only needed when controlling a remote windows host from a kamehouse docker container. It is not needed when kamehouse is running natively on a windows machine
-- Download [PSTools](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) 
-- It is used to start vlc player and can be used to run other GUI commands on windows over ssh, when controlling a remote host from a docker container
-- Download the zip file and extract to `${HOME}/programs/pstools` on the windows host that needs to be controlled by docker containers
-
 ### Gnome Screensaver Command (linux)
 - Download [gnome-screensaver-command](http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
 - It is needed lock screen from kamehouse in debian/ubuntu based **Linux**

@@ -6,7 +6,7 @@
 class KameHouseShell {
 
   #executeAPI = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
-  #bashScriptOutput = "Script output not set yet.";
+  #standardOutput = "Script output not set yet.";
 
   /**
    * Load the kamehouse shell extension.
@@ -42,8 +42,8 @@ class KameHouseShell {
   /**
    * Get bash script output.
    */
-  getBashScriptOutput() {
-    return this.#bashScriptOutput;
+  getBashScriptStandardOutput() {
+    return this.#standardOutput;
   }
 
   /**
@@ -62,39 +62,39 @@ class KameHouseShell {
 
   /** Update the script script output with the result of the script */
   #updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback) {
-    const scriptOutputArray = responseBody.standardOutputHtml;
-    this.#bashScriptOutput = responseBody.standardOuput;
+    const standardOutputHtml = responseBody.standardOutputHtml;
+    this.#standardOutput = responseBody.standardOutput;
     const scriptOutputTableBody = document.getElementById('kamehouse-shell-output-table-body');
     kameHouse.util.dom.empty(scriptOutputTableBody);
     const tbody = this.#getScriptOutputTbody();
 
-    const scriptOutputLength = scriptOutputArray.length;
-    if (scriptOutputLength < 400) {
+    const standardOutputHtmlLength = standardOutputHtml.length;
+    if (standardOutputHtmlLength < 400) {
       // Show full output
-      for (let i = 0; i < scriptOutputLength; i++) {
-        if (scriptOutputArray[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(scriptOutputArray[i]));
+      for (let i = 0; i < standardOutputHtmlLength; i++) {
+        if (standardOutputHtml[i].trim().length > 0) {
+          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(standardOutputHtml[i]));
         }
       }
     } else {
       // Show only the first x and last y lines
       for (let i = 0; i < 50; i++) {
-        if (scriptOutputArray[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(scriptOutputArray[i]));
+        if (standardOutputHtml[i].trim().length > 0) {
+          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(standardOutputHtml[i]));
         }
       }
        
       kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
       kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
       kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
-      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + scriptOutputLength + " ..."));
+      kameHouse.util.dom.append(tbody, this.#getScriptOutputTr("... Script output is too long. Showing first and last lines. Total lines " + standardOutputHtmlLength + " ..."));
       kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
       kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
       kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(" "));
 
-      for (let i = scriptOutputLength - 350; i < scriptOutputLength; i++) {
-        if (scriptOutputArray[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(scriptOutputArray[i]));
+      for (let i = standardOutputHtmlLength - 350; i < standardOutputHtmlLength; i++) {
+        if (standardOutputHtml[i].trim().length > 0) {
+          kameHouse.util.dom.append(tbody, this.#getScriptOutputTr(standardOutputHtml[i]));
         }
       }
     }

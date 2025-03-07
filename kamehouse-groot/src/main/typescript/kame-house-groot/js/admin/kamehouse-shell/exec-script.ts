@@ -157,7 +157,7 @@ class ExecScriptLoader {
    */
   #getDownloadLink(timestamp) {
     return kameHouse.util.dom.getA({
-      href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.getShell().getBashScriptOutput()),
+      href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.getShell().getBashScriptStandardOutput()),
       download:  "kamehouse-shell-output-" + timestamp + ".log",
       class: "hidden-kh"
     }, null);

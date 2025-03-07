@@ -2,7 +2,6 @@ package com.nicobrest.kamehouse.media.video.service;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
-import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.video.model.Playlist;
@@ -14,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
@@ -75,11 +73,11 @@ public class VideoPlaylistService {
    * Get the specified playlist from the docker host.
    */
   private static Playlist getPlaylistFromDockerHost(String playlistFilename, boolean fetchContent) {
+    playlistFilename = playlistFilename.replaceAll("\\\\", "/");
     logger.trace("getPlaylistFromDockerHost {}", playlistFilename);
     Path basePlaylistsPath = getBasePlaylistsPathFromDockerHost();
     Playlist playlist = new Playlist();
-    String name = StringUtils.substringAfterLast(playlistFilename,
-        FileUtils.getHostPathSeparator());
+    String name = StringUtils.substringAfterLast(playlistFilename, "/");
     playlist.setName(name);
     String category = getCategoryFromDockerHost(basePlaylistsPath.toString(), playlistFilename);
     playlist.setCategory(category);
@@ -130,11 +128,11 @@ public class VideoPlaylistService {
     KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
         listPlaylistsCommand);
     List<Playlist> playlists = new ArrayList<>();
-    String shellOutput = kameHouseCommandResult.getStandardOutput().get(0);
-    if (StringUtils.isEmpty(shellOutput)) {
+    List<String> standardOutput = kameHouseCommandResult.getStandardOutput();
+    if (standardOutput == null || standardOutput.isEmpty()) {
       return playlists;
     }
-    List<String> playlistFilePaths = getPlaylistFilePaths(shellOutput);
+    List<String> playlistFilePaths = getPlaylistFilePaths(standardOutput);
     for (String playlistFilePath : playlistFilePaths) {
       Playlist playlist = getPlaylist(playlistFilePath, fetchContent);
       if (playlist != null) {
@@ -147,10 +145,10 @@ public class VideoPlaylistService {
   /**
    * Get the file paths for all the playlists from the remote shell kameHouseCommandResult.
    */
-  private static List<String> getPlaylistFilePaths(String shellOutput) {
-    List<String> playlistFilePaths = Arrays.stream(shellOutput.split("\n"))
-        .filter(e -> e.contains(".m3u"))
-        .map(e -> StringUtils.substringBeforeLast(e, ".m3u") + ".m3u")
+  private static List<String> getPlaylistFilePaths(List<String> standardOutput) {
+    List<String> playlistFilePaths = standardOutput.stream()
+        .filter(line -> line.contains(".m3u"))
+        .map(line -> StringUtils.substringBeforeLast(line, ".m3u") + ".m3u")
         .toList();
     if (logger.isTraceEnabled()) {
       logger.trace(playlistFilePaths.toString());
@@ -192,7 +190,7 @@ public class VideoPlaylistService {
     String playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH, DEFAULT_PLAYLISTS_PATH);
     String videoPlaylistsHome = userHome + "/" + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
-      videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
+      videoPlaylistsHome = videoPlaylistsHome.replaceAll("/", "\\");
     }
     return Paths.get(videoPlaylistsHome);
   }
@@ -235,11 +233,10 @@ public class VideoPlaylistService {
    * Gets the category of the playlist based on the base path.
    */
   private static String getCategoryFromDockerHost(String absoluteBasePath, String filePath) {
+    absoluteBasePath = absoluteBasePath.replaceAll("\\\\", "/");
     int basePathLength = absoluteBasePath.length();
-    String absoluteParentFilePath = StringUtils.substringBeforeLast(filePath,
-        FileUtils.getHostPathSeparator());
-    String categoryFilePath = StringUtils.substringBeforeLast(absoluteParentFilePath,
-        FileUtils.getHostPathSeparator());
+    String absoluteParentFilePath = StringUtils.substringBeforeLast(filePath, "/");
+    String categoryFilePath = StringUtils.substringBeforeLast(absoluteParentFilePath, "/");
     return categoryFilePath.substring(basePathLength + 1);
   }
 
@@ -297,16 +294,14 @@ public class VideoPlaylistService {
         new GetPlaylistContentKameHouseCommand(playlistFilename);
     KameHouseCommandResult kameHouseCommandResult = DockerUtils.executeOnDockerHost(
         getPlaylistContentCommand);
-    String shellOutput = kameHouseCommandResult.getStandardOutput().get(0);
-    shellOutput = StringUtils.substringAfter(shellOutput, "#EXTM3U");
-    String[] shellOutputArray = shellOutput.split("\n");
-    List<String> playlistContent = Arrays.stream(shellOutputArray)
-        .filter(file -> !StringUtils.isEmpty(file))
-        .filter(file -> !StringUtils.isEmpty(file.trim()))
-        .filter(file -> !file.startsWith("#"))
-        .filter(file -> !file.contains("conhost.exe"))
-        .filter(file -> !file.trim().endsWith("logout"))
-        .map(file -> removeCharactersPastFileExtension(file))
+    List<String> standardOutput = kameHouseCommandResult.getStandardOutput();
+    List<String> playlistContent = standardOutput.stream()
+        .filter(line -> !StringUtils.isEmpty(line))
+        .filter(line -> !StringUtils.isEmpty(line.trim()))
+        .filter(line -> !line.startsWith("#"))
+        .filter(line -> !line.contains("conhost.exe"))
+        .filter(line -> !line.trim().endsWith("logout"))
+        .map(line -> removeCharactersPastFileExtension(line))
         .toList();
     logger.trace("Playlist content: {}", playlistContent);
     return playlistContent;

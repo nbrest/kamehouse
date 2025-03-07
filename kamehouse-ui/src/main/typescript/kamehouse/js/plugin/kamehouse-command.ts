@@ -30,18 +30,18 @@ class KameHouseCommandManager {
       if (displayCommandLine) {
         kameHouse.util.dom.append(kameHouseCommandResultDiv, this.#getCommandLine(kameHouseCommandResult.command));
       }
-      if (!kameHouse.core.isEmpty(kameHouseCommandResult.standardOutput) && 
-          kameHouseCommandResult.standardOutput.length > 0) {
-        kameHouseCommandResult.standardOutput.forEach((standardOutputLine) => {
-          kameHouse.util.dom.append(kameHouseCommandResultDiv, kameHouse.core.convertBashColorsToHtml(standardOutputLine));
+      if (!kameHouse.core.isEmpty(kameHouseCommandResult.standardOutputHtml) && 
+          kameHouseCommandResult.standardOutputHtml.length > 0) {
+        kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+          kameHouse.util.dom.append(kameHouseCommandResultDiv, line);
           kameHouse.util.dom.append(kameHouseCommandResultDiv, kameHouse.util.dom.getBr());
         });
       }
-      if (!kameHouse.core.isEmpty(kameHouseCommandResult.standardError) && 
-          kameHouseCommandResult.standardError.length > 0) {
+      if (!kameHouse.core.isEmpty(kameHouseCommandResult.standardErrorHtml) && 
+          kameHouseCommandResult.standardErrorHtml.length > 0) {
         kameHouse.util.dom.append(kameHouseCommandResultDiv, this.#getCommandErrorHeaderLine());
-        kameHouseCommandResult.standardError.forEach((standardErrorLine) => {
-          kameHouse.util.dom.append(kameHouseCommandResultDiv, standardErrorLine);
+        kameHouseCommandResult.standardErrorHtml.forEach((line) => {
+          kameHouse.util.dom.append(kameHouseCommandResultDiv, line);
           kameHouse.util.dom.append(kameHouseCommandResultDiv, kameHouse.util.dom.getBr());
         });
       }

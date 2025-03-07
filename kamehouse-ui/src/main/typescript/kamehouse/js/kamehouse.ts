@@ -2323,7 +2323,7 @@ class KameHouseCore {
 
   /** 
    * Replaces bash colors in the input string for the equivalent css styled color.
-   * When updating color mappings here, also update them on groot kamehouse.php
+   * @deprecated moved logic to convert bash to html to the backend.
    */
   convertBashColorsToHtml(bashOutput) {
     const colorMappings = {

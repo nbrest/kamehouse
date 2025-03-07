@@ -31,7 +31,7 @@ class VlcProcessControllerIntegrationTest extends AbstractControllerIntegrationT
   void vlcProcessStartTest() throws Exception {
     logger.info("Running vlcProcessStartTest");
 
-    HttpResponse response = post(getWebappUrl() + API_URL);
+    HttpResponse response = post(getWebappUrl() + API_URL + "?file=sftp://localhost/path/file.mkv");
 
     verifySuccessfulResponseList(response, KameHouseCommandResult.class);
   }

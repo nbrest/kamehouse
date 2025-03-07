@@ -25,14 +25,14 @@ class KameHouseShell {
     $executeOnDockerHost = $kameHouse->util->string->getBoolean($executeOnDockerHost);
 
     $standardOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
-    $standardOutputHtml = $this->getHtmlOutput($standardOutput);
+    $standardOutputHtml = $this->getStandardOutputHtml($standardOutput);
   
     $kameHouseCommandResult = [ 
       'command' => $script,
       'exitCode' => -1,
       'pid' => -1,
       'status' => "completed",
-      'standardOuput' => $standardOutput,
+      'standardOutput' => $standardOutput,
       'standardOutputHtml' => $standardOutputHtml, 
       'standardError' => [],
       'standardErrorHtml' => [] 
@@ -131,11 +131,13 @@ class KameHouseShell {
     $scriptLog = $userHome . "/logs/" . substr(basename($script), 0, -2) . "log";
     if (file_exists($scriptLog)) {
       // if the script log exits, replace the script output with the log file, which is more reliable than shell_exec output
+      $kameHouse->logger->info("Using script log to get the output of " . $script);
       $standardOutput = file_get_contents($scriptLog);
+    } else {
+      $kameHouse->logger->info("Couldnt find log file for script " . $script . ". Using shell_exec output");
     }
-
     $kameHouse->logger->info("Finished executing script " . $script);
-    return $standardOutput;
+    return explode("\n", $standardOutput);
   }
 
   /**
@@ -183,11 +185,16 @@ class KameHouseShell {
   /**
    * Convert the specified bash output to html output.
    */
-  private function getHtmlOutput($shellKameHouseCommandResult) {
+  private function getStandardOutputHtml($standardOutput) {
     global $kameHouse;
-    $htmlKameHouseCommandResult = $kameHouse->util->string->convertBashColorsToHtml($shellKameHouseCommandResult);
-    $htmlKameHouseCommandResult = explode("\n", $htmlKameHouseCommandResult);
-    return $htmlKameHouseCommandResult;
+    if (empty($standardOutput)) {
+      return [];
+    }
+    $standardOutputHtml = [];
+    foreach ($standardOutput as $line) {
+      array_push($standardOutputHtml, $kameHouse->util->string->convertBashColorsToHtml($line));
+    }
+    return $standardOutputHtml;
   }
   
 } // KameHouseShell

@@ -7,6 +7,11 @@
 
 #### v10.01
 
+- Added html output lists to KameHouseCommandResult and moved conversion of outputs to html to the backend
+- Moved standardOutput to be returned as a list rather than a string in groot execute as well
+- Renamed references to old groot execute api response fields in the ui
+- Fixed vlc start/stop and load playlists and playlist content from docker controlling remote host
+- Moved vlc playlist and file handling to use linux paths in all places upto vlc-start script
 - Refactored SystemCommand to KameHouseShellScript and added a KameHouseCommand interface
 - Extracted SystemCommand.Output to a separate class KameHouseCommandResult
 - Removed unnecessary layer of KameHouseSystemCommands

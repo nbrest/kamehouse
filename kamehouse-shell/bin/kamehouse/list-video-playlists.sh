@@ -15,10 +15,9 @@ mainProcess() {
   if ${IS_LINUX_HOST}; then
     find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort
   else
-    PLAYLISTS_PATH="`sed 's#/#\\\#Ig' <<<"${PLAYLISTS_PATH}"`"
-    USER=`whoami`
-    PLAYLISTS_FULL_PATH="${WIN_USER_HOME}\\${PLAYLISTS_PATH}"
-    powershell.exe -c "cd ${PLAYLISTS_FULL_PATH}; Get-ChildItem -Recurse -Filter '*.m3u' | Select FullName" | grep -e "m3u" | sort
+    PLAYLISTS=`find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort`
+    PLAYLISTS="`sed 's#/c/Users/#C:/Users/#Ig' <<<"${PLAYLISTS}"`"
+    echo -e "${PLAYLISTS}"
   fi
 }
 

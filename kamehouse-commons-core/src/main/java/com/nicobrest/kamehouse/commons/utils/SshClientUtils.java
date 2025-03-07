@@ -139,6 +139,7 @@ public class SshClientUtils {
       }
       client.stop();
     }
+    kameHouseCommandResult.setHtmlOutputs();
     return kameHouseCommandResult;
   }
 

@@ -36,16 +36,22 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
     assertEquals(8, responseBody.size());
     assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
-    assertNotNull(responseBody.get("standardOuput"), "standardOuput is null");
+    assertNotNull(responseBody.get("standardOutput"), "standardOutput is null");
     ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
-    String expected = "Started executing script without args";
+    String expected = "Started executing script";
+    assertStringInArray(standardOutputHtml, expected);
+    expected = "Finished executing script";
     assertStringInArray(standardOutputHtml, expected);
 
-    String standardOuput = responseBody.get("standardOuput").asText();
+    String standardOutput = responseBody.get("standardOutput").asText();
     expected = "Started executing ";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    expected = "Finished executing script";
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    expected = "status: ";
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "display help";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
   }
 
   /**
@@ -62,20 +68,20 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
     assertEquals(8, responseBody.size());
     assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
-    assertNotNull(responseBody.get("standardOuput"), "standardOuput is null");
+    assertNotNull(responseBody.get("standardOutput"), "standardOutput is null");
     ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
-    String expected = "Started executing script without args";
+    String expected = "Started executing script";
     assertStringInArray(standardOutputHtml, expected);
-    expected = "Finished executing script ";
+    expected = "Finished executing script";
     assertStringInArray(standardOutputHtml, expected);
 
-    String standardOuput = responseBody.get("standardOuput").asText();
-    expected = "Started executing ";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "Finished executing";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    String standardOutput = responseBody.get("standardOutput").asText();
+    expected = "Started executing script";
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    expected = "Finished executing script";
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
     expected = "status: ";
-    assertTrue(standardOuput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
   }
 
   /**

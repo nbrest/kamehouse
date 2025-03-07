@@ -187,23 +187,6 @@ KameHouse should run fine without admin permissions, but you can configure windo
 
 - If needed, also configure windows terminal app to run `Git Bash`, `PowerShell` and `Console` profiles as administrator
 
-### PSExec errors:
-
-#### Couldn't install PSEXESVC service: Access is denied.
-
-- Run from an administrator command line 
-```sh 
-.\programs\pstools\psexec -i -s -d explorer.exe
-```
-
-- Or from git bash:
-```sh
-./programs/pstools/psexec -i -s -d explorer.exe
-```
-- Try running the command over ssh as well
-
-- Configure windows terminal app to run the profiles as admin, as mentioned above
-
 *********************
 
 ## Create a certificate, private key and keystore:

@@ -144,6 +144,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
       logger.warn("Interrupted exception", e);
       Thread.currentThread().interrupt();
     }
+    kameHouseCommandResult.setHtmlOutputs();
     return kameHouseCommandResult;
   }
 
@@ -369,8 +370,8 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
         BufferedReader processErrorBufferedReader =
             new BufferedReader(new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
       // Read command standard kameHouseCommandResult stream
-      List<String> processStandardOuputList = readStreamIntoList(processBufferedReader);
-      kameHouseCommandResult.setStandardOutput(processStandardOuputList);
+      List<String> processStandardOutputList = readStreamIntoList(processBufferedReader);
+      kameHouseCommandResult.setStandardOutput(processStandardOutputList);
       // Read command standard error stream
       List<String> processStandardErrorList = readStreamIntoList(processErrorBufferedReader);
       kameHouseCommandResult.setStandardError(processStandardErrorList);

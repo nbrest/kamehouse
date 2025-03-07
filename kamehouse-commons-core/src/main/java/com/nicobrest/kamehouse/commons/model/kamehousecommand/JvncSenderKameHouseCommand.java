@@ -127,6 +127,7 @@ public abstract class JvncSenderKameHouseCommand extends KameHouseCmdKameHouseCo
       logger.warn("Interrupted exception", e);
       Thread.currentThread().interrupt();
     }
+    kameHouseCommandResult.setHtmlOutputs();
     return kameHouseCommandResult;
   }
 }

@@ -18,7 +18,9 @@ mainProcess() {
     cat "${PLAYLIST_FILE}"
   else
     PLAYLIST_FILE="`sed 's#/#\\\#Ig' <<<"${PLAYLIST_FILE}"`"
-    powershell.exe -c "cat ${PLAYLIST_FILE}"
+    PLAYLIST_CONTENT=`powershell.exe -c "cat ${PLAYLIST_FILE}"`
+    PLAYLIST_CONTENT="`sed 's#\\\#/#Ig' <<<"${PLAYLIST_CONTENT}"`"
+    echo -e "${PLAYLIST_CONTENT}"
   fi
 }
 

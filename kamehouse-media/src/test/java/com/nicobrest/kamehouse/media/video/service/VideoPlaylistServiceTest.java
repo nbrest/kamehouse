@@ -104,27 +104,27 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(true);
     KameHouseCommandResult playlistFilePaths = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand(""));
+        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
-    playlistFilePaths.setStandardOutput(List.of(expectedPlaylists.get(0).getPath()
-        + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
+    playlistFilePaths.setStandardOutput(
+        List.of(expectedPlaylists.get(0).getPath(), expectedPlaylists.get(1).getPath()));
     KameHouseCommandResult dcPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand(""));
+        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
     dcPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3U\n"
-                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\n"
-                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
+            "#EXTM3U",
+            "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4",
+            "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4"
         )
     );
     KameHouseCommandResult marvelPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand(""));
+        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
     marvelPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3U\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
+            "#EXTM3U",
+            "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4",
+            "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv",
+            "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv"
         )
     );
     when(DockerUtils.executeOnDockerHost(any())).thenReturn(playlistFilePaths, dcPlaylistContent,
@@ -132,6 +132,10 @@ class VideoPlaylistServiceTest {
 
     List<Playlist> returnedPlaylists = videoPlaylistService.getAll(true);
 
+    for (Playlist playlist : expectedPlaylists) {
+      // for playlists using docker controlling remote host the playlists path are /
+      playlist.setPath(playlist.getPath().replaceAll("\\\\", "/"));
+    }
     videoPlaylistTestUtils.assertEqualsAllAttributesList(expectedPlaylists, returnedPlaylists);
   }
 
@@ -149,27 +153,27 @@ class VideoPlaylistServiceTest {
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(false);
     KameHouseCommandResult playlistFilePaths = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand(""));
+        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
     List<Playlist> expectedPlaylists = videoPlaylistTestUtils.getTestDataList();
-    playlistFilePaths.setStandardOutput(List.of(expectedPlaylists.get(0).getPath()
-        + "\n" + expectedPlaylists.get(1).getPath() + "\n"));
+    playlistFilePaths.setStandardOutput(
+        List.of(expectedPlaylists.get(0).getPath(), expectedPlaylists.get(1).getPath()));
     KameHouseCommandResult dcPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand(""));
+        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
     dcPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3U\n"
-                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4\n"
-                + "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4\n"
+            "#EXTM3U",
+            "http://kamehouse-server/streaming/movies/heroes/dc/Batman_1/Batman_1989.mp4",
+            "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4"
         )
     );
     KameHouseCommandResult marvelPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand(""));
+        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
     marvelPlaylistContent.setStandardOutput(
         List.of(
-            "#EXTM3U\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv\n"
-                + "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv\n"
+            "#EXTM3U",
+            "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers_Infinity_War/Avengers.Infinity.War.mp4",
+            "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.Age.of.Ultron.2015/Avengers.Age.of.Ultron.2015.mkv",
+            "http://kamehouse-server/streaming/movies/heroes/marvel/Avengers.The.2012/The.Avengers.2012.mkv"
         )
     );
     when(DockerUtils.executeOnDockerHost(any())).thenReturn(playlistFilePaths, dcPlaylistContent,
