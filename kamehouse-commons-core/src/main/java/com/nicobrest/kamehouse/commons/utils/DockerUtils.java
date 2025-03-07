@@ -283,6 +283,10 @@ public class DockerUtils {
       String urlEncodedArgs = HttpClientUtils.urlEncode(args.trim());
       sb.append("&args=").append(urlEncodedArgs);
     }
+    sb.append("&executeOnDockerHost=false"); // already sending request to docker host here
+    if (kameHouseShellScript.isDaemon()) {
+      sb.append("&isDaemon=true");
+    }
     return sb.toString().trim();
   }
 

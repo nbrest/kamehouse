@@ -17,7 +17,7 @@ mainProcess() {
     log.info "Playing a local windows file, rewriting paths to windows"
     FILE_TO_PLAY="`sed 's#/#\\\#Ig' <<<"${FILE_TO_PLAY}"`"
   fi
-  vlc.exe ${FILE_TO_PLAY} &
+  vlc.exe ${FILE_TO_PLAY}
 }
 
 parseArguments() {

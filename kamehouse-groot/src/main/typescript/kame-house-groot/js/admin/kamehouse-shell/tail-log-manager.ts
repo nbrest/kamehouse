@@ -15,14 +15,14 @@ class TailLogManager {
   }
 
   /** Tails the log based on the script parameter and the number of lines to display */
-  tailLog(logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
-    return this.executeTailLog(this.#KAMEHOUSE_SHELL_EXECUTE_API, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback);  
+  tailLog(logFileName, numberOfLines, logLevel, executeOnDockerHost, isDaemon, callback) {
+    return this.executeTailLog(this.#KAMEHOUSE_SHELL_EXECUTE_API, logFileName, numberOfLines, logLevel, executeOnDockerHost, isDaemon, callback);  
   }
 
   /**
    * Execute the tail on the specified url.
    */
-  executeTailLog(url, logFileName, numberOfLines, logLevel, executeOnDockerHost, callback) {
+  executeTailLog(url, logFileName, numberOfLines, logLevel, executeOnDockerHost, isDaemon, callback) {
     kameHouse.logger.trace("Tailing log: " + logFileName, null);
     if (kameHouse.core.isEmpty(logLevel)) {
       logLevel = "";
@@ -30,7 +30,8 @@ class TailLogManager {
     const params = {
       script: "common/logs/cat-log.sh",
       args: "-f "  + logFileName + " -l " + logLevel,
-      executeOnDockerHost: executeOnDockerHost
+      executeOnDockerHost: executeOnDockerHost,
+      isDaemon: isDaemon
     };   
     const config = kameHouse.http.getConfig();
     config.timeout = 45;

@@ -19,6 +19,7 @@ SCRIPT_ARGS=""
 BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"
 REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin/"
 EXECUTE_ON_DOCKER_HOST=false
+IS_DAEMON=false
 IS_EXECUTABLE_ON_DOCKER_HOST=false
 
 mainProcess() {
@@ -28,18 +29,9 @@ mainProcess() {
   setupEnv
 
   if ${EXECUTE_ON_DOCKER_HOST}; then
-    local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
-    if ${IS_LINUX_DOCKER_HOST}; then
-      log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_COMMAND}\""
-      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_COMMAND}"
-    else
-      log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_COMMAND}\\\"\""
-      ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_COMMAND}\""
-    fi
+    executeRemote
   else
-    local LOCAL_COMMAND="${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
-    log.trace "${LOCAL_COMMAND}"
-    ${LOCAL_COMMAND}  
+    executeLocal
   fi
 }
 
@@ -71,8 +63,31 @@ printEnv() {
   log.debug "DOCKER_HOST_USERNAME ${DOCKER_HOST_USERNAME}"
   log.debug "DOCKER_CONTROL_HOST ${DOCKER_CONTROL_HOST}"
   log.debug "IS_LINUX_DOCKER_HOST ${IS_LINUX_DOCKER_HOST}"
+  log.debug "IS_DAEMON ${IS_DAEMON}"
   log.debug "IS_EXECUTABLE_ON_DOCKER_HOST ${IS_EXECUTABLE_ON_DOCKER_HOST}"
   log.debug "EXECUTE_ON_DOCKER_HOST ${EXECUTE_ON_DOCKER_HOST}"
+}
+
+executeRemote() {
+  local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+  if ${IS_LINUX_DOCKER_HOST}; then
+    log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_COMMAND}\""
+    ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_COMMAND}"
+  else
+    log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_COMMAND}\\\"\""
+    ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_COMMAND}\""
+  fi
+}
+
+executeLocal() {
+  local LOCAL_COMMAND="${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+  if ${IS_DAEMON}; then
+    log.trace "${LOCAL_COMMAND} &"
+    ${LOCAL_COMMAND} &
+  else
+    log.trace "${LOCAL_COMMAND}"
+    ${LOCAL_COMMAND}  
+  fi
 }
 
 parseArguments() {
@@ -87,11 +102,14 @@ parseArguments() {
       -a)
         SCRIPT_ARGS="${CURRENT_OPTION_ARG}"
         ;;
+      --daemon)
+        IS_DAEMON=true
+        ;;
+      --execute-on-docker-host)
+        IS_EXECUTABLE_ON_DOCKER_HOST=true
+        ;;       
       -s)
         SCRIPT="${CURRENT_OPTION_ARG}"
-        ;;
-      -x)
-        IS_EXECUTABLE_ON_DOCKER_HOST=true
         ;;
       # I can't use parseInvalidArgument here because the script arg might start with "-"
     esac
@@ -103,9 +121,10 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-a (args)" "script args"
-  addHelpOption "-s (script)" "script to execute" "r"
-  addHelpOption "-x" "execute the specified script on the docker host, when control host is enabled"
+  addHelpOption "-a [args]" "script args"
+  addHelpOption "--daemon" "the script should run in the background without waiting for execution to end"
+  addHelpOption "--execute-on-docker-host" "execute the specified script on the docker host, when control host is enabled"
+  addHelpOption "-s [script]" "script to execute" "r"
 }
 
 main "$@"

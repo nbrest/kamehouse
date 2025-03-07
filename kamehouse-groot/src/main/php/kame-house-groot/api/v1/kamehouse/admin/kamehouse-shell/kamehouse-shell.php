@@ -23,8 +23,10 @@ class KameHouseShell {
     $scriptArgs = isset($_GET['args']) ? $_GET['args'] : '';
     $executeOnDockerHost = isset($_GET['executeOnDockerHost']) ? $_GET['executeOnDockerHost'] : '';
     $executeOnDockerHost = $kameHouse->util->string->getBoolean($executeOnDockerHost);
+    $isDaemon = isset($_GET['isDaemon']) ? $_GET['isDaemon'] : '';
+    $isDaemon = $kameHouse->util->string->getBoolean($isDaemon);
 
-    $standardOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost);
+    $standardOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost, $isDaemon);
     $standardOutputHtml = $this->getStandardOutputHtml($standardOutput);
   
     $kameHouseCommandResult = [ 
@@ -108,7 +110,7 @@ class KameHouseShell {
   /**
    * Execute the specified script. 
    */
-  private function executeShellScript($script, $scriptArgs, $executeOnDockerHost) {
+  private function executeShellScript($script, $scriptArgs, $executeOnDockerHost, $isDaemon) {
     global $kameHouse;
     if ($scriptArgs == 'null') {
       $scriptArgs = '';
@@ -123,7 +125,7 @@ class KameHouseShell {
       $kameHouse->logger->info("Script arguments [" . $scriptArgs . "] for script " . $script . " are invalid for shell execution");
       $kameHouse->core->exitWithError(400, "scriptArgs is invalid for shell execution");
     }
-    $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost);
+    $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost, $isDaemon);
     $kameHouse->logger->info("Started executing script " . $script);
     $kameHouse->logger->info("Running shell command " . $shellCommand);
     $standardOutput = shell_exec($shellCommand);
@@ -160,7 +162,7 @@ class KameHouseShell {
   /**
    * Build the shell command to execute either on windows or linux.
    */
-  private function buildShellCommand($script, $scriptArgs, $executeOnDockerHost) {
+  private function buildShellCommand($script, $scriptArgs, $executeOnDockerHost, $isDaemon) {
     global $kameHouse;
     $shellCommand = "";
     $userHome = $this->getUserHome();
@@ -172,7 +174,10 @@ class KameHouseShell {
       $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
-      $shellCommand = $shellCommand . " -x";
+      $shellCommand = $shellCommand . " --execute-on-docker-host";
+    }
+    if ($isDaemon) {
+      $shellCommand = $shellCommand . " --daemon"; 
     }
     if ($kameHouse->core->isLinuxHost()) {
       $shellCommand = $shellCommand . " -s \'" . $script . "\' -a \'" . $scriptArgs . "\'";

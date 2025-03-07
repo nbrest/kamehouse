@@ -17,15 +17,16 @@ class KameHouseShell {
   }
 
   /** Execute the specified script*/
-  execute(scriptName, args, executeOnDockerHost, timeout, successCallback, errorCallback) {
+  execute(scriptName, args, executeOnDockerHost, isDaemon, timeout, successCallback, errorCallback) {
     if (!kameHouse.core.isEmpty(scriptName)) {
       const params = {
         script: scriptName,
         args: args,
-        executeOnDockerHost: executeOnDockerHost
+        executeOnDockerHost: executeOnDockerHost,
+        isDaemon: isDaemon
       };
-      this.#setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost);
-      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " and timeout " + timeout, null);
+      this.#setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost, isDaemon);
+      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " isDaemon " + isDaemon + " and timeout " + timeout, null);
       const config = kameHouse.http.getConfig();
       if (!kameHouse.core.isEmpty(timeout)) {
         config.timeout = timeout;
@@ -54,10 +55,10 @@ class KameHouseShell {
   }
 
   /** Set the script ouput to show that the script is currently executing */
-  #setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost) {
+  #setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost, isDaemon) {
     kameHouse.util.dom.classListAddById('kamehouse-shell-output', "hidden-kh");
     kameHouse.util.dom.classListRemoveById('kamehouse-shell-output-executing-wrapper', "hidden-kh");
-    kameHouse.util.dom.setHtmlById("kamehouse-shell-output-executing", this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost));
+    kameHouse.util.dom.setHtmlById("kamehouse-shell-output-executing", this.#getScriptExecutingMessage(scriptName, args, executeOnDockerHost, isDaemon));
   }
 
   /** Update the script script output with the result of the script */
@@ -156,7 +157,7 @@ class KameHouseShell {
   /**
    * Get script is executing message.
    */
-  #getScriptExecutingMessage(scriptName, args, executeOnDockerHost) {
+  #getScriptExecutingMessage(scriptName, args, executeOnDockerHost, isDaemon) {
     const executingMessageSpan = kameHouse.util.dom.getSpan({}, "Executing script : ");
     const scriptNameSpan = kameHouse.util.dom.getSpan({
       class: "bold-kh"
@@ -175,7 +176,7 @@ class KameHouseShell {
     }
     kameHouse.util.dom.append(executingMessageSpan, kameHouse.util.dom.getBr());
     kameHouse.util.dom.append(executingMessageSpan, kameHouse.util.dom.getBr());
-    kameHouse.util.dom.append(executingMessageSpan, "executeOnDockerHost: " + executeOnDockerHost);
+    kameHouse.util.dom.append(executingMessageSpan, "executeOnDockerHost: " + executeOnDockerHost + ", isDaemon: " + isDaemon);
     return executingMessageSpan;
   }
 }

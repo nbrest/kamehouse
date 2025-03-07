@@ -143,7 +143,7 @@ class GrootServerManager {
     }
     this.setCommandRunning();
     this.openExecutingCommandModal();
-    this.getShell().execute(script, args, true, 600, 
+    this.getShell().execute(script, args, true, false, 600, 
       () => this.completeCommandCallback(), 
       () => this.completeCommandCallback());
   }
@@ -277,7 +277,7 @@ class DeploymentManager {
    */
   getTomcatModulesStatus() {
     const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesStatus(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesStatus(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -285,19 +285,19 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus() {
     kameHouse.logger.debug("Getting non tomcat modules status", null);
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, 60, 
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayModuleCmdStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-cmd-build-version-val", "Error getting data");  
         kameHouse.util.dom.setHtmlById("mst-cmd-build-date-val", "Error getting data");   
       });
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, 60, 
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayModuleGrootStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-groot-build-version-val", "Error getting data");   
         kameHouse.util.dom.setHtmlById("mst-groot-build-date-val", "Error getting data");   
       });
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, 60, 
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayModuleShellStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-shell-build-version-val", "Error getting data");
@@ -311,7 +311,7 @@ class DeploymentManager {
   getTomcatProcessStatus() {
     const hostOs = kameHouse.extension.serverManager.getHostOs();
     const args = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
   }
   
   /**
@@ -337,7 +337,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/start-kamehouse.sh', args, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/start-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -350,7 +350,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/stop-kamehouse.sh', args, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/stop-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }  
 
   /**
@@ -367,7 +367,7 @@ class DeploymentManager {
     if (this.#isDevEnvironment()) {
       script = 'kamehouse/deploy-kamehouse-dev.sh';
     }
-    kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute(script, args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -380,7 +380,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/undeploy-kamehouse.sh', args, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/undeploy-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -393,7 +393,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-s kamehouse/deploy-kamehouse.sh -a -m " + module;
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -410,7 +410,7 @@ class DeploymentManager {
     if (this.#isDevEnvironment()) {
       script = 'kamehouse/deploy-kamehouse-dev.sh';
     }
-    kameHouse.extension.kameHouseShell.execute(script, args, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute(script, args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -422,7 +422,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy-kamehouse.sh", false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy-kamehouse.sh", false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -439,7 +439,7 @@ class DeploymentManager {
       script = 'kamehouse/tomcat-restart-dev.sh';
     }
     const stringArgs = this.#getRestartTomcatParams();
-    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -732,7 +732,8 @@ class TailLogManagerWrapper {
       let numberOfLines = (document.getElementById("tail-log-num-lines-dropdown") as HTMLSelectElement).value;
       let logLevel = (document.getElementById("tail-log-level-dropdown") as HTMLSelectElement).value;
       let executeOnDockerHost = this.#getExecuteOnDockerHost(tailLogFile);
-      this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, () => {});
+      const isDaemon = false;
+      this.getTailLogManager().tailLog(tailLogFile, numberOfLines, logLevel, executeOnDockerHost, isDaemon, () => {});
   
       await kameHouse.core.sleep(this.#TAIL_LOG_REFRESH_WAIT_MS);
       if (this.#tailLogCount > 1) {

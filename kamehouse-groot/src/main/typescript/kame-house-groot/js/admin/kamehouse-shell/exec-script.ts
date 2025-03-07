@@ -39,8 +39,9 @@ class ExecScriptLoader {
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
+    const isDaemon = urlParams.get('isDaemon');
     const timeout = urlParams.get('timeout');
-    this.#execute(scriptName, args, executeOnDockerHost, timeout);
+    this.#execute(scriptName, args, executeOnDockerHost, isDaemon, timeout);
   }
 
   /** Allow the user to download the full bash script output */
@@ -82,9 +83,9 @@ class ExecScriptLoader {
   /**
    * Execute script.
    */  
-  #execute(scriptName, args, executeOnDockerHost, timeout) {
+  #execute(scriptName, args, executeOnDockerHost, isDaemon, timeout) {
     kameHouse.util.module.waitForModules(["kameHouseShell"], () => {
-      this.getShell().execute(scriptName, args, executeOnDockerHost, timeout, 
+      this.getShell().execute(scriptName, args, executeOnDockerHost, isDaemon, timeout, 
         () => {this.#successCallback()}, 
         () => {this.#errorCallback()});
     });  
@@ -147,9 +148,11 @@ class ExecScriptLoader {
     const scriptName = urlParams.get('script');
     const args = urlParams.get('args');
     const executeOnDockerHost = urlParams.get('executeOnDockerHost');
+    const isDaemon = urlParams.get('isDaemon');
     kameHouse.util.dom.setHtmlById("st-script-name", scriptName);
     kameHouse.util.dom.setHtmlById("st-script-args", args);
     kameHouse.util.dom.setHtmlById("st-script-exec-docker-host", executeOnDockerHost);
+    kameHouse.util.dom.setHtmlById("st-script-is-daemon", isDaemon);
   }
 
   /**

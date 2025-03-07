@@ -220,7 +220,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
    * Override to set the command as a daemon.
    */
   @JsonIgnore
-  protected boolean isDaemon() {
+  public boolean isDaemon() {
     return false;
   }
 
