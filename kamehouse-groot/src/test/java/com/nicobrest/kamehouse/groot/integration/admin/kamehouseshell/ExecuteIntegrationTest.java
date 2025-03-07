@@ -1,14 +1,12 @@
 package com.nicobrest.kamehouse.groot.integration.admin.kamehouseshell;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.groot.integration.AbstractGrootIntegrationTest;
 import java.io.IOException;
+import java.util.List;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -33,25 +31,17 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
 
     HttpResponse response = get(getWebappUrl() + API_URL + urlParams);
 
-    JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
-    assertEquals(8, responseBody.size());
-    assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
-    assertNotNull(responseBody.get("standardOutput"), "standardOutput is null");
-    ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
-    String expected = "Started executing script";
-    assertStringInArray(standardOutputHtml, expected);
-    expected = "Finished executing script";
-    assertStringInArray(standardOutputHtml, expected);
-
-    String standardOutput = responseBody.get("standardOutput").asText();
-    expected = "Started executing ";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "Finished executing script";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "status: ";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "display help";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    var result = verifySuccessfulResponse(response, KameHouseCommandResult.class);
+    var standardOutputHtml = result.getStandardOutputHtml();
+    var standardOutput = result.getStandardOutput();
+    assertNotNull(standardOutputHtml, "standardOutputHtml is null");
+    assertNotNull(standardOutput, "standardOutput is null");
+    assertStringInOutput(standardOutputHtml, "Started executing script");
+    assertStringInOutput(standardOutputHtml, "Finished executing script");
+    assertStringInOutput(standardOutput, "Started executing script");
+    assertStringInOutput(standardOutput, "Finished executing script");
+    assertStringInOutput(standardOutput, "status: ");
+    assertStringInOutput(standardOutput, "display help");
   }
 
   /**
@@ -65,36 +55,28 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
 
     HttpResponse response = get(getWebappUrl() + API_URL + urlParams);
 
-    JsonNode responseBody = verifySuccessfulResponse(response, JsonNode.class);
-    assertEquals(8, responseBody.size());
-    assertNotNull(responseBody.get("standardOutputHtml"), "standardOutputHtml is null");
-    assertNotNull(responseBody.get("standardOutput"), "standardOutput is null");
-    ArrayNode standardOutputHtml = (ArrayNode) responseBody.get("standardOutputHtml");
-    String expected = "Started executing script";
-    assertStringInArray(standardOutputHtml, expected);
-    expected = "Finished executing script";
-    assertStringInArray(standardOutputHtml, expected);
-
-    String standardOutput = responseBody.get("standardOutput").asText();
-    expected = "Started executing script";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "Finished executing script";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
-    expected = "status: ";
-    assertTrue(standardOutput.contains(expected), RESPONSE_DOESNT_CONTAIN + expected);
+    var result = verifySuccessfulResponse(response, KameHouseCommandResult.class);
+    var standardOutputHtml = result.getStandardOutputHtml();
+    var standardOutput = result.getStandardOutput();
+    assertNotNull(standardOutputHtml, "standardOutputHtml is null");
+    assertNotNull(standardOutput, "standardOutput is null");
+    assertStringInOutput(standardOutputHtml, "Started executing script");
+    assertStringInOutput(standardOutputHtml, "Finished executing script");
+    assertStringInOutput(standardOutput, "Started executing script");
+    assertStringInOutput(standardOutput, "Finished executing script");
+    assertStringInOutput(standardOutput, "status: ");
   }
 
   /**
-   * Validate that the expected string is contained in the array.
+   * Validate that the expected string is contained in the specified output.
    */
-  private void assertStringInArray(ArrayNode arrayNode, String expected) {
+  private void assertStringInOutput(List<String> output, String expected) {
     boolean isStringInArray = false;
-    for (JsonNode jsonNode : arrayNode) {
-      TextNode textNode = (TextNode) jsonNode;
-      if (textNode.textValue().contains(expected)) {
+    for (String line : output) {
+      if (line.contains(expected)) {
         isStringInArray = true;
       }
     }
-    assertTrue(isStringInArray, expected + " is not in array");
+    assertTrue(isStringInArray, "'" + expected + "' is not in output");
   }
 }
