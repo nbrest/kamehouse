@@ -135,7 +135,19 @@ class KameHouseShell {
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost, $isDaemon);
     $kameHouse->logger->info("Started executing script " . $script);
     $kameHouse->logger->info("Running shell command " . $shellCommand);
-    $standardOutput = shell_exec($shellCommand);
+    $standardOutput = [];
+    if ($isDaemon) {
+      if ($kameHouse->core->isLinuxHost()) {
+        $standardOutput = shell_exec($shellCommand . " &");
+      } else {
+        // on windows it will trigger the script in the background and return the api response after a couple of seconds
+        $timer = popen("start /B ". $shellCommand, "r"); 
+        sleep(5);
+        pclose($timer);
+      }
+    } else {
+      $standardOutput = shell_exec($shellCommand);
+    }
     $userHome = $this->getUserHome();
     $scriptLog = $userHome . "/logs/" . substr(basename($script), 0, -2) . "log";
     if (file_exists($scriptLog)) {
