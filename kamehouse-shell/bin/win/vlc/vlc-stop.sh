@@ -9,6 +9,12 @@ if [ "$?" != "0" ]; then
 	exit 99
 fi
 
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/vlc/vlc-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing vlc-functions.sh\033[0;39m"
+  exit 99
+fi
+
 DEFAULT_VLC_PORT="8080"
 VLC_PORT=""
 
@@ -26,6 +32,8 @@ mainProcess() {
   fi
   log.info "Killing remaining vlc process"
   cmd.exe "/c taskkill /im vlc.exe"
+  removeVlcProcessInfo
+  rotateVlcLog
 }
 
 parseArguments() {
