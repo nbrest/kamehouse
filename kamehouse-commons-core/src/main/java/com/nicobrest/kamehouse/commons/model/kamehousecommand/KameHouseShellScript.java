@@ -79,7 +79,8 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
    * arguments with either base64, base64url, urlencode or other encoding that will not break the
    * execution on the shell or break while being transferred to a remote server via groot api. But
    * if I do use some encoding, I need to validate the decoded string in the script before
-   * processing it</p>
+   * processing it. If I need to send something that has special characters like a password in
+   * kamehouse-cmd, it's probably best to send encoded</p>
    */
   protected abstract List<String> getWindowsKameHouseShellScriptArguments();
 

@@ -6,20 +6,20 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 /**
  * Test kamehouse command.
  */
-class DfKameHouseCommandTest extends AbstractKameHouseCommandTest {
+class HttpdStatusKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected KameHouseCommand getKameHouseCommand() {
-    return new DfKameHouseCommand();
+    return new HttpdStatusKameHouseCommand();
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/df.sh";
+    return "win/kamehouse/httpd-status.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/df.sh";
+    return "lin/kamehouse/httpd-status.sh";
   }
 }

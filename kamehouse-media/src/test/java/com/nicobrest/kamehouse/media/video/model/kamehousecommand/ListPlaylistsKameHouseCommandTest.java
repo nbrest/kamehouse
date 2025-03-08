@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.model.kamehousecommand;
+package com.nicobrest.kamehouse.media.video.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.AbstractKameHouseCommandTest;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
@@ -6,20 +6,20 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 /**
  * Test kamehouse command.
  */
-class DfKameHouseCommandTest extends AbstractKameHouseCommandTest {
+class ListPlaylistsKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected KameHouseCommand getKameHouseCommand() {
-    return new DfKameHouseCommand();
+    return new ListPlaylistsKameHouseCommand();
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/df.sh";
+    return "kamehouse/list-video-playlists.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/df.sh";
+    return "kamehouse/list-video-playlists.sh";
   }
 }

@@ -4,7 +4,7 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.AbstractKameHouseC
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 
 /**
- * Test for the UptimeKameHouseCommand.
+ * Test kamehouse command.
  */
 class UptimeKameHouseCommandTest extends AbstractKameHouseCommandTest {
 

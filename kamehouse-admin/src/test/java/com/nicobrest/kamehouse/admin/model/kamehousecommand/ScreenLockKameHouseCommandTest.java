@@ -6,20 +6,20 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 /**
  * Test kamehouse command.
  */
-class DfKameHouseCommandTest extends AbstractKameHouseCommandTest {
+class ScreenLockKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected KameHouseCommand getKameHouseCommand() {
-    return new DfKameHouseCommand();
+    return new ScreenLockKameHouseCommand();
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/df.sh";
+    return "win/screen/screen-lock.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/df.sh";
+    return "lin/screen/screen-lock.sh";
   }
 }

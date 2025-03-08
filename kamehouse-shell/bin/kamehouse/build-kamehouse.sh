@@ -60,10 +60,10 @@ parseArguments() {
         ;;
       -s)
         STATIC_ONLY=true
-        ;;    
+        ;;
       --skip-static)
         SKIP_STATIC=true
-        ;;     
+        ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
         ;;        

@@ -300,6 +300,8 @@ public class VideoPlaylistService {
         .filter(line -> !StringUtils.isEmpty(line.trim()))
         .filter(line -> !line.startsWith("#"))
         .filter(line -> !line.contains("conhost.exe"))
+        .filter(line -> !line.contains("get-video-playlist-content.sh"))
+        .filter(line -> !line.contains("exec-script.sh"))
         .filter(line -> !line.trim().endsWith("logout"))
         .map(line -> removeCharactersPastFileExtension(line))
         .toList();

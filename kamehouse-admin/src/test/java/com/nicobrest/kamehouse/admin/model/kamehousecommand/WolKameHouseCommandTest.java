@@ -6,20 +6,20 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 /**
  * Test kamehouse command.
  */
-class DfKameHouseCommandTest extends AbstractKameHouseCommandTest {
+class WolKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected KameHouseCommand getKameHouseCommand() {
-    return new DfKameHouseCommand();
+    return new WolKameHouseCommand("AA:BB:CC:DD:EE:FF", "192.168.0.255");
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/df.sh";
+    return "kamehouse/kamehouse-cmd.sh -o wol -mac AA:BB:CC:DD:EE:FF -broadcast 192.168.0.255";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/df.sh";
+    return "kamehouse/kamehouse-cmd.sh -o wol -mac AA:BB:CC:DD:EE:FF -broadcast 192.168.0.255";
   }
 }

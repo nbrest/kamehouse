@@ -13,16 +13,32 @@ import org.junit.jupiter.api.Test;
 class JvncSenderKameHouseCommandTest {
 
   /**
-   * Test execute jvncsender command.
+   * Test execute jvncsender text command.
    */
   @Test
-  void executeTest() {
+  void executeSendTextTest() {
     TextJvncSenderKameHouseCommand jvncSenderTextKameHouseCommand = new TextJvncSenderKameHouseCommand(
         "");
-    KameHouseCommandResult kameHouseCommandResult = jvncSenderTextKameHouseCommand.execute();
-    assertNotNull(kameHouseCommandResult);
-    assertTrue(
-        kameHouseCommandResult.getCommand().contains("Command executed has sensitive information"),
+
+    var result = jvncSenderTextKameHouseCommand.execute();
+
+    assertNotNull(result);
+    assertTrue(result.getCommand().contains("Command executed has sensitive information"),
+        "Invalid kameHouseCommandResult command");
+  }
+
+  /**
+   * Test execute jvncsender mouse click command.
+   */
+  @Test
+  void executeMouseClickTest() {
+    MouseClickJvncSenderKameHouseCommand mouseClickJvncSenderKameHouseCommand =
+        new MouseClickJvncSenderKameHouseCommand(0, 0, 1);
+
+    var result = mouseClickJvncSenderKameHouseCommand.execute();
+
+    assertNotNull(result);
+    assertTrue(result.getCommand().contains("Command executed has sensitive information"),
         "Invalid kameHouseCommandResult command");
   }
 }

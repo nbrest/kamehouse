@@ -74,7 +74,7 @@ public class InputValidator {
    * InputValidator.java</p>
    */
   private static List<String> getForbiddenCharsForShell() {
-    return List.of(">", "<", ";", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "#", ",", "`",
+    return List.of(">", "<", ";", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "#", "`",
         "´", "..", "%", "!", "$", "?");
   }
 }

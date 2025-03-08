@@ -4,7 +4,7 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.AbstractKameHouseC
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 
 /**
- * Test for the TopKameHouseCommand.
+ * Test kamehouse command.
  */
 class TopKameHouseCommandTest extends AbstractKameHouseCommandTest {
 

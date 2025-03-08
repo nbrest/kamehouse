@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.admin.model.kamehousecommand;
+package com.nicobrest.kamehouse.vlcrc.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.AbstractKameHouseCommandTest;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
@@ -6,20 +6,20 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 /**
  * Test kamehouse command.
  */
-class DfKameHouseCommandTest extends AbstractKameHouseCommandTest {
+class VlcStopKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected KameHouseCommand getKameHouseCommand() {
-    return new DfKameHouseCommand();
+    return new VlcStopKameHouseCommand(0);
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/df.sh";
+    return "win/vlc/vlc-stop.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/df.sh";
+    return "lin/vlc/vlc-stop.sh";
   }
 }
