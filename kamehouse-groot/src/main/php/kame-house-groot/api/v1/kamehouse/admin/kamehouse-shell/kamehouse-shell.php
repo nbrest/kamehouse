@@ -138,7 +138,7 @@ class KameHouseShell {
     $standardOutput = "";
     if ($isDaemon) {
       if ($kameHouse->core->isLinuxHost()) {
-        $timer = popen($shellCommand, "r"); 
+        $timer = popen($shellCommand . " > /dev/null 2>&1 &", "r"); 
         sleep(5);
         pclose($timer);
       } else {
