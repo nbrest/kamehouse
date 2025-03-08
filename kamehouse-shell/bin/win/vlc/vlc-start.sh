@@ -7,26 +7,23 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-FILE_TO_PLAY=""
-VLC_LOG_FILE="${HOME}/logs/vlc.log"
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/vlc/vlc-functions.sh
+if [ "$?" != "0" ]; then
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing vlc-functions.sh\033[0;39m"
+  exit 99
+fi
 
 mainProcess() {
   rotateVlcLog
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
+  setVlcProcessInfo
   local WINDOWS_FILE_RX=^[A-Za-z]:/.*
   if [[ "${FILE_TO_PLAY}" =~ ${WINDOWS_FILE_RX} ]]; then
     log.info "Playing a local windows file, rewriting paths to windows"
     FILE_TO_PLAY="`sed 's#/#\\\#Ig' <<<"${FILE_TO_PLAY}"`"
   fi
   vlc.exe ${FILE_TO_PLAY}
-}
-
-rotateVlcLog() {
-  log.trace "Rotating vlc logs"
-  if [ -f "${VLC_LOG_FILE}" ]; then
-    mv ${VLC_LOG_FILE} ${VLC_LOG_FILE}.old
-  fi
 }
 
 parseArguments() {

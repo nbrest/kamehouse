@@ -21,7 +21,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Represents a command to execute as a system process via kamehouse-shell. It's a single operation
- * executed through the command line via kamehouse-shell.
+ * executed through the command line via kamehouse-shell. Most of the KameHouseCommands are
+ * kamehouse shell comands.
  *
  * @author nbrest
  */
@@ -32,13 +33,12 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
   private static final String GIT_BASH_BAT = "win/bat/git-bash.bat";
   private static final String GIT_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
-
-  private static final String EXCEPTION_EXECUTING_PROCESS =
-      "Error occurred while executing the process.";
   private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
   private static final List<String> WINDOWS_CMD_START_MIN =
       Arrays.asList("cmd.exe", "/c", "start", "/min");
+  private static final String EXCEPTION_EXECUTING_PROCESS =
+      "Error occurred while executing the process.";
 
   @JsonIgnore
   private int sleepTime = 0;
