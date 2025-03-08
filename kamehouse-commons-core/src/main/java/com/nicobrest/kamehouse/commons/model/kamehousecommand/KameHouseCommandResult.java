@@ -10,7 +10,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents the result of an executed kamehouse command.
+ * Represents the result of an executed kamehouse command. This is the same result that is returned
+ * by groot's execute api that also executes a kamehouse shell script.
  */
 public class KameHouseCommandResult {
 
