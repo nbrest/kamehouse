@@ -15,11 +15,11 @@ class VlcStatusKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/uptime.sh";
+    return "win/vlc/vlc-status.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/uptime.sh";
+    return "lin/vlc/vlc-status.sh";
   }
 }
