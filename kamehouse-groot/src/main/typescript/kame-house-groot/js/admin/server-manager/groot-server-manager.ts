@@ -552,7 +552,6 @@ class DeploymentManager {
           !line.includes("Searching for tomcat process") &&
           !line.includes("Not all processes could be identified, non-owned process info") &&
           !line.includes("will not be shown, you would have to be root to see it all.") &&
-          !line.includes("will not be shown, you would have to be root to see it all.") &&
           !line.includes("Validating command line arguments") &&
           !line.includes("Executing script")) {
         kameHouse.util.dom.append(tomcatProcessStatusDiv, line);

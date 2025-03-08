@@ -26,7 +26,7 @@ class KameHouseShell {
         isDaemon: isDaemon
       };
       this.#setScriptExecutingScriptOutput(scriptName, args, executeOnDockerHost, isDaemon);
-      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' executeOnDockerHost: " + executeOnDockerHost + " isDaemon " + isDaemon + " and timeout " + timeout, null);
+      kameHouse.logger.info("Executing script : " + scriptName + " with args : '" + args + "' and executeOnDockerHost: " + executeOnDockerHost + ", isDaemon: " + isDaemon + ", timeout: " + timeout, null);
       const config = kameHouse.http.getConfig();
       if (!kameHouse.core.isEmpty(timeout)) {
         config.timeout = timeout;
