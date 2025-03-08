@@ -138,7 +138,7 @@ class KameHouseShell {
     $standardOutput = [];
     if ($isDaemon) {
       if ($kameHouse->core->isLinuxHost()) {
-        $standardOutput = shell_exec($shellCommand . " &");
+        $standardOutput = shell_exec($shellCommand . " /dev/null 2>&1 &");
         sleep(3);
       } else {
         // on windows it will trigger the script in the background and return the api response after a couple of seconds
