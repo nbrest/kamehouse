@@ -135,7 +135,7 @@ class KameHouseShell {
     $shellCommand = $this->buildShellCommand($script, $scriptArgs, $executeOnDockerHost, $isDaemon);
     $kameHouse->logger->info("Started executing script " . $script);
     $kameHouse->logger->info("Running shell command " . $shellCommand);
-    $standardOutput = [];
+    $standardOutput = "";
     if ($isDaemon) {
       if ($kameHouse->core->isLinuxHost()) {
         $timer = popen($shellCommand, "r"); 
