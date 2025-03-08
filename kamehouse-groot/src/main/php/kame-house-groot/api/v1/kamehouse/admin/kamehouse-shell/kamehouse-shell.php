@@ -29,11 +29,18 @@ class KameHouseShell {
     $standardOutput = $this->executeShellScript($script, $scriptArgs, $executeOnDockerHost, $isDaemon);
     $standardOutputHtml = $this->getStandardOutputHtml($standardOutput);
   
+    $status = "completed";
+    $exitCode = 0;
+    if ($isDaemon) {
+      $status = "running";
+      $exitCode = -1;
+    }
+
     $kameHouseCommandResult = [ 
       'command' => $script,
-      'exitCode' => -1,
+      'exitCode' => $exitCode,
       'pid' => -1,
-      'status' => "completed",
+      'status' => $status,
       'standardOutput' => $standardOutput,
       'standardOutputHtml' => $standardOutputHtml, 
       'standardError' => [],
