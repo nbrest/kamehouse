@@ -6,6 +6,8 @@ VLC_LOG_FILE="${HOME}/logs/vlc.log"
 
 VLC_DATA_PATH="${HOME}/programs/kamehouse-shell/data/vlc"
 VLC_PROCESS_INFO_FILE="${VLC_DATA_PATH}/vlc-process.info"
+VLC_STATS_HISTORY_FILE=${VLC_DATA_PATH}/vlc-process.stats
+VLC_CURRENT_RUN_PLAYED_FILES=${VLC_DATA_PATH}/vlc-current-run-played-files.txt
 
 VLC_PROCESS_START_DATE=""
 VLC_CURRENT_FILE_LOADED=""
@@ -53,4 +55,15 @@ searchForActiveVlcProcess() {
     log.debug "Vlc is running with pid ${COL_PURPLE}${VLC_PID}"
     VLC_IS_RUNNING=true
   fi
+}
+
+checkRunningVlcProcess() {
+  searchForActiveVlcProcess
+  if ! ${VLC_IS_RUNNING}; then
+    log.info "Vlc is not running. Clearing vlc process files"
+    echo "" > ${VLC_CURRENT_RUN_PLAYED_FILES}
+    removeVlcProcessInfo
+    rotateVlcLog
+    exitSuccessfully
+  fi  
 }

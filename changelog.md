@@ -7,7 +7,7 @@
 
 #### v10.01
 
-- Added vlc running process info file
+- Added vlc running process info file and vlc stats and tail log scripts
 - Updated input validation in most endpoints to block forbidden chars for shell execution
 - Added isDaemon option to execute shell scripts via groot
 - Added html output lists to KameHouseCommandResult and moved conversion of outputs to html to the backend
