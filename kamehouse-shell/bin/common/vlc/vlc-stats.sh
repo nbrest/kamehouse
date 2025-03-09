@@ -79,7 +79,7 @@ logVlcCpuUsage() {
   fi
   local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $2}'`
   local VLC_CPU_USAGE=`top -e m -E m -p "${VLC_PID}" -n 1 -b | grep vlc | awk '{print $9}'`
-  log.info "Vlc cpu usage: ${COL_RED}${VLC_CPU_USAGE}%"
+  log.info "VLC cpu usage: ${COL_RED}${VLC_CPU_USAGE}%"
 }
 
 logTemperature() {
@@ -94,7 +94,7 @@ updateStatsHistoryFile() {
   trimStatsHistoryFile
   log.info "${COL_RED}**************************************************" >> "${VLC_STATS_HISTORY_FILE}"
   log.info "${COL_YELLOW}VLC run stats:" >> "${VLC_STATS_HISTORY_FILE}"
-  log.info "Vlc load file: ${COL_PURPLE}${VLC_CURRENT_FILE_LOADED}" >> "${VLC_STATS_HISTORY_FILE}"
+  log.info "VLC load file: ${COL_PURPLE}${VLC_CURRENT_FILE_LOADED}" >> "${VLC_STATS_HISTORY_FILE}"
   log.info "Current file:  ${COL_PURPLE}${LAST_PLAYED_FILE}" >> "${VLC_STATS_HISTORY_FILE}"
   log.info "VLC run start: ${COL_RED}${VLC_PROCESS_START_DATE}" >> "${VLC_STATS_HISTORY_FILE}"
   log.info "VLC run time:  ${COL_RED}${HH_PLAYED} hs ${MM_PLAYED} mins" >> "${VLC_STATS_HISTORY_FILE}"
