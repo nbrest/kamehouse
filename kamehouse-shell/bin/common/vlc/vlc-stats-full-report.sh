@@ -12,6 +12,8 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
+VLC_STATS_ARGS="-n 8"
+
 mainProcess() {
   checkRunningVlcProcess
   showCurrentRunPlayedFilesSorted
@@ -56,7 +58,7 @@ showVlcSystemProcessInfo() {
 }  
 
 showVlcStats() {
-  ${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-stats.sh -n 8
+  ${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-stats.sh ${VLC_STATS_ARGS}
 }
 
 showVlcLogsLastDrm() {
@@ -64,6 +66,29 @@ showVlcLogsLastDrm() {
   local TAIL_GREP_REGEX="drm_vout debug: OK simple pic test.*|drm_vout debug: get_lease_fd OK.*|drm_vout error: Failed to get xlease.*|main debug:  \(path:..*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
   log.info "Last drm filtered entries of vlc.log"
   tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -E "${TAIL_GREP_REGEX}" | tail -n 10
+}
+
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -t|--show-history-file-only)
+        VLC_STATS_ARGS="${VLC_STATS_ARGS} --show-history-file-only"
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
+    esac
+  done    
+}
+
+printHelpOptions() {
+  addHelpOption "-t --show-history-file-only" "trace. just show the existing stats file without any calculations"
 }
 
 main "$@"
