@@ -77,7 +77,7 @@ logVlcCpuUsage() {
   if ! ${IS_LINUX_HOST}; then
     return
   fi
-  local VLC_PID=`ps -ef | grep vlc | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $2}'`
+  local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $2}'`
   local VLC_CPU_USAGE=`top -e m -E m -p "${VLC_PID}" -n 1 -b | grep vlc | awk '{print $9}'`
   log.info "Vlc cpu usage: ${COL_RED}${VLC_CPU_USAGE}%"
 }

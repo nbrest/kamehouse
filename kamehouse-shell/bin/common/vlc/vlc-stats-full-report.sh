@@ -47,12 +47,12 @@ showVlcSystemProcessInfo() {
     return
   fi
   log.info "Running top command to check vlc process status"
-  local VLC_PID=`ps -ef | grep vlc | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $2}'`
+  local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $2}'`
   local TOP_OUTPUT=`top -e m -E m -p "${VLC_PID}" -n 1 -b`
   echo "${TOP_OUTPUT}"
 
-  log.info "ps -ef | grep vlc"
-  ps -ef | grep vlc | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
+  log.info "ps -ef | grep vlc | grep -v vlc-start.sh"
+  ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
 }  
 
 showVlcStats() {
