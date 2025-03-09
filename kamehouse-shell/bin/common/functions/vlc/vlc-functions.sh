@@ -41,10 +41,10 @@ removeVlcProcessInfo() {
 searchForActiveVlcProcess() {
   log.debug "Searching for vlc process with an http server"
   if ${IS_LINUX_HOST}; then
-    netstat -nltp | grep ":${VLC_PORT} " | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1
+    #netstat -nltp | grep ":${VLC_PORT} " | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1
     VLC_PID=`netstat -nltp | grep ":${VLC_PORT} " | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1`
   else
-    netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
+    #netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
     VLC_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`
   fi
   log.debug "VLC_PID: ${VLC_PID}" 
