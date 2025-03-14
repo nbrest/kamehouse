@@ -32,7 +32,7 @@ class KameHouseAuth {
       }
     }
 
-    $kameHouse->core->exitWithError(401, "Login as admin to /kame-house-groot to access this endpoint");
+    $kameHouse->core->exitWithError(401, "Login as admin to /kame-house/groot/ to access this endpoint");
   }
 
   /**
@@ -47,11 +47,11 @@ class KameHouseAuth {
     }
 
     if (isset($_SERVER['REQUEST_URI'])) {
-      header('Location: /kame-house-groot/login.html?unauthorizedPageAccess=true&referrer=' . $_SERVER['REQUEST_URI']);
+      header('Location: /kame-house/groot/login.html?unauthorizedPageAccess=true&referrer=' . $_SERVER['REQUEST_URI']);
       exit;
     }
 
-    header('Location: /kame-house-groot/login.html?unauthorizedPageAccess=true');
+    header('Location: /kame-house/groot/login.html?unauthorizedPageAccess=true');
   	exit;
   }
 
@@ -85,7 +85,7 @@ class KameHouseAuth {
     session_set_cookie_params(0);
     session_start();
     session_destroy();
-    header('Location: /kame-house-groot/login.html?logout=true');    
+    header('Location: /kame-house/groot/login.html?logout=true');    
   }
 
   /**
@@ -274,8 +274,8 @@ class KameHouseAuth {
    */
   private function redirectLoginSuccess() {
     global $kameHouse;
-    $redirectUrl = "/kame-house-groot/";
-    if (isset($_POST['referrer']) && $kameHouse->util->string->startsWith($_POST['referrer'], "/kame-house-groot/")) {
+    $redirectUrl = "/kame-house/groot/";
+    if (isset($_POST['referrer']) && $kameHouse->util->string->startsWith($_POST['referrer'], "/kame-house/groot/")) {
       $redirectUrl = $_POST['referrer'];
     }
     header('Location: ' . $redirectUrl);
@@ -286,7 +286,7 @@ class KameHouseAuth {
    * Redirect after a failed login.
    */
   private function redirectLoginError() {
-    header('Location: /kame-house-groot/login.html?error=true');
+    header('Location: /kame-house/groot/login.html?error=true');
     exit;
   }
 

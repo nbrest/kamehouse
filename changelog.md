@@ -7,6 +7,7 @@
 
 #### v10.01
 
+- Merged groot ui into kamehouse-ui. Module kamehouse-groot is now only the backend apis
 - Added vlc running process info file and vlc stats and tail log scripts
 - Updated input validation in most endpoints to block forbidden chars for shell execution
 - Added isDaemon option to execute shell scripts via groot

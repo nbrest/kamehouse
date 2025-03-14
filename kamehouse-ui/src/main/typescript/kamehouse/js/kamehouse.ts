@@ -2400,7 +2400,7 @@ class KameHouseCore {
     let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
     let roles = kameHouse.session.roles;
     if (this.#isGRootAuthorizedPage()) {
-      loginUrl = "/kame-house-groot/login.html?unauthorizedPageAccess=true";
+      loginUrl = "/kame-house/groot/login.html?unauthorizedPageAccess=true";
       roles = kameHouse.extension.groot.session.roles;
     }
 
@@ -2606,7 +2606,7 @@ class KameHouseCore {
    * Returns true when processing a page authenticated by GRoot.
    */
   #isGRootAuthorizedPage() {
-    return window.location.href.includes("/kame-house-groot/") || window.location.href.includes("/kame-house-batcave/");
+    return window.location.href.includes("/kame-house/groot/") || window.location.href.includes("/kame-house-batcave/");
   }
 
   /**

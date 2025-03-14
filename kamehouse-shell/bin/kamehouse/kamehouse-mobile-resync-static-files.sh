@@ -30,7 +30,7 @@ setGlobalVariables() {
   setKameHouseRootProjectDir
 
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/dist
-  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/dist/kame-house-groot
+  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/src/main/php/kame-house-groot
   SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/dist/kame-house-batcave"
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house

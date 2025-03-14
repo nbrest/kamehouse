@@ -65,7 +65,7 @@ Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker
 
 After that, once the init script finishes deploying kamehouse to tomcat in the container, you can access kamehouse at [https://localhost:12443/kame-house/](https://localhost:12443/kame-house/) or [http://localhost:12080/kame-house/](http://localhost:12080/kame-house/) and you can login with the users mentioned above
 
-You can also access kamehouse groot at [https://localhost:12443/kame-house-groot/](https://localhost:12443/kame-house-groot/) or [http://localhost:12080/kame-house-groot/](http://localhost:12080/kame-house-groot/) and login to groot with the admin user mentioned above
+You can also access kamehouse groot at [https://localhost:12443/kame-house/groot/](https://localhost:12443/kame-house/groot/) or [http://localhost:12080/kame-house/groot/](http://localhost:12080/kame-house/groot/) and login to groot with the admin user mentioned above
 
 You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` 
 

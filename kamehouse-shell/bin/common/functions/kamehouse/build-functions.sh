@@ -5,7 +5,6 @@ buildKameHouseStatic() {
   fi
   if [[ -z "${MODULE}" ]]; then
     buildKameHouseUiStatic
-    buildKameHouseGroot
     buildKameHouseMobileStatic
     return
   fi
@@ -13,13 +12,8 @@ buildKameHouseStatic() {
     buildKameHouseUiStatic
     return
   fi
-  if [[ "${MODULE}" == "kamehouse-groot" ]]; then
-    buildKameHouseGroot
-    return
-  fi
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     buildKameHouseUiStatic
-    buildKameHouseGroot
     buildKameHouseMobileStatic
   fi
 }
@@ -39,7 +33,6 @@ checkBuildStaticOnly() {
 buildKameHouseUiStatic() {
   if [[ -n "${MODULE_SHORT}" 
     && "${MODULE_SHORT}" != "ui"
-    && "${MODULE_SHORT}" != "groot"
     && "${MODULE_SHORT}" != "mobile" ]]; then
     return
   fi
@@ -57,34 +50,6 @@ buildKameHouseUiStatic() {
   cp -r ./src/main/public/* ./dist
   echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
   cdToRootDirFromModule "kamehouse-ui"
-}
-
-buildKameHouseGroot() {
-  if [[ -n "${MODULE_SHORT}" 
-    && "${MODULE_SHORT}" != "groot"
-    && "${MODULE_SHORT}" != "mobile" ]]; then
-    return
-  fi
-  cdToKameHouseModule "kamehouse-groot"
-  log.info "Building ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} static code"
-  log.debug "Cleaning up dist directory"
-  rm -rf ./dist/*
-
-  buildFrontendCode
-
-  log.debug "Updating sourcemap relative paths"
-  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../../src/main/typescript#g" {} \;
-
-  log.info "Building kamehouse-groot bundle in dist folder"
-  cp -r ./src/main/public/* ./dist
-  cp -r ./src/main/php/kame-house-groot/* ./dist/kame-house-groot
-  echo "groot build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/kame-house-groot/groot-build-date.txt 
-  mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/js ./dist/kame-house-groot/js
-  mv ./dist/kamehouse-groot/src/main/typescript/kame-house-groot/kamehouse-groot/js ./dist/kame-house-groot/kamehouse-groot/js
-  rm -rf ./dist/kamehouse-groot
-  rm -rf ./dist/kamehouse-ui
-  rm -rf ./dist/*.html
-  cdToRootDirFromModule "kamehouse-groot"
 }
 
 buildKameHouseMobileStatic() {
