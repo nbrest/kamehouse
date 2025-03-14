@@ -24,6 +24,7 @@ let MM_PLAYED=0
 
 mainProcess() {
   checkRunningVlcProcess
+  initStatsHistoryFile
   if ${SHOW_HISTORY_FILE_ONLY}; then
     showStatsHistoryFile
     exitSuccessfully
@@ -35,6 +36,13 @@ mainProcess() {
   fi  
   updateStatsHistoryFile
   showStatsHistoryFile
+}
+
+initStatsHistoryFile() {
+  if [ ! -f "${VLC_STATS_HISTORY_FILE}" ]; then
+    log.info "Initializing file ${VLC_STATS_HISTORY_FILE}"
+    echo -ne "" > "${VLC_STATS_HISTORY_FILE}"
+  fi
 }
 
 calculateCurrentRunStats() {

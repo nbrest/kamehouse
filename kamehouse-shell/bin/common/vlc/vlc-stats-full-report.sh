@@ -63,6 +63,7 @@ showVlcStats() {
 }
 
 showVlcLogsLastDrm() {
+  checkExistingVlcLogFile
   local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
   local TAIL_GREP_REGEX="drm_vout debug: OK simple pic test.*|drm_vout debug: get_lease_fd OK.*|drm_vout error: Failed to get xlease.*|main debug:  \(path:..*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
   log.info "Last drm filtered entries of vlc.log"
