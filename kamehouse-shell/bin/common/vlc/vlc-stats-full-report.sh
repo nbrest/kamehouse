@@ -29,6 +29,7 @@ showCurrentRunPlayedFilesSorted() {
 }
 
 showVlcLogsFiltered() {
+  checkExistingVlcLogFile
   log.info "tail filtered vlc logs"
   local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
   local TAIL_GREP_REGEX="drm_vout.*|main debug:  \(path:..*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"

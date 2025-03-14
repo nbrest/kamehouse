@@ -19,6 +19,13 @@ VLC_IS_RUNNING=false
 
 mkdir -p "${VLC_DATA_PATH}"
 
+checkExistingVlcLogFile() {
+  if [ ! -f "${VLC_LOG_FILE}" ]; then
+    log.error "${VLC_LOG_FILE} doesn't exist. Check vlc configuration"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi
+}
+
 rotateVlcLog() {
   log.trace "Rotating vlc logs"
   if [ -f "${VLC_LOG_FILE}" ]; then

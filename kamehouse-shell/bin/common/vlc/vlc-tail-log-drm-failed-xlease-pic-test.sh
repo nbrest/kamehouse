@@ -16,6 +16,7 @@ LOG_PROCESS_TO_FILE=false
 FOLLOW="-F"
 
 mainProcess() {
+  checkExistingVlcLogFile
   LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
   TAIL_GREP_REGEX="drm_vout debug: OK simple pic test.*|drm_vout debug: get_lease_fd OK.*|drm_vout error: Failed to get xlease.*|main debug:  \(path:..*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
   tail -n +${LAST_M3U_LINE} ${FOLLOW} ${VLC_LOG_FILE} | grep -E "${TAIL_GREP_REGEX}"

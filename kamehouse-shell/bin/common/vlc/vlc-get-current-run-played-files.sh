@@ -25,6 +25,7 @@ mainProcess() {
 }
 
 getFilesPlayed() {
+  checkExistingVlcLogFile
   log.debug "Getting all files played during the current vlc playlist run"
   local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
   if [ -z "${LAST_M3U_LINE}" ]; then
