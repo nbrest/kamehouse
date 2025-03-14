@@ -5,7 +5,6 @@ buildKameHouseStatic() {
   fi
   if [[ -z "${MODULE}" ]]; then
     buildKameHouseUiStatic
-    buildKameHouseMobileStatic
     return
   fi
   if [[ "${MODULE}" == "kamehouse-ui" ]]; then
@@ -15,6 +14,7 @@ buildKameHouseStatic() {
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     buildKameHouseUiStatic
     buildKameHouseMobileStatic
+    return
   fi
 }
 
