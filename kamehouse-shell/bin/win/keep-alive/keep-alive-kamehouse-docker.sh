@@ -20,6 +20,7 @@ DEFAULT_DOCKER_PROFILE="prod"
 DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
 mainProcess() {
+  checkKeepAliveScriptsEnabled
   netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1
   PID=`netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1 | awk '{print $5}'`
   if [ -z "${PID}" ]; then

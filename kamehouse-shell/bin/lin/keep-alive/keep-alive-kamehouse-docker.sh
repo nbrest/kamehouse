@@ -20,6 +20,7 @@ DEFAULT_DOCKER_PROFILE="prod"
 DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 
 mainProcess() {
+  checkKeepAliveScriptsEnabled
   log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
   PID=`sudo netstat -nltp | grep ":${DOCKER_PORT_HTTP} " | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z "${PID}" ]; then

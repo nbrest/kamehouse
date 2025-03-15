@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Import common functions
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
+# Import kamehouse functions
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
+  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 99
 fi
 
@@ -12,6 +12,7 @@ SERVICE="httpd"
 SERVICE_STARTUP="sudo service apache2 start"
 
 mainProcess() {
+  checkKeepAliveScriptsEnabled
   log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
   PID=`sudo netstat -nltp | grep ":${PORT} " | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z "${PID}" ]; then

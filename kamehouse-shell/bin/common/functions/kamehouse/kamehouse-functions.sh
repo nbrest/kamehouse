@@ -467,3 +467,11 @@ setKameHouseMobileApkPath() {
   KAMEHOUSE_ANDROID_APK_PATH=${PROJECT_DIR}${KAMEHOUSE_ANDROID_APK}
   log.debug "Setting KAMEHOUSE_ANDROID_APK_PATH=${KAMEHOUSE_ANDROID_APK_PATH}"
 }
+
+# exit the process if keep alive scripts are disabled in the configuration
+checkKeepAliveScriptsEnabled() {
+  if ${KEEP_ALIVE_SCRIPTS_DISABLED}; then
+    log.info "keep alive scripts are disabled in kamehouse.cfg"
+    exitProcess ${EXIT_PROCESS_CANCELLED}
+  fi
+}
