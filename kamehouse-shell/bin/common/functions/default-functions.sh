@@ -21,7 +21,7 @@ parseHelpArgument() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
-      -h)
+      -h|--help)
         parseHelp
         ;;
     esac
@@ -56,7 +56,7 @@ printHelp() {
   echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"
-  addHelpOption "-h" "display help"
+  addHelpOption "-h --help" "display help"
   printHelpOptions
   printHelpFooter
 }
