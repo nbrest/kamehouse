@@ -103,10 +103,7 @@ class KameHouseMobileCore {
         if (responseBody.includes("KameHouse - Login")) {
           kameHouse.logger.info("Logout successful", null);
           kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getSuccessModalHtml(" Success!"), 1000);
-          this.#setSuccessfulLogoutView();
-          this.#setSuccessfulLogoutConfig();
-          kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(false);
-          kameHouse.cordova.plugin.http.clearCookies();
+          this.#updateLogoutViewAndConfig();
           return;
         }
         const message = "Logout error: " + kameHouse.json.stringify(responseBody, null, null);
@@ -115,9 +112,10 @@ class KameHouseMobileCore {
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
-        const message = "Error connecting to the backend to logout. Response code: " + responseCode;
+        const message = "Error connecting to the backend to logout. Clearing locally stored credentials. Response code: " + responseCode;
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(message), 2000);
+        this.#updateLogoutViewAndConfig();
       }
     );
   }  
@@ -258,6 +256,16 @@ class KameHouseMobileCore {
    */
   overrideWindowOpen() {
     window.open = kameHouse.cordova.InAppBrowser.open;
+  }
+
+  /**
+   * Update backend server view and config with logout.
+   */
+  #updateLogoutViewAndConfig() {
+    this.#setSuccessfulLogoutView();
+    this.#setSuccessfulLogoutConfig();
+    kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(false);
+    kameHouse.cordova.plugin.http.clearCookies();
   }
 
   /**
