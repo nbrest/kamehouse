@@ -39,7 +39,6 @@ mainProcess() {
 }
 
 mainProcessLoop() {
-  log.info "Starting ci docker container"
   NUM_MAIN_PROCESS_RETRIES=$((RETRIES))
   while [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; do
     log.info "Retries left to do the main process: ${COL_RED}${NUM_MAIN_PROCESS_RETRIES}"
@@ -70,7 +69,7 @@ mainProcessLoop() {
 }
 
 startCiDockerContainerLoop() {
-  log.info "Starting ci docker container"
+  log.info "Starting ci docker container loop"
   NUM_TOMCAT_STARTUP_RETRIES=$((RETRIES))
   while [ ${NUM_TOMCAT_STARTUP_RETRIES} -gt 0 ]; do
     log.info "Retries left to start ci docker container: ${COL_RED}${NUM_TOMCAT_STARTUP_RETRIES}"
@@ -89,12 +88,42 @@ startCiDockerContainerLoop() {
 
 stopCiDockerContainer() {
   log.info "Stopping ci docker container"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p ci > /dev/null
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p ci
+  killCiContainerProcesses
+}
+
+killCiContainerProcesses() {
+  if ! ${KAMEHOUSE_KILL_CI_CONTAINER_PROCESSES}; then
+    log.info "Skip killing ci container processes"
+    return
+  fi
+  killProcessRunningOnPort "${DOCKER_PORT_SSH_CI}"
+  killProcessRunningOnPort "${DOCKER_PORT_HTTP_CI}"
+  killProcessRunningOnPort "${DOCKER_PORT_HTTPS_CI}"
+  killProcessRunningOnPort "${DOCKER_PORT_TOMCAT_DEBUG_CI}"
+  killProcessRunningOnPort "${DOCKER_PORT_TOMCAT_CI}"
+  killProcessRunningOnPort "${DOCKER_PORT_MARIADB_CI}"
+  killProcessRunningOnPort "${DOCKER_PORT_CMD_LINE_DEBUG_CI}"
+}
+
+killProcessRunningOnPort() {
+  if ! ${IS_LINUX_HOST}; then
+    return
+  fi
+  local PORT=$1
+  log.info "This script needs to run with ${COL_RED}sudo"
+  local PID=`sudo netstat -nltp | grep ":${PORT}" | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1`
+  if [ -n "${PID}" ]; then
+    log.info "Killing process ${PID} running on port ${PORT}"
+    sudo kill -9 ${PID}
+  else 
+    log.debut "No process running on port ${PORT}"
+  fi
 }
 
 startCiDockerContainer() {
   log.info "Starting ci docker container"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p ci > /dev/null &
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p ci &
 }
 
 waitForTomcatStartup() {
