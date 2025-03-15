@@ -85,6 +85,8 @@ deployKameHouseGroot() {
   log.info "Deployed kamehouse-groot status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-groot"
+  log.info "groot-version.txt"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
@@ -122,6 +124,9 @@ deployToTomcat() {
   log.info "Deployed tomcat modules status"
   log.info "ls -lh ${COL_CYAN_STD}${DEPLOYMENT_DIR}/*.war"
   ls -lh "${DEPLOYMENT_DIR}"/*.war
+  log.info "deployed kamehouse tomcat modules version"
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}"
+  echo "buildDate=$(date +%Y-%m-%d' '%H:%M:%S)"
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
   local TAIL_LOG_FILE="tomcat"
   if [[ ${DEPLOYMENT_DIR} =~ .*apache-tomcat-dev.* ]]; then
@@ -148,6 +153,8 @@ deployKameHouseCmd() {
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*"
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd"*
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd"*.jar
+  log.info "cmd-version.txt"
+  cat ${HOME}/programs/kamehouse-cmd/lib/cmd-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
 
@@ -180,7 +187,7 @@ uploadKameHouseMobileApkToGDrive() {
   if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}" ]; then
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
-    log.info "Deployed kamehouse-mobile status"
+    log.info "Deployed kamehouse-mobile apk status"
     log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
     ls -lh "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
   fi
@@ -194,7 +201,7 @@ uploadKameHouseMobileApkToGDrive() {
   if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
     log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}"
     cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
-    log.info "Deployed kamehouse-mobile status"
+    log.info "Deployed kamehouse-mobile apk status"
     log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
     ls -lh "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
   fi
@@ -223,6 +230,7 @@ deployKameHouseUiStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
   cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
@@ -242,6 +250,9 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
+  log.info "ui-build-version.txt"
+  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-version.txt
+  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-date.txt
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
 
@@ -254,6 +265,7 @@ deployKameHouseMobileStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
@@ -273,6 +285,10 @@ deployKameHouseMobileStatic() {
   log.info "Deployed kamehouse-mobile status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-mobile"
+  log.info "kamehouse-mobile version"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.txt"
+  local MOBILE_BUILD_DATE=`cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-date.txt"`
+  echo "buildDate=${MOBILE_BUILD_DATE}"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }
 

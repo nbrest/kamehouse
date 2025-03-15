@@ -48,7 +48,7 @@ buildKameHouseUiStatic() {
 
   log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
-  echo "ui build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
+  echo "buildDate=$(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
   cdToRootDirFromModule "kamehouse-ui"
 }
 
