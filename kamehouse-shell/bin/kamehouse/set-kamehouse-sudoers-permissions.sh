@@ -37,6 +37,7 @@ updateSudoers() {
   sudo usermod -a -G sudo ${KAMEHOUSE_USER}
   log.info "Updating sudoers file to run kamehouse"
   updateSudoersEntry "www-data ALL=(root) NOPASSWD: /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh"
+  updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/kill"
   updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/mariadb"
   updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/netstat"
   updateSudoersEntry "${KAMEHOUSE_USER} ALL=(root) NOPASSWD: /usr/bin/systemctl"
