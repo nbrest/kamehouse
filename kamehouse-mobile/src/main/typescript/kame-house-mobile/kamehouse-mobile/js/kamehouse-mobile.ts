@@ -45,12 +45,14 @@ class KameHouseMobileCore {
   }
 
   /**
-   * Login to the kamehouse server.
+   * Login to the kamehouse server via groot. 
+   * Use groot for login as tomcat may not be deployed in all servers.
+   * Groot is most likely to be deployed everywhere.
    */
   login() {
-    kameHouse.logger.info("Logging in to KameHouse...", null);
-    kameHouse.plugin.modal.loadingWheelModal.open("Logging in to KameHouse...");
-    const LOGIN_URL = "/kame-house/login";
+    kameHouse.logger.info("Logging in to KameHouse Groot...", null);
+    kameHouse.plugin.modal.loadingWheelModal.open("Logging in to KameHouse Groot...");
+    const LOGIN_URL = "/kame-house-groot/api/v1/auth/login.php";
     const credentials = this.#getBackendCredentials();
     const loginData = {
       username : credentials.username,
@@ -61,7 +63,7 @@ class KameHouseMobileCore {
     kameHouse.plugin.debugger.http.post(config, LOGIN_URL, kameHouse.http.getUrlEncodedHeaders(), loginData,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.plugin.modal.loadingWheelModal.close();
-        if (responseBody.includes("KameHouse - Login")) {
+        if (responseBody.includes("GRoot - Login")) {
           const message = "Login error - invalid credentials. Redirected back to login";
           kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
           kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("Invalid credentials"), 1000);
