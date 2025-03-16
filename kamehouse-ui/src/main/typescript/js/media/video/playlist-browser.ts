@@ -90,13 +90,16 @@ class PlaylistBrowser {
       "path" : playlistFilename
     };
     const config = kameHouse.http.getConfig();
+    kameHouse.util.cursor.setCursorWait();
     kameHouse.plugin.debugger.http.get(config, this.#mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         this.#currentPlaylist = responseBody;
         this.#populatePlaylistBrowserTable();
+        kameHouse.util.cursor.setCursorDefault();
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.error("Error getting playlist content", null);
+        kameHouse.util.cursor.setCursorDefault();
       });
   }
 
