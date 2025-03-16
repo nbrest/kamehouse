@@ -63,7 +63,7 @@ deployKameHouseGroot() {
   cp -rf ./kamehouse-groot/src/main/php/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune`
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '*'`
   while read FILE; do
     if [ -n "${FILE}" ]; then
       chmod a+rx ${FILE}
@@ -226,7 +226,7 @@ deployKameHouseUiStatic() {
   echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune`
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '*'`
   while read FILE; do
     if [ -n "${FILE}" ]; then
       chmod a+rx ${FILE}
@@ -254,7 +254,7 @@ deployKameHouseMobileStatic() {
   echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune`
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '*'`
   while read FILE; do
     if [ -n "${FILE}" ]; then
       chmod a+rx ${FILE}

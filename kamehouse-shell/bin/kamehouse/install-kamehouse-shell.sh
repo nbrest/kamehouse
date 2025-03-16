@@ -92,7 +92,7 @@ fixPermissions() {
   local KAMEHOUSE_SHELL_BIN_PATH=${KAMEHOUSE_SHELL_PATH}/bin
   chmod -R 700 ${KAMEHOUSE_SHELL_BIN_PATH} 
   
-  local KAMEHOUSE_SHELL_BIN_FILES=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune`
+  local KAMEHOUSE_SHELL_BIN_FILES=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '*'`
   while read KAMEHOUSE_SHELL_BIN_FILE; do
     if [ -n "${KAMEHOUSE_SHELL_BIN_FILE}" ]; then
       chmod u+rx ${KAMEHOUSE_SHELL_BIN_FILE}
@@ -227,7 +227,7 @@ getPathWithSubdirectories() {
     return
   fi
   # List all directories
-  local PATH_WITH_SUBDIRS=$(find ${BASE_PATH} -name '.*' -prune)
+  local PATH_WITH_SUBDIRS=$(find ${BASE_PATH} -name '*')
   # Filter bashrc
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /common/bashrc)
   # Filter docker container scripts
