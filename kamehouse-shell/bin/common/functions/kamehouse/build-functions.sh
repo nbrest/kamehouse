@@ -44,7 +44,7 @@ buildKameHouseUiStatic() {
   buildFrontendCode
 
   log.debug "Updating sourcemap relative paths"
-  find . -regex ".*.js.map" -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
 
   log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
@@ -66,7 +66,7 @@ buildKameHouseMobileStatic() {
   buildFrontendCode
 
   log.debug "Updating sourcemap relative paths"
-  find . -regex ".*.js.map" -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
+  find . -regex ".*.js.map" -type f -exec sed -i "s#../../../../../../../src/main/typescript#../../../src/main/typescript#g" {} \;
   
   log.info "Building kamehouse-mobile bundle in www folder"
   mkdir -p ./www/kame-house-mobile

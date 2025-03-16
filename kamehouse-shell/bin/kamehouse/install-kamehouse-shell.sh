@@ -92,33 +92,33 @@ fixPermissions() {
   local KAMEHOUSE_SHELL_BIN_PATH=${KAMEHOUSE_SHELL_PATH}/bin
   chmod -R 700 ${KAMEHOUSE_SHELL_BIN_PATH} 
   
-  local KAMEHOUSE_SHELL_BIN_FILES=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '*'`
-  while read KAMEHOUSE_SHELL_BIN_FILE; do
-    if [ -n "${KAMEHOUSE_SHELL_BIN_FILE}" ]; then
-      chmod u+rx ${KAMEHOUSE_SHELL_BIN_FILE}
-    fi
-  done <<< ${KAMEHOUSE_SHELL_BIN_FILES}
-
-  local NON_SCRIPTS=`echo -e "${KAMEHOUSE_SHELL_BIN_FILES}" | grep -v -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
+  local NON_SCRIPTS=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read NON_SCRIPT; do
     if [ -n "${NON_SCRIPT}" ]; then
       chmod a-x ${NON_SCRIPT}
     fi
   done <<< ${NON_SCRIPTS}
 
-  local SCRIPTS=`echo -e "${KAMEHOUSE_SHELL_BIN_FILES}" | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
+  local SCRIPTS=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
       chmod u+rx ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
-  local FUNCTIONS=`echo -e "${KAMEHOUSE_SHELL_BIN_FILES}" | grep "\-functions.sh$"`
+  local FUNCTIONS=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type f | grep "\-functions.sh$"`
   while read FUNCTION; do
     if [ -n "${FUNCTION}" ]; then
       chmod a-x ${FUNCTION}
     fi
   done <<< ${FUNCTIONS}
+
+  local DIRECTORIES=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type d`
+  while read DIRECTORY; do
+    if [ -n "${DIRECTORY}" ]; then
+      chmod u+rx ${DIRECTORY}
+    fi
+  done <<< ${DIRECTORIES}
 }
 
 installKamehouseConfig() {
@@ -227,7 +227,7 @@ getPathWithSubdirectories() {
     return
   fi
   # List all directories
-  local PATH_WITH_SUBDIRS=$(find ${BASE_PATH} -name '*')
+  local PATH_WITH_SUBDIRS=$(find ${BASE_PATH} -name '.*' -prune -o -type d)
   # Filter bashrc
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /common/bashrc)
   # Filter docker container scripts
