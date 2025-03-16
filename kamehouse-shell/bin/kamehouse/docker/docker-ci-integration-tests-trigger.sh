@@ -117,7 +117,7 @@ killProcessRunningOnPort() {
     log.info "Killing process ${PID} running on port ${PORT}"
     sudo kill -9 ${PID}
   else 
-    log.debut "No process running on port ${PORT}"
+    log.debug "No process running on port ${PORT}"
   fi
 }
 
