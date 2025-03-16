@@ -17,7 +17,7 @@ BASE_DIR=${HOME}/programs/kamehouse-shell/bin
 
 mainProcess() {  
   # List all files
-  SCRIPTS_PATH=$(find ${BASE_DIR} -name '.*' -prune -o -type f)
+  SCRIPTS_PATH=$(find ${BASE_DIR} -name '.*' -prune)
 
   # Filter bashrc
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /common/bashrc) 

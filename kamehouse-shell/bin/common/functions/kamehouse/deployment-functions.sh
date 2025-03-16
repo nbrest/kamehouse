@@ -63,19 +63,12 @@ deployKameHouseGroot() {
   cp -rf ./kamehouse-groot/src/main/php/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune`
   while read FILE; do
     if [ -n "${FILE}" ]; then
       chmod a+rx ${FILE}
     fi
   done <<< ${FILES}
-
-  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
-  while read DIRECTORY; do
-    if [ -n "${DIRECTORY}" ]; then
-      chmod a+rx ${DIRECTORY}
-    fi
-  done <<< ${DIRECTORIES}
 
   local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
   echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
@@ -233,19 +226,12 @@ deployKameHouseUiStatic() {
   echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune`
   while read FILE; do
     if [ -n "${FILE}" ]; then
       chmod a+rx ${FILE}
     fi
   done <<< ${FILES}
-
-  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type d`
-  while read DIRECTORY; do
-    if [ -n "${DIRECTORY}" ]; then
-      chmod a+rx ${DIRECTORY}
-    fi
-  done <<< ${DIRECTORIES}
 
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
@@ -268,19 +254,12 @@ deployKameHouseMobileStatic() {
   echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
+  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune`
   while read FILE; do
     if [ -n "${FILE}" ]; then
       chmod a+rx ${FILE}
     fi
   done <<< ${FILES}
-
-  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type d`
-  while read DIRECTORY; do
-    if [ -n "${DIRECTORY}" ]; then
-      chmod a+rx ${DIRECTORY}
-    fi
-  done <<< ${DIRECTORIES}
 
   log.info "Deployed kamehouse-mobile status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
