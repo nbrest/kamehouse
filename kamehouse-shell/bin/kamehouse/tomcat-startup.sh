@@ -25,22 +25,7 @@ mainProcess() {
 }
 
 startTomcatLinux() {
-  if [ -z "${TERM}" ]; then
-    export TERM=xterm
-  fi
-
-  if [ -z "${DISPLAY}" ]; then
-    export DISPLAY=:0.0
-  fi
-
-  if [ -z "${DBUS_SESSION_BUS_ADDRESS}" ]; then
-    USER_UID=`cat /etc/passwd | grep "${HOME}:" | cut -d ':' -f3`
-    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus
-  fi
-
-  log.debug "TERM=${TERM}"
-  log.debug "DISPLAY=${DISPLAY}"
-  log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"
+  setupLinuxEnvironment
 
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"

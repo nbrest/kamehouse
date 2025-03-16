@@ -475,3 +475,31 @@ checkKeepAliveScriptsEnabled() {
     exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 }
+
+# setup environment for scripts running in linux
+setupLinuxEnvironment() {
+  if ! ${IS_LINUX_HOST}; then
+    return
+  fi
+
+  if [ -z "${TERM}" ]; then
+    export TERM=xterm
+  fi
+  log.debug "TERM=${TERM}"
+
+  if [ -z "${DISPLAY}" ]; then
+    export DISPLAY=:0.0
+  fi
+  log.debug "DISPLAY=${DISPLAY}"
+
+  if [ -z "${XDG_RUNTIME_DIR}" ]; then
+    export XDG_RUNTIME_DIR=/run/user/$(id -u)
+  fi
+  log.debug "XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}"
+
+  if [ -z "${DBUS_SESSION_BUS_ADDRESS}" ]; then
+    USER_UID=`cat /etc/passwd | grep "${HOME}:" | cut -d ':' -f3`
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus
+  fi
+  log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"  
+}
