@@ -97,6 +97,7 @@ killCiContainerProcesses() {
     log.info "Skip killing ci container processes"
     return
   fi
+  log.info "This script needs to run with ${COL_RED}sudo"
   killProcessRunningOnPort "${DOCKER_PORT_SSH_CI}"
   killProcessRunningOnPort "${DOCKER_PORT_HTTP_CI}"
   killProcessRunningOnPort "${DOCKER_PORT_HTTPS_CI}"
@@ -111,7 +112,6 @@ killProcessRunningOnPort() {
     return
   fi
   local PORT=$1
-  log.info "This script needs to run with ${COL_RED}sudo"
   local PID=`sudo netstat -nltp | grep ":${PORT}" | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1`
   if [ -n "${PID}" ]; then
     log.info "Killing process ${PID} running on port ${PORT}"
