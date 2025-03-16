@@ -97,7 +97,7 @@ killCiContainerProcesses() {
     log.info "Skip killing ci container processes"
     return
   fi
-  log.info "This script needs to run with ${COL_RED}sudo${COL_DEFAULT_LOG} for netstat and kill"
+  log.info "This script uses ${COL_RED}sudo${COL_DEFAULT_LOG} for netstat and kill"
   killProcessRunningOnPort "${DOCKER_PORT_SSH_CI}"
   killProcessRunningOnPort "${DOCKER_PORT_HTTP_CI}"
   killProcessRunningOnPort "${DOCKER_PORT_HTTPS_CI}"
