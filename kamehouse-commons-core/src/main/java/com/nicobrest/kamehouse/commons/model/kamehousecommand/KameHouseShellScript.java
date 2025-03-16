@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Represents a command to execute as a system process via kamehouse-shell. It's a single operation
  * executed through the command line via kamehouse-shell. Most of the KameHouseCommands are
- * kamehouse shell comands.
+ * kamehouse shell commands.
  *
  * @author nbrest
  */
