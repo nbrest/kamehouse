@@ -9,17 +9,17 @@
 
 This module handles the following functionality:
 
-- Get all the video playlists and load them to kamehouse
+- Get all the playlists and load them to kamehouse
 
 - The playlists are expected to be in `.m3u` format
 
-- These playlists are used by other modules to start vlc player to play either an entire playlist or a single video within a playlist
+- These playlists are used by other modules to start vlc player to play either an entire playlist or a single file within a playlist
 
 ### Create your own playlists
 
 - These playlists will then be accessed by all servers running kamehouse
 
-- Generate the playlists for your video files and put them in your own path inside your user's home
+- Generate the playlists for your files and put them in your own path inside your user's home
 
 - Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/config/kamehouse.cfg` with the path to the root directory that contains your playlists
 
