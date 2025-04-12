@@ -9,7 +9,7 @@ fi
 loadKamehouseShellPwd
 
 # Global variables
-PATH_DUMP_FILE=${HOME}/.kamehouse/mariadb/dump 
+PATH_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump 
 NUMBER_OF_EXPORTS=3
 DUMP_FILENAME=dump-kamehouse.sql
 LOG_FILENAME=dump-kamehouse.log
@@ -24,7 +24,7 @@ mainProcess() {
 setupInitialDirectories() {
   log.info "Creating backup directories if they don't exist"
   mkdir -v -p ${PATH_DUMP_FILE}/old
-  chmod -R 700 ${HOME}/.kamehouse
+  chmod -R 700 ${HOME}/.kamehouse/config
 }
 
 cyclePreviousBackups() {

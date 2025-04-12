@@ -13,7 +13,7 @@ USE_CURRENT_DIR=true
 
 mainProcess() {
   setKameHouseRootProjectDir
-  log.info "Set ${COL_RED}ANDROID_IP, ANDROID_PORT, ANDROID_SFTP_USER, ANDROID_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/kamehouse.cfg"
+  log.info "Set ${COL_RED}ANDROID_IP, ANDROID_PORT, ANDROID_SFTP_USER, ANDROID_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
   if ${SKIP_BUILD_MOBILE}; then
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
@@ -27,7 +27,7 @@ uploadApkToDeviceSftp() {
   setKameHouseMobileApkPath
   log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_DEFAULT_LOG} on the android phone before proceeding"
   log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
-  log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/.shell/shell.pwd as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt"
+  log.info "Check pass in sftp mobile app config and store it in ${HOME}/.kamehouse/config/.shell/shell.pwd as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt"
   if ${IS_LINUX_HOST}; then 
     log.debug "sftp -v -P ${ANDROID_PORT} ${ANDROID_SFTP_USER}@${ANDROID_IP} <<< \"put ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_APK_DEST_PATH}/kamehouse.apk\" "
     sftp -v -P ${ANDROID_PORT} ${ANDROID_SFTP_USER}@${ANDROID_IP} <<< "put ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_APK_DEST_PATH}/kamehouse.apk" 

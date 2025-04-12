@@ -29,7 +29,7 @@ GRoot relies on tomcat manager's app to be deployed and running
 
 # Install:
 
-- [optional] Update `GROOT_API_BASIC_AUTH` in `${HOME}/.kamehouse/.shell/shell.pwd` with base64 encoded user:pass to execute deploy/git pull on remote servers from groot
+- [optional] Update `GROOT_API_BASIC_AUTH` in `${HOME}/.kamehouse/config/.shell/shell.pwd` with base64 encoded user:pass to execute deploy/git pull on remote servers from groot
 
 ## Linux:
 

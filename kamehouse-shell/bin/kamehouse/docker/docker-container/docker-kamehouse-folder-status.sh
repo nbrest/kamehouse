@@ -11,17 +11,17 @@ mainProcess() {
   log.info "${HOME}/.kamehouse"
   ls -ltra ${HOME}/.kamehouse
 
-  log.info "${HOME}/.kamehouse/.shell"
-  ls -ltra ${HOME}/.kamehouse/.shell
+  log.info "${HOME}/.kamehouse/config/.shell"
+  ls -ltra ${HOME}/.kamehouse/config/.shell
 
-  log.info "${HOME}/.kamehouse/keys"
-  ls -ltra ${HOME}/.kamehouse/keys
+  log.info "${HOME}/.kamehouse/config/keys"
+  ls -ltra ${HOME}/.kamehouse/config/keys
 
-  log.info "${HOME}/.kamehouse/mariadb"
-  ls -ltra ${HOME}/.kamehouse/mariadb
+  log.info "${HOME}/.kamehouse/config/mariadb"
+  ls -ltra ${HOME}/.kamehouse/config/mariadb
 
-  log.info "${HOME}/.kamehouse/mariadb/dump"
-  ls -ltra ${HOME}/.kamehouse/mariadb/dump
+  log.info "${HOME}/.kamehouse/config/mariadb/dump"
+  ls -ltra ${HOME}/.kamehouse/config/mariadb/dump
 
   log.info "${HOME}/.ssh"
   ls -ltra ${HOME}/.ssh

@@ -7,6 +7,7 @@
 
 #### v10.01
 
+- Moved .kamehouse/ files to .kamehouse/config/
 - Added option to disable keep alive scripts in kamehouse.cfg
 - Added build version and date to deployment logs for all modules
 - Merged groot ui into kamehouse-ui. Module kamehouse-groot is now only the backend apis

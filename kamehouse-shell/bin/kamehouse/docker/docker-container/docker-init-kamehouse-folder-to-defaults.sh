@@ -11,26 +11,26 @@ mainProcess() {
   log.info "Reinit container .kamehouse folder with docker defaults"
   
   log.info "Reinit kamehouse.cfg"
-  mkdir -p ${HOME}/.kamehouse/
-  cp -v -f ${HOME}/git/kamehouse/docker/config/kamehouse.cfg ${HOME}/.kamehouse/
+  mkdir -p ${HOME}/.kamehouse/config/
+  cp -v -f ${HOME}/git/kamehouse/docker/config/kamehouse.cfg ${HOME}/.kamehouse/config/
 
   log.info "Reinit shell.pwd"
-  mkdir -p ${HOME}/.kamehouse/.shell/
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/shell.pwd ${HOME}/.kamehouse/.shell/
+  mkdir -p ${HOME}/.kamehouse/config/.shell/
+  cp -v -f ${HOME}/git/kamehouse/docker/keys/shell.pwd ${HOME}/.kamehouse/config/.shell/
 
   log.info "Reinit keys"
-  mkdir -p ${HOME}/.kamehouse/keys
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/.*.pwd.enc ${HOME}/.kamehouse/keys
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/keys
-  cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/keys/kamehouse.pkcs12
-  cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/keys/kamehouse.crt
+  mkdir -p ${HOME}/.kamehouse/config/keys
+  cp -v -f ${HOME}/git/kamehouse/docker/keys/.*.pwd.enc ${HOME}/.kamehouse/config/keys
+  cp -v -f ${HOME}/git/kamehouse/docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/config/keys
+  cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/config/keys/kamehouse.pkcs12
+  cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/config/keys/kamehouse.crt
 
   log.info "Reinit mariadb dump data"
-  mkdir -p ${HOME}/.kamehouse/mariadb/dump/old
-  cp -v -f ${HOME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql ${HOME}/.kamehouse/mariadb/dump
+  mkdir -p ${HOME}/.kamehouse/config/mariadb/dump/old
+  cp -v -f ${HOME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql ${HOME}/.kamehouse/config/mariadb/dump
 
   log.info "Reinit other .kamehouse dirs"
-  mkdir -p ${HOME}/.kamehouse/httpd
+  mkdir -p ${HOME}/.kamehouse/config/httpd
 }
 
 main "$@"

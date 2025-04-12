@@ -8,7 +8,7 @@ if [ "$?" != "0" ]; then
 fi
 loadKamehouseShellPwd
 
-MARIADB_DUMP_FILE=${HOME}/.kamehouse/mariadb/dump/dump-kamehouse.sql
+MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
 
 mainProcess() {
   if [ -f "${MARIADB_DUMP_FILE}" ]; then

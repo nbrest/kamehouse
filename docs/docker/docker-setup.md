@@ -16,7 +16,7 @@ The kamehouse docker container can be used stand alone or it can be used to cont
 - Most of the commands are sent from the container to the remote host via `ssh`
 - For `vnc` commands on the remote host, the docker container first tries to send the request directly through `vnc` and fallsback to `ssh` if the vnc command fails
 - If the remote host is a windows host, it needs to have pstools installed as described [here](/README.md) for certain commands to work
-- Set the properties in `${HOME}/.kamehouse/kamehouse.cfg` to control a remote host and execute the docker run script with `-c`
+- Set the properties in `${HOME}/.kamehouse/config/kamehouse.cfg` to control a remote host and execute the docker run script with `-c`
 
 ## Install kamehouse shell scripts to control the kamehouse docker container
 
@@ -117,7 +117,7 @@ You can then run the image as mentioned above
 
 ## Sync ssh keys and configuration between host and container
 
-- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host specified in `${HOME}/.kamehouse/kamehouse.cfg` 
+- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host specified in `${HOME}/.kamehouse/config/kamehouse.cfg` 
 - Commands such as starting and stopping vlc player, shutdown, reboot, suspend will run on the host
 - By default in most profiles, the container is setup to execute the commands within the container only
 - The commands executed on the host are done through `ssh` from the docker container to the host

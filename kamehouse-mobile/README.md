@@ -79,17 +79,17 @@ sudo npm install -g cordova
 
 # Build Instructions:
 
-- Update the `kamehouse-mobile` values in `${HOME}/.kamehouse/kamehouse.cfg` to match your local network setup to build a mobile app that will connect to your backend servers
+- Update the `kamehouse-mobile` values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup to build a mobile app that will connect to your backend servers
 
 - One time actions. On kamehouse-mobile root folder:
 ```sh
 # Setup encryption key
-echo "" >> ${HOME}/.kamehouse/.shell/shell.pwd
-echo "KAMEHOUSE_MOBILE_ENCRYPTION_KEY=yourkey" >> ${HOME}/.kamehouse/.shell/shell.pwd
-echo "" >> ${HOME}/.kamehouse/.shell/shell.pwd
+echo "" >> ${HOME}/.kamehouse/config/.shell/shell.pwd
+echo "KAMEHOUSE_MOBILE_ENCRYPTION_KEY=yourkey" >> ${HOME}/.kamehouse/config/.shell/shell.pwd
+echo "" >> ${HOME}/.kamehouse/config/.shell/shell.pwd
 ```
 
-- Then use the `build-kamehouse.sh -m mobile` or `build-kamehouse.sh -m mobile -u` script from the root of kamehouse parent project or from kamehouse-mobile dir to build the apk for android (ios build not supported yet). Or use `deploy-kamehouse.sh -m mobile` to build and deploy it to the mobile downloads server configured in `${HOME}/.kamehouse/kamehouse.cfg`
+- Then use the `build-kamehouse.sh -m mobile` or `build-kamehouse.sh -m mobile -u` script from the root of kamehouse parent project or from kamehouse-mobile dir to build the apk for android (ios build not supported yet). Or use `deploy-kamehouse.sh -m mobile` to build and deploy it to the mobile downloads server configured in `${HOME}/.kamehouse/config/kamehouse.cfg`
 
 # Install Instructions:
 
@@ -130,7 +130,7 @@ kamehouse-mobile-run-browser.sh
 
 ## Upload APK to device
 - Start the SSH/SFTP Server - Terminal from googleplay on the phone
-- Set the `ANDROID_*` properties in `${HOME}/.kamehouse/kamehouse.cfg` to connect to your phone
+- Set the `ANDROID_*` properties in `${HOME}/.kamehouse/config/kamehouse.cfg` to connect to your phone
 - Execute `deploy-kamehouse-dev.sh -m mobile` script to build the mobile app and upload it to the `Downloads` folder in the device 
 - Use `kamehouse-mobile-upload-apk-to-device.sh` script instead of  `deploy-kamehouse-dev.sh` if I need to pass a custom ip and port for the android device to upload to rather than the default
 - Update the app on the mobile device

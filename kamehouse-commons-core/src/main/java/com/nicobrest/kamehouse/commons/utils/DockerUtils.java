@@ -37,7 +37,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 public class DockerUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DockerUtils.class);
-  private static final String DOCKER_CONTAINER_ENV = ".kamehouse/.kamehouse-docker-container-env";
+  private static final String DOCKER_CONTAINER_ENV = ".kamehouse/config/.kamehouse-docker-container-env";
   private static final String WINDOWS_HOME_PREFIX = "C:\\Users\\";
   private static final String LINUX_HOME_PREFIX = "/home/";
   private static final String GROOT_EXECUTE_URL =

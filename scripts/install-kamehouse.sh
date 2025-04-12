@@ -80,52 +80,52 @@ installKameHouseShell() {
 buildKameHouseConfigDir() {
   log.info "Building kamehouse config dirs"
   mkdir -p ${HOME}/logs
-  mkdir -p ${HOME}/.kamehouse/.shell
-  mkdir -p ${HOME}/.kamehouse/keys
+  mkdir -p ${HOME}/.kamehouse/config/.shell
+  mkdir -p ${HOME}/.kamehouse/config/keys
 
-  if [ ! -f "${HOME}/.kamehouse/.shell/shell.pwd" ]; then
-    log.info ".kamehouse/.shell/shell.pwd file doesn't exist, creating one from the sample"
-    cp -v docker/keys/shell.pwd ${HOME}/.kamehouse/.shell/
+  if [ ! -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
+    log.info ".kamehouse/config/.shell/shell.pwd file doesn't exist, creating one from the sample"
+    cp -v docker/keys/shell.pwd ${HOME}/.kamehouse/config/.shell/
   else
-    log.info ".kamehouse/.shell/shell.pwd file already exists. skipping"
+    log.info ".kamehouse/config/.shell/shell.pwd file already exists. skipping"
   fi
 
-  if [ ! -f "${HOME}/.kamehouse/keys/.unlock.screen.pwd.enc" ]; then
-    log.info ".kamehouse/keys/.unlock.screen.pwd.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.unlock.screen.pwd.enc ${HOME}/.kamehouse/keys/
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.unlock.screen.pwd.enc" ]; then
+    log.info ".kamehouse/config/keys/.unlock.screen.pwd.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/.unlock.screen.pwd.enc ${HOME}/.kamehouse/config/keys/
   else
-    log.info ".kamehouse/keys/.unlock.screen.pwd.enc file already exists. skipping"
+    log.info ".kamehouse/config/keys/.unlock.screen.pwd.enc file already exists. skipping"
   fi
 
-  if [ ! -f "${HOME}/.kamehouse/keys/.vnc.server.pwd.enc" ]; then
-    log.info ".kamehouse/keys/.vnc.server.pwd.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.vnc.server.pwd.enc ${HOME}/.kamehouse/keys/
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.vnc.server.pwd.enc" ]; then
+    log.info ".kamehouse/config/keys/.vnc.server.pwd.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/.vnc.server.pwd.enc ${HOME}/.kamehouse/config/keys/
   else
-    log.info ".kamehouse/keys/.vnc.server.pwd.enc file already exists. skipping"
+    log.info ".kamehouse/config/keys/.vnc.server.pwd.enc file already exists. skipping"
   fi
 
-  if [ ! -f "${HOME}/.kamehouse/keys/integration-test-cred.enc" ]; then
-    log.info ".kamehouse/keys/integration-test-cred.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/keys/
+  if [ ! -f "${HOME}/.kamehouse/config/keys/integration-test-cred.enc" ]; then
+    log.info ".kamehouse/config/keys/integration-test-cred.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/config/keys/
   else
-    log.info ".kamehouse/keys/integration-test-cred.enc file already exists. skipping"
+    log.info ".kamehouse/config/keys/integration-test-cred.enc file already exists. skipping"
   fi  
 
-  if [ ! -f "${HOME}/.kamehouse/keys/kamehouse.pkcs12" ]; then
-    log.info ".kamehouse/keys/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/keys/kamehouse.pkcs12
+  if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse.pkcs12" ]; then
+    log.info ".kamehouse/config/keys/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/config/keys/kamehouse.pkcs12
   else
-    log.info ".kamehouse/keys/kamehouse.pkcs12 file already exists. skipping"
+    log.info ".kamehouse/config/keys/kamehouse.pkcs12 file already exists. skipping"
   fi  
 
-  if [ ! -f "${HOME}/.kamehouse/keys/kamehouse.crt" ]; then
-    log.info ".kamehouse/keys/kamehouse.crt file doesn't exist, creating one from the sample"
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/keys/kamehouse.crt
+  if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse.crt" ]; then
+    log.info ".kamehouse/config/keys/kamehouse.crt file doesn't exist, creating one from the sample"
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/config/keys/kamehouse.crt
   else
-    log.info ".kamehouse/keys/kamehouse.crt file already exists. skipping"
+    log.info ".kamehouse/config/keys/kamehouse.crt file already exists. skipping"
   fi
   
-  chmod -R 700 ${HOME}/.kamehouse
+  chmod -R 700 ${HOME}/.kamehouse/config
 }
 
 setSudoersPermissions() {

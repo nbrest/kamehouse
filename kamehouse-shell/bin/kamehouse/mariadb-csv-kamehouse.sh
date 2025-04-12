@@ -13,7 +13,7 @@ loadKamehouseShellPwd
 # - Make sure ${PATH_CSV} is writable by everyone in windows
 
 # Global variables
-PATH_CSV=${HOME}/.kamehouse/mariadb/csv
+PATH_CSV=${HOME}/.kamehouse/config/mariadb/csv
 PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
 NUMBER_OF_BACKUPS=3
 OUT_FILE_BASE=""
@@ -43,7 +43,7 @@ executeExport() {
   if ${IS_LINUX_HOST}; then
     OUT_FILE_BASE="${TMP_EXPORT_DIR}/"
   else
-    OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/mariadb/csv/"
+    OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/config/mariadb/csv/"
   fi
   mariadb --force -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} --init-command="set @outFileBase = '${OUT_FILE_BASE}';" < ${PATH_SQL}/csv-kamehouse.sql
   if ${IS_LINUX_HOST}; then

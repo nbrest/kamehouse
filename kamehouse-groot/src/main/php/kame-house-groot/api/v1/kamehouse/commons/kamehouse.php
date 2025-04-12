@@ -175,7 +175,7 @@ class DockerUtils {
     if ($kameHouse->core->isLinuxHost()) {
       $kameHouse->core->loadKameHouseUserToEnv();
       $username = getenv("KAMEHOUSE_USER");
-      $dockerContainerEnvFile = "/home/" . $username . "/.kamehouse/.kamehouse-docker-container-env";
+      $dockerContainerEnvFile = "/home/" . $username . "/.kamehouse/config/.kamehouse-docker-container-env";
       $script = "if [ -f \"" . $dockerContainerEnvFile . "\" ]; then cat " . $dockerContainerEnvFile . "; fi";
       $dockerContainerEnv = trim(shell_exec($script));
       $dockerContainerEnv = explode("\n", $dockerContainerEnv);

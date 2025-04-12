@@ -51,7 +51,7 @@ loadEnv() {
   fi
   printEnv
 
-  local CONTAINER_ENV=/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/.kamehouse-docker-container-env
+  local CONTAINER_ENV=/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/config/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > ${CONTAINER_ENV}
   echo "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}" >> ${CONTAINER_ENV}
   echo "DEBUG_MODE=${DEBUG_MODE}" >> ${CONTAINER_ENV}

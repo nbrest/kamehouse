@@ -30,23 +30,23 @@
 - In order to execute vnc commands, kamehouse uses an encrypted file that contains the password for the vnc user. Generate that file with the following commands:
 ```sh
 # generate encrypted password file
-echo -n "your-password" > ${HOME}/.kamehouse/.vnc.server.pwd
-kamehouse-cmd.sh -o encrypt -if ${HOME}/.kamehouse/.vnc.server.pwd -of ${HOME}/.kamehouse/keys/.vnc.server.pwd.enc
-rm -fv {HOME}/.kamehouse/.vnc.server.pwd
+echo -n "your-password" > ${HOME}/.kamehouse/config/.vnc.server.pwd
+kamehouse-cmd.sh -o encrypt -if ${HOME}/.kamehouse/config/.vnc.server.pwd -of ${HOME}/.kamehouse/config/keys/.vnc.server.pwd.enc
+rm -fv {HOME}/.kamehouse/config/.vnc.server.pwd
 # check the password is stored correctly
-kamehouse-cmd.sh -o decrypt -if ${HOME}/.kamehouse/keys/.vnc.server.pwd.enc -of stdout
+kamehouse-cmd.sh -o decrypt -if ${HOME}/.kamehouse/config/keys/.vnc.server.pwd.enc -of stdout
 ```
 
 ### Create encrypted unlock screen password file
 
-- In order to execute unlock the user's screen, kamehouse decrypts the encrypted user's password from the file `.kamehouse/keys/.unlock.screen.pwd.enc`. To generate the file run the commands with your current windows/linux user password:
+- In order to execute unlock the user's screen, kamehouse decrypts the encrypted user's password from the file `.kamehouse/config/keys/.unlock.screen.pwd.enc`. To generate the file run the commands with your current windows/linux user password:
 ```sh
 # generate encrypted password file
 echo -n "your-password" > ${HOME}/.unlock.screen.pwd
-kamehouse-cmd.sh -o encrypt -if ${HOME}/.kamehouse/.unlock.screen.pwd -of ${HOME}/.kamehouse/keys/.unlock.screen.pwd.enc
-rm -fv {HOME}/.kamehouse/.unlock.screen.pwd
+kamehouse-cmd.sh -o encrypt -if ${HOME}/.kamehouse/config/.unlock.screen.pwd -of ${HOME}/.kamehouse/config/keys/.unlock.screen.pwd.enc
+rm -fv {HOME}/.kamehouse/config/.unlock.screen.pwd
 # check the password is stored correctly
-kamehouse-cmd.sh -o decrypt -if ${HOME}/.kamehouse/keys/.unlock.screen.pwd.enc -of stdout
+kamehouse-cmd.sh -o decrypt -if ${HOME}/.kamehouse/config/keys/.unlock.screen.pwd.enc -of stdout
 ```
 
 ### Upgrade jvncsender version:

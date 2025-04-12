@@ -13,7 +13,7 @@ This module contains most of my shell scripts to automate some tasks setting up,
 - Run with `-s` to install kamehouse-shell only
 - Run with `-o` to install kamehouse-shell scripts only, without modifying the shell
 
-- Update the `kamehouse-shell` values in `${HOME}/.kamehouse/kamehouse.cfg` to match your local network setup for the shell scripts
+- Update the `kamehouse-shell` values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup for the shell scripts
 
 ## Linux:
 

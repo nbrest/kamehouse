@@ -77,13 +77,13 @@ KAMEHOUSE_ANDROID_APK_PATH=""
 # ---------------------------
 loadKamehouseCfg() {
   source "${HOME}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
-  if [ ! -f "${HOME}/.kamehouse/kamehouse.cfg" ]; then
-    log.debug "~/.kamehouse/kamehouse.cfg not found. Using default values"
+  if [ ! -f "${HOME}/.kamehouse/config/kamehouse.cfg" ]; then
+    log.debug "~/.kamehouse/config/kamehouse.cfg not found. Using default values"
     return
   fi
-  source ${HOME}/.kamehouse/kamehouse.cfg
+  source ${HOME}/.kamehouse/config/kamehouse.cfg
   if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/kamehouse.cfg. Using default values"
+    log.error "Error importing ~/.kamehouse/config/kamehouse.cfg. Using default values"
   fi
 }
 # try to load cfg by default 
@@ -92,7 +92,7 @@ loadKamehouseCfg
 # Loads the environment variables set when running in a docker container
 # Look at the docker-init script to see what variables are set in the container env
 loadDockerContainerEnv() {
-  local CONTAINER_ENV_FILE=".kamehouse/.kamehouse-docker-container-env"
+  local CONTAINER_ENV_FILE=".kamehouse/config/.kamehouse-docker-container-env"
   if [ ! -f "${HOME}/${CONTAINER_ENV_FILE}" ]; then
     log.trace "No ~/${CONTAINER_ENV_FILE}. Running outside a docker container"
     return
@@ -107,12 +107,12 @@ loadDockerContainerEnv() {
 loadDockerContainerEnv
 
 loadKamehouseShellPwd() {
-  source ${HOME}/.kamehouse/.shell/shell.pwd
+  source ${HOME}/.kamehouse/config/.shell/shell.pwd
   if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/.shell/shell.pwd"
+    log.error "Error importing ~/.kamehouse/config/.shell/shell.pwd"
     exit 99
   fi
-  log.trace "Loaded ~/.kamehouse/.shell/shell.pwd"
+  log.trace "Loaded ~/.kamehouse/config/.shell/shell.pwd"
 }
 
 parseHttpdPort() {

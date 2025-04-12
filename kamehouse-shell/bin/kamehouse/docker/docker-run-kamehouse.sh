@@ -33,37 +33,37 @@ mainProcess() {
 
 setEnvironment() {
   if [ -z "${DOCKER_HOST_AUTH}" ]; then
-    log.info "DOCKER_HOST_AUTH is NOT set in ${HOME}/.kamehouse/kamehouse.cfg. Using GROOT_API_BASIC_AUTH value set in shell.pwd"
+    log.info "DOCKER_HOST_AUTH is NOT set in ${HOME}/.kamehouse/config/kamehouse.cfg. Using GROOT_API_BASIC_AUTH value set in shell.pwd"
     DOCKER_HOST_AUTH=${GROOT_API_BASIC_AUTH}
   fi 
 
   if [ -z "${DOCKER_HOST_IP}" ]; then
-    log.error "DOCKER_HOST_IP needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    log.error "DOCKER_HOST_IP needs to be set in ${HOME}/.kamehouse/config/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
   
   if [ -z "${DOCKER_HOST_HOSTNAME}" ]; then
-    log.error "DOCKER_HOST_HOSTNAME needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    log.error "DOCKER_HOST_HOSTNAME needs to be set in ${HOME}/.kamehouse/config/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
 
   if [ -z "${DOCKER_HOST_USERNAME}" ]; then
-    log.error "DOCKER_HOST_USERNAME needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    log.error "DOCKER_HOST_USERNAME needs to be set in ${HOME}/.kamehouse/config/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
 
   if [ -z "${DOCKER_HOST_OS}" ]; then
-    log.error "DOCKER_HOST_OS needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    log.error "DOCKER_HOST_OS needs to be set in ${HOME}/.kamehouse/config/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
 
   if [ -z "${DOCKER_HOST_PLAYLISTS_PATH}" ]; then
-    log.info "DOCKER_HOST_PLAYLISTS_PATH is NOT set in ${HOME}/.kamehouse/kamehouse.cfg. Using PLAYLISTS_PATH value"
+    log.info "DOCKER_HOST_PLAYLISTS_PATH is NOT set in ${HOME}/.kamehouse/config/kamehouse.cfg. Using PLAYLISTS_PATH value"
     DOCKER_HOST_PLAYLISTS_PATH=${PLAYLISTS_PATH}
   fi 
 
   if [ -z "${DOCKER_HOST_PORT}" ]; then
-    log.error "DOCKER_HOST_PORT needs to be set in ${HOME}/.kamehouse/kamehouse.cfg"
+    log.error "DOCKER_HOST_PORT needs to be set in ${HOME}/.kamehouse/config/kamehouse.cfg"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi 
 

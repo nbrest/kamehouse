@@ -11,4 +11,4 @@ This module handles the following functionality:
 * Server power management (wake up, shutdown, suspend)
 * Server screen control (lock, unlock, wake-up)
 
-- Update the `kamehouse-admin` values in `${HOME}/.kamehouse/kamehouse.cfg` to match your local network setup
+- Update the `kamehouse-admin` values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup

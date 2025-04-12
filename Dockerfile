@@ -69,7 +69,7 @@ RUN adduser --gecos "" --disabled-password ${KAMEHOUSE_USERNAME} ; \
   a2ensite default-ssl ; \
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite ; \
   # Setup ${KAMEHOUSE_USERNAME} home
-  sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
+  sudo su - ${KAMEHOUSE_USERNAME} -c "echo \"source /home/${KAMEHOUSE_USERNAME}/.kamehouse/config/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USERNAME}/.bashrc ; \
     mkdir -p /home/${KAMEHOUSE_USERNAME}/.ssh" ; \
   # Install tomcat
   sudo su - ${KAMEHOUSE_USERNAME} -c "mkdir -p /home/${KAMEHOUSE_USERNAME}/programs ; \

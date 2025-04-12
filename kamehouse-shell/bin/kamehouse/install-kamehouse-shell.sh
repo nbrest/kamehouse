@@ -123,10 +123,10 @@ fixPermissions() {
 
 installKamehouseConfig() {
   log.info "Installing kamehouse.cfg"
-  if [ ! -f "${HOME}/.kamehouse/kamehouse.cfg" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/
-    cp docker/config/kamehouse.cfg ${HOME}/.kamehouse/kamehouse.cfg
+  if [ ! -f "${HOME}/.kamehouse/config/kamehouse.cfg" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/config/
+    cp docker/config/kamehouse.cfg ${HOME}/.kamehouse/config/kamehouse.cfg
   else
     log.info "kamehouse.cfg file exists. skipping"
   fi
@@ -134,14 +134,14 @@ installKamehouseConfig() {
 
 installShellPwd() {
   log.info "Installing shell.pwd file"
-  if [ ! -f "${HOME}/.kamehouse/.shell/shell.pwd" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/.shell/shell.pwd${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/.shell/
-    cp docker/keys/shell.pwd ${HOME}/.kamehouse/.shell/shell.pwd
+  if [ ! -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/.shell/shell.pwd${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/config/.shell/
+    cp docker/keys/shell.pwd ${HOME}/.kamehouse/config/.shell/shell.pwd
   else
     log.info "shell.pwd file exists. skipping"
   fi
-  chmod -R 700 ${HOME}/.kamehouse
+  chmod -R 700 ${HOME}/.kamehouse/config
 }
 
 updateUsername() {
