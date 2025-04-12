@@ -4,7 +4,7 @@ FILE_TO_PLAY=""
 
 VLC_LOG_FILE="${HOME}/logs/vlc.log"
 
-VLC_DATA_PATH="${HOME}/programs/kamehouse-shell/data/vlc"
+VLC_DATA_PATH="${HOME}/.kamehouse/data/vlc"
 VLC_PROCESS_INFO_FILE="${VLC_DATA_PATH}/vlc-process.info"
 VLC_STATS_HISTORY_FILE=${VLC_DATA_PATH}/vlc-process.stats
 VLC_CURRENT_RUN_PLAYED_FILES=${VLC_DATA_PATH}/vlc-current-run-played-files.txt
