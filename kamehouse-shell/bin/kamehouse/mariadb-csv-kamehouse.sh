@@ -52,10 +52,12 @@ executeExport() {
     mv -v -f ${TMP_EXPORT_DIR}/*.tmpcsv ${PATH_CSV}
   fi
   for TMPCSV_FILE in ${PATH_CSV}/*.tmpcsv; do
-    TMPCSV_FILENAME="$(basename -- ${TMPCSV_FILE})"
-    TMPCSV_FILENAME="${TMPCSV_FILENAME%.*}"
-    cat ${TMPCSV_FILE} > ${PATH_CSV}/${TMPCSV_FILENAME}.csv
-    rm -f ${TMPCSV_FILE}
+    if [ -f "${TMPCSV_FILE}" ]; then
+      TMPCSV_FILENAME="$(basename -- ${TMPCSV_FILE})"
+      TMPCSV_FILENAME="${TMPCSV_FILENAME%.*}"
+      cat ${TMPCSV_FILE} > ${PATH_CSV}/${TMPCSV_FILENAME}.csv
+      rm -f ${TMPCSV_FILE}
+    fi
   done
 }
 
