@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.media.video.controller;
+package com.nicobrest.kamehouse.media.controller;
 
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -8,9 +8,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
-import com.nicobrest.kamehouse.media.video.model.Playlist;
-import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
-import com.nicobrest.kamehouse.media.video.testutils.VideoPlaylistTestUtils;
+import com.nicobrest.kamehouse.media.model.Playlist;
+import com.nicobrest.kamehouse.media.service.PlaylistService;
+import com.nicobrest.kamehouse.media.testutils.PlaylistTestUtils;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,74 +28,72 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * Unit tests for VideoPlaylistController class.
+ * Unit tests for PlaylistController class.
  *
  * @author nbrest
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @WebAppConfiguration
-class VideoPlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
+class PlaylistControllerTest extends AbstractControllerTest<Playlist, Object> {
 
-  private static final String API_V1_MEDIA_VIDEO_PLAYLISTS =
-      VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLISTS;
-  private static final String API_V1_MEDIA_VIDEO_PLAYLIST =
-      VideoPlaylistTestUtils.API_V1_MEDIA_VIDEO_PLAYLIST;
-  private List<Playlist> videoPlaylistsList;
+  private static final String API_V1_MEDIA_PLAYLISTS = PlaylistTestUtils.API_V1_MEDIA_PLAYLISTS;
+  private static final String API_V1_MEDIA_PLAYLIST = PlaylistTestUtils.API_V1_MEDIA_PLAYLIST;
+  private List<Playlist> playlistsList;
 
   @InjectMocks
-  private VideoPlaylistController videoPlaylistController;
+  private PlaylistController playlistController;
 
   @Mock
-  private VideoPlaylistService videoPlaylistService;
+  private PlaylistService playlistService;
 
   /**
    * Tests setup.
    */
   @BeforeEach
   void beforeTest() {
-    testUtils = new VideoPlaylistTestUtils();
+    testUtils = new PlaylistTestUtils();
     testUtils.initTestData();
-    videoPlaylistsList = testUtils.getTestDataList();
+    playlistsList = testUtils.getTestDataList();
 
     MockitoAnnotations.openMocks(this);
-    Mockito.reset(videoPlaylistService);
-    mockMvc = MockMvcBuilders.standaloneSetup(videoPlaylistController).build();
+    Mockito.reset(playlistService);
+    mockMvc = MockMvcBuilders.standaloneSetup(playlistController).build();
   }
 
   /**
-   * Tests getting all video playlists.
+   * Tests getting all playlists.
    */
   @Test
   void getAllTest() throws Exception {
-    when(videoPlaylistService.getAll()).thenReturn(videoPlaylistsList);
+    when(playlistService.getAll()).thenReturn(playlistsList);
 
-    MockHttpServletResponse response = doGet(API_V1_MEDIA_VIDEO_PLAYLISTS);
+    MockHttpServletResponse response = doGet(API_V1_MEDIA_PLAYLISTS);
     List<Playlist> responseBody = getResponseBodyList(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON);
-    testUtils.assertEqualsAllAttributesList(videoPlaylistsList, responseBody);
-    verify(videoPlaylistService, times(1)).getAll();
-    verifyNoMoreInteractions(videoPlaylistService);
+    testUtils.assertEqualsAllAttributesList(playlistsList, responseBody);
+    verify(playlistService, times(1)).getAll();
+    verifyNoMoreInteractions(playlistService);
   }
 
   /**
-   * Tests getting a specific video playlist.
+   * Tests getting a specific playlist.
    */
   @Test
   void getPlaylistTest() throws Exception {
     Playlist expectedPlaylist = testUtils.getSingleTestData();
-    when(videoPlaylistService.getPlaylist(anyString(), anyBoolean())).thenReturn(expectedPlaylist);
+    when(playlistService.getPlaylist(anyString(), anyBoolean())).thenReturn(expectedPlaylist);
 
     MockHttpServletResponse response =
-        doGet(API_V1_MEDIA_VIDEO_PLAYLIST + "?path=/home/goku/movies/dc-all.m3u");
+        doGet(API_V1_MEDIA_PLAYLIST + "?path=/home/goku/movies/dc-all.m3u");
     Playlist responseBody = getResponseBody(response, Playlist.class);
 
     verifyResponseStatus(response, HttpStatus.OK);
     verifyContentType(response, MediaType.APPLICATION_JSON);
     testUtils.assertEqualsAllAttributes(expectedPlaylist, responseBody);
-    verify(videoPlaylistService, times(1)).getPlaylist(anyString(), anyBoolean());
-    verifyNoMoreInteractions(videoPlaylistService);
+    verify(playlistService, times(1)).getPlaylist(anyString(), anyBoolean());
+    verifyNoMoreInteractions(playlistService);
   }
 }

@@ -1,8 +1,8 @@
-package com.nicobrest.kamehouse.media.video.integration;
+package com.nicobrest.kamehouse.media.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
-import com.nicobrest.kamehouse.media.video.model.Playlist;
+import com.nicobrest.kamehouse.media.model.Playlist;
 import java.util.List;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -13,15 +13,15 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * Integration tests for the VideoPlaylistController class.
+ * Integration tests for the PlaylistController class.
  *
  * @author nbrest
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-class VideoPlaylistControllerIntegrationTest extends AbstractControllerIntegrationTest {
+class PlaylistControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
-  private static final String API_URL = "/api/v1/media/video";
+  private static final String API_URL = "/api/v1/media";
   private Playlist playlist = null;
 
   @Override

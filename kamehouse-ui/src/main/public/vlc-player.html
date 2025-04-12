@@ -15,7 +15,7 @@
 <script src="/kame-house/lib/js/stomp.min.js"></script> 
 <script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data"></script>
 <script src="/kame-house/js/vlc-player/vlc-player.js"></script>
-<script src="/kame-house/js/media/video/playlist-browser.js"></script>
+<script src="/kame-house/js/media/playlist-browser.js"></script>
 <link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
 <link rel="stylesheet" href="/kame-house/css/vlc-player.css" /> 
@@ -254,7 +254,7 @@
       <div class="default-layout bg-lighter-0-kh playlist-browser-dropdowns-wrapper">
         <div class="playlist-selector"> 
           <select class="select-kh-dark vlc-player-select" id="playlist-category-dropdown" name="playlist-category" 
-            onchange="kameHouse.extension.playlistBrowser.populateVideoPlaylists()"></select>
+            onchange="kameHouse.extension.playlistBrowser.populatePlaylists()"></select>
           <select class="select-kh-dark vlc-player-select" id="playlist-dropdown" name="playlist" 
             onchange="kameHouse.extension.playlistBrowser.loadPlaylistContent()"></select>
           <button class="img-btn-kh va-m-kh btn-load-playlist"       

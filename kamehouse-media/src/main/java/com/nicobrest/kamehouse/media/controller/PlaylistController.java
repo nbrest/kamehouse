@@ -1,10 +1,10 @@
-package com.nicobrest.kamehouse.media.video.controller;
+package com.nicobrest.kamehouse.media.controller;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
-import com.nicobrest.kamehouse.media.video.model.Playlist;
-import com.nicobrest.kamehouse.media.video.service.VideoPlaylistService;
+import com.nicobrest.kamehouse.media.service.PlaylistService;
+import com.nicobrest.kamehouse.media.model.Playlist;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,39 +15,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller to manage the video playlists in the local system.
+ * Controller to manage the playlists in the local system.
  *
  * @author nbrest
  */
 @RestController
-@RequestMapping(value = "/api/v1/media/video")
-public class VideoPlaylistController extends AbstractController {
+@RequestMapping(value = "/api/v1/media")
+public class PlaylistController extends AbstractController {
 
-  private VideoPlaylistService videoPlaylistService;
+  private PlaylistService playlistService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public VideoPlaylistController(VideoPlaylistService videoPlaylistService) {
-    this.videoPlaylistService = videoPlaylistService;
+  public PlaylistController(PlaylistService playlistService) {
+    this.playlistService = playlistService;
   }
 
   /**
-   * Gets all video playlists.
+   * Gets all playlists.
    */
   @GetMapping(path = "/playlists")
   public ResponseEntity<List<Playlist>> getAll() {
-    List<Playlist> videoPlaylists = videoPlaylistService.getAll();
-    return generateGetResponseEntity(videoPlaylists);
+    List<Playlist> playlists = playlistService.getAll();
+    return generateGetResponseEntity(playlists);
   }
 
   /**
-   * Gets a video playlist specified as a url parameter.
+   * Gets a playlist specified as a url parameter.
    */
   @GetMapping(path = "/playlist")
   public ResponseEntity<Playlist> getPlaylist(
       @RequestParam(value = "path", required = true) String path) {
     InputValidator.validateForbiddenCharsForShell(path);
-    Playlist playlist = videoPlaylistService.getPlaylist(StringUtils.sanitize(path), true);
+    Playlist playlist = playlistService.getPlaylist(StringUtils.sanitize(path), true);
     return generateGetResponseEntity(playlist);
   }
 }

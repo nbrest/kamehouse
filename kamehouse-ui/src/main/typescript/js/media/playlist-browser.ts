@@ -1,18 +1,19 @@
 /** 
  * Represents the playlist browser component in vlc-player page.
+ * It's used to view the content of all available playlists in the backend.
  * It doesn't control the currently active playlist.
  * 
  * @author nbrest
  */
 class PlaylistBrowser {
 
-  #mediaVideoAllPlaylistsUrl = '/kame-house-media/api/v1/media/video/playlists';
-  #mediaVideoPlaylistUrl = '/kame-house-media/api/v1/media/video/playlist';
+  #mediaAllPlaylistsUrl = '/kame-house-media/api/v1/media/playlists';
+  #mediaPlaylistUrl = '/kame-house-media/api/v1/media/playlist';
 
   #dobleLeftButton = null;
   #dobleRightButton = null;
-  #videoPlaylists = [];
-  #videoPlaylistCategories = [];
+  #playlists = [];
+  #playlistCategories = [];
   #currentPlaylist = null;
   #tbodyAbsolutePaths = null;
   #tbodyFilenames = null;
@@ -29,7 +30,7 @@ class PlaylistBrowser {
     kameHouse.logger.info("Started initializing playlist browser", null);
     kameHouse.util.dom.replaceWithById("toggle-playlist-browser-filenames-btn", this.#dobleRightButton);
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger"], () => {
-      this.populateVideoPlaylistCategories();
+      this.populatePlaylistCategories();
       kameHouse.util.module.setModuleLoaded("playlistBrowser");
     });
   }
@@ -41,20 +42,20 @@ class PlaylistBrowser {
   }
 
   /** Populate playlist categories dropdown. */
-  populateVideoPlaylistCategories() {
+  populatePlaylistCategories() {
     
     this.#resetPlaylistDropdown();
     this.#resetPlaylistCategoryDropdown();
 
     const config = kameHouse.http.getConfig();
-    kameHouse.plugin.debugger.http.get(config, this.#mediaVideoAllPlaylistsUrl, null, null, 
+    kameHouse.plugin.debugger.http.get(config, this.#mediaAllPlaylistsUrl, null, null, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        this.#videoPlaylists = responseBody;
-        this.#videoPlaylistCategories = [...new Set(this.#videoPlaylists.map((playlist) => playlist.category))];
-        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(this.#videoPlaylists, null, null), null);
-        kameHouse.logger.debug("Playlist categories: " + this.#videoPlaylistCategories, null);
+        this.#playlists = responseBody;
+        this.#playlistCategories = [...new Set(this.#playlists.map((playlist) => playlist.category))];
+        kameHouse.logger.debug("Playlists: " + kameHouse.json.stringify(this.#playlists, null, null), null);
+        kameHouse.logger.debug("Playlist categories: " + this.#playlistCategories, null);
         const playlistCategoryDropdown = document.getElementById('playlist-category-dropdown');
-        this.#videoPlaylistCategories.forEach((category) => {
+        this.#playlistCategories.forEach((category) => {
           const categoryFormatted = category.replace(/\\/g, ' | ')
                                             .replace(/\//g, ' | ')
                                             .replace(/_/g, ' ');
@@ -62,18 +63,18 @@ class PlaylistBrowser {
         });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
-        kameHouse.logger.error("Error populating video playlist categories", null);
+        kameHouse.logger.error("Error populating playlist categories", null);
       });
   }
 
-  /** Populate video playlists dropdown when a playlist category is selected. */
-  populateVideoPlaylists() {
+  /** Populate playlists dropdown when a playlist category is selected. */
+  populatePlaylists() {
     const playlistCategoriesList = document.getElementById('playlist-category-dropdown') as HTMLSelectElement;
     const selectedPlaylistCategory = playlistCategoriesList.options[playlistCategoriesList.selectedIndex].value;
     kameHouse.logger.debug("Selected Playlist Category: " + selectedPlaylistCategory, null);
     this.#resetPlaylistDropdown();
     const playlistDropdown = document.getElementById('playlist-dropdown');
-    this.#videoPlaylists.forEach((entry) => {
+    this.#playlists.forEach((entry) => {
       if (entry.category === selectedPlaylistCategory) {
         const playlistName = entry.name.replace(/.m3u+$/, "")
                                        .replace(/_/g, " ");
@@ -91,7 +92,7 @@ class PlaylistBrowser {
     };
     const config = kameHouse.http.getConfig();
     kameHouse.util.cursor.setCursorWait();
-    kameHouse.plugin.debugger.http.get(config, this.#mediaVideoPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
+    kameHouse.plugin.debugger.http.get(config, this.#mediaPlaylistUrl, kameHouse.http.getUrlEncodedHeaders(), requestParam,
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         this.#currentPlaylist = responseBody;
         this.#populatePlaylistBrowserTable();

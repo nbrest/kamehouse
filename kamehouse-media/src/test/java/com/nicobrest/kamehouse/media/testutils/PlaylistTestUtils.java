@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.media.video.testutils;
+package com.nicobrest.kamehouse.media.testutils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -6,23 +6,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
-import com.nicobrest.kamehouse.media.video.model.Playlist;
+import com.nicobrest.kamehouse.media.model.Playlist;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Test data and common test methods to test VideoPlaylists in all layers of the application.
+ * Test data and common test methods to test Playlists in all layers of the application.
  *
  * @author nbrest
  */
-public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
+public class PlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     implements TestUtils<Playlist, Object> {
 
   public static final String KAMEHOUSE_SERVER = "kamehouse-server";
-  public static final String API_V1_MEDIA_VIDEO_PLAYLIST = "/api/v1/media/video/playlist";
-  public static final String API_V1_MEDIA_VIDEO_PLAYLISTS = "/api/v1/media/video/playlists";
+  public static final String API_V1_MEDIA_PLAYLIST = "/api/v1/media/playlist";
+  public static final String API_V1_MEDIA_PLAYLISTS = "/api/v1/media/playlists";
   public static final String TEST_PLAYLISTS_PATH =
       "src"
           + File.separator
@@ -30,11 +30,13 @@ public class VideoPlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
           + File.separator
           + "resources"
           + File.separator
-          + "media.video"
+          + "media"
           + File.separator
-          + "playlists"
+          + ".kamehouse"
           + File.separator
-          + "video-kamehouse";
+          + "data"
+          + File.separator
+          + "playlists";
 
   @Override
   public void initTestData() {

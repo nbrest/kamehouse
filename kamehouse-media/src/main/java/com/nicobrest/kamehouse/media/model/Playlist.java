@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.media.video.model;
+package com.nicobrest.kamehouse.media.model;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;

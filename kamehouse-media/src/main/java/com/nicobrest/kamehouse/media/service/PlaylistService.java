@@ -1,12 +1,12 @@
-package com.nicobrest.kamehouse.media.video.service;
+package com.nicobrest.kamehouse.media.service;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import com.nicobrest.kamehouse.media.video.model.Playlist;
-import com.nicobrest.kamehouse.media.video.model.kamehousecommand.GetPlaylistContentKameHouseCommand;
-import com.nicobrest.kamehouse.media.video.model.kamehousecommand.ListPlaylistsKameHouseCommand;
+import com.nicobrest.kamehouse.media.model.Playlist;
+import com.nicobrest.kamehouse.media.model.kamehousecommand.GetPlaylistContentKameHouseCommand;
+import com.nicobrest.kamehouse.media.model.kamehousecommand.ListPlaylistsKameHouseCommand;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,32 +22,31 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
- * Service to manage the video playlists in the local system.
+ * Service to manage the playlists in the local system.
  *
  * @author nbrest
  */
 @Service
-public class VideoPlaylistService {
+public class PlaylistService {
 
-  public static final String DEFAULT_PLAYLISTS_PATH =
-      ".kamehouse/data/playlists";
+  public static final String DEFAULT_PLAYLISTS_PATH = ".kamehouse/data/playlists";
   public static final String PROP_PLAYLISTS_PATH = "playlists.path";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
-  private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";
-  private static final String VIDEO_PLAYLISTS_CACHE = "videoPlaylists";
+  private static final String PLAYLIST_CACHE = "playlist";
+  private static final String PLAYLISTS_CACHE = "playlists";
 
-  private static final Logger logger = LoggerFactory.getLogger(VideoPlaylistService.class);
+  private static final Logger logger = LoggerFactory.getLogger(PlaylistService.class);
 
   /**
-   * Gets all video playlists without their contents.
+   * Gets all playlists without their contents.
    */
-  @Cacheable(value = VIDEO_PLAYLISTS_CACHE)
+  @Cacheable(value = PLAYLISTS_CACHE)
   public List<Playlist> getAll() {
     return getAll(false);
   }
 
   /**
-   * Gets all video playlists specifying if it should get the contents of each playlist or not.
+   * Gets all playlists specifying if it should get the contents of each playlist or not.
    */
   public List<Playlist> getAll(boolean fetchContent) {
     logger.trace("getAll");
@@ -60,7 +59,7 @@ public class VideoPlaylistService {
   /**
    * Get the specified playlist.
    */
-  @Cacheable(value = VIDEO_PLAYLIST_CACHE)
+  @Cacheable(value = PLAYLIST_CACHE)
   public Playlist getPlaylist(String playlistFilename, boolean fetchContent) {
     logger.trace("Get playlist {}", playlistFilename);
     if (DockerUtils.shouldControlDockerHost()) {
@@ -162,7 +161,7 @@ public class VideoPlaylistService {
   private List<Playlist> getAllFromFileSystem(boolean fetchContent) {
     logger.trace("getAllFromFileSystem");
     Path basePlaylistPath = getBasePlaylistsPath();
-    List<Playlist> videoPlaylists = new ArrayList<>();
+    List<Playlist> playlists = new ArrayList<>();
     try (Stream<Path> filePaths = Files.walk(basePlaylistPath)) {
       Iterator<Path> filePathsIterator = filePaths.iterator();
       while (filePathsIterator.hasNext()) {
@@ -170,16 +169,16 @@ public class VideoPlaylistService {
         if (!playlistPath.toFile().isDirectory()) {
           Playlist playlist = getPlaylist(playlistPath.toString(), fetchContent);
           if (playlist != null) {
-            videoPlaylists.add(playlist);
+            playlists.add(playlist);
           }
         }
       }
     } catch (IOException e) {
-      logger.error("An error occurred while getting all the video playlists", e);
+      logger.error("An error occurred while getting all the playlists", e);
     }
-    videoPlaylists.sort(new Playlist.Comparator());
-    logger.trace("getAll response {}", videoPlaylists);
-    return videoPlaylists;
+    playlists.sort(new Playlist.Comparator());
+    logger.trace("getAll response {}", playlists);
+    return playlists;
   }
 
   /**
@@ -188,11 +187,11 @@ public class VideoPlaylistService {
   private static Path getBasePlaylistsPath() {
     String userHome = DockerUtils.getUserHome();
     String playlistsPath = PropertiesUtils.getProperty(PROP_PLAYLISTS_PATH, DEFAULT_PLAYLISTS_PATH);
-    String videoPlaylistsHome = userHome + "/" + playlistsPath;
+    String playlistsHome = userHome + "/" + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
-      videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
+      playlistsHome = playlistsHome.replace("/", "\\");
     }
-    return Paths.get(videoPlaylistsHome);
+    return Paths.get(playlistsHome);
   }
 
   /**
@@ -201,11 +200,11 @@ public class VideoPlaylistService {
   private static Path getBasePlaylistsPathFromDockerHost() {
     String userHome = DockerUtils.getUserHome();
     String playlistsPath = DockerUtils.getDockerHostPlaylistPath();
-    String videoPlaylistsHome = userHome + "/" + playlistsPath;
+    String playlistsHome = userHome + "/" + playlistsPath;
     if (DockerUtils.isWindowsHostOrWindowsDockerHost()) {
-      videoPlaylistsHome = videoPlaylistsHome.replace("/", "\\");
+      playlistsHome = playlistsHome.replace("/", "\\");
     }
-    return Paths.get(videoPlaylistsHome);
+    return Paths.get(playlistsHome);
   }
 
   /**
@@ -300,7 +299,7 @@ public class VideoPlaylistService {
         .filter(line -> !StringUtils.isEmpty(line.trim()))
         .filter(line -> !line.startsWith("#"))
         .filter(line -> !line.contains("conhost.exe"))
-        .filter(line -> !line.contains("get-video-playlist-content.sh"))
+        .filter(line -> !line.contains("get-playlist-content.sh"))
         .filter(line -> !line.contains("exec-script.sh"))
         .filter(line -> !line.trim().endsWith("logout"))
         .map(line -> removeCharactersPastFileExtension(line))

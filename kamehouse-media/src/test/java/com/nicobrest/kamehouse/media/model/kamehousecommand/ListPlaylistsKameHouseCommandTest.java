@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.media.video.model.kamehousecommand;
+package com.nicobrest.kamehouse.media.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.AbstractKameHouseCommandTest;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
@@ -15,11 +15,11 @@ class ListPlaylistsKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "kamehouse/list-video-playlists.sh";
+    return "kamehouse/list-playlists.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "kamehouse/list-video-playlists.sh";
+    return "kamehouse/list-playlists.sh";
   }
 }

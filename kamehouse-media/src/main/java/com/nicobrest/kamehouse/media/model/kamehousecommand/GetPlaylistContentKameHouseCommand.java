@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.media.video.model.kamehousecommand;
+package com.nicobrest.kamehouse.media.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
@@ -37,7 +37,7 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "kamehouse/get-video-playlist-content.sh";
+    return "kamehouse/get-playlist-content.sh";
   }
 
   @Override
@@ -47,7 +47,7 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "kamehouse/get-video-playlist-content.sh";
+    return "kamehouse/get-playlist-content.sh";
   }
 
   @Override

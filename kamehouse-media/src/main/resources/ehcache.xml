@@ -7,14 +7,14 @@
     <key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
     <value-type>java.util.ArrayList</value-type>
     <resources>
-      <offheap unit="MB">20</offheap>
+      <offheap unit="MB">100</offheap>
     </resources>
   </cache-template>
 
-  <cache alias="videoPlaylist" uses-template="cache-defaults">
-    <value-type>com.nicobrest.kamehouse.media.video.model.Playlist</value-type>
+  <cache alias="playlist" uses-template="cache-defaults">
+    <value-type>com.nicobrest.kamehouse.media.model.Playlist</value-type>
   </cache>
 
-  <cache alias="videoPlaylists" uses-template="cache-defaults" />
+  <cache alias="playlists" uses-template="cache-defaults" />
 
 </config>
