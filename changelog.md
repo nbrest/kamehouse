@@ -7,6 +7,7 @@
 
 #### v10.01
 
+- Updated default playlists path to .kamehouse/data/playlists and allowed for music playlists to be loaded too
 - Moved .kamehouse/ files to .kamehouse/config/
 - Moved scripts data to .kamehouse/data/
 - Added option to disable keep alive scripts in kamehouse.cfg
