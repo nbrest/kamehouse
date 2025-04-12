@@ -74,7 +74,9 @@ cyclePreviousExports() {
   log.info "Copying latest export to old/ folder"
   for CSV_FILE in ${PATH_CSV}/*.csv; do
     CSV_FILENAME="$(basename -- $CSV_FILE)"
-    cp -v -f ${CSV_FILE} ${PATH_CSV}/old/${CSV_FILENAME}.0
+    if [ -f "${CSV_FILE}" ]; then
+      cp -v -f ${CSV_FILE} ${PATH_CSV}/old/${CSV_FILENAME}.0
+    fi
   done
 }
 
