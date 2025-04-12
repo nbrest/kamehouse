@@ -19,7 +19,8 @@ mainProcess() {
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
   setVlcProcessInfo
-  vlc ${FILE_TO_PLAY} &
+  setVlcParams
+  vlc ${FILE_TO_PLAY} ${VLC_PARAMS} &
 }
 
 parseArguments() {

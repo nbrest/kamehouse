@@ -31,7 +31,9 @@ This module handles the following functionality:
 
 - The playlists folder should contain the following structure
 
-- In the root level of the playlists folder, there should be only subfolders. Each folder refers to a playlist **category**: like `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
+- In the root level of the playlists folder, there should be only subfolders. Each folder refers to a playlist **category**: like `music`, `music_videos`, `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
+
+- By convention, when loading playlists under the category `music`, in the subfolder `music` at the root of the playlists folder, vlc player starts minimized. It also starts minimized if the file to play is a single `mp3` file
 
 - In each **category** folder, there should be a folder for each playlist, with the exact name of the playlist. For example, if you have the category `anime`, then you can **(and should!)** have a `dragonball_all` folder. Inside that `dragonball_all` folder, you would add the `dragonball_all.m3u` playlist
 

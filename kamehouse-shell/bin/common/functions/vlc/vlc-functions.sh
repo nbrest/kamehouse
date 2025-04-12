@@ -17,6 +17,8 @@ VLC_PORT="8080"
 VLC_PID=""
 VLC_IS_RUNNING=false
 
+VLC_PARAMS=""
+
 mkdir -p "${VLC_DATA_PATH}"
 
 checkExistingVlcLogFile() {
@@ -73,4 +75,25 @@ checkRunningVlcProcess() {
     rotateVlcLog
     exitSuccessfully
   fi  
+}
+
+setVlcParams() {
+  log.debug "Setting vlc params"
+  local VLC_START_MINIMIZED=false
+  local MUSIC_PLAYLIST_RX=.*${PLAYLISTS_PATH}/music/.*
+  local FILE_EXT=${FILE_TO_PLAY: -3}
+
+  if [ "${FILE_EXT}" == "mp3" ]; then
+    log.debug "File to play is an mp3"
+    VLC_START_MINIMIZED=true
+  fi
+  
+  if [[ "${FILE_TO_PLAY}" =~ ${MUSIC_PLAYLIST_RX} ]]; then
+    log.debug "File to play is a music playlist"
+    VLC_START_MINIMIZED=true
+  fi
+
+  if ${VLC_START_MINIMIZED}; then
+    VLC_PARAMS="--qt-start-minimized --qt-system-tray"
+  fi
 }
