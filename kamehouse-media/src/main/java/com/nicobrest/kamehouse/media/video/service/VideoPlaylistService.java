@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 public class VideoPlaylistService {
 
   public static final String DEFAULT_PLAYLISTS_PATH =
-      "git/kamehouse-video-playlists/playlists/video-kamehouse";
+      ".kamehouse/data/playlists";
   public static final String PROP_PLAYLISTS_PATH = "playlists.path";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
   private static final String VIDEO_PLAYLIST_CACHE = "videoPlaylist";

@@ -39,11 +39,11 @@ This module handles the following functionality:
 
 - The playlists folder structure could look something like this:
 ```sh
-${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/anime/dragonball_all/dragonball_all.m3u
-${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/anime/saint_seiya_all/saint_seiya_all.m3u
-${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/movies/movies_dc_all/movies_dc_all.m3u
-${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/movies/movies_marvel_all/movies_marvel_all.m3u
-${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/series/game_of_thrones_all/game_of_thrones_all.m3u
+${HOME}/.kamehouse/data/playlists/anime/dragonball_all/dragonball_all.m3u
+${HOME}/.kamehouse/data/playlists/anime/saint_seiya_all/saint_seiya_all.m3u
+${HOME}/.kamehouse/data/playlists/movies/movies_dc_all/movies_dc_all.m3u
+${HOME}/.kamehouse/data/playlists/movies/movies_marvel_all/movies_marvel_all.m3u
+${HOME}/.kamehouse/data/playlists/series/game_of_thrones_all/game_of_thrones_all.m3u
 ```
 - The docker [playlist](/docker/media/playlist/) folder contains a sample structure of the playlists used in docker demo
 
@@ -51,7 +51,7 @@ ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/series/game_of_t
 
 - The playlists could point to local files to be loaded from the filesystem or to remote files to be loaded externally
 
-- For example, the content of `${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/anime/dragonball_all/dragonball_all.m3u` could be pointing to local files:
+- For example, the content of `${HOME}/.kamehouse/data/playlists/anime/dragonball_all/dragonball_all.m3u` could be pointing to local files:
 ```sh
 #EXTM3U
 #EXTINF:0,\anime\dragonball\001-DBZ.avi

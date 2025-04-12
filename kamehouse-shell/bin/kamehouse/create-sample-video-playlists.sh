@@ -9,10 +9,6 @@ fi
 
 mainProcess() {
   log.info "Creating sample video playlists"
-  if [ -d "${HOME}/git/kamehouse-video-playlists/.git" ]; then
-    log.error "${HOME}/git/kamehouse-video-playlists is a git repository. No need to create sample playlists. Exiting..."
-    exitProcess ${EXIT_ERROR}
-  fi
   createPlaylists
   updateMediaFiles
   updatePlaylistsPath
@@ -20,9 +16,9 @@ mainProcess() {
 
 createPlaylists() {
   log.info "Creating remote playlists"
-  rm -r ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
-  mkdir -p ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
-  cp -rvf ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
+  rm -r ${HOME}/.kamehouse/data/playlists
+  mkdir -p ${HOME}/.kamehouse/data/playlists
+  cp -rvf ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/.kamehouse/data/playlists/
 }
 
 updateMediaFiles() {
@@ -34,7 +30,7 @@ updateMediaFiles() {
 
 updatePlaylistsPath() {
   log.info "Updating path with current user in remote playlists entries"
-  cd ${HOME}/git/kamehouse-video-playlists/playlists/video-kamehouse/
+  cd ${HOME}/.kamehouse/data/playlists/
   local USERNAME=`whoami`
   find . -regex ".*m3u" -type f -exec sed -i "s#/home/USERNAME#/home/${USERNAME}#g" {} \;
 }
