@@ -39,7 +39,7 @@ main() {
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SHELL_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
   getDefaultKameHouseUsername
-  createLogsDir
+  createDirs
   installKameHouseShell
   updateUsername
   updateLogLevel
@@ -72,8 +72,11 @@ getDefaultKameHouseUsername() {
   fi 
 }
 
-createLogsDir() {
+createDirs() {
   mkdir -p ${HOME}/logs
+  mkdir -p ${HOME}/.kamehouse/config
+  mkdir -p ${HOME}/.kamehouse/server-config
+  mkdir -p ${HOME}/.kamehouse/data
 }
 
 installKameHouseShell() {
