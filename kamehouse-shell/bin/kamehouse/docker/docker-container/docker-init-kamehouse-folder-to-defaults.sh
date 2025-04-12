@@ -30,7 +30,9 @@ mainProcess() {
   cp -v -f ${HOME}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql ${HOME}/.kamehouse/config/mariadb/dump
 
   log.info "Reinit other .kamehouse dirs"
-  mkdir -p ${HOME}/.kamehouse/config/httpd
+  mkdir -p ${HOME}/.kamehouse/config
+  mkdir -p ${HOME}/.kamehouse/server-config
+  mkdir -p ${HOME}/.kamehouse/data
 }
 
 main "$@"
