@@ -38,6 +38,7 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 ## Deploy:
 
 - Use the `deploy-kamehouse.sh` script to deploy all kamehouse modules
+- Use the `patch-kamehouse.sh` script to patch current working copy changes to another kamehouse server without having to commit and push the changes
 
 ## Build:
 
