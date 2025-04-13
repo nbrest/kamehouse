@@ -37,20 +37,22 @@ createPatchFile() {
   git diff --staged > ${PATCH_FILE}
 
   log.info "Patch file status"
-  #cat ${PATCH_FILE}
   ls -lh ${PATCH_FILE}
+
+  if [ ! -s ${PATCH_FILE} ]; then
+    log.error "${PATCH_FILE} is empty. Are there any changes to patch?"
+    exitProcess ${EXIT_ERROR}
+  fi    
 }
 
 sendPatchFile() {
   log.info "Sending patch file to ${COL_PURPLE}${SSH_SERVER}"
   scp -v  ${PATCH_FILE} ${SSH_USER}@${SSH_SERVER}:${GIT_PROJECT_DIR}/${PATCH_FILE}
-  SSH_COMMAND="ls -lh ${GIT_PROJECT_DIR}/${PATCH_FILE}"
-  executeSshCommand
 }
 
 applyPatchFile() {
   log.info "Applying patch file in ${COL_PURPLE}${SSH_SERVER}"
-  SSH_COMMAND="cd ${GIT_PROJECT_DIR} ; git reset --hard ; git pull origin dev ; git apply ${PATCH_FILE} ; git status ; ${DEPLOYMENT_COMMAND} ; git clean -d -x -f ; git reset --hard ; git status"
+  SSH_COMMAND="cd ${GIT_PROJECT_DIR} ; ls -lh ${PATCH_FILE} ; git reset --hard ; git pull origin dev ; git apply ${PATCH_FILE} ; git status ; ${DEPLOYMENT_COMMAND} ; git clean -d -x -f ; git reset --hard ; git status"
   executeSshCommand  
 }
 
