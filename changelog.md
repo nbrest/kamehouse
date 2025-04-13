@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.02
+
+- Fixed vlc stats for mp3
+
 #### v10.01
 
 - Added support for music playlists on vlc

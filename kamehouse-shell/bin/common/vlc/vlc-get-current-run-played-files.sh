@@ -31,7 +31,7 @@ getFilesPlayed() {
   if [ -z "${LAST_M3U_LINE}" ]; then
     LAST_M3U_LINE=0
   fi
-  FILES_PLAYED=`tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -e "main debug:  (path: " | grep -E ".*(\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $4}' | sed 's/.$//' | sed 's#\\\#/#Ig'`
+  FILES_PLAYED=`tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -e "main debug:  (path: " | grep -E ".*(\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $4}' | sed 's/.$//' | sed 's#\\\#/#Ig'`
  
   echo -e "${FILES_PLAYED}" > "${VLC_CURRENT_RUN_PLAYED_FILES}"  
 }
