@@ -19,6 +19,8 @@ VLC_IS_RUNNING=false
 
 VLC_PARAMS=""
 
+VLC_STATS_MEDIA_FILES="\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U"
+
 mkdir -p "${VLC_DATA_PATH}"
 
 checkExistingVlcLogFile() {

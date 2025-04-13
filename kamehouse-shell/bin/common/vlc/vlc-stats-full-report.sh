@@ -32,7 +32,7 @@ showVlcLogsFiltered() {
   checkExistingVlcLogFile
   log.info "tail filtered vlc logs"
   local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
-  local TAIL_GREP_REGEX="drm_vout.*|main debug:  \(path:..*(\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
+  local TAIL_GREP_REGEX="drm_vout.*|main debug:  \(path:..*(${VLC_STATS_MEDIA_FILES}).*"
   echo -ne "${COL_RED}"
   tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -E "${TAIL_GREP_REGEX}" | tail -n 300
   echo -ne "${COL_NORMAL}"
@@ -50,12 +50,12 @@ showVlcSystemProcessInfo() {
     return
   fi
   log.info "Running top command to check vlc process status"
-  local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*" | awk '{print $2}'`
+  local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(${VLC_STATS_MEDIA_FILES}).*" | awk '{print $2}'`
   local TOP_OUTPUT=`top -e m -E m -p "${VLC_PID}" -n 1 -b`
   echo "${TOP_OUTPUT}"
 
   log.info "ps -ef | grep vlc | grep -v vlc-start.sh"
-  ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
+  ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(${VLC_STATS_MEDIA_FILES}).*"
 }  
 
 showVlcStats() {
@@ -65,7 +65,7 @@ showVlcStats() {
 showVlcLogsLastDrm() {
   checkExistingVlcLogFile
   local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
-  local TAIL_GREP_REGEX="drm_vout debug: OK simple pic test.*|drm_vout debug: get_lease_fd OK.*|drm_vout error: Failed to get xlease.*|main debug:  \(path:..*(\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U).*"
+  local TAIL_GREP_REGEX="drm_vout debug: OK simple pic test.*|drm_vout debug: get_lease_fd OK.*|drm_vout error: Failed to get xlease.*|main debug:  \(path:..*(${VLC_STATS_MEDIA_FILES}).*"
   log.info "Last drm filtered entries of vlc.log"
   tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -E "${TAIL_GREP_REGEX}" | tail -n 10
 }
