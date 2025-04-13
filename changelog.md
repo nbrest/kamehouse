@@ -7,11 +7,13 @@
 
 #### v10.01
 
-- Updated default playlists path to .kamehouse/data/playlists and allowed for music playlists to be loaded too
+- Added support for music playlists on vlc
+- Updated default playlists path to .kamehouse/data/playlists
 - Added option to use visualization filter for audio playlists
 - Moved .kamehouse/ files to .kamehouse/config/
 - Moved scripts data to .kamehouse/data/
 - Added option to disable keep alive scripts in kamehouse.cfg
+- Allowed to login from mobile app to backend servers running groot only without tomcat
 - Added build version and date to deployment logs for all modules
 - Merged groot ui into kamehouse-ui. Module kamehouse-groot is now only the backend apis
 - Added vlc running process info file and vlc stats and tail log scripts
