@@ -8,7 +8,7 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  log.info "Creating sample video playlists"
+  log.info "Creating sample playlists"
   createPlaylists
   updateMediaFiles
   updatePlaylistsPath

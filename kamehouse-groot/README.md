@@ -10,7 +10,6 @@ This module is consists of apis built with php to:
 * Manage tomcat. Wrapper over tomcat's `/manager` app. `start/stop/deploy/undeploy` all kamehouse modules in the local server and all servers at once
 * Start and stop tomcat
 * Git pull from all my repos, both in local and all servers
-* Re generate video and audio playlists in the media server when adding new media files
 * Tail logs in the local server
 * Trigger kamehouse-shell scripts on the server over https
 * Reboot the server

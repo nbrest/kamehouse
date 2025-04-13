@@ -58,7 +58,7 @@ public class SshClientUtils {
 
   /**
    * Execute the kamehouse command over ssh on the docker host setting up the channel as a shell.
-   * This was used when getting the video playlists and playlists content from docker via ssh. Now
+   * This was used when getting the playlists and playlists content from docker via ssh. Now
    * those are retrieved via https using groot.
    */
   public static KameHouseCommandResult executeShell(String host, String username,
