@@ -41,6 +41,7 @@ createPatchFile() {
 
   if [ ! -s ${PATCH_FILE} ]; then
     log.error "${PATCH_FILE} is empty. Are there any changes to patch?"
+    rm ${PATCH_FILE}
     exitProcess ${EXIT_ERROR}
   fi    
 }
