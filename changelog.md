@@ -7,7 +7,9 @@
 
 #### v10.02
 
+- Added patch script to patch other kamehouse servers with current working copy
 - Fixed vlc stats for mp3
+- Fixed bugs
 
 #### v10.01
 
