@@ -10,6 +10,7 @@ fi
 PATCH_FILE="kamehouse.patch"
 STATIC_ONLY=false
 DEPLOYMENT_COMMAND="deploy-kamehouse.sh -c "
+GIT_PROJECT_DIR="~/git/kamehouse"
 
 mainProcess() {
   checkValidRootKameHouseProject
@@ -42,14 +43,14 @@ createPatchFile() {
 
 sendPatchFile() {
   log.info "Sending patch file to ${COL_PURPLE}${SSH_SERVER}"
-  scp -v  ${PATCH_FILE} ${SSH_USER}@${SSH_SERVER}:~/git/kamehouse/${PATCH_FILE}
-  SSH_COMMAND="ls -lh ~/git/kamehouse/${PATCH_FILE}"
+  scp -v  ${PATCH_FILE} ${SSH_USER}@${SSH_SERVER}:${GIT_PROJECT_DIR}/${PATCH_FILE}
+  SSH_COMMAND="ls -lh ${GIT_PROJECT_DIR}/${PATCH_FILE}"
   executeSshCommand
 }
 
 applyPatchFile() {
   log.info "Applying patch file in ${COL_PURPLE}${SSH_SERVER}"
-  SSH_COMMAND="cd ~/git/kamehouse ; git reset --hard ; git pull origin dev ; git apply ${PATCH_FILE} ; git status ; ${DEPLOYMENT_COMMAND} ; git clean -d -x -f ; git reset --hard ; git status"
+  SSH_COMMAND="cd ${GIT_PROJECT_DIR} ; git reset --hard ; git pull origin dev ; git apply ${PATCH_FILE} ; git status ; ${DEPLOYMENT_COMMAND} ; git clean -d -x -f ; git reset --hard ; git status"
   executeSshCommand  
 }
 
