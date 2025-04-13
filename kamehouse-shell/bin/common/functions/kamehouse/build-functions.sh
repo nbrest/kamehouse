@@ -274,7 +274,7 @@ updateConfigWithGitHash() {
   log.debug "Setting git commit hash on config.xml"
   cp -f config.xml config-pre-build.xml
   local RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  RELEASE_VERSION=`echo ${RELEASE_VERSION:9:4}`
+  RELEASE_VERSION=`echo ${RELEASE_VERSION:9:5}`
   local APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1"
   local APP_VERSION_WITH_HASH="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1-${GIT_COMMIT_HASH}"
 

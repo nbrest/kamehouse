@@ -64,7 +64,7 @@ displayGitStatus() {
 
 getPreviousReleaseVersion() {
   PREVIOUS_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  PREVIOUS_RELEASE_VERSION=`echo ${PREVIOUS_RELEASE_VERSION:9:4}`
+  PREVIOUS_RELEASE_VERSION=`echo ${PREVIOUS_RELEASE_VERSION:9:5}`
 }
 
 requestConfirmation() {
