@@ -37,13 +37,32 @@ mainProcess() {
 
 validateCommandLineArguments() {
   log.info "Validating command line arguments"
-  local SUBPATH_REGEX=.*\\.\\.\\/.*
-  if [[ "$@" =~ ${SUBPATH_REGEX} ]]; then
+
+  local SUBPATH_RX=.*\\.\\.\\/.*
+  if [[ "$@" =~ ${SUBPATH_RX} ]]; then
     log.error "Command line arguments try to escape kamehouse shell base path. Can't procede to execute script"
     exitProcess ${EXIT_INVALID_ARG}
   fi
+  
   if [[ "$@" == *[\`'!'#\$%^\&*()\<\>\|\;+]* ]]; then
     log.error "Invalid characters in command line arguments. Can't procede"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+
+  local FORBIDDEN_SCRIPTS_RX=.*\(docker-ssh-.*\|ssh\.sh\|kamehouse-cmd-decrypt-to-sdtout\.sh\).*
+  if [[ "$@" =~ ${FORBIDDEN_SCRIPTS_RX} ]]; then
+    log.error "Command line arguments contain a forbidden script"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+
+  local FORBIDDEN_WORDS_RX=.*\(sudo\|decrypt\|encrypt\).*
+  if [[ "$@" =~ ${FORBIDDEN_WORDS_RX} ]]; then
+    log.error "Command line arguments contain a forbidden word"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+
+  if [ ! -f "${BASE_PATH}/${SCRIPT}" ]; then
+    log.error "Script ${SCRIPT} doesn't exist"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 }
