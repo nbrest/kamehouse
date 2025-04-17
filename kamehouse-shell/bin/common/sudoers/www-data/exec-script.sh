@@ -45,19 +45,19 @@ validateCommandLineArguments() {
   fi
   
   if [[ "$@" == *[\`'!'#\$%^\&*()\<\>\|\;+]* ]]; then
-    log.error "Invalid characters in command line arguments. Can't procede. $@"
+    log.error "Invalid characters in command line arguments. Can't procede. ${SCRIPT} ${SCRIPT_ARGS}"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
   local FORBIDDEN_SCRIPTS_RX=.*\(docker-ssh-.*\|ssh\.sh\|kamehouse-cmd-decrypt-to-sdtout\.sh\).*
   if [[ "$@" =~ ${FORBIDDEN_SCRIPTS_RX} ]]; then
-    log.error "Command line arguments contain a forbidden script: $@"
+    log.error "Command line arguments contain a forbidden script: ${SCRIPT} ${SCRIPT_ARGS}"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
   local FORBIDDEN_WORDS_RX=.*\(sudo\|decrypt\|encrypt\).*
   if [[ "$@" =~ ${FORBIDDEN_WORDS_RX} ]]; then
-    log.error "Command line arguments contain a forbidden word: $@"
+    log.error "Command line arguments contain a forbidden word: ${SCRIPT} ${SCRIPT_ARGS}"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
