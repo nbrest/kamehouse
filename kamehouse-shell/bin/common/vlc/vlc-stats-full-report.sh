@@ -12,11 +12,11 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-VLC_STATS_ARGS="-n 8"
+VLC_STATS_ARGS=""
 
 mainProcess() {
   checkRunningVlcProcess
-  showCurrentRunPlayedFilesSorted
+  showCurrentRunPlayedFilesSortedHeadTail
   showVlcLogsFiltered
   showCurrentRunPlayedFilesHeadTail
   showVlcSystemProcessInfo
@@ -24,8 +24,11 @@ mainProcess() {
   showVlcLogsLastDrm
 }
 
-showCurrentRunPlayedFilesSorted() {
-  ${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-get-current-run-played-files.sh --sort-alpha
+showCurrentRunPlayedFilesSortedHeadTail() {
+  local PLAYLIST=`${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-get-current-run-played-files.sh --sort-alpha`
+  echo "${PLAYLIST}" | head -n 10
+  echo "..."
+  echo "${PLAYLIST}" | tail -n 10  
 }
 
 showVlcLogsFiltered() {
@@ -34,7 +37,7 @@ showVlcLogsFiltered() {
   local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${VLC_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
   local TAIL_GREP_REGEX="drm_vout.*|main debug:  \(path:..*(${VLC_STATS_MEDIA_FILES}).*"
   echo -ne "${COL_RED}"
-  tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -E "${TAIL_GREP_REGEX}" | tail -n 300
+  tail -n +${LAST_M3U_LINE} ${VLC_LOG_FILE} | grep -E "${TAIL_GREP_REGEX}" | tail -n 100
   echo -ne "${COL_NORMAL}"
 }
 
@@ -59,6 +62,11 @@ showVlcSystemProcessInfo() {
 }  
 
 showVlcStats() {
+  if ${IS_LINUX_HOST}; then
+    VLC_STATS_ARGS="${VLC_STATS_ARGS} -n 8"
+  else
+    VLC_STATS_ARGS="${VLC_STATS_ARGS} -n 2"
+  fi
   ${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-stats.sh ${VLC_STATS_ARGS}
 }
 

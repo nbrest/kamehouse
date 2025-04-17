@@ -3181,16 +3181,16 @@ avcodec-skiploopfilter=4
 [file] # File logger
 
 # Log to file (boolean)
-#file-logging=0
+file-logging=1
 
 # Log filename (string)
-#logfile=
+logfile=/home/goku/logs/vlc.log
 
 # Log format (string)
 #logmode=text
 
 # Verbosity (integer)
-#log-verbose=-1
+log-verbose=3
 
 [syslog] # System logger (syslog)
 

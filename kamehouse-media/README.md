@@ -68,9 +68,9 @@ D:\media\videos\anime\dragonball\003-DBZ.avi
 ```sh
 #EXTM3U
 #EXTINF:0,\anime\dragonball\001-DBZ.avi
-https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonball/001-DBZ.avi
+https://192.168.0.2/kame-house-streaming/kamehouse-r2d2/media/videos/anime/dragonball/001-DBZ.avi
 #EXTINF:0,\anime\dragonball\002-DBZ.avi
-https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonball/002-DBZ.avi
+https://192.168.0.2/kame-house-streaming/kamehouse-r2d2/media/videos/anime/dragonball/002-DBZ.avi
 #EXTINF:0,\anime\dragonball\003-DBZ.avi
-https://192.168.0.2/kame-house-streaming/media-server/media/videos/anime/dragonball/003-DBZ.avi
+https://192.168.0.2/kame-house-streaming/kamehouse-r2d2/media/videos/anime/dragonball/003-DBZ.avi
 ```

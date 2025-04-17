@@ -61,5 +61,15 @@ class VlcRcControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
   }
+
+  @Test
+  void vlcRcStatsTest() throws Exception {
+    logger.info("Running vlcRcStatsTest");
+
+    HttpResponse response = get(
+        getWebappUrl() + API_URL + "/stats?fullReport=false&updateStats=false");
+
+    verifySuccessfulResponse(response, List.class);
+  }
 }
 

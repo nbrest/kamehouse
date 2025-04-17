@@ -263,13 +263,13 @@ certbot -d www.nicobrest.com,kame.nicobrest.com,docker-demo.nicobrest.com --expa
 
 *********************
 
-## Enable CORS on media server:
+## Enable CORS on kamehouse-r2d2:
 
 - To be able to test it's connectivity from js in kamehouse-mobile:
 - Add the following line to conf/kamehouse/http.conf: `Header add Access-Control-Allow-Origin *`
 - Restart httpd
 - Don't do this if the server is exposed to internet
-- It's not strictly necessary. If the connectivity test fails with CORS error, it will try to load the media server page in the inappbrowser anyway, and that should still work. In a way, receiving a CORS error is a successful connectivity test
+- It's not strictly necessary. If the connectivity test fails with CORS error, it will try to load kamehouse-r2d2 page in the inappbrowser anyway, and that should still work. In a way, receiving a CORS error is a successful connectivity test
 
 *********************
 

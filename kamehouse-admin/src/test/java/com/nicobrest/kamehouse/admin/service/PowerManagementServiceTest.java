@@ -56,7 +56,7 @@ class PowerManagementServiceTest {
   @Test
   void wakeOnLanServerTest() {
     try {
-      powerManagementService.wakeOnLan("media.server");
+      powerManagementService.wakeOnLan("kamehouse-r2d2");
     } catch (KameHouseBadRequestException e) {
       // If an exception is thrown, I expect it to be for UnknownHostException
       assertTrue(e.getCause() instanceof UnknownHostException);

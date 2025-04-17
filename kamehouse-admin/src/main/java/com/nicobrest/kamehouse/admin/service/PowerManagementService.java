@@ -66,7 +66,7 @@ public class PowerManagementService {
 
   /**
    * Wake on lan the specified server. The server should be the base of the the admin.properties
-   * [server].mac and [server].broadcast. For example: "media.server"
+   * [server].mac and [server].broadcast. For example: "kamehouse-r2d2"
    */
   public void wakeOnLan(String server) {
     logger.trace("Waking up {}", server);

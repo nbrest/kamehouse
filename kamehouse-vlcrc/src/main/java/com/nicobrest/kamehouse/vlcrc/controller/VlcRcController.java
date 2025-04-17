@@ -1,14 +1,20 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
-import com.nicobrest.kamehouse.commons.controller.AbstractController;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandController;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatsFullReportKameHouseCommand;
+import com.nicobrest.kamehouse.vlcrc.model.kamehousecommand.VlcStatsKameHouseCommand;
 import com.nicobrest.kamehouse.vlcrc.service.VlcRcService;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +33,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api/v1/vlc-rc/players")
-public class VlcRcController extends AbstractController {
+public class VlcRcController extends AbstractKameHouseCommandController {
 
   private VlcRcService vlcRcService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public VlcRcController(VlcRcService vlcRcService) {
+  public VlcRcController(VlcRcService vlcRcService,
+      KameHouseCommandService kameHouseCommandService) {
+    super(kameHouseCommandService);
     this.vlcRcService = vlcRcService;
   }
 
@@ -83,5 +91,23 @@ public class VlcRcController extends AbstractController {
     String hostnameSanitized = StringUtils.sanitize(hostname);
     List<VlcRcFileListItem> vlcRcFileList = vlcRcService.browse(uriSanitized, hostnameSanitized);
     return generateGetResponseEntity(vlcRcFileList, false);
+  }
+
+  /**
+   * Get the stats of the vlc player running on the local system.
+   */
+  @GetMapping(path = "/{hostname}/stats")
+  public ResponseEntity<List<KameHouseCommandResult>> stats(
+      @RequestParam(value = "fullReport") Boolean fullReport,
+      @RequestParam(value = "updateStats") Boolean updateStats,
+      @PathVariable String hostname) {
+    InputValidator.validateForbiddenCharsForShell(hostname);
+    List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
+    if (fullReport) {
+      kameHouseCommands.add(new VlcStatsFullReportKameHouseCommand(updateStats));
+    } else {
+      kameHouseCommands.add(new VlcStatsKameHouseCommand(updateStats));
+    }
+    return execKameHouseCommands(kameHouseCommands);
   }
 }

@@ -132,8 +132,8 @@ showStatsHistoryFile() {
     RUN_START_LINE=0
   fi
   log.trace "RUN_START_LINE=${RUN_START_LINE}"
-  log.info "cat "${VLC_STATS_HISTORY_FILE}" | tail -n +${RUN_START_LINE}"
-  cat "${VLC_STATS_HISTORY_FILE}" | tail -n +${RUN_START_LINE} 
+  log.info "tail -n +${RUN_START_LINE} ${VLC_STATS_HISTORY_FILE}"
+  tail -n +${RUN_START_LINE} "${VLC_STATS_HISTORY_FILE}"
 }
 
 parseArguments() {

@@ -1,5 +1,36 @@
 <div class="default-layout p-15-d-kh p-15-m-kh"></div>
 <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+<div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
+  <table class="link-image-table">
+    <caption class="hidden-kh">Image-Links</caption>
+    <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+    <tbody>
+      <tr><td class="vlc-player-config-section-header" colspan="2">VLC Player Stats</td></tr>
+      <tr>
+        <td>
+          <button class="link-image-img" data-background-img="/kame-house/img/other/combo-chart.png" onclick='kameHouse.extension.vlcPlayer.getVlcStats()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">Vlc Running Stats</div>
+          <div class="link-image-desc">Get the latest stats from vlc player
+            <br>Full report: 
+            <input id="vlc-player-get-full-report-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="debug-mode-scroll-log-checkbox"/>
+            Update stats: 
+            <input id="vlc-player-update-stats-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="debug-mode-scroll-log-checkbox"/>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button id="vlc-stats-command-output" class="collapsible-kh collapsible-kh-btn vlc-stats-collapsible-btn" onclick="kameHouse.util.collapsibleDiv.toggle(this);">Vlc Stats Output</button>
+  <div class="collapsible-kh-content">
+    <pre class="kamehouse-shell-output vlc-stats-command-output"><div id="kamehouse-command-result">No stats loaded yet...</div></pre>
+  </div>
+</div>
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
 <div class="default-layout bg-lighter-0-kh vlc-player-config-wrapper">
 <table class="link-image-table">
   <caption class="hidden-kh">Image-Links</caption>
@@ -86,11 +117,11 @@
     <tr><td class="vlc-player-config-section-header" colspan="2">Power Management</td></tr>
     <tr>
       <td class="vlc-player-config-btn">
-        <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/wol-red-dark.png" onclick='kameHouse.extension.vlcPlayer.wolMediaServer()'></button>
+        <button class="link-image-img vlc-player-btn" data-background-img="/kame-house/img/pc/wol-red-dark.png" onclick='kameHouse.extension.vlcPlayer.wolKameHouseR2D2()'></button>
       </td>
       <td>
-        <div class="link-image-text">Wake Media Server</div>
-        <div class="link-image-desc">Send a WOL packet to the media server</div>
+        <div class="link-image-text">Wake kamehouse-r2d2</div>
+        <div class="link-image-desc">Send a WOL packet to kamehouse-r2d2</div>
       </td>
     </tr>
     <tr>

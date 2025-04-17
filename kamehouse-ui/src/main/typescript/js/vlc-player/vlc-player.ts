@@ -315,14 +315,14 @@ class VlcPlayer {
   }
 
   /**
-   * Wake on lan media server.
+   * Wake on lan kamehouse-r2d2.
    */
-  wolMediaServer() {
+  wolKameHouseR2D2() {
     const requestParam =  {
-      server : "media.server"
+      server : "kamehouse-r2d2"
     };
-    const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
-    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
+    const WOL_KAMEHOUSE_R2D2_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
+    this.getRestClient().post(WOL_KAMEHOUSE_R2D2_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   }
 
   /**
@@ -344,8 +344,8 @@ class VlcPlayer {
       positionY: 500,
       clickCount: 1
     };
-    const WOL_MEDIA_SERVER_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
-    this.getRestClient().post(WOL_MEDIA_SERVER_API_URL, kameHouse.http.getUrlEncodedHeaders(), params, () => {}, () => {});
+    const WOL_KAMEHOUSE_R2D2_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
+    this.getRestClient().post(WOL_KAMEHOUSE_R2D2_API_URL, kameHouse.http.getUrlEncodedHeaders(), params, () => {}, () => {});
   }
 
   /**
@@ -377,6 +377,13 @@ class VlcPlayer {
     const KEY_PRESS_URL = '/kame-house-admin/api/v1/admin/screen/key-press';
     this.getRestClient().post(KEY_PRESS_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
   } 
+
+  /**
+   * Get the vlc stats from the backend.
+   */
+  getVlcStats() {
+    this.getDebugger().getVlcStats();
+  }
 
   /**
    * Get suspend server modal message.
@@ -1755,11 +1762,13 @@ class VlcPlayerDebugger {
   #vlcPlayer = null;
   #vlcRcStatusApiUrl = null;
   #playlistApiUrl = null;
+  #vlcRcStatsApiUrl = null;
 
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
     this.#vlcRcStatusApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/status';
     this.#playlistApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/playlist';
+    this.#vlcRcStatsApiUrl = '/kame-house-vlcrc/api/v1/vlc-rc/players/' + vlcPlayer.getHostname() + '/stats';
   }
 
   /** Get the vlcRcStatus from an http api call instead of from the websocket. */
@@ -1774,6 +1783,34 @@ class VlcPlayerDebugger {
     this.#vlcPlayer.getRestClient().get(this.#playlistApiUrl, null, null, updateCursor, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders)}, 
       (responseBody, responseCode, responseDescription, responseHeaders) => {this.#getPlaylistApiErrorCallback(responseBody, responseCode, responseDescription, responseHeaders)}); 
+  }
+
+  /**
+   * Get the vlc stats from the backend.
+   */
+  getVlcStats() {
+    kameHouse.plugin.modal.loadingWheelModal.open();
+    let fullReport = false;
+    const getFullReportCheckbox = document.getElementById("vlc-player-get-full-report-checkbox") as HTMLInputElement;
+    if (!kameHouse.core.isEmpty(getFullReportCheckbox)) {
+      fullReport = getFullReportCheckbox.checked;
+    }
+    let updateStats = false;
+    const updateStatsCheckbox = document.getElementById("vlc-player-update-stats-checkbox") as HTMLInputElement;
+    if (!kameHouse.core.isEmpty(updateStatsCheckbox)) {
+      updateStats = updateStatsCheckbox.checked;
+    }
+    const url = this.#vlcRcStatsApiUrl + "?fullReport=" + fullReport + "&updateStats=" + updateStats;
+    this.#vlcPlayer.getRestClient().get(url, null, null, true,
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        kameHouse.plugin.kameHouseCommandManager.renderKameHouseCommandResult(responseBody, false, null, "vlc-stats-command-output");
+      },
+      (responseBody, responseCode, responseDescription, responseHeaders) => {
+        kameHouse.plugin.modal.loadingWheelModal.close();
+        kameHouse.plugin.modal.basicModal.openApiError(responseBody, responseCode, responseDescription, responseHeaders);
+        kameHouse.plugin.kameHouseCommandManager.renderErrorExecutingCommand("vlc-stats-command-output");
+      });
   }
 
   /** Update the main player view. */

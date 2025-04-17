@@ -193,8 +193,8 @@ buildMavenCommand() {
   else
     log.info "Building all modules"
   fi
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.media.server.mac=${MEDIA_SERVER_MAC} "
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.media.server.broadcast=${MEDIA_SERVER_BROADCAST} "
+  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.kamehouse-r2d2.mac=${KAMEHOUSE_R2D2_MAC} "
+  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.kamehouse-r2d2.broadcast=${KAMEHOUSE_R2D2_BROADCAST} "
   MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.playlists.path=${PLAYLISTS_PATH} "
   MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE} "
 }

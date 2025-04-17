@@ -650,3 +650,13 @@
 .vlc-player-tabs button.active {
   background-color: #520303;
 }
+
+.vlc-stats-collapsible-btn {
+  width: 90%;
+}
+
+.vlc-stats-command-output {
+  background-color: #0c1012;
+  color: #686868;
+  text-align: left;
+}

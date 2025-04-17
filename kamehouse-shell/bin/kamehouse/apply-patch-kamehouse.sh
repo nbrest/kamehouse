@@ -7,61 +7,63 @@ if [ "$?" != "0" ]; then
 fi
 
 PATCH_FILE="kamehouse.patch"
-APPLY_PATCH_ARGS=""
-GIT_PROJECT_DIR="~/git/kamehouse"
+DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c "
+GIT_PROJECT_DIR="${HOME}/git/kamehouse"
 STATIC_ONLY=false
 
 mainProcess() {
-  checkValidRootKameHouseProject
-  createPatchFile
-  sendPatchFile
   applyPatchFile
-  removeLocalPatchFile
-}
-
-createPatchFile() {
-  log.info "Creating patch from current directory"
-  git reset
-  git add *
-  git status
-  git diff --binary --staged > ${PATCH_FILE}
-
-  log.info "Patch file status"
-  ls -lh ${PATCH_FILE}
-
-  if [ ! -s ${PATCH_FILE} ]; then
-    log.error "${PATCH_FILE} is empty. Are there any changes to patch?"
-    rm ${PATCH_FILE}
-    exitProcess ${EXIT_ERROR}
-  fi    
-}
-
-sendPatchFile() {
-  log.info "Sending patch file to ${COL_PURPLE}${SSH_SERVER}"
-  scp -v  ${PATCH_FILE} ${SSH_USER}@${SSH_SERVER}:${GIT_PROJECT_DIR}/${PATCH_FILE}
+  runDeployment
+  resetGitDir
 }
 
 applyPatchFile() {
-  log.info "Applying patch file in ${COL_PURPLE}${SSH_SERVER}"
-  if [ -n "${MODULE_SHORT}" ]; then
-    APPLY_PATCH_ARGS="${APPLY_PATCH_ARGS} -m ${MODULE_SHORT}"
-  fi 
-  if ${STATIC_ONLY}; then
-    APPLY_PATCH_ARGS="${APPLY_PATCH_ARGS} -s"
-  fi 
-
-  SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/apply-patch-kamehouse.sh ${APPLY_PATCH_ARGS}"
-  executeSshCommand
+  log.info "Applying patch file"
+  cd "${GIT_PROJECT_DIR}"
+  log.info "ls -lh ${PATCH_FILE}"
+  ls -lh ${PATCH_FILE} 
+  log.info "git reset --hard "
+  git reset --hard 
+  log.info "git pull origin dev"
+  git pull origin dev  
+  log.info "git apply ${PATCH_FILE}"
+  git apply ${PATCH_FILE}
+  if [ "$?" != "0" ]; then
+    log.error "Error applying patch file. Can't continue"
+    exitProcess ${EXIT_ERROR}
+  fi  
+  log.info "git status"
+  git status
 }
 
-removeLocalPatchFile() {
-  log.info "Deleting local patch file"
-  rm ${PATCH_FILE}
+runDeployment() {
+  if [ -n "${MODULE_SHORT}" ]; then
+    DEPLOYMENT_COMMAND="${DEPLOYMENT_COMMAND} -m ${MODULE_SHORT}"
+  fi 
+  if ${STATIC_ONLY}; then
+    DEPLOYMENT_COMMAND="${DEPLOYMENT_COMMAND} -s"
+  fi 
+
+  ${DEPLOYMENT_COMMAND}
+  if [ "$?" == "0" ]; then
+    log.info "${COL_YELLOW}SUCCESS!!!!!! Patch applied successfully"
+  else
+    log.error "Deployment error after applying patch"
+  fi
+}
+
+resetGitDir() {
+  log.info "Resetting ${GIT_PROJECT_DIR}"
+  log.info "git clean -d -x -f "
+  git clean -d -x -f 
+  log.info "git reset --hard"
+  git reset --hard 
+  log.info "git status"
+  git status
 }
 
 parseArguments() {
   parseKameHouseModule "$@"
-  parseKameHouseServer "$@"
   
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -71,7 +73,7 @@ parseArguments() {
     fi
     local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
-      -z|-m)
+      -m)
         # parsed in a previous parse options function 
         ;;
       -s)
@@ -86,12 +88,10 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForKameHouseModule
-  setEnvForKameHouseServer
 }
 
 printHelpOptions() {
   printKameHouseModuleOption "deploy"
-  printKameHouseServerOption
   addHelpOption "-s" "deploy static ui code only"
 }
 

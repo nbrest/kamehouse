@@ -6,7 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
+import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandControllerTest;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcCommand;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcFileListItem;
@@ -33,7 +33,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  *
  * @author nbrest
  */
-class VlcRcControllerTest extends AbstractControllerTest {
+class VlcRcControllerTest extends AbstractKameHouseCommandControllerTest {
 
   private VlcRcStatusTestUtils vlcRcStatusTestUtils = new VlcRcStatusTestUtils();
   private VlcRcPlaylistTestUtils vlcRcPlaylistTestUtils = new VlcRcPlaylistTestUtils();
@@ -147,5 +147,29 @@ class VlcRcControllerTest extends AbstractControllerTest {
 
     vlcRcFileListTestUtils.assertEqualsAllAttributes(vlcRcFileList, responseBody);
     verify(vlcRcServiceMock, times(1)).browse(any(), anyString());
+  }
+
+  /**
+   * Tests getting the stats for a running vlc player.
+   */
+  @Test
+  void statsTest() throws Exception {
+    kameHouseCommandControllerTestSetup();
+
+    String url = VlcPlayerTestUtils.API_V1_VLCPLAYERS
+        + "/kamehouse-server/stats?fullReport=false&updateStats=false";
+    execGetKameHouseCommandsTest(url);
+  }
+
+  /**
+   * Tests getting the stats for a running vlc player.
+   */
+  @Test
+  void statsFullReportTest() throws Exception {
+    kameHouseCommandControllerTestSetup();
+
+    String url = VlcPlayerTestUtils.API_V1_VLCPLAYERS
+        + "/kamehouse-server/stats?fullReport=true&updateStats=false";
+    execGetKameHouseCommandsTest(url);
   }
 }
