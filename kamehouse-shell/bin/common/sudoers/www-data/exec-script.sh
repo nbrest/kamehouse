@@ -49,15 +49,9 @@ validateCommandLineArguments() {
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
-  local FORBIDDEN_SCRIPTS_RX=.*\(docker-ssh-.*\|ssh\.sh\|kamehouse-cmd-decrypt-to-sdtout\.sh\).*
+  local FORBIDDEN_SCRIPTS_RX=.*\(docker-ssh-.*\|ssh\.sh\|kamehouse-cmd\.sh\|kamehouse-cmd-decrypt-to-sdtout\.sh\).*
   if [[ "$@" =~ ${FORBIDDEN_SCRIPTS_RX} ]]; then
     log.error "Command line arguments contain a forbidden script: ${SCRIPT} ${SCRIPT_ARGS}"
-    exitProcess ${EXIT_INVALID_ARG}
-  fi
-
-  local FORBIDDEN_WORDS_RX=.*\(sudo\|decrypt\|encrypt\).*
-  if [[ "$@" =~ ${FORBIDDEN_WORDS_RX} ]]; then
-    log.error "Command line arguments contain a forbidden word: ${SCRIPT} ${SCRIPT_ARGS}"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
