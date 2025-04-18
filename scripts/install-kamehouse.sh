@@ -80,14 +80,13 @@ installKameHouseShell() {
 buildKameHouseConfigDir() {
   log.info "Building kamehouse config dirs"
   mkdir -p ${HOME}/logs
-  mkdir -p ${HOME}/.kamehouse/config/.shell
   mkdir -p ${HOME}/.kamehouse/config/keys
 
-  if [ ! -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
-    log.info ".kamehouse/config/.shell/shell.pwd file doesn't exist, creating one from the sample"
-    cp -v docker/keys/shell.pwd ${HOME}/.kamehouse/config/.shell/
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
+    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg file doesn't exist, creating one from the sample"
+    cp -v docker/keys/.kamehouse-secrets.cfg ${HOME}/.kamehouse/config/keys/
   else
-    log.info ".kamehouse/config/.shell/shell.pwd file already exists. skipping"
+    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg file already exists. skipping"
   fi
 
   if [ ! -f "${HOME}/.kamehouse/config/keys/.unlock.screen.pwd.enc" ]; then

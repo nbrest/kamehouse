@@ -14,9 +14,9 @@ mainProcess() {
   mkdir -p ${HOME}/.kamehouse/config/
   cp -v -f ${HOME}/git/kamehouse/docker/config/kamehouse.cfg ${HOME}/.kamehouse/config/
 
-  log.info "Reinit shell.pwd"
-  mkdir -p ${HOME}/.kamehouse/config/.shell/
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/shell.pwd ${HOME}/.kamehouse/config/.shell/
+  log.info "Reinit .kamehouse-secrets.cfg"
+  mkdir -p ${HOME}/.kamehouse/config/keys/
+  cp -v -f ${HOME}/git/kamehouse/docker/keys/.kamehouse-secrets.cfg ${HOME}/.kamehouse/config/keys/
 
   log.info "Reinit keys"
   mkdir -p ${HOME}/.kamehouse/config/keys

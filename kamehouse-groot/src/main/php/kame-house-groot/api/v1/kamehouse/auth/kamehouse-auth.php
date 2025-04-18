@@ -325,7 +325,7 @@ class KameHouseAuth {
       $cred = $kameHouse->shell->getGrootConfig();
     } else {
       $username = getenv("USERNAME");
-      $cred = file_get_contents("C:/Users/" . $username . "/.kamehouse/config/.shell/shell.pwd");
+      $cred = file_get_contents("C:/Users/" . $username . "/.kamehouse/config/keys/.kamehouse-secrets.cfg");
     }
     $credentials = explode("\n", $cred);
     foreach ($credentials as $credential){

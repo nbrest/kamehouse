@@ -231,6 +231,7 @@ keytool -list -keystore kamehouse.jks
 
 ## Create rsa private/public key pair:
 
+- This is no longer necessary since I moved to control docker host via groot over http
 - readable by kamehouse to connect to the host through ssh from docker
 
 ### Steps to create the key files:

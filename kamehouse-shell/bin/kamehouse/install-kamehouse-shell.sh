@@ -136,13 +136,13 @@ installKamehouseConfig() {
 }
 
 installShellPwd() {
-  log.info "Installing shell.pwd file"
-  if [ ! -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/.shell/shell.pwd${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/config/.shell/
-    cp docker/keys/shell.pwd ${HOME}/.kamehouse/config/.shell/shell.pwd
+  log.info "Installing .kamehouse-secrets.cfg file"
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/config/keys/
+    cp docker/keys/.kamehouse-secrets.cfg ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
   else
-    log.info "shell.pwd file exists. skipping"
+    log.info ".kamehouse-secrets.cfg file exists. skipping"
   fi
   chmod -R 700 ${HOME}/.kamehouse/config
 }

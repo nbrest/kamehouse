@@ -7,6 +7,7 @@
 
 #### v10.02
 
+- Moved shell.pwd to .kamehouse-secrets.cfg
 - Renamed media server to kamehouse-r2d2
 - Added vlc stats view to ui in debug mode
 - Added patch script to patch other kamehouse servers with current working copy

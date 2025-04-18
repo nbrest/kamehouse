@@ -147,12 +147,6 @@ reinitKameHouseFolder() {
   COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
   runCommand
 
-  log.info "Copying shell.pwd to docker"
-  COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/.shell/shell.pwd"
-  COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/.shell/"
-  runCommand
-
   log.info "Copying /keys to docker"
   COMMAND="${SCP_COMMAND} "
   COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/keys"

@@ -12,7 +12,7 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
   exit 99
 fi
-loadKamehouseShellPwd
+loadKamehouseSecrets
 
 BUILD_ON_STARTUP=false
 BUILD_ON_STARTUP_PARAM=""
@@ -33,7 +33,7 @@ mainProcess() {
 
 setEnvironment() {
   if [ -z "${DOCKER_HOST_AUTH}" ]; then
-    log.info "DOCKER_HOST_AUTH is NOT set in ${HOME}/.kamehouse/config/kamehouse.cfg. Using GROOT_API_BASIC_AUTH value set in shell.pwd"
+    log.info "DOCKER_HOST_AUTH is NOT set in ${HOME}/.kamehouse/config/kamehouse.cfg. Using GROOT_API_BASIC_AUTH value set in .kamehouse-secrets.cfg"
     DOCKER_HOST_AUTH=${GROOT_API_BASIC_AUTH}
   fi 
 

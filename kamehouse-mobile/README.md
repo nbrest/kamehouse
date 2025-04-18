@@ -84,9 +84,9 @@ sudo npm install -g cordova
 - One time actions. On kamehouse-mobile root folder:
 ```sh
 # Setup encryption key
-echo "" >> ${HOME}/.kamehouse/config/.shell/shell.pwd
-echo "KAMEHOUSE_MOBILE_ENCRYPTION_KEY=yourkey" >> ${HOME}/.kamehouse/config/.shell/shell.pwd
-echo "" >> ${HOME}/.kamehouse/config/.shell/shell.pwd
+echo "" >> ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
+echo "KAMEHOUSE_MOBILE_ENCRYPTION_KEY=yourkey" >> ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
+echo "" >> ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
 ```
 
 - Then use the `build-kamehouse.sh -m mobile` or `build-kamehouse.sh -m mobile -u` script from the root of kamehouse parent project or from kamehouse-mobile dir to build the apk for android (ios build not supported yet). Or use `deploy-kamehouse.sh -m mobile` to build and deploy it to the mobile downloads server configured in `${HOME}/.kamehouse/config/kamehouse.cfg`
