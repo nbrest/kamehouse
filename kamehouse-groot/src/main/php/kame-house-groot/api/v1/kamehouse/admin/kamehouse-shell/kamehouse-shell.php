@@ -14,6 +14,24 @@ class KameHouseShell {
   }
 
   /**
+   * Returns true if the script is forbidden for shell execution.
+   */
+  public function isForbiddenScript($script) {
+    global $kameHouse;
+    return $kameHouse->util->string->contains($script, "www-data/su.sh") 
+      || $kameHouse->util->string->contains($script, "www-data-shell.sh")
+      || $kameHouse->util->string->contains($script, "groot-get-kamehouse-secrets.sh")
+      || $kameHouse->util->string->contains($script, "get-kamehouse-secret.sh")
+      || $kameHouse->util->string->contains($script, "encrypt-kamehouse-secrets.sh")
+      || $kameHouse->util->string->contains($script, "decrypt-kamehouse-secrets.sh")
+      || $kameHouse->util->string->contains($script, "edit-kamehouse-secrets.sh")
+      || $kameHouse->util->string->contains($script, "docker-ssh-")
+      || $kameHouse->util->string->contains($script, "ssh.sh")
+      || $kameHouse->util->string->contains($script, "kamehouse-cmd.sh")
+      || $kameHouse->util->string->contains($script, "kamehouse-cmd-decrypt-to-sdtout.sh");
+  }
+
+  /**
    * execute a kamehouse shell script and return a kamehouse command result.
    */
   public function execute() {
@@ -164,24 +182,6 @@ class KameHouseShell {
     }
     $kameHouse->logger->info("Finished executing script " . $script);
     return explode("\n", $standardOutput);
-  }
-
-  /**
-   * Returns true if the script is forbidden for shell execution.
-   */
-  private function isForbiddenScript($script) {
-    global $kameHouse;
-    return $kameHouse->util->string->contains($script, "www-data/su.sh") 
-      || $kameHouse->util->string->contains($script, "www-data-shell.sh")
-      || $kameHouse->util->string->contains($script, "groot-get-kamehouse-secrets.sh")
-      || $kameHouse->util->string->contains($script, "get-kamehouse-secret.sh")
-      || $kameHouse->util->string->contains($script, "encrypt-kamehouse-secrets.sh")
-      || $kameHouse->util->string->contains($script, "decrypt-kamehouse-secrets.sh")
-      || $kameHouse->util->string->contains($script, "edit-kamehouse-secrets.sh")
-      || $kameHouse->util->string->contains($script, "docker-ssh-")
-      || $kameHouse->util->string->contains($script, "ssh.sh")
-      || $kameHouse->util->string->contains($script, "kamehouse-cmd.sh")
-      || $kameHouse->util->string->contains($script, "kamehouse-cmd-decrypt-to-sdtout.sh");
   }
   
   /**
