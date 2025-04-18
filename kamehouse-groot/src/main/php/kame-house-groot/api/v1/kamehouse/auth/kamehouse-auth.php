@@ -316,22 +316,15 @@ class KameHouseAuth {
   }
 
   /**
-   * Load credentials into environment.
+   * Load database credentials into environment.
    */
   private function loadDatabaseConfigEnv() {
     global $kameHouse;
-    $cred = '';
-    if ($kameHouse->core->isLinuxHost()) {
-      $cred = $kameHouse->shell->getGrootConfig();
-    } else {
-      $username = getenv("USERNAME");
-      $cred = file_get_contents("C:/Users/" . $username . "/.kamehouse/config/keys/.kamehouse-secrets.cfg");
-    }
-    $credentials = explode("\n", $cred);
-    foreach ($credentials as $credential){
-      preg_match("/([^#]+)\=(.*)/", $credential, $matches);
+    $kameHouseSecrets = $kameHouse->shell->getKameHouseSecrets();
+    foreach ($kameHouseSecrets as $kameHouseSecret){
+      preg_match("/([^#]+)\=(.*)/", $kameHouseSecret, $matches);
       if (isset($matches[2])) {
-        putenv(trim($credential));
+        putenv(trim($kameHouseSecret));
       }
     } 
   }

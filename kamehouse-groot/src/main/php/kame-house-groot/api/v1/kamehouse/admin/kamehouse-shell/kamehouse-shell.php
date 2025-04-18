@@ -78,24 +78,22 @@ class KameHouseShell {
   }  
 
   /**
-   * Config the config for kamehouse groot.
+   * Get the kamehouse secrets needed by groot.
    */
-  public function getGrootConfig() {
+  public function getKameHouseSecrets() {
     global $kameHouse;
-    $kameHouse->core->loadKameHouseUserToEnv();
-    $username = getenv("KAMEHOUSE_USER");
-    $grootConfigData = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s common/sudoers/www-data/groot-get-config.sh"));
-    $grootConfigArray = explode("\n", $grootConfigData);
-    $grootConfig = '';
-    foreach ($grootConfigArray as $grootConfigEntry){
-      preg_match("/([^#]+)\=(.*)/", $grootConfigEntry, $matches);
-      if (isset($matches[2])) {
-        if ($kameHouse->util->string->startsWith($grootConfigEntry, "MARIADB_PASS_KAMEHOUSE=")) {
-          $grootConfig = $grootConfig . $grootConfigEntry . "\n";
-        }
-      }
-    } 
-    return $grootConfig;
+    $kameHouseSecrets = '';
+    if ($kameHouse->core->isLinuxHost()) {
+      $kameHouse->core->loadKameHouseUserToEnv();
+      $username = getenv("KAMEHOUSE_USER");
+      $kameHouseSecrets = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s common/sudoers/www-data/groot-get-kamehouse-secrets.sh"));
+    } else {
+      $username = getenv("USERNAME");
+      $shellScriptsBasePath = $this->getShellScriptsBasePath();
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/groot-get-kamehouse-secrets.sh";
+      $kameHouseSecrets = trim(shell_exec($shellCommand));
+    }
+    return explode("\n", $kameHouseSecrets);
   }  
 
   /**
@@ -121,6 +119,11 @@ class KameHouseShell {
     global $kameHouse;
     if ($scriptArgs == 'null') {
       $scriptArgs = '';
+    }
+
+    if($this->isForbiddenScript($script)) {
+      $kameHouse->logger->info("Script " . $script . " is forbidden for shell execution");
+      $kameHouse->core->exitWithError(403, "script is forbidden for shell execution");
     }
 
     if(!$kameHouse->util->string->isValidInputForShell($script)) {
@@ -163,6 +166,20 @@ class KameHouseShell {
     return explode("\n", $standardOutput);
   }
 
+  /**
+   * Returns true if the script is forbidden for shell execution.
+   */
+  private function isForbiddenScript($script) {
+    global $kameHouse;
+    return $kameHouse->util->string->contains($script, "www-data/su.sh") 
+      || $kameHouse->util->string->contains($script, "www-data-shell.sh")
+      || $kameHouse->util->string->contains($script, "groot-get-kamehouse-secrets.sh")
+      || $kameHouse->util->string->contains($script, "docker-ssh-")
+      || $kameHouse->util->string->contains($script, "ssh.sh")
+      || $kameHouse->util->string->contains($script, "kamehouse-cmd.sh")
+      || $kameHouse->util->string->contains($script, "kamehouse-cmd-decrypt-to-sdtout.sh");
+  }
+  
   /**
    * Return the kamehouse user home.
    */

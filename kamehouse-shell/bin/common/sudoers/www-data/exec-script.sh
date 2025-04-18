@@ -49,12 +49,6 @@ validateCommandLineArguments() {
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
-  local FORBIDDEN_SCRIPTS_RX=.*\(www-data/su\.sh.*\|www-data-shell\.sh.*\|docker-ssh-.*\|ssh\.sh\|kamehouse-cmd\.sh\|kamehouse-cmd-decrypt-to-sdtout\.sh\).*
-  if [[ "$@" =~ ${FORBIDDEN_SCRIPTS_RX} ]]; then
-    log.error "Command line arguments contain a forbidden script: ${SCRIPT} ${SCRIPT_ARGS}"
-    exitProcess ${EXIT_INVALID_ARG}
-  fi
-
   if [ ! -f "${BASE_PATH}/${SCRIPT}" ]; then
     log.error "Script ${SCRIPT} doesn't exist"
     exitProcess ${EXIT_INVALID_ARG}
