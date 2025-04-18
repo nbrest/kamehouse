@@ -36,7 +36,29 @@ sudo usermod -a -G adm username
 
 - KameHouse secrets are stored in the encrypted file `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc`
 
-- A template can be found in [.kamehouse-secrets.cfg](/docker/keys/.kamehouse-secrets.cfg). Copy the template to `${HOME}/.kamehouse/config/keys/`
+- A template can be found in [.kamehouse-secrets.cfg](/docker/keys/.kamehouse-secrets.cfg). Copy the template to `${HOME}/.kamehouse/config/keys/`. When kamehouse is installed using the installation script mentioned [here](/docs/installation/installation.md), the template and sample keys will be copied automatically to the required folder and then the values can be edited with kamehouse-shell scripts.
+
+--------------------------------------------------
+
+## Edit .kamehouse-secrets.cfg
+
+- Use `edit-kamehouse-secrets.sh` to edit the secrets. If they are encrypted, run with `-d` to decrypt them first
+
+- **IMPORTANT**: Always run `encrypt-kamehouse-secrets.sh` after finishing editing the secrets
+
+### Set the values for the kamehouse secrets:
+
+- Set `VNC_SERVER_PASS` to execute vnc commands 
+- Set `UNLOCK_SCREEN_PASS` to unlock the kamehouse user's screen
+- Set `INTEGRATION_TESTS_CRED` to run integration tests
+- Set `MARIADB_PASS_KAMEHOUSE` with the mariadb password used by kamehouse
+
+
+- See `kamehouse.cfg` and the sample `.kamehouse-secrets.cfg` for the description of the other secrets used by kamehouse
+
+--------------------------------------------------
+
+## Generate keys to replace the sample keys from the installation:
 
 ### generate symmetric key kamehouse-secrets.key to encrypt the kamehouse secrets
 ```sh
@@ -51,15 +73,11 @@ openssl rsa -pubout -in ${HOME}/.kamehouse/config/keys/kamehouse.key -out ${HOME
 
 --------------------------------------------------
 
-## Edit .kamehouse-secrets.cfg
-
-- Use `edit-kamehouse-secrets.sh` to edit the decrypted secrets. If they are encrypted already, first run `decrypt-kamehouse-secrets.sh`
-
---------------------------------------------------
-
 ## Encrypt .kamehouse-secrets.cfg
 
 - Use `encrypt-kamehouse-secrets.sh`
+
+- The manual encryption process would be:
 
 ### encrypt .kamehouse-secrets.cfg with symmetric key kamehouse-secrets.key
 ```sh
@@ -83,6 +101,8 @@ rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
 
 - Use `decrypt-kamehouse-secrets.sh` to decrypt the secrets file for editing with `edit-kamehouse-secrets.sh`
 
+- The manual decryption process would be:
+
 ### decrypt symetric key with private key
 ```sh
 SUFFIX=$RANDOM
@@ -104,17 +124,3 @@ source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
 rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
 rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} 
 ```
-
---------------------------------------------------
-
-### Set vnc password
-
-- In order to execute vnc commands set the `VNC_SERVER_PASS` in kamehouse secrets 
-
-### Set unlock screen password
-
-- In order to execute unlock the user's screen, set the `UNLOCK_SCREEN_PASS` in kamehouse secrets 
-
-### Set integration tests credentials
-
-- Set the `INTEGRATION_TESTS_CRED` in kamehouse secrets to run integration tests

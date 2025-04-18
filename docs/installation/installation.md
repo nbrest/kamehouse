@@ -53,9 +53,9 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 
 * Update the values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup then rebuild kamehouse with `deploy-kamehouse.sh`
 
-* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg` 
+* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
-* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg` 
+* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
 * Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
 
@@ -64,8 +64,6 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 * From a new bash terminal access KameHouse CMD module through `kamehouse-cmd.sh` and all other kamehouse-shell scripts
 
 * All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
-
-* Create encrypted password files needed by kamehouse with [kamehouse-cmd](/kamehouse-cmd/README.md)
 
 **WARNING**
 The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](/scripts/uninstall-kamehouse.sh) script
@@ -77,6 +75,10 @@ The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update you
 * Run `set-kamehouse-sudoers-permissions.sh` to setup permissions in linux to execute all commands that need sudo
 
 * **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This doesn't really add any functionality. It's just to have a cooler prompt with root :)
+
+### Configure kamehouse secrets
+
+- See [kamehouse-shell](/kamehouse-shell/README.md) to configure kamehouse secrets on your local system to run kamehouse
 
 ## Uninstall:
 
