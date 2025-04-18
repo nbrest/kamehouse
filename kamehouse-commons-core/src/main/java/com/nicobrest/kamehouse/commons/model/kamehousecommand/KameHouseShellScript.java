@@ -32,6 +32,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
 
   private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
   private static final String GIT_BASH_BAT = "win/bat/git-bash.bat";
+  private static final String GIT_BASH_SILENT_BAT = "win/bat/git-bash-silent.bat";
   private static final String GIT_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
   private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
@@ -236,6 +237,14 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
+   * Override to run the command with git-bash-silent.bat on Windows.
+   */
+  @JsonIgnore
+  public boolean useGitBashSilent() {
+    return false;
+  }
+
+  /**
    * Override in subclasses to add the cmd start prefix. This might be needed in some daemon
    * processes like starting vlc so that it starts in the UI and not in the background. However,
    * when adding the prefix, I won't get the kamehouse-shell scripts output returned.
@@ -365,6 +374,9 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
    * Get git-bash.bat to run kamehouse shell scripts on windows.
    */
   private String getGitBashBatScript() {
+    if (useGitBashSilent()) {
+      return getKameHouseShellBasePath() + GIT_BASH_SILENT_BAT;
+    }
     return getKameHouseShellBasePath() + GIT_BASH_BAT;
   }
 
