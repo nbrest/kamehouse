@@ -150,7 +150,7 @@ installKameHouseSecrets() {
 
 migrateShellPwdToKameHouseSecrets() {
   if [ -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
-    log.warn "Migrating shell.pwd to .kamehouse-secrets.cfg"
+    log.info "Migrating shell.pwd to .kamehouse-secrets.cfg"
     mkdir -p ${HOME}/.kamehouse/config/keys
     mv ${HOME}/.kamehouse/config/.shell/shell.pwd ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
     rm -r ${HOME}/.kamehouse/config/.shell
