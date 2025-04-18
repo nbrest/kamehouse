@@ -107,22 +107,12 @@ loadDockerContainerEnv() {
 loadDockerContainerEnv
 
 loadKamehouseSecrets() {
-  migrateShellPwdToKameHouseSecrets
   source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
   if [ "$?" != "0" ]; then
     log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg"
     exit 99
   fi
   log.trace "Loaded ~/.kamehouse/config/keys/.kamehouse-secrets.cfg"
-}
-
-migrateShellPwdToKameHouseSecrets() {
-  if [ -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
-    log.warn "Migrating shell.pwd to .kamehouse-secrets.cfg"
-    mkdir -p ${HOME}/.kamehouse/config/keys
-    mv ${HOME}/.kamehouse/config/.shell/shell.pwd ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
-    rm -r ${HOME}/.kamehouse/config/.shell
-  fi
 }
 
 parseHttpdPort() {

@@ -136,7 +136,6 @@ installKamehouseConfig() {
 }
 
 installKameHouseSecrets() {
-  migrateShellPwdToKameHouseSecrets
   log.info "Installing .kamehouse-secrets.cfg file"
   if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
     log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg${COL_MESSAGE} not found. Creating it from template"
@@ -146,15 +145,6 @@ installKameHouseSecrets() {
     log.info ".kamehouse-secrets.cfg file exists. skipping"
   fi
   chmod -R 700 ${HOME}/.kamehouse/config
-}
-
-migrateShellPwdToKameHouseSecrets() {
-  if [ -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
-    log.info "Migrating shell.pwd to .kamehouse-secrets.cfg"
-    mkdir -p ${HOME}/.kamehouse/config/keys
-    mv ${HOME}/.kamehouse/config/.shell/shell.pwd ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
-    rm -r ${HOME}/.kamehouse/config/.shell
-  fi
 }
 
 updateUsername() {
