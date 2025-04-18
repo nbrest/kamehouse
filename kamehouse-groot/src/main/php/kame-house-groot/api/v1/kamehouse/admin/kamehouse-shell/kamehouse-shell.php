@@ -107,7 +107,7 @@ class KameHouseShell {
     } else {
       $username = getenv("USERNAME");
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/groot-get-kamehouse-secrets.sh";
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash-silent.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/groot-get-kamehouse-secrets.sh";
       $kameHouseSecrets = trim(shell_exec($shellCommand));
     }
     return explode("\n", $kameHouseSecrets);
