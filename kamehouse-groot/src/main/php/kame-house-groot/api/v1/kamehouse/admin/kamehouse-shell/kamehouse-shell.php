@@ -27,8 +27,7 @@ class KameHouseShell {
       || $kameHouse->util->string->contains($script, "edit-kamehouse-secrets.sh")
       || $kameHouse->util->string->contains($script, "docker-ssh-")
       || $kameHouse->util->string->contains($script, "ssh.sh")
-      || $kameHouse->util->string->contains($script, "kamehouse-cmd.sh")
-      || $kameHouse->util->string->contains($script, "kamehouse-cmd-decrypt-to-sdtout.sh");
+      || $kameHouse->util->string->contains($script, "kamehouse-cmd.sh");
   }
 
   /**
