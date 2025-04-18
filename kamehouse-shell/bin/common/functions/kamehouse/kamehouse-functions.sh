@@ -117,7 +117,7 @@ loadKamehouseSecrets() {
 }
 
 migrateShellPwdToKameHouseSecrets() {
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" && -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]; then
+  if [[ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" && -f "${HOME}/.kamehouse/config/.shell/shell.pwd" ]]; then
     log.warn ".kamehouse-secrets.cfg doesn't exist. Migrating shell.pwd to .kamehouse-secrets.cfg"
     mkdir -p ${HOME}/.kamehouse/config/keys
     mv ${HOME}/.kamehouse/config/.shell/shell.pwd ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
