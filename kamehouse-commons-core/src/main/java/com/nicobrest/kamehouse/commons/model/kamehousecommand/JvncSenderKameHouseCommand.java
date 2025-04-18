@@ -76,14 +76,12 @@ public abstract class JvncSenderKameHouseCommand extends KameHouseCmdKameHouseCo
    * Gets the vnc server password from a file.
    */
   private static String getVncServerPassword() {
-    String vncServerPwdFile =
-        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("vnc.server.pwd.file");
     try {
-      String decryptedFile = EncryptionUtils.decryptKameHouseFileToString(vncServerPwdFile);
-      if (StringUtils.isEmpty(decryptedFile)) {
-        decryptedFile = FileUtils.EMPTY_FILE_CONTENT;
+      String vncServerPass = EncryptionUtils.getKameHouseSecret("VNC_SERVER_PASS");
+      if (StringUtils.isEmpty(vncServerPass)) {
+        vncServerPass = FileUtils.EMPTY_FILE_CONTENT;
       }
-      return decryptedFile;
+      return vncServerPass;
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }

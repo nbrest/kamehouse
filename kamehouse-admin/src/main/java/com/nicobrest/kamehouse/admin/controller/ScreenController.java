@@ -13,7 +13,6 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.TextJvncSenderKame
 import com.nicobrest.kamehouse.commons.service.KameHouseCommandService;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,14 +113,12 @@ public class ScreenController extends AbstractKameHouseCommandController {
    * Gets the unlock screen password.
    */
   private static String getUnlockScreenPassword() {
-    String unlockScreenPwdFile =
-        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("unlock.screen.pwd.file");
     try {
-      String decryptedFile = EncryptionUtils.decryptKameHouseFileToString(unlockScreenPwdFile);
-      if (StringUtils.isEmpty(decryptedFile)) {
-        decryptedFile = FileUtils.EMPTY_FILE_CONTENT;
+      String unlockScreenPass = EncryptionUtils.getKameHouseSecret("UNLOCK_SCREEN_PASS");
+      if (StringUtils.isEmpty(unlockScreenPass)) {
+        unlockScreenPass = FileUtils.EMPTY_FILE_CONTENT;
       }
-      return decryptedFile;
+      return unlockScreenPass;
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }

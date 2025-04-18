@@ -20,8 +20,7 @@
 ## Lock, unlock and wake-up screen commands:
 
 * Setup a **vnc server** (I use **tightvnc** on **windows** and the **native desktop sharing tool in ubuntu**) running in the same server as the application. *Unlock screen and wake-up screen are done through jvncsender*.
-* Encrypt the user password with kamehouse keys and store it in a file specified by the property *unlock.screen.pwd.file*. This file should be readable only by the user, hidden from anyone else. The application will decrypt and type this password to unlock the screen. Check below how to create the encrypted file.
-* If the vnc server is configured with a password (it should!), also set the file pointed by *vnc.server.pwd.file* with the vnc server password encrypted. This password will be used by jvncsender to execute the commands through vnc. Again, this file contains an encrypted password so it should be only readable by the user owning this process. Check below how to create the encrypted file.
+* Set the vnc server password and unlock screen passwords in the kamehouse secrets as mentioned in the kamehouse-shell readme
 * *Lock screen command on linux relies on gnome-screensaver-command* to do the lock. Install **gnome-screensaver** with `sudo apt-get install gnome-screensaver`. The `KameHouseCommand` to lock the screen though kamehouse could easily be changed to use jvncsender to lock the screen for other **linux** versions (tested on **ubuntu 16**)
 
 ## Lock screen on raspbian:

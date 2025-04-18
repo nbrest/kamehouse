@@ -82,27 +82,6 @@ buildKameHouseConfigDir() {
   mkdir -p ${HOME}/logs
   mkdir -p ${HOME}/.kamehouse/config/keys
 
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.unlock.screen.pwd.enc" ]; then
-    log.info ".kamehouse/config/keys/.unlock.screen.pwd.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.unlock.screen.pwd.enc ${HOME}/.kamehouse/config/keys/
-  else
-    log.info ".kamehouse/config/keys/.unlock.screen.pwd.enc file already exists. skipping"
-  fi
-
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.vnc.server.pwd.enc" ]; then
-    log.info ".kamehouse/config/keys/.vnc.server.pwd.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.vnc.server.pwd.enc ${HOME}/.kamehouse/config/keys/
-  else
-    log.info ".kamehouse/config/keys/.vnc.server.pwd.enc file already exists. skipping"
-  fi
-
-  if [ ! -f "${HOME}/.kamehouse/config/keys/integration-test-cred.enc" ]; then
-    log.info ".kamehouse/config/keys/integration-test-cred.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/config/keys/
-  else
-    log.info ".kamehouse/config/keys/integration-test-cred.enc file already exists. skipping"
-  fi  
-
   if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse.pkcs12" ]; then
     log.info ".kamehouse/config/keys/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
     cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/config/keys/kamehouse.pkcs12

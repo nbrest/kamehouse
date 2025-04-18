@@ -16,8 +16,14 @@ class KameHouseShell {
   /**
    * Returns true if the script is forbidden for shell execution.
    */
-  public function isForbiddenScript($script) {
+  public function isForbiddenScript($script, $scriptArgs) {
     global $kameHouse;
+
+    if ($kameHouse->util->string->contains($script, "kamehouse-cmd.sh") 
+        && $kameHouse->util->string->contains($scriptArgs, "decrypt")) {
+      return true;
+    }
+
     return $kameHouse->util->string->contains($script, "www-data/su.sh") 
       || $kameHouse->util->string->contains($script, "www-data-shell.sh")
       || $kameHouse->util->string->contains($script, "groot-get-kamehouse-secrets.sh")
@@ -26,8 +32,7 @@ class KameHouseShell {
       || $kameHouse->util->string->contains($script, "decrypt-kamehouse-secrets.sh")
       || $kameHouse->util->string->contains($script, "edit-kamehouse-secrets.sh")
       || $kameHouse->util->string->contains($script, "docker-ssh-")
-      || $kameHouse->util->string->contains($script, "ssh.sh")
-      || $kameHouse->util->string->contains($script, "kamehouse-cmd.sh");
+      || $kameHouse->util->string->contains($script, "ssh.sh");
   }
 
   /**
@@ -138,7 +143,7 @@ class KameHouseShell {
       $scriptArgs = '';
     }
 
-    if($this->isForbiddenScript($script)) {
+    if($this->isForbiddenScript($script, $scriptArgs)) {
       $kameHouse->logger->info("Script " . $script . " is forbidden for shell execution");
       $kameHouse->core->exitWithError(403, "script is forbidden for shell execution");
     }

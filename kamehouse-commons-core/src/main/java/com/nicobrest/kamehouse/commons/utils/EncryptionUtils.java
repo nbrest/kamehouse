@@ -1,6 +1,8 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.GetKameHouseSecretKameHouseCommand;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +20,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
+import java.util.List;
 import org.bouncycastle.cms.CMSAlgorithm;
 import org.bouncycastle.cms.CMSEnvelopedData;
 import org.bouncycastle.cms.CMSEnvelopedDataGenerator;
@@ -71,6 +74,19 @@ public class EncryptionUtils {
 
   private EncryptionUtils() {
     throw new IllegalStateException("Utility class");
+  }
+
+  /**
+   * Get the specified kamehouse secret from the encrypted secrets store.
+   */
+  public static String getKameHouseSecret(String secretKey) {
+    KameHouseCommandResult kameHouseCommandResult = new GetKameHouseSecretKameHouseCommand(
+        secretKey).execute();
+    List<String> secretValue = kameHouseCommandResult.getStandardOutput();
+    if (secretValue == null || secretValue.size() != 1) {
+      throw new KameHouseInvalidDataException("Invalid secretValue for secretKey " + secretKey);
+    }
+    return secretValue.get(0);
   }
 
   /**

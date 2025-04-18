@@ -16,8 +16,6 @@ mainProcess() {
 
   log.info "Reinit keys"
   mkdir -p ${HOME}/.kamehouse/config/keys
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/.*.pwd.enc ${HOME}/.kamehouse/config/keys
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/integration-test-cred.enc ${HOME}/.kamehouse/config/keys
   cp -v -f ${HOME}/git/kamehouse/docker/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
   cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/config/keys/kamehouse.pkcs12
   cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/config/keys/kamehouse.crt

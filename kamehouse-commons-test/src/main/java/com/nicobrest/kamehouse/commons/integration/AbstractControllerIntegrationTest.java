@@ -11,7 +11,6 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -38,8 +37,6 @@ import org.apache.http.message.BasicNameValuePair;
  */
 public abstract class AbstractControllerIntegrationTest extends AbstractIntegrationTest {
 
-  private static final String LOGIN_CREDENTIALS_FILE =
-      "/.kamehouse/config/keys/integration-test-cred.enc";
   private static final String LOGIN_URL = "/kame-house/login";
   private static final String RESPONSE_BODY = "Response body {}";
   private static final String RESPONSE_BODY_NULL = "response body is null";
@@ -272,16 +269,15 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
   private List<NameValuePair> getLoginCredentials() {
     String loginCredentials = null;
     try {
-      String loginCredentialsFile = PropertiesUtils.getUserHome() + LOGIN_CREDENTIALS_FILE;
-      loginCredentials = EncryptionUtils.decryptKameHouseFileToString(loginCredentialsFile);
+      loginCredentials = EncryptionUtils.getKameHouseSecret("INTEGRATION_TESTS_CRED");
     } catch (KameHouseException e) {
-      logger.error("Error decrypting credentials file, trying default values", e);
+      logger.error("Error decrypting credentials, trying default values", e);
     }
     String[] loginCredentialsArray;
     if (loginCredentials != null) {
       loginCredentialsArray = loginCredentials.split(":");
     } else {
-      logger.debug("Login credentials not found from file, setting default values for ci");
+      logger.debug("Login credentials not found, setting default values for ci");
       loginCredentialsArray = new String[]{"seiya", "ikki"};
     }
     List<NameValuePair> loginBody = new ArrayList<>();

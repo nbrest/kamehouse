@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import org.apache.commons.codec.Charsets;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,6 +29,26 @@ class EncryptionUtilsTest {
   private static final String SAMPLE_ENCRYPTED_FILE = TEST_RESOURCES_PATH + "files/input.enc";
   private static final String SAMPLE_ENCRYPTED_EMPTY_FILE =
       TEST_RESOURCES_PATH + "files/input-empty.enc";
+
+  /**
+   * Test getting an invalid kamehouse secret successfully. If this test fails, run
+   * deploy-kamehouse.sh -m shell on the server running the test to redeploy the kamehouse secrets.
+   */
+  @Test
+  void getKameHouseSecretSuccessTest() {
+    String secretValue = EncryptionUtils.getKameHouseSecret("MARIADB_PASS_KAMEHOUSE");
+    Assertions.assertNotNull(secretValue);
+  }
+
+  /**
+   * Test error getting an invalid kamehouse secret.
+   */
+  @Test
+  void getKameHouseSecretTest() {
+    assertThrows(KameHouseInvalidDataException.class, () -> {
+      EncryptionUtils.getKameHouseSecret("invalidKey!_9?");
+    });
+  }
 
   /**
    * Test encrypt and decrypt strings.

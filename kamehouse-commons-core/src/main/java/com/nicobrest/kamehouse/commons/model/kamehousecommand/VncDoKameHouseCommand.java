@@ -5,7 +5,6 @@ import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
 import com.nicobrest.kamehouse.commons.utils.FileUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 
@@ -69,14 +68,12 @@ public abstract class VncDoKameHouseCommand extends KameHouseShellScript {
    * Gets the vnc server password from a file.
    */
   protected String getVncServerPassword() {
-    String vncServerPwdFile =
-        PropertiesUtils.getUserHome() + "/" + PropertiesUtils.getProperty("vnc.server.pwd.file");
     try {
-      String decryptedFile = EncryptionUtils.decryptKameHouseFileToString(vncServerPwdFile);
-      if (StringUtils.isEmpty(decryptedFile)) {
-        decryptedFile = FileUtils.EMPTY_FILE_CONTENT;
+      String vncServerPass = EncryptionUtils.getKameHouseSecret("VNC_SERVER_PASS");
+      if (StringUtils.isEmpty(vncServerPass)) {
+        vncServerPass = FileUtils.EMPTY_FILE_CONTENT;
       }
-      return decryptedFile;
+      return vncServerPass;
     } catch (KameHouseInvalidDataException e) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }

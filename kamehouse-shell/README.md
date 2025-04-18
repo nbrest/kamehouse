@@ -104,3 +104,17 @@ source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
 rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
 rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} 
 ```
+
+--------------------------------------------------
+
+### Set vnc password
+
+- In order to execute vnc commands set the `VNC_SERVER_PASS` in kamehouse secrets 
+
+### Set unlock screen password
+
+- In order to execute unlock the user's screen, set the `UNLOCK_SCREEN_PASS` in kamehouse secrets 
+
+### Set integration tests credentials
+
+- Set the `INTEGRATION_TESTS_CRED` in kamehouse secrets to run integration tests
