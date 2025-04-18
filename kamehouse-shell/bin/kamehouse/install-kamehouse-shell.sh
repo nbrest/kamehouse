@@ -48,7 +48,7 @@ main() {
   generateBuildVersion
   if ! ${INSTALL_SCRIPTS_ONLY}; then
     installKamehouseConfig
-    installShellPwd
+    installKameHouseSecrets
     updateBashRc
   else
     log.info "Installing kamehouse-shell scripts only, so skipping the rest of the steps"
@@ -135,7 +135,7 @@ installKamehouseConfig() {
   fi
 }
 
-installShellPwd() {
+installKameHouseSecrets() {
   log.info "Installing .kamehouse-secrets.cfg file"
   if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
     log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg${COL_MESSAGE} not found. Creating it from template"
