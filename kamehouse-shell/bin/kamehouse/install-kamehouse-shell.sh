@@ -136,13 +136,20 @@ installKamehouseConfig() {
 }
 
 installKameHouseSecrets() {
-  log.info "Installing .kamehouse-secrets.cfg file"
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg${COL_MESSAGE} not found. Creating it from template"
+  log.info "Installing .kamehouse-secrets.cfg.enc file"
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/config/keys/
-    cp docker/keys/.kamehouse-secrets.cfg ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
+    cp docker/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
+    cp kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
+    cp kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/config/keys/kamehouse.pub
+    cp kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc    
   else
-    log.info ".kamehouse-secrets.cfg file exists. skipping"
+    log.info ".kamehouse-secrets.cfg.enc file exists. skipping"
+  fi
+
+  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
+    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
   fi
   chmod -R 700 ${HOME}/.kamehouse/config
 }

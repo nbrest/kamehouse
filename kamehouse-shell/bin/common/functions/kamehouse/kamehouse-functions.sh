@@ -72,6 +72,8 @@ FAST_BUILD=false
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 
+KAMEHOUSE_SECRETS_LOADED=false
+
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
@@ -107,12 +109,48 @@ loadDockerContainerEnv() {
 loadDockerContainerEnv
 
 loadKamehouseSecrets() {
+  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
+    loadEncryptedKameHouseSecrets
+  fi
+  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
+    loadDecryptedKameHouseSecrets
+  fi
+  if ! ${KAMEHOUSE_SECRETS_LOADED}; then
+    log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
+    exit 99
+  fi
+}
+
+loadEncryptedKameHouseSecrets() {
+  local SUFFIX=$RANDOM
+  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+  openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+  if [ ! -s "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}" ]; then
+    log.error "Decrypted .kamehouse-secrets.cfg.${SUFFIX} is empty"
+  else
+    source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
+    if [ "$?" == "0" ]; then
+      KAMEHOUSE_SECRETS_LOADED=true
+      log.trace "Loaded ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
+    fi
+  fi  
+  rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
+  rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}  
+}
+
+loadDecryptedKameHouseSecrets() {
+  log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with ${COL_RED}encrypt-kamehouse-secrets.sh"
+  
+  if ${KAMEHOUSE_SECRETS_LOADED}; then
+    return
+  fi
+
   source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
   if [ "$?" != "0" ]; then
     log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg"
     exit 99
   fi
-  log.trace "Loaded ~/.kamehouse/config/keys/.kamehouse-secrets.cfg"
+  KAMEHOUSE_SECRETS_LOADED=true
 }
 
 parseHttpdPort() {

@@ -82,13 +82,6 @@ buildKameHouseConfigDir() {
   mkdir -p ${HOME}/logs
   mkdir -p ${HOME}/.kamehouse/config/keys
 
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.kamehouse-secrets.cfg ${HOME}/.kamehouse/config/keys/
-  else
-    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg file already exists. skipping"
-  fi
-
   if [ ! -f "${HOME}/.kamehouse/config/keys/.unlock.screen.pwd.enc" ]; then
     log.info ".kamehouse/config/keys/.unlock.screen.pwd.enc file doesn't exist, creating one from the sample"
     cp -v docker/keys/.unlock.screen.pwd.enc ${HOME}/.kamehouse/config/keys/
@@ -124,6 +117,19 @@ buildKameHouseConfigDir() {
     log.info ".kamehouse/config/keys/kamehouse.crt file already exists. skipping"
   fi
   
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
+    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg.enc file doesn't exist, creating one from the sample"
+    cp -v docker/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/config/keys/kamehouse.pub
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc
+  else
+    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg.enc file already exists. skipping"
+  fi 
+
+  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
+    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
+  fi 
   chmod -R 700 ${HOME}/.kamehouse/config
 }
 

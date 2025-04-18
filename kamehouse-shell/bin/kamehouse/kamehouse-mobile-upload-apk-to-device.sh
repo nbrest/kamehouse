@@ -13,7 +13,7 @@ USE_CURRENT_DIR=true
 
 mainProcess() {
   setKameHouseRootProjectDir
-  log.info "Set ${COL_RED}ANDROID_IP, ANDROID_PORT, ANDROID_SFTP_USER, ANDROID_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
+  log.info "Set ${COL_YELLOW}ANDROID_IP, ANDROID_PORT, ANDROID_SFTP_USER, ANDROID_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
   if ${SKIP_BUILD_MOBILE}; then
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else

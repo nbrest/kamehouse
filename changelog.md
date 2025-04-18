@@ -7,6 +7,7 @@
 
 #### v10.02
 
+- Added support to encrypt .kamehouse-secrets.cfg to .kamehouse-secrets.cfg.enc
 - Moved shell.pwd to .kamehouse-secrets.cfg
 - Renamed media server to kamehouse-r2d2
 - Added vlc stats view to ui in debug mode

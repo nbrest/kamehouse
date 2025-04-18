@@ -29,3 +29,78 @@ sudo usermod -a -G adm username
 - Run `copy-b-bat.sh` to copy `b.bat` to the home directory. Then from cmd.exe just type b enter to start git-bash
 
 - Use windows task scheduler to schedule every X minutes the keep-alive-\*.bat that calls the keep-alive-\*.sh 
+
+----------------------------------
+
+## Setup kamehouse-secrets:
+
+- KameHouse secrets are stored in the encrypted file `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc`
+
+- A template can be found in [.kamehouse-secrets.cfg](/docker/keys/.kamehouse-secrets.cfg). Copy the template to `${HOME}/.kamehouse/config/keys/`
+
+### generate symmetric key kamehouse-secrets.key to encrypt the kamehouse secrets
+```sh
+openssl rand 214 > ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key
+```
+
+### generate private/public keys to encrypt/decrypt the symmetric key:
+```sh
+openssl genpkey -algorithm RSA -out ${HOME}/.kamehouse/config/keys/kamehouse.key -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in ${HOME}/.kamehouse/config/keys/kamehouse.key -out ${HOME}/.kamehouse/config/keys/kamehouse.pub
+```
+
+--------------------------------------------------
+
+## Edit .kamehouse-secrets.cfg
+
+- Use `edit-kamehouse-secrets.sh` to edit the decrypted secrets. If they are encrypted already, first run `decrypt-kamehouse-secrets.sh`
+
+--------------------------------------------------
+
+## Encrypt .kamehouse-secrets.cfg
+
+- Use `encrypt-kamehouse-secrets.sh`
+
+### encrypt .kamehouse-secrets.cfg with symmetric key kamehouse-secrets.key
+```sh
+openssl enc -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key
+```
+
+### encrypt symmetric key kamehouse-secrets.key with public key kamehouse.pub:
+```sh
+openssl pkeyutl -encrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.pub -pubin -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc
+```
+
+### delete decrypted kamehouse-secrets.key and .kamehouse-secrets.cfg
+```sh
+rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key
+rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
+```
+
+--------------------------------------------------
+
+## Decrypt and load .kamehouse-secrets.cfg
+
+- Use `decrypt-kamehouse-secrets.sh` to decrypt the secrets file for editing with `edit-kamehouse-secrets.sh`
+
+### decrypt symetric key with private key
+```sh
+SUFFIX=$RANDOM
+openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+```
+
+### decrypt .kamehouse-secrets.cfg.enc with symetric key kamehouse-secrets.key
+```sh
+openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+```
+
+### load .kamehouse-secrets.cfg 
+```sh
+source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
+```
+
+### delete .kamehouse-secrets.cfg and symmetric key kamehouse-secrets.key 
+```sh
+rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
+rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} 
+```
