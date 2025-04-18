@@ -4,16 +4,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
+import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.codec.Charsets;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 /**
  * EncryptionUtils tests.
@@ -30,23 +41,61 @@ class EncryptionUtilsTest {
   private static final String SAMPLE_ENCRYPTED_EMPTY_FILE =
       TEST_RESOURCES_PATH + "files/input-empty.enc";
 
+  private MockedStatic<KameHouseCommandUtils> kameHouseCommandUtilsMockedStatic;
+
+  @Mock
+  private KameHouseCommandResult kameHouseCommandResult;
+
+  /**
+   * Tests setup.
+   */
+  @BeforeEach
+  public void before() {
+    MockitoAnnotations.openMocks(this);
+    kameHouseCommandUtilsMockedStatic = Mockito.mockStatic(KameHouseCommandUtils.class);
+    when(KameHouseCommandUtils.execute(any())).thenReturn(kameHouseCommandResult);
+  }
+
+  /**
+   * Tests cleanup.
+   */
+  @AfterEach
+  public void close() {
+    kameHouseCommandUtilsMockedStatic.close();
+  }
+
   /**
    * Test getting an invalid kamehouse secret successfully. If this test fails, run
    * deploy-kamehouse.sh -m shell on the server running the test to redeploy the kamehouse secrets.
    */
   @Test
   void getKameHouseSecretSuccessTest() {
+    when(kameHouseCommandResult.getStandardOutput()).thenReturn(List.of("mariadb-pass"));
+
     String secretValue = EncryptionUtils.getKameHouseSecret("MARIADB_PASS_KAMEHOUSE");
     Assertions.assertNotNull(secretValue);
+  }
+
+  /**
+   * Test getting a kamehouse secret with empty value.
+   */
+  @Test
+  void getKameHouseSecretEmptyValueTest() {
+    when(kameHouseCommandResult.getStandardOutput()).thenReturn(new ArrayList<>());
+
+    String secretValue = EncryptionUtils.getKameHouseSecret("MARIADB_PASS_ROOT_WIN");
+    Assertions.assertEquals("", secretValue);
   }
 
   /**
    * Test error getting an invalid kamehouse secret.
    */
   @Test
-  void getKameHouseSecretTest() {
+  void getKameHouseSecretErrorTest() {
+    when(kameHouseCommandResult.getStandardOutput()).thenReturn(List.of("val1", "val2"));
+
     assertThrows(KameHouseInvalidDataException.class, () -> {
-      EncryptionUtils.getKameHouseSecret("invalidKey!_9?");
+      EncryptionUtils.getKameHouseSecret("invalidKey-!");
     });
   }
 

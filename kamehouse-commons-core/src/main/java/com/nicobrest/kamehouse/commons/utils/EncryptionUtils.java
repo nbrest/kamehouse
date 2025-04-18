@@ -80,11 +80,14 @@ public class EncryptionUtils {
    * Get the specified kamehouse secret from the encrypted secrets store.
    */
   public static String getKameHouseSecret(String secretKey) {
-    KameHouseCommandResult kameHouseCommandResult = new GetKameHouseSecretKameHouseCommand(
-        secretKey).execute();
+    KameHouseCommandResult kameHouseCommandResult = KameHouseCommandUtils.execute(
+        new GetKameHouseSecretKameHouseCommand(secretKey));
     List<String> secretValue = kameHouseCommandResult.getStandardOutput();
-    if (secretValue == null || secretValue.size() != 1) {
+    if (secretValue == null || secretValue.size() > 1) {
       throw new KameHouseInvalidDataException("Invalid secretValue for secretKey " + secretKey);
+    }
+    if (secretValue.size() == 0) {
+      return "";
     }
     return secretValue.get(0);
   }

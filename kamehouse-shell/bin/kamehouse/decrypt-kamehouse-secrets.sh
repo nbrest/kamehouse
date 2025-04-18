@@ -11,6 +11,7 @@ mainProcess() {
   validateRequiredFiles
   decryptFile
   keysFolderStatus
+  log.info "${COL_YELLOW}Decryption of .kamehouse-secrets.cfg done successfully!"
 }
 
 validateRequiredFiles() {
@@ -48,8 +49,6 @@ decryptFile() {
     keysFolderStatus
     exitProcess ${EXIT_ERROR}
   fi
-
-  log.info "${COL_YELLOW}Decryption of .kamehouse-secrets.cfg done successfully!"
 }
 
 keysFolderStatus() {

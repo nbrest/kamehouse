@@ -11,6 +11,7 @@ mainProcess() {
   validateRequiredFiles
   encryptFile
   keysFolderStatus
+  log.info "${COL_YELLOW}Encryption of .kamehouse-secrets.cfg done successfully!"
 }
 
 validateRequiredFiles() {
@@ -51,8 +52,6 @@ encryptFile() {
 
   log.info "Deleting decrypted .kamehouse-secrets.cfg"
   rm -v ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg 
-
-  log.info "${COL_YELLOW}Encryption of .kamehouse-secrets.cfg done successfully!"
 }
 
 keysFolderStatus() {

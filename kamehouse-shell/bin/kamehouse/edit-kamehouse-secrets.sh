@@ -8,12 +8,22 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
+DECRYPT_FILE=false
 
 mainProcess() {
+  decryptFile
   validateRequiredFiles
   editFile
   keysFolderStatus
+  log.info "${COL_RED}********************************************************************"
   log.info "${COL_YELLOW}Encrypt the file with encrypt-kamehouse-secrets.sh when done editing"
+  log.info "${COL_RED}********************************************************************"
+}
+
+decryptFile() {
+  if ${DECRYPT_FILE}; then
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/decrypt-kamehouse-secrets.sh
+  fi
 }
 
 validateRequiredFiles() {
@@ -32,6 +42,29 @@ editFile() {
 keysFolderStatus() {
   log.info "ls -lah ${HOME}/.kamehouse/config/keys"
   ls -lah ${HOME}/.kamehouse/config/keys
+}
+
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -d)
+        DECRYPT_FILE=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
+    esac
+  done    
+}
+
+printHelpOptions() {
+  addHelpOption "-d" "decrypt secrets file before editing"
 }
 
 main "$@"
