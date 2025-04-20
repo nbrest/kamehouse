@@ -101,6 +101,7 @@ mv kamehouse.pkcs12 ${HOME}/.kamehouse/config/keys/
 
 rm kamehouse-private.key 
 rm kamehouse.pem 
+rm kamehouse.csr
 ```
 
 Put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`. Default path is `${HOME}/.kamehouse/config/keys`
