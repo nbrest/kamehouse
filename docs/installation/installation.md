@@ -95,6 +95,7 @@ cat kamehouse.crt >> kamehouse.pem
 openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
 keytool -list -keystore kamehouse.pkcs12
 
+mkdir -p ${HOME}/.kamehouse/config/keys/
 mv kamehouse.crt ${HOME}/.kamehouse/config/keys/
 mv kamehouse.pkcs12 ${HOME}/.kamehouse/config/keys/
 
