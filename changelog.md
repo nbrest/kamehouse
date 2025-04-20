@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.03
+
+- Fixed bugs
+
 #### v10.02
 
 - Moved all credentials to load from .kamehouse-secrets.cfg.enc

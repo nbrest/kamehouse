@@ -60,6 +60,8 @@ sudo usermod -a -G adm username
 
 ## Generate keys to replace the sample keys from the installation:
 
+- The installation script will put sample keys to encrypt the kamehouse secrets but it is recommended to generate new ones for each installation and encrypt the secrets with those
+
 ### generate symmetric key kamehouse-secrets.key to encrypt the kamehouse secrets
 ```sh
 openssl rand 214 > ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key

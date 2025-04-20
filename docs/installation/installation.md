@@ -53,6 +53,10 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 
 * Update the values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup then rebuild kamehouse with `deploy-kamehouse.sh`
 
+* Configure kamehouse secrets. See [kamehouse-shell](/kamehouse-shell/README.md) to configure kamehouse secrets on your local system to run kamehouse
+
+* Configure certificate and keystore used for encryption/decryption in kamehouse as mentioned in the section below `Create certificate and keystore:`
+
 * In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
 * [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
@@ -76,9 +80,37 @@ The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update you
 
 * **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This doesn't really add any functionality. It's just to have a cooler prompt with root :)
 
-### Configure kamehouse secrets
+### Create certificate and keystore:
 
-- See [kamehouse-shell](/kamehouse-shell/README.md) to configure kamehouse secrets on your local system to run kamehouse
+- These certificate and keystore are used in kamehouse to encrypt/decrypt some content in kamehouse, for example passwords for users in tennisworld
+
+```sh
+openssl genrsa -out kamehouse-private.key 2048
+openssl req -new -key kamehouse-private.key -out kamehouse.csr
+openssl x509 -req -in kamehouse.csr -signkey kamehouse-private.key -out kamehouse.crt
+
+cat kamehouse-private.key > kamehouse.pem
+cat kamehouse.crt >> kamehouse.pem 
+
+openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
+keytool -list -keystore kamehouse.pkcs12
+
+mv kamehouse.crt ${HOME}/.kamehouse/config/keys/
+mv kamehouse.pkcs12 ${HOME}/.kamehouse/config/keys/
+
+rm kamehouse-private.key 
+rm kamehouse.pem 
+```
+
+Put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`. Default path is `${HOME}/.kamehouse/config/keys`
+
+- After following these steps and the steps mentioned in [kamehouse-shell](/kamehouse-shell/README.md) to setup kamehouse secrets, the directory `${HOME}/.kamehouse/config/keys` should contain the following files:
+    - `kamehouse.crt`
+    - `kamehouse.pkcs12`
+    - `kamehouse-secrets.key.enc`
+    - `.kamehouse-secrets.cfg.enc`
+    - `kamehouse.key`
+    - `kamehouse.pub`
 
 ## Uninstall:
 

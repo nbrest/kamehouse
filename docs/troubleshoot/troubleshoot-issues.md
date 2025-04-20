@@ -192,22 +192,6 @@ KameHouse should run fine without admin permissions, but you can configure windo
 
 - To encrypt and decrypt files and passwords required by kamehouse. This is used for example to encrypt the passwords of the users in tennis world
 
-### Steps to create private key, certificate and keystore in a linux server:
-```sh
-openssl genrsa -out kamehouse-private.key 2048
-openssl req -new -key kamehouse-private.key -out kamehouse.csr
-openssl x509 -req -in kamehouse.csr -signkey kamehouse-private.key -out kamehouse.crt
-
-cat kamehouse-private.key > kamehouse.pem
-cat kamehouse.crt >> kamehouse.pem 
-
-openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
-keytool -list -keystore kamehouse.pkcs12
-```
-Then put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`. Default path is `${HOME}/.kamehouse/config/keys`
-
-To create an encrypted file with the content kamehouse needs encrypted, use kamehouse-cmd with the operation encrypt.
-
 *********************
 
 ## Add key to existing jks keystore:
