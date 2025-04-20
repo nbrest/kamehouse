@@ -7,6 +7,7 @@
 
 #### v10.03
 
+- Use get-kamehouse-secret.sh script from groot to access the required kamehouse secrets
 - Fixed bugs
 
 #### v10.02

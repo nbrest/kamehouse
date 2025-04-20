@@ -305,28 +305,14 @@ class KameHouseAuth {
    * Get database configuration.
    */
   private function getDatabaseConfig() {
-    $this->loadDatabaseConfigEnv();
-    $kameHousePassword = getenv("MARIADB_PASS_KAMEHOUSE");
+    global $kameHouse;
+    $mariadbPassword = $kameHouse->shell->getKameHouseSecret("MARIADB_PASS_KAMEHOUSE");
     return '{ 
       "server" : "localhost",
       "username" : "kamehouse",
-      "password" : "'.$kameHousePassword.'",
+      "password" : "'.$mariadbPassword.'",
       "database" : "kamehouse"
     }';
-  }
-
-  /**
-   * Load database credentials into environment.
-   */
-  private function loadDatabaseConfigEnv() {
-    global $kameHouse;
-    $kameHouseSecrets = $kameHouse->shell->getKameHouseSecrets();
-    foreach ($kameHouseSecrets as $kameHouseSecret){
-      preg_match("/([^#]+)\=(.*)/", $kameHouseSecret, $matches);
-      if (isset($matches[2])) {
-        putenv(trim($kameHouseSecret));
-      }
-    } 
   }
 
 } // KameHouseAuth

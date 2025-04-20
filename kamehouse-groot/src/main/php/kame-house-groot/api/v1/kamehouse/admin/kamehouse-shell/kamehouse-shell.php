@@ -26,7 +26,6 @@ class KameHouseShell {
 
     return $kameHouse->util->string->contains($script, "www-data/su.sh") 
       || $kameHouse->util->string->contains($script, "www-data-shell.sh")
-      || $kameHouse->util->string->contains($script, "groot-get-kamehouse-secrets.sh")
       || $kameHouse->util->string->contains($script, "get-kamehouse-secret.sh")
       || $kameHouse->util->string->contains($script, "encrypt-kamehouse-secrets.sh")
       || $kameHouse->util->string->contains($script, "decrypt-kamehouse-secrets.sh")
@@ -81,8 +80,7 @@ class KameHouseShell {
     $kameHouseShellCSV = "";
     
     if ($kameHouse->core->isLinuxHost()) {
-      $kameHouse->core->loadKameHouseUserToEnv();
-      $username = getenv("KAMEHOUSE_USER");
+      $username = $kameHouse->core->getKameHouseUser();
       $suScript = $this->getSuScript();
       $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . $suScript . " -s " . $csvScript));
     } else {
@@ -100,23 +98,19 @@ class KameHouseShell {
   }  
 
   /**
-   * Get the kamehouse secrets needed by groot.
+   * Get the specified kamehouse secret from the encrypted store.
    */
-  public function getKameHouseSecrets() {
+  public function getKameHouseSecret($secretKey) {
     global $kameHouse;
-    $kameHouseSecrets = '';
     if ($kameHouse->core->isLinuxHost()) {
-      $kameHouse->core->loadKameHouseUserToEnv();
-      $username = getenv("KAMEHOUSE_USER");
-      $kameHouseSecrets = trim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh -s common/sudoers/www-data/groot-get-kamehouse-secrets.sh"));
+      $username = $kameHouse->core->getKameHouseUser();
+      return rtrim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh kamehouse/get-kamehouse-secret.sh -s " . $secretKey));
     } else {
-      $username = getenv("USERNAME");
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash-silent.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/groot-get-kamehouse-secrets.sh";
-      $kameHouseSecrets = trim(shell_exec($shellCommand));
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash-silent.bat -c \"~" . $shellScriptsBasePath . "kamehouse/get-kamehouse-secret.sh -s " . $secretKey;
+      return rtrim(shell_exec($shellCommand));
     }
-    return explode("\n", $kameHouseSecrets);
-  }  
+  } 
 
   /**
    * Get the su script to execute shell scripts on linux.
@@ -197,8 +191,7 @@ class KameHouseShell {
       /**
        * Run `install-kamehouse-groot.sh` and `set-kamehouse-sudoers-permissions.sh` to successfully execute kamehouse shell scripts through groot.
        */
-      $kameHouse->core->loadKameHouseUserToEnv();
-      $username = getenv("KAMEHOUSE_USER");
+      $username = $kameHouse->core->getKameHouseUser();
       return "/home/" . $username;
     } else {
       return "C:/Users/" . get_current_user();
