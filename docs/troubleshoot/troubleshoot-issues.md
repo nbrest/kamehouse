@@ -188,12 +188,6 @@ KameHouse should run fine without admin permissions, but you can configure windo
 
 *********************
 
-## Create a certificate, private key and keystore:
-
-- To encrypt and decrypt files and passwords required by kamehouse. This is used for example to encrypt the passwords of the users in tennis world
-
-*********************
-
 ## Add key to existing jks keystore:
 
 - This step is not required for kamehouse to run
