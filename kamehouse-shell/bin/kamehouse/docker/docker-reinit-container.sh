@@ -17,10 +17,9 @@ DATA_SOURCE="none"
 REQUEST_CONFIRMATION_RX=^yes\|y$
 REINIT_SSH_KEYS_ONLY=false
 REINIT_KAMEHOUSE_FOLDER_ONLY=false
-COMMAND=""
 DOCKER_HOST_USERHOME=""
+SSH_OPTIONS="-vvv"
 SCP_OPTIONS="-vvv -3 -r"
-SSH_COMMAND=""
 
 mainProcess() {
   printReinitSettings
@@ -94,9 +93,7 @@ runScpCommand() {
 }
 
 runSshCommand() {
-  log.debug "${COMMAND}"
-  ${COMMAND}
-  checkCommandStatus "$?" "Error executing ssh command. Can't continue..."
+  executeSshCommand
   sleep 1
 }
 
@@ -120,17 +117,13 @@ syncSshKeys() {
 
 fixSshFolderPermissions() {
   log.info "Fixing .ssh folder permissions on docker container"
-  COMMAND="${SSH_COMMAND} \""
-  COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-chmod-ssh.sh"
-  COMMAND="${COMMAND}\""
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-chmod-ssh.sh"
   runSshCommand
 }
 
 sshFromDockerContainerToHost() {
   log.info "Attempting to connect through ssh from docker container to host..."
-  COMMAND="${SSH_COMMAND} \""
-  COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-sync-ssh-keys-with-host.sh"
-  COMMAND="${COMMAND}\""
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-sync-ssh-keys-with-host.sh"
   runSshCommand
   log.warn "If the last command didn't display '${COL_RED}ssh from docker container to host successful${COL_DEFAULT_LOG}' then login to the container and ssh from the container to the host using \${DOCKER_HOST_IP} to add the host key to known hosts file in the container. ${COL_YELLOW}If this is not done, then the automated ssh commands won't work"
 }
@@ -138,10 +131,8 @@ sshFromDockerContainerToHost() {
 reinitKameHouseFolder() {
   log.info "${COL_RED}Reinit .kamehouse folder"
   if [ "${DATA_SOURCE}" == "docker-defaults" ]; then
-    COMMAND="${SSH_COMMAND} \""
-    COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
-    COMMAND="${COMMAND}\""
-    runSshCommand  
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
+    runSshCommand
     return
   fi
   
@@ -182,14 +173,11 @@ reinitMariadb() {
   case ${DATA_SOURCE} in
   "docker-defaults"|"docker-data"|"host-data")
     log.info "${COL_RED}Reinit mariadb kamehouse db"
-    COMMAND="${SSH_COMMAND} "
-    COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s"
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s"
     runSshCommand
 
-    COMMAND="${SSH_COMMAND} \""
-    COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh"
-    COMMAND="${COMMAND}\""
-    runSshCommand    
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh"
+    runSshCommand
     ;;
   *) 
     log.info "Skipping reinit mariadb database data for -d '${DATA_SOURCE}'"
@@ -199,10 +187,8 @@ reinitMariadb() {
 
 showContainerFolderStatus() {
   log.info "docker container folder status"
-  COMMAND="${SSH_COMMAND} \""
-  COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-kamehouse-folder-status.sh"
-  COMMAND="${COMMAND}\""
-  runSshCommand  
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-kamehouse-folder-status.sh"
+  runSshCommand
 }
 
 parseArguments() {
@@ -250,7 +236,10 @@ setEnvFromArguments() {
   setIsLinuxDockerHost
   DOCKER_HOST_USERHOME=`getDockerHostUserHome`
   setEnvForDockerProfile
-  SSH_COMMAND="ssh -vvv -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "
+  SSH_PORT="${DOCKER_PORT_SSH}"
+  SSH_USER="${DOCKER_USERNAME}"
+  SSH_SERVER="localhost"
+  IS_REMOTE_LINUX_HOST=true
 }
 
 printHelpOptions() {

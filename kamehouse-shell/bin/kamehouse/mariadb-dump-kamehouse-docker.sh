@@ -20,21 +20,28 @@ mainProcess() {
 }
 
 checkIfContainerIsRunning() {
-  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'ls' > /dev/null"
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C 'ls' > /dev/null
-  if [ "$?" != "0" ]; then
-    log.error "Can't connect to container. Exiting process"
-    exitProcess ${EXIT_ERROR}
-  fi
+  SSH_PORT="${DOCKER_PORT_SSH}"
+  SSH_USER="${DOCKER_USERNAME}"
+  SSH_SERVER="localhost"
+  SSH_COMMAND="ls"
+  IS_REMOTE_LINUX_HOST=true
+  executeSshCommand > /dev/null
 }
 
 exportMariadbDataOnDocker() {
 	log.info "Exporting mariadb data from mariadb server on docker container"
-  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh\""
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh"
-  
-  log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C \"/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh\""
-  ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost -C "/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh"
+  SSH_PORT="${DOCKER_PORT_SSH}"
+  SSH_USER="${DOCKER_USERNAME}"
+  SSH_SERVER="localhost"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh"
+  IS_REMOTE_LINUX_HOST=true
+  executeSshCommand "true"
+  SSH_PORT="${DOCKER_PORT_SSH}"
+  SSH_USER="${DOCKER_USERNAME}"
+  SSH_SERVER="localhost"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh"
+  IS_REMOTE_LINUX_HOST=true
+  executeSshCommand "true"
 }
 
 copyDataFromContainerToHost() {

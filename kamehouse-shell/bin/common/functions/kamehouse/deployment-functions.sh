@@ -179,9 +179,11 @@ uploadKameHouseMobileApkToHttpdServer() {
   executeScpCommand
   checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through scp"
 
-  log.debug "ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C \"\\\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}\""
-  ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
-  checkCommandStatus "$?" "An error occurred regenerating apk html"
+  SSH_USER="${KAMEHOUSE_MOBILE_APP_USER}"
+  SSH_SERVER="${KAMEHOUSE_MOBILE_APP_SERVER}"
+  IS_REMOTE_LINUX_HOST=true
+  SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
+  executeSshCommand
 }
 
 uploadKameHouseMobileApkToGDrive() {

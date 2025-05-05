@@ -78,12 +78,12 @@ printEnv() {
 executeRemote() {
   local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
   if ${IS_LINUX_DOCKER_HOST}; then
-    log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${REMOTE_COMMAND}\""
-    ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${REMOTE_COMMAND}"
-  else
-    log.trace "ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C \"${GIT_BASH} -c \\\"${REMOTE_COMMAND}\\\"\""
-    ssh -o ServerAliveInterval=10 ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP} -C "${GIT_BASH} -c \"${REMOTE_COMMAND}\""
+    IS_REMOTE_LINUX_HOST=true
   fi
+  SSH_USER="${DOCKER_HOST_USERNAME}"
+  SSH_SERVER="${DOCKER_HOST_IP}"
+  SSH_COMMAND="${REMOTE_COMMAND}"
+  executeSshCommand "true"
 }
 
 executeLocal() {
