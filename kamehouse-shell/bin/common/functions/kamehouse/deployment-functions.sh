@@ -174,9 +174,10 @@ deployKameHouseMobile() {
 uploadKameHouseMobileApkToHttpdServer() {
   log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to downloads server"
   log.info "Set ${COL_YELLOW}KAMEHOUSE_MOBILE_APP_SERVER, KAMEHOUSE_MOBILE_APP_PATH and KAMEHOUSE_MOBILE_APP_USER${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
-  log.debug "scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
-  scp -v ${KAMEHOUSE_ANDROID_APK_PATH} ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk
-  checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through ssh"
+  SCP_SRC="${KAMEHOUSE_ANDROID_APK_PATH}"
+  SCP_DEST="${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
+  executeScpCommand
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through scp"
 
   log.debug "ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C \"\\\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}\""
   ssh ${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER} -C "\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"

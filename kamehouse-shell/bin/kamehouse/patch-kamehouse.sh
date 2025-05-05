@@ -38,7 +38,9 @@ createPatchFile() {
 
 sendPatchFile() {
   log.info "Sending patch file to ${COL_PURPLE}${SSH_SERVER}"
-  scp -v  ${PATCH_FILE} ${SSH_USER}@${SSH_SERVER}:${GIT_PROJECT_DIR}/${PATCH_FILE}
+  SCP_SRC="${PATCH_FILE}"
+  SCP_DEST="${SSH_USER}@${SSH_SERVER}:${GIT_PROJECT_DIR}/${PATCH_FILE}"
+  executeScpCommand
 }
 
 applyPatchFile() {

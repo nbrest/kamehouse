@@ -19,7 +19,7 @@ REINIT_SSH_KEYS_ONLY=false
 REINIT_KAMEHOUSE_FOLDER_ONLY=false
 COMMAND=""
 DOCKER_HOST_USERHOME=""
-SCP_COMMAND="scp -vvv -3 -r"
+SCP_OPTIONS="-vvv -3 -r"
 SSH_COMMAND=""
 
 mainProcess() {
@@ -87,10 +87,16 @@ requestConfirmation() {
   fi
 }
 
-runCommand() {
+runScpCommand() {
+  executeScpCommand
+  checkCommandStatus "$?" "Error executing scp command. Can't continue..."
+  sleep 1
+}
+
+runSshCommand() {
   log.debug "${COMMAND}"
   ${COMMAND}
-  checkCommandStatus "$?" "Error executing last command. Can't continue..."
+  checkCommandStatus "$?" "Error executing ssh command. Can't continue..."
   sleep 1
 }
 
@@ -103,15 +109,13 @@ reinitSsh() {
 
 syncSshKeys() {
   log.info "Syncing .ssh keys"
-  COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.ssh/id_*"
-  COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.ssh/"
-  runCommand
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.ssh/id_*"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.ssh/"
+  runScpCommand
 
-  COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.ssh/authorized_keys"
-  COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.ssh/"
-  runCommand
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.ssh/authorized_keys"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.ssh/"
+  runScpCommand
 }
 
 fixSshFolderPermissions() {
@@ -119,7 +123,7 @@ fixSshFolderPermissions() {
   COMMAND="${SSH_COMMAND} \""
   COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-chmod-ssh.sh"
   COMMAND="${COMMAND}\""
-  runCommand
+  runSshCommand
 }
 
 sshFromDockerContainerToHost() {
@@ -127,7 +131,7 @@ sshFromDockerContainerToHost() {
   COMMAND="${SSH_COMMAND} \""
   COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-sync-ssh-keys-with-host.sh"
   COMMAND="${COMMAND}\""
-  runCommand
+  runSshCommand
   log.warn "If the last command didn't display '${COL_RED}ssh from docker container to host successful${COL_DEFAULT_LOG}' then login to the container and ssh from the container to the host using \${DOCKER_HOST_IP} to add the host key to known hosts file in the container. ${COL_YELLOW}If this is not done, then the automated ssh commands won't work"
 }
 
@@ -137,21 +141,19 @@ reinitKameHouseFolder() {
     COMMAND="${SSH_COMMAND} \""
     COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
     COMMAND="${COMMAND}\""
-    runCommand  
+    runSshCommand  
     return
   fi
   
   log.info "Copying kamehouse.cfg to docker"
-  COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/kamehouse.cfg"
-  COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
-  runCommand
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/kamehouse.cfg"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
+  runScpCommand
 
   log.info "Copying /keys to docker"
-  COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/keys"
-  COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
-  runCommand
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/keys"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
+  runScpCommand
 
   local REINIT_DATA_DUMP_FOLDER=false
   local DUMP_DATA_FOLDER_SRC=""
@@ -171,10 +173,9 @@ reinitKameHouseFolder() {
   fi
 
   log.info "Exporting mariadb data dump file from ${DUMP_DATA_FOLDER_SRC} to the container"
-  COMMAND="${SCP_COMMAND} "
-  COMMAND="${COMMAND} scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DUMP_DATA_FOLDER_SRC}"
-  COMMAND="${COMMAND} scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
-  runCommand
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DUMP_DATA_FOLDER_SRC}"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
+  runScpCommand
 }
 
 reinitMariadb() {
@@ -183,12 +184,12 @@ reinitMariadb() {
     log.info "${COL_RED}Reinit mariadb kamehouse db"
     COMMAND="${SSH_COMMAND} "
     COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s"
-    runCommand
+    runSshCommand
 
     COMMAND="${SSH_COMMAND} \""
     COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh"
     COMMAND="${COMMAND}\""
-    runCommand    
+    runSshCommand    
     ;;
   *) 
     log.info "Skipping reinit mariadb database data for -d '${DATA_SOURCE}'"
@@ -201,7 +202,7 @@ showContainerFolderStatus() {
   COMMAND="${SSH_COMMAND} \""
   COMMAND="${COMMAND}/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-kamehouse-folder-status.sh"
   COMMAND="${COMMAND}\""
-  runCommand  
+  runSshCommand  
 }
 
 parseArguments() {

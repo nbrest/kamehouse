@@ -40,8 +40,10 @@ exportMariadbDataOnDocker() {
 copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
   mkdir -p ${HOME}/.kamehouse/config/docker/
-  log.debug "scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/config/mariadb ${HOME}/.kamehouse/config/docker/mariadb"
-  scp -C -r -P ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/config/mariadb ${HOME}/.kamehouse/config/docker/mariadb
+  SCP_OPTIONS="-C -r -P ${DOCKER_PORT_SSH}"
+  SCP_SRC="${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/config/mariadb"
+  SCP_DEST="${HOME}/.kamehouse/config/docker/mariadb"
+  executeScpCommand
 }
 
 parseArguments() {

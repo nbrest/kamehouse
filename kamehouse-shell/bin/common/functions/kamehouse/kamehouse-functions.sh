@@ -74,6 +74,11 @@ KAMEHOUSE_ANDROID_APK_PATH=""
 
 KAMEHOUSE_SECRETS_LOADED=false
 
+SCP_OPTIONS="-v"
+SCP_SRC=""
+SCP_DEST=""
+SCP_EXIT_CODE=""
+
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
@@ -366,6 +371,13 @@ executeSshCommand() {
     checkCommandStatus "${SSH_EXIT_CODE}" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
   fi
   log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
+}
+
+executeScpCommand() {
+  log.debug "scp ${SCP_OPTIONS} ${SCP_SRC} ${SCP_DEST}"
+  scp ${SCP_OPTIONS} ${SCP_SRC} ${SCP_DEST}
+  SCP_EXIT_CODE=$?
+  return ${SCP_EXIT_CODE}
 }
 
 executeOperationInTomcatManager() {
