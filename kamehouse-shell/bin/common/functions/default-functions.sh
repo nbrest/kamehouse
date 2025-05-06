@@ -10,6 +10,11 @@ ctrlC() {
   exitProcess ${EXIT_PROCESS_CANCELLED}
 }
 
+# Override to execute logic before parsing command line arguments
+preParseCmdArguments() {
+  return
+}
+
 # Parse command line arguments
 parseCmdArguments() {
   parseHelpArgument "$@"
@@ -63,12 +68,12 @@ printHelp() {
 
 # Override in each script with the options specific to the script
 printHelpOptions() {
-  log.trace "Using default printHelpOptions() function. Override re defining this function in each script when needed."
+  return
 }
 
 # Override in each script to print a footer after the help options
 printHelpFooter() {
-  log.trace "Using default printHelpFooter() function. Override re defining this function in each script when needed."
+  return
 }
 
 # Display the invalid argument error and exit printing help message
@@ -87,7 +92,7 @@ parseHelp() {
 
 # Set and validate the environment variables after parsing the command line arguments
 setEnvFromArguments() {
-  log.trace "Using default setEnvFromArguments() function. Override re defining this function in each script when needed."
+  return
 }
 
 # Default main process that needs to be overriden with custom script logic.
@@ -99,6 +104,7 @@ mainProcess() {
 # For example, in scripts that return true or false like is.linux.host.sh and shouldn't output anything else.
 mainWrapper() {
   logStart
+  preParseCmdArguments
   parseCmdArguments "$@"
   setEnvFromArguments
   mainProcess "$@"

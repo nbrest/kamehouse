@@ -6,9 +6,8 @@ if [ "$?" != "0" ]; then
   echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
   exit 99
 fi
-loadKamehouseSecrets
 
-# Global variables
+LOAD_KAMEHOUSE_SECRETS=true
 PATH_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump 
 NUMBER_OF_EXPORTS=3
 DUMP_FILENAME=dump-kamehouse.sql

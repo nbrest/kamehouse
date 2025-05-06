@@ -83,6 +83,7 @@ FAST_BUILD=false
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 
+LOAD_KAMEHOUSE_SECRETS=false
 KAMEHOUSE_SECRETS_LOADED=false
 
 # ---------------------------
@@ -99,8 +100,6 @@ loadKamehouseCfg() {
     log.error "Error importing ~/.kamehouse/config/kamehouse.cfg. Using default values"
   fi
 }
-# try to load cfg by default 
-loadKamehouseCfg
 
 # Loads the environment variables set when running in a docker container
 # Look at the docker-init script to see what variables are set in the container env
@@ -117,22 +116,12 @@ loadDockerContainerEnv() {
   fi
   log.trace "Loaded ~/${CONTAINER_ENV_FILE}. Running inside a docker container"
 }
-loadDockerContainerEnv
 
 loadKamehouseSecrets() {
-  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
-    loadEncryptedKameHouseSecrets
-  fi
-  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    loadDecryptedKameHouseSecrets
-  fi
-  if ! ${KAMEHOUSE_SECRETS_LOADED}; then
-    log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
+    log.error "Can't find .kamehouse-secrets.cfg.enc file"
     exit 99
-  fi
-}
-
-loadEncryptedKameHouseSecrets() {
+  fi  
   local SUFFIX=$RANDOM
   openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
   openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
@@ -147,21 +136,10 @@ loadEncryptedKameHouseSecrets() {
   fi  
   rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
   rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}  
-}
-
-loadDecryptedKameHouseSecrets() {
-  log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with ${COL_RED}encrypt-kamehouse-secrets.sh"
-  
-  if ${KAMEHOUSE_SECRETS_LOADED}; then
-    return
-  fi
-
-  source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
-  if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg"
+  if ! ${KAMEHOUSE_SECRETS_LOADED}; then
+    log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
     exit 99
   fi
-  KAMEHOUSE_SECRETS_LOADED=true
 }
 
 parseHttpdPort() {
@@ -580,4 +558,12 @@ setupLinuxEnvironment() {
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus
   fi
   log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"  
+}
+
+preParseCmdArguments() {
+  if ${LOAD_KAMEHOUSE_SECRETS}; then
+    loadKamehouseSecrets
+  fi
+  loadKamehouseCfg
+  loadDockerContainerEnv
 }

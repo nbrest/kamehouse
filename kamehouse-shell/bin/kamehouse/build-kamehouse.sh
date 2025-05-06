@@ -13,8 +13,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-loadKamehouseSecrets
-
+LOAD_KAMEHOUSE_SECRETS=true
 # Run the build on this script always from the current directory
 USE_CURRENT_DIR=true
 STATIC_ONLY=false
