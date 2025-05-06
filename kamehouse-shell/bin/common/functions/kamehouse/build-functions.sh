@@ -100,14 +100,22 @@ buildMobileBackendJson() {
           KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
         fi
       done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
+      local SKIP_SSL_CHECK=false
+      if [ "${KAMEHOUSE_CONFIG[4]}" == "--skip-ssl-check" ]; then
+        SKIP_SSL_CHECK=true
+      fi
+      local IS_URL_EDITABLE=false
+      if [ "${KAMEHOUSE_CONFIG[5]}" == "--url-editable" ]; then
+        IS_URL_EDITABLE=true
+      fi
       echo '    {' >> ${BACKEND_JSON_FILE}
       echo '      "name" : "'${KAMEHOUSE_CONFIG[0]}'",' >> ${BACKEND_JSON_FILE}
       echo '      "url" : "'${KAMEHOUSE_CONFIG[1]}'",' >> ${BACKEND_JSON_FILE}
-      echo '      "skipSslCheck" : '${KAMEHOUSE_CONFIG[2]}',' >> ${BACKEND_JSON_FILE}
-      echo '      "username" : "'${KAMEHOUSE_CONFIG[3]}'",' >> ${BACKEND_JSON_FILE}
-      echo '      "password" : "'${KAMEHOUSE_CONFIG[4]}'",' >> ${BACKEND_JSON_FILE}
-      echo '      "isLoggedIn" : '${KAMEHOUSE_CONFIG[5]}',' >> ${BACKEND_JSON_FILE}
-      echo '      "isUrlEditable" : '${KAMEHOUSE_CONFIG[6]} >> ${BACKEND_JSON_FILE}
+      echo '      "username" : "'${KAMEHOUSE_CONFIG[2]}'",' >> ${BACKEND_JSON_FILE}
+      echo '      "password" : "'${KAMEHOUSE_CONFIG[3]}'",' >> ${BACKEND_JSON_FILE}
+      echo '      "isLoggedIn" : false,' >> ${BACKEND_JSON_FILE}
+      echo '      "skipSslCheck" : '${SKIP_SSL_CHECK}',' >> ${BACKEND_JSON_FILE}
+      echo '      "isUrlEditable" : '${IS_URL_EDITABLE} >> ${BACKEND_JSON_FILE}
       echo '    },' >> ${BACKEND_JSON_FILE}
     fi
   done <<< ${MOBILE_BACKEND_SERVERS} 
@@ -115,6 +123,8 @@ buildMobileBackendJson() {
   echo '    }' >> ${BACKEND_JSON_FILE}
   echo '  ]' >> ${BACKEND_JSON_FILE}
   echo '}' >> ${BACKEND_JSON_FILE}
+
+  log.debug "BACKEND_JSON_FILE: ${BACKEND_JSON_FILE}"
 } 
 
 buildFrontendCode() {
@@ -135,7 +145,7 @@ buildFrontendCode() {
 }
 
 buildKameHouseBackend() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   exportGitCommitHash
   exportBuildVersion
@@ -221,7 +231,7 @@ buildKameHouseMobile() {
   setMobileBuildVersionAndKeys
   updateConfigWithGitHash
   buildCordovaProject
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh true true
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
   resetConfigFromGitHash
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile

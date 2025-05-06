@@ -40,7 +40,17 @@ execInAllServers() {
           KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
         fi
       done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
-      execInServer "${KAMEHOUSE_CONFIG[0]}" "${KAMEHOUSE_CONFIG[2]}" "${KAMEHOUSE_CONFIG[3]}" "${KAMEHOUSE_CONFIG[4]}" &
+      local SERVER="${KAMEHOUSE_CONFIG[0]}"
+      local PORT="${KAMEHOUSE_CONFIG[2]}"
+      local IS_HTTPS=false
+      if [ "${KAMEHOUSE_CONFIG[3]}" == "--https" ]; then
+        IS_HTTPS=true
+      fi
+      local USE_DOCKER_DEMO_CRED=false
+      if [ "${KAMEHOUSE_CONFIG[4]}" == "--use-docker-demo-groot-auth" ]; then
+        USE_DOCKER_DEMO_CRED=true
+      fi
+      execInServer "${SERVER}" "${PORT}" "${IS_HTTPS}" "${USE_DOCKER_DEMO_CRED}" &
     fi
   done <<< ${KAMEHOUSE_SERVER_CONFIGS} 
 
@@ -89,7 +99,7 @@ sendRequestToServer() {
   URL="${PROTOCOL}://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?${URL_ENCODED_PARAMS}"
   log.info "Executing request: ${COL_BLUE}${URL}"
   RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
-  log.trace "${RESPONSE}"
+  log.trace "${PROTOCOL}://${SERVER}:${PORT} response: '${RESPONSE}'"
 }
 
 parseArguments() {

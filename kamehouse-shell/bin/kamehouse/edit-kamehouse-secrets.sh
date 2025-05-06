@@ -28,7 +28,7 @@ decryptFile() {
 
 validateRequiredFiles() {
   if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.error "Missing file .kamehouse-secrets.cfg. Decrypt it with decrypt-kamehouse-secrets.sh for editing"
+    log.error "Missing file .kamehouse-secrets.cfg. Run with -d to decrypt secrets for editing"
     keysFolderStatus
     exitProcess ${EXIT_ERROR}
   fi

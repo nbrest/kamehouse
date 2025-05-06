@@ -1,13 +1,13 @@
-# param1: [true|false] override existing definition of JAVA_HOME
-# param2: [true|false] log info messages
-# call this script with 'source PATH-TO-SCRIPT/set-java-home.sh true false' to skip logging
-# call this script with 'source PATH-TO-SCRIPT/set-java-home.sh true true' to log info
+# param1: [--skip-override|--override] override existing definition of JAVA_HOME
+# param2: [--skip-log|--log] log info messages
+# call this script with 'source PATH-TO-SCRIPT/set-java-home.sh --skip-override --skip-log' to skip logging
+# call this script with 'source PATH-TO-SCRIPT/set-java-home.sh --override --log' to log info
 
 setJavaHome() {
   OVERRIDE=$1
   LOG_INFO=$2
   setJavaHomeLogger "Current JAVA_HOME=${JAVA_HOME} OVERRIDE=${OVERRIDE}" "${LOG_INFO}"
-  if [[ "${OVERRIDE}" == "false" && -n "${JAVA_HOME}" ]]; then
+  if [[ "${OVERRIDE}" == "--skip-override" && -n "${JAVA_HOME}" ]]; then
     setJavaHomeLogger "Using already set JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
     return
   fi
@@ -39,7 +39,7 @@ setJavaHome() {
 setJavaHomeLogger() {
   local LOG_MESSAGE=$1
   local LOG_INFO=$2
-  if ${LOG_INFO}; then
+  if [ "${LOG_INFO}" != "--skip-log" ]; then
     log.info "${LOG_MESSAGE}"
   fi
 }

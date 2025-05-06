@@ -11,7 +11,7 @@ TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
 TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 
 mainProcess() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh false true
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --skip-override --log
   
   echo "********************************************************************************************"
   echo " Redirecting logs to ${TOMCAT_LOG}"

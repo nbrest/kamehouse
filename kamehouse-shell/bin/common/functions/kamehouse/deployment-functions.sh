@@ -177,7 +177,6 @@ uploadKameHouseMobileApkToHttpdServer() {
   SCP_SRC="${KAMEHOUSE_ANDROID_APK_PATH}"
   SCP_DEST="${KAMEHOUSE_MOBILE_APP_USER}@${KAMEHOUSE_MOBILE_APP_SERVER}:${KAMEHOUSE_MOBILE_APP_PATH}/kamehouse.apk"
   executeScpCommand
-  checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile through scp"
 
   SSH_USER="${KAMEHOUSE_MOBILE_APP_USER}"
   SSH_SERVER="${KAMEHOUSE_MOBILE_APP_SERVER}"

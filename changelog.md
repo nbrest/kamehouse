@@ -7,6 +7,10 @@
 
 #### v10.03
 
+- Refactored functions to execute ssh, scp and sftp commands from kamehouse shell
+- Refactored mobile backend servers configuration to use more explicit values
+- Refactored kamehouse servers list configuration to use more explicit values
+- Refactored true/false parameters in kamehouse shell functions to use more explicit values
 - Use get-kamehouse-secret.sh script from groot to access the required kamehouse secrets
 - Fixed bugs
 

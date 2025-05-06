@@ -16,13 +16,23 @@ PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
 USE_CURRENT_DIR=false
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
+SSH_OPTIONS="-t -o ServerAliveInterval=10"
+SSH_PORT=22
 SSH_USER=${DEFAULT_SSH_USER}
-SSH_COMMAND=""
 SSH_SERVER=""
+SSH_COMMAND=""
 SSH_OUTPUT=""
 SSH_EXIT_CODE=""
-SSH_PORT=22
-SSH_OPTIONS="-t -o ServerAliveInterval=10"
+SCP_OPTIONS="-v"
+SCP_SRC=""
+SCP_DEST=""
+SCP_EXIT_CODE=""
+SFTP_OPTIONS="-v"
+SFTP_PORT="22" 
+SFTP_USER=""
+SFTP_SERVER=""
+SFTP_COMMAND=""
+SFTP_EXIT_CODE=""
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
 
@@ -74,11 +84,6 @@ KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk
 KAMEHOUSE_ANDROID_APK_PATH=""
 
 KAMEHOUSE_SECRETS_LOADED=false
-
-SCP_OPTIONS="-v"
-SCP_SRC=""
-SCP_DEST=""
-SCP_EXIT_CODE=""
 
 # ---------------------------
 # Common kamehouse functions
@@ -280,14 +285,20 @@ setEnvForKameHouseServer() {
           KAMEHOUSE_CONFIG+=("${KAMEHOUSE_CONFIG_ENTRY_FIELD}")
         fi
       done <<< ${KAMEHOUSE_CONFIG_ENTRY_SPLIT}
-      local KAMEHOUSE_SERVER_NAME=${KAMEHOUSE_CONFIG[0]};
-      local IS_DOCKER_CONTAINER=${KAMEHOUSE_CONFIG[5]};
+      local KAMEHOUSE_SERVER_NAME="${KAMEHOUSE_CONFIG[0]}"
+      local IS_DOCKER_CONTAINER=false
+      if [ "${KAMEHOUSE_CONFIG[5]}" == "--is-docker-container" ]; then
+        IS_DOCKER_CONTAINER=true
+      fi
       if [ "${KAMEHOUSE_SERVER}" == "${KAMEHOUSE_SERVER_NAME}" ] &&
           [ "${IS_DOCKER_CONTAINER}" == "false" ]; then
-        IS_VALID_KAMEHOUSE_SERVER=true
-        IS_REMOTE_LINUX_HOST=${KAMEHOUSE_CONFIG[6]}
-        SSH_USER=${KAMEHOUSE_CONFIG[1]}
-      fi      
+        SSH_USER="${KAMEHOUSE_CONFIG[1]}"
+        IS_VALID_KAMEHOUSE_SERVER=true        
+        IS_REMOTE_LINUX_HOST=false
+        if [ "${KAMEHOUSE_CONFIG[6]}" == "--is-linux-host" ]; then
+          IS_REMOTE_LINUX_HOST=true
+        fi
+      fi
     fi
   done <<< ${KAMEHOUSE_SERVER_CONFIGS}   
   if ! ${IS_VALID_KAMEHOUSE_SERVER}; then
@@ -349,36 +360,52 @@ printUsernameArgOption() {
   addHelpOption "-u" "username"
 }
 
-# Executes the SSH_COMMAND in the remote SSH_SERVER as the user SSH_USER
 executeSshCommand() {
   local SKIP_EXIT_CODE_CHECK=$1
-  log.info "Executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
   if ${IS_REMOTE_LINUX_HOST}; then
     SSH_COMMAND="source ~/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh ; "${SSH_COMMAND}
-    log.debug "ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
+    log.info "ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"`
     SSH_EXIT_CODE=$?
   else
-    log.debug "ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
+    log.info "ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""`
     SSH_EXIT_CODE=$?
   fi
-  log.info "Ssh ${SSH_USER}@${SSH_SERVER} command output ${COL_PURPLE}start"
+  
+  log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output start"
   echo "${SSH_OUTPUT}"
-  log.info "Ssh ${SSH_USER}@${SSH_SERVER} command output ${COL_PURPLE}end"
-  if ${SKIP_EXIT_CODE_CHECK}; then
-    log.debug "Skipping ssh command exit code check"
-  else
-    checkCommandStatus "${SSH_EXIT_CODE}" "An error occurred while executing '${SSH_COMMAND}' in remote server ${SSH_SERVER}"
+  log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output end"
+
+  if [ "${SKIP_EXIT_CODE_CHECK}" == "--skip-exit-code-check" ]; then
+    log.debug "Skipping ssh command exit code check: ${SSH_EXIT_CODE}"
+    return ${SSH_EXIT_CODE}
   fi
-  log.info "Finished executing '${COL_PURPLE}${SSH_COMMAND}${COL_DEFAULT_LOG}' in remote server ${COL_PURPLE}${SSH_SERVER}${COL_DEFAULT_LOG}"
+  checkCommandStatus "${SSH_EXIT_CODE}" "An error occurred while executing ssh command on ${SSH_SERVER}"
 }
 
 executeScpCommand() {
-  log.debug "scp ${SCP_OPTIONS} ${SCP_SRC} ${SCP_DEST}"
+  local SKIP_EXIT_CODE_CHECK=$1
+  log.info "scp ${SCP_OPTIONS} ${SCP_SRC} ${SCP_DEST}"
   scp ${SCP_OPTIONS} ${SCP_SRC} ${SCP_DEST}
   SCP_EXIT_CODE=$?
-  return ${SCP_EXIT_CODE}
+  if [ "${SKIP_EXIT_CODE_CHECK}" == "--skip-exit-code-check" ]; then
+    log.debug "Skipping scp command exit code check: ${SCP_EXIT_CODE}"
+    return ${SCP_EXIT_CODE}
+  fi
+  checkCommandStatus "${SCP_EXIT_CODE}" "An error occurred while executing scp command"  
+}
+
+executeSftpCommand() {
+  local SKIP_EXIT_CODE_CHECK=$1
+  log.info "sftp ${SFTP_OPTIONS} -P ${SFTP_PORT} ${SFTP_USER}@${SFTP_SERVER} <<< ${SFTP_COMMAND}"
+  sftp ${SFTP_OPTIONS} -P ${SFTP_PORT} ${SFTP_USER}@${SFTP_SERVER} <<< "${SFTP_COMMAND}"
+  SFTP_EXIT_CODE=$?
+  if [ "${SKIP_EXIT_CODE_CHECK}" == "--skip-exit-code-check" ]; then
+    log.debug "Skipping sftp command exit code check: ${SFTP_EXIT_CODE}"
+    return ${SFTP_EXIT_CODE}
+  fi
+  checkCommandStatus "${SFTP_EXIT_CODE}" "An error occurred while executing sftp command on ${SFTP_SERVER}" 
 }
 
 executeOperationInTomcatManager() {

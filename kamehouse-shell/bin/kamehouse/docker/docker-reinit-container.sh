@@ -88,7 +88,6 @@ requestConfirmation() {
 
 runScpCommand() {
   executeScpCommand
-  checkCommandStatus "$?" "Error executing scp command. Can't continue..."
   sleep 1
 }
 

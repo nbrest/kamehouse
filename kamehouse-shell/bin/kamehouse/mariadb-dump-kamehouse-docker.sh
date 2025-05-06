@@ -14,18 +14,8 @@ if [ "$?" != "0" ]; then
 fi
 
 mainProcess() {
-  checkIfContainerIsRunning
   exportMariadbDataOnDocker
   copyDataFromContainerToHost
-}
-
-checkIfContainerIsRunning() {
-  SSH_PORT="${DOCKER_PORT_SSH}"
-  SSH_USER="${DOCKER_USERNAME}"
-  SSH_SERVER="localhost"
-  SSH_COMMAND="ls"
-  IS_REMOTE_LINUX_HOST=true
-  executeSshCommand > /dev/null
 }
 
 exportMariadbDataOnDocker() {
@@ -35,22 +25,23 @@ exportMariadbDataOnDocker() {
   SSH_SERVER="localhost"
   SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh"
   IS_REMOTE_LINUX_HOST=true
-  executeSshCommand "true"
+  executeSshCommand --skip-exit-code-check
+
   SSH_PORT="${DOCKER_PORT_SSH}"
   SSH_USER="${DOCKER_USERNAME}"
   SSH_SERVER="localhost"
   SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh"
   IS_REMOTE_LINUX_HOST=true
-  executeSshCommand "true"
+  executeSshCommand --skip-exit-code-check
 }
 
 copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
   mkdir -p ${HOME}/.kamehouse/config/docker/
-  SCP_OPTIONS="-C -r -P ${DOCKER_PORT_SSH}"
+  SCP_OPTIONS="-v -C -r -P ${DOCKER_PORT_SSH}"
   SCP_SRC="${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/config/mariadb"
   SCP_DEST="${HOME}/.kamehouse/config/docker/mariadb"
-  executeScpCommand
+  executeScpCommand --skip-exit-code-check
 }
 
 parseArguments() {

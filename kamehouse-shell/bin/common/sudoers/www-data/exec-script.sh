@@ -77,13 +77,11 @@ printEnv() {
 
 executeRemote() {
   local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
-  if ${IS_LINUX_DOCKER_HOST}; then
-    IS_REMOTE_LINUX_HOST=true
-  fi
+  IS_REMOTE_LINUX_HOST=${IS_LINUX_DOCKER_HOST}
   SSH_USER="${DOCKER_HOST_USERNAME}"
   SSH_SERVER="${DOCKER_HOST_IP}"
   SSH_COMMAND="${REMOTE_COMMAND}"
-  executeSshCommand "true"
+  executeSshCommand --skip-exit-code-check
 }
 
 executeLocal() {
