@@ -8,63 +8,79 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-DECRYPT_FILE=false
+SUFFIX=$RANDOM
 
 mainProcess() {
-  decryptFile
   validateRequiredFiles
+  decryptFile
   editFile
+  encryptFile
   keysFolderStatus
-  log.info "${COL_RED}********************************************************************"
-  log.info "${COL_YELLOW}Encrypt the file with encrypt-kamehouse-secrets.sh when done editing"
-  log.info "${COL_RED}********************************************************************"
-}
-
-decryptFile() {
-  if ${DECRYPT_FILE}; then
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/decrypt-kamehouse-secrets.sh
-  fi
 }
 
 validateRequiredFiles() {
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.error "Missing file .kamehouse-secrets.cfg. Run with -d to decrypt secrets for editing"
+  if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse.key" ]; then
+    log.error "Missing file kamehouse.key"
+    keysFolderStatus
+    exitProcess ${EXIT_ERROR}
+  fi
+
+  if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc" ]; then
+    log.error "Missing file kamehouse-secrets.key.enc"
+    keysFolderStatus
+    exitProcess ${EXIT_ERROR}
+  fi
+
+  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
+    log.error "Missing file .kamehouse-secrets.cfg.enc"
+    keysFolderStatus
+    exitProcess ${EXIT_ERROR}
+  fi
+}
+
+decryptFile() {
+  log.debug "Decrypting kamehouse-secrets.key.enc"
+  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+  
+  log.info "Decrypting .kamehouse-secrets.cfg.enc with kamehouse-secrets.key.${SUFFIX}"
+  openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+  local RESULT=$?
+  rm -v ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+
+  if [ "${RESULT}" != "0" ]; then
+    log.error "Error decrypting .kamehouse-secrets.cfg.enc"
     keysFolderStatus
     exitProcess ${EXIT_ERROR}
   fi
 }
 
 editFile() {
-  log.info "Editing .kamehouse-secrets.cfg"
-  vim ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
+  log.info "Editing .kamehouse-secrets.cfg.${SUFFIX}"
+  vim ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
+}
+
+encryptFile() {
+  log.debug "Decrypting kamehouse-secrets.key.enc"
+  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+  
+  log.info "Encrypting .kamehouse-secrets.cfg.${SUFFIX} with kamehouse-secrets.key.${SUFFIX}"
+  openssl enc -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+  local RESULT=$?
+  rm -v ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+
+  if [ "${RESULT}" != "0" ]; then
+    log.error "Error encrypting .kamehouse-secrets.cfg"
+    keysFolderStatus
+    exitProcess ${EXIT_ERROR}
+  fi
+
+  log.debug "Deleting decrypted .kamehouse-secrets.cfg.${SUFFIX}"
+  rm -v ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} 
 }
 
 keysFolderStatus() {
   log.info "ls -lah ${HOME}/.kamehouse/config/keys"
   ls -lah ${HOME}/.kamehouse/config/keys
-}
-
-parseArguments() {
-  local OPTIONS=("$@")
-  for i in "${!OPTIONS[@]}"; do
-    local CURRENT_OPTION="${OPTIONS[i]}"
-    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
-      continue
-    fi
-    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
-    case "${CURRENT_OPTION}" in
-      -d)
-        DECRYPT_FILE=true
-        ;;
-      -?|-??*)
-        parseInvalidArgument "${CURRENT_OPTION}"
-        ;;        
-    esac
-  done    
-}
-
-printHelpOptions() {
-  addHelpOption "-d" "decrypt secrets file before editing"
 }
 
 main "$@"

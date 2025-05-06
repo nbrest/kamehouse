@@ -107,8 +107,8 @@ buildKameHouseConfigDir() {
   fi 
 
   if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
-  fi 
+    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Replace with an encrypted file"
+  fi
   chmod -R 700 ${HOME}/.kamehouse/config
 }
 

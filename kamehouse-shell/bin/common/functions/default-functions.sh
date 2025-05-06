@@ -36,7 +36,6 @@ parseHelpArgument() {
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
-  log.trace "Using default parseArguments() function. Override re defining this function in each script when needed."
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
     local CURRENT_OPTION="${OPTIONS[i]}"

@@ -42,9 +42,7 @@ sudo usermod -a -G adm username
 
 ## Edit .kamehouse-secrets.cfg
 
-- Use `edit-kamehouse-secrets.sh` to edit the secrets. If they are encrypted, run with `-d` to decrypt them first
-
-- **IMPORTANT**: Always run `encrypt-kamehouse-secrets.sh` after finishing editing the secrets
+- Use `edit-kamehouse-secrets.sh` to edit the secrets
 
 ### Set the values for the kamehouse secrets:
 
@@ -77,8 +75,6 @@ openssl rsa -pubout -in ${HOME}/.kamehouse/config/keys/kamehouse.key -out ${HOME
 
 ## Encrypt .kamehouse-secrets.cfg
 
-- Use `encrypt-kamehouse-secrets.sh`
-
 - The manual encryption process would be:
 
 ### encrypt .kamehouse-secrets.cfg with symmetric key kamehouse-secrets.key
@@ -101,7 +97,7 @@ rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
 
 ## Decrypt and load .kamehouse-secrets.cfg
 
-- Use `decrypt-kamehouse-secrets.sh` to decrypt the secrets file for editing with `edit-kamehouse-secrets.sh`
+- Use `edit-kamehouse-secrets.sh` to temporarily decrypt the secrets for editing
 
 - The manual decryption process would be:
 
