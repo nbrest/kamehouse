@@ -7,7 +7,7 @@
   <name>KameHouse - Parent POM</name>
   <groupId>com.nicobrest</groupId>
   <artifactId>kamehouse-parent</artifactId>
-  <version>10.02.1-KAMEHOUSE-SNAPSHOT</version>
+  <version>10.03.1-KAMEHOUSE-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -39,7 +39,7 @@
   <properties>
     <filters.dir>${basedir}/../src/main/filters</filters.dir>
     <java.target.version>17</java.target.version>
-    <kamehouse.version>10.02.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
+    <kamehouse.version>10.03.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>
     <maven.compiler.source>${java.target.version}</maven.compiler.source>
     <maven.compiler.target>${java.target.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
