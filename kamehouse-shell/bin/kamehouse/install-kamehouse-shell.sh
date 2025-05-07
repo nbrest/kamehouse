@@ -174,23 +174,26 @@ updateLogLevel() {
   fi
   local LEVEL=`echo "${LOG_LEVEL}" | tr '[:lower:]' '[:upper:]'`
   log.info "Updating kamehouse-shell log level to ${COL_PURPLE}${LEVEL}${COL_MESSAGE}"
-  local LEVEL_NUMBER=2
+  local LEVEL_NUMBER=3
   if [ "${LEVEL}" == "TRACE" ]; then
-    LEVEL_NUMBER="4"
+    LEVEL_NUMBER="5"
   fi
   if [ "${LEVEL}" == "DEBUG" ]; then
-    LEVEL_NUMBER="3"
+    LEVEL_NUMBER="4"
   fi
   if [ "${LEVEL}" == "INFO" ]; then
-    LEVEL_NUMBER="2"
+    LEVEL_NUMBER="3"
   fi
   if [ "${LEVEL}" == "WARN" ]; then
-    LEVEL_NUMBER="1"
+    LEVEL_NUMBER="2"
   fi
   if [ "${LEVEL}" == "ERROR" ]; then
-    LEVEL_NUMBER="0"
+    LEVEL_NUMBER="1"
   fi
-  sed -i "s#LOG_LEVEL_NUMBER=2#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/log-functions.sh"
+  if [ "${LEVEL}" == "DISABLED" ]; then
+    LEVEL_NUMBER="0"
+  fi  
+  sed -i "s#LOG_LEVEL_NUMBER=3#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/log-functions.sh"
 }
 
 updateBashRc() {

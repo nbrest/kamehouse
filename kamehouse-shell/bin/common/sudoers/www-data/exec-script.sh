@@ -26,7 +26,7 @@ mainProcess() {
   validateCommandLineArguments "$@"
   log.info "Executing script ${COL_PURPLE}'${BASE_PATH}${SCRIPT}'${COL_DEFAULT_LOG}"
   log.trace "script args ${COL_PURPLE}'${SCRIPT_ARGS}'"
-  setupEnv
+  initEnv
 
   if ${EXECUTE_ON_DOCKER_HOST}; then
     executeRemote
@@ -36,7 +36,7 @@ mainProcess() {
 }
 
 validateCommandLineArguments() {
-  log.info "Validating command line arguments"
+  log.debug "Validating command line arguments"
 
   local SUBPATH_RX=.*\\.\\.\\/.*
   if [[ "$@" =~ ${SUBPATH_RX} ]]; then
@@ -55,7 +55,7 @@ validateCommandLineArguments() {
   fi
 }
 
-setupEnv() {
+initEnv() {
   if [ "${DOCKER_CONTROL_HOST}" == "true" ] && [ "${IS_EXECUTABLE_ON_DOCKER_HOST}" == "true" ]; then
     log.info "Executing script on docker host"
     EXECUTE_ON_DOCKER_HOST=true

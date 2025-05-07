@@ -99,8 +99,7 @@ mainProcess() {
   log.info "Override mainProcess() with the script logic."
 }
 
-# Default main function. Override this one ONLY if I don't want logging of start and finish by default.
-# For example, in scripts that return true or false like is.linux.host.sh and shouldn't output anything else.
+# Default main function wrapper. This should never be overriden
 mainWrapper() {
   logStart
   preParseCmdArguments
@@ -112,6 +111,9 @@ mainWrapper() {
 
 # main function to call from each script
 main() {
+  setLogLevelFromEnv
+  setRootPrefix
+  setIsLinuxHost
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
     # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default

@@ -2665,15 +2665,16 @@ class KameHouseCore {
   /**
    * Log levels:
    * 
-   * 0: ERROR
-   * 1: WARN
-   * 2: INFO
-   * 3: DEBUG
-   * 4: TRACE
+   * 0: DISABLED
+   * 1: ERROR
+   * 2: WARN
+   * 3: INFO
+   * 4: DEBUG
+   * 5: TRACE
    * 
-   * Default log level: INFO (2)
+   * Default log level: INFO (3)
    */
-  #logLevelNumber = 2;
+  #logLevelNumber = 3;
 
   /**
    * Override the default log level from url parameters.
@@ -2927,27 +2928,32 @@ class KameHouseCore {
     const timestamp = kameHouse.util.time.getTimestamp(null);
     const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
     const logEntryForDebugMode = this.#buildLogEntryForDebug(timestamp, logLevelUpperCase, message, coloredMessage);
-    if (logLevelUpperCase == "ERROR") {
+    if (logLevelUpperCase == "ERROR" && this.#logLevelNumber >= 1) {
       console.error(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
+      return;
     }
-    if (logLevelUpperCase == "WARN" && this.#logLevelNumber >= 1) {
+    if (logLevelUpperCase == "WARN" && this.#logLevelNumber >= 2) {
       console.warn(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
+      return;
     }
-    if (logLevelUpperCase == "INFO" && this.#logLevelNumber >= 2) {
+    if (logLevelUpperCase == "INFO" && this.#logLevelNumber >= 3) {
       console.info(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
+      return;
     }
-    if (logLevelUpperCase == "DEBUG" && this.#logLevelNumber >= 3) {
+    if (logLevelUpperCase == "DEBUG" && this.#logLevelNumber >= 4) {
       // Use debug to log behavior, such as executing x method, selected x playlist, etc.
       console.debug(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
+      return;
     }
-    if (logLevelUpperCase == "TRACE" && this.#logLevelNumber >= 4) {
+    if (logLevelUpperCase == "TRACE" && this.#logLevelNumber >= 5) {
       // Use trace to log content such as responses from api calls. But use debug or info kameHouse.logger. trace prints a useless stack trace in the console that doesn't help.
       console.info(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
+      return;
     }
   }
 
@@ -2989,23 +2995,26 @@ class KameHouseCore {
    */
   #getLogLevelNumber(logLevel) {
     const logLevelUpperCase = logLevel.toUpperCase();
-    if (logLevelUpperCase == "ERROR") {
+    if (logLevelUpperCase == "DISABLED") {
       return 0;
     }
-    if (logLevelUpperCase == "WARN") {
+    if (logLevelUpperCase == "ERROR") {
       return 1;
     }
-    if (logLevelUpperCase == "INFO") {
+    if (logLevelUpperCase == "WARN") {
       return 2;
     }
-    if (logLevelUpperCase == "DEBUG") {
+    if (logLevelUpperCase == "INFO") {
       return 3;
     }
-    if (logLevelUpperCase == "TRACE") {
+    if (logLevelUpperCase == "DEBUG") {
       return 4;
     }
+    if (logLevelUpperCase == "TRACE") {
+      return 5;
+    }
     // default INFO
-    return 2;
+    return 3;
   }  
 
 } // KameHouseLogger

@@ -17,8 +17,10 @@ INITIAL_DIR="`pwd`"
 
 # Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
 LOG_PROCESS_TO_FILE=true
+
 # Create logs dir
 mkdir -p ${HOME}/logs
+
 # File to log the output of the process to.
 PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME%.*}.log
 
@@ -29,6 +31,13 @@ EXIT_VAR_NOT_SET=2
 EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 EXIT_INVALID_CONFIG=5
+
+# Set to true when running on linux
+export IS_LINUX_HOST=false
+
+# Subsystem root prefix for mounted drives. Use this as a prefix to all
+# absolute paths I define in the script.
+ROOT_PREFIX="/mnt"
 
 # Adds a script option to the help menu
 addHelpOption() {
@@ -75,5 +84,39 @@ checkCommandStatus() {
   if [ "${COMMAND_RESULT}" != "0" ]; then
     log.error "${ERROR_MESSAGE}. Return code: ${COMMAND_RESULT}"
     exitProcess ${COMMAND_RESULT}
+  fi
+}
+
+# Update this function both in minimal-functions.sh and path.sh
+setIsLinuxHost() {
+  export IS_LINUX_HOST=false
+  local UNAME_S=`uname -s`
+  local UNAME_R=`uname -r`
+  if [ "${UNAME_S}" != "Linux" ]; then
+    # Using Git Bash
+    export IS_LINUX_HOST=false
+  else
+    if [[ ${UNAME_R} == *"Microsoft"* ]]; then
+      # Using Ubuntu for Windows 10 (deprecated. don't use that anymore, use an ubuntu vm)
+      export IS_LINUX_HOST=false
+    else
+      # Using Linux
+      export IS_LINUX_HOST=true
+    fi
+  fi
+}
+
+# Check if I'm using Ubuntu for windows, Git Bash or any other bash implementation.
+# Default is Ubuntu for windows. Set root prefix for mounted drives based on the subsystem.
+# In Git Bash drives are mounted /c /d so root prefix is empty.
+# In Ubuntu for windows drives are mounted in /mnt/c /mnt/d so root prefix is /mnt
+setRootPrefix() {
+  # Ubuntu for windows
+  ROOT_PREFIX="/mnt"
+  local MSYSTEM_MINGW="${MSYSTEM}"
+  MSYSTEM_MINGW=`echo ${MSYSTEM_MINGW:0:5}`
+  if [ "${MSYSTEM_MINGW}" == "MINGW" ]; then
+    # Git Bash
+    ROOT_PREFIX=""
   fi
 }

@@ -79,7 +79,7 @@ sendRequestToServer() {
   local URL_ENCODED_PARAMS=""
   local BASIC_AUTH=""
   local PROTOCOL="http"
-  
+
   if ${IS_HTTPS}; then
     PROTOCOL="https"
   fi
@@ -95,11 +95,21 @@ sendRequestToServer() {
   else
     BASIC_AUTH=${GROOT_API_BASIC_AUTH}
   fi
-
   URL="${PROTOCOL}://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?${URL_ENCODED_PARAMS}"
-  log.info "Executing request: ${COL_BLUE}${URL}"
-  RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
-  log.trace "${PROTOCOL}://${SERVER}:${PORT} response: '${RESPONSE}'"
+
+  local EXEC_CURL_OUTPUT=`execCurlRequest "${URL}" "${BASIC_AUTH}" 2>&1`
+  log.debug "${EXEC_CURL_OUTPUT}" --log-message-only
+}
+
+execCurlRequest() {
+  local URL=$1
+  local BASIC_AUTH=$2
+  local SESSION_ID=$RANDOM
+  log.debug "SID:${SESSION_ID}: Executing request: ${COL_BLUE}${URL}"
+  local CURL_RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
+  log.debug "${COL_CYAN}---------- ${URL} response start. SID:${SESSION_ID}"
+  log.debug "${CURL_RESPONSE}" --log-message-only
+  log.debug "${COL_CYAN}---------- ${URL} response end. SID:${SESSION_ID}"
 }
 
 parseArguments() {

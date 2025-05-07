@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Disable logs
-LOG=ERROR
-SKIP_LOG_START_FINISH=true
-
 # Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
@@ -11,6 +7,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
+LOG=DISABLED
 PLAYLIST_FILE=""
 
 mainProcess() {

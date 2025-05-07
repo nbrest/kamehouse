@@ -3,12 +3,13 @@
 # Modify level by running scripts with LOG or log prefix. 
 # Example ` LOG=DEBUG scrit-name.sh ` or ` log=trace scrit-name.sh ` when executing script
 
-# 0: ERROR
-# 1: WARN
-# 2: INFO
-# 3: DEBUG
-# 4: TRACE
-LOG_LEVEL_NUMBER=2
+# 0: DISABLED
+# 1: ERROR
+# 2: WARN
+# 3: INFO
+# 4: DEBUG
+# 5: TRACE
+LOG_LEVEL_NUMBER=3
 
 # Default color used in logs. Use this variable to return to default color if
 # I change the color of some words in the log entry.
@@ -16,13 +17,14 @@ COL_DEFAULT_LOG=${COL_GREEN}
 
 # Set to false to skip logging cmd args at start and end of script execution
 LOG_CMD_ARGS=true
-# Set to true to skip logging start and finish of script
-SKIP_LOG_START_FINISH=false
 
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
 log() {
   local LEVEL=$1
+  local MESSAGE=$2
+  local LOG_MESSAGE_ONLY=$3
+
   # convert log level to upper case
   LEVEL=`echo "${LEVEL}" | tr '[:lower:]' '[:upper:]'`
 
@@ -32,9 +34,14 @@ log() {
     return
   fi
 
-  local MESSAGE=$2
+  if [ "${LOG_MESSAGE_ONLY}" == "--log-message-only" ]; then
+    echo -e "${MESSAGE}"
+    return
+  fi
+
   # convert \n to literal '\n' in message string so it doesnt take \n as new line. For example in C:\Users\nicolas.brest
   MESSAGE=${MESSAGE//\\\n/\\\\n}
+
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
 
   if [ "${LEVEL}" == "INFO" ]; then
@@ -69,34 +76,31 @@ log() {
 
 # Log info
 log.info() {
-  log "INFO" "$1"
+  log "INFO" "$1" "$2"
 }
 
 # Log debug
 log.debug() {
-  log "DEBUG" "$1"
+  log "DEBUG" "$1" "$2"
 }
 
 # Log trace
 log.trace() {
-  log "TRACE" "$1"
+  log "TRACE" "$1" "$2"
 }
 
 # Log warn
 log.warn() {
-  log "WARN" "$1"
+  log "WARN" "$1" "$2"
 }
 
 # Log error
 log.error() {
-  log "ERROR" "$1" 
+  log "ERROR" "$1" "$2"
 }
 
 # Log standard start of the script
 logStart() {
-  if ${SKIP_LOG_START_FINISH}; then
-    return
-  fi
   local COL_START_LOG="${COL_YELLOW_STD}"
   if ${LOG_CMD_ARGS}; then
     if [ -n "${CMD_ARGUMENTS}" ]; then
@@ -107,14 +111,10 @@ logStart() {
   else
     log.info "${COL_START_LOG}Started executing script (masked args)"
   fi
-
 }
 
 # Log standard finish of process
 logFinish() {
-  if ${SKIP_LOG_START_FINISH}; then
-    return
-  fi  
   local EXIT_CODE=$1
   local SCRIPT_FINISH_TIME="$(date +%s)"
   local SCRIPT_RUN_TIME_SS=$((SCRIPT_FINISH_TIME-SCRIPT_START_TIME))
@@ -139,43 +139,48 @@ getLogLevelNumber() {
   LEVEL=`echo "${LEVEL}" | tr '[:lower:]' '[:upper:]'`
 
   if [ "${LEVEL}" == "TRACE" ]; then
-    echo "4"
+    echo "5"
     return
   fi
 
   if [ "${LEVEL}" == "DEBUG" ]; then
-    echo "3"
+    echo "4"
     return
   fi
 
   if [ "${LEVEL}" == "INFO" ]; then
-    echo "2"
+    echo "3"
     return
   fi
 
   if [ "${LEVEL}" == "WARN" ]; then
-    echo "1"
+    echo "2"
     return
   fi
 
   if [ "${LEVEL}" == "ERROR" ]; then
+    echo "1"
+    return
+  fi
+
+  if [ "${LEVEL}" == "DISABLED" ]; then
     echo "0"
     return
   fi
 
-  echo "2"
+  echo "3"
 }
 
-# Set global log level from environment
-setGlobalLogLevelFromEnv() {
+# Set log level from environment
+setLogLevelFromEnv() {
+  if [ -n "${LOG}" ]; then
+    LOG_LEVEL_NUMBER=`getLogLevelNumber ${LOG}`
+    log=${LOG}
+    return
+  fi
+  
   if [ -n "${log}" ]; then
     LOG_LEVEL_NUMBER=`getLogLevelNumber ${log}`
     LOG=${log}
   fi
-
-  if [ -n "${LOG}" ]; then
-    LOG_LEVEL_NUMBER=`getLogLevelNumber ${LOG}`
-    log=${LOG}
-  fi
 }
-setGlobalLogLevelFromEnv

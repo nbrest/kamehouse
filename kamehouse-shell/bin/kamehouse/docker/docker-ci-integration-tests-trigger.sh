@@ -15,8 +15,6 @@ fi
 LOAD_KAMEHOUSE_SECRETS=true
 INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
 SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"
-DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_CI}
-DOCKER_CI_CREDENTIALS="${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"
 RETRIES=5
 NUM_MAIN_PROCESS_RETRIES=""
 NUM_TOMCAT_STARTUP_RETRIES=""
@@ -149,11 +147,15 @@ loginCheckLoop() {
 }
 
 loginCheck() {
-  local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house/admin/server-management"
+  log.trace "Executing logout from kamehouse"
+  curl --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house/logout" > /dev/null
+
+  local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house/admin/server-management"
   log.info "Executing request to ${COL_PURPLE}${URL}"
-  curl --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP}/kame-house/logout" > /dev/null
-  local CURL_RESPONSE=`curl --max-time 60 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
-  log.trace "CURL_RESPONSE ${CURL_RESPONSE}"
+  local CURL_RESPONSE=`curl --max-time 60 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
+  log.trace "${COL_CYAN}---------- ${URL} response start"
+  log.trace "${CURL_RESPONSE}" --log-message-only
+  log.trace "${COL_CYAN}---------- ${URL} response end"
   echo ${CURL_RESPONSE} | grep '<title>KameHouse - Server Management</title>' > /dev/null
   local LOGIN_RESPONSE_CODE=$?
   if [ "${LOGIN_RESPONSE_CODE}" == "0" ]; then
@@ -183,20 +185,24 @@ executeIntegrationTestsLoop() {
 }
 
 executeIntegrationTests() {
-  local URL="http://localhost:${DOCKER_PORT_HTTP}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
+  local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
   log.info "Executing request to ${COL_PURPLE}${URL}"
-  local CURL_RESPONSE=`curl --max-time 1200 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_CI_CREDENTIALS}"`
+  local CURL_RESPONSE=`curl --max-time 1200 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
   echo ${CURL_RESPONSE} | grep "${INTEGRATION_TESTS_SUCCESS_MESSAGE}" > /dev/null
   local INTEGRATION_TESTS_RESULT="$?"
   log.trace "INTEGRATION_TESTS_RESULT ${INTEGRATION_TESTS_RESULT}"
   if [ "${INTEGRATION_TESTS_RESULT}" == "0" ]; then
     NUM_INTEGRATION_TESTS_RETRIES=0
     INTEGRATION_TESTS_SUCCESSFUL=true
-    log.trace "Success CURL_RESPONSE: ${CURL_RESPONSE}"
+    log.trace "${COL_CYAN}---------- Success ${URL} response start"
+    log.trace "${CURL_RESPONSE}" --log-message-only
+    log.trace "${COL_CYAN}---------- Success ${URL} response end"
     log.info "Completed integration tests successfully!"
   else
     INTEGRATION_TESTS_SUCCESSFUL=false
-    log.info "Error CURL_RESPONSE: ${CURL_RESPONSE}"
+    log.error "${COL_CYAN}---------- Error ${URL} response start"
+    log.error "${CURL_RESPONSE}" --log-message-only
+    log.error "${COL_CYAN}---------- Error ${URL} response end"
     log.error "Error executing integration tests"
   fi
 }

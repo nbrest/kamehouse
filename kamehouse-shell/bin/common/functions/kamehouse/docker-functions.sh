@@ -51,7 +51,14 @@ DOCKER_PORT_CMD_LINE_DEBUG=${DOCKER_PORT_CMD_LINE_DEBUG_DEV}
 
 DOCKER_PROFILES_LIST="(ci|dev|demo|prod|tag)"
 DEFAULT_DOCKER_PROFILE="dev"
+if [ -z "${DOCKER_PROFILE}" ]; then
+  DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
+fi
+
 DEFAULT_DOCKER_OS="ubuntu"
+if [ -z "${DOCKER_ENVIRONMENT}" ]; then
+  DOCKER_ENVIRONMENT="${DEFAULT_DOCKER_OS}"
+fi
 
 DOCKER_COMMAND=""
 
@@ -61,17 +68,6 @@ let DOCKER_TAG_MINIMUM_VER_NUMBER=815
 
 DOCKER_IMAGE_BASE="ubuntu:22.04"
 DOCKER_IMAGE_TAG="latest"
-
-setDefaultDockerEnv() {
-  if [ -z "${DOCKER_PROFILE}" ]; then
-    DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
-  fi
-  
-  if [ -z "${DOCKER_ENVIRONMENT}" ]; then
-    DOCKER_ENVIRONMENT="${DEFAULT_DOCKER_OS}"
-  fi
-}
-setDefaultDockerEnv
 
 parseDockerProfile() {
   local ARGS=("$@")

@@ -96,7 +96,9 @@ loadKamehouseCfg() {
     return
   fi
   source ${HOME}/.kamehouse/config/kamehouse.cfg
-  if [ "$?" != "0" ]; then
+  if [ "$?" == "0" ]; then
+    log.trace "Loaded ~/.kamehouse/config/kamehouse.cfg"
+  else
     log.error "Error importing ~/.kamehouse/config/kamehouse.cfg. Using default values"
   fi
 }
@@ -340,20 +342,20 @@ printUsernameArgOption() {
 
 executeSshCommand() {
   local SKIP_EXIT_CODE_CHECK=$1
+  local SESSION_ID=$RANDOM
   if ${IS_REMOTE_LINUX_HOST}; then
     SSH_COMMAND="source ~/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh ; "${SSH_COMMAND}
-    log.info "ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
+    log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"`
     SSH_EXIT_CODE=$?
   else
-    log.info "ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
+    log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""`
     SSH_EXIT_CODE=$?
   fi
-  
-  log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output start"
-  echo "${SSH_OUTPUT}"
-  log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output end"
+  log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output start. SID:${SESSION_ID}"
+  log.info "${SSH_OUTPUT}" --log-message-only
+  log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output end. SID:${SESSION_ID}"
 
   if [ "${SKIP_EXIT_CODE_CHECK}" == "--skip-exit-code-check" ]; then
     log.debug "Skipping ssh command exit code check: ${SSH_EXIT_CODE}"
@@ -561,9 +563,15 @@ setupLinuxEnvironment() {
 }
 
 preParseCmdArguments() {
+  loadKamehouseCfg
   if ${LOAD_KAMEHOUSE_SECRETS}; then
     loadKamehouseSecrets
   fi
-  loadKamehouseCfg
   loadDockerContainerEnv
+  customKamehousePrepParseCmdArguments
+}
+
+# Override in other scripts to add custom pre parse cmd args logic
+customKamehousePrepParseCmdArguments() {
+  return
 }

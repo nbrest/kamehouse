@@ -7,6 +7,10 @@
 
 #### v10.03
 
+- Added log level disabled in kamehouse shell and ui
+- Added option to log plain message to kamehouse shell log framework
+- Refactored kamehouse shell framework to execute all setup functions from mainWrapper
+- Added link to stop scrolling page from test module
 - Removed fallback to unencrypted kamehouse secrets file
 - Added pre parse cmd arguments function to shell scripts framework
 - Refactored functions to execute ssh, scp and sftp commands from kamehouse shell

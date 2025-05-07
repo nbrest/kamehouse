@@ -303,7 +303,9 @@ sendTelegramBotMessage() {
     --header 'Accept: application/json' \
     --header 'Content-Type: application/json' \
     --data "${TELEGRAM_REQUEST_BODY}" 2>/dev/null`
-  log.trace "curl response: ${RESPONSE}"
+  log.trace "${COL_CYAN}---------- curl response start"
+  log.trace "${RESPONSE}" --log-message-only
+  log.trace "${COL_CYAN}---------- curl response end"
 }
 
 setHealthCheckIterationCount() {

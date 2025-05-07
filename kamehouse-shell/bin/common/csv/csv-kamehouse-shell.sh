@@ -2,10 +2,6 @@
 
 # Returns kamehouse-shell scripts as csv as a relative path from kamehouse-shell
 
-# Disable logs
-LOG=ERROR
-SKIP_LOG_START_FINISH=true
-
 # Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
@@ -13,6 +9,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
+LOG=DISABLED
 BASE_DIR=${HOME}/programs/kamehouse-shell/bin
 
 mainProcess() {  

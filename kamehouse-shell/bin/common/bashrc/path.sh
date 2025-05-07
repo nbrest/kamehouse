@@ -1,4 +1,4 @@
-# Update this function both in common-functions.sh and path.sh
+# Update this function both in minimal-functions.sh and path.sh
 export IS_LINUX_HOST=false
 setIsLinuxHost() {
   export IS_LINUX_HOST=false

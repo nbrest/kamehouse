@@ -5,6 +5,8 @@ FILE_TO_PLAY=""
 VLC_LOG_FILE="${HOME}/logs/vlc.log"
 
 VLC_DATA_PATH="${HOME}/.kamehouse/data/vlc"
+mkdir -p "${VLC_DATA_PATH}"
+
 VLC_PROCESS_INFO_FILE="${VLC_DATA_PATH}/vlc-process.info"
 VLC_STATS_HISTORY_FILE=${VLC_DATA_PATH}/vlc-process.stats
 VLC_CURRENT_RUN_PLAYED_FILES=${VLC_DATA_PATH}/vlc-current-run-played-files.txt
@@ -20,8 +22,6 @@ VLC_IS_RUNNING=false
 VLC_PARAMS=""
 
 VLC_STATS_MEDIA_FILES="\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U"
-
-mkdir -p "${VLC_DATA_PATH}"
 
 checkExistingVlcLogFile() {
   if [ ! -f "${VLC_LOG_FILE}" ]; then
