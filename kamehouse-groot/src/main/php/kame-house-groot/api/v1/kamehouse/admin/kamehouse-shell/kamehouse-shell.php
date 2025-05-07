@@ -174,7 +174,7 @@ class KameHouseShell {
       $kameHouse->logger->info("Using script log to get the output of " . $script);
       $standardOutput = file_get_contents($scriptLog);
     } else {
-      $kameHouse->logger->info("Couldnt find log file for script " . $script . ". Using shell_exec output");
+      $kameHouse->logger->info("Couldnt find log file '" . $scriptLog . "' for script '" . $script . "'. Using shell_exec output");
     }
     $kameHouse->logger->info("Finished executing script " . $script);
     return explode("\n", $standardOutput);
