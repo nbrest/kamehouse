@@ -65,7 +65,9 @@ checkRequiredOption() {
 exitProcess() {
   local EXIT_STATUS=$1
   logFinish ${EXIT_STATUS}
-  cd "${INITIAL_DIR}"
+  if [ -d "${INITIAL_DIR}" ]; then
+    cd "${INITIAL_DIR}"
+  fi
   exit ${EXIT_STATUS}
 } 
 
