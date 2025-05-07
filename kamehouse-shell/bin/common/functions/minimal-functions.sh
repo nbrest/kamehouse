@@ -87,7 +87,6 @@ checkCommandStatus() {
   fi
 }
 
-# Update this function both in minimal-functions.sh and path.sh
 setIsLinuxHost() {
   export IS_LINUX_HOST=false
   local UNAME_S=`uname -s`
