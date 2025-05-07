@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.04
+
+- Fixed bugs
+
 #### v10.03
 
 - Added log level disabled in kamehouse shell and ui
