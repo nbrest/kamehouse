@@ -119,22 +119,10 @@ execCurlRequest() {
 
 parseArguments() {
   local OPTIONS=("$@")
-  for i in "${!OPTIONS[@]}"; do
-    local CURRENT_OPTION="${OPTIONS[i]}"
-    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
-      continue
-    fi
-    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
-    case "${CURRENT_OPTION}" in
-      -a)
-        SCRIPT_ARGS="${CURRENT_OPTION_ARG}"
-        ;;
-      -s)
-        SCRIPT="${CURRENT_OPTION_ARG}"
-        ;;  
-      # I can't use parseInvalidArgument here because the script arg might start with "-"     
-    esac
-  done    
+  SCRIPT="${OPTIONS[1]}"
+
+  OPTIONS=("${OPTIONS[@]:3}")
+  SCRIPT_ARGS="${OPTIONS[@]}"
 }
 
 setEnvFromArguments() {
@@ -142,8 +130,14 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-a (args)" "script args"
   addHelpOption "-s (script)" "script to execute" "r"
+  addHelpOption "-a (args)" "script args"
+}
+
+printHelpFooter() {
+  echo -e ""
+  echo -e "${COL_YELLOW}   > IMPORTANT: The order the of arguments is important! -s must be set before -a${COL_NORMAL}"
+  echo -e ""  
 }
 
 main "$@"
