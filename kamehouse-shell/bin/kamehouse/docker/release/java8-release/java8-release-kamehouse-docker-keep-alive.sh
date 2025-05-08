@@ -19,7 +19,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
+initKameHouseShellEnv() {
+  LOG_PROCESS_TO_FILE=false
+}
 
 mainProcess() {
   checkKeepAliveScriptsEnabled
@@ -33,7 +35,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SERVICE="kamehouse-docker-${DOCKER_IMAGE_TAG}"
   SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/release/java8-release/java8-release-kamehouse-docker-run.sh"
   SERVICE_ARGS=""

@@ -7,15 +7,17 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG=DISABLED
-LOG_PROCESS_TO_FILE=false
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOG=DISABLED
+  LOG_PROCESS_TO_FILE=false
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   echo ${!KAMEHOUSE_SECRET_NAME}
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   KAMEHOUSE_SECRET_NAME=""
 }
 

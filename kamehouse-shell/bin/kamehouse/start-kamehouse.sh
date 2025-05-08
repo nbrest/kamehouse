@@ -7,13 +7,15 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   executeOperationInTomcatManager ${OPERATION} ${TOMCAT_PORT} ${MODULE_SHORT}
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   OPERATION=start
 }
 

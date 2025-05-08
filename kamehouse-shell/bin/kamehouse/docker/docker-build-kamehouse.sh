@@ -26,7 +26,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
   DOCKER_COMMAND="docker buildx build"

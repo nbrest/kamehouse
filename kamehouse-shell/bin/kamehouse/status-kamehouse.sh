@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   log.debug "curl http://${TOMCAT_TEXT_USER}:****@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | sort"

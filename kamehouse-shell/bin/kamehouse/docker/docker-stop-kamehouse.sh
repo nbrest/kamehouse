@@ -30,7 +30,7 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   CONTAINER=""
 }
 

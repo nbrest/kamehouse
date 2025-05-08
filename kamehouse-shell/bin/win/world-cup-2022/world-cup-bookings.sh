@@ -20,7 +20,7 @@ mainProcess() {
   done
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SCREEN_CAPTURE_EXE="C:\Users\nbrest\my.scripts\win\bat\screen-capture.exe"
   TESSERACT_EXE="C:\Program Files\Tesseract-OCR\tesseract.exe"
   TESSERACT_USER_WORDS="C:\Users\nbrest\my.scripts\conf\world-cup-bookings\eng.user-words"

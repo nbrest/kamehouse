@@ -33,7 +33,7 @@ mainProcess() {
   rotateVlcLog
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   DEFAULT_VLC_PORT="8080"
   VLC_PORT=""
 }

@@ -19,7 +19,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   VLC_HTTP_PORT="8080"
 }
 

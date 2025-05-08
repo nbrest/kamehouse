@@ -17,7 +17,7 @@ mainProcess() {
   cleanUpFiles
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   VERBOSE=false
   DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
   WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings

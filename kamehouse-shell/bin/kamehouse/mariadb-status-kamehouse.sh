@@ -7,14 +7,16 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   log.info "KameHouse database status"
   mariadb --force --table -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} kamehouse < ${SQL_FILE}
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SQL_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/status-kamehouse.sql
 }
 

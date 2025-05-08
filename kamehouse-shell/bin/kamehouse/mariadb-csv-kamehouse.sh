@@ -11,7 +11,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   setupInitialDirectories
@@ -20,7 +22,7 @@ mainProcess() {
   listGeneratedFiles
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PATH_CSV=${HOME}/.kamehouse/config/mariadb/csv
   PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
   NUMBER_OF_BACKUPS=3

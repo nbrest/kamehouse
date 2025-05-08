@@ -13,7 +13,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_CMD_ARGS=false
+initKameHouseShellEnv() {
+  LOG_CMD_ARGS=false
+}
 
 mainProcess() {
   validateCommandLineArguments "$@"
@@ -28,7 +30,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SCRIPT=""
   SCRIPT_ARGS=""
   BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"

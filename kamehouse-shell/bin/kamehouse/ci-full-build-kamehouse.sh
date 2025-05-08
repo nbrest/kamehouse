@@ -11,7 +11,7 @@ mainProcess() {
   runFullContinuousIntegrationBuild
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PROJECT_DIR=${HOME}/git/jenkins/kamehouse
   LOG_LEVEL=INFO
 }

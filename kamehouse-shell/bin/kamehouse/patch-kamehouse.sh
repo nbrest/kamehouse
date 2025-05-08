@@ -14,7 +14,7 @@ mainProcess() {
   removeLocalPatchFile
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PATCH_FILE="kamehouse.patch"
   APPLY_PATCH_ARGS=""
   GIT_PROJECT_DIR="~/git/kamehouse"

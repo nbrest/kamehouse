@@ -36,7 +36,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PROJECT_DIR=/home/${DOCKER_USERNAME}/git/kamehouse
   SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
   ERROR="ERROR EXECUTING INTEGRATION TESTS"

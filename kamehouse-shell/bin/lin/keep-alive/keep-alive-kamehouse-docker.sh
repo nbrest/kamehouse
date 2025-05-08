@@ -25,7 +25,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_PROD}
   SERVICE="kamehouse-docker"
   SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"

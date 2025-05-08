@@ -19,7 +19,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PORT=9090
   SERVICE="tomcat"
   SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.sh"

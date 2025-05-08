@@ -94,8 +94,13 @@ setEnvFromArguments() {
   return
 }
 
-# Set the global environment variables after loading all configuration and before parsing arguments that may override them
-setInitialGlobalEnv() {
+# Set the global environment variables for the script after loading all configuration and before parsing arguments that may override them
+initScriptEnv() {
+  return
+}
+
+# Set the kamehouse shell environment parameters before configuring the shell
+initKameHouseShellEnv() {
   return
 }
 
@@ -108,18 +113,24 @@ mainProcess() {
 mainWrapper() {
   logStart
   loadConfigFiles
-  setInitialGlobalEnv
+  initScriptEnv
   parseCmdArguments "$@"
   setEnvFromArguments
   mainProcess "$@"
   exitSuccessfully
 }
 
-# main function to call from each script
-main() {
+# Configure the kamehouse shell environment
+configureKameHouseShell() {
   setLogLevelFromEnv
   setRootPrefix
   setIsLinuxHost
+}
+
+# main function to call from each script
+main() {
+  initKameHouseShellEnv
+  configureKameHouseShell
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
     # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default

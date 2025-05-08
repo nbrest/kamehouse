@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   log.info "Archiving old tennis world bookings"
@@ -15,7 +17,7 @@ mainProcess() {
   checkCommandStatus "$?"
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/archive-tennisworld-bookings.sql
 }
 

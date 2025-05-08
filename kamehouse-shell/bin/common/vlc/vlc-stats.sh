@@ -28,7 +28,7 @@ mainProcess() {
   showStatsHistoryFile
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   NUM_STAT_ITERATIONS_TO_KEEP=10000
   NUMBER_OF_STAT_ITERATIONS=0
   SHOW_CURRENT_STATS_ONLY=false

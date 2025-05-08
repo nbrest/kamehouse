@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG=DISABLED
+initKameHouseShellEnv() {
+  LOG=DISABLED
+}
 
 mainProcess() {
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`

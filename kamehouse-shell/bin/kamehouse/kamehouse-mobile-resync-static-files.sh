@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   setGlobalVariables
@@ -17,7 +19,7 @@ mainProcess() {
   exportMockedApis
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   DELETE_ONLY=false
   SOURCE_FILES_KAMEHOUSE_DIR=""
   SOURCE_FILES_GROOT_DIR=""

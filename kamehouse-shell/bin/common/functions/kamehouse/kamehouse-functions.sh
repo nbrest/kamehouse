@@ -83,7 +83,7 @@ FAST_BUILD=false
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 
-# When setting LOAD_KAMEHOUSE_SECRETS in the scripts, it needs to be done on the global level, not inside setInitialGlobalEnv
+# Override LOAD_KAMEHOUSE_SECRETS variable in the function setKameHouseShellEnvParams in the shell scripts
 LOAD_KAMEHOUSE_SECRETS=false
 KAMEHOUSE_SECRETS_LOADED=false
 

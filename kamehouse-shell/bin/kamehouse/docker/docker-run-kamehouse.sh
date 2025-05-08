@@ -13,14 +13,17 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
+
 mainProcess() {
   setEnvironment
   printEnv
   runDockerImage  
 }
 
-setInitialGlobalEnv() {
-  LOAD_KAMEHOUSE_SECRETS=true
+initScriptEnv() {
   BUILD_ON_STARTUP=false
   BUILD_ON_STARTUP_PARAM=""
   DEBUG_MODE=false

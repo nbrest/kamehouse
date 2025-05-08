@@ -19,7 +19,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PORT=443
   SERVICE="httpd"
   SERVICE_STARTUP="sudo service apache2 start"

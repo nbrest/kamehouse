@@ -7,8 +7,10 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
-LOG_PROCESS_TO_FILE=false
+initKameHouseShellEnv() {
+  LOG_PROCESS_TO_FILE=false
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   log.info "mariadb -u root -p***"

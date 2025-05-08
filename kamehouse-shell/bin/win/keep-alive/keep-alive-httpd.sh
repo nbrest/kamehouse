@@ -19,7 +19,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PORT=443
   SERVICE="httpd"
   SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-restart.sh"

@@ -7,17 +7,20 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-#LOG=DISABLED
-#LOG_PROCESS_TO_FILE=false
-#LOG_CMD_ARGS=false
-#LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  #LOG=DISABLED
+  #LOG_PROCESS_TO_FILE=false
+  #LOG_CMD_ARGS=false
+  #LOAD_KAMEHOUSE_SECRETS=true
+  return
+}
 
 mainProcess() {
   log.info "base script: TEST_PARAM=${TEST_PARAM}"
   printHelp
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   TEST_PARAM=""
 }
 

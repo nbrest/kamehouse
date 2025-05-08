@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   requestConfirmation
@@ -20,7 +22,7 @@ mainProcess() {
   log.info "Finished setting up kamehouse database"
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
   REQUEST_CONFIRMATION_RX=^yes\|y$
   SKIP_CONFIRMATION=false

@@ -28,7 +28,7 @@ mainProcess() {
   checkCommandStatus "$?"
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   GIT_PROJECT_DIR=${HOME}/git/kamehouse
   GIT_REMOTE=origin
 }

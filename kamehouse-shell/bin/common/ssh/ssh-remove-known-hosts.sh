@@ -17,7 +17,7 @@ mainProcess() {
   removeServerKey
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   KNOWN_KEY_TO_REMOVE=""
 }
 

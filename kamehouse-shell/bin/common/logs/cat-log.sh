@@ -16,7 +16,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   LOG_FILE_TO_CAT=""
   CAT_LOG_LEVEL=""
   CAT_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/cat-log.awk

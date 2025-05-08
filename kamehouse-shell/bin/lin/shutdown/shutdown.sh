@@ -12,7 +12,7 @@ mainProcess() {
   ${SUDO_KAMEHOUSE_COMMAND} -P ${SHUTDOWN_DELAY_MIN}
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SHUTDOWN_DELAY_MIN="0"
 }
 

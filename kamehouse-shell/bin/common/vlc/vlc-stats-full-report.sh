@@ -22,7 +22,7 @@ mainProcess() {
   showVlcLogsLastDrm
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   VLC_STATS_ARGS=""
 }
 

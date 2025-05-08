@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG=DISABLED
+initKameHouseShellEnv() {
+  LOG=DISABLED
+}
 
 mainProcess() {
   local CMD_VERSION_FILE="${HOME}/programs/kamehouse-cmd/lib/cmd-version.txt"

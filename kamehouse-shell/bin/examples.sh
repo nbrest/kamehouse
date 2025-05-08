@@ -13,7 +13,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
+initKameHouseShellEnv() {
+  LOG_PROCESS_TO_FILE=false
+}
 
 mainProcess() {
   log.info "TEST_PARAM=${TEST_PARAM}"
@@ -21,7 +23,7 @@ mainProcess() {
   printHelp
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   TEST_PARAM=""
 }
 

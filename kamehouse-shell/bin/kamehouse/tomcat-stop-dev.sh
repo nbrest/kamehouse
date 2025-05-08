@@ -7,8 +7,10 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG=DISABLED
-LOG_PROCESS_TO_FILE=false
+initKameHouseShellEnv() {
+  LOG=DISABLED
+  LOG_PROCESS_TO_FILE=false
+}
 
 mainProcess() {
   if ${IS_LINUX_HOST}; then

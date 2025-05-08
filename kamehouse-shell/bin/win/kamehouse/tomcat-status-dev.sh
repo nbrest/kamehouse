@@ -18,7 +18,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 }
 

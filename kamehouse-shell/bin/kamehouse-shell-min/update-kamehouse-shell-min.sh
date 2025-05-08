@@ -16,7 +16,7 @@ mainProcess() {
   pushChangesToGit
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SRC_PROJECT_DIR="${HOME}/git/kamehouse"
   PROJECT_DIR="${HOME}/git/kamehouse-shell-min"
   GIT_COMMIT_HASH=""

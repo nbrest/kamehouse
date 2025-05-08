@@ -23,7 +23,7 @@ mainProcess() {
   ssh -p ${DOCKER_SSH_PORT} ${DOCKER_CONTAINER_USERNAME}@localhost
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   REMOVE_SERVER_KEY=false
 }
 

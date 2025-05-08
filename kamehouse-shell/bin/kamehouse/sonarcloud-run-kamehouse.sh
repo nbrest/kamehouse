@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   setKameHouseRootProjectDir
@@ -19,7 +21,7 @@ mainProcess() {
   cleanUpMavenRepository
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   USE_CURRENT_DIR=true
 }
 

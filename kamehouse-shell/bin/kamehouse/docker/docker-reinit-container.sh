@@ -35,7 +35,7 @@ mainProcess() {
   showContainerFolderStatus
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   DATA_SOURCE="none"
   REQUEST_CONFIRMATION_RX=^yes\|y$
   REINIT_SSH_KEYS_ONLY=false

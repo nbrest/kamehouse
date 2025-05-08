@@ -19,7 +19,7 @@ mainProcess() {
   checkCommandStatus "$?" "Error rebuilding and pushing the kamehouse docker image" 
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   USE_CURRENT_DIR=true
 }
 

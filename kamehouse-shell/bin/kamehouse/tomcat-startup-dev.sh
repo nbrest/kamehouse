@@ -21,7 +21,7 @@ mainProcess() {
   ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG} 
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 }

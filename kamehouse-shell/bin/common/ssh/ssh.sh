@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
+initKameHouseShellEnv() {
+  LOG_PROCESS_TO_FILE=false
+}
 
 mainProcess() {
   if [ -z "${SSH_COMMAND}" ]; then

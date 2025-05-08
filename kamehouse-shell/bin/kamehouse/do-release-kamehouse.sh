@@ -29,7 +29,7 @@ mainProcess() {
   reapplyStashedChangesInReleaseBranch
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   
   declare -a VALID_WORKING_DIRS=("${HOME}/workspace/${PROJECT}")
   CURRENT_BRANCH=""

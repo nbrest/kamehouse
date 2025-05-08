@@ -9,7 +9,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG=DISABLED
+initKameHouseShellEnv() {
+  LOG=DISABLED
+}
 
 mainProcess() {  
   # List all files
@@ -53,7 +55,7 @@ mainProcess() {
   echo ","
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   BASE_DIR=${HOME}/programs/kamehouse-shell/bin
 }
 

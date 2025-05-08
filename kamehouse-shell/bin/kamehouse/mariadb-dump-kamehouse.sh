@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   setupInitialDirectories
@@ -16,7 +18,7 @@ mainProcess() {
   listGeneratedFiles
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   PATH_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump 
   NUMBER_OF_EXPORTS=3
   DUMP_FILENAME=dump-kamehouse.sql

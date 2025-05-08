@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   if [ -f "${MARIADB_DUMP_FILE}" ]; then
@@ -21,7 +23,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
 }
 

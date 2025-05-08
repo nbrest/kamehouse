@@ -12,14 +12,16 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   setScriptLogMessage
   execInAllServers
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SCRIPT=""
   SCRIPT_ARGS=""
   SCRIPT_LOG_MESSAGE=""

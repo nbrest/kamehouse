@@ -20,7 +20,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   DEBUG_MODE=false
   TOMCAT_DIR=""
   TOMCAT_LOG=""

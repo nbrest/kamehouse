@@ -7,7 +7,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   setKameHouseRootProjectDir
@@ -21,7 +23,7 @@ mainProcess() {
   uploadApkToDeviceSftp
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SKIP_BUILD_MOBILE=false
   USE_CURRENT_DIR=true
 }

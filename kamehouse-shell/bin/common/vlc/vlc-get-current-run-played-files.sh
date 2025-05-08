@@ -19,7 +19,7 @@ mainProcess() {
   showFilesPlayedCount
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   SORT_ALPHABETICALLY=false
   FILES_PLAYED=""
   QUIET_MODE=false

@@ -12,7 +12,7 @@ mainProcess() {
   wait
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   RESTART=false
   HIBERNATE=true
   SHUTDOWN=false

@@ -12,14 +12,16 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_PROCESS_TO_FILE=false
+initKameHouseShellEnv() {
+  LOG_PROCESS_TO_FILE=false
+}
 
 mainProcess() {
   checkExistingVlcLogFile
   tail -n 100000 ${FOLLOW} ${VLC_LOG_FILE}
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   FOLLOW="-F"
 }
 

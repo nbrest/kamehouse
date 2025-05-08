@@ -18,7 +18,7 @@ mainProcess() {
   cdToRootDirFromModule "kamehouse-mobile"
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   USE_CURRENT_DIR=true
 }
 

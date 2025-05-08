@@ -13,7 +13,7 @@ mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh "${DEBUG_MODE}"
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   DEBUG_MODE=""
 }
 

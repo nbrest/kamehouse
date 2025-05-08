@@ -27,7 +27,7 @@ mainProcess() {
   sed -i "s#-----APK_DEPLOY_DATE-----#${APK_DEPLOY_DATE}#I" "${KAMEHOUSE_APK_HTML}"
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-status-template.html
   KAMEHOUSE_APK_HTML=kamehouse-apk-status.html
   BUILD_VERSION=""

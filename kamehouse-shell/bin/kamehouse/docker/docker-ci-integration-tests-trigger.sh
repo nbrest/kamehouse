@@ -12,7 +12,9 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
+initKameHouseShellEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+}
 
 mainProcess() {
   log.info "Running kamehouse integration tests on a ci docker container"
@@ -26,7 +28,7 @@ mainProcess() {
   fi
 }
 
-setInitialGlobalEnv() {
+initScriptEnv() {
   INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
   SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"
   RETRIES=5
