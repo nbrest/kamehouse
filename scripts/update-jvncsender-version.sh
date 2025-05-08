@@ -7,12 +7,14 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-RELEASE_VERSION=""
-USE_CURRENT_DIR=true
-
 mainProcess() {
   setKameHouseRootProjectDir
   updateJvncSenderVersion
+}
+
+initScriptEnv() {
+  RELEASE_VERSION=""
+  USE_CURRENT_DIR=true
 }
 
 updateJvncSenderVersion() {
