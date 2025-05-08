@@ -12,16 +12,18 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-SORT_ALPHABETICALLY=false
-FILES_PLAYED=""
-QUIET_MODE=false
-COL_FILES_PLAYED="${COL_CYAN}"
-
 mainProcess() {
   checkRunningVlcProcess
   getFilesPlayed
   showFilesPlayed
   showFilesPlayedCount
+}
+
+setInitialGlobalEnv() {
+  SORT_ALPHABETICALLY=false
+  FILES_PLAYED=""
+  QUIET_MODE=false
+  COL_FILES_PLAYED="${COL_CYAN}"
 }
 
 getFilesPlayed() {

@@ -8,16 +8,19 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-PATH_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump 
-NUMBER_OF_EXPORTS=3
-DUMP_FILENAME=dump-kamehouse.sql
-LOG_FILENAME=dump-kamehouse.log
 
 mainProcess() {
   setupInitialDirectories
   executeBackup
   cyclePreviousBackups
   listGeneratedFiles
+}
+
+setInitialGlobalEnv() {
+  PATH_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump 
+  NUMBER_OF_EXPORTS=3
+  DUMP_FILENAME=dump-kamehouse.sql
+  LOG_FILENAME=dump-kamehouse.log
 }
 
 setupInitialDirectories() {

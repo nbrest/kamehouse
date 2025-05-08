@@ -7,11 +7,13 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-SHUTDOWN_DELAY_MIN="0"
-
 mainProcess() {
   setSudoKameHouseCommand "/usr/sbin/shutdown"
   ${SUDO_KAMEHOUSE_COMMAND} -P ${SHUTDOWN_DELAY_MIN}
+}
+
+setInitialGlobalEnv() {
+  SHUTDOWN_DELAY_MIN="0"
 }
 
 parseArguments() {

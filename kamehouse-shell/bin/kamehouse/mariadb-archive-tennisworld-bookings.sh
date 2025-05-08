@@ -8,12 +8,15 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/archive-tennisworld-bookings.sql
 
 mainProcess() {
   log.info "Archiving old tennis world bookings"
   mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} kamehouse < ${MARIADB_ARCHIVE_FILE}
   checkCommandStatus "$?"
+}
+
+setInitialGlobalEnv() {
+  MARIADB_ARCHIVE_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/archive-tennisworld-bookings.sql
 }
 
 main "$@"

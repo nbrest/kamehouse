@@ -8,30 +8,33 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-# Initial config
-APACHE_LOG_DIR="programs/apache-httpd/logs"
-DEFAULT_LOG_LEVEL="trace"
-DEFAULT_NUM_LINES="30"
-
-TOMCAT_DEV_LOG_DIR="programs/apache-tomcat-dev/logs"
-TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
-
-# Variables set by command line arguments
-FILE_ARG=""
-FOLLOW="-F"
-LOG_LEVEL_ARG=""
-NUM_LINES_ARG="0"
-FILTER_EXTRA_LINES=false
-
-# Global variables set during the process
-LOG_FILES=""
-NUM_LINES=""
-TAIL_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/format-tail-log.awk
-USER_HOME=""
 
 mainProcess() {
   setTailLogParameters
   tailLog
+}
+
+setInitialGlobalEnv() {
+  # Initial config
+  APACHE_LOG_DIR="programs/apache-httpd/logs"
+  DEFAULT_LOG_LEVEL="trace"
+  DEFAULT_NUM_LINES="30"
+
+  TOMCAT_DEV_LOG_DIR="programs/apache-tomcat-dev/logs"
+  TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
+
+  # Variables set by command line arguments
+  FILE_ARG=""
+  FOLLOW="-F"
+  LOG_LEVEL_ARG=""
+  NUM_LINES_ARG="0"
+  FILTER_EXTRA_LINES=false
+
+  # Global variables set during the process
+  LOG_FILES=""
+  NUM_LINES=""
+  TAIL_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/format-tail-log.awk
+  USER_HOME=""
 }
 
 setTailLogParameters() {

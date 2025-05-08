@@ -7,9 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
-TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
-
 mainProcess() {
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --skip-override --log
   
@@ -22,6 +19,11 @@ mainProcess() {
   # Start with jpda start to be able to remote debug on port 8000 (default port)
   log.debug "${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG}"
   ${TOMCAT_DIR}/bin/catalina.sh jpda start | tee ${TOMCAT_LOG} 
+}
+
+setInitialGlobalEnv() {
+  TOMCAT_DIR=${HOME}/programs/apache-tomcat-dev
+  TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 }
 
 main "$@"

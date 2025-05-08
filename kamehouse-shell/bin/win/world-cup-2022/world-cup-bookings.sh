@@ -10,33 +10,6 @@ fi
 source ${HOME}/my.scripts/.cred/.gmail
 source ${HOME}/my.scripts/.cred/.telegram
 
-SCREEN_CAPTURE_EXE="C:\Users\nbrest\my.scripts\win\bat\screen-capture.exe"
-TESSERACT_EXE="C:\Program Files\Tesseract-OCR\tesseract.exe"
-TESSERACT_USER_WORDS="C:\Users\nbrest\my.scripts\conf\world-cup-bookings\eng.user-words"
-WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
-WWW_WORLD_CUP_BOOKINGS_PATH_WIN="C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\world-cup-bookings\\"
-IMG_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/img
-IMG_WORLD_CUP_BOOKINGS_PATH_WIN="${WWW_WORLD_CUP_BOOKINGS_PATH_WIN}img\\"
-TXT_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/txt
-TXT_WORLD_CUP_BOOKINGS_PATH_WIN="${WWW_WORLD_CUP_BOOKINGS_PATH_WIN}txt\\"
-HTML_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/html-snippets
-SEND_SUCCESS_EMAIL=false
-SEND_ERROR_EMAIL=false
-SEND_HEALTH_CHECK_EMAIL=true
-ARGENTINA_MATCHES=""
-ALL_MATCHES=""
-KEEP_ALIVE_TIMESTAMP=""
-SHOPPING_CART_STATUS=""
-let NUM_OF_SCREENSHOTS=45
-let HEALTH_CHECK_ITERATIONS_COUNT=500
-let HEALTH_CHECK_CURRENT_ITERATION=$((HEALTH_CHECK_ITERATIONS_COUNT))
-let MAX_ERROR_COUNT=8
-let CURRENT_ERROR_COUNT=0
-SLEEP_LOOP_TIME=60
-OFFICIAL_TICKETS_STATUS=""
-OFFICIAL_TICKETS_DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
-DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
-
 mainProcess() {
   log.info "World Cup Bookings background script"
   setupDirs
@@ -45,6 +18,35 @@ mainProcess() {
     officialTicketsLoop
     sleepLoop
   done
+}
+
+setInitialGlobalEnv() {
+  SCREEN_CAPTURE_EXE="C:\Users\nbrest\my.scripts\win\bat\screen-capture.exe"
+  TESSERACT_EXE="C:\Program Files\Tesseract-OCR\tesseract.exe"
+  TESSERACT_USER_WORDS="C:\Users\nbrest\my.scripts\conf\world-cup-bookings\eng.user-words"
+  WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
+  WWW_WORLD_CUP_BOOKINGS_PATH_WIN="C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\world-cup-bookings\\"
+  IMG_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/img
+  IMG_WORLD_CUP_BOOKINGS_PATH_WIN="${WWW_WORLD_CUP_BOOKINGS_PATH_WIN}img\\"
+  TXT_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/txt
+  TXT_WORLD_CUP_BOOKINGS_PATH_WIN="${WWW_WORLD_CUP_BOOKINGS_PATH_WIN}txt\\"
+  HTML_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/html-snippets
+  SEND_SUCCESS_EMAIL=false
+  SEND_ERROR_EMAIL=false
+  SEND_HEALTH_CHECK_EMAIL=true
+  ARGENTINA_MATCHES=""
+  ALL_MATCHES=""
+  KEEP_ALIVE_TIMESTAMP=""
+  SHOPPING_CART_STATUS=""
+  let NUM_OF_SCREENSHOTS=45
+  let HEALTH_CHECK_ITERATIONS_COUNT=500
+  let HEALTH_CHECK_CURRENT_ITERATION=$((HEALTH_CHECK_ITERATIONS_COUNT))
+  let MAX_ERROR_COUNT=8
+  let CURRENT_ERROR_COUNT=0
+  SLEEP_LOOP_TIME=60
+  OFFICIAL_TICKETS_STATUS=""
+  OFFICIAL_TICKETS_DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
+  DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
 }
 
 officialTicketsLoop() {

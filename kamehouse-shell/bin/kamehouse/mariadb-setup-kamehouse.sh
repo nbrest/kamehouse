@@ -8,10 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
-REQUEST_CONFIRMATION_RX=^yes\|y$
-SKIP_CONFIRMATION=false
-ADD_DUMP_DATA=false
 
 mainProcess() {
   requestConfirmation
@@ -22,6 +18,13 @@ mainProcess() {
     setupKameHouseWindows
   fi
   log.info "Finished setting up kamehouse database"
+}
+
+setInitialGlobalEnv() {
+  PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
+  REQUEST_CONFIRMATION_RX=^yes\|y$
+  SKIP_CONFIRMATION=false
+  ADD_DUMP_DATA=false
 }
 
 setupKameHouseLinux() {

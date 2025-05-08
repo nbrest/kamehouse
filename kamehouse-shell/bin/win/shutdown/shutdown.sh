@@ -7,15 +7,17 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-RESTART=false
-HIBERNATE=true
-SHUTDOWN=false
-SHUTDOWN_ACTION="/h"
-DELAY=
-
 mainProcess() {
   shutdownProcess &
   wait
+}
+
+setInitialGlobalEnv() {
+  RESTART=false
+  HIBERNATE=true
+  SHUTDOWN=false
+  SHUTDOWN_ACTION="/h"
+  DELAY=
 }
 
 shutdownProcess() {

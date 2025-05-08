@@ -7,10 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-SRC_PROJECT_DIR="${HOME}/git/kamehouse"
-PROJECT_DIR="${HOME}/git/kamehouse-shell-min"
-GIT_COMMIT_HASH=""
-
 mainProcess() {
   log.info "Updating kamehouse-shell-min git repo"
   pullChangesFromGit
@@ -18,6 +14,12 @@ mainProcess() {
   updateCommonFunctionsImport
   updateCommitVersionInReadme
   pushChangesToGit
+}
+
+setInitialGlobalEnv() {
+  SRC_PROJECT_DIR="${HOME}/git/kamehouse"
+  PROJECT_DIR="${HOME}/git/kamehouse-shell-min"
+  GIT_COMMIT_HASH=""
 }
 
 pullChangesFromGit() {

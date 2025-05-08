@@ -8,8 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-SKIP_BUILD_MOBILE=false
-USE_CURRENT_DIR=true
 
 mainProcess() {
   setKameHouseRootProjectDir
@@ -21,6 +19,11 @@ mainProcess() {
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
   fi
   uploadApkToDeviceSftp
+}
+
+setInitialGlobalEnv() {
+  SKIP_BUILD_MOBILE=false
+  USE_CURRENT_DIR=true
 }
 
 uploadApkToDeviceSftp() {

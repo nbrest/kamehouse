@@ -13,12 +13,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_PROD}
-SERVICE="kamehouse-docker"
-SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
-DEFAULT_DOCKER_PROFILE="prod"
-DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
-
 mainProcess() {
   checkKeepAliveScriptsEnabled
   netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1
@@ -29,6 +23,14 @@ mainProcess() {
   else
     log.info "${SERVICE} with profile ${DOCKER_PROFILE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
+}
+
+setInitialGlobalEnv() {
+  DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_PROD}
+  SERVICE="kamehouse-docker"
+  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
+  DEFAULT_DOCKER_PROFILE="prod"
+  DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 }
 
 parseArguments() {

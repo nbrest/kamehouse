@@ -7,10 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-status-template.html
-KAMEHOUSE_APK_HTML=kamehouse-apk-status.html
-BUILD_VERSION=""
-
 mainProcess() {
   log.info "Re generating apk html file"
   cd ${KAMEHOUSE_MOBILE_APP_PATH}
@@ -29,6 +25,12 @@ mainProcess() {
   log.info "Updating apk deploy date"
   local APK_DEPLOY_DATE=$(date +%Y-%m-%d' '%H:%M:%S)
   sed -i "s#-----APK_DEPLOY_DATE-----#${APK_DEPLOY_DATE}#I" "${KAMEHOUSE_APK_HTML}"
+}
+
+setInitialGlobalEnv() {
+  KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/programs/kamehouse-shell/conf/kamehouse-apk-status-template.html
+  KAMEHOUSE_APK_HTML=kamehouse-apk-status.html
+  BUILD_VERSION=""
 }
 
 parseArguments() {

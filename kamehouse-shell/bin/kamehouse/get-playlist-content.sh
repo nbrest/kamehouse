@@ -8,7 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG=DISABLED
-PLAYLIST_FILE=""
 
 mainProcess() {
   if ${IS_LINUX_HOST}; then
@@ -19,6 +18,10 @@ mainProcess() {
     PLAYLIST_CONTENT="`sed 's#\\\#/#Ig' <<<"${PLAYLIST_CONTENT}"`"
     echo -e "${PLAYLIST_CONTENT}"
   fi
+}
+
+setInitialGlobalEnv() {
+  PLAYLIST_FILE=""
 }
 
 parseArguments() {

@@ -16,6 +16,7 @@ CMD_ARGUMENTS=$@
 INITIAL_DIR="`pwd`"
 
 # Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
+# When overriding this variable in the scripts, it needs to be done in the global level, not inside the function setInitialGlobalEnv
 LOG_PROCESS_TO_FILE=true
 
 # Create logs dir

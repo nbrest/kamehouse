@@ -7,10 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-PORT=9090
-SERVICE="tomcat"
-SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.sh"
-
 mainProcess() {
   checkKeepAliveScriptsEnabled
   netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1
@@ -21,6 +17,12 @@ mainProcess() {
   else 
     log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
+}
+
+setInitialGlobalEnv() {
+  PORT=9090
+  SERVICE="tomcat"
+  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.sh"
 }
 
 main "$@"

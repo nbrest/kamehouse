@@ -6,17 +6,19 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-PATCH_FILE="kamehouse.patch"
-APPLY_PATCH_ARGS=""
-GIT_PROJECT_DIR="~/git/kamehouse"
-STATIC_ONLY=false
-
 mainProcess() {
   checkValidRootKameHouseProject
   createPatchFile
   sendPatchFile
   applyPatchFile
   removeLocalPatchFile
+}
+
+setInitialGlobalEnv() {
+  PATCH_FILE="kamehouse.patch"
+  APPLY_PATCH_ARGS=""
+  GIT_PROJECT_DIR="~/git/kamehouse"
+  STATIC_ONLY=false
 }
 
 createPatchFile() {

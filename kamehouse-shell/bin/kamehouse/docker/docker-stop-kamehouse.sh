@@ -13,8 +13,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-CONTAINER=""
-
 mainProcess() {
   if [ -z "${CONTAINER}" ]; then 
     log.info "Container not passed as argument, attempting to find a running kamehouse container of profile ${COL_PURPLE}${DOCKER_PROFILE}"
@@ -30,6 +28,10 @@ mainProcess() {
   fi
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh
+}
+
+setInitialGlobalEnv() {
+  CONTAINER=""
 }
 
 parseArguments() {

@@ -83,6 +83,7 @@ FAST_BUILD=false
 KAMEHOUSE_ANDROID_APK="/kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk"
 KAMEHOUSE_ANDROID_APK_PATH=""
 
+# When setting LOAD_KAMEHOUSE_SECRETS in the scripts, it needs to be done on the global level, not inside setInitialGlobalEnv
 LOAD_KAMEHOUSE_SECRETS=false
 KAMEHOUSE_SECRETS_LOADED=false
 
@@ -562,16 +563,16 @@ setupLinuxEnvironment() {
   log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"  
 }
 
-preParseCmdArguments() {
+loadConfigFiles() {
   loadKamehouseCfg
   if ${LOAD_KAMEHOUSE_SECRETS}; then
     loadKamehouseSecrets
   fi
   loadDockerContainerEnv
-  customKamehousePrepParseCmdArguments
+  customKamehouseLoadConfigFiles
 }
 
 # Override in other scripts to add custom pre parse cmd args logic
-customKamehousePrepParseCmdArguments() {
+customKamehouseLoadConfigFiles() {
   return
 }

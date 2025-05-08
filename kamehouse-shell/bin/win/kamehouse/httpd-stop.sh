@@ -7,8 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-VLC_HTTP_PORT="8080"
-
 mainProcess() {
   log.info "Searching for apache httpd process"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | grep -v ${VLC_HTTP_PORT} | tail -n 1
@@ -19,6 +17,10 @@ mainProcess() {
     log.info "Killing process ${COL_PURPLE}${HTTPD_PID}"
     cmd.exe "/c taskkill.exe /PID ${HTTPD_PID} /F"
   fi
+}
+
+setInitialGlobalEnv() {
+  VLC_HTTP_PORT="8080"
 }
 
 parseArguments() {

@@ -13,9 +13,6 @@ if [ "$?" != "0" ]; then
 	exit 99
 fi
 
-GIT_PROJECT_DIR=${HOME}/git/kamehouse
-GIT_REMOTE=origin
-
 mainProcess() {
   log.info "Git pull ${COL_PURPLE}${GIT_BRANCH} ${GIT_PROJECT_DIR}"
 
@@ -29,6 +26,11 @@ mainProcess() {
   
   git pull ${GIT_REMOTE} ${GIT_BRANCH}
   checkCommandStatus "$?"
+}
+
+setInitialGlobalEnv() {
+  GIT_PROJECT_DIR=${HOME}/git/kamehouse
+  GIT_REMOTE=origin
 }
 
 main "$@"

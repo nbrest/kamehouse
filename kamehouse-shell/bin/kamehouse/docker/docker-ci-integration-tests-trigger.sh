@@ -13,16 +13,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
-SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"
-RETRIES=5
-NUM_MAIN_PROCESS_RETRIES=""
-NUM_TOMCAT_STARTUP_RETRIES=""
-NUM_LOGIN_RETRIES=""
-NUM_INTEGRATION_TESTS_RETRIES=""
-CONTAINER_STARTUP_SUCCESSFUL=false
-INTEGRATION_TESTS_SUCCESSFUL=false
-MAIN_PROCESS_SUCCESSFUL=false
 
 mainProcess() {
   log.info "Running kamehouse integration tests on a ci docker container"
@@ -34,6 +24,19 @@ mainProcess() {
     log.error "Finished with errors. Integration tests didn't complete successfully"
     exitProcess ${EXIT_ERROR}
   fi
+}
+
+setInitialGlobalEnv() {
+  INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
+  SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"
+  RETRIES=5
+  NUM_MAIN_PROCESS_RETRIES=""
+  NUM_TOMCAT_STARTUP_RETRIES=""
+  NUM_LOGIN_RETRIES=""
+  NUM_INTEGRATION_TESTS_RETRIES=""
+  CONTAINER_STARTUP_SUCCESSFUL=false
+  INTEGRATION_TESTS_SUCCESSFUL=false
+  MAIN_PROCESS_SUCCESSFUL=false
 }
 
 mainProcessLoop() {

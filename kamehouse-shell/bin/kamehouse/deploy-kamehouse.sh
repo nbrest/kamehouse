@@ -26,15 +26,18 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-EXIT_CODE=${EXIT_SUCCESS}
-DEPLOYMENT_DIR=""
-FAST_BUILD=true
-DEPLOY_TO_TOMCAT=false
-STATIC_ONLY=false
-LOG_LEVEL=INFO
 
 mainProcess() {
   deployKameHouseProject
+}
+
+setInitialGlobalEnv() {
+  EXIT_CODE=${EXIT_SUCCESS}
+  DEPLOYMENT_DIR=""
+  FAST_BUILD=true
+  DEPLOY_TO_TOMCAT=false
+  STATIC_ONLY=false
+  LOG_LEVEL=INFO
 }
 
 deployKameHouseMobileStatic() {

@@ -15,9 +15,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-DEFAULT_VLC_PORT="8080"
-VLC_PORT=""
-
 mainProcess() {
   log.debug "VLC_PORT ${VLC_PORT}"
   log.info "Searching for vlc process with an http server"
@@ -34,6 +31,11 @@ mainProcess() {
   cmd.exe "/c taskkill /im vlc.exe"
   removeVlcProcessInfo
   rotateVlcLog
+}
+
+setInitialGlobalEnv() {
+  DEFAULT_VLC_PORT="8080"
+  VLC_PORT=""
 }
 
 parseArguments() {

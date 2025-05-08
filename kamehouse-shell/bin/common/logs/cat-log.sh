@@ -7,10 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOG_FILE_TO_CAT=""
-CAT_LOG_LEVEL=""
-CAT_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/cat-log.awk
-
 mainProcess() {
   cd ${HOME}/logs
   if [ -z "${CAT_LOG_LEVEL}" ]; then
@@ -18,6 +14,12 @@ mainProcess() {
   else
     catLogFunction | ${CAT_LOG_AWK} -v logLevel=${CAT_LOG_LEVEL}
   fi
+}
+
+setInitialGlobalEnv() {
+  LOG_FILE_TO_CAT=""
+  CAT_LOG_LEVEL=""
+  CAT_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/cat-log.awk
 }
 
 catLogFunction() {

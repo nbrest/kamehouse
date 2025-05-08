@@ -12,8 +12,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-VLC_STATS_ARGS=""
-
 mainProcess() {
   checkRunningVlcProcess
   showCurrentRunPlayedFilesSortedHeadTail
@@ -22,6 +20,10 @@ mainProcess() {
   showVlcSystemProcessInfo
   showVlcStats
   showVlcLogsLastDrm
+}
+
+setInitialGlobalEnv() {
+  VLC_STATS_ARGS=""
 }
 
 showCurrentRunPlayedFilesSortedHeadTail() {

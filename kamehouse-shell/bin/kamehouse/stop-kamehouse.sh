@@ -8,10 +8,13 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-OPERATION=stop
 
 mainProcess() {
   executeOperationInTomcatManager ${OPERATION} ${TOMCAT_PORT} ${MODULE_SHORT}
+}
+
+setInitialGlobalEnv() {
+  OPERATION=stop
 }
 
 parseArguments() {

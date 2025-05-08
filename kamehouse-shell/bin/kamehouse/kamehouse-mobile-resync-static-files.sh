@@ -8,15 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-DELETE_ONLY=false
-SOURCE_FILES_KAMEHOUSE_DIR=""
-SOURCE_FILES_GROOT_DIR=""
-SOURCE_FILES_BATCAVE_DIR=""
-EXPORT_KAMEHOUSE_DIR=""
-EXPORT_GROOT_DIR=""
-EXPORT_BATCAVE_DIR=""
-EXPORT_MOCKED_APIS_DIR=""
-MOCKED_KAMEHOUSE_API_DIR=""
 
 mainProcess() {
   setGlobalVariables
@@ -24,6 +15,18 @@ mainProcess() {
   exportGroot
   exportBatcave
   exportMockedApis
+}
+
+setInitialGlobalEnv() {
+  DELETE_ONLY=false
+  SOURCE_FILES_KAMEHOUSE_DIR=""
+  SOURCE_FILES_GROOT_DIR=""
+  SOURCE_FILES_BATCAVE_DIR=""
+  EXPORT_KAMEHOUSE_DIR=""
+  EXPORT_GROOT_DIR=""
+  EXPORT_BATCAVE_DIR=""
+  EXPORT_MOCKED_APIS_DIR=""
+  MOCKED_KAMEHOUSE_API_DIR=""
 }
 
 setGlobalVariables() {

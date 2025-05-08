@@ -8,7 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-USE_CURRENT_DIR=true
 
 mainProcess() {
   setKameHouseRootProjectDir
@@ -18,6 +17,10 @@ mainProcess() {
   checkCommandStatus "$?" "Error running sonarcloud scan" 
   cleanLogsInGitRepoFolder
   cleanUpMavenRepository
+}
+
+setInitialGlobalEnv() {
+  USE_CURRENT_DIR=true
 }
 
 main "$@"

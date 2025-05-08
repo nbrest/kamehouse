@@ -8,7 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
 
 mainProcess() {
   if [ -f "${MARIADB_DUMP_FILE}" ]; then
@@ -20,6 +19,10 @@ mainProcess() {
     log.error "${MARIADB_DUMP_FILE} doesn't exist."
     exitProcess ${EXIT_ERROR}
   fi
+}
+
+setInitialGlobalEnv() {
+  MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
 }
 
 main "$@"

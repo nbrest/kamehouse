@@ -14,7 +14,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-REMOVE_SERVER_KEY=false
 
 mainProcess() {
   log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
@@ -26,6 +25,10 @@ mainProcess() {
 
   log.debug "ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost"
   ssh -p ${DOCKER_PORT_SSH} ${DOCKER_USERNAME}@localhost
+}
+
+setInitialGlobalEnv() {
+  REMOVE_SERVER_KEY=false
 }
 
 parseArguments() {

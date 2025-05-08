@@ -14,12 +14,15 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-TEST_PARAM=""
 
 mainProcess() {
   log.info "TEST_PARAM=${TEST_PARAM}"
   exampleFunctions
   printHelp
+}
+
+setInitialGlobalEnv() {
+  TEST_PARAM=""
 }
 
 parseArguments() {

@@ -7,12 +7,18 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# LOG_PROCESS_TO_FILE=false
-TEST_PARAM=""
+#LOG=DISABLED
+#LOG_PROCESS_TO_FILE=false
+#LOG_CMD_ARGS=false
+#LOAD_KAMEHOUSE_SECRETS=true
 
 mainProcess() {
   log.info "base script: TEST_PARAM=${TEST_PARAM}"
   printHelp
+}
+
+setInitialGlobalEnv() {
+  TEST_PARAM=""
 }
 
 parseArguments() {

@@ -10,17 +10,19 @@ fi
 source ${HOME}/my.scripts/.cred/.gmail
 source ${HOME}/my.scripts/.cred/.telegram
 
-VERBOSE=false
-DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
-WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
-RESALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-resale-home-data.html"
-SALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-sale-home-data.html"
-
 mainProcess() {
   setupDataDir
   runNodeApp
   processDataFiles
   cleanUpFiles
+}
+
+setInitialGlobalEnv() {
+  VERBOSE=false
+  DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
+  WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
+  RESALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-resale-home-data.html"
+  SALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-sale-home-data.html"
 }
 
 setupDataDir() {

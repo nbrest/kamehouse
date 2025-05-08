@@ -13,14 +13,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-DATA_SOURCE="none"
-REQUEST_CONFIRMATION_RX=^yes\|y$
-REINIT_SSH_KEYS_ONLY=false
-REINIT_KAMEHOUSE_FOLDER_ONLY=false
-DOCKER_HOST_USERHOME=""
-SSH_OPTIONS="-vvv"
-SCP_OPTIONS="-vvv -3 -r"
-
 mainProcess() {
   printReinitSettings
 
@@ -41,6 +33,16 @@ mainProcess() {
   reinitKameHouseFolder
   reinitMariadb
   showContainerFolderStatus
+}
+
+setInitialGlobalEnv() {
+  DATA_SOURCE="none"
+  REQUEST_CONFIRMATION_RX=^yes\|y$
+  REINIT_SSH_KEYS_ONLY=false
+  REINIT_KAMEHOUSE_FOLDER_ONLY=false
+  DOCKER_HOST_USERHOME=""
+  SSH_OPTIONS="-vvv"
+  SCP_OPTIONS="-vvv -3 -r"
 }
 
 printReinitSettings() {

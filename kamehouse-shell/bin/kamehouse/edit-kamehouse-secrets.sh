@@ -8,7 +8,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-SUFFIX=$RANDOM
 
 mainProcess() {
   validateRequiredFiles
@@ -16,6 +15,10 @@ mainProcess() {
   editFile
   encryptFile
   keysFolderStatus
+}
+
+setInitialGlobalEnv() {
+  SUFFIX=$RANDOM
 }
 
 validateRequiredFiles() {

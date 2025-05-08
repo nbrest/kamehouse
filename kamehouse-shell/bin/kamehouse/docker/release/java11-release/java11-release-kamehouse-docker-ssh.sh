@@ -13,8 +13,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-REMOVE_SERVER_KEY=false
-
 mainProcess() {
   if ${REMOVE_SERVER_KEY}; then
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/release/java11-release/java11-release-kamehouse-docker-server-key-remove.sh
@@ -23,6 +21,10 @@ mainProcess() {
   fi  
   log.info "Executing ssh into docker container kamehouse-${DOCKER_IMAGE_TAG}"
   ssh -p ${DOCKER_SSH_PORT} ${DOCKER_CONTAINER_USERNAME}@localhost
+}
+
+setInitialGlobalEnv() {
+  REMOVE_SERVER_KEY=false
 }
 
 parseArguments() {

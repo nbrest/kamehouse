@@ -13,12 +13,14 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-USE_CURRENT_DIR=true
-
 mainProcess() {
   setKameHouseRootProjectDir
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh -b
   checkCommandStatus "$?" "Error rebuilding and pushing the kamehouse docker image" 
+}
+
+setInitialGlobalEnv() {
+  USE_CURRENT_DIR=true
 }
 
 main "$@"

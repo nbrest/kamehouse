@@ -14,10 +14,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-# Run the build on this script always from the current directory
-USE_CURRENT_DIR=true
-STATIC_ONLY=false
-SKIP_STATIC=false
 
 mainProcess() {
   setKameHouseRootProjectDir
@@ -28,6 +24,13 @@ mainProcess() {
   buildKameHouseBackend
   buildKameHouseMobile
   cleanUpMavenRepository
+}
+
+setInitialGlobalEnv() {
+  # Run the build on this script always from the current directory
+  USE_CURRENT_DIR=true
+  STATIC_ONLY=false
+  SKIP_STATIC=false
 }
 
 parseArguments() {

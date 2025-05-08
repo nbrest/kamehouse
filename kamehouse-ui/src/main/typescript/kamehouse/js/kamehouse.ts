@@ -2712,52 +2712,52 @@ class KameHouseCore {
   /**
    * Get red text.
    */
-  getRedText(text) {
+  getRedText(text: String) {
     return this.#getSpanRed() + text + this.#getSpanEnd();
   }
 
   /**
    * Get yellow text.
    */
-  getYellowText(text) {
+  getYellowText(text: String) {
     return this.#getSpanYellow() + text + this.#getSpanEnd();
   }
 
   /**
    * Get blue text.
    */
-  getBlueText(text) {
+  getBlueText(text: String) {
     return this.#getSpanBlue() + text + this.#getSpanEnd();
   }
 
   /**
    * Get green text.
    */
-  getGreenText(text) {
+  getGreenText(text: String) {
     return this.#getSpanGreen() + text + this.#getSpanEnd();
   }
 
   /**
    * Get cyan text.
    */
-  getCyanText(text) {
+  getCyanText(text: String) {
     return this.#getSpanCyan() + text + this.#getSpanEnd();
   }
 
   /** Log an error message */
-  error(message, coloredMessage) { this.#log("ERROR", message, coloredMessage); }
+  error(message: String, coloredMessage: String) { this.#log("ERROR", message, coloredMessage); }
 
   /** Log a warn message */
-  warn(message, coloredMessage) { this.#log("WARN", message, coloredMessage); }
+  warn(message: String, coloredMessage: String) { this.#log("WARN", message, coloredMessage); }
 
   /** Log an info message */
   info(message: String, coloredMessage: String) { this.#log("INFO", message, coloredMessage); }
 
   /** Log a debug message */
-  debug(message, coloredMessage) { this.#log("DEBUG", message, coloredMessage); }
+  debug(message: String, coloredMessage: String) { this.#log("DEBUG", message, coloredMessage); }
 
   /** Log a trace message */
-  trace(message, coloredMessage) { this.#log("TRACE", message, coloredMessage); }
+  trace(message: String, coloredMessage: String) { this.#log("TRACE", message, coloredMessage); }
 
   /**
    * Log an api call error to the console.
@@ -2912,7 +2912,7 @@ class KameHouseCore {
   }
 
   /** Log a specified message with the specified logging level. */
-  #log(logLevel, message, coloredMessage) {
+  #log(logLevel: String, message: String, coloredMessage: String) {
     if (kameHouse.core.isEmpty(logLevel)) {
       console.error("Invalid use of log(logLevel, message) function. LogLevel is missing.");
       return;

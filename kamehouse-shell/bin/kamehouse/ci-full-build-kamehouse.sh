@@ -7,11 +7,13 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-PROJECT_DIR=${HOME}/git/jenkins/kamehouse
-LOG_LEVEL=INFO
-
 mainProcess() {
   runFullContinuousIntegrationBuild
+}
+
+setInitialGlobalEnv() {
+  PROJECT_DIR=${HOME}/git/jenkins/kamehouse
+  LOG_LEVEL=INFO
 }
 
 runFullContinuousIntegrationBuild() {

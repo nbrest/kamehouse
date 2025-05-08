@@ -7,6 +7,8 @@
 
 #### v10.04
 
+- Refactored kamehouse shell scripts to set initial global config in a function
+- Added disabled entry in ui debug mode log level dropdown
 - Fixed bugs
 
 #### v10.03

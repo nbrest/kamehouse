@@ -6,15 +6,17 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-PATCH_FILE="kamehouse.patch"
-DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c "
-GIT_PROJECT_DIR="${HOME}/git/kamehouse"
-STATIC_ONLY=false
-
 mainProcess() {
   applyPatchFile
   runDeployment
   resetGitDir
+}
+
+setInitialGlobalEnv() {
+  PATCH_FILE="kamehouse.patch"
+  DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c "
+  GIT_PROJECT_DIR="${HOME}/git/kamehouse"
+  STATIC_ONLY=false
 }
 
 applyPatchFile() {

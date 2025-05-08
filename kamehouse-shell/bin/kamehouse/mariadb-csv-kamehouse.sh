@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Troubleshoot issues:
+# - Start mariadb server with secure-file-priv="" (my.ini or my.conf)
+# - Make sure ${PATH_CSV} is writable by everyone in windows
+
 # Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
@@ -9,21 +13,19 @@ fi
 
 LOAD_KAMEHOUSE_SECRETS=true
 
-# Troubleshoot issues:
-# - Start mariadb server with secure-file-priv="" (my.ini or my.conf)
-# - Make sure ${PATH_CSV} is writable by everyone in windows
-
-PATH_CSV=${HOME}/.kamehouse/config/mariadb/csv
-PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
-NUMBER_OF_BACKUPS=3
-OUT_FILE_BASE=""
-TMP_EXPORT_DIR=/tmp/kamehouse-csv-${USER}
-
 mainProcess() {
   setupInitialDirectories
   executeExport
   cyclePreviousExports
   listGeneratedFiles
+}
+
+setInitialGlobalEnv() {
+  PATH_CSV=${HOME}/.kamehouse/config/mariadb/csv
+  PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
+  NUMBER_OF_BACKUPS=3
+  OUT_FILE_BASE=""
+  TMP_EXPORT_DIR=/tmp/kamehouse-csv-${USER}
 }
 
 setupInitialDirectories() {

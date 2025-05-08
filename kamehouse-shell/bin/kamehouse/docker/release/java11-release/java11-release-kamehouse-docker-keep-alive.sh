@@ -19,11 +19,7 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-# Global variables
 LOG_PROCESS_TO_FILE=false
-SERVICE="kamehouse-docker-${DOCKER_IMAGE_TAG}"
-SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/release/java11-release/java11-release-kamehouse-docker-run.sh"
-SERVICE_ARGS=""
 
 mainProcess() {
   checkKeepAliveScriptsEnabled
@@ -35,6 +31,12 @@ mainProcess() {
   else
     log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
+}
+
+setInitialGlobalEnv() {
+  SERVICE="kamehouse-docker-${DOCKER_IMAGE_TAG}"
+  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/release/java11-release/java11-release-kamehouse-docker-run.sh"
+  SERVICE_ARGS=""
 }
 
 main "$@"

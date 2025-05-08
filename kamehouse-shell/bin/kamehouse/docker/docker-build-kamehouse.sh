@@ -13,13 +13,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-RUN_BUILD_STEP_FOR_RELEASE_TAG=false
-BUILD_DATE_KAMEHOUSE="0000-00-00"
-DOCKER_COMMAND="docker buildx build"
-PLATFORM="linux/amd64,linux/arm/v7"
-ACTION="--push"
-USE_CURRENT_DIR=true
-
 mainProcess() {
   setKameHouseRootProjectDir
   if ${RUN_BUILD_STEP_FOR_RELEASE_TAG}; then
@@ -31,6 +24,15 @@ mainProcess() {
       buildLatestImage
     fi
   fi
+}
+
+setInitialGlobalEnv() {
+  RUN_BUILD_STEP_FOR_RELEASE_TAG=false
+  BUILD_DATE_KAMEHOUSE="0000-00-00"
+  DOCKER_COMMAND="docker buildx build"
+  PLATFORM="linux/amd64,linux/arm/v7"
+  ACTION="--push"
+  USE_CURRENT_DIR=true
 }
 
 buildLatestImage() {

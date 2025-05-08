@@ -8,11 +8,14 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-SQL_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/status-kamehouse.sql
 
 mainProcess() {
   log.info "KameHouse database status"
   mariadb --force --table -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} kamehouse < ${SQL_FILE}
+}
+
+setInitialGlobalEnv() {
+  SQL_FILE=${HOME}/programs/kamehouse-shell/sql/mariadb/status-kamehouse.sql
 }
 
 main "$@"

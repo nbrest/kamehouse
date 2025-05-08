@@ -3,6 +3,9 @@
 # Modify level by running scripts with LOG or log prefix. 
 # Example ` LOG=DEBUG scrit-name.sh ` or ` log=trace scrit-name.sh ` when executing script
 
+# When setting LOG variable in the scripts, it needs to be done in the global level, not inside the function setInitialGlobalEnv
+#LOG=DISABLED
+
 # 0: DISABLED
 # 1: ERROR
 # 2: WARN
@@ -16,6 +19,7 @@ LOG_LEVEL_NUMBER=3
 COL_DEFAULT_LOG=${COL_GREEN}
 
 # Set to false to skip logging cmd args at start and end of script execution
+# When setting LOG_CMD_ARGS variable in the scripts, it needs to be done in the global level, not inside the function setInitialGlobalEnv
 LOG_CMD_ARGS=true
 
 # Log an event to the console passing log level and the message as arguments.

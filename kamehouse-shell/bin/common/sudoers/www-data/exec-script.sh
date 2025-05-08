@@ -14,13 +14,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_CMD_ARGS=false
-SCRIPT=""
-SCRIPT_ARGS=""
-BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"
-REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin/"
-EXECUTE_ON_DOCKER_HOST=false
-IS_DAEMON=false
-IS_EXECUTABLE_ON_DOCKER_HOST=false
 
 mainProcess() {
   validateCommandLineArguments "$@"
@@ -33,6 +26,16 @@ mainProcess() {
   else
     executeLocal
   fi
+}
+
+setInitialGlobalEnv() {
+  SCRIPT=""
+  SCRIPT_ARGS=""
+  BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"
+  REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin/"
+  EXECUTE_ON_DOCKER_HOST=false
+  IS_DAEMON=false
+  IS_EXECUTABLE_ON_DOCKER_HOST=false
 }
 
 validateCommandLineArguments() {

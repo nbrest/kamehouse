@@ -10,8 +10,8 @@ ctrlC() {
   exitProcess ${EXIT_PROCESS_CANCELLED}
 }
 
-# Override to execute logic before parsing command line arguments
-preParseCmdArguments() {
+# Override to load the configuration files for each script
+loadConfigFiles() {
   return
 }
 
@@ -94,6 +94,11 @@ setEnvFromArguments() {
   return
 }
 
+# Set the global environment variables after loading all configuration and before parsing arguments that may override them
+setInitialGlobalEnv() {
+  return
+}
+
 # Default main process that needs to be overriden with custom script logic.
 mainProcess() {
   log.info "Override mainProcess() with the script logic."
@@ -102,7 +107,8 @@ mainProcess() {
 # Default main function wrapper. This should never be overriden
 mainWrapper() {
   logStart
-  preParseCmdArguments
+  loadConfigFiles
+  setInitialGlobalEnv
   parseCmdArguments "$@"
   setEnvFromArguments
   mainProcess "$@"

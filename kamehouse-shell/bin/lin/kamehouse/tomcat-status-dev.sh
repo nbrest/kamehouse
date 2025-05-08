@@ -7,8 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
-
 mainProcess() {
   log.info "Searching for tomcat process"
   netstat -nltp | grep ":${TOMCAT_PORT} " | grep java
@@ -18,6 +16,10 @@ mainProcess() {
   else
     log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${TOMCAT_PORT}"
   fi
+}
+
+setInitialGlobalEnv() {
+  TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 }
 
 parseArguments() {

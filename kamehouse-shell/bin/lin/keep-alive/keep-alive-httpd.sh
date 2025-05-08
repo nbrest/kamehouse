@@ -7,10 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-PORT=443
-SERVICE="httpd"
-SERVICE_STARTUP="sudo service apache2 start"
-
 mainProcess() {
   checkKeepAliveScriptsEnabled
   log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
@@ -21,6 +17,12 @@ mainProcess() {
   else
     log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${PID}"
   fi
+}
+
+setInitialGlobalEnv() {
+  PORT=443
+  SERVICE="httpd"
+  SERVICE_STARTUP="sudo service apache2 start"
 }
 
 main "$@"

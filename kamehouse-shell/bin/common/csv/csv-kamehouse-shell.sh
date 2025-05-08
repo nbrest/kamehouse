@@ -10,7 +10,6 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG=DISABLED
-BASE_DIR=${HOME}/programs/kamehouse-shell/bin
 
 mainProcess() {  
   # List all files
@@ -52,6 +51,10 @@ mainProcess() {
   echo ","
   echo ${SCRIPTS_PATH}
   echo ","
+}
+
+setInitialGlobalEnv() {
+  BASE_DIR=${HOME}/programs/kamehouse-shell/bin
 }
 
 main "$@"

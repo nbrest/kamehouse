@@ -12,16 +12,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-NUM_STAT_ITERATIONS_TO_KEEP=10000
-NUMBER_OF_STAT_ITERATIONS=0
-SHOW_CURRENT_STATS_ONLY=false
-SHOW_HISTORY_FILE_ONLY=false
-
-let TOTAL_MINS_PLAYED=0
-let NUM_FILES_PLAYED=0
-let HH_PLAYED=0
-let MM_PLAYED=0
-
 mainProcess() {
   checkRunningVlcProcess
   initStatsHistoryFile
@@ -36,6 +26,18 @@ mainProcess() {
   fi  
   updateStatsHistoryFile
   showStatsHistoryFile
+}
+
+setInitialGlobalEnv() {
+  NUM_STAT_ITERATIONS_TO_KEEP=10000
+  NUMBER_OF_STAT_ITERATIONS=0
+  SHOW_CURRENT_STATS_ONLY=false
+  SHOW_HISTORY_FILE_ONLY=false
+
+  let TOTAL_MINS_PLAYED=0
+  let NUM_FILES_PLAYED=0
+  let HH_PLAYED=0
+  let MM_PLAYED=0
 }
 
 initStatsHistoryFile() {

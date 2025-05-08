@@ -13,22 +13,24 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-LOAD_KAMEHOUSE_SECRETS=true
-BUILD_ON_STARTUP=false
-BUILD_ON_STARTUP_PARAM=""
-DEBUG_MODE=false
-DEBUG_MODE_PARAM=""
-DOCKER_COMMAND="docker run --rm"
-DOCKER_CONTROL_HOST=false
-DOCKER_CONTROL_HOST_PARAM=""
-DOCKER_IMAGE_HOSTNAME=""
-USE_VOLUMES=false
-USE_VOLUMES_PARAM=""
-
 mainProcess() {
   setEnvironment
   printEnv
   runDockerImage  
+}
+
+setInitialGlobalEnv() {
+  LOAD_KAMEHOUSE_SECRETS=true
+  BUILD_ON_STARTUP=false
+  BUILD_ON_STARTUP_PARAM=""
+  DEBUG_MODE=false
+  DEBUG_MODE_PARAM=""
+  DOCKER_COMMAND="docker run --rm"
+  DOCKER_CONTROL_HOST=false
+  DOCKER_CONTROL_HOST_PARAM=""
+  DOCKER_IMAGE_HOSTNAME=""
+  USE_VOLUMES=false
+  USE_VOLUMES_PARAM=""
 }
 
 setEnvironment() {

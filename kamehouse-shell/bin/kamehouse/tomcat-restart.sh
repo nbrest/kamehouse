@@ -7,12 +7,14 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-DEBUG_MODE=""
-
 mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-stop.sh
   killRemainingTomcatProcess
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh "${DEBUG_MODE}"
+}
+
+setInitialGlobalEnv() {
+  DEBUG_MODE=""
 }
 
 killRemainingTomcatProcess() {

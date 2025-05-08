@@ -15,10 +15,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-PROJECT_DIR=/home/${DOCKER_USERNAME}/git/kamehouse
-SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
-ERROR="ERROR EXECUTING INTEGRATION TESTS"
-
 mainProcess() {
   setKameHouseRootProjectDir
   log.trace "DOCKER_USERNAME=${DOCKER_USERNAME}"
@@ -38,6 +34,12 @@ mainProcess() {
   else
     echo "${ERROR}"
   fi
+}
+
+setInitialGlobalEnv() {
+  PROJECT_DIR=/home/${DOCKER_USERNAME}/git/kamehouse
+  SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
+  ERROR="ERROR EXECUTING INTEGRATION TESTS"
 }
 
 main "$@"

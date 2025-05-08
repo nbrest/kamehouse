@@ -9,8 +9,6 @@ fi
 
 trap cleanupAfterRun INT
 
-USE_CURRENT_DIR=true
-
 mainProcess() {
   setKameHouseRootProjectDir
   buildKameHouseMobileStatic
@@ -18,6 +16,10 @@ mainProcess() {
   cdToKameHouseModule "kamehouse-mobile"
   cordova run browser
   cdToRootDirFromModule "kamehouse-mobile"
+}
+
+setInitialGlobalEnv() {
+  USE_CURRENT_DIR=true
 }
 
 cleanupAfterRun() {

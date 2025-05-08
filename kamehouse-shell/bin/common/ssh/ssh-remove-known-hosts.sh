@@ -13,10 +13,12 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-KNOWN_KEY_TO_REMOVE=""
-
 mainProcess() {
   removeServerKey
+}
+
+setInitialGlobalEnv() {
+  KNOWN_KEY_TO_REMOVE=""
 }
 
 removeServerKey() {

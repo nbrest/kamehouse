@@ -7,13 +7,6 @@ if [ "$?" != "0" ]; then
   exit 99
 fi
 
-declare -a VALID_WORKING_DIRS=("${HOME}/workspace/${PROJECT}")
-CURRENT_BRANCH=""
-RELEASE_VERSION=""
-RELEASE_VERSION_RX=^[0-9]+\.[0-9]{2}$
-RELEASE_BRANCH="dev"
-REQUEST_CONFIRMATION_RX=^yes\|y$
-
 mainProcess() {
   validateCurrentWorkingDirectory
   stashChangesInReleaseBranch
@@ -34,6 +27,16 @@ mainProcess() {
   gitCheckoutReleaseBranch
   pushReleaseBranch
   reapplyStashedChangesInReleaseBranch
+}
+
+setInitialGlobalEnv() {
+  
+  declare -a VALID_WORKING_DIRS=("${HOME}/workspace/${PROJECT}")
+  CURRENT_BRANCH=""
+  RELEASE_VERSION=""
+  RELEASE_VERSION_RX=^[0-9]+\.[0-9]{2}$
+  RELEASE_BRANCH="dev"
+  REQUEST_CONFIRMATION_RX=^yes\|y$
 }
 
 validateCurrentWorkingDirectory() {

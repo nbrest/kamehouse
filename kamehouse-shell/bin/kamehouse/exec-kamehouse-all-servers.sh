@@ -13,13 +13,16 @@ if [ "$?" != "0" ]; then
 fi
 
 LOAD_KAMEHOUSE_SECRETS=true
-SCRIPT=""
-SCRIPT_ARGS=""
-SCRIPT_LOG_MESSAGE=""
 
 mainProcess() {
   setScriptLogMessage
   execInAllServers
+}
+
+setInitialGlobalEnv() {
+  SCRIPT=""
+  SCRIPT_ARGS=""
+  SCRIPT_LOG_MESSAGE=""
 }
 
 setScriptLogMessage() {

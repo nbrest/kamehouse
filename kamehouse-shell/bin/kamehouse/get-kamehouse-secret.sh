@@ -10,10 +10,13 @@ fi
 LOG=DISABLED
 LOG_PROCESS_TO_FILE=false
 LOAD_KAMEHOUSE_SECRETS=true
-KAMEHOUSE_SECRET_NAME=""
 
 mainProcess() {
   echo ${!KAMEHOUSE_SECRET_NAME}
+}
+
+setInitialGlobalEnv() {
+  KAMEHOUSE_SECRET_NAME=""
 }
 
 parseArguments() {

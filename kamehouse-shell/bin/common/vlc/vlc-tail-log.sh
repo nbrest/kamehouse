@@ -13,11 +13,14 @@ if [ "$?" != "0" ]; then
 fi
 
 LOG_PROCESS_TO_FILE=false
-FOLLOW="-F"
 
 mainProcess() {
   checkExistingVlcLogFile
   tail -n 100000 ${FOLLOW} ${VLC_LOG_FILE}
+}
+
+setInitialGlobalEnv() {
+  FOLLOW="-F"
 }
 
 parseArguments() {
