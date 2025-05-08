@@ -13,6 +13,8 @@ if [ "$?" != "0" ]; then
 	exit 99
 fi
 
-REPOSITORY_NAME="kamehouse"
+initScriptEnv() {
+  REPOSITORY_NAME="kamehouse"
+}
 
 main "$@"
