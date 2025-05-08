@@ -30,8 +30,7 @@ mainProcess() {
 }
 
 initScriptEnv() {
-  
-  declare -a VALID_WORKING_DIRS=("${HOME}/workspace/${PROJECT}")
+  VALID_WORKING_DIRS=("${HOME}/workspace/${PROJECT}")
   CURRENT_BRANCH=""
   RELEASE_VERSION=""
   RELEASE_VERSION_RX=^[0-9]+\.[0-9]{2}$

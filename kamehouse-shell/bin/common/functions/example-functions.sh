@@ -97,7 +97,7 @@ exampleLog() {
 exampleArrays() {
   log.info "${COL_RED}exampleArrays"
   log.info "String arrays example"
-  declare -a stringArray=("goku.log" "gohan.log" "goten.log" "vegeta.log")
+  stringArray=("goku.log" "gohan.log" "goten.log" "vegeta.log")
   for CURRENT_STRING in ${stringArray[@]}; do
     log.info "CURRENT_STRING: ${CURRENT_STRING}"
   done
