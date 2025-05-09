@@ -3,7 +3,7 @@
 # Modify level by running scripts with LOG or log prefix. 
 # Example ` LOG=DEBUG scrit-name.sh ` or ` log=trace scrit-name.sh ` when executing script
 
-# Override LOG variable in the function setKameHouseShellEnvParams in the shell scripts
+# Override LOG variable in the function initKameHouseShellEnv in the shell scripts
 #LOG=DISABLED
 
 # 0: DISABLED
@@ -19,7 +19,7 @@ LOG_LEVEL_NUMBER=3
 COL_DEFAULT_LOG=${COL_GREEN}
 
 # Set to false to skip logging cmd args at start and end of script execution
-# Override LOG_CMD_ARGS variable in the function setKameHouseShellEnvParams in the shell scripts
+# Override LOG_CMD_ARGS variable in the function initKameHouseShellEnv in the shell scripts
 LOG_CMD_ARGS=true
 
 # Log an event to the console passing log level and the message as arguments.

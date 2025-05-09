@@ -10,11 +10,6 @@ ctrlC() {
   exitProcess ${EXIT_PROCESS_CANCELLED}
 }
 
-# Override to load the configuration files for each script
-loadConfigFiles() {
-  return
-}
-
 # Parse command line arguments
 parseCmdArguments() {
   parseHelpArgument "$@"
@@ -54,6 +49,20 @@ parseArguments() {
   done    
 }
 
+# Display the invalid argument error and exit printing help message
+parseInvalidArgument() {
+  local OPTION=$1
+  log.error "Invalid option: ${OPTION}"
+  printHelp
+  exitProcess ${EXIT_INVALID_ARG}
+}
+
+# Print the help and exit
+parseHelp() {
+  printHelp
+  exitSuccessfully
+}
+
 # Default print help message
 printHelp() {
   echo -e ""
@@ -75,27 +84,13 @@ printHelpFooter() {
   return
 }
 
-# Display the invalid argument error and exit printing help message
-parseInvalidArgument() {
-  local OPTION=$1
-  log.error "Invalid option: ${OPTION}"
-  printHelp
-  exitProcess ${EXIT_INVALID_ARG}
-}
-
-# Print the help and exit
-parseHelp() {
-  printHelp
-  exitSuccessfully
-}
-
 # Set and validate the environment variables after parsing the command line arguments
 setEnvFromArguments() {
   return
 }
 
-# Set the global environment variables for the script after loading all configuration and before parsing arguments that may override them
-initScriptEnv() {
+# Override to load the configuration files for each script before parsing arguments
+loadConfigFiles() {
   return
 }
 
@@ -104,9 +99,22 @@ initKameHouseShellEnv() {
   return
 }
 
+# Set the global environment variables for the script after loading the configuration files
+# and before parsing arguments that may override the global variables set here
+initScriptEnv() {
+  return
+}
+
 # Default main process that needs to be overriden with custom script logic.
 mainProcess() {
   log.info "Override mainProcess() with the script logic."
+}
+
+# Configure the kamehouse shell environment
+configureKameHouseShell() {
+  setLogLevelFromEnv
+  setRootPrefix
+  setIsLinuxHost
 }
 
 # Default main function wrapper. This should never be overriden
@@ -118,13 +126,6 @@ mainWrapper() {
   setEnvFromArguments
   mainProcess "$@"
   exitSuccessfully
-}
-
-# Configure the kamehouse shell environment
-configureKameHouseShell() {
-  setLogLevelFromEnv
-  setRootPrefix
-  setIsLinuxHost
 }
 
 # main function to call from each script

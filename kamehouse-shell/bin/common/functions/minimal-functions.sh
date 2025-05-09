@@ -16,7 +16,7 @@ CMD_ARGUMENTS=$@
 INITIAL_DIR="`pwd`"
 
 # Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
-# Override LOG_PROCESS_TO_FILE variable in the function setKameHouseShellEnvParams in the shell scripts
+# Override LOG_PROCESS_TO_FILE variable in the function initKameHouseShellEnv in the shell scripts
 LOG_PROCESS_TO_FILE=true
 
 # Create logs dir
