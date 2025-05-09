@@ -5,6 +5,12 @@
 
 # ChangeLog:
 
+#### v10.05
+
+- Moved init script env functions to top of scripts
+- Cleaned up shell import functions error messages
+- Fixed bugs
+
 #### v10.04
 
 - Refactored kamehouse shell scripts to set initial global config in functions

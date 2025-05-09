@@ -1,17 +1,19 @@
 #!/bin/bash
 
-# Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing common-functions.sh" ; exit 99
 fi
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker/release/java8-release-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing java8-release-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing java8-release-functions.sh" ; exit 99
 fi
+
+initScriptEnv() {
+  REMOVE_SERVER_KEY=false
+  FIRST_RELEASE_FLAG=""
+}
 
 mainProcess() {
   if ${REMOVE_SERVER_KEY}; then
@@ -21,11 +23,6 @@ mainProcess() {
   fi  
   log.info "Executing ssh into docker container kamehouse-${DOCKER_IMAGE_TAG}"
   ssh -p ${DOCKER_SSH_PORT} ${DOCKER_CONTAINER_USERNAME}@localhost
-}
-
-initScriptEnv() {
-  REMOVE_SERVER_KEY=false
-  FIRST_RELEASE_FLAG=""
 }
 
 setEnvForFirstRelease() {

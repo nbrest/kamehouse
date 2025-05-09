@@ -1,11 +1,15 @@
 #!/bin/bash
 
-# Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing common-functions.sh" ; exit 99
 fi
+
+initScriptEnv() {
+  SRC_PROJECT_DIR="${HOME}/git/kamehouse"
+  PROJECT_DIR="${HOME}/git/kamehouse-shell-min"
+  GIT_COMMIT_HASH=""
+}
 
 mainProcess() {
   log.info "Updating kamehouse-shell-min git repo"
@@ -14,12 +18,6 @@ mainProcess() {
   updateCommonFunctionsImport
   updateCommitVersionInReadme
   pushChangesToGit
-}
-
-initScriptEnv() {
-  SRC_PROJECT_DIR="${HOME}/git/kamehouse"
-  PROJECT_DIR="${HOME}/git/kamehouse-shell-min"
-  GIT_COMMIT_HASH=""
 }
 
 pullChangesFromGit() {

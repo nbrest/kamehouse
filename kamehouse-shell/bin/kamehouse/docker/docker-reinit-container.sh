@@ -1,17 +1,24 @@
 #!/bin/bash
 
-# Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing kamehouse-functions.sh" ; exit 99
 fi
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing docker-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing docker-functions.sh" ; exit 99
 fi
+
+initScriptEnv() {
+  DATA_SOURCE="none"
+  REQUEST_CONFIRMATION_RX=^yes\|y$
+  REINIT_SSH_KEYS_ONLY=false
+  REINIT_KAMEHOUSE_FOLDER_ONLY=false
+  DOCKER_HOST_USERHOME=""
+  SSH_OPTIONS="-vvv"
+  SCP_OPTIONS="-vvv -3 -r"
+}
 
 mainProcess() {
   printReinitSettings
@@ -33,16 +40,6 @@ mainProcess() {
   reinitKameHouseFolder
   reinitMariadb
   showContainerFolderStatus
-}
-
-initScriptEnv() {
-  DATA_SOURCE="none"
-  REQUEST_CONFIRMATION_RX=^yes\|y$
-  REINIT_SSH_KEYS_ONLY=false
-  REINIT_KAMEHOUSE_FOLDER_ONLY=false
-  DOCKER_HOST_USERHOME=""
-  SSH_OPTIONS="-vvv"
-  SCP_OPTIONS="-vvv -3 -r"
 }
 
 printReinitSettings() {

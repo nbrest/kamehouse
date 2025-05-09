@@ -1,21 +1,12 @@
 #!/bin/bash
 
-# Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing common-functions.sh" ; exit 99
 fi
 
 source ${HOME}/my.scripts/.cred/.gmail
 source ${HOME}/my.scripts/.cred/.telegram
-
-mainProcess() {
-  setupDataDir
-  runNodeApp
-  processDataFiles
-  cleanUpFiles
-}
 
 initScriptEnv() {
   VERBOSE=false
@@ -23,6 +14,13 @@ initScriptEnv() {
   WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
   RESALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-resale-home-data.html"
   SALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-sale-home-data.html"
+}
+
+mainProcess() {
+  setupDataDir
+  runNodeApp
+  processDataFiles
+  cleanUpFiles
 }
 
 setupDataDir() {

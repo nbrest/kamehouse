@@ -1,14 +1,16 @@
 #!/bin/bash
 
-# Import kamehouse functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing kamehouse-functions.sh" ; exit 99
 fi
 
 initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
+}
+
+initScriptEnv() {
+  MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
 }
 
 mainProcess() {
@@ -21,10 +23,6 @@ mainProcess() {
     log.error "${MARIADB_DUMP_FILE} doesn't exist."
     exitProcess ${EXIT_ERROR}
   fi
-}
-
-initScriptEnv() {
-  MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
 }
 
 main "$@"

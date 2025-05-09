@@ -2,27 +2,25 @@
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing kamehouse-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing kamehouse-functions.sh" ; exit 99
 fi
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/vlc/vlc-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing vlc-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing vlc-functions.sh" ; exit 99
 fi
 
 initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
+initScriptEnv() {
+  FOLLOW="-F"
+}
+
 mainProcess() {
   checkExistingVlcLogFile
   tail -n 100000 ${FOLLOW} ${VLC_LOG_FILE}
-}
-
-initScriptEnv() {
-  FOLLOW="-F"
 }
 
 parseArguments() {

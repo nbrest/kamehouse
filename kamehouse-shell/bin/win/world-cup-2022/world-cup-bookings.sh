@@ -1,24 +1,12 @@
 #!/bin/bash
 
-# Import common functions
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then
-  echo -e "\033[1;36m$(date +%Y-%m-%d' '%H:%M:%S)\033[0;39m - [\033[1;31mERROR\033[0;39m] - \033[1;31mAn error occurred importing common-functions.sh\033[0;39m"
-  exit 99
+  echo "`date +%Y-%m-%d' '%H:%M:%S` - [ERROR] - Error importing common-functions.sh" ; exit 99
 fi
 
 source ${HOME}/my.scripts/.cred/.gmail
 source ${HOME}/my.scripts/.cred/.telegram
-
-mainProcess() {
-  log.info "World Cup Bookings background script"
-  setupDirs
-
-  while [ "to-infinity" != "and-beyond" ]; do
-    officialTicketsLoop
-    sleepLoop
-  done
-}
 
 initScriptEnv() {
   SCREEN_CAPTURE_EXE="C:\Users\nbrest\my.scripts\win\bat\screen-capture.exe"
@@ -47,6 +35,16 @@ initScriptEnv() {
   OFFICIAL_TICKETS_STATUS=""
   OFFICIAL_TICKETS_DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
   DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
+}
+
+mainProcess() {
+  log.info "World Cup Bookings background script"
+  setupDirs
+
+  while [ "to-infinity" != "and-beyond" ]; do
+    officialTicketsLoop
+    sleepLoop
+  done
 }
 
 officialTicketsLoop() {
