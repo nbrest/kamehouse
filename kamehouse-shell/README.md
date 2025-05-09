@@ -38,11 +38,15 @@ sudo usermod -a -G adm username
 
 - A template can be found in [.kamehouse-secrets.cfg](/docker/keys/.kamehouse-secrets.cfg). Copy the template to `${HOME}/.kamehouse/config/keys/`. When kamehouse is installed using the installation script mentioned [here](/docs/installation/installation.md), the template and sample keys will be copied automatically to the required folder and then the values can be edited with kamehouse-shell scripts.
 
+- Use `encrypt-kamehouse-secrets.sh` to encrypt `.kamehouse/config/keys/.kamehouse-secrets.cfg` secrets file
+
+- Use `decrypt-kamehouse-secrets.sh` to decrypt `.kamehouse/config/keys/.kamehouse-secrets.cfg.enc` secrets file
+
 --------------------------------------------------
 
 ## Edit .kamehouse-secrets.cfg
 
-- Use `edit-kamehouse-secrets.sh` to edit the secrets
+- Use `edit-kamehouse-secrets.sh` to edit the secrets. This script does automatic decryption before editing and encryption after editing, so there's no need to run the decrypt and encrypt scripts
 
 ### Set the values for the kamehouse secrets:
 
