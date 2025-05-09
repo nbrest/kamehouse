@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.07
+
+- Fixed bugs
+
 #### v10.06
 
 - Added manual decrypt/encrypt kamehouse secrets scripts for initialization of secrets file
