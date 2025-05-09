@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.06
+
+- Fixed bugs
+
 #### v10.05
 
 - Moved init script env functions to top of scripts

@@ -46,7 +46,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-t testParam" "test param" "r"
+  addHelpOption "-t [val]" "Test param" "r"
 }
 
 main "$@"
