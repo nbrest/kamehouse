@@ -75,3 +75,9 @@ sudo apt-get install php-mysql libapache2-mod-php
 ```sh
 sudo chmod a+rx /var/log/apache2
 ```
+
+- Allow `www-data` user to access `${HOME}/logs` from kamehouse user
+```sh
+chmod a+rx ${HOME}
+chmod a+rx ${HOME}/logs
+```
