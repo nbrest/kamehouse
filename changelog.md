@@ -7,6 +7,7 @@
 
 #### v10.07
 
+- Moved shell source files import check to one liners
 - Fixed bugs
 
 #### v10.06
