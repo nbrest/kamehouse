@@ -230,17 +230,6 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 
 *********************
 
-## Add more subdomains to certbot SSL certificate:
-
-```sh
-certbot -d www.nicobrest.com,kame.nicobrest.com,docker-demo.nicobrest.com --expand
-```
-
-- After the update remove `Include /etc/letsencrypt/options-ssl-apache.conf` `SSLCertificateFile` and `SSLCertificateKeyFile` from `/etc/apache2/conf/kamehouse/vhost/kamehouse-https-vhosts.conf` and `/etc/apache2/conf/kamehouse/vhost/kamehouse-https-subdomains-vhosts.conf`
-- Then add them back to `https-config.conf`
-
-*********************
-
 ## Enable CORS on kamehouse-r2d2:
 
 - To be able to test it's connectivity from js in kamehouse-mobile:
