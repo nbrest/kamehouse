@@ -161,7 +161,7 @@ buildKameHouseBackend() {
     RUN_MAVEN_COMMAND=false
   fi
   if ! ${RUN_MAVEN_COMMAND}; then
-    log.info "RUN_MAVEN_COMMAND is false so skip running maven command"
+    log.debug "RUN_MAVEN_COMMAND is false so skip running maven command"
     return
   fi
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
