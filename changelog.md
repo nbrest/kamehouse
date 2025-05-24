@@ -7,6 +7,8 @@
 
 #### v10.07
 
+- Added config to skip deploying certain kamehouse modules to kamehouse.cfg
+- Added script name to start and end log lines
 - Moved shell source files import check to one liners
 - Fixed bugs
 

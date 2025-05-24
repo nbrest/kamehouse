@@ -34,6 +34,10 @@ mainProcess() {
 }
 
 deployKameHouseMobile() {
+  if ! ${DEPLOY_KAMEHOUSE_MOBILE}; then
+    log.warn "DEPLOY_KAMEHOUSE_MOBILE is false so skip deploying kamehouse-mobile"
+    return
+  fi
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
       uploadKameHouseMobileApkToGDrive

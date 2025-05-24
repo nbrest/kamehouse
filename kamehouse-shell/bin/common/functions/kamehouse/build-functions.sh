@@ -1,4 +1,8 @@
 buildKameHouseStatic() {
+  if ! ${DEPLOY_KAMEHOUSE_STATIC}; then
+    log.debug "DEPLOY_KAMEHOUSE_STATIC is false so skip building kamehouse static content"
+    return
+  fi
   if ${INTEGRATION_TESTS}; then
     log.debug "Running integration tests, skippking static code build"
     return
@@ -145,6 +149,21 @@ buildFrontendCode() {
 }
 
 buildKameHouseBackend() {
+  RUN_MAVEN_COMMAND=false
+  if ${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}; then
+    RUN_MAVEN_COMMAND=true
+  fi
+  if ${DEPLOY_KAMEHOUSE_CMD}; then
+    RUN_MAVEN_COMMAND=true
+  fi
+  if [ "${MODULE_SHORT}" == "shell" ] ||
+     [ "${MODULE_SHORT}" == "groot" ]; then
+    RUN_MAVEN_COMMAND=false
+  fi
+  if ! ${RUN_MAVEN_COMMAND}; then
+    log.info "RUN_MAVEN_COMMAND is false so skip running maven command"
+    return
+  fi
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   exportGitCommitHash
@@ -221,6 +240,10 @@ buildKameHouseMobile() {
   if [[ "${MODULE}" != "kamehouse-mobile" ]]; then
     return
   fi
+  if ! ${DEPLOY_KAMEHOUSE_MOBILE}; then
+    log.warn "DEPLOY_KAMEHOUSE_MOBILE is false so skip building kamehouse-mobile"
+    return
+  fi    
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
   setKameHouseMobileApkPath
   syncStaticFilesOnMobile

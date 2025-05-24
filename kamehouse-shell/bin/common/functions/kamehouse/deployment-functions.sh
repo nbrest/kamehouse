@@ -1,4 +1,5 @@
 deployKameHouseProject() {
+  displayDeployEnv  
   setKameHouseDeploymentParameters
   setKameHouseRootProjectDir
   pullLatestKameHouseChanges
@@ -15,8 +16,22 @@ deployKameHouseProject() {
   checkForDeploymentErrors
 }
 
+displayDeployEnv() {
+  log.debug "DEPLOY_KAMEHOUSE_TOMCAT_MODULES=${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}"
+  log.debug "DEPLOY_KAMEHOUSE_STATIC=${DEPLOY_KAMEHOUSE_STATIC}"
+  log.debug "DEPLOY_KAMEHOUSE_CMD=${DEPLOY_KAMEHOUSE_CMD}"
+  log.debug "DEPLOY_KAMEHOUSE_SHELL=${DEPLOY_KAMEHOUSE_SHELL}"
+  log.debug "DEPLOY_KAMEHOUSE_GROOT=${DEPLOY_KAMEHOUSE_GROOT}"
+  log.debug "DEPLOY_KAMEHOUSE_MOBILE=${DEPLOY_KAMEHOUSE_MOBILE}"
+}
+
 setKameHouseDeploymentParameters() {
   DEPLOYMENT_DIR="${TOMCAT_DIR}/webapps"
+  if ! ${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}; then
+    log.warn "DEPLOY_KAMEHOUSE_TOMCAT_MODULES is false so skip deploying kamehouse tomcat modules"
+    DEPLOY_TO_TOMCAT=false
+    return
+  fi
   if [ -z "${MODULE_SHORT}" ]; then
     DEPLOY_TO_TOMCAT=true
     return
@@ -40,6 +55,10 @@ deployKameHouseShell() {
   if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "shell" ]]; then
     return
   fi
+  if ! ${DEPLOY_KAMEHOUSE_SHELL}; then
+    log.warn "DEPLOY_KAMEHOUSE_SHELL is false so skip deploying kamehouse-shell"
+    return
+  fi
   log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
   chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
   ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
@@ -54,6 +73,10 @@ deployKameHouseShell() {
 
 deployKameHouseGroot() {
   if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "groot" ]]; then
+    return
+  fi
+  if ! ${DEPLOY_KAMEHOUSE_GROOT}; then
+    log.warn "DEPLOY_KAMEHOUSE_GROOT is false so skip deploying kamehouse-groot"
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
@@ -139,6 +162,10 @@ deployKameHouseCmd() {
   if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "cmd" ]]; then
     return
   fi
+  if ! ${DEPLOY_KAMEHOUSE_CMD}; then
+    log.warn "DEPLOY_KAMEHOUSE_CMD is false so skip deploying kamehouse-cmd"
+    return
+  fi
   log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
   mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
   rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
@@ -160,6 +187,10 @@ deployKameHouseCmd() {
 
 deployKameHouseMobile() {
   if [[ "${MODULE}" != "kamehouse-mobile" ]]; then
+    return
+  fi
+  if ! ${DEPLOY_KAMEHOUSE_MOBILE}; then
+    log.warn "DEPLOY_KAMEHOUSE_MOBILE is false so skip deploying kamehouse-mobile"
     return
   fi
   if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
@@ -210,11 +241,15 @@ uploadKameHouseMobileApkToGDrive() {
 }
 
 deployKameHouseStatic() {
+  if ! ${DEPLOY_KAMEHOUSE_STATIC}; then
+    log.warn "DEPLOY_KAMEHOUSE_STATIC is false so skip deploying kamehouse static content"
+    return
+  fi
   deployKameHouseUiStatic
   deployKameHouseMobileStatic
   if ! ${STATIC_ONLY}; then
     return
-  fi 
+  fi
   if [[ -z "${MODULE}" ]]; then
     log.info "Finished deploying static code for all modules"
   else 

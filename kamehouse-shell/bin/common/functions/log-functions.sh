@@ -108,12 +108,12 @@ logStart() {
   local COL_START_LOG="${COL_YELLOW_STD}"
   if ${LOG_CMD_ARGS}; then
     if [ -n "${CMD_ARGUMENTS}" ]; then
-      log.info "${COL_START_LOG}Started executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_START_LOG}"
+      log.info "${COL_START_LOG}Started executing script ${SCRIPT_NAME} with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_START_LOG}"
     else
-      log.info "${COL_START_LOG}Started executing script without args"
+      log.info "${COL_START_LOG}Started executing script ${SCRIPT_NAME} without args"
     fi
   else
-    log.info "${COL_START_LOG}Started executing script (masked args)"
+    log.info "${COL_START_LOG}Started executing script ${SCRIPT_NAME} (masked args)"
   fi
 }
 
@@ -128,12 +128,12 @@ logFinish() {
   log.debug "Script start time: ${SCRIPT_START_DATE}"
   if ${LOG_CMD_ARGS}; then
     if [ -n "${CMD_ARGUMENTS}" ]; then
-      log.info "${COL_FINISH_LOG}Finished executing script with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_FINISH_LOG} ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
+      log.info "${COL_FINISH_LOG}Finished executing script ${SCRIPT_NAME} with args ${COL_BLUE}\"${CMD_ARGUMENTS}\"${COL_FINISH_LOG} ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
     else
-      log.info "${COL_FINISH_LOG}Finished executing script without args ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
+      log.info "${COL_FINISH_LOG}Finished executing script ${SCRIPT_NAME} without args ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
     fi
   else
-    log.info "${COL_FINISH_LOG}Finished executing script (masked args) ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
+    log.info "${COL_FINISH_LOG}Finished executing script ${SCRIPT_NAME} (masked args) ${COL_BLUE}status: ${EXIT_CODE}${COL_FINISH_LOG} and ${RUNTIME_MESSAGE}"
   fi
 }
 
