@@ -24,6 +24,7 @@ SCP_SRC=""
 SCP_DEST=""
 SCP_EXIT_CODE=""
 SFTP_OPTIONS="-v"
+SFTP_REDIRECT_STD_ERR="2>&1"
 SFTP_PORT="22" 
 SFTP_USER=""
 SFTP_SERVER=""
@@ -376,7 +377,7 @@ executeScpCommand() {
 executeSftpCommand() {
   local SKIP_EXIT_CODE_CHECK=$1
   log.info "sftp ${SFTP_OPTIONS} -P ${SFTP_PORT} ${SFTP_USER}@${SFTP_SERVER} <<< ${SFTP_COMMAND}"
-  sftp ${SFTP_OPTIONS} -P ${SFTP_PORT} ${SFTP_USER}@${SFTP_SERVER} <<< "${SFTP_COMMAND}"
+  sftp ${SFTP_OPTIONS} -P ${SFTP_PORT} ${SFTP_USER}@${SFTP_SERVER} ${SFTP_REDIRECT_STD_ERR} <<< "${SFTP_COMMAND}"
   SFTP_EXIT_CODE=$?
   if [ "${SKIP_EXIT_CODE_CHECK}" == "--skip-exit-code-check" ]; then
     log.debug "Skipping sftp command exit code check: ${SFTP_EXIT_CODE}"
