@@ -14,7 +14,7 @@ initScriptEnv() {
 
 mainProcess() {
   setKameHouseRootProjectDir
-  log.info "Set ${COL_YELLOW}ANDROID_IP, ANDROID_PORT, ANDROID_SFTP_USER, ANDROID_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
+  log.info "Set ${COL_YELLOW}ANDROID_SFTP_IP, ANDROID_SFTP_PORT, ANDROID_SFTP_USERNAME, ANDROID_SFTP_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
   if ${SKIP_BUILD_MOBILE}; then
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
@@ -30,16 +30,16 @@ uploadApkToDeviceSftp() {
   log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
   log.info "Check pass in sftp server mobile app and store it in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt when uploading from windows"
 
-  SFTP_PORT="${ANDROID_PORT}" 
-  SFTP_USER="${ANDROID_SFTP_USER}"
-  SFTP_SERVER="${ANDROID_IP}"
-  SFTP_COMMAND="put ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_APK_DEST_PATH}/kamehouse.apk"
+  SFTP_PORT="${ANDROID_SFTP_PORT}" 
+  SFTP_USER="${ANDROID_SFTP_USERNAME}"
+  SFTP_SERVER="${ANDROID_SFTP_IP}"
+  SFTP_COMMAND="put ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_SFTP_APK_DEST_PATH}/kamehouse.apk"
   if ${IS_LINUX_HOST}; then 
     executeSftpCommand
   else
     log.warn "Putty pscp needs to be installed to send the apk to android device without password prompt"
-    log.info "pscp -pw **** -v -P ${ANDROID_PORT} ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_SFTP_USER}@${ANDROID_IP}:${ANDROID_APK_DEST_PATH}/kamehouse.apk"
-    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_PORT} ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_SFTP_USER}@${ANDROID_IP}:${ANDROID_APK_DEST_PATH}/kamehouse.apk
+    log.info "pscp -pw **** -v -P ${ANDROID_SFTP_PORT} ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_SFTP_USERNAME}@${ANDROID_SFTP_IP}:${ANDROID_SFTP_APK_DEST_PATH}/kamehouse.apk"
+    pscp -pw ${ANDROID_SFTP_PASS} -v -P ${ANDROID_SFTP_PORT} ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_SFTP_USERNAME}@${ANDROID_SFTP_IP}:${ANDROID_SFTP_APK_DEST_PATH}/kamehouse.apk
     if [ "$?" != "0" ]; then
       log.error "Error using pscp. Falling back to sftp"
       executeSftpCommand
@@ -57,10 +57,10 @@ parseArguments() {
     local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
       -i)
-        ANDROID_IP="${CURRENT_OPTION_ARG}"
+        ANDROID_SFTP_IP="${CURRENT_OPTION_ARG}"
         ;;
       -p)
-        ANDROID_PORT="${CURRENT_OPTION_ARG}"
+        ANDROID_SFTP_PORT="${CURRENT_OPTION_ARG}"
         ;;
       -s)
         SKIP_BUILD_MOBILE=true

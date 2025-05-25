@@ -11,7 +11,7 @@ initScriptEnv() {
 
 mainProcess() {
   log.info "Re generating apk html file"
-  cd ${KAMEHOUSE_MOBILE_APP_PATH}
+  cd ${KAMEHOUSE_MOBILE_APP_SERVER_PATH}
 
   log.info "Copying html from template"
   cp ${KAMEHOUSE_APK_HTML_TEMPLATE} ${KAMEHOUSE_APK_HTML}
