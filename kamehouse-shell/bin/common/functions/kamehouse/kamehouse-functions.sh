@@ -46,6 +46,7 @@ MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
 KAMEHOUSE_SERVER=""
 
+TOMCAT_MODULES="admin,media,tennisworld,testmodule,ui,vlcrc"
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
 TOMCAT_DIR_DEV="${HOME}/programs/apache-tomcat-dev"
 

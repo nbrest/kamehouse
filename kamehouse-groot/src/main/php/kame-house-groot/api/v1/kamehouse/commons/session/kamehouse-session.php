@@ -12,33 +12,26 @@ class KameHouseSession {
   public function getStatus() {
     global $kameHouse;
     $this->initSession();
+    $this->configureSessionState();
 
+    $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
+    $roles = $kameHouse->auth->getRoles($user);
+    $grootVersion = $this->getGrootVersion();
     $dockerContainerEnv = $kameHouse->util->docker->getDockerContainerEnv();
     $isLinuxDockerHost = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
     $isDockerContainer = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
     $dockerControlHost = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "DOCKER_CONTROL_HOST");
 
-    if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-      $username = $_SERVER['PHP_AUTH_USER'];
-      $password = $_SERVER['PHP_AUTH_PW'];
-      if ($kameHouse->auth->isAuthorizedUser($username, $password)) {
-        $kameHouse->auth->initiateSession($username);
-      } else {
-        $kameHouse->auth->endSession($username);
-        //$kameHouse->logger->info("Invalid credentials in basic auth header");
-      }
-    }
-    $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
-    $roles = $kameHouse->auth->getRoles($user);
-
     $sessionStatus = [ 
       'server' => gethostname(),
       'username' => $user,
+      'buildVersion' => $grootVersion['buildVersion'],
+      'buildDate' => $grootVersion['buildDate'],
       'isLinuxHost' => $kameHouse->core->isLinuxHost(),
       'isLinuxDockerHost' => $isLinuxDockerHost,
       'isDockerContainer' => $isDockerContainer,
       'dockerControlHost' => $dockerControlHost,
-      'roles' => $roles,
+      'roles' => $roles
     ];
   
     $kameHouse->core->setJsonResponseBody($sessionStatus);
@@ -52,6 +45,44 @@ class KameHouseSession {
     session_set_cookie_params(0);
     session_start();
   }  
+
+  /**
+   * Configure session state.
+   */
+  private function configureSessionState() {
+    global $kameHouse;
+    if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+      $username = $_SERVER['PHP_AUTH_USER'];
+      $password = $_SERVER['PHP_AUTH_PW'];
+      if ($kameHouse->auth->isAuthorizedUser($username, $password)) {
+        $kameHouse->auth->initiateSession($username);
+      } else {
+        $kameHouse->auth->endSession($username);
+        //$kameHouse->logger->info("Invalid credentials in basic auth header");
+      }
+    }
+  }
+
+  /**
+   * Get groot version.
+   */
+  private function getGrootVersion() {
+    global $kameHouse;
+    $grootVersion = [ 
+      'buildVersion' => '99.99.9-r2d2c3po',
+      'buildDate' => '9999-99-99 99:99:99'
+    ];
+    $grootVersionArray = explode("\n", file_get_contents(realpath($_SERVER["DOCUMENT_ROOT"]) . '/kame-house-groot/groot-version.txt', true));
+    foreach($grootVersionArray as $grootVersionEntry) {
+      if($kameHouse->util->string->startsWith($grootVersionEntry, "buildVersion=")) {
+        $grootVersion['buildVersion'] = explode("=", $grootVersionEntry)[1];
+      }
+      if($kameHouse->util->string->startsWith($grootVersionEntry, "buildDate=")) {
+        $grootVersion['buildDate'] = explode("=", $grootVersionEntry)[1];
+      }
+    }
+    return $grootVersion;
+  }
   
 } // KameHouseSession
 ?>

@@ -266,6 +266,7 @@ class DeploymentManager {
   load() {
     kameHouse.logger.info("Loading DeploymentManager", null);
     kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseModal", "kameHouseDebugger", "kameHouseGrootSession"], () => {
+      this.hideUndeployedModules();
       this.getTomcatModulesStatus();
       this.getNonTomcatModulesStatus();
       this.getTomcatProcessStatus();
@@ -273,11 +274,19 @@ class DeploymentManager {
   }
 
   /**
+   * Hide undeployed kamehouse modules from the ui.
+   */
+  hideUndeployedModules() {
+    kameHouse.logger.info("Hiding undeployed kamehouse modules", null);
+    kameHouse.extension.kameHouseShell.execute('kamehouse/get-undeployed-kamehouse-modules.sh', "", false, false, 60, (kameHouseCommandResult) => this.#processUndeployedKameHouseModulesResponse(kameHouseCommandResult), () => {});
+  }
+
+  /**
    * Get status from all tomcat modules.
    */
   getTomcatModulesStatus() {
     const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/status-kamehouse.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesStatus(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-tomcat-modules-status.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesStatus(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -475,6 +484,26 @@ class DeploymentManager {
       return "-p " + this.#TOMCAT_DEV_PORT;
     }
     return "";
+  }
+
+  /**
+   * Hide undeployed kamehouse modules from the ui.
+   */
+  #processUndeployedKameHouseModulesResponse(kameHouseCommandResult) {
+    kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
+    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+      if (!line.startsWith("undeployedKameHouseModules=")) {
+        return;
+      }
+      const lineArray = line.split("=");
+      const modules = lineArray[1];
+      const modulesArray = modules.split(",");
+      modulesArray.forEach((module) => {
+        kameHouse.logger.info("Hiding undeployed module " + module, null);
+        const moduleRow = document.getElementById("mst-" + module);
+        kameHouse.util.dom.classListAdd(moduleRow, "hidden-kh");
+      });
+    });
   }
 
   /**

@@ -25,6 +25,9 @@ class KameHouseFooter {
 
   /** Update the server name, and build info in the footer */
   #updateFooterWithSessionInfo() {
+    if (kameHouse.core.isGRootPage()) {
+      return;
+    }
     if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
       kameHouse.util.dom.setHtmlById("footer-server-name", kameHouse.session.server);
     }

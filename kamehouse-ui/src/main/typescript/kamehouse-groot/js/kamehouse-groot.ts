@@ -58,7 +58,7 @@ class GrootHeader {
     });
     kameHouse.util.module.waitForModules(["kameHouseHeader"], () => {
       this.#updateKameHouseHeader();
-    });    
+    });
   }
   
   /** Load session */
@@ -73,6 +73,9 @@ class GrootHeader {
         this.#updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
+        kameHouse.util.module.waitForModules(["kameHouseFooter"], () => {
+          this.#updateFooterWithSessionInfo();
+        });
       },
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current groot session information.";
@@ -179,6 +182,20 @@ class GrootHeader {
     kameHouse.util.dom.append(loginStatus, this.#getKameHouseButton());  
     const kameHouseLogo = "#branding";
     kameHouse.util.dom.append(kameHouseLogo, this.#getGrootHeaderLogo());  
+  }
+
+  /** Update the server name, and build info in the footer */
+  #updateFooterWithSessionInfo() {
+    const session = kameHouse.extension.groot.session;
+    if (!kameHouse.core.isEmpty(session.server)) {
+      kameHouse.util.dom.setHtmlById("footer-server-name", session.server);
+    }
+    if (!kameHouse.core.isEmpty(session.buildVersion)) {
+      kameHouse.util.dom.setHtmlById("footer-build-version", session.buildVersion);
+    }
+    if (!kameHouse.core.isEmpty(session.buildDate)) {
+      kameHouse.util.dom.setHtmlById("footer-build-date", session.buildDate);
+    }
   }
 
   /**

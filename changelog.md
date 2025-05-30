@@ -7,6 +7,8 @@
 
 #### v10.07
 
+- Added functionality to hide undeployed modules from groot server manager ui
+- Added functionality to update footer with groot session on groot pages
 - Added config to skip deploying certain kamehouse modules to kamehouse.cfg
 - Added script name to start and end log lines
 - Moved shell source files import check to one liners

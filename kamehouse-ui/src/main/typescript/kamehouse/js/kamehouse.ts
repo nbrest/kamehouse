@@ -2107,7 +2107,7 @@ class KameHouseCore {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody, null, null), null);
         kameHouse.session = responseBody;
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        if (!this.#isGRootAuthorizedPage()) {
+        if (!this.isGRootPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
         }
       },
@@ -2116,7 +2116,7 @@ class KameHouseCore {
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = new SessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
-        if (!this.#isGRootAuthorizedPage()) {
+        if (!this.isGRootPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
         }
       }
@@ -2399,7 +2399,7 @@ class KameHouseCore {
     }
     let loginUrl = "/kame-house/login.html?unauthorizedPageAccess=true";
     let roles = kameHouse.session.roles;
-    if (this.#isGRootAuthorizedPage()) {
+    if (this.isGRootPage()) {
       loginUrl = "/kame-house/groot/login.html?unauthorizedPageAccess=true";
       roles = kameHouse.extension.groot.session.roles;
     }
@@ -2517,6 +2517,13 @@ class KameHouseCore {
   }
 
   /**
+   * Returns true when processing a groot page.
+   */
+  isGRootPage() {
+    return window.location.href.includes("/kame-house/groot/") || window.location.href.includes("/kame-house-batcave/");
+  }
+
+  /**
    * Set the background of link-image elements.
    */
   #setButtonBackgrounds() {
@@ -2600,13 +2607,6 @@ class KameHouseCore {
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], () => {
       kameHouse.logger.error(errorMessage, null);
     });
-  }  
-
-  /**
-   * Returns true when processing a page authenticated by GRoot.
-   */
-  #isGRootAuthorizedPage() {
-    return window.location.href.includes("/kame-house/groot/") || window.location.href.includes("/kame-house-batcave/");
   }
 
   /**
