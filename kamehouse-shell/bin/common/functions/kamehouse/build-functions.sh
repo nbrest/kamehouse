@@ -252,6 +252,7 @@ buildKameHouseMobile() {
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
   prepareCordovaProject
   setMobileBuildVersionAndKeys
+  setUiBuildVersionOnMobile
   updateConfigWithGitHash
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
@@ -288,6 +289,13 @@ setMobileBuildVersionAndKeys() {
   echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
   date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
   echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
+}
+
+setUiBuildVersionOnMobile() {
+  log.debug "Setting ui build version on mobile build"
+  local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > www/kame-house/ui-build-version.txt
+  echo "buildDate=$(date +%Y-%m-%d' '%H:%M:%S)" > www/kame-house/ui-build-date.txt   
 }
 
 buildCordovaProject() {
