@@ -28,6 +28,7 @@ class KameHouseFooter {
     if (kameHouse.core.isGRootPage()) {
       return;
     }
+    kameHouse.logger.info("Updating footer with kamehouse session status", null);
     if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
       kameHouse.util.dom.setHtmlById("footer-server-name", kameHouse.session.server);
     }
@@ -52,7 +53,6 @@ class KameHouseFooter {
    * Wait for the footer to be loaded and then update the session status.
    */
   #updateSessionStatus() {
-    kameHouse.logger.info("Updating footer with session status", null);
     this.#updateFooterWithSessionInfo();
     kameHouse.util.banner.updateServerName();
   }

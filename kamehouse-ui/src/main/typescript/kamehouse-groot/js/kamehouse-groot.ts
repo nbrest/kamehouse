@@ -215,6 +215,7 @@ class GrootHeader {
 
   /** Update the server name, and build info in the footer */
   #updateFooterWithSessionInfo() {
+    kameHouse.logger.info("Updating footer with groot session status", null);
     const session = kameHouse.extension.groot.session;
     if (!kameHouse.core.isEmpty(session.server)) {
       kameHouse.util.dom.setHtmlById("footer-server-name", session.server);
