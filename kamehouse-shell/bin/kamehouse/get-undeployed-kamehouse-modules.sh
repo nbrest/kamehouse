@@ -28,7 +28,9 @@ mainProcess() {
     UNDEPLOYED_MODULES="${UNDEPLOYED_MODULES}groot,"  
   fi
 
-  UNDEPLOYED_MODULES="${UNDEPLOYED_MODULES::-1}"
+  if [ -n "${UNDEPLOYED_MODULES}" ]; then
+    UNDEPLOYED_MODULES="${UNDEPLOYED_MODULES::-1}"
+  fi
   echo "undeployedKameHouseModules=${UNDEPLOYED_MODULES}"
 }
 

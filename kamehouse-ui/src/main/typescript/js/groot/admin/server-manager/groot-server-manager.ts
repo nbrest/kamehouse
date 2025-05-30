@@ -499,6 +499,9 @@ class DeploymentManager {
       const modules = lineArray[1];
       const modulesArray = modules.split(",");
       modulesArray.forEach((module) => {
+        if (kameHouse.core.isEmpty(module)) {
+          return;
+        }
         kameHouse.logger.info("Hiding undeployed module " + module, null);
         const moduleRow = document.getElementById("mst-" + module);
         kameHouse.util.dom.classListAdd(moduleRow, "hidden-kh");
