@@ -67,9 +67,11 @@ class GrootHeader {
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
     kameHouse.http.get(config, SESSION_STATUS_API, null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
+      async (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody, null, null), null);
         kameHouse.extension.groot.session = responseBody;
+        await this.#loadUiBuildVersion();
+        await this.#loadUiBuildDate();
         this.#updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
@@ -77,15 +79,42 @@ class GrootHeader {
           this.#updateFooterWithSessionInfo();
         });
       },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
+      async (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current groot session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.extension.groot.session = {};
+        await this.#loadUiBuildVersion();
+        await this.#loadUiBuildDate();
         this.#updateSessionStatus();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
+        kameHouse.util.module.waitForModules(["kameHouseFooter"], () => {
+          this.#updateFooterWithSessionInfo();
+        });
       }
     );
+  }
+
+  /**
+   * Load ui build version and override the session value if present.
+   */
+  async #loadUiBuildVersion() {
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-version.txt');
+    const lineArray = content.split("=");
+    const buildVersion = lineArray[1];
+    kameHouse.extension.groot.session.buildVersion = buildVersion;
+    kameHouse.logger.info("Loaded buildVersion in groot from ui-build-version.txt: " + buildVersion, null);
+  }
+
+  /**
+   * Load ui build date and override the session value if present.
+   */
+  async #loadUiBuildDate() {
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-date.txt');
+    const lineArray = content.split("=");
+    const buildDate = lineArray[1];
+    kameHouse.extension.groot.session.buildDate = buildDate;
+    kameHouse.logger.info("Loaded buildDate in groot from ui-build-date.txt: " + buildDate, null);
   }
   
   /**
