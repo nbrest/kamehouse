@@ -253,13 +253,6 @@ class KameHouseBannerUtils {
     });
   }
 
-  /** Update the server name in the banner */
-  updateServerName() {
-    if (!kameHouse.core.isEmpty(kameHouse.session.server)) {
-      kameHouse.util.dom.setHtmlById("banner-server-name", kameHouse.session.server);
-    }
-  }  
-
   /**
    * Get banner categories.
    */

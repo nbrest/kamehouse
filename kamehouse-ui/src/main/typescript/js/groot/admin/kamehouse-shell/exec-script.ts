@@ -138,7 +138,6 @@ class ExecScriptLoader {
   #updateServerName(sessionStatus) {
     if (!kameHouse.core.isEmpty(sessionStatus.server)) {
       kameHouse.util.dom.setHtmlById("st-server-name", sessionStatus.server);
-      kameHouse.util.dom.setHtmlById("banner-server-name", sessionStatus.server);
     }
   }
 

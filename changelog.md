@@ -7,6 +7,8 @@
 
 #### v10.07
 
+- Removed server name from the banner in some pages
+- Updated footer backend offline message
 - Added functionality to hide undeployed modules from groot server manager ui
 - Added functionality to update footer with groot session on groot pages
 - Added config to skip deploying certain kamehouse modules to kamehouse.cfg

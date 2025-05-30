@@ -27,9 +27,6 @@ class KameHouseShellLoader {
    */
   load() {
     this.setBanners();
-    kameHouse.util.module.waitForModules(["kameHouseGrootSession"], () => {
-      this.#handleSessionStatus();
-    });
     this.#getKameHouseShell((array) => {this.#populateKameHouseShellTable(array)}, 
     () => { 
       const message = "Error getting scripts csv";
@@ -76,18 +73,6 @@ class KameHouseShellLoader {
       url = url + "&args=" + scriptArguments;
     }
     kameHouse.core.windowLocation(url);
-  }
-  
-  /** Handle Session Status */
-  #handleSessionStatus() {
-    this.#updateServerName(kameHouse.extension.groot.session);
-  }
-  
-  /** Update server name */
-  #updateServerName(sessionStatus) {
-    if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtmlById("banner-server-name", sessionStatus.server);
-    }
   }
 
   /** Get kamehouse shell scripts from the backend */

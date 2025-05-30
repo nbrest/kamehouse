@@ -54,6 +54,5 @@ class KameHouseFooter {
    */
   #updateSessionStatus() {
     this.#updateFooterWithSessionInfo();
-    kameHouse.util.banner.updateServerName();
   }
 }

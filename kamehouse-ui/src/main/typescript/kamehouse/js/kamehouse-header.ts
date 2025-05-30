@@ -170,6 +170,5 @@ class KameHouseHeader {
   #updateSessionStatus() {
     kameHouse.logger.info("Updating header with session status", null);
     this.#updateLoginStatus();
-    kameHouse.util.banner.updateServerName();
   }  
 }

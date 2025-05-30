@@ -162,14 +162,6 @@ class GrootServerManager {
     this.#isLinuxDockerHost = sessionStatus.isLinuxDockerHost;
     this.#isDockerContainer = sessionStatus.isDockerContainer;
     this.#dockerControlHost = sessionStatus.dockerControlHost;
-    this.#updateServerName(sessionStatus);
-  }
-
-  /** Update server name */
-  #updateServerName(sessionStatus) {
-    if (!kameHouse.core.isEmpty(sessionStatus.server)) {
-      kameHouse.util.dom.setHtmlById("banner-server-name", sessionStatus.server);
-    }
   }
 
   /**
