@@ -560,7 +560,7 @@ class DeploymentManager {
       if (line.startsWith("buildVersion")) {
         const lineArray = line.split("=");
         const buildVersion = lineArray[1];
-        kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", buildVersion);    
+        kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", buildVersion);
       }
       if (line.startsWith("buildDate")) {
         const lineArray = line.split("=");

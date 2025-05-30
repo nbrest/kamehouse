@@ -2103,18 +2103,22 @@ class KameHouseCore {
     const config = kameHouse.http.getConfig();
     config.timeout = 30;
     kameHouse.http.get(config, SESSION_STATUS_URL, null, null,
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
+      async (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody, null, null), null);
         kameHouse.session = responseBody;
+        await this.#loadUiBuildVersion();
+        await this.#loadUiBuildDate();
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
         if (!this.isGRootPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
         }
       },
-      (responseBody, responseCode, responseDescription, responseHeaders) => {
+      async (responseBody, responseCode, responseDescription, responseHeaders) => {
         const message = "Error retrieving current session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = new SessionStatus();
+        await this.#loadUiBuildVersion();
+        await this.#loadUiBuildDate();
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
         if (!this.isGRootPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
@@ -2521,6 +2525,28 @@ class KameHouseCore {
    */
   isGRootPage() {
     return window.location.href.includes("/kame-house/groot/") || window.location.href.includes("/kame-house-batcave/");
+  }
+
+  /**
+   * Load ui build version and override the session value if present.
+   */
+  async #loadUiBuildVersion() {
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-version.txt');
+    const lineArray = content.split("=");
+    const buildVersion = lineArray[1];
+    kameHouse.session.buildVersion = buildVersion;
+    kameHouse.logger.info("Loaded buildVersion from ui-build-version.txt: " + buildVersion, null);
+  }
+
+  /**
+   * Load ui build date and override the session value if present.
+   */
+  async #loadUiBuildDate() {
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-date.txt');
+    const lineArray = content.split("=");
+    const buildDate = lineArray[1];
+    kameHouse.session.buildDate = buildDate;
+    kameHouse.logger.info("Loaded buildDate from ui-build-date.txt: " + buildDate, null);
   }
 
   /**
