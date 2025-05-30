@@ -186,6 +186,7 @@ class GrootHeader {
 
   /** Update the server name, and build info in the footer */
   #updateFooterWithSessionInfo() {
+    kameHouse.util.dom.setHtmlById("footer-module", "groot");
     const session = kameHouse.extension.groot.session;
     if (!kameHouse.core.isEmpty(session.server)) {
       kameHouse.util.dom.setHtmlById("footer-server-name", session.server);
