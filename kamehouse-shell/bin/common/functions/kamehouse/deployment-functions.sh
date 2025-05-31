@@ -100,16 +100,16 @@ deployKameHouseGroot() {
     fi
   done <<< ${DIRECTORIES}
 
-  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
+  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
   local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "buildDate=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
+  echo "BUILD_DATE=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
 
   log.info "Deployed kamehouse-groot status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-groot"
-  log.info "groot-version.txt"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
+  log.info "groot-version.cfg"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
@@ -148,8 +148,8 @@ deployToTomcat() {
   log.info "ls -lh ${COL_CYAN_STD}${DEPLOYMENT_DIR}/*.war"
   ls -lh "${DEPLOYMENT_DIR}"/*.war
   log.info "deployed kamehouse tomcat modules version"
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}"
-  echo "buildDate=$(date +%Y-%m-%d' '%H:%M:%S)"
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
+  echo "BUILD_DATE=$(date +%Y-%m-%d' '%H:%M:%S)"
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
   local TAIL_LOG_FILE="tomcat"
   if [[ ${DEPLOYMENT_DIR} =~ .*apache-tomcat-dev.* ]]; then
@@ -171,17 +171,17 @@ deployKameHouseCmd() {
   rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
   mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-  local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.txt"
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
+  local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.cfg"
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
   local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "buildDate=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
+  echo "BUILD_DATE=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
   chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   log.info "Deployed kamehouse-cmd status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*"
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd"*
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd"*.jar
-  log.info "cmd-version.txt"
-  cat ${HOME}/programs/kamehouse-cmd/lib/cmd-version.txt
+  log.info "cmd-version.cfg"
+  cat ${HOME}/programs/kamehouse-cmd/lib/cmd-version.cfg
   checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
 
@@ -286,8 +286,8 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
-  log.info "ui-build-info.txt"
-  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-info.txt
+  log.info "ui-build-info.cfg"
+  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-info.cfg
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
 
@@ -300,7 +300,7 @@ deployKameHouseMobileStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.data
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.cfg
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
@@ -321,9 +321,8 @@ deployKameHouseMobileStatic() {
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   log.info "kamehouse-mobile version"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.data"
-  local MOBILE_BUILD_DATE=`cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-date.data"`
-  echo "buildDate=${MOBILE_BUILD_DATE}"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.cfg"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-date.cfg"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }
 

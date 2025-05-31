@@ -10,7 +10,7 @@ initKameHouseShellEnv() {
 mainProcess() {
   local KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
   local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
-  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.txt"
+  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.cfg"
   cat "${SHELL_VERSION_FILE}"
 }
 

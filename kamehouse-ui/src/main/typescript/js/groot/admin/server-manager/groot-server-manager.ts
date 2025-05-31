@@ -484,7 +484,7 @@ class DeploymentManager {
   #processUndeployedKameHouseModulesResponse(kameHouseCommandResult) {
     kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
     kameHouseCommandResult.standardOutputHtml.forEach((line) => {
-      if (!line.startsWith("undeployedKameHouseModules=")) {
+      if (!line.startsWith("UNDEPLOYED_MODULES=")) {
         return;
       }
       const lineArray = line.split("=");
@@ -549,12 +549,12 @@ class DeploymentManager {
    */
   #displayNonTomcatModuleStatus(kameHouseCommandResult, module) {
     kameHouseCommandResult.standardOutputHtml.forEach((line) => {
-      if (line.startsWith("buildVersion")) {
+      if (line.startsWith("BUILD_VERSION=")) {
         const lineArray = line.split("=");
         const buildVersion = lineArray[1];
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", buildVersion);
       }
-      if (line.startsWith("buildDate")) {
+      if (line.startsWith("BUILD_DATE=")) {
         const lineArray = line.split("=");
         const buildDate = lineArray[1];
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-date-val", buildDate);    

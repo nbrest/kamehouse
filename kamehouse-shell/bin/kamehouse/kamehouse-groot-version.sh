@@ -9,7 +9,7 @@ initKameHouseShellEnv() {
 
 mainProcess() {
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.txt"
+  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
   cat "${GROOT_VERSION_FILE}"
 }
 

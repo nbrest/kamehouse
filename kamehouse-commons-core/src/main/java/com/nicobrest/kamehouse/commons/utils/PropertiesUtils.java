@@ -154,15 +154,20 @@ public class PropertiesUtils {
         LOGGER.warn("Build version not available, so skipping getting git hash");
         return;
       }
-      Resource gitCommitHashResource = new ClassPathResource("/git-commit-hash.data");
+      Resource gitCommitHashResource = new ClassPathResource("/git-commit-hash.cfg");
       InputStream gitCommitHashInputStream = gitCommitHashResource.getInputStream();
-      String gitCommitHash = IOUtils.toString(gitCommitHashInputStream,
+      String content = IOUtils.toString(gitCommitHashInputStream,
           StandardCharsets.UTF_8.name());
-      if (gitCommitHash == null) {
-        LOGGER.error("Error loading kamehouse git commit hash into properties");
+      if (content == null) {
+        LOGGER.error("git commit hash is empty");
         return;
       }
-      String updatedBuildVersion = buildVersion + "-" + gitCommitHash.trim();
+      if (!content.startsWith("GIT_COMMIT_HASH=")) {
+        LOGGER.error("Invalid format of git commit hash");
+        return;
+      }
+      String gitCommitHash = content.split("=")[1].trim();
+      String updatedBuildVersion = buildVersion + "-" + gitCommitHash;
       properties.put(BUILD_VERSION_PROPERTY, updatedBuildVersion);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse git commit hash into properties", e);
@@ -174,15 +179,20 @@ public class PropertiesUtils {
    */
   private static void loadBuildVersion() {
     try {
-      Resource buildVersionResource = new ClassPathResource("/build-version.data");
+      Resource buildVersionResource = new ClassPathResource("/build-version.cfg");
       InputStream buildVersionInputStream = buildVersionResource.getInputStream();
-      String buildVersion = IOUtils.toString(buildVersionInputStream,
+      String content = IOUtils.toString(buildVersionInputStream,
           StandardCharsets.UTF_8.name());
-      if (buildVersion == null) {
+      if (content == null) {
         LOGGER.error("Error loading kamehouse build version into properties");
         return;
       }
-      properties.put(BUILD_VERSION_PROPERTY, buildVersion.trim());
+      if (!content.startsWith("BUILD_VERSION=")) {
+        LOGGER.error("Invalid format of build version");
+        return;
+      }
+      String buildVersion = content.split("=")[1].trim();
+      properties.put(BUILD_VERSION_PROPERTY, buildVersion);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build version into properties", e);
     }
@@ -193,14 +203,19 @@ public class PropertiesUtils {
    */
   private static void loadBuildDate() {
     try {
-      Resource buildDateResource = new ClassPathResource("/build-date.data");
+      Resource buildDateResource = new ClassPathResource("/build-date.cfg");
       InputStream buildDateInputStream = buildDateResource.getInputStream();
-      String buildDate = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
-      if (buildDate == null) {
+      String content = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
+      if (content == null) {
         LOGGER.error("Error loading kamehouse build date into properties");
         return;
       }
-      properties.put("kamehouse.build.date", buildDate.trim());
+      if (!content.startsWith("BUILD_DATE=")) {
+        LOGGER.error("Invalid format of build date");
+        return;
+      }
+      String buildDate = content.split("=")[1].trim();
+      properties.put("kamehouse.build.date", buildDate);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build date into properties", e);
     }

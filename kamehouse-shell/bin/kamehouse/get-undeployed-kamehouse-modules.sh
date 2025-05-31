@@ -31,7 +31,7 @@ mainProcess() {
   if [ -n "${UNDEPLOYED_MODULES}" ]; then
     UNDEPLOYED_MODULES="${UNDEPLOYED_MODULES::-1}"
   fi
-  echo "undeployedKameHouseModules=${UNDEPLOYED_MODULES}"
+  echo "UNDEPLOYED_MODULES=${UNDEPLOYED_MODULES}"
 }
 
 main "$@"

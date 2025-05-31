@@ -83,7 +83,7 @@ installKameHouseShell() {
   log.info "Rebuilding shell scripts directory"
   rm -r -f ${KAMEHOUSE_SHELL_PATH}/bin
   rm -f ${KAMEHOUSE_SHELL_PATH}/conf/path.conf
-  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/shell-version.txt
+  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/shell-version.cfg
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
@@ -266,11 +266,11 @@ getPathWithSubdirectories() {
 
 generateBuildVersion() {
   local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
-  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.txt"
+  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.cfg"
   local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${SHELL_VERSION_FILE}
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${SHELL_VERSION_FILE}
   local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "buildDate=${BUILD_DATE}" >> ${SHELL_VERSION_FILE}
+  echo "BUILD_DATE=${BUILD_DATE}" >> ${SHELL_VERSION_FILE}
 }
 
 getKameHouseBuildVersion() {
@@ -288,8 +288,8 @@ logKameHouseShellStatus() {
   log.info "Deployed kamehouse-shell status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_SHELL_PATH}"
   ls -lh "${KAMEHOUSE_SHELL_PATH}"
-  log.info "shell-version.txt"
-  cat "${KAMEHOUSE_SHELL_PATH}/conf/shell-version.txt"
+  log.info "shell-version.cfg"
+  cat "${KAMEHOUSE_SHELL_PATH}/conf/shell-version.cfg"
 }
 
 log.info() {

@@ -53,8 +53,8 @@ buildKameHouseUiStatic() {
   log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
   local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ./dist/ui-build-info.txt
-  echo "buildDate=${BUILD_DATE}" >> ./dist/ui-build-info.txt 
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./dist/ui-build-info.cfg
+  echo "BUILD_DATE=${BUILD_DATE}" >> ./dist/ui-build-info.cfg
   echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./dist/ui-build-info.json
   cdToRootDirFromModule "kamehouse-ui"
 }
@@ -78,7 +78,6 @@ buildKameHouseMobileStatic() {
   log.info "Building kamehouse-mobile bundle in www folder"
   mkdir -p ./www/kame-house-mobile
   cp -r ./src/main/public/* ./www/kame-house-mobile
-  echo "mobile build date: $(date +%Y-%m-%d' '%H:%M:%S)" > ./www/mobile-build-date.txt 
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/js ./www/kame-house-mobile/js
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/js ./www/kame-house-mobile/kamehouse-mobile/js
   mv ./www/kamehouse-mobile/src/main/typescript/kame-house-mobile/kamehouse-mobile/plugin/js ./www/kame-house-mobile/kamehouse-mobile/plugin/js  
@@ -181,7 +180,7 @@ exportGitCommitHash() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting git commit hash to commons-core"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
-  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.data
+  echo "GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.cfg
 }
 
 exportBuildVersion() {
@@ -189,13 +188,14 @@ exportBuildVersion() {
   log.info "Exporting build version to commons-core"
   local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
   KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
-  echo "${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.data
+  echo "BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.cfg
 }
 
 exportBuildDate() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting build date to commons-core"
-  date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.data
+  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+  echo "BUILD_DATE=${BUILD_DATE}" > kamehouse-commons-core/src/main/resources/build-date.cfg
 }
 
 buildMavenCommand() {
@@ -289,8 +289,9 @@ syncStaticFilesOnMobile() {
 setMobileBuildVersionAndKeys() {
   log.debug "Setting build version and encryption key"
   cp -f pom.xml www/kame-house-mobile/
-  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.data
-  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.data
+  echo "GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.cfg
+  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
+  echo "BUILD_DATE=${BUILD_DATE}" > www/kame-house-mobile/build-date.cfg
   echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
 }
 
