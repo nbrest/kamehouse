@@ -52,7 +52,10 @@ buildKameHouseUiStatic() {
 
   log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
-  echo "buildDate=$(date +%Y-%m-%d' '%H:%M:%S)" > ./dist/ui-build-date.txt 
+  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ./dist/ui-build-info.txt
+  echo "buildDate=${BUILD_DATE}" >> ./dist/ui-build-info.txt 
+  echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./dist/ui-build-info.json
   cdToRootDirFromModule "kamehouse-ui"
 }
 
@@ -252,7 +255,7 @@ buildKameHouseMobile() {
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
   prepareCordovaProject
   setMobileBuildVersionAndKeys
-  setUiBuildVersionOnMobile
+  setUiBuildInfoOnMobile
   updateConfigWithGitHash
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
@@ -291,11 +294,11 @@ setMobileBuildVersionAndKeys() {
   echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
 }
 
-setUiBuildVersionOnMobile() {
-  log.debug "Setting ui build version on mobile build"
+setUiBuildInfoOnMobile() {
+  log.debug "Setting ui build info on mobile build"
   local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > www/kame-house/ui-build-version.txt
-  echo "buildDate=$(date +%Y-%m-%d' '%H:%M:%S)" > www/kame-house/ui-build-date.txt   
+  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+  echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > www/kame-house/ui-build-info.json
 }
 
 buildCordovaProject() {

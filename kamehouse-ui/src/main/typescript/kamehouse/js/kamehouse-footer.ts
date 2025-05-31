@@ -5,8 +5,10 @@
  */
 class KameHouseFooter {
 
-  #buildVersion = null;
-  #buildDate = null;
+  #buildInfo = {
+    buildVersion: null,
+    buildDate: null
+  };
 
   /** Renders the footer */
   load() { 
@@ -54,50 +56,28 @@ class KameHouseFooter {
    */
   async #updateFooterWithBuildInfo() {
     kameHouse.logger.info("Loading kamehouse ui build info", null);
-    await this.#loadUiBuildVersion();
-    await this.#loadUiBuildDate();
+    await this.#loadUiBuildInfo();
     kameHouse.logger.info("Updating footer with kamehouse ui build info", null);
-    if (!kameHouse.core.isEmpty(this.#buildVersion)) {
-      kameHouse.util.dom.setHtmlById("footer-build-version", this.#buildVersion);
+    if (!kameHouse.core.isEmpty(this.#buildInfo.buildVersion)) {
+      kameHouse.util.dom.setHtmlById("footer-build-version", this.#buildInfo.buildVersion);
     }
-    if (!kameHouse.core.isEmpty(this.#buildDate)) {
-      kameHouse.util.dom.setHtmlById("footer-build-date", this.#buildDate);
+    if (!kameHouse.core.isEmpty(this.#buildInfo.buildDate)) {
+      kameHouse.util.dom.setHtmlById("footer-build-date", this.#buildInfo.buildDate);
     }
   }
 
   /**
-   * Load ui build version and override the session value if present.
+   * Load kamehouse ui build version.
    */
-  async #loadUiBuildVersion() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-version.txt');
+  async #loadUiBuildInfo() {
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-info.json');
     if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-version.txt", null);
+      kameHouse.logger.error("Unable to load ui-build-info.json", null);
       return;
     }
-    const lineArray = content.split("=");
-    let buildVersion = lineArray[1];
-    if (!kameHouse.core.isEmpty(buildVersion)) {
-      buildVersion = buildVersion.replace(/\n+$/, "");
-      this.#buildVersion = buildVersion;
-      kameHouse.logger.info("Loaded buildVersion: " + buildVersion, null);
-    }
-  }
-  
-  /**
-   * Load ui build date and override the session value if present.
-   */
-  async #loadUiBuildDate() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-date.txt');
-    if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-date.txt", null);
-      return;
-    }
-    const lineArray = content.split("=");
-    let buildDate = lineArray[1];
-    if (!kameHouse.core.isEmpty(buildDate)) {
-      buildDate = buildDate.replace(/\n+$/, "");
-      this.#buildDate = buildDate;
-      kameHouse.logger.info("Loaded buildDate: " + buildDate, null);
+    this.#buildInfo = kameHouse.json.parse(content);
+    if (!kameHouse.core.isEmpty(this.#buildInfo.buildVersion)) {
+      kameHouse.logger.info("Loaded buildInfo: " + content, null);
     }
   }
 }

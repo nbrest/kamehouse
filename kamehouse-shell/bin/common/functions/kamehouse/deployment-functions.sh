@@ -267,7 +267,6 @@ deployKameHouseUiStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
   cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-version.txt
   checkCommandStatus "$?" "An error occurred deploying kamehouse ui static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house -name '.*' -prune -o -type f`
@@ -287,9 +286,8 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
-  log.info "ui-build-version.txt"
-  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-version.txt
-  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-date.txt
+  log.info "ui-build-info.txt"
+  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-info.txt
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
 
