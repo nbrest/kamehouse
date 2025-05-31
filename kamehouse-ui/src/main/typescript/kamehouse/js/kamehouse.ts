@@ -1146,6 +1146,7 @@ class KameHouseDomUtils {
    * and call this with await kameHouse.util.fetch.loadHtmlSnippet(...);
    */
   async loadHtmlSnippet(htmlSnippetPath) {
+    kameHouse.logger.info("Fetching html snippet: " + htmlSnippetPath, null);
     const htmlSnippetResponse = await fetch(htmlSnippetPath);
     return htmlSnippetResponse.text();
   }
@@ -1157,6 +1158,7 @@ class KameHouseDomUtils {
    * and call this with await kameHouse.util.fetch.loadFile(...);
    */
   async loadFile(filePath) {
+    kameHouse.logger.info("Fetching file: " + filePath, null);
     const file = await fetch(filePath);
     return file.text();
   }
@@ -1177,6 +1179,7 @@ class KameHouseDomUtils {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), options.timeout);
     try {
+      kameHouse.logger.info("Fetching file: " + filePath, null);
       const response = await fetch(filePath, {
         ...options,
         signal: controller.signal  
@@ -1191,6 +1194,7 @@ class KameHouseDomUtils {
 
   /** Get a js script from the server. */
   getScript(scriptPath, successCallback) { 
+    kameHouse.logger.info("Loading script: " + scriptPath, null);
     kameHouse.jq.getScript(scriptPath)
     .done((script, textStatus) => {
       kameHouse.logger.debug("Loaded successfully script: " + scriptPath, null);
