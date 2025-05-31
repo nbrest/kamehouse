@@ -50,9 +50,6 @@ class KameHouseGroot {
  */
 class GrootHeader {
 
-  #buildVersion = null;
-  #buildDate = null;
-
   /** Render groot sub menu */
   renderGrootMenu() {
     kameHouse.util.dom.loadById("groot-menu-wrapper", "/kame-house/kamehouse-groot/html/kamehouse-groot-menu.html", () => {
@@ -64,11 +61,11 @@ class GrootHeader {
     });
   }
   
-  /** Load session */
-  async #loadSession() {
+  /** 
+   * Load session 
+   */
+  #loadSession() {
     kameHouse.logger.info("Loading groot session", null);
-    await this.#loadUiBuildVersion();
-    await this.#loadUiBuildDate();
     const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
@@ -76,8 +73,7 @@ class GrootHeader {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("GRoot session: " + kameHouse.json.stringify(responseBody, null, null), null);
         kameHouse.extension.groot.session = responseBody;
-        this.#updateSessionWithUiBuildInfo();
-        this.#updateSessionStatus();
+        this.#updateHeaderWithSessionInfo();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
         kameHouse.util.module.waitForModules(["kameHouseFooter"], () => {
@@ -88,68 +84,18 @@ class GrootHeader {
         const message = "Error retrieving current groot session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.extension.groot.session = {};
-        this.#updateSessionWithUiBuildInfo();
-        this.#updateSessionStatus();
+        this.#updateHeaderWithSessionInfo();
         kameHouse.util.module.setModuleLoaded("kameHouseGrootSession");
         kameHouse.core.completeAuthorizeUser(responseCode, responseBody);
-        kameHouse.util.module.waitForModules(["kameHouseFooter"], () => {
-          this.#updateFooterWithSessionInfo();
-        });
       }
     );
   }
 
   /**
-   * Load ui build version and override the session value if present.
+   * Update groot header with groot session info.
    */
-  async #loadUiBuildVersion() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-version.txt');
-    if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-version.txt", null);
-      return;
-    }
-    const lineArray = content.split("=");
-    const buildVersion = lineArray[1];
-    if (!kameHouse.core.isEmpty(buildVersion)) {
-      this.#buildVersion = buildVersion;
-      kameHouse.logger.info("Loaded buildVersion from ui-build-version.txt in groot: " + buildVersion, null);
-    }
-  }
-
-  /**
-   * Load ui build date and override the session value if present.
-   */
-  async #loadUiBuildDate() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-date.txt');
-    if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-date.txt", null);
-      return;
-    }
-    const lineArray = content.split("=");
-    const buildDate = lineArray[1];
-    if (!kameHouse.core.isEmpty(buildDate)) {
-      this.#buildDate = buildDate;
-      kameHouse.logger.info("Loaded buildDate from ui-build-date.txt in groot: " + buildDate, null);
-    }
-  }
-
-  /**
-   * Update session with ui build info.
-   */
-  #updateSessionWithUiBuildInfo() {
-    kameHouse.logger.info("Updating session with ui build info in groot", null);
-    if (!kameHouse.core.isEmpty(this.#buildVersion)) {
-      kameHouse.extension.groot.session.buildVersion = this.#buildVersion;
-    }
-    if (!kameHouse.core.isEmpty(this.#buildDate)) {
-      kameHouse.extension.groot.session.buildDate = this.#buildDate;
-    }
-  }
-
-  /**
-   * Update groot session status.
-   */
-  #updateSessionStatus() {
+  #updateHeaderWithSessionInfo() {
+    kameHouse.logger.info("Updating groot header with groot session info", null);
     const loginStatus = document.getElementById("groot-header-login-status");
     kameHouse.util.dom.empty(loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.extension.groot.session.username) || kameHouse.extension.groot.session.username.trim() == "" ||
@@ -158,6 +104,17 @@ class GrootHeader {
     } else {
       kameHouse.util.dom.append(loginStatus, this.#getUsernameHeader(kameHouse.extension.groot.session.username));
       kameHouse.util.dom.append(loginStatus, this.#getLogoutButton());
+    }
+  }
+
+  /** 
+   * Update the footer with the groot session info.
+   */
+  #updateFooterWithSessionInfo() {
+    kameHouse.logger.info("Updating footer with groot session info", null);
+    const session = kameHouse.extension.groot.session;
+    if (!kameHouse.core.isEmpty(session.server)) {
+      kameHouse.util.dom.setHtmlById("footer-server-name", session.server);
     }
   }
 
@@ -240,21 +197,6 @@ class GrootHeader {
     kameHouse.util.dom.append(loginStatus, this.#getKameHouseButton());  
     const kameHouseLogo = "#branding";
     kameHouse.util.dom.append(kameHouseLogo, this.#getGrootHeaderLogo());  
-  }
-
-  /** Update the server name, and build info in the footer */
-  #updateFooterWithSessionInfo() {
-    kameHouse.logger.info("Updating footer with groot session status", null);
-    const session = kameHouse.extension.groot.session;
-    if (!kameHouse.core.isEmpty(session.server)) {
-      kameHouse.util.dom.setHtmlById("footer-server-name", session.server);
-    }
-    if (!kameHouse.core.isEmpty(session.buildVersion)) {
-      kameHouse.util.dom.setHtmlById("footer-build-version", session.buildVersion);
-    }
-    if (!kameHouse.core.isEmpty(session.buildDate)) {
-      kameHouse.util.dom.setHtmlById("footer-build-date", session.buildDate);
-    }
   }
 
   /**

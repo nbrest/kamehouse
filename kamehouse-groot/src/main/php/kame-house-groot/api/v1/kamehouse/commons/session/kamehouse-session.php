@@ -16,7 +16,6 @@ class KameHouseSession {
 
     $user = isset($_SESSION['username']) ? $_SESSION['username'] : 'anonymousUser';
     $roles = $kameHouse->auth->getRoles($user);
-    $uiVersion = $this->getKameHouseUiVersion();
     $dockerContainerEnv = $kameHouse->util->docker->getDockerContainerEnv();
     $isLinuxDockerHost = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_LINUX_DOCKER_HOST");
     $isDockerContainer = $kameHouse->util->docker->getDockerContainerEnvBooleanProperty($dockerContainerEnv, "IS_DOCKER_CONTAINER");
@@ -25,8 +24,6 @@ class KameHouseSession {
     $sessionStatus = [ 
       'server' => gethostname(),
       'username' => $user,
-      'buildVersion' => $uiVersion['buildVersion'],
-      'buildDate' => $uiVersion['buildDate'],
       'isLinuxHost' => $kameHouse->core->isLinuxHost(),
       'isLinuxDockerHost' => $isLinuxDockerHost,
       'isDockerContainer' => $isDockerContainer,
@@ -61,30 +58,6 @@ class KameHouseSession {
         //$kameHouse->logger->info("Invalid credentials in basic auth header");
       }
     }
-  }
-
-  /**
-   * Get kamehouse ui version.
-   */
-  private function getKameHouseUiVersion() {
-    global $kameHouse;
-    $uiVersion = [
-      'buildVersion' => '99.99.9-r2d2c3po',
-      'buildDate' => '9999-99-99 99:99:99'
-    ];
-    $buildVersionArray = explode("\n", file_get_contents(realpath($_SERVER["DOCUMENT_ROOT"]) . '/kame-house/ui-build-version.txt', true));
-    foreach($buildVersionArray as $buildVersionEntry) {
-      if($kameHouse->util->string->startsWith($buildVersionEntry, "buildVersion=")) {
-        $uiVersion['buildVersion'] = explode("=", $buildVersionEntry)[1];
-      }
-    }
-    $buildDateArray = explode("\n", file_get_contents(realpath($_SERVER["DOCUMENT_ROOT"]) . '/kame-house/ui-build-date.txt', true));
-    foreach($buildDateArray as $buildDateEntry) {
-      if($kameHouse->util->string->startsWith($buildDateEntry, "buildDate=")) {
-        $uiVersion['buildDate'] = explode("=", $buildDateEntry)[1];
-      }
-    }
-    return $uiVersion;
   }
   
 } // KameHouseSession

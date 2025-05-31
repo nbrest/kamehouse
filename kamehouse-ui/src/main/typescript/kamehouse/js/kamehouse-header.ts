@@ -16,7 +16,7 @@ class KameHouseHeader {
         kameHouse.core.configDynamicHtml();
         this.#updateActiveTab();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
-          this.#updateSessionStatus();
+          this.#updateHeaderWithSessionInfo();
           kameHouse.util.module.setModuleLoaded("kameHouseHeader");
           kameHouse.logger.info("Finished loading header", null);
         });
@@ -100,9 +100,10 @@ class KameHouseHeader {
   }
 
   /**
-   * Update login status.
+   * Update kamehouse header with kamehouse session info.
    */
-  #updateLoginStatus() {
+  #updateHeaderWithSessionInfo() {
+    kameHouse.logger.info("Updating kamehouse header with kamehouse session info", null);
     const loginStatus = document.getElementById("login-status");
     kameHouse.util.dom.empty(loginStatus);
     if (kameHouse.core.isEmpty(kameHouse.session.username) || kameHouse.session.username.trim() == "" ||
@@ -163,12 +164,4 @@ class KameHouseHeader {
       class: "header-login-status-text"
     }, username);
   }
-
-  /**
-   * update the session status.
-   */
-  #updateSessionStatus() {
-    kameHouse.logger.info("Updating header with session status", null);
-    this.#updateLoginStatus();
-  }  
 }

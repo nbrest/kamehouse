@@ -2031,9 +2031,6 @@ class KameHouseJson {
  * @author nbrest
  */
 class KameHouseCore {
-  
-  #buildVersion = null;
-  #buildDate = null;
 
   /** Checks if a variable is undefined or null or an empty string "". */
   isEmpty(val) {
@@ -2090,13 +2087,11 @@ class KameHouseCore {
     kameHouse.util.mobile.configureApp();
   }
 
-  /** 
-   * Get session from the backend. 
+  /**
+   * Get session from the backend.
    */
-  async loadSession() {
+  loadSession() {
     kameHouse.logger.info("Loading kamehouse session", null);
-    await this.#loadUiBuildVersion();
-    await this.#loadUiBuildDate();
     const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
     const config = kameHouse.http.getConfig();
     config.timeout = 30;
@@ -2104,7 +2099,6 @@ class KameHouseCore {
       (responseBody, responseCode, responseDescription, responseHeaders) => {
         kameHouse.logger.info("KameHouse session: " + kameHouse.json.stringify(responseBody, null, null), null);
         kameHouse.session = responseBody;
-        this.#updateSessionWithUiBuildInfo();
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
         if (!this.isGRootPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
@@ -2114,7 +2108,6 @@ class KameHouseCore {
         const message = "Error retrieving current session information.";
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
         kameHouse.session = new SessionStatus();
-        this.#updateSessionWithUiBuildInfo();
         kameHouse.util.module.setModuleLoaded("kameHouseSession");
         if (!this.isGRootPage()) {
           this.completeAuthorizeUser(responseCode, responseBody);
@@ -2521,53 +2514,6 @@ class KameHouseCore {
    */
   isGRootPage() {
     return window.location.href.includes("/kame-house/groot/") || window.location.href.includes("/kame-house-batcave/");
-  }
-
-  /**
-   * Load ui build version and override the session value if present.
-   */
-  async #loadUiBuildVersion() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-version.txt');
-    if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-version.txt", null);
-      return;
-    }
-    const lineArray = content.split("=");
-    const buildVersion = lineArray[1];
-    if (!kameHouse.core.isEmpty(buildVersion)) {
-      this.#buildVersion = buildVersion;
-      kameHouse.logger.info("Loaded buildVersion from ui-build-version.txt: " + buildVersion, null);
-    }
-  }
-  
-  /**
-   * Load ui build date and override the session value if present.
-   */
-  async #loadUiBuildDate() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-date.txt');
-    if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-date.txt", null);
-      return;
-    }
-    const lineArray = content.split("=");
-    const buildDate = lineArray[1];
-    if (!kameHouse.core.isEmpty(buildDate)) {
-      this.#buildDate = buildDate;
-      kameHouse.logger.info("Loaded buildDate from ui-build-date.txt: " + buildDate, null);
-    }
-  }
-
-  /**
-   * Update session with ui build info.
-   */
-  #updateSessionWithUiBuildInfo() {
-    kameHouse.logger.info("Updating session with ui build info", null);
-    if (!kameHouse.core.isEmpty(this.#buildVersion)) {
-      kameHouse.session.buildVersion = this.#buildVersion;
-    }
-    if (!kameHouse.core.isEmpty(this.#buildDate)) {
-      kameHouse.session.buildDate = this.#buildDate;
-    }
   }
 
   /**
@@ -3338,8 +3284,6 @@ class SessionStatus {
   lastName: string;
   server: string;
   sessionId: string;
-  buildVersion: string;
-  buildDate: string;
   roles: string[];
 } // SessionStatus
 

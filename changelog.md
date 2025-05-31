@@ -7,6 +7,7 @@
 
 #### v10.07
 
+- Removed buildVersion and buildDate from the session objects and loaded them directly on the footer from the ui txt files
 - Removed server name from the banner in some pages
 - Updated footer backend offline message
 - Added functionality to hide undeployed modules from groot server manager ui

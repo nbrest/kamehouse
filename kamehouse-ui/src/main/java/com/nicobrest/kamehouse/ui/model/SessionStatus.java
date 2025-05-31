@@ -18,8 +18,6 @@ public class SessionStatus {
   private String lastName;
   private String server;
   private String sessionId;
-  private String buildVersion;
-  private String buildDate;
   private List<String> roles;
 
   public String getUsername() {
@@ -60,22 +58,6 @@ public class SessionStatus {
 
   public void setSessionId(String sessionId) {
     this.sessionId = sessionId;
-  }
-
-  public String getBuildVersion() {
-    return buildVersion;
-  }
-
-  public void setBuildVersion(String buildVersion) {
-    this.buildVersion = buildVersion;
-  }
-
-  public String getBuildDate() {
-    return buildDate;
-  }
-
-  public void setBuildDate(String buildDate) {
-    this.buildDate = buildDate;
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
