@@ -147,7 +147,7 @@ public class PropertiesUtils {
   /**
    * Loads the git commit hash into the properties, if it's available.
    */
-  private static void loadGitCommitHash() {
+  protected static void loadGitCommitHash() {
     try {
       String buildVersion = getProperty(BUILD_VERSION_PROPERTY);
       if (StringUtils.isEmpty(buildVersion)) {
@@ -177,7 +177,7 @@ public class PropertiesUtils {
   /**
    * Loads the build version into the properties, if it's available.
    */
-  private static void loadBuildVersion() {
+  protected static void loadBuildVersion() {
     try {
       Resource buildVersionResource = new ClassPathResource("/build-version.cfg");
       InputStream buildVersionInputStream = buildVersionResource.getInputStream();
@@ -201,7 +201,7 @@ public class PropertiesUtils {
   /**
    * Loads the build date into the properties, if it's available.
    */
-  private static void loadBuildDate() {
+  protected static void loadBuildDate() {
     try {
       Resource buildDateResource = new ClassPathResource("/build-date.cfg");
       InputStream buildDateInputStream = buildDateResource.getInputStream();
