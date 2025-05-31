@@ -259,7 +259,7 @@ buildKameHouseMobile() {
   updateConfigWithGitHash
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
-  resetConfigFromGitHash
+  resetMobileAppConfig
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile
   cleanLogsInGitRepoFolder
@@ -316,18 +316,13 @@ deleteStaticFilesOnMobile() {
 }
 
 updateConfigWithGitHash() {
-  log.debug "Setting git commit hash on config.xml"
-  cp -f config.xml config-pre-build.xml
-  local RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  RELEASE_VERSION=`echo ${RELEASE_VERSION:9:5}`
-  local APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1"
-  local APP_VERSION_WITH_HASH="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1-${GIT_COMMIT_HASH}"
-
-  log.debug "Setting mobile app version to: ${APP_VERSION_WITH_HASH}"
-  sed -i "s+${APP_VERSION}+${APP_VERSION_WITH_HASH}+g" config.xml
+  log.info "Setting git commit hash on config.xml"
+  cp -f source-config.xml config.xml
+  sed -i "s#GIT_COMMIT_HASH#${GIT_COMMIT_HASH}#" config.xml
+  cat config.xml | grep "<widget id="
 }
 
-resetConfigFromGitHash() {
-  log.debug "Resetting config.xml git commit hash after build"
-  mv -f config-pre-build.xml config.xml
+resetMobileAppConfig() {
+  log.debug "Removing config.xml after build"
+  rm -f config.xml
 }
