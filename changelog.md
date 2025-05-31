@@ -16,6 +16,7 @@
 - Added config to skip deploying certain kamehouse modules to kamehouse.cfg
 - Added script name to start and end log lines
 - Moved shell source files import check to one liners
+- Updated ci full build script to deploy shell before all other modules
 - Fixed bugs
 
 #### v10.06
