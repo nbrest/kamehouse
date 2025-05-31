@@ -79,7 +79,7 @@ class KameHouseFooter {
     if (!kameHouse.core.isEmpty(buildVersion)) {
       buildVersion = buildVersion.replace(/\n+$/, "");
       this.#buildVersion = buildVersion;
-      kameHouse.logger.info("Loaded buildVersion from ui-build-version.txt: " + buildVersion, null);
+      kameHouse.logger.info("Loaded buildVersion: " + buildVersion, null);
     }
   }
   
@@ -97,7 +97,7 @@ class KameHouseFooter {
     if (!kameHouse.core.isEmpty(buildDate)) {
       buildDate = buildDate.replace(/\n+$/, "");
       this.#buildDate = buildDate;
-      kameHouse.logger.info("Loaded buildDate from ui-build-date.txt: " + buildDate, null);
+      kameHouse.logger.info("Loaded buildDate: " + buildDate, null);
     }
   }
 }
