@@ -40,7 +40,7 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/docker/docker-upgrade-containers.sh"
   checkCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy-kamehouse.sh" -m "shell"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy-kamehouse.sh" -a "-m shell"
   checkCommandStatus "$?" "An error occurred deploying kamehouse shell in all servers"  
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy-kamehouse.sh"
