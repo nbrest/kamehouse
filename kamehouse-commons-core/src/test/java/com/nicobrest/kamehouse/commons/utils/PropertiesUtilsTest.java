@@ -119,9 +119,6 @@ class PropertiesUtilsTest {
   @Test
   void getBooleanPropertyTest() {
     when(PropertiesUtils.getBooleanProperty(any())).thenCallRealMethod();
-    PropertiesUtils.loadBuildVersion();
-    PropertiesUtils.loadBuildDate();
-    PropertiesUtils.loadGitCommitHash();
 
     boolean value = PropertiesUtils.getBooleanProperty("invalid-property");
 

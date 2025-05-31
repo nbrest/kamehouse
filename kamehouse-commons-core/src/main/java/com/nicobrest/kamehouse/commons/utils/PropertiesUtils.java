@@ -147,25 +147,15 @@ public class PropertiesUtils {
   /**
    * Loads the git commit hash into the properties, if it's available.
    */
-  protected static void loadGitCommitHash() {
+  private static void loadGitCommitHash() {
     try {
       String buildVersion = getProperty(BUILD_VERSION_PROPERTY);
       if (StringUtils.isEmpty(buildVersion)) {
         LOGGER.warn("Build version not available, so skipping getting git hash");
         return;
       }
-      Resource gitCommitHashResource = new ClassPathResource("/git-commit-hash.cfg");
-      InputStream gitCommitHashInputStream = gitCommitHashResource.getInputStream();
-      String content = IOUtils.toString(gitCommitHashInputStream,
-          StandardCharsets.UTF_8.name());
-      if (content == null) {
-        LOGGER.error("git commit hash is empty");
-        return;
-      }
-      if (!content.startsWith("GIT_COMMIT_HASH=")) {
-        LOGGER.error("Invalid format of git commit hash");
-        return;
-      }
+      String content = loadContentFromResource("/git-commit-hash.cfg");
+      validateContentKey(content, "GIT_COMMIT_HASH=");
       String gitCommitHash = content.split("=")[1].trim();
       String updatedBuildVersion = buildVersion + "-" + gitCommitHash;
       properties.put(BUILD_VERSION_PROPERTY, updatedBuildVersion);
@@ -177,20 +167,10 @@ public class PropertiesUtils {
   /**
    * Loads the build version into the properties, if it's available.
    */
-  protected static void loadBuildVersion() {
+  private static void loadBuildVersion() {
     try {
-      Resource buildVersionResource = new ClassPathResource("/build-version.cfg");
-      InputStream buildVersionInputStream = buildVersionResource.getInputStream();
-      String content = IOUtils.toString(buildVersionInputStream,
-          StandardCharsets.UTF_8.name());
-      if (content == null) {
-        LOGGER.error("Error loading kamehouse build version into properties");
-        return;
-      }
-      if (!content.startsWith("BUILD_VERSION=")) {
-        LOGGER.error("Invalid format of build version");
-        return;
-      }
+      String content = loadContentFromResource("/build-version.cfg");
+      validateContentKey(content, "BUILD_VERSION=");
       String buildVersion = content.split("=")[1].trim();
       properties.put(BUILD_VERSION_PROPERTY, buildVersion);
     } catch (IOException e) {
@@ -201,23 +181,38 @@ public class PropertiesUtils {
   /**
    * Loads the build date into the properties, if it's available.
    */
-  protected static void loadBuildDate() {
+  private static void loadBuildDate() {
     try {
-      Resource buildDateResource = new ClassPathResource("/build-date.cfg");
-      InputStream buildDateInputStream = buildDateResource.getInputStream();
-      String content = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
-      if (content == null) {
-        LOGGER.error("Error loading kamehouse build date into properties");
-        return;
-      }
-      if (!content.startsWith("BUILD_DATE=")) {
-        LOGGER.error("Invalid format of build date");
-        return;
-      }
+      String content = loadContentFromResource("/build-date.cfg");
+      validateContentKey(content, "BUILD_DATE=");
       String buildDate = content.split("=")[1].trim();
       properties.put("kamehouse.build.date", buildDate);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build date into properties", e);
+    }
+  }
+
+  /**
+   * Load resource into string.
+   */
+  private static String loadContentFromResource(String resourcePath) throws IOException {
+    Resource buildDateResource = new ClassPathResource(resourcePath);
+    InputStream buildDateInputStream = buildDateResource.getInputStream();
+    String content = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
+    if (content == null) {
+      LOGGER.error("Error loading {} into properties", resourcePath);
+      throw new IOException("Error loading " + resourcePath);
+    }
+    return content;
+  }
+
+  /**
+   * Validate loaded content starts with expected key.
+   */
+  private static void validateContentKey(String content, String key) throws IOException {
+    if (!content.startsWith(key)) {
+      LOGGER.error("Content loaded doesn't start with expected key {}", key);
+      throw new IOException("Content loaded doesn't start with expected key " + key);
     }
   }
 }
