@@ -10,6 +10,7 @@
 - Removed buildVersion and buildDate from the session objects and loaded them directly on the footer from the ui build info json file
 - Removed server name from the banner in some pages
 - Updated footer backend offline message
+- Moved data files loaded in the UI from .txt to .data
 - Added functionality to hide undeployed modules from groot server manager ui
 - Added functionality to update footer with groot session on groot pages
 - Added config to skip deploying certain kamehouse modules to kamehouse.cfg

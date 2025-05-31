@@ -154,7 +154,7 @@ public class PropertiesUtils {
         LOGGER.warn("Build version not available, so skipping getting git hash");
         return;
       }
-      Resource gitCommitHashResource = new ClassPathResource("/git-commit-hash.txt");
+      Resource gitCommitHashResource = new ClassPathResource("/git-commit-hash.data");
       InputStream gitCommitHashInputStream = gitCommitHashResource.getInputStream();
       String gitCommitHash = IOUtils.toString(gitCommitHashInputStream,
           StandardCharsets.UTF_8.name());
@@ -174,7 +174,7 @@ public class PropertiesUtils {
    */
   private static void loadBuildVersion() {
     try {
-      Resource buildVersionResource = new ClassPathResource("/build-version.txt");
+      Resource buildVersionResource = new ClassPathResource("/build-version.data");
       InputStream buildVersionInputStream = buildVersionResource.getInputStream();
       String buildVersion = IOUtils.toString(buildVersionInputStream,
           StandardCharsets.UTF_8.name());
@@ -193,7 +193,7 @@ public class PropertiesUtils {
    */
   private static void loadBuildDate() {
     try {
-      Resource buildDateResource = new ClassPathResource("/build-date.txt");
+      Resource buildDateResource = new ClassPathResource("/build-date.data");
       InputStream buildDateInputStream = buildDateResource.getInputStream();
       String buildDate = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
       if (buildDate == null) {

@@ -300,7 +300,7 @@ deployKameHouseMobileStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
-  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.txt
+  echo "buildVersion=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.data
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
@@ -321,8 +321,8 @@ deployKameHouseMobileStatic() {
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   log.info "kamehouse-mobile version"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.txt"
-  local MOBILE_BUILD_DATE=`cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-date.txt"`
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.data"
+  local MOBILE_BUILD_DATE=`cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-date.data"`
   echo "buildDate=${MOBILE_BUILD_DATE}"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }

@@ -583,7 +583,7 @@ class KameHouseMobileCore {
    * Set mobile app git commit hash.
    */
   async #setGitCommitHash() {
-    const gitHash = await kameHouse.util.fetch.loadFile('/kame-house-mobile/git-commit-hash.txt');
+    const gitHash = await kameHouse.util.fetch.loadFile('/kame-house-mobile/git-commit-hash.data');
     kameHouse.logger.info("Mobile git hash: " + gitHash, null);
     const gitHashDiv = document.getElementById("mobile-git-hash");
     kameHouse.util.dom.setHtml(gitHashDiv, gitHash);
@@ -593,7 +593,7 @@ class KameHouseMobileCore {
    * Set mobile app build date.
    */
   async #setBuildDate() {
-    const buildDate = await kameHouse.util.fetch.loadFile('/kame-house-mobile/build-date.txt');
+    const buildDate = await kameHouse.util.fetch.loadFile('/kame-house-mobile/build-date.data');
     kameHouse.logger.info("Mobile build date: " + buildDate, null);
     const buildDateDiv = document.getElementById("mobile-build-date");
     kameHouse.util.dom.setHtml(buildDateDiv, buildDate);

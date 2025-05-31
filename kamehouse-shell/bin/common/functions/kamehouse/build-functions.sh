@@ -181,7 +181,7 @@ exportGitCommitHash() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting git commit hash to commons-core"
   GIT_COMMIT_HASH=`git rev-parse --short HEAD`
-  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.txt
+  echo "${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.data
 }
 
 exportBuildVersion() {
@@ -189,13 +189,13 @@ exportBuildVersion() {
   log.info "Exporting build version to commons-core"
   local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
   KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
-  echo "${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.txt
+  echo "${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.data
 }
 
 exportBuildDate() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting build date to commons-core"
-  date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.txt
+  date +%Y-%m-%d' '%H:%M:%S > kamehouse-commons-core/src/main/resources/build-date.data
 }
 
 buildMavenCommand() {
@@ -289,8 +289,8 @@ syncStaticFilesOnMobile() {
 setMobileBuildVersionAndKeys() {
   log.debug "Setting build version and encryption key"
   cp -f pom.xml www/kame-house-mobile/
-  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.txt
-  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.txt
+  echo "${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.data
+  date +%Y-%m-%d' '%H:%M:%S > www/kame-house-mobile/build-date.data
   echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
 }
 
