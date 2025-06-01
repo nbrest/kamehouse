@@ -2321,14 +2321,14 @@ class KameHouseCore {
   /**
    * Get the value from a kamehouse config with the format `KAMEHOUSE_CONFIG_KEY=value`.
    */
-  getKameHouseConfigValue(configLine) {
-    if (this.isEmpty(configLine)) {
-      return configLine;
+  getKameHouseConfigValue(kameHouseConfig) {
+    if (this.isEmpty(kameHouseConfig)) {
+      return kameHouseConfig;
     }
-    if (!configLine.includes("=")) {
+    if (!kameHouseConfig.includes("=")) {
       return;
     }
-    return configLine.split("=")[1].replace(/\n+$/, "");
+    return kameHouseConfig.split("=")[1].replace(/\n+$/, "");
   }
 
   /** 

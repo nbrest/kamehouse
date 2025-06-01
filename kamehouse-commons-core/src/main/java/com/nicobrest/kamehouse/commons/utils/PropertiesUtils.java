@@ -198,20 +198,20 @@ public class PropertiesUtils {
   private static String loadKameHouseConfigFromResource(String resourcePath) throws IOException {
     Resource buildDateResource = new ClassPathResource(resourcePath);
     InputStream buildDateInputStream = buildDateResource.getInputStream();
-    String content = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
-    if (content == null) {
+    String kameHouseConfig = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
+    if (kameHouseConfig == null) {
       LOGGER.error("Error loading {} into properties", resourcePath);
       throw new IOException("Error loading " + resourcePath);
     }
-    return content;
+    return kameHouseConfig;
   }
 
   /**
-   * Validate loaded content starts with expected key.
+   * Validate loaded kamehouse config starts with expected key.
    */
-  private static void validateKameHouseConfigKey(String content, String key) throws IOException {
-    if (!content.startsWith(key)) {
-      LOGGER.error("Content loaded doesn't start with expected key {}", key);
+  private static void validateKameHouseConfigKey(String kameHouseConfig, String key)
+      throws IOException {
+    if (!kameHouseConfig.startsWith(key)) {
       throw new IOException("Content loaded doesn't start with expected key " + key);
     }
   }
@@ -219,7 +219,7 @@ public class PropertiesUtils {
   /**
    * Return the value from a kamehouse config string with KEY=value format.
    */
-  private static String getKameHouseConfigValue(String content) {
-    return content.split("=")[1].trim();
+  private static String getKameHouseConfigValue(String kameHouseConfig) {
+    return kameHouseConfig.split("=")[1].trim();
   }
 }
