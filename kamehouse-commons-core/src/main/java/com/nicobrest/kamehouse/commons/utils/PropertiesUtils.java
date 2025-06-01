@@ -154,9 +154,9 @@ public class PropertiesUtils {
         LOGGER.warn("Build version not available, so skipping getting git hash");
         return;
       }
-      String content = loadContentFromResource("/git-commit-hash.cfg");
-      validateContentKey(content, "GIT_COMMIT_HASH=");
-      String gitCommitHash = content.split("=")[1].trim();
+      String kameHouseConfig = loadKameHouseConfigFromResource("/git-commit-hash.cfg");
+      validateKameHouseConfigKey(kameHouseConfig, "GIT_COMMIT_HASH=");
+      String gitCommitHash = getKameHouseConfigValue(kameHouseConfig);
       String updatedBuildVersion = buildVersion + "-" + gitCommitHash;
       properties.put(BUILD_VERSION_PROPERTY, updatedBuildVersion);
     } catch (IOException e) {
@@ -165,13 +165,13 @@ public class PropertiesUtils {
   }
 
   /**
-   * Loads the build version into the properties, if it's available.
+   * Loads the build version into the properties.
    */
   private static void loadBuildVersion() {
     try {
-      String content = loadContentFromResource("/build-version.cfg");
-      validateContentKey(content, "BUILD_VERSION=");
-      String buildVersion = content.split("=")[1].trim();
+      String kameHouseConfig = loadKameHouseConfigFromResource("/build-version.cfg");
+      validateKameHouseConfigKey(kameHouseConfig, "BUILD_VERSION=");
+      String buildVersion = getKameHouseConfigValue(kameHouseConfig);
       properties.put(BUILD_VERSION_PROPERTY, buildVersion);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build version into properties", e);
@@ -179,13 +179,13 @@ public class PropertiesUtils {
   }
 
   /**
-   * Loads the build date into the properties, if it's available.
+   * Loads the build date into the properties.
    */
   private static void loadBuildDate() {
     try {
-      String content = loadContentFromResource("/build-date.cfg");
-      validateContentKey(content, "BUILD_DATE=");
-      String buildDate = content.split("=")[1].trim();
+      String kameHouseConfig = loadKameHouseConfigFromResource("/build-date.cfg");
+      validateKameHouseConfigKey(kameHouseConfig, "BUILD_DATE=");
+      String buildDate = getKameHouseConfigValue(kameHouseConfig);
       properties.put("kamehouse.build.date", buildDate);
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build date into properties", e);
@@ -193,9 +193,9 @@ public class PropertiesUtils {
   }
 
   /**
-   * Load resource into string.
+   * Load kamehouse config resource into string.
    */
-  private static String loadContentFromResource(String resourcePath) throws IOException {
+  private static String loadKameHouseConfigFromResource(String resourcePath) throws IOException {
     Resource buildDateResource = new ClassPathResource(resourcePath);
     InputStream buildDateInputStream = buildDateResource.getInputStream();
     String content = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
@@ -209,10 +209,17 @@ public class PropertiesUtils {
   /**
    * Validate loaded content starts with expected key.
    */
-  private static void validateContentKey(String content, String key) throws IOException {
+  private static void validateKameHouseConfigKey(String content, String key) throws IOException {
     if (!content.startsWith(key)) {
       LOGGER.error("Content loaded doesn't start with expected key {}", key);
       throw new IOException("Content loaded doesn't start with expected key " + key);
     }
+  }
+
+  /**
+   * Return the value from a kamehouse config string with KEY=value format.
+   */
+  private static String getKameHouseConfigValue(String content) {
+    return content.split("=")[1].trim();
   }
 }

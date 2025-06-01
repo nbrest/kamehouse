@@ -587,8 +587,7 @@ class KameHouseMobileCore {
     if (!content.startsWith("GIT_COMMIT_HASH=")) {
       return;
     }
-    const contentArray = content.split("=");
-    const gitHash = contentArray[1].replace(/\n+$/, "");
+    const gitHash = kameHouse.core.getKameHouseConfigValue(content);
     kameHouse.logger.info("Mobile git hash: " + gitHash, null);
     const gitHashDiv = document.getElementById("mobile-git-hash");
     kameHouse.util.dom.setHtml(gitHashDiv, gitHash);
@@ -602,8 +601,7 @@ class KameHouseMobileCore {
     if (!content.startsWith("BUILD_DATE=")) {
       return;
     }
-    const contentArray = content.split("=");
-    const buildDate = contentArray[1].replace(/\n+$/, "");
+    const buildDate = kameHouse.core.getKameHouseConfigValue(content);
     kameHouse.logger.info("Mobile build date: " + buildDate, null);
     const buildDateDiv = document.getElementById("mobile-build-date");
     kameHouse.util.dom.setHtml(buildDateDiv, buildDate);

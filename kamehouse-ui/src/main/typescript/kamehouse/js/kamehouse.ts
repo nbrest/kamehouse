@@ -2318,6 +2318,19 @@ class KameHouseCore {
     return [];
   }
 
+  /**
+   * Get the value from a kamehouse config with the format `KAMEHOUSE_CONFIG_KEY=value`.
+   */
+  getKameHouseConfigValue(configLine) {
+    if (this.isEmpty(configLine)) {
+      return configLine;
+    }
+    if (!configLine.includes("=")) {
+      return;
+    }
+    return configLine.split("=")[1].replace(/\n+$/, "");
+  }
+
   /** 
    * Replaces bash colors in the input string for the equivalent css styled color.
    * @deprecated moved logic to convert bash to html to the backend.

@@ -487,8 +487,7 @@ class DeploymentManager {
       if (!line.startsWith("UNDEPLOYED_MODULES=")) {
         return;
       }
-      const lineArray = line.split("=");
-      const modules = lineArray[1];
+      const modules = kameHouse.core.getKameHouseConfigValue(line);
       const modulesArray = modules.split(",");
       modulesArray.forEach((module) => {
         if (kameHouse.core.isEmpty(module)) {
@@ -550,13 +549,11 @@ class DeploymentManager {
   #displayNonTomcatModuleStatus(kameHouseCommandResult, module) {
     kameHouseCommandResult.standardOutputHtml.forEach((line) => {
       if (line.startsWith("BUILD_VERSION=")) {
-        const lineArray = line.split("=");
-        const buildVersion = lineArray[1];
+        const buildVersion = kameHouse.core.getKameHouseConfigValue(line);
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", buildVersion);
       }
       if (line.startsWith("BUILD_DATE=")) {
-        const lineArray = line.split("=");
-        const buildDate = lineArray[1];
+        const buildDate = kameHouse.core.getKameHouseConfigValue(line);
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-date-val", buildDate);    
       }
     });
