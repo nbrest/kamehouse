@@ -2319,6 +2319,17 @@ class KameHouseCore {
   }
 
   /**
+   * Returns true if the specified kamehouse config has the format `KAMEHOUSE_CONFIG_KEY=value`
+   * and has the specified key.
+   */
+  isValidKameHouseConfig(kameHouseConfig, key) {
+    if (this.isEmpty(kameHouseConfig)) {
+      return false;
+    }
+    return kameHouseConfig.startsWith(key + "=");
+  }
+
+  /**
    * Get the value from a kamehouse config with the format `KAMEHOUSE_CONFIG_KEY=value`.
    */
   getKameHouseConfigValue(kameHouseConfig) {

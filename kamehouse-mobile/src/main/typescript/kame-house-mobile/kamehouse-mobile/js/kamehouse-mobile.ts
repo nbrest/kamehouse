@@ -584,7 +584,7 @@ class KameHouseMobileCore {
    */
   async #setGitCommitHash() {
     const content = await kameHouse.util.fetch.loadFile('/kame-house-mobile/git-commit-hash.cfg');
-    if (!content.startsWith("GIT_COMMIT_HASH=")) {
+    if (!kameHouse.core.isValidKameHouseConfig(content, "GIT_COMMIT_HASH")) {
       return;
     }
     const gitHash = kameHouse.core.getKameHouseConfigValue(content);
@@ -598,7 +598,7 @@ class KameHouseMobileCore {
    */
   async #setBuildDate() {
     const content = await kameHouse.util.fetch.loadFile('/kame-house-mobile/build-date.cfg');
-    if (!content.startsWith("BUILD_DATE=")) {
+    if (!kameHouse.core.isValidKameHouseConfig(content, "BUILD_DATE")) {
       return;
     }
     const buildDate = kameHouse.core.getKameHouseConfigValue(content);

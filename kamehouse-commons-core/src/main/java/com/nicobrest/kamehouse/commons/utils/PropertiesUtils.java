@@ -155,7 +155,7 @@ public class PropertiesUtils {
         return;
       }
       String kameHouseConfig = loadKameHouseConfigFromResource("/git-commit-hash.cfg");
-      validateKameHouseConfigKey(kameHouseConfig, "GIT_COMMIT_HASH");
+      validateKameHouseConfig(kameHouseConfig, "GIT_COMMIT_HASH");
       String gitCommitHash = getKameHouseConfigValue(kameHouseConfig);
       String updatedBuildVersion = buildVersion + "-" + gitCommitHash;
       properties.put(BUILD_VERSION_PROPERTY, updatedBuildVersion);
@@ -170,7 +170,7 @@ public class PropertiesUtils {
   private static void loadBuildVersion() {
     try {
       String kameHouseConfig = loadKameHouseConfigFromResource("/build-version.cfg");
-      validateKameHouseConfigKey(kameHouseConfig, "BUILD_VERSION");
+      validateKameHouseConfig(kameHouseConfig, "BUILD_VERSION");
       String buildVersion = getKameHouseConfigValue(kameHouseConfig);
       properties.put(BUILD_VERSION_PROPERTY, buildVersion);
     } catch (IOException e) {
@@ -184,7 +184,7 @@ public class PropertiesUtils {
   private static void loadBuildDate() {
     try {
       String kameHouseConfig = loadKameHouseConfigFromResource("/build-date.cfg");
-      validateKameHouseConfigKey(kameHouseConfig, "BUILD_DATE");
+      validateKameHouseConfig(kameHouseConfig, "BUILD_DATE");
       String buildDate = getKameHouseConfigValue(kameHouseConfig);
       properties.put("kamehouse.build.date", buildDate);
     } catch (IOException e) {
@@ -209,10 +209,10 @@ public class PropertiesUtils {
   /**
    * Validate loaded kamehouse config starts with expected key.
    */
-  private static void validateKameHouseConfigKey(String kameHouseConfig, String key)
+  private static void validateKameHouseConfig(String kameHouseConfig, String key)
       throws IOException {
     if (!kameHouseConfig.startsWith(key + "=")) {
-      throw new IOException("Content loaded doesn't start with expected key " + key);
+      throw new IOException("kamehouse config loaded doesn't start with expected key " + key);
     }
   }
 
