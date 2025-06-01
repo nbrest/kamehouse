@@ -4,6 +4,7 @@ deployKameHouseProject() {
   setKameHouseRootProjectDir
   pullLatestKameHouseChanges
   setKameHouseBuildVersion
+  setKameHouseBuildInfoFiles
   deployKameHouseShell
   deployKameHouseGroot
   buildKameHouseStatic
@@ -49,6 +50,14 @@ setKameHouseDeploymentParameters() {
 setKameHouseBuildVersion() {
   KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
   log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
+}
+
+setKameHouseBuildInfoFiles() {
+  log.debug "Setting kamehouse build-info cfg and json files"
+  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./build-info.cfg
+  echo "BUILD_DATE=${BUILD_DATE}" >> ./build-info.cfg
+  echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./build-info.json  
 }
 
 deployKameHouseShell() {
@@ -286,8 +295,8 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
-  log.info "ui-build-info.cfg"
-  cat ${HTTPD_CONTENT_ROOT}/kame-house/ui-build-info.cfg
+  log.info "build-info.cfg"
+  cat ${HTTPD_CONTENT_ROOT}/kame-house/build-info.cfg
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
 
@@ -300,7 +309,7 @@ deployKameHouseMobileStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.cfg
+  cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
@@ -321,8 +330,7 @@ deployKameHouseMobileStatic() {
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   log.info "kamehouse-mobile version"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-version.cfg"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-date.cfg"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-info.cfg"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }
 

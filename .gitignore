@@ -6,9 +6,12 @@
 logs/**
 **/tmp/**
 data/**
-kamehouse-commons-core/src/main/resources/git-commit-hash.cfg
-kamehouse-commons-core/src/main/resources/build-version.cfg
-kamehouse-commons-core/src/main/resources/build-date.cfg
+
+# kamehouse build info
+build-info.cfg
+build-info.json
+kamehouse-commons-core/src/main/resources/build-info.cfg
+kamehouse-commons-core/src/main/resources/build-info.json
 
 # Compiled frontend static code
 kamehouse-ui/dist

@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,12 +26,11 @@ public class PropertiesUtils {
   private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
   private static final Properties properties = new Properties();
   private static final String BUILD_VERSION_PROPERTY = "kamehouse.build.version";
+  private static final String BUILD_DATE_PROPERTY = "kamehouse.build.date";
 
   static {
     loadAllPropertiesFiles();
-    loadBuildVersion();
-    loadBuildDate();
-    loadGitCommitHash();
+    loadBuildInfoProperties();
   }
 
   private PropertiesUtils() {
@@ -145,81 +145,32 @@ public class PropertiesUtils {
   }
 
   /**
-   * Loads the git commit hash into the properties, if it's available.
+   * Loads the build info into the properties.
    */
-  private static void loadGitCommitHash() {
+  private static void loadBuildInfoProperties() {
     try {
-      String buildVersion = getProperty(BUILD_VERSION_PROPERTY);
-      if (StringUtils.isEmpty(buildVersion)) {
-        LOGGER.warn("Build version not available, so skipping getting git hash");
-        return;
-      }
-      String kameHouseConfig = loadKameHouseConfigFromResource("/git-commit-hash.cfg");
-      validateKameHouseConfig(kameHouseConfig, "GIT_COMMIT_HASH");
-      String gitCommitHash = getKameHouseConfigValue(kameHouseConfig);
-      String updatedBuildVersion = buildVersion + "-" + gitCommitHash;
-      properties.put(BUILD_VERSION_PROPERTY, updatedBuildVersion);
-    } catch (IOException e) {
-      LOGGER.error("Error loading kamehouse git commit hash into properties", e);
-    }
-  }
-
-  /**
-   * Loads the build version into the properties.
-   */
-  private static void loadBuildVersion() {
-    try {
-      String kameHouseConfig = loadKameHouseConfigFromResource("/build-version.cfg");
-      validateKameHouseConfig(kameHouseConfig, "BUILD_VERSION");
-      String buildVersion = getKameHouseConfigValue(kameHouseConfig);
-      properties.put(BUILD_VERSION_PROPERTY, buildVersion);
+      JsonNode buildInfo = loadBuildInfoFromResource();
+      properties.put(BUILD_VERSION_PROPERTY, buildInfo.get("buildVersion").asText());
+      properties.put(BUILD_DATE_PROPERTY, buildInfo.get("buildDate").asText());
     } catch (IOException e) {
       LOGGER.error("Error loading kamehouse build version into properties", e);
     }
   }
 
   /**
-   * Loads the build date into the properties.
+   * Load build info resource into json node.
    */
-  private static void loadBuildDate() {
-    try {
-      String kameHouseConfig = loadKameHouseConfigFromResource("/build-date.cfg");
-      validateKameHouseConfig(kameHouseConfig, "BUILD_DATE");
-      String buildDate = getKameHouseConfigValue(kameHouseConfig);
-      properties.put("kamehouse.build.date", buildDate);
-    } catch (IOException e) {
-      LOGGER.error("Error loading kamehouse build date into properties", e);
+  private static JsonNode loadBuildInfoFromResource() throws IOException {
+    Resource buildInfoResource = new ClassPathResource("/build-info.json");
+    InputStream buildInfoInputStream = buildInfoResource.getInputStream();
+    String buildInfoStr = IOUtils.toString(buildInfoInputStream, StandardCharsets.UTF_8.name());
+    if (buildInfoStr == null) {
+      throw new IOException("Error loading build info into properties");
     }
-  }
-
-  /**
-   * Load kamehouse config resource into string.
-   */
-  private static String loadKameHouseConfigFromResource(String resourcePath) throws IOException {
-    Resource buildDateResource = new ClassPathResource(resourcePath);
-    InputStream buildDateInputStream = buildDateResource.getInputStream();
-    String kameHouseConfig = IOUtils.toString(buildDateInputStream, StandardCharsets.UTF_8.name());
-    if (kameHouseConfig == null) {
-      LOGGER.error("Error loading {} into properties", resourcePath);
-      throw new IOException("Error loading " + resourcePath);
+    JsonNode buildInfo = JsonUtils.toJson(buildInfoStr);
+    if (buildInfo == null) {
+      throw new IOException("Error parsing build info as json");
     }
-    return kameHouseConfig;
-  }
-
-  /**
-   * Validate loaded kamehouse config starts with expected key.
-   */
-  private static void validateKameHouseConfig(String kameHouseConfig, String key)
-      throws IOException {
-    if (!kameHouseConfig.startsWith(key + "=")) {
-      throw new IOException("kamehouse config loaded doesn't start with expected key " + key);
-    }
-  }
-
-  /**
-   * Return the value from a kamehouse config string with KEY=value format.
-   */
-  private static String getKameHouseConfigValue(String kameHouseConfig) {
-    return kameHouseConfig.split("=")[1].trim();
+    return buildInfo;
   }
 }

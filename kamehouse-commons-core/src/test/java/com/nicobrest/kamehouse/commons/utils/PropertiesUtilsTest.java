@@ -13,8 +13,8 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 /**
- * PropertiesUtils tests. NOTE: I wouldn't test this class with it's current version (2019/05/19).
- * But * adding the tests for practice.
+ * PropertiesUtils tests. NOTE: I wouldn't test this class with its current version (2019/05/19).
+ * But adding the tests for practice.
  *
  * @author nbrest
  */

@@ -52,10 +52,8 @@ buildKameHouseUiStatic() {
 
   log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
-  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./dist/ui-build-info.cfg
-  echo "BUILD_DATE=${BUILD_DATE}" >> ./dist/ui-build-info.cfg
-  echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./dist/ui-build-info.json
+  cp -f ../build-info.cfg ./dist/
+  cp -f ../build-info.json ./dist/
   cdToRootDirFromModule "kamehouse-ui"
 }
 
@@ -86,7 +84,7 @@ buildKameHouseMobileStatic() {
   buildMobileBackendJson
   exportGitCommitHash
   cdToKameHouseModule "kamehouse-mobile"
-  setMobileBuildVersionAndKeys
+  setMobileKeys
   cdToRootDirFromModule "kamehouse-mobile"
 }
 
@@ -168,34 +166,17 @@ buildKameHouseBackend() {
   fi
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
-  exportGitCommitHash
-  exportBuildVersion
-  exportBuildDate
+  exportBuildInfoToCommonsCore
   buildMavenCommand
   executeMavenCommand
   cleanLogsInGitRepoFolder
 }
 
-exportGitCommitHash() {
+exportBuildInfoToCommonsCore() {
   cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting git commit hash to commons-core"
-  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
-  echo "GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" > kamehouse-commons-core/src/main/resources/git-commit-hash.cfg
-}
-
-exportBuildVersion() {
-  cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting build version to commons-core"
-  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
-  echo "BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}" > kamehouse-commons-core/src/main/resources/build-version.cfg
-}
-
-exportBuildDate() {
-  cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting build date to commons-core"
-  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "BUILD_DATE=${BUILD_DATE}" > kamehouse-commons-core/src/main/resources/build-date.cfg
+  log.info "Exporting build info cfg and json files to commons-core"
+  cp -f ./build-info.cfg ./kamehouse-commons-core/src/main/resources/
+  cp -f ./build-info.json ./kamehouse-commons-core/src/main/resources/
 }
 
 buildMavenCommand() {
@@ -254,8 +235,8 @@ buildKameHouseMobile() {
   setLinuxBuildEnv
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
   prepareCordovaProject
-  setMobileBuildVersionAndKeys
-  setUiBuildInfoOnMobile
+  setMobileKeys
+  setBuildInfoOnMobile
   updateConfigWithGitHash
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
@@ -286,20 +267,14 @@ syncStaticFilesOnMobile() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
 }
 
-setMobileBuildVersionAndKeys() {
-  log.debug "Setting build version and encryption key"
-  cp -f pom.xml www/kame-house-mobile/
-  echo "GIT_COMMIT_HASH=${GIT_COMMIT_HASH}" > www/kame-house-mobile/git-commit-hash.cfg
-  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "BUILD_DATE=${BUILD_DATE}" > www/kame-house-mobile/build-date.cfg
+setMobileKeys() {
+  log.debug "Setting mobile encryption key"
   echo "${KAMEHOUSE_MOBILE_ENCRYPTION_KEY}" > www/kame-house-mobile/encryption.key
 }
 
-setUiBuildInfoOnMobile() {
+setBuildInfoOnMobile() {
   log.debug "Setting ui build info on mobile build"
-  local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
-  echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > www/kame-house/ui-build-info.json
+  cp -f ../build-info.json ./www/kame-house/
 }
 
 buildCordovaProject() {

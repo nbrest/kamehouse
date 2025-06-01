@@ -19,7 +19,7 @@ class KameHouseMobileSettings {
     kameHouse.util.module.waitForModules(["kameHouseModal", "kameHouseDebugger", "kameHouseMobile", "mobileTabsManager"], () => {
       this.#handleUrlParams();
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house-mobile/kamehouse-mobile/plugin/html/settings-debug-mode-custom.html", () => {
-        kameHouse.extension.mobile.core.setMobileBuildVersion();
+        kameHouse.extension.mobile.core.setMobileBuildInfo();
         kameHouse.core.configDynamicHtml();
       });
     });

@@ -70,14 +70,12 @@ class KameHouseFooter {
    * Load kamehouse ui build version.
    */
   async #loadUiBuildInfo() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house/ui-build-info.json');
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/build-info.json');
     if (kameHouse.core.isEmpty(content)) {
-      kameHouse.logger.error("Unable to load ui-build-info.json", null);
+      kameHouse.logger.error("Unable to load build-info.json", null);
       return;
     }
     this.#buildInfo = kameHouse.json.parse(content);
-    if (!kameHouse.core.isEmpty(this.#buildInfo.buildVersion)) {
-      kameHouse.logger.info("Loaded buildInfo: " + content, null);
-    }
+    kameHouse.logger.info("Loaded buildInfo: " + content, null);
   }
 }

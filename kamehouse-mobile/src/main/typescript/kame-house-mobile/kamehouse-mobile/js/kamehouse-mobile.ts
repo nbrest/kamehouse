@@ -235,12 +235,24 @@ class KameHouseMobileCore {
   }
 
   /**
-   * Set mobile app build version.
+   * Set mobile app build info in debug mode.
    */
-  setMobileBuildVersion() { 
-    this.#setAppVersion();
-    this.#setGitCommitHash();
-    this.#setBuildDate();
+  async setMobileBuildInfo() { 
+    const content = await kameHouse.util.fetch.loadFile('/kame-house/build-info.json');
+    if (kameHouse.core.isEmpty(content)) {
+      kameHouse.logger.error("Unable to load build-info.json", null);
+      return;
+    }
+    const buildInfo = kameHouse.json.parse(content);
+    kameHouse.logger.info("Loaded buildInfo on mobile settings: " + content, null);
+    if (!kameHouse.core.isEmpty(buildInfo.buildVersion)) {
+      const buildVersionDiv = document.getElementById("mobile-build-version");
+      kameHouse.util.dom.setHtml(buildVersionDiv, buildInfo.buildVersion);
+    }
+    if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
+      const buildDateDiv = document.getElementById("mobile-build-date");
+      kameHouse.util.dom.setHtml(buildDateDiv, buildInfo.buildDate);
+    }
   }
 
   /**
@@ -563,48 +575,6 @@ class KameHouseMobileCore {
     + "'headers' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestHeaders, null, null)) + "', "
     + "'body' : '" + kameHouse.logger.maskSensitiveData(kameHouse.json.stringify(requestBody, null, null)) + "'"
     + "]", null);    
-  }
-
-  /**
-   * Set mobile app release version.
-   */
-  async #setAppVersion() {
-    const pom = await kameHouse.util.fetch.loadFile('/kame-house-mobile/pom.xml');
-    const versionPrefix = "<version>";
-    const versionSuffix = "-KAMEHOUSE-SNAPSHOT";
-    const tempVersion = pom.slice(pom.indexOf(versionPrefix) + versionPrefix.length);
-    const appVersion = tempVersion.slice(0, tempVersion.indexOf(versionSuffix));
-    kameHouse.logger.info("Mobile app version: " + appVersion, null);
-    const mobileBuildVersion = document.getElementById("mobile-build-version");
-    kameHouse.util.dom.setHtml(mobileBuildVersion, appVersion);
-  }
-
-  /**
-   * Set mobile app git commit hash.
-   */
-  async #setGitCommitHash() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house-mobile/git-commit-hash.cfg');
-    if (!kameHouse.core.isValidKameHouseConfig(content, "GIT_COMMIT_HASH")) {
-      return;
-    }
-    const gitHash = kameHouse.core.getKameHouseConfigValue(content);
-    kameHouse.logger.info("Mobile git hash: " + gitHash, null);
-    const gitHashDiv = document.getElementById("mobile-git-hash");
-    kameHouse.util.dom.setHtml(gitHashDiv, gitHash);
-  }
-
-  /**
-   * Set mobile app build date.
-   */
-  async #setBuildDate() {
-    const content = await kameHouse.util.fetch.loadFile('/kame-house-mobile/build-date.cfg');
-    if (!kameHouse.core.isValidKameHouseConfig(content, "BUILD_DATE")) {
-      return;
-    }
-    const buildDate = kameHouse.core.getKameHouseConfigValue(content);
-    kameHouse.logger.info("Mobile build date: " + buildDate, null);
-    const buildDateDiv = document.getElementById("mobile-build-date");
-    kameHouse.util.dom.setHtml(buildDateDiv, buildDate);
   }
 
   /**
