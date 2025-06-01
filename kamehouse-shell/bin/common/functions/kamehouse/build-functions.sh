@@ -154,7 +154,8 @@ buildKameHouseBackend() {
   if ${DEPLOY_KAMEHOUSE_CMD}; then
     RUN_MAVEN_COMMAND=true
   fi
-  if [ "${MODULE_SHORT}" == "shell" ] ||
+  if [ "${MODULE_SHORT}" == "mobile" ] ||
+     [ "${MODULE_SHORT}" == "shell" ] ||
      [ "${MODULE_SHORT}" == "groot" ]; then
     RUN_MAVEN_COMMAND=false
   fi
