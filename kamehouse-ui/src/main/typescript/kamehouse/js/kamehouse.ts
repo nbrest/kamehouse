@@ -2323,10 +2323,10 @@ class KameHouseCore {
    */
   getKameHouseConfigValue(kameHouseConfig) {
     if (this.isEmpty(kameHouseConfig)) {
-      return kameHouseConfig;
+      return null;
     }
     if (!kameHouseConfig.includes("=")) {
-      return;
+      return null;
     }
     return kameHouseConfig.split("=")[1].replace(/\n+$/, "");
   }
