@@ -82,8 +82,6 @@ buildKameHouseMobileStatic() {
   rm -rf ./www/kamehouse-mobile
   rm -rf ./www/kamehouse-ui
   buildMobileBackendJson
-  exportGitCommitHash
-  cdToKameHouseModule "kamehouse-mobile"
   setMobileKeys
   cdToRootDirFromModule "kamehouse-mobile"
 }
@@ -292,6 +290,7 @@ deleteStaticFilesOnMobile() {
 
 updateConfigWithGitHash() {
   log.info "Setting git commit hash on config.xml"
+  local GIT_COMMIT_HASH=`git rev-parse --short HEAD`
   cp -f source-config.xml config.xml
   sed -i "s#GIT_COMMIT_HASH#${GIT_COMMIT_HASH}#" config.xml
   cat config.xml | grep "<widget id="
