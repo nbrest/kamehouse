@@ -172,8 +172,7 @@ buildKameHouseBackend() {
 
 exportBuildInfoToCommonsCore() {
   cdToRootDirFromModule "kamehouse-mobile"
-  log.info "Exporting build info cfg and json files to commons-core"
-  cp -f ./build-info.cfg ./kamehouse-commons-core/src/main/resources/
+  log.info "Exporting build info to commons-core"
   cp -f ./build-info.json ./kamehouse-commons-core/src/main/resources/
 }
 

@@ -295,7 +295,7 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
-  log.info "build-info.cfg"
+  log.info "kamehouse-ui static version"
   cat ${HTTPD_CONTENT_ROOT}/kame-house/build-info.cfg
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
@@ -329,7 +329,7 @@ deployKameHouseMobileStatic() {
   log.info "Deployed kamehouse-mobile status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-mobile"
-  log.info "kamehouse-mobile version"
+  log.info "kamehouse-mobile static version"
   cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-info.cfg"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }
