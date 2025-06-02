@@ -14,8 +14,8 @@ setKameHouseBuildVersion() {
   log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
 }
 
-setKameHouseBuildInfoFiles() {
-  log.debug "Setting kamehouse build-info cfg and json files"
+generateBuildInfo() {
+  log.debug "Generating kamehouse build-info cfg and json files"
   local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
   echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./build-info.cfg
   echo "BUILD_DATE=${BUILD_DATE}" >> ./build-info.cfg

@@ -20,7 +20,7 @@ initScriptEnv() {
 mainProcess() {
   setKameHouseRootProjectDir
   setKameHouseBuildVersion
-  setKameHouseBuildInfoFiles
+  generateBuildInfo
   if ! ${SKIP_STATIC}; then
     buildKameHouseStatic
   fi

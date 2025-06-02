@@ -4,7 +4,7 @@ deployKameHouseProject() {
   setKameHouseRootProjectDir
   pullLatestKameHouseChanges
   setKameHouseBuildVersion
-  setKameHouseBuildInfoFiles
+  generateBuildInfo
   deployKameHouseShell
   deployKameHouseGroot
   buildKameHouseStatic
