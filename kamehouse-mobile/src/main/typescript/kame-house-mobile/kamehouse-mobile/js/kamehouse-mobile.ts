@@ -244,7 +244,7 @@ class KameHouseMobileCore {
       return;
     }
     const buildInfo = kameHouse.json.parse(content);
-    kameHouse.logger.info("Loaded buildInfo on mobile settings: " + content, null);
+    kameHouse.logger.info("Loaded mobile buildInfo: " + content, null);
     if (!kameHouse.core.isEmpty(buildInfo.buildVersion)) {
       const buildVersionDiv = document.getElementById("mobile-build-version");
       kameHouse.util.dom.setHtml(buildVersionDiv, buildInfo.buildVersion);

@@ -1,3 +1,27 @@
+getKameHouseBuildVersion() {
+  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
+  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
+  local GIT_COMMIT_HASH=`git rev-parse --short HEAD`
+  local BUILD_VERSION="${GIT_COMMIT_HASH}"
+  if [ -n "${KAMEHOUSE_RELEASE_VERSION}" ]; then
+    BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
+  fi
+  echo "${BUILD_VERSION}"
+}
+
+setKameHouseBuildVersion() {
+  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
+  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
+}
+
+setKameHouseBuildInfoFiles() {
+  log.debug "Setting kamehouse build-info cfg and json files"
+  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./build-info.cfg
+  echo "BUILD_DATE=${BUILD_DATE}" >> ./build-info.cfg
+  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./build-info.json  
+}
+
 buildKameHouseStatic() {
   if ! ${DEPLOY_KAMEHOUSE_STATIC}; then
     log.debug "DEPLOY_KAMEHOUSE_STATIC is false so skip building kamehouse static content"
@@ -174,6 +198,7 @@ buildKameHouseBackend() {
 exportBuildInfoToCommonsCore() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting build info to commons-core"
+  cp -f ./build-info.cfg ./kamehouse-commons-core/src/main/resources/
   cp -f ./build-info.json ./kamehouse-commons-core/src/main/resources/
 }
 

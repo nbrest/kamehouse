@@ -45,7 +45,7 @@ main() {
   updateLogLevel
   fixPermissions
   generateKameHouseShellPathFile
-  generateBuildVersion
+  generateBuildInfo
   if ! ${INSTALL_SCRIPTS_ONLY}; then
     installKamehouseConfig
     installKameHouseSecrets
@@ -83,7 +83,7 @@ installKameHouseShell() {
   log.info "Rebuilding shell scripts directory"
   rm -r -f ${KAMEHOUSE_SHELL_PATH}/bin
   rm -f ${KAMEHOUSE_SHELL_PATH}/conf/path.conf
-  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/shell-version.cfg
+  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/build-info.cfg
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
@@ -264,13 +264,13 @@ getPathWithSubdirectories() {
   echo "${PATH_WITH_SUBDIRS}"
 } 
 
-generateBuildVersion() {
+generateBuildInfo() {
   local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
-  local SHELL_VERSION_FILE="${KAMEHOUSE_SHELL_CONF_PATH}/shell-version.cfg"
   local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${SHELL_VERSION_FILE}
+  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.cfg
   local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "BUILD_DATE=${BUILD_DATE}" >> ${SHELL_VERSION_FILE}
+  echo "BUILD_DATE=${BUILD_DATE}" >> ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.cfg
+  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.json
 }
 
 getKameHouseBuildVersion() {
@@ -288,8 +288,8 @@ logKameHouseShellStatus() {
   log.info "Deployed kamehouse-shell status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_SHELL_PATH}"
   ls -lh "${KAMEHOUSE_SHELL_PATH}"
-  log.info "shell-version.cfg"
-  cat "${KAMEHOUSE_SHELL_PATH}/conf/shell-version.cfg"
+  log.info "kamehouse-shell version"
+  cat "${KAMEHOUSE_SHELL_PATH}/conf/build-info.cfg"
 }
 
 log.info() {

@@ -47,19 +47,6 @@ setKameHouseDeploymentParameters() {
   fi
 }
 
-setKameHouseBuildVersion() {
-  KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  log.trace "KAMEHOUSE_BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
-}
-
-setKameHouseBuildInfoFiles() {
-  log.debug "Setting kamehouse build-info cfg and json files"
-  local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./build-info.cfg
-  echo "BUILD_DATE=${BUILD_DATE}" >> ./build-info.cfg
-  echo -en '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./build-info.json  
-}
-
 deployKameHouseShell() {
   if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "shell" ]]; then
     return
@@ -93,6 +80,8 @@ deployKameHouseGroot() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
   cp -rf ./kamehouse-groot/src/main/php/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
+  cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-groot/
+  cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
@@ -109,16 +98,11 @@ deployKameHouseGroot() {
     fi
   done <<< ${DIRECTORIES}
 
-  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${GROOT_VERSION_FILE}
-  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "BUILD_DATE=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}
-
   log.info "Deployed kamehouse-groot status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-groot"
-  log.info "groot-version.cfg"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
+  log.info "kamehouse-groot version"
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/build-info.cfg"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
@@ -156,9 +140,8 @@ deployToTomcat() {
   log.info "Deployed tomcat modules status"
   log.info "ls -lh ${COL_CYAN_STD}${DEPLOYMENT_DIR}/*.war"
   ls -lh "${DEPLOYMENT_DIR}"/*.war
-  log.info "deployed kamehouse tomcat modules version"
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}"
-  echo "BUILD_DATE=$(date +%Y-%m-%d' '%H:%M:%S)"
+  log.info "kamehouse tomcat modules version"
+  cat ./kamehouse-commons-core/src/main/resources/build-info.cfg
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
   local TAIL_LOG_FILE="tomcat"
   if [[ ${DEPLOYMENT_DIR} =~ .*apache-tomcat-dev.* ]]; then
@@ -180,17 +163,15 @@ deployKameHouseCmd() {
   rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
   mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-  local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.cfg"
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${CMD_VERSION_FILE}
-  local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "BUILD_DATE=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
+  cp -f ./build-info.cfg ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
+  cp -f ./build-info.json ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
   chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   log.info "Deployed kamehouse-cmd status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*"
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd"*
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd"*.jar
-  log.info "cmd-version.cfg"
-  cat ${HOME}/programs/kamehouse-cmd/lib/cmd-version.cfg
+  log.info "kamehouse-cmd version"
+  cat ${HOME}/programs/kamehouse-cmd/lib/build-info.cfg
   checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
 

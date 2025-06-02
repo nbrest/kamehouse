@@ -10,6 +10,7 @@ data/**
 # kamehouse build info
 build-info.cfg
 build-info.json
+kamehouse-commons-core/src/main/resources/build-info.cfg
 kamehouse-commons-core/src/main/resources/build-info.json
 
 # Compiled frontend static code

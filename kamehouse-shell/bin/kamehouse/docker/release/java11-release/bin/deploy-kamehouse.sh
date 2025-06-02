@@ -69,10 +69,8 @@ deployKameHouseGRoot() {
     cp -f ./kamehouse-groot/public/index.html ${HTTPD_CONTENT_ROOT}/index.html
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
-    local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
-    echo "BUILD_VERSION=${RELEASE_VERSION}" > ${GROOT_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "BUILD_DATE=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}  
+    cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-groot/
+    cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   fi
 }
 
@@ -120,10 +118,8 @@ deployKameHouseCmd() {
     rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
     mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    local CMD_VERSION_FILE="${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/cmd-version.cfg"
-    echo "BUILD_VERSION=${RELEASE_VERSION}" > ${CMD_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "BUILD_DATE=${BUILD_DATE}" >> ${CMD_VERSION_FILE}
+    cp -f ./build-info.cfg ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
+    cp -f ./build-info.json ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.sh
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar
   fi

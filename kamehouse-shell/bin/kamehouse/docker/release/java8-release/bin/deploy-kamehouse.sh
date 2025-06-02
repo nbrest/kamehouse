@@ -69,10 +69,8 @@ deployKameHouseGRoot() {
     cp -f ./kamehouse-groot/public/index.html ${HTTPD_CONTENT_ROOT}/index.html
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
-    local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/groot-version.cfg"
-    echo "BUILD_VERSION=${RELEASE_VERSION}" > ${GROOT_VERSION_FILE}
-    local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-    echo "BUILD_DATE=${BUILD_DATE}" >> ${GROOT_VERSION_FILE}  
+    cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-groot/
+    cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   fi
 }
 

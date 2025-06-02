@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 mainProcess() {
-  local CMD_VERSION_FILE="${HOME}/programs/kamehouse-cmd/lib/cmd-version.cfg"
+  local CMD_VERSION_FILE="${HOME}/programs/kamehouse-cmd/lib/build-info.json"
   cat "${CMD_VERSION_FILE}"
 }
 

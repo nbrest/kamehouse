@@ -5,11 +5,6 @@
  */
 class KameHouseFooter {
 
-  #buildInfo = {
-    buildVersion: null,
-    buildDate: null
-  };
-
   /** Renders the footer */
   load() { 
     kameHouse.util.dom.append(kameHouse.util.dom.getHead(), '<link rel="stylesheet" type="text/css" href="/kame-house/kamehouse/css/kamehouse-footer.css">');
@@ -55,27 +50,19 @@ class KameHouseFooter {
    * Update the kamehouse ui build info in the footer.
    */
   async #updateFooterWithBuildInfo() {
-    kameHouse.logger.info("Loading kamehouse ui build info", null);
-    await this.#loadUiBuildInfo();
     kameHouse.logger.info("Updating footer with kamehouse ui build info", null);
-    if (!kameHouse.core.isEmpty(this.#buildInfo.buildVersion)) {
-      kameHouse.util.dom.setHtmlById("footer-build-version", this.#buildInfo.buildVersion);
-    }
-    if (!kameHouse.core.isEmpty(this.#buildInfo.buildDate)) {
-      kameHouse.util.dom.setHtmlById("footer-build-date", this.#buildInfo.buildDate);
-    }
-  }
-
-  /**
-   * Load kamehouse ui build version.
-   */
-  async #loadUiBuildInfo() {
     const content = await kameHouse.util.fetch.loadFile('/kame-house/build-info.json');
     if (kameHouse.core.isEmpty(content)) {
       kameHouse.logger.error("Unable to load build-info.json", null);
       return;
     }
-    this.#buildInfo = kameHouse.json.parse(content);
-    kameHouse.logger.info("Loaded buildInfo: " + content, null);
+    const buildInfo = kameHouse.json.parse(content);
+    kameHouse.logger.info("Loaded footer ui buildInfo: " + content, null);
+    if (!kameHouse.core.isEmpty(buildInfo.buildVersion)) {
+      kameHouse.util.dom.setHtmlById("footer-build-version", buildInfo.buildVersion);
+    }
+    if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
+      kameHouse.util.dom.setHtmlById("footer-build-date", buildInfo.buildDate);
+    }
   }
 }
