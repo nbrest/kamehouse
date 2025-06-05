@@ -7,8 +7,8 @@
 
 #### v10.07
 
-- Removed buildVersion and buildDate from the session objects and loaded them directly on the footer from the ui build info json file
-- Removed scattered .txt, .data and .cfg files loaded from the ui and replaced them with build-info.json
+- Removed buildVersion and buildDate from the session objects and loaded them directly on the footer from the ui build-info.json file
+- Removed scattered .txt, .data and .cfg files loaded from the ui and webapps and replaced them with build-info.json
 - Removed server name from the banner in some pages
 - Updated footer backend offline message
 - Added functionality to hide undeployed modules from groot server manager ui

@@ -13,6 +13,7 @@ deployKameHouseProject() {
   deployKameHouseBackend
   buildKameHouseMobile
   deployKameHouseMobile
+  deleteGitRepoBuildInfoFiles
   cleanUpMavenRepository
   checkForDeploymentErrors
 }
@@ -63,6 +64,7 @@ deployKameHouseShell() {
   log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "shell" ]; then
+    deleteGitRepoBuildInfoFiles
     exitSuccessfully
   fi
 }
@@ -80,7 +82,6 @@ deployKameHouseGroot() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
   cp -rf ./kamehouse-groot/src/main/php/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
-  cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
 
@@ -101,11 +102,14 @@ deployKameHouseGroot() {
   log.info "Deployed kamehouse-groot status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-groot"
-  log.info "kamehouse-groot version"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/build-info.cfg"
+  log.info "${COL_YELLOW_STD}kamehouse-groot version:"
+  echo -ne "${COL_YELLOW_STD}     "
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/build-info.json"
+  echo -ne "${COL_NORMAL}"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
+    deleteGitRepoBuildInfoFiles
     exitSuccessfully
   fi
 }
@@ -140,8 +144,10 @@ deployToTomcat() {
   log.info "Deployed tomcat modules status"
   log.info "ls -lh ${COL_CYAN_STD}${DEPLOYMENT_DIR}/*.war"
   ls -lh "${DEPLOYMENT_DIR}"/*.war
-  log.info "kamehouse tomcat modules version"
-  cat ./kamehouse-commons-core/src/main/resources/build-info.cfg
+  log.info "${COL_YELLOW_STD}kamehouse tomcat modules version:"
+  echo -ne "${COL_YELLOW_STD}     "
+  cat ./kamehouse-commons-core/src/main/resources/build-info.json
+  echo -ne "${COL_NORMAL}"
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
   local TAIL_LOG_FILE="tomcat"
   if [[ ${DEPLOYMENT_DIR} =~ .*apache-tomcat-dev.* ]]; then
@@ -163,15 +169,16 @@ deployKameHouseCmd() {
   rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
   mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-  cp -f ./build-info.cfg ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
   cp -f ./build-info.json ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
   chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   log.info "Deployed kamehouse-cmd status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*"
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd"*
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd"*.jar
-  log.info "kamehouse-cmd version"
-  cat ${HOME}/programs/kamehouse-cmd/lib/build-info.cfg
+  log.info "${COL_YELLOW_STD}kamehouse-cmd version:"
+  echo -ne "${COL_YELLOW_STD}     "
+  cat ${HOME}/programs/kamehouse-cmd/lib/build-info.json
+  echo -ne "${COL_NORMAL}"
   checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
 
@@ -245,6 +252,7 @@ deployKameHouseStatic() {
   else 
     log.info "Finished deploying static code for module ${COL_PURPLE}${MODULE}"
   fi
+  deleteGitRepoBuildInfoFiles
   exitSuccessfully    
 }
 
@@ -276,8 +284,10 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
-  log.info "kamehouse-ui static version"
-  cat ${HTTPD_CONTENT_ROOT}/kame-house/build-info.cfg
+  log.info "${COL_YELLOW_STD}kamehouse-ui static version:"
+  echo -ne "${COL_YELLOW_STD}     "
+  cat ${HTTPD_CONTENT_ROOT}/kame-house/build-info.json
+  echo -ne "${COL_NORMAL}"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
 }
 
@@ -290,7 +300,7 @@ deployKameHouseMobileStatic() {
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   cp -rf ./kamehouse-mobile/www/kame-house-mobile/* ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
-  cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
+  cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-mobile/
   checkCommandStatus "$?" "An error occurred deploying kamehouse mobile static content"
 
   local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-mobile -name '.*' -prune -o -type f`
@@ -310,8 +320,10 @@ deployKameHouseMobileStatic() {
   log.info "Deployed kamehouse-mobile status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-mobile"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-mobile"
-  log.info "kamehouse-mobile static version"
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-info.cfg"
+  log.info "${COL_YELLOW_STD}kamehouse-mobile static version:"
+  echo -ne "${COL_YELLOW_STD}     "
+  cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-info.json"
+  echo -ne "${COL_NORMAL}"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
 }
 

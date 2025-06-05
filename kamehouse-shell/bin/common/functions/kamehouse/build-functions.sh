@@ -15,11 +15,16 @@ setKameHouseBuildVersion() {
 }
 
 generateBuildInfo() {
-  log.debug "Generating kamehouse build-info cfg and json files"
+  log.debug "Generating kamehouse build-info.json"
   local BUILD_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ./build-info.cfg
-  echo "BUILD_DATE=${BUILD_DATE}" >> ./build-info.cfg
-  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ./build-info.json  
+  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'", "buildDate": "'${BUILD_DATE}'" }' > ./build-info.json
+}
+
+deleteGitRepoBuildInfoFiles() {
+  cdToRootDirFromModule "kamehouse-mobile"
+  log.debug "Removing generated build-info.json from the current git repository"
+  rm -f ./build-info.json
+  rm -f ./kamehouse-commons-core/src/main/resources/build-info.json
 }
 
 buildKameHouseStatic() {
@@ -76,7 +81,6 @@ buildKameHouseUiStatic() {
 
   log.info "Building kamehouse-ui bundle in dist folder"
   cp -r ./src/main/public/* ./dist
-  cp -f ../build-info.cfg ./dist/
   cp -f ../build-info.json ./dist/
   cdToRootDirFromModule "kamehouse-ui"
 }
@@ -198,7 +202,6 @@ buildKameHouseBackend() {
 exportBuildInfoToCommonsCore() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Exporting build info to commons-core"
-  cp -f ./build-info.cfg ./kamehouse-commons-core/src/main/resources/
   cp -f ./build-info.json ./kamehouse-commons-core/src/main/resources/
 }
 

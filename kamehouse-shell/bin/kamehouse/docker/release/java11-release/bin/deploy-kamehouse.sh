@@ -69,7 +69,6 @@ deployKameHouseGRoot() {
     cp -f ./kamehouse-groot/public/index.html ${HTTPD_CONTENT_ROOT}/index.html
     rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
     cp -rf ./kamehouse-groot/public/kame-house-groot ${HTTPD_CONTENT_ROOT}/
-    cp -f ./build-info.cfg ${HTTPD_CONTENT_ROOT}/kame-house-groot/
     cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-groot/
   fi
 }
@@ -118,7 +117,6 @@ deployKameHouseCmd() {
     rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
     unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
     mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
-    cp -f ./build-info.cfg ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
     cp -f ./build-info.json ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.sh
     ls -lh ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd*.jar

@@ -27,6 +27,7 @@ mainProcess() {
   checkBuildStaticOnly
   buildKameHouseBackend
   buildKameHouseMobile
+  deleteGitRepoBuildInfoFiles
   cleanUpMavenRepository
 }
 

@@ -17,6 +17,7 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_CYAN_STD="\033[0;36m"
 COL_PURPLE_STD="\033[0;35m"
+COL_YELLOW_STD="\033[0;33m"
 COL_MESSAGE=${COL_GREEN}
 
 KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
@@ -83,7 +84,7 @@ installKameHouseShell() {
   log.info "Rebuilding shell scripts directory"
   rm -r -f ${KAMEHOUSE_SHELL_PATH}/bin
   rm -f ${KAMEHOUSE_SHELL_PATH}/conf/path.conf
-  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/build-info.cfg
+  rm -f ${KAMEHOUSE_SHELL_PATH}/conf/build-info.json
   mkdir -p ${KAMEHOUSE_SHELL_PATH}
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
@@ -267,10 +268,8 @@ getPathWithSubdirectories() {
 generateBuildInfo() {
   local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf
   local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
-  echo "BUILD_VERSION=${KAMEHOUSE_BUILD_VERSION}" > ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.cfg
   local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo "BUILD_DATE=${BUILD_DATE}" >> ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.cfg
-  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'" , "buildDate": "'${BUILD_DATE}'" }' > ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.json
+  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'", "buildDate": "'${BUILD_DATE}'" }' > ${KAMEHOUSE_SHELL_CONF_PATH}/build-info.json
 }
 
 getKameHouseBuildVersion() {
@@ -288,8 +287,10 @@ logKameHouseShellStatus() {
   log.info "Deployed kamehouse-shell status"
   log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_SHELL_PATH}"
   ls -lh "${KAMEHOUSE_SHELL_PATH}"
-  log.info "kamehouse-shell version"
-  cat "${KAMEHOUSE_SHELL_PATH}/conf/build-info.cfg"
+  log.info "${COL_YELLOW_STD}kamehouse-shell version:"
+  echo -ne "${COL_YELLOW_STD}     "
+  cat "${KAMEHOUSE_SHELL_PATH}/conf/build-info.json"
+  echo -ne "${COL_NORMAL}"
 }
 
 log.info() {
