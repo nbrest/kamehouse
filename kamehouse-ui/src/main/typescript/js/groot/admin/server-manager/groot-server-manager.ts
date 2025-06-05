@@ -274,11 +274,11 @@ class DeploymentManager {
   }
 
   /**
-   * Get status from all tomcat modules.
+   * Get running/stopped status from all tomcat modules.
    */
   getTomcatModulesStatus() {
     const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-tomcat-modules-status.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesStatus(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-tomcat-modules-status.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesRunningStatusImg(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -483,7 +483,11 @@ class DeploymentManager {
    */
   #processUndeployedKameHouseModulesResponse(kameHouseCommandResult) {
     kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
-    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+    const standardOutputHtml = kameHouseCommandResult.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
+    standardOutputHtml.forEach((line) => {
       if (!kameHouse.core.isValidKameHouseConfig(line, "UNDEPLOYED_MODULES")) {
         return;
       }
@@ -501,11 +505,15 @@ class DeploymentManager {
   }
 
   /**
-   * Render tomcat modules status.
+   * Set tomcat modules running/stopped status images.
    */
-  #displayTomcatModulesStatus(kameHouseCommandResult) {
+  #displayTomcatModulesRunningStatusImg(kameHouseCommandResult) {
     kameHouse.util.collapsibleDiv.resize("command-output-wrapper");
-    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+    const standardOutputHtml = kameHouseCommandResult.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
+    standardOutputHtml.forEach((line) => {
       if (line.startsWith("/kame-house")) {
         const lineArray = line.split(":");
         const webapp = lineArray[0];
@@ -516,6 +524,7 @@ class DeploymentManager {
         } else if (status == "stopped") {
           kameHouse.util.dom.setHtmlById("mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
         } else {
+          // unknown status
           kameHouse.util.dom.setHtmlById("mst-" + module + "-status-val", kameHouse.util.dom.cloneNode(this.#statusBallBlueImg, true));
         }        
       }
@@ -547,7 +556,11 @@ class DeploymentManager {
    * Render non tomcat module status.
    */
   #displayNonTomcatModuleStatus(kameHouseCommandResult, module) {
-    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
+    const standardOutputHtml = kameHouseCommandResult.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
+    standardOutputHtml.forEach((line) => {
       if (kameHouse.core.isEmpty(line)) {  
         return;
       }
@@ -572,20 +585,33 @@ class DeploymentManager {
     const tomcatProcessStatusDivId = "tomcat-process-status-val";
     const tomcatProcessStatusDiv = document.getElementById(tomcatProcessStatusDivId);
     kameHouse.util.dom.empty(tomcatProcessStatusDiv);
-    kameHouseCommandResult.standardOutputHtml.forEach((line) => {
-      if (!line.includes("Started executing") && 
-          !line.includes("Finished executing") &&
-          !line.includes("Script start time: ") &&
-          !line.includes("Searching for tomcat process") &&
-          !line.includes("Not all processes could be identified, non-owned process info") &&
-          !line.includes("will not be shown, you would have to be root to see it all.") &&
-          !line.includes("Validating command line arguments") &&
-          !line.includes("Executing script")) {
-        kameHouse.util.dom.append(tomcatProcessStatusDiv, line);
-        kameHouse.util.dom.append(tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
+    const standardOutputHtml = kameHouseCommandResult.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
+    standardOutputHtml.forEach((line) => {
+      if (this.#isTomcatProcessOutputNoiseLine(line)) {
+        return;
       }
+      kameHouse.util.dom.append(tomcatProcessStatusDiv, line);
+      kameHouse.util.dom.append(tomcatProcessStatusDiv, kameHouse.util.dom.getBr());
     });
     kameHouse.util.dom.remove(tomcatProcessStatusDiv.lastElementChild);
+  }
+
+  /**
+   * Returns true for standard ouput noise lines for tomcat process status.
+   */
+  #isTomcatProcessOutputNoiseLine(line) {
+    return kameHouse.core.isEmpty(line) ||
+            line.includes("Started executing") ||
+            line.includes("Finished executing") ||
+            line.includes("Script start time: ") ||
+            line.includes("Searching for tomcat process") ||
+            line.includes("Not all processes could be identified, non-owned process info") ||
+            line.includes("will not be shown, you would have to be root to see it all.") ||
+            line.includes("Validating command line arguments") ||
+            line.includes("Executing script");
   }
 
   /**

@@ -64,6 +64,9 @@ class KameHouseShell {
   /** Update the script script output with the result of the script */
   #updateScriptOutput(responseBody, responseCode, responseDescription, responseHeaders, callback) {
     const standardOutputHtml = responseBody.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
     this.#standardOutput = responseBody.standardOutput;
     const scriptOutputTableBody = document.getElementById('kamehouse-shell-output-table-body');
     kameHouse.util.dom.empty(scriptOutputTableBody);

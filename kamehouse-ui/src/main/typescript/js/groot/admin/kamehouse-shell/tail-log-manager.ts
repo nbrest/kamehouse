@@ -42,21 +42,24 @@ class TailLogManager {
 
   /** Update the script tail log output with the result of the script */
   #updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback) {
-    const tailLogStandardOutputHtml = responseBody.standardOutputHtml;
+    const standardOutputHtml = responseBody.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
     const tailLogOutputTableBody = document.getElementById('tail-log-output-table-body');  
     const tbody = this.#getTailLogOutputTbody();
-    const tailLogStandardOutputHtmlLength = tailLogStandardOutputHtml.length;
-    if (tailLogStandardOutputHtmlLength < numberOfLines) {
+    const standardOutputHtmlLength = standardOutputHtml.length;
+    if (standardOutputHtmlLength < numberOfLines) {
       // Show full output
-      for (let i = 0; i < tailLogStandardOutputHtmlLength; i++) {
-        if (tailLogStandardOutputHtml[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, this.#getTailLogOutputTr(tailLogStandardOutputHtml[i]));
+      for (let i = 0; i < standardOutputHtmlLength; i++) {
+        if (standardOutputHtml[i].trim().length > 0) {
+          kameHouse.util.dom.append(tbody, this.#getTailLogOutputTr(standardOutputHtml[i]));
         }
       }
     } else {
-      for (let i = tailLogStandardOutputHtmlLength - numberOfLines; i < tailLogStandardOutputHtmlLength; i++) {
-        if (tailLogStandardOutputHtml[i].trim().length > 0) {
-          kameHouse.util.dom.append(tbody, this.#getTailLogOutputTr(tailLogStandardOutputHtml[i]));
+      for (let i = standardOutputHtmlLength - numberOfLines; i < standardOutputHtmlLength; i++) {
+        if (standardOutputHtml[i].trim().length > 0) {
+          kameHouse.util.dom.append(tbody, this.#getTailLogOutputTr(standardOutputHtml[i]));
         }
       }
     }
