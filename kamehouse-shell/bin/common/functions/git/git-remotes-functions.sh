@@ -22,21 +22,8 @@ checkVariables() {
 
 removeRemotes() {
   log.info "Removing remotes"
-  
-  # All/Origin
   git remote remove all
   git remote remove origin
-
-  ### Legacy remotes:
-  git remote remove bitbucket
-  git remote remove bitbucketssh
-  git remote remove bitbucket-ssh
-  git remote remove bitbucket-https
-  
-  git remote remove github
-  git remote remove githubssh
-  git remote remove github-ssh
-  git remote remove github-https
 }
 
 addRemotes() {
