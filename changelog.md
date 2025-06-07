@@ -17,6 +17,7 @@
 - Added script name to start and end log lines
 - Moved shell source files import check to one liners
 - Updated ci full build script to deploy shell before all other modules
+- Simplified source function import checks on shell
 - Fixed bugs
 
 #### v10.06
