@@ -29,7 +29,7 @@ parseArguments() {
     fi
     local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
-      -t)
+      -t|--test-param)
         TEST_PARAM="${CURRENT_OPTION_ARG}"
         ;;
       -?|-??*)
@@ -44,7 +44,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-t [val]" "Test param" "r"
+  addHelpOption "-t|--test-param [val]" "Test parameter" "r"
 }
 
 main "$@"
