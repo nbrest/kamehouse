@@ -14,6 +14,8 @@ This application (forever under construction) contains the following modules:
 
 [Admin](/kamehouse-admin/README.md)
 
+[Auth](/kamehouse-auth/README.md)
+
 [Cmd](/kamehouse-cmd/README.md)
 
 [Commons](/kamehouse-commons/README.md)
@@ -45,9 +47,11 @@ The modules **commons**, **commons-core** and **commons-test** are jar libraries
 
 **Mobile** is a module to build native apps for android and ios that connect to my kamehouse servers and load the content from there using apache cordova.
 
-**GRoot** is a webapp built with js and php to do admin stuff I usually do through the command line.
+**GRoot** is a backend webapp built with php to do admin stuff I usually do through the command line.
 
 **Shell** is a collection of most of my shell scripts. Some of them are called from GRoot to execute admin tasks.
+
+**UI** Contains all the frontend code to interact with all the other backend services.
 
 All the other modules are webapps deployable to tomcat.
 All of them are API based except for the UI module that contains the frontend code and connects

@@ -146,7 +146,7 @@ loginCheckLoop() {
 
 loginCheck() {
   log.trace "Executing logout from kamehouse"
-  curl --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house/logout" > /dev/null
+  curl --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-auth/logout" > /dev/null
 
   local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house/admin/server-management"
   log.info "Executing request to ${COL_PURPLE}${URL}"

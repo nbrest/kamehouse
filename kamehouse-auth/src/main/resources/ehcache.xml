@@ -1,0 +1,16 @@
+<config
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xmlns='http://www.ehcache.org/v3'
+  xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+
+  <cache-template name="cache-defaults">
+    <key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+    <value-type>java.util.ArrayList</value-type>
+    <resources>
+      <offheap unit="MB">20</offheap>
+    </resources>
+  </cache-template>
+
+  <cache alias="authTestCache" uses-template="cache-defaults" />
+
+</config>

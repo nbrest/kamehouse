@@ -36,7 +36,7 @@ SUDO_KAMEHOUSE_COMMAND=""
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
 
-MODULES_LIST="(admin|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
+MODULES_LIST="(admin|auth|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
 MODULE_SHORT=""
 MODULE=""
 
@@ -46,7 +46,7 @@ MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
 KAMEHOUSE_SERVER=""
 
-TOMCAT_MODULES="admin,media,tennisworld,testmodule,ui,vlcrc"
+TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,vlcrc"
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
 TOMCAT_DIR_DEV="${HOME}/programs/apache-tomcat-dev"
 
@@ -235,6 +235,7 @@ setEnvForKameHouseModule() {
     return
   fi
   if [ "${MODULE_SHORT}" != "admin" ] \
+      && [ "${MODULE_SHORT}" != "auth" ] \
       && [ "${MODULE_SHORT}" != "cmd" ] \
       && [ "${MODULE_SHORT}" != "groot" ] \
       && [ "${MODULE_SHORT}" != "media" ] \

@@ -103,10 +103,10 @@ class EhCacheManager {
   async #init() {
     await this.#loadEhCacheTableTemplate();
     this.getAllCacheData('admin');
+    this.getAllCacheData('auth');
     this.getAllCacheData('media');
     this.getAllCacheData('tennisworld');
     this.getAllCacheData('testmodule');
-    this.getAllCacheData('ui');
     this.getAllCacheData('vlcrc');
   }
 
@@ -122,11 +122,7 @@ class EhCacheManager {
    * Get ehcache api url for each webapp.
    */
   #getApiUrl(webapp) {
-    if (webapp == "ui") {
-      return '/kame-house/api/v1/commons/ehcache';
-    } else {
-      return '/kame-house-' + webapp + '/api/v1/commons/ehcache';
-    }
+    return '/kame-house-' + webapp + '/api/v1/commons/ehcache';
   }
 
   /**

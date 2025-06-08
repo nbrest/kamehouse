@@ -71,7 +71,7 @@ class KameHouseHeader {
         "/kame-house-mobile" : "nav-mobile",
         "/kame-house/tennisworld" : "nav-tennisworld",
         "/kame-house/test-module" : "nav-test-module",
-        "/kame-house/jsp/test-module" : "nav-test-module",
+        "/kame-house-testmodule/jsp" : "nav-test-module",
         "/kame-house/vlc-player" : "nav-vlc-player"
       }
 
@@ -152,7 +152,7 @@ class KameHouseHeader {
       backgroundImg: "/kame-house/img/dbz/goku.png",
       html: null,
       data: null,
-      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house/logout", "/kame-house-mobile/settings.html")
+      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house-auth/logout", "/kame-house-mobile/settings.html")
     });
   }
 

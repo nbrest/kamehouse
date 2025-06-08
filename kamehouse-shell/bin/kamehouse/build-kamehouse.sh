@@ -13,18 +13,13 @@ initKameHouseShellEnv() {
 initScriptEnv() {
   # Run the build on this script always from the current directory
   USE_CURRENT_DIR=true
-  STATIC_ONLY=false
-  SKIP_STATIC=false
 }
 
 mainProcess() {
   setKameHouseRootProjectDir
   setKameHouseBuildVersion
   generateBuildInfo
-  if ! ${SKIP_STATIC}; then
-    buildKameHouseStatic
-  fi
-  checkBuildStaticOnly
+  buildKameHouseStatic
   buildKameHouseBackend
   buildKameHouseMobile
   deleteGitRepoBuildInfoFiles
@@ -58,12 +53,6 @@ parseArguments() {
       -r)
         RESUME_BUILD=true
         ;;
-      -s)
-        STATIC_ONLY=true
-        ;;
-      --skip-static)
-        SKIP_STATIC=true
-        ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
         ;;        
@@ -83,8 +72,6 @@ printHelpOptions() {
   printKameHouseModuleOption "build"
   printMavenProfileOption
   addHelpOption "-r" "resume build. Continue where it failed in the last build. ${COL_YELLOW}Use with -m"
-  addHelpOption "-s" "build static ui code only"
-  addHelpOption "--skip-static" "skip static code build"
 }
 
 main "$@"

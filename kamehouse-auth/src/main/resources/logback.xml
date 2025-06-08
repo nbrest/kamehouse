@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+  <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>logs/kameHouse.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>logs/kameHouse.%d{yyyy-MM-dd}.log</FileNamePattern>
+      <maxHistory>10</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+    </encoder>      
+  </appender>
+
+<!--   <appender name="minuteRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!--     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+      <!-- rollover every minute -->
+<!--       <FileNamePattern>logs/kameHouse-minute.%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern> -->
+      <!-- keep 30 minutes' worth of history -->
+<!--       <maxHistory>30</maxHistory>      -->
+<!--     </rollingPolicy> -->
+<!--     <encoder> -->
+<!--       <Pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</Pattern> -->
+<!--     </encoder>       -->
+<!--   </appender> -->
+
+  <!--
+    ********* IMPORTANT: ********************************************************
+    Until I figure out how to get the log levels of the packages from this file,
+    whenever I modify the log levels here, also update them in
+    LogLevelManagerService static maps
+    *****************************************************************************
+  -->
+  <!-- kamehouse root packages -->
+  <root level="INFO">
+    <appender-ref ref="consoleAppender" />
+    <appender-ref ref="dailyRollingFileAppender"/>
+  </root>
+
+  <logger level="INFO" name="com.nicobrest.kamehouse.auth" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger level="INFO" name="com.nicobrest.kamehouse" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <!-- <appender-ref ref="minuteRollingFileAppender"/> -->
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger level="INFO" name="com.nicobrest.kamehouse.commons" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- kamehouse internal nested packages and classes -->
+  <logger level="INFO" name="com.nicobrest.kamehouse.commons.controller.LogLevelManagerController" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- kamehouse custom request logger -->
+  <logger level="DEBUG" name="com.nicobrest.kamehouse.commons.web.filter.logger.CustomRequestLoggingFilter" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- kamehouse jvncsender -->
+  <logger level="INFO" name="com.nicobrest.kamehouse.jvncsender" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- apache packages -->
+  <logger level="ERROR" name="org.apache.sshd.client.keyverifier.AcceptAllServerKeyVerifier" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger level="ERROR" name="org.apache.sshd.client.session.ClientConnectionService" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- spring packages -->
+  <logger level="INFO" name="org.springframework" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger level="INFO" name="org.springframework.security" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger level="WARN" name="org.springframework.web.socket.config.WebSocketMessageBrokerStats" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- hibernate packages -->
+  <logger level="WARN" name="org.hibernate.hql.internal.QueryTranslatorFactoryInitiator" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender"/>
+    <appender-ref ref="consoleAppender" />
+  </logger>
+  
+  <logger level="WARN" name="org.hsqldb" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender" />
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <!-- other -->
+  <logger level="ERROR" name="ch.qos.logback" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender" />
+    <appender-ref ref="consoleAppender" />
+  </logger>
+</configuration>

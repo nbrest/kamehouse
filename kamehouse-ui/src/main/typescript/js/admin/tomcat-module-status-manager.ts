@@ -19,10 +19,10 @@ class TomcatModuleStatusManager {
    */
   getAllModulesStatus() {
     this.#getModuleStatus('admin');
+    this.#getModuleStatus('auth');
     this.#getModuleStatus('media');
     this.#getModuleStatus('tennisworld');
     this.#getModuleStatus('testmodule');
-    this.#getModuleStatus('ui');
     this.#getModuleStatus('vlcrc');
   }
 
@@ -37,11 +37,7 @@ class TomcatModuleStatusManager {
    * Get module status api url for each webapp.
    */
   #getApiUrl(webapp) {
-    if (webapp == "ui") {
-      return '/kame-house/api/v1/commons/module/status';
-    } else {
-      return '/kame-house-' + webapp + '/api/v1/commons/module/status';
-    }
+    return '/kame-house-' + webapp + '/api/v1/commons/module/status';
   }
 
   /**

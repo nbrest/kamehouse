@@ -11,4 +11,5 @@ This module handles the following functionality:
     - Job scheduler
     - WebSockets
     - Test database models to be accessed through the different views in the ui module
+* Sample model and view controller used together with some test jsps
     

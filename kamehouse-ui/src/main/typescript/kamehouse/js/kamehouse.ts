@@ -2096,7 +2096,7 @@ class KameHouseCore {
    */
   loadSession() {
     kameHouse.logger.info("Loading kamehouse session", null);
-    const SESSION_STATUS_URL = "/kame-house/api/v1/ui/session/status";
+    const SESSION_STATUS_URL = "/kame-house-auth/api/v1/auth/session/status";
     const config = kameHouse.http.getConfig();
     config.timeout = 30;
     kameHouse.http.get(config, SESSION_STATUS_URL, null, null,

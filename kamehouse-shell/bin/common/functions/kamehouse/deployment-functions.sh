@@ -20,10 +20,10 @@ deployKameHouseProject() {
 
 displayDeployEnv() {
   log.debug "DEPLOY_KAMEHOUSE_TOMCAT_MODULES=${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}"
-  log.debug "DEPLOY_KAMEHOUSE_STATIC=${DEPLOY_KAMEHOUSE_STATIC}"
   log.debug "DEPLOY_KAMEHOUSE_CMD=${DEPLOY_KAMEHOUSE_CMD}"
-  log.debug "DEPLOY_KAMEHOUSE_SHELL=${DEPLOY_KAMEHOUSE_SHELL}"
   log.debug "DEPLOY_KAMEHOUSE_GROOT=${DEPLOY_KAMEHOUSE_GROOT}"
+  log.debug "DEPLOY_KAMEHOUSE_SHELL=${DEPLOY_KAMEHOUSE_SHELL}"
+  log.debug "DEPLOY_KAMEHOUSE_UI=${DEPLOY_KAMEHOUSE_UI}"
   log.debug "DEPLOY_KAMEHOUSE_MOBILE=${DEPLOY_KAMEHOUSE_MOBILE}"
 }
 
@@ -39,10 +39,10 @@ setKameHouseDeploymentParameters() {
     return
   fi
   if [ "${MODULE_SHORT}" == "admin" ] ||
+     [ "${MODULE_SHORT}" == "auth" ] ||
      [ "${MODULE_SHORT}" == "media" ] ||
      [ "${MODULE_SHORT}" == "tennisworld" ] ||
      [ "${MODULE_SHORT}" == "testmodule" ] ||
-     [ "${MODULE_SHORT}" == "ui" ] ||
      [ "${MODULE_SHORT}" == "vlcrc" ]; then
     DEPLOY_TO_TOMCAT=true
   fi
@@ -238,29 +238,19 @@ uploadKameHouseMobileApkToGDrive() {
 }
 
 deployKameHouseStatic() {
-  if ! ${DEPLOY_KAMEHOUSE_STATIC}; then
-    log.warn "DEPLOY_KAMEHOUSE_STATIC is false so skip deploying kamehouse static content"
+  if ! ${DEPLOY_KAMEHOUSE_UI}; then
+    log.warn "DEPLOY_KAMEHOUSE_UI is false so skip deploying kamehouse ui"
     return
   fi
   deployKameHouseUiStatic
   deployKameHouseMobileStatic
-  if ! ${STATIC_ONLY}; then
-    return
-  fi
-  if [[ -z "${MODULE}" ]]; then
-    log.info "Finished deploying static code for all modules"
-  else 
-    log.info "Finished deploying static code for module ${COL_PURPLE}${MODULE}"
-  fi
-  deleteGitRepoBuildInfoFiles
-  exitSuccessfully    
 }
 
 deployKameHouseUiStatic() {
   if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "ui" ]]; then
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG}"
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
@@ -284,11 +274,16 @@ deployKameHouseUiStatic() {
   log.info "Deployed kamehouse-ui status"
   log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house"
   ls -lh "${HTTPD_CONTENT_ROOT}/kame-house"
-  log.info "${COL_YELLOW_STD}kamehouse-ui static version:"
+  log.info "${COL_YELLOW_STD}kamehouse-ui version:"
   echo -ne "${COL_YELLOW_STD}     "
   cat ${HTTPD_CONTENT_ROOT}/kame-house/build-info.json
   echo -ne "${COL_NORMAL}"
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-ui static content${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG}"
+
+  if [ "${MODULE_SHORT}" == "ui" ]; then
+    deleteGitRepoBuildInfoFiles
+    exitSuccessfully
+  fi
 }
 
 deployKameHouseMobileStatic() {

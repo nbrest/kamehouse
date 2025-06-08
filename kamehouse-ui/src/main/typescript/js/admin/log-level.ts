@@ -97,10 +97,10 @@ class BackendLogLevelUtils {
    */
   #init() {
     this.getLogLevels('admin', false);
+    this.getLogLevels('auth', false);
     this.getLogLevels('media', false);
     this.getLogLevels('tennisworld', false);
     this.getLogLevels('testmodule', false);
-    this.getLogLevels('ui', false);
     this.getLogLevels('vlcrc', false);
   }
 
@@ -108,11 +108,7 @@ class BackendLogLevelUtils {
    * Get log-level api url for each webapp.
    */
   #getApiUrl(webapp) {
-    if (webapp == "ui") {
-      return '/kame-house/api/v1/commons/log-level';
-    } else {
-      return '/kame-house-' + webapp + '/api/v1/commons/log-level';
-    }
+    return '/kame-house-' + webapp + '/api/v1/commons/log-level';
   }
 
   /**

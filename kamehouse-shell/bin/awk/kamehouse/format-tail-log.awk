@@ -168,7 +168,7 @@ function matchApacheOtherVhostsAccessLog(otherVhostsAccess1_rx_loc_, otherVhosts
 # Kamehouse: java log entries
 function matchKamehouseLog(kamehouse_rx_loc_) {
   # Kamehouse: kameHouse.log
-  # 2020-04-11 11:53:18.641 [http-bio-9090-exec-28] TRACE c.n.k.a.c.SessionStatusController - /api/v1/ui/session/status (GET)
+  # 2020-04-11 11:53:18.641 [http-bio-9090-exec-28] TRACE c.n.k.a.c.SessionStatusController - /api/v1/auth/session/status (GET)
   # Format: 'YYYY-MM-DD HH:MM:SS.XXX [THREAD] LOG_LEVEL CLASS - MESSAGE'
   kamehouse_rx_loc_ = "^"YYYY_MM_DD_RX" "HH_MM_SS_XXX_RX" \\[.*\\] "LOG_LEVEL_JAVA_RX" .* - .*";
   if ($0 ~ kamehouse_rx_loc_) {

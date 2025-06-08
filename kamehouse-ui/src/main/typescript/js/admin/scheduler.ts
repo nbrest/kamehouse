@@ -41,10 +41,10 @@ class Scheduler {
   async #init() {
     await this.#loadTableTemplate();
     this.getAllJobs('admin', false);
+    this.getAllJobs('auth', false);
     this.getAllJobs('media', false);
     this.getAllJobs('tennisworld', false);
     this.getAllJobs('testmodule', false);
-    this.getAllJobs('ui', false);
     this.getAllJobs('vlcrc', false);
   }
 
@@ -59,11 +59,7 @@ class Scheduler {
    * Get scheduler api url for each webapp.
    */
   #getApiUrl(webapp) {
-    if (webapp == "ui") {
-      return '/kame-house/api/v1/commons/scheduler/jobs';
-    } else {
-      return '/kame-house-' + webapp + '/api/v1/commons/scheduler/jobs';
-    }
+    return '/kame-house-' + webapp + '/api/v1/commons/scheduler/jobs';
   }
 
   /** Cancel job execution */

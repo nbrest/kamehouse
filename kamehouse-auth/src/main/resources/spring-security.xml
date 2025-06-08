@@ -1,0 +1,48 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-6.1.xsd">
+
+  <http entry-point-ref="customEntryPoint">
+    <!-- The order of intercept-urls matters. Order them from more specific to more 
+      general within the same url. Ej: /api/v1/admin/kamehouse/** before /api/v1/admin/** -->
+
+    <intercept-url pattern="/api/v1/auth/session/status" access="permitAll" method="GET"/>
+
+    <!-- ======================================================================================= -->
+    <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
+    <!-- ======================================================================================= -->
+    <intercept-url pattern="/api/v1/commons/module/status" access="permitAll" method="GET"/>
+
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="GET"/>
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="POST"/>
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="PUT"/>
+    <intercept-url pattern="/api/v1/commons/**" access="hasRole('ROLE_KAMISAMA')" method="DELETE"/>
+
+    <form-login
+      login-processing-url="/login"
+      username-parameter="username"
+      password-parameter="password"
+      authentication-success-handler-ref="authenticationSuccessHandler"
+      authentication-failure-handler-ref="authenticationFailureHandler"
+    />
+
+    <logout
+      logout-url="/logout"
+      invalidate-session="true"
+      delete-cookies="KAMEHOUSE-SESSION-ID"
+      success-handler-ref="logoutSuccessHandler"
+    />
+
+    <http-basic/>
+    <csrf disabled="true"/>
+  </http>
+
+  <authentication-manager>
+    <authentication-provider ref="kameHouseAuthenticationProvider"/>
+  </authentication-manager>
+
+</beans:beans>

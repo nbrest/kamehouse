@@ -37,7 +37,7 @@ import org.apache.http.message.BasicNameValuePair;
  */
 public abstract class AbstractControllerIntegrationTest extends AbstractIntegrationTest {
 
-  private static final String LOGIN_URL = "/kame-house/login";
+  private static final String LOGIN_URL = "/kame-house-auth/login";
   private static final String RESPONSE_BODY = "Response body {}";
   private static final String RESPONSE_BODY_NULL = "response body is null";
   private static final String RESPONSE_BODY_EMPTY = "response body is empty";

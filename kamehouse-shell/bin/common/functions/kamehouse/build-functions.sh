@@ -28,12 +28,12 @@ deleteGitRepoBuildInfoFiles() {
 }
 
 buildKameHouseStatic() {
-  if ! ${DEPLOY_KAMEHOUSE_STATIC}; then
-    log.debug "DEPLOY_KAMEHOUSE_STATIC is false so skip building kamehouse static content"
+  if ! ${DEPLOY_KAMEHOUSE_UI}; then
+    log.debug "DEPLOY_KAMEHOUSE_UI is false so skip building kamehouse ui"
     return
   fi
   if ${INTEGRATION_TESTS}; then
-    log.debug "Running integration tests, skippking static code build"
+    log.debug "Running integration tests, skippking ui static code build"
     return
   fi
   if [[ -z "${MODULE}" ]]; then
@@ -49,18 +49,6 @@ buildKameHouseStatic() {
     buildKameHouseMobileStatic
     return
   fi
-}
-
-checkBuildStaticOnly() {
-  if ! ${STATIC_ONLY}; then
-    return
-  fi 
-  if [[ -z "${MODULE}" ]]; then
-    log.info "Finished building static code for all modules"
-  else 
-    log.info "Finished building static code for module ${COL_PURPLE}${MODULE}"
-  fi
-  exitSuccessfully
 }
 
 buildKameHouseUiStatic() {
@@ -183,8 +171,9 @@ buildKameHouseBackend() {
     RUN_MAVEN_COMMAND=true
   fi
   if [ "${MODULE_SHORT}" == "mobile" ] ||
+     [ "${MODULE_SHORT}" == "groot" ] ||
      [ "${MODULE_SHORT}" == "shell" ] ||
-     [ "${MODULE_SHORT}" == "groot" ]; then
+     [ "${MODULE_SHORT}" == "ui" ]; then
     RUN_MAVEN_COMMAND=false
   fi
   if ! ${RUN_MAVEN_COMMAND}; then

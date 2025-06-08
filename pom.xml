@@ -17,6 +17,7 @@
     <module>kamehouse-commons-core</module>
     <module>kamehouse-commons-test</module>
     <module>kamehouse-commons</module>
+    <module>kamehouse-auth</module>
     <module>kamehouse-admin</module>
     <module>kamehouse-cmd</module>
     <module>kamehouse-groot</module>

@@ -7,6 +7,8 @@
 
 #### v10.07
 
+- Created a separate module auth for login, authentication and session status and moved that logic away from ui module
+- Moved remaining backend endpoints from ui module to test module. UI module now only contains static frontend code
 - Removed buildVersion and buildDate from the session objects and loaded them directly on the footer from the ui build-info.json file
 - Removed scattered .txt, .data and .cfg files loaded from the ui and webapps and replaced them with build-info.json
 - Removed server name from the banner in some pages

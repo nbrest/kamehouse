@@ -21,7 +21,6 @@ initScriptEnv() {
   DEPLOYMENT_DIR=""
   FAST_BUILD=true
   DEPLOY_TO_TOMCAT=false
-  STATIC_ONLY=false
   LOG_LEVEL=TRACE
 
   USE_CURRENT_DIR=true
@@ -73,9 +72,6 @@ parseArguments() {
       -m|-p)
         # parsed in a previous parse options function 
         ;;
-      -s)
-        STATIC_ONLY=true
-        ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
         ;;        
@@ -91,7 +87,6 @@ setEnvFromArguments() {
 printHelpOptions() {
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
-  addHelpOption "-s" "deploy static ui code only"
 }
 
 main "$@"

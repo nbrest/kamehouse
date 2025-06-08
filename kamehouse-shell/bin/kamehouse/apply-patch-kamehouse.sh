@@ -7,7 +7,6 @@ initScriptEnv() {
   PATCH_FILE="kamehouse.patch"
   DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c "
   GIT_PROJECT_DIR="${HOME}/git/kamehouse"
-  STATIC_ONLY=false
 }
 
 mainProcess() {
@@ -38,10 +37,7 @@ applyPatchFile() {
 runDeployment() {
   if [ -n "${MODULE_SHORT}" ]; then
     DEPLOYMENT_COMMAND="${DEPLOYMENT_COMMAND} -m ${MODULE_SHORT}"
-  fi 
-  if ${STATIC_ONLY}; then
-    DEPLOYMENT_COMMAND="${DEPLOYMENT_COMMAND} -s"
-  fi 
+  fi
 
   ${DEPLOYMENT_COMMAND}
   if [ "$?" == "0" ]; then
@@ -75,9 +71,6 @@ parseArguments() {
       -m)
         # parsed in a previous parse options function 
         ;;
-      -s)
-        STATIC_ONLY=true
-        ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
         ;;        
@@ -91,7 +84,6 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   printKameHouseModuleOption "deploy"
-  addHelpOption "-s" "deploy static ui code only"
 }
 
 main "$@"

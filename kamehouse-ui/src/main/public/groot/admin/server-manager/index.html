@@ -163,6 +163,27 @@
               data-background-img="/kame-house/img/dbz/nimbus.png"></button>
           </td>
         </tr>
+        <tr id="mst-auth">
+          <td><div id="mst-auth-header-val">auth</div></td>
+          <td>/kame-house-auth</td>
+          <td id="mst-auth-status-val"><img class="img-tomcat-manager-status" src="/kame-house/img/other/ball-blue.png" alt="status" title="status"/></td>
+          <td id="mst-auth-build-version-val">N/A</td>
+          <td id="mst-auth-build-date-val">N/A</td>
+          <td>
+            <button class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('auth')" 
+              data-background-img="/kame-house/img/mplayer/play-green.png"></button>
+            <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('auth')" 
+              data-background-img="/kame-house/img/mplayer/stop.png"></button>
+          </td>
+          <td>
+            <button class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('auth')" 
+              data-background-img="/kame-house/img/other/cancel-shallow-red.png"></button>
+            <button class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('auth')" 
+              data-background-img="/kame-house/img/other/rocket.png"></button>
+            <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('auth')" 
+              data-background-img="/kame-house/img/dbz/nimbus.png"></button>
+          </td>
+        </tr>
         <tr id="mst-media">
           <td><div id="mst-media-header-val">media</div></td>
           <td>/kame-house-media</td>
@@ -223,27 +244,6 @@
             <button class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('testmodule')" 
               data-background-img="/kame-house/img/other/rocket.png"></button>
             <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('testmodule')" 
-              data-background-img="/kame-house/img/dbz/nimbus.png"></button>
-          </td>
-        </tr>
-        <tr id="mst-ui">
-          <td><div id="mst-ui-header-val">ui</div></td>
-          <td>/kame-house</td>
-          <td id="mst-ui-status-val"><img class="img-tomcat-manager-status" src="/kame-house/img/other/ball-blue.png" alt="status" title="status"/></td>
-          <td id="mst-ui-build-version-val">N/A</td>
-          <td id="mst-ui-build-date-val">N/A</td>
-          <td>
-            <button class="img-btn-kh m-7-d-r-kh" onclick="kameHouse.extension.deploymentManager.startModule('ui')" 
-              data-background-img="/kame-house/img/mplayer/play-green.png"></button>
-            <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.stopModule('ui')" 
-              data-background-img="/kame-house/img/mplayer/stop.png"></button>
-          </td>
-          <td>
-            <button class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.undeployModule('ui')" 
-              data-background-img="/kame-house/img/other/cancel-shallow-red.png"></button>
-            <button class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('ui')" 
-              data-background-img="/kame-house/img/other/rocket.png"></button>
-            <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('ui')" 
               data-background-img="/kame-house/img/dbz/nimbus.png"></button>
           </td>
         </tr>
@@ -309,7 +309,18 @@
             <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('shell')" 
               data-background-img="/kame-house/img/dbz/nimbus.png"></button>
           </td>
-        </tr>              
+        </tr>
+        <tr id="mst-ui">
+          <td><div id="mst-ui-header-val">ui</div></td>
+          <td id="mst-ui-build-version-val">N/A</td>
+          <td id="mst-ui-build-date-val">N/A</td>
+          <td>
+            <button class="img-btn-kh m-10-d-r-kh" onclick="kameHouse.extension.deploymentManager.deployModule('ui')" 
+              data-background-img="/kame-house/img/other/rocket.png"></button>
+            <button class="img-btn-kh" onclick="kameHouse.extension.deploymentManager.deployModuleAllServers('ui')" 
+              data-background-img="/kame-house/img/dbz/nimbus.png"></button>
+          </td>
+        </tr>
       </table>
       <br>
       <pre class="kamehouse-shell-output tomcat-process-kamehouse-shell-output"><div id="tomcat-process-status-val">Tomcat process status not available at the moment</div></pre>

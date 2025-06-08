@@ -55,4 +55,5 @@ Check the versions of the different kamehouse apps installed. These and also the
 
 - `kamehouse-cmd-version.sh`
 - `kamehouse-groot-version.sh`
-- `kamehouse-shell-versions.sh`
+- `kamehouse-shell-version.sh`
+- `kamehouse-ui-version.sh`

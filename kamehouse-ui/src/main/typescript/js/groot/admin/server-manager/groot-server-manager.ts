@@ -286,23 +286,33 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus() {
     kameHouse.logger.debug("Getting non tomcat modules status", null);
+
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayModuleCmdStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-cmd-build-version-val", "Error getting data");  
         kameHouse.util.dom.setHtmlById("mst-cmd-build-date-val", "Error getting data");   
       });
+
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayModuleGrootStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-groot-build-version-val", "Error getting data");   
         kameHouse.util.dom.setHtmlById("mst-groot-build-date-val", "Error getting data");   
       });
+
     kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayModuleShellStatus(kameHouseCommandResult), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-shell-build-version-val", "Error getting data");
         kameHouse.util.dom.setHtmlById("mst-shell-build-date-val", "Error getting data");   
+      });
+    
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-ui-version.sh', "", false, false, 60, 
+      (kameHouseCommandResult) => this.#displayModuleUiStatus(kameHouseCommandResult), 
+      () => {
+        kameHouse.util.dom.setHtmlById("mst-ui-build-version-val", "Error getting data");   
+        kameHouse.util.dom.setHtmlById("mst-ui-build-date-val", "Error getting data");   
       });
   }
 
@@ -550,6 +560,13 @@ class DeploymentManager {
    */
   #displayModuleShellStatus(kameHouseCommandResult) {
     this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "shell");
+  }
+
+  /**
+   * Render groot module status.
+   */
+  #displayModuleUiStatus(kameHouseCommandResult) {
+    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "ui");
   }
 
   /**

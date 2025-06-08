@@ -21,7 +21,6 @@ initScriptEnv() {
   DEPLOYMENT_DIR=""
   FAST_BUILD=true
   DEPLOY_TO_TOMCAT=false
-  STATIC_ONLY=false
   LOG_LEVEL=INFO
 }
 
@@ -53,9 +52,6 @@ parseArguments() {
         ;;
       -l)
         LOG_LEVEL="${CURRENT_OPTION_ARG}"
-        ;;  
-      -s)
-        STATIC_ONLY=true
         ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
@@ -74,7 +70,6 @@ printHelpOptions() {
   addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
   printMavenProfileOption
-  addHelpOption "-s" "deploy static ui code only"
 }
 
 main "$@"

@@ -96,7 +96,7 @@ class KameHouseMobileCore {
   logout() {
     kameHouse.logger.info("Logging out of KameHouse", null);
     kameHouse.plugin.modal.loadingWheelModal.open("Logging out of KameHouse...");
-    const LOGOUT_URL = "/kame-house/logout";
+    const LOGOUT_URL = "/kame-house-auth/logout";
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
     kameHouse.plugin.debugger.http.get(config, LOGOUT_URL, kameHouse.http.getUrlEncodedHeaders(), null,
@@ -1377,7 +1377,7 @@ class MockLocalhostServer {
    */
   #isServerModificationRequest(httpMethod, url) {
     const ALLOWED_NON_GET_URLS = [
-      "/kame-house/login",
+      "/kame-house-auth/login",
       "/kame-house-admin/api/v1/admin/power-management/wol",
       "/kame-house-tennisworld/api/v1/tennis-world/bookings",
       "/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings",
@@ -1531,7 +1531,7 @@ class CordovaHttpPluginMock {
    */
   sendRequest(requestUrl: string, options: Object, successCallback: Function, errorCallback: Function) {
     kameHouse.logger.trace("Called sendRequest on cordova mock with requestUrl: " + requestUrl + " and options " + kameHouse.json.stringify(options, null, null) + ". Mocking response", null);
-    if (requestUrl.includes("/kame-house/api/v1/ui/session/status")) {
+    if (requestUrl.includes("/kame-house-auth/api/v1/auth/session/status")) {
       return this.#mockSessionStatus(successCallback);
     }
     if (requestUrl.includes("/kame-house-groot/api/v1/commons/session/status.php")) {

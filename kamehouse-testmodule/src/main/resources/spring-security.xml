@@ -29,6 +29,24 @@
 
     <intercept-url pattern="/api/ws/test-module/websocket/**" access="permitAll"/>
 
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="permitAll"
+      method="GET" />
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
+      method="POST" />
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
+      method="PUT" />
+    <intercept-url pattern="/jsp/test-module/dragonball/users/**" access="hasRole('ROLE_SAIYAJIN')"
+      method="DELETE" />
+
+    <intercept-url pattern="/jsp/test-module/**" access="permitAll"
+      method="GET" />
+
+    <intercept-url pattern="/test-module/**" access="hasRole('ROLE_SAIYAJIN')"
+      method="GET" />
+
+    <intercept-url pattern="/api/v1/testmodule/sample/**" access="hasRole('ROLE_SAIYAJIN')"
+      method="GET" />
+
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
     <!-- ======================================================================================= -->

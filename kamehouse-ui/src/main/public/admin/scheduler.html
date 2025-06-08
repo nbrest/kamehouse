@@ -58,9 +58,39 @@
       
     </div> <!-- tab-admin -->
 
-    <div id="tab-media" class="kh-webapp-tab-content">
+    <div id="tab-auth" class="kh-webapp-tab-content">
       <div class="info-image-wrapper-m-80-60">
         <table class="info-image-table info-image-table-reverse">
+          <caption class="hidden-kh">Image-Info</caption>
+          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="info-image-img">
+                <img src="/kame-house/img/dbz/gohan-ssj2-cell.jpg" alt="info img"/>
+              </td>
+              <td class="info-image-info">
+                <div class="info-image-title info-image-title-bottom">
+                  UI
+                </div>
+                <div class="info-image-desc">
+                  <p>Enter the Auth of <span class="bold-kh">KameHouse</span>. The shield to the most powerful app in the universe. Well not really, but still pretty cool.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button class="img-btn-kh img-btn-m-kh fl-r-d-kh m-15-d-kh m-15-m-kh"
+        onclick="kameHouse.extension.scheduler.getAllJobs('auth', true)"
+        data-background-img="/kame-house/img/other/refresh.png"></button>
+      <div id="jobs-data-auth"></div>
+
+    </div> <!-- tab-auth -->
+
+    <div id="tab-media" class="kh-webapp-tab-content">
+      <div class="info-image-wrapper-m-80-60">
+        <table class="info-image-table">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
           <tbody>
@@ -90,7 +120,7 @@
 
     <div id="tab-tennisworld" class="kh-webapp-tab-content">
       <div class="info-image-wrapper-m-80-60">
-        <table class="info-image-table">
+        <table class="info-image-table info-image-table-reverse">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
           <tbody>
@@ -120,7 +150,7 @@
     
     <div id="tab-testmodule" class="kh-webapp-tab-content">
       <div class="info-image-wrapper-m-80-60">
-        <table class="info-image-table info-image-table-reverse">
+        <table class="info-image-table">
           <caption class="hidden-kh">Image-Info</caption>
           <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
           <tbody>
@@ -147,36 +177,6 @@
       <div id="jobs-data-testmodule"></div>
 
     </div> <!-- tab-testmodule -->
-    
-    <div id="tab-ui" class="kh-webapp-tab-content">
-      <div class="info-image-wrapper-m-80-60">
-        <table class="info-image-table">
-          <caption class="hidden-kh">Image-Info</caption>
-          <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="info-image-img">
-                <img src="/kame-house/img/dbz/gohan-ssj2-cell.jpg" alt="info img"/>
-              </td>
-              <td class="info-image-info">
-                <div class="info-image-title info-image-title-bottom">
-                  UI
-                </div>
-                <div class="info-image-desc">
-                  <p>Enter the UI of <span class="bold-kh">KameHouse</span>. The frontend wrapper to the most powerful app in the universe. Well not really, but still pretty cool.</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <button class="img-btn-kh img-btn-m-kh fl-r-d-kh m-15-d-kh m-15-m-kh"
-        onclick="kameHouse.extension.scheduler.getAllJobs('ui', true)"
-        data-background-img="/kame-house/img/other/refresh.png"></button>
-      <div id="jobs-data-ui"></div>
-
-    </div> <!-- tab-ui -->
     
     <div id="tab-vlcrc" class="kh-webapp-tab-content">
       <div class="info-image-wrapper-m-80-60">
