@@ -1,4 +1,4 @@
-package com.nicobrest.kamehouse.commons.security;
+package com.nicobrest.kamehouse.auth.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
