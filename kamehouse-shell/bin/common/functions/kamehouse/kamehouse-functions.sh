@@ -400,10 +400,6 @@ executeOperationInTomcatManager() {
   fi
 
   local WEBAPP=${KAMEHOUSE_MODULE}
-  if [ "${KAMEHOUSE_MODULE}" == "ui" ]; then
-    WEBAPP=""
-  fi
-
   local URL_LIST="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list"
   local URL_LIST_MASKED="${URL_LIST}"
   URL_LIST_MASKED="`sed 's#://.*:.*@#://****:****@#' <<<"${URL_LIST_MASKED}"`"
@@ -413,10 +409,6 @@ executeOperationInTomcatManager() {
   if [ -z "${KAMEHOUSE_WEBAPPS}" ]; then
     log.warn "Tomcat doesn't seem to be running. Nothing to do. Exiting without executing ${COL_PURPLE}${OPERATION}"
     return
-  fi
-  
-  if [ "${KAMEHOUSE_MODULE}" == "ui" ]; then
-    KAMEHOUSE_WEBAPPS="/kame-house"
   fi
 
   echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
