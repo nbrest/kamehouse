@@ -138,6 +138,7 @@ deployToTomcat() {
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
       cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
       checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
+      rm -rf ${KAMEHOUSE_MODULE}/target/
     fi
   done
 
