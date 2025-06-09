@@ -15,6 +15,7 @@ class KameHouseFooter {
       kameHouse.util.dom.loadById("kamehouse-footer-container", "/kame-house/kamehouse/html/kamehouse-footer.html", () => {
         kameHouse.core.configDynamicHtml();
         this.#updateFooterWithBuildInfo();
+        this.#removeFooterModuleOnMobile();
         kameHouse.util.module.waitForModules(["kameHouseSession"], () => {
           this.#updateFooterWithSessionInfo();
           kameHouse.util.module.setModuleLoaded("kameHouseFooter");
@@ -64,5 +65,18 @@ class KameHouseFooter {
     if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
       kameHouse.util.dom.setHtmlById("footer-build-date", buildInfo.buildDate);
     }
+  }
+
+  /**
+   * Removing footer module on mobile app.
+   */
+  #removeFooterModuleOnMobile() {
+    kameHouse.util.mobile.exec(
+        () => {},
+        () => {
+          kameHouse.logger.debug("Removing module from footer in mobile app", null);
+          kameHouse.util.dom.removeById("footer-module");
+        }
+      );
   }
 }
