@@ -47,7 +47,7 @@ Follow the readme on each module to see the functionality done by each of them
 
 The project uses **Maven** for building and deployment.
 
-The test coverage is done with **jacoco**, **spotbugs** and **sonarqube** for code quality
+The test coverage is done with **jacoco**. **spotbugs** and **sonarqube** are used for code quality
 and **checkstyle** for coding style.
 
 ## Node:
