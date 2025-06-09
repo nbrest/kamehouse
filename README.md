@@ -100,19 +100,17 @@ certain functionality. These external dependencies are:
 ### VNC Server
 
 - Install any [VNC Server](https://www.tightvnc.com/)
-- Store encrypted vnc server password as described in [kamehouse-cmd](/kamehouse-cmd/README.md)
-- VNC protocol is used for example to send a doble mouse click to toggle fullscreen on a vlc player,
+- Store encrypted vnc server password as described in [kamehouse-shell](/kamehouse-shell/README.md)
+- VNC protocol is used for example to send a double mouse click to toggle fullscreen on a vlc player,
   which works much more reliably than vlc's native fullscreen toggle. Another usage is to unlock a
   locked screen
 
 ### Gnome Screensaver Command (linux)
 
--
-
-Download [gnome-screensaver-command](http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
+- Download [gnome-screensaver-command](http://manpages.ubuntu.com/manpages/trusty/man1/gnome-screensaver-command.1.html)
 
 - It is needed lock screen from kamehouse in debian/ubuntu based **Linux**
-- Store encrypted user password as described in [kamehouse-cmd](/kamehouse-cmd/README.md) in order
+- Store encrypted user password as described in [kamehouse-shell](/kamehouse-shell/README.md) in order
   to unlock the screen through kamehouse
 
 ### Git Bash (windows)
@@ -129,7 +127,7 @@ Download [gnome-screensaver-command](http://manpages.ubuntu.com/manpages/trusty/
 
 ### Unzip
 
-- In linux it should be available out of the box
+- In most systems, it should be available out of the box
 - Used in deployment script to install kamehouse-cmd in **Windows** (Download an unzip tool and make
   sure unzip.exe is on the PATH)
 
