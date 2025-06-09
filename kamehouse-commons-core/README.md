@@ -12,3 +12,5 @@ This module handles the following functionality:
 * Model objects reused in all modules
 * Utility classes needed in commons-test
 * Kamehouse command execution service
+
+* The build of this module produces a jar library that is loaded from other modules

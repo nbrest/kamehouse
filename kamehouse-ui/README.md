@@ -7,8 +7,8 @@
 
 This module handles the following functionality:
 
-* All the frontend code goes in this module
-* Views for the entire kamehouse webapp and it integrates with all the other modules
+* All the frontend code of kamehouse is in this module
+* Contains the views for the entire kamehouse webapp and integrates with all the other modules
  through their APIs
 
 ## Icons source:

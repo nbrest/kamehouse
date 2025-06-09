@@ -15,3 +15,5 @@ This module handles the following functionality:
 * Utility classes
 * User authentication service to allow authentication in all modules
 * Exception handling
+
+* The build of this module produces a jar library that is loaded from other modules

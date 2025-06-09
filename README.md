@@ -12,57 +12,40 @@
 
 This application (forever under construction) contains the following modules: 
 
-[Admin](/kamehouse-admin/README.md)
+[admin](/kamehouse-admin/README.md)
 
-[Auth](/kamehouse-auth/README.md)
+[auth](/kamehouse-auth/README.md)
 
-[Cmd](/kamehouse-cmd/README.md)
+[cmd](/kamehouse-cmd/README.md)
 
-[Commons](/kamehouse-commons/README.md)
+[commons](/kamehouse-commons/README.md)
 
-[Commons Core](/kamehouse-commons-core/README.md)
+[commons-core](/kamehouse-commons-core/README.md)
 
-[Commons Test](/kamehouse-commons-test/README.md)
+[commons-test](/kamehouse-commons-test/README.md)
 
-[GRoot](/kamehouse-groot/README.md)
+[groot](/kamehouse-groot/README.md)
 
-[Media](/kamehouse-media/README.md)
+[media](/kamehouse-media/README.md)
 
-[Mobile](/kamehouse-mobile/README.md)
+[mobile](/kamehouse-mobile/README.md)
 
-[Shell](/kamehouse-shell/README.md)
+[shell](/kamehouse-shell/README.md)
 
-[TennisWorld](/kamehouse-tennisworld/README.md)
+[tennisworld](/kamehouse-tennisworld/README.md)
 
-[TestModule](/kamehouse-testmodule/README.md)
+[testmodule](/kamehouse-testmodule/README.md)
 
-[UI](/kamehouse-ui/README.md)
+[ui](/kamehouse-ui/README.md)
 
-[VlcRc](/kamehouse-vlcrc/README.md)
-
-The modules **commons**, **commons-core** and **commons-test** are jar libraries imported by the other java modules. 
-
-**Cmd** is a command line tool written in java for tasks that are better to execute through the command
- line rather than through a webapp.
-
-**Mobile** is a module to build native apps for android and ios that connect to my kamehouse servers and load the content from there using apache cordova.
-
-**GRoot** is a backend webapp built with php to do admin stuff I usually do through the command line.
-
-**Shell** is a collection of most of my shell scripts. Some of them are called from GRoot to execute admin tasks.
-
-**UI** Contains all the frontend code to interact with all the other backend services.
-
-All the other modules are webapps deployable to tomcat.
-All of them are API based except for the UI module that contains the frontend code and connects
- to the other modules through their APIs.
+[vlcrc](/kamehouse-vlcrc/README.md)
 
 The main idea of this application is to keep improving and learning best practices of software
  development with Java and frontend technologies. 
  So if you are a software developer and can look through the code and see vulnerabilities or
   things to improve I'd be more than happy to hear about them!
 
-The project uses **Maven** as a **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **spotbugs** and the style with **checkstyle**.
+The project uses **Maven** as **SCM**. It is configured to validate the test coverage with **jacoco**, validate code with **spotbugs** and the style with **checkstyle**.
 
 ## External Java frameworks/libraries:
 
