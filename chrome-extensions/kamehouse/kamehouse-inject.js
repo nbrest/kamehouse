@@ -81,7 +81,7 @@ try {
   } // KameHouseChromeExtension
 
   new KameHouseChromeExtension().load();
-} catch(error) {
+} catch (error) {
   console.log(error);
 }
 

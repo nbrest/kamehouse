@@ -96,7 +96,7 @@ class KameHouseWebSocket {
               kameHouse.logger.error("Error during stompClient.subscribe() callback: " + error, null);
             }
           });
-        } catch(error) {
+        } catch (error) {
           kameHouse.logger.error("Error during stompClient.connect() callback: " + error, null);
         }
       },

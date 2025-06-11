@@ -20,6 +20,7 @@ class KameHouseMobileSettings {
       this.#handleUrlParams();
       kameHouse.plugin.debugger.renderCustomDebugger("/kame-house-mobile/kamehouse-mobile/plugin/html/settings-debug-mode-custom.html", () => {
         kameHouse.extension.mobile.core.setMobileBuildInfo();
+        kameHouse.extension.mobile.core.setBatcaveBuildInfo();
         kameHouse.core.configDynamicHtml();
       });
     });

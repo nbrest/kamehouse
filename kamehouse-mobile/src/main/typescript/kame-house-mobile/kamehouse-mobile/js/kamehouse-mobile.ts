@@ -246,12 +246,37 @@ class KameHouseMobileCore {
     const buildInfo = kameHouse.json.parse(content);
     kameHouse.logger.info("Loaded mobile buildInfo: " + content, null);
     if (!kameHouse.core.isEmpty(buildInfo.buildVersion)) {
-      const buildVersionDiv = document.getElementById("mobile-build-version");
+      const buildVersionDiv = document.getElementById("mobile-build-version-val");
       kameHouse.util.dom.setHtml(buildVersionDiv, buildInfo.buildVersion);
     }
     if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
-      const buildDateDiv = document.getElementById("mobile-build-date");
+      const buildDateDiv = document.getElementById("mobile-build-date-val");
       kameHouse.util.dom.setHtml(buildDateDiv, buildInfo.buildDate);
+    }
+  }
+
+  /**
+   * Set batcave build info in debug mode.
+   */
+  async setBatcaveBuildInfo() { 
+    try {
+      const content = await kameHouse.util.fetch.loadFile('/kame-house-batcave/build-info.json');
+      if (kameHouse.core.isEmpty(content)) {
+        kameHouse.logger.error("Unable to load batcave build-info.json", null);
+        return;
+      }
+      const buildInfo = kameHouse.json.parse(content);
+      kameHouse.logger.info("Loaded batcave buildInfo: " + content, null);
+      if (!kameHouse.core.isEmpty(buildInfo.buildVersion)) {
+        const buildVersionDiv = document.getElementById("batcave-build-version-val");
+        kameHouse.util.dom.setHtml(buildVersionDiv, buildInfo.buildVersion);
+      }
+      if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
+        const buildDateDiv = document.getElementById("batcave-build-date-val");
+        kameHouse.util.dom.setHtml(buildDateDiv, buildInfo.buildDate);
+      }
+    } catch (error) {
+      kameHouse.logger.error("Error loading batcave build-info.json", null);
     }
   }
 
@@ -980,7 +1005,7 @@ class KameHouseMobileConfigManager {
         kameHouse.logger.debug("File content to write: " + fileContent, null);
         const blob = new Blob([encryptedFileContent]);
         fileWriter.write(blob);
-        } catch(e) {
+        } catch (e) {
           kameHouse.logger.error("Error writing config file " + this.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(e, null, null), null); 
         }
       }, (error) => this.#writeMobileConfigFileErrorCallback(error));
@@ -1271,7 +1296,7 @@ class KameHouseMobileConfigManager {
               if (openResultModal) {
                 kameHouse.plugin.modal.basicModal.openAutoCloseable("Settings saved", 1000);
               }
-            } catch(e) {
+            } catch (e) {
               kameHouse.logger.error("Error writing config file " + this.#mobileConfigFile + ". Error: " + kameHouse.json.stringify(e, null, null), null); 
             }
           }, 
@@ -1378,6 +1403,7 @@ class MockLocalhostServer {
   #isServerModificationRequest(httpMethod, url) {
     const ALLOWED_NON_GET_URLS = [
       "/kame-house-auth/login",
+      "/kame-house-groot/api/v1/auth/login.php",
       "/kame-house-admin/api/v1/admin/power-management/wol",
       "/kame-house-tennisworld/api/v1/tennis-world/bookings",
       "/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings",

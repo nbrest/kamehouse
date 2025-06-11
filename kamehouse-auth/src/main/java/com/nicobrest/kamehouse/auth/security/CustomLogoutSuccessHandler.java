@@ -19,7 +19,7 @@ public class CustomLogoutSuccessHandler extends ForwardLogoutSuccessHandler {
   private static final Logger log = LoggerFactory.getLogger(CustomLogoutSuccessHandler.class);
 
   public CustomLogoutSuccessHandler() {
-    super(LOGOUT_SUCCESS);
+    this(LOGOUT_SUCCESS);
   }
 
   public CustomLogoutSuccessHandler(String targetUrl) {

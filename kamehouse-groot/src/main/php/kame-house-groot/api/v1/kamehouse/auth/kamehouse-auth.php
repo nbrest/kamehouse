@@ -237,7 +237,7 @@ class KameHouseAuth {
         $_SESSION['logged-in'] = true;
         $_SESSION['username'] = $username;
       }
-    } catch(Exception $e) {
+    } catch (Exception $e) {
       // session already open throws an exception, ignore it
     }
   }
@@ -264,7 +264,7 @@ class KameHouseAuth {
       } else {
         //$kameHouse->logger->info("Session already ended for user " . $username);
       }
-    } catch(Exception $e) {
+    } catch (Exception $e) {
       // session already open throws an exception, ignore it
     }
   }

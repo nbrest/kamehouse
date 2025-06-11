@@ -19,8 +19,7 @@ public class AuthSpringSecurityConfig {
    */
   @Bean
   public CustomAuthenticationSuccessHandler authenticationSuccessHandler() {
-    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler =
-        new CustomAuthenticationSuccessHandler();
+    var customAuthenticationSuccessHandler = new CustomAuthenticationSuccessHandler();
     // Set to false, as with js redirects, the last referer will be /login
     customAuthenticationSuccessHandler.setUseReferer(false);
     return customAuthenticationSuccessHandler;
@@ -31,9 +30,7 @@ public class AuthSpringSecurityConfig {
    */
   @Bean
   public AuthenticationFailureHandler authenticationFailureHandler() {
-    CustomAuthenticationFailureHandler customAuthenticationFailureHandler =
-        new CustomAuthenticationFailureHandler();
-    return customAuthenticationFailureHandler;
+    return new CustomAuthenticationFailureHandler();
   }
 
   /**
@@ -41,7 +38,6 @@ public class AuthSpringSecurityConfig {
    */
   @Bean
   public LogoutSuccessHandler logoutSuccessHandler() {
-    CustomLogoutSuccessHandler logoutSuccessHandler = new CustomLogoutSuccessHandler();
-    return logoutSuccessHandler;
+    return new CustomLogoutSuccessHandler();
   }
 }

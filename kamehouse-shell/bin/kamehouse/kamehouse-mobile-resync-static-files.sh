@@ -79,13 +79,16 @@ exportBatcave() {
     log.debug "Running with -d. Skip resyncing batcave files to mobile app"
     return
   fi
+  mkdir -p ${EXPORT_BATCAVE_DIR}
   if [ -d "${SOURCE_FILES_BATCAVE_DIR}" ]; then
     ${HOME}/programs/kamehouse-batcave/shell/bin/deploy/deploy-batcave.sh -m ui
     cd ${SOURCE_FILES_BATCAVE_DIR}
-    mkdir -p ${EXPORT_BATCAVE_DIR}
     log.info "Copying all files from ${SOURCE_FILES_BATCAVE_DIR} to ${EXPORT_BATCAVE_DIR}"
     cd ${EXPORT_BATCAVE_DIR}
     cp -r ${SOURCE_FILES_BATCAVE_DIR}/* .
+  else
+    log.info "Batcave not found, copying build-info.json from kamehouse-ui"
+    cp -f ${EXPORT_KAMEHOUSE_DIR}/build-info.json ${EXPORT_BATCAVE_DIR}/build-info.json
   fi
 }
 

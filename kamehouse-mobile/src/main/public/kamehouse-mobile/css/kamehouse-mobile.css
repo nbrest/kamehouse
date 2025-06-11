@@ -32,17 +32,6 @@
   margin-right: 20px;
 }
 
-.mobile-build-version-table {
-  width:100%;
-  margin:auto;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.mobile-build-version-table tbody {
-  background: none;
-}
-
 .mobile-body {
   background-color: #000000;
 }
@@ -71,6 +60,14 @@
   .mobile-btn-kh {
     width:80%;
   }
+}
+
+.modules-table-build-version {
+  min-width: 250px;
+}
+
+.modules-table-build-date {
+  min-width: 250px;
 }
 
 .reset-cfg-btn-kh {

@@ -4,7 +4,5 @@
   "lastName": "Sama",
   "server": "Mock Localhost",
   "sessionId": "099gd998-ce9b-4155-aa19-6c59gd9944a6",
-  "buildVersion": "9.99.9-r2d2c3po",
-  "buildDate": "9099-99-99 00:00:09",
   "roles": ["ROLE_NAMEKIAN", "ROLE_SAIYAJIN", "ROLE_KAMISAMA"]
 }

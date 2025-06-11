@@ -1,23 +1,26 @@
 <div class="default-layout p-15-d-kh p-15-m-kh"></div>
 <div class="default-layout">
-  <table class="table-kh table-borderless-kh mobile-build-version-table">
-    <caption class="hidden-kh">Mobile Version</caption>
-    <thead class="hidden-kh"><tr><th>Header</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>Mobile Build Version</td>
-      </tr>
-      <tr>
-      <td>
-        v<span id="mobile-build-version">00.00.0-a1b2c3d4</span> - <span id="mobile-build-date">0000-00-00 00:00:00</span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <br><br>
   <button class="mobile-btn-kh save-settings-btn" onclick="kameHouse.extension.mobile.configManager.reGenerateMobileConfigFile(true)">Save Settings</button>
   <br>
   <button class="mobile-btn-kh reset-cfg-btn-kh" onclick="kameHouse.extension.mobile.configManager.confirmResetDefaults()">Reset Settings</button>
+  <br><br>
+  <table class="table-kh">
+    <tr class="table-kh-header">
+      <td>module</td>
+      <td class="modules-table-build-version">build version</td>
+      <td class="modules-table-build-date">build date</td> 
+    </tr>
+    <tr>
+      <td>mobile</td>
+      <td id="mobile-build-version-val">00.00.0-a1b2c3d4</td>
+      <td id="mobile-build-date-val">0000-00-00 00:00:00</td>
+    </tr>
+    <tr>
+      <td>batcave</td>
+      <td id="batcave-build-version-val">00.00.0-a1b2c3d4</td>
+      <td id="batcave-build-date-val">0000-00-00 00:00:00</td>
+    </tr>
+  </table> 
 </div>
 <div class="default-layout p-15-d-kh p-15-m-kh"></div>
 <div class="default-layout p-15-d-kh p-15-m-kh"></div>
