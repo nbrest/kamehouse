@@ -20,7 +20,8 @@ mainProcess() {
 
 pullChangesFromGit() {
   gitCdCheckoutAndPull "${SRC_PROJECT_DIR}" "all" "dev"
-  GIT_COMMIT_HASH=`git rev-parse --short HEAD`
+  GIT_COMMIT_HASH=`git rev-parse HEAD`
+  GIT_COMMIT_HASH=`echo ${COMMIT_HASH:0:9}`
 }
 
 updateKameHouseShellMin() {
