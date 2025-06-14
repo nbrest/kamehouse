@@ -64,8 +64,7 @@ deployKameHouseShell() {
   log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "shell" ]; then
-    deleteGitRepoBuildInfoFiles
-    exitSuccessfully
+    exitDeploymentSuccessfully
   fi
 }
 
@@ -109,8 +108,7 @@ deployKameHouseGroot() {
   log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
-    deleteGitRepoBuildInfoFiles
-    exitSuccessfully
+    exitDeploymentSuccessfully
   fi
 }
 
@@ -282,8 +280,7 @@ deployKameHouseUiStatic() {
   log.info "Finished deploying ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "ui" ]; then
-    deleteGitRepoBuildInfoFiles
-    exitSuccessfully
+    exitDeploymentSuccessfully
   fi
 }
 
@@ -329,4 +326,9 @@ checkForDeploymentErrors() {
   fi
   log.error "Error executing kamehouse deployment"
   exitProcess ${EXIT_CODE}
+}
+
+exitDeploymentSuccessfully() {
+  deleteGitRepoBuildInfoFiles
+  exitSuccessfully
 }
