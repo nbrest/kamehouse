@@ -2541,7 +2541,14 @@ class KameHouseCore {
    * Returns true when processing a groot page.
    */
   isGRootPage() {
-    return window.location.href.includes("/kame-house/groot/") || window.location.href.includes("/kame-house-batcave/");
+    return window.location.href.includes("/kame-house/groot/") || this.isBatcavePage();
+  }
+
+  /**
+   * Returns true when processing a batcave page.
+   */
+  isBatcavePage() {
+    return window.location.href.includes("/kame-house-batcave/");
   }
 
   /**

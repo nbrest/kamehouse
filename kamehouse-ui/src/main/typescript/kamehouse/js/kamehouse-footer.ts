@@ -51,6 +51,10 @@ class KameHouseFooter {
    * Update the kamehouse ui build info in the footer.
    */
   async #updateFooterWithBuildInfo() {
+    if (kameHouse.core.isBatcavePage()) {
+      this.#updateFooterWithBatcaveBuildInfo();
+      return;
+    }
     kameHouse.logger.info("Updating footer with kamehouse ui build info", null);
     const content = await kameHouse.util.fetch.loadFile('/kame-house/build-info.json');
     if (kameHouse.core.isEmpty(content)) {
@@ -64,6 +68,30 @@ class KameHouseFooter {
     }
     if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
       kameHouse.util.dom.setHtmlById("footer-build-date", buildInfo.buildDate);
+    }
+  }
+
+  /** 
+   * Update the kamehouse batcave build info in the footer.
+   */
+  async #updateFooterWithBatcaveBuildInfo() { 
+    try {
+      kameHouse.logger.info("Updating footer with kamehouse batcave build info", null);
+      const content = await kameHouse.util.fetch.loadFile('/kame-house-batcave/build-info.json');
+      if (kameHouse.core.isEmpty(content)) {
+        kameHouse.logger.error("Unable to load batcave build-info.json", null);
+        return;
+      }
+      const buildInfo = kameHouse.json.parse(content);
+      kameHouse.logger.info("Loaded batcave buildInfo: " + content, null);
+      if (!kameHouse.core.isEmpty(buildInfo.buildVersion)) {
+        kameHouse.util.dom.setHtmlById("footer-build-version", buildInfo.buildVersion);
+      }
+      if (!kameHouse.core.isEmpty(buildInfo.buildDate)) {
+        kameHouse.util.dom.setHtmlById("footer-build-date", buildInfo.buildDate);
+      }
+    } catch (error) {
+      kameHouse.logger.error("Error loading batcave build-info.json", null);
     }
   }
 
