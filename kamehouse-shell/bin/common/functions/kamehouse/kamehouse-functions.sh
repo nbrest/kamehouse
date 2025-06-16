@@ -556,7 +556,7 @@ setupLinuxEnvironment() {
 
   if ${SET_LIN_ENV_XAUTHORITY}; then
     if [ -z "${XAUTHORITY}" ]; then
-      XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
+      local XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
       if [ -n "${XAUTHORITY_VAL}" ]; then
         export XAUTHORITY=${XAUTHORITY_VAL}
       fi
