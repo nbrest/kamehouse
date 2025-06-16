@@ -6,7 +6,6 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 initScriptEnv() {
   SRC_PROJECT_DIR="${HOME}/git/kamehouse"
   PROJECT_DIR="${HOME}/git/kamehouse-shell-min"
-  GIT_COMMIT_HASH=""
 }
 
 mainProcess() {
