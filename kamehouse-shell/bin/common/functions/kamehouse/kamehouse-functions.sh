@@ -526,6 +526,13 @@ checkKeepAliveScriptsEnabled() {
   fi
 }
 
+# set git commit hash from the git repo in the current directory
+setGitCommitHash() {
+  log.trace "Setting git commit hash"
+  GIT_COMMIT_HASH=`git rev-parse HEAD`
+  GIT_COMMIT_HASH=`echo ${GIT_COMMIT_HASH:0:9}`
+}
+
 # setup environment for scripts running in linux
 setupLinuxEnvironment() {
   if ! ${IS_LINUX_HOST}; then

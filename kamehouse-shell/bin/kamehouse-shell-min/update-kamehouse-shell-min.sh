@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
-if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
   SRC_PROJECT_DIR="${HOME}/git/kamehouse"
@@ -20,8 +20,7 @@ mainProcess() {
 
 pullChangesFromGit() {
   gitCdCheckoutAndPull "${SRC_PROJECT_DIR}" "all" "dev"
-  GIT_COMMIT_HASH=`git rev-parse HEAD`
-  GIT_COMMIT_HASH=`echo ${GIT_COMMIT_HASH:0:9}`
+  setGitCommitHash
 }
 
 updateKameHouseShellMin() {
