@@ -531,6 +531,8 @@ setupLinuxEnvironment() {
   if ! ${IS_LINUX_HOST}; then
     return
   fi
+  log.debug "Setting linux environment"
+  local USER_UID=`id -u`
 
   if [ -z "${TERM}" ]; then
     export TERM=xterm
@@ -543,15 +545,24 @@ setupLinuxEnvironment() {
   log.debug "DISPLAY=${DISPLAY}"
 
   if [ -z "${XDG_RUNTIME_DIR}" ]; then
-    export XDG_RUNTIME_DIR=/run/user/$(id -u)
+    export XDG_RUNTIME_DIR=/run/user/${USER_UID}
   fi
   log.debug "XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}"
 
   if [ -z "${DBUS_SESSION_BUS_ADDRESS}" ]; then
-    USER_UID=`cat /etc/passwd | grep "${HOME}:" | cut -d ':' -f3`
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${USER_UID}/bus
   fi
   log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"  
+
+  if ${SET_LIN_ENV_XAUTHORITY}; then
+    if [ -z "${XAUTHORITY}" ]; then
+      XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
+      if [ -n "${XAUTHORITY_VAL}" ]; then
+        export XAUTHORITY=${XAUTHORITY_VAL}
+      fi
+    fi
+  fi
+  log.debug "XAUTHORITY=${XAUTHORITY}"  
 }
 
 loadConfigFiles() {
