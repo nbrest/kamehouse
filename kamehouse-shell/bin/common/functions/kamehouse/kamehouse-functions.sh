@@ -561,12 +561,18 @@ setupLinuxEnvironment() {
   fi
   log.debug "DBUS_SESSION_BUS_ADDRESS=${DBUS_SESSION_BUS_ADDRESS}"  
 
-  if ${SET_LIN_ENV_XAUTHORITY}; then
-    if [ -z "${XAUTHORITY}" ]; then
-      local XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
-      if [ -n "${XAUTHORITY_VAL}" ]; then
-        export XAUTHORITY=${XAUTHORITY_VAL}
-      fi
+  setLinuxEnvXauhority
+}
+
+setLinuxEnvXauhority() {
+  if ! ${SET_LIN_ENV_XAUTHORITY}; then
+    return;
+  fi
+  local USER_UID=`id -u`
+  if [ -z "${XAUTHORITY}" ]; then
+    local XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
+    if [ -n "${XAUTHORITY_VAL}" ]; then
+      export XAUTHORITY=${XAUTHORITY_VAL}
     fi
   fi
   log.debug "XAUTHORITY=${XAUTHORITY}"  
