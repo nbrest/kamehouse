@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.08
+
+- Fixed bugs
+
 #### v10.07
 
 - Updated mobile build version on settings page
