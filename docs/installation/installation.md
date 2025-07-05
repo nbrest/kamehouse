@@ -24,6 +24,17 @@ sudo apt-get -y install nodejs
 sudo npm install typescript -g
 ```
 
+* Insall python [(versions)](/docs/versions/versions.md) 
+### Install python on windows:
+
+  - Windows:
+    - Install python to `%USERPROFILE%\programs\python`
+    - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
+  - Linux:
+    ```sh
+    sudo apt-get install python${PYTHON_VERSION}
+    ```
+
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
 
   - Update server configuration:

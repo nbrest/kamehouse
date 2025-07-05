@@ -20,6 +20,7 @@
     <module>kamehouse-admin</module>
     <module>kamehouse-auth</module>
     <module>kamehouse-cmd</module>
+    <module>kamehouse-desktop</module>
     <module>kamehouse-groot</module>
     <module>kamehouse-media</module>
     <module>kamehouse-mobile</module>

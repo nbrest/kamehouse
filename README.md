@@ -24,6 +24,8 @@ This application (forever under construction) contains the following modules:
 
 [commons-test](/kamehouse-commons-test/README.md)
 
+[desktop](/kamehouse-desktop/README.md)
+
 [groot](/kamehouse-groot/README.md)
 
 [media](/kamehouse-media/README.md)

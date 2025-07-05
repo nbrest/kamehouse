@@ -36,7 +36,7 @@ SUDO_KAMEHOUSE_COMMAND=""
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
 
-MODULES_LIST="(admin|auth|cmd|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc)"
+MODULES_LIST="(admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc)"
 MODULE_SHORT=""
 MODULE=""
 
@@ -239,6 +239,7 @@ setEnvForKameHouseModule() {
   if [ "${MODULE_SHORT}" != "admin" ] \
       && [ "${MODULE_SHORT}" != "auth" ] \
       && [ "${MODULE_SHORT}" != "cmd" ] \
+      && [ "${MODULE_SHORT}" != "desktop" ] \
       && [ "${MODULE_SHORT}" != "groot" ] \
       && [ "${MODULE_SHORT}" != "media" ] \
       && [ "${MODULE_SHORT}" != "mobile" ] \

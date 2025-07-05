@@ -7,6 +7,7 @@ deployKameHouseProject() {
   generateBuildInfo
   deployKameHouseShell
   deployKameHouseSnape
+  deployKameHouseDesktop
   deployKameHouseGroot
   buildKameHouseStatic
   deployKameHouseStatic
@@ -22,6 +23,7 @@ deployKameHouseProject() {
 displayDeployEnv() {
   log.debug "DEPLOY_KAMEHOUSE_TOMCAT_MODULES=${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}"
   log.debug "DEPLOY_KAMEHOUSE_CMD=${DEPLOY_KAMEHOUSE_CMD}"
+  log.debug "DEPLOY_KAMEHOUSE_DESKTOP=${DEPLOY_KAMEHOUSE_DESKTOP}"
   log.debug "DEPLOY_KAMEHOUSE_GROOT=${DEPLOY_KAMEHOUSE_GROOT}"
   log.debug "DEPLOY_KAMEHOUSE_SHELL=${DEPLOY_KAMEHOUSE_SHELL}"
   log.debug "DEPLOY_KAMEHOUSE_SNAPE=${DEPLOY_KAMEHOUSE_SNAPE}"
@@ -86,6 +88,26 @@ deployKameHouseSnape() {
   log.info "Finished deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "snape" ]; then
+    exitDeploymentSuccessfully
+  fi
+}
+
+deployKameHouseDesktop() {
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "desktop" ]]; then
+    return
+  fi
+  if ! ${DEPLOY_KAMEHOUSE_DESKTOP}; then
+    log.warn "DEPLOY_KAMEHOUSE_DESKTOP is false so skip deploying kamehouse-desktop"
+    return
+  fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
+  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-desktop"
+
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
+
+  if [ "${MODULE_SHORT}" == "desktop" ]; then
     exitDeploymentSuccessfully
   fi
 }

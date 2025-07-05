@@ -13,6 +13,6 @@ This module contains most of my python scripts. Named after the best Slytherin w
 
 ## Run
 
-- All snape scripts are executed via the shell script `snape.sh` installed with `kamehouse-shell`
+- All snape scripts are executed via the shell script `kamehouse-snape.sh` installed with `kamehouse-shell`
 
-- For example `snape.sh test.py -arg1 val1 -arg2 val2`
+- For example `kamehouse-snape.sh test.py -arg1 val1 -arg2 val2`

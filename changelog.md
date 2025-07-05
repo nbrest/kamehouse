@@ -7,6 +7,8 @@
 
 #### v10.08
 
+- Added initial version of kamehouse-desktop module
+- Added initial version of kamehouse-snape module
 - Fixed bugs
 
 #### v10.07

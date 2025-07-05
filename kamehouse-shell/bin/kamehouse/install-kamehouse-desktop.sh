@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Execute from the root of the kamehouse git project:
-# chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
-# ./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
+# chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
+# ./kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
 
 DEFAULT_KAMEHOUSE_USERNAME=""
 
@@ -20,10 +20,10 @@ COL_PURPLE_STD="\033[0;35m"
 COL_YELLOW_STD="\033[0;33m"
 COL_MESSAGE=${COL_GREEN}
 
-KAMEHOUSE_SNAPE_PATH=${HOME}/programs/kamehouse-snape
+KAMEHOUSE_DESKTOP_PATH=${HOME}/programs/kamehouse-desktop
 TEMP_PATH=${HOME}/temp
 
-KAMEHOUSE_SNAPE_SOURCE=`pwd`
+KAMEHOUSE_DESKTOP_SOURCE=`pwd`
 LOG_LEVEL=""
 
 # Exit codes
@@ -35,59 +35,59 @@ EXIT_PROCESS_CANCELLED=4
 
 main() {
   parseArguments "$@"
-  log.info "Installing ${COL_PURPLE}kamehouse-snape${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SNAPE_PATH}"
-  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SNAPE_SOURCE}${COL_MESSAGE} as the source of the scripts"
+  log.info "Installing ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_DESKTOP_PATH}"
+  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_DESKTOP_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
-  installKameHouseSnape
+  installKameHouseDesktop
   fixPermissions
   generateBuildInfo
-  logKameHouseSnapeStatus
-  log.info "Done installing ${COL_PURPLE}kamehouse-snape!"
+  logKameHouseDesktopStatus
+  log.info "Done installing ${COL_PURPLE}kamehouse-desktop!"
 }
 
 checkSourcePath() {
-  if [ ! -d "${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-shell/bin" ] || [ ! -d "${KAMEHOUSE_SNAPE_SOURCE}/.git" ]; then
+  if [ ! -d "${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-shell/bin" ] || [ ! -d "${KAMEHOUSE_DESKTOP_SOURCE}/.git" ]; then
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
     exit ${EXIT_ERROR}
   fi
 }
 
-installKameHouseSnape() {
-  log.info "Rebuilding snape scripts directory"
-  rm -r -f ${KAMEHOUSE_SNAPE_PATH}/bin
-  rm -f ${KAMEHOUSE_SNAPE_PATH}/conf/build-info.json
-  mkdir -p ${KAMEHOUSE_SNAPE_PATH}/conf
-  cp -r -f ${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-snape/bin ${KAMEHOUSE_SNAPE_PATH}/
-  cp -r -f ${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-snape/conf ${KAMEHOUSE_SNAPE_PATH}/
+installKameHouseDesktop() {
+  log.info "Rebuilding desktop install directory"
+  rm -r -f ${KAMEHOUSE_DESKTOP_PATH}/bin
+  rm -f ${KAMEHOUSE_DESKTOP_PATH}/conf/build-info.json
+  mkdir -p ${KAMEHOUSE_DESKTOP_PATH}/conf
+  cp -r -f ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-desktop/bin ${KAMEHOUSE_DESKTOP_PATH}/
+  cp -r -f ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-desktop/conf ${KAMEHOUSE_DESKTOP_PATH}/
 }
 
 fixPermissions() {
   log.info "Fixing permissions"
-  local KAMEHOUSE_SNAPE_BIN_PATH=${KAMEHOUSE_SNAPE_PATH}/bin
-  chmod -R 700 ${KAMEHOUSE_SNAPE_BIN_PATH} 
+  local KAMEHOUSE_DESKTOP_BIN_PATH=${KAMEHOUSE_DESKTOP_PATH}/bin
+  chmod -R 700 ${KAMEHOUSE_DESKTOP_BIN_PATH} 
   
-  local NON_SCRIPTS=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.py$"`;
+  local NON_SCRIPTS=`find ${KAMEHOUSE_DESKTOP_BIN_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.py$"`;
   while read NON_SCRIPT; do
     if [ -n "${NON_SCRIPT}" ]; then
       chmod a-x ${NON_SCRIPT}
     fi
   done <<< ${NON_SCRIPTS}
 
-  local SCRIPTS=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.py$"`;
+  local SCRIPTS=`find ${KAMEHOUSE_DESKTOP_BIN_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.py$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
       chmod u+rx ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
-  local FUNCTIONS=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type f | grep "\-functions.py$"`
+  local FUNCTIONS=`find ${KAMEHOUSE_DESKTOP_BIN_PATH} -name '.*' -prune -o -type f | grep "\-functions.py$"`
   while read FUNCTION; do
     if [ -n "${FUNCTION}" ]; then
       chmod a-x ${FUNCTION}
     fi
   done <<< ${FUNCTIONS}
 
-  local DIRECTORIES=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type d`
+  local DIRECTORIES=`find ${KAMEHOUSE_DESKTOP_BIN_PATH} -name '.*' -prune -o -type d`
   while read DIRECTORY; do
     if [ -n "${DIRECTORY}" ]; then
       chmod u+rx ${DIRECTORY}
@@ -96,10 +96,10 @@ fixPermissions() {
 }
 
 generateBuildInfo() {
-  local KAMEHOUSE_SNAPE_CONF_PATH=${KAMEHOUSE_SNAPE_PATH}/conf
+  local KAMEHOUSE_DESKTOP_CONF_PATH=${KAMEHOUSE_DESKTOP_PATH}/conf
   local KAMEHOUSE_BUILD_VERSION=`getKameHouseBuildVersion`
   local BUILD_DATE=`date +%Y-%m-%d' '%H:%M:%S`
-  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'", "buildDate": "'${BUILD_DATE}'" }' > ${KAMEHOUSE_SNAPE_CONF_PATH}/build-info.json
+  echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'", "buildDate": "'${BUILD_DATE}'" }' > ${KAMEHOUSE_DESKTOP_CONF_PATH}/build-info.json
 }
 
 getKameHouseBuildVersion() {
@@ -114,13 +114,13 @@ getKameHouseBuildVersion() {
   echo "${BUILD_VERSION}"
 }
 
-logKameHouseSnapeStatus() {
-  log.info "Deployed kamehouse-snape status"
-  log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_SNAPE_PATH}"
-  ls -lh "${KAMEHOUSE_SNAPE_PATH}"
-  log.info "${COL_YELLOW_STD}kamehouse-snape version:"
+logKameHouseDesktopStatus() {
+  log.info "Deployed kamehouse-desktop status"
+  log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_DESKTOP_PATH}"
+  ls -lh "${KAMEHOUSE_DESKTOP_PATH}"
+  log.info "${COL_YELLOW_STD}kamehouse-desktop version:"
   echo -ne "${COL_YELLOW_STD}     "
-  cat "${KAMEHOUSE_SNAPE_PATH}/conf/build-info.json"
+  cat "${KAMEHOUSE_DESKTOP_PATH}/conf/build-info.json"
   echo -ne "${COL_NORMAL}"
 }
 
@@ -150,7 +150,7 @@ parseArguments() {
         exit ${EXIT_SUCCESS}
         ;;
       -p)
-        KAMEHOUSE_SNAPE_SOURCE=${HOME}/git/kamehouse
+        KAMEHOUSE_DESKTOP_SOURCE=${HOME}/git/kamehouse
         ;;
       -?|-??*)
         log.error "Invalid argument ${CURRENT_OPTION}"
@@ -162,7 +162,7 @@ parseArguments() {
 
 printHelpMenu() {
   echo -e ""
-  echo -e "Usage: ${COL_PURPLE}install-kamehouse-snape.sh${COL_NORMAL} [options]"
+  echo -e "Usage: ${COL_PURPLE}install-kamehouse-desktop.sh${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
