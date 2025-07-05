@@ -36,7 +36,7 @@ SUDO_KAMEHOUSE_COMMAND=""
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
 
-MODULES_LIST="(admin|auth|cmd|groot|media|mobile|shell|tennisworld|testmodule|ui|vlcrc)"
+MODULES_LIST="(admin|auth|cmd|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc)"
 MODULE_SHORT=""
 MODULE=""
 
@@ -84,6 +84,8 @@ KAMEHOUSE_ANDROID_APK_PATH=""
 # Override LOAD_KAMEHOUSE_SECRETS variable in the function initKameHouseShellEnv in the shell scripts
 LOAD_KAMEHOUSE_SECRETS=false
 KAMEHOUSE_SECRETS_LOADED=false
+
+SNAPE_PATH="${HOME}/programs/kamehouse-snape/bin"
 
 # ---------------------------
 # Common kamehouse functions
@@ -241,6 +243,7 @@ setEnvForKameHouseModule() {
       && [ "${MODULE_SHORT}" != "media" ] \
       && [ "${MODULE_SHORT}" != "mobile" ] \
       && [ "${MODULE_SHORT}" != "shell" ] \
+      && [ "${MODULE_SHORT}" != "snape" ] \
       && [ "${MODULE_SHORT}" != "tennisworld" ] \
       && [ "${MODULE_SHORT}" != "testmodule" ] \
       && [ "${MODULE_SHORT}" != "ui" ] \
@@ -528,7 +531,6 @@ checkKeepAliveScriptsEnabled() {
 
 # set git commit hash from the git repo in the current directory
 setGitCommitHash() {
-  log.trace "Setting git commit hash"
   GIT_COMMIT_HASH=`git rev-parse HEAD`
   GIT_COMMIT_HASH=`echo ${GIT_COMMIT_HASH:0:9}`
 }

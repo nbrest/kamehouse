@@ -6,6 +6,7 @@ deployKameHouseProject() {
   setKameHouseBuildVersion
   generateBuildInfo
   deployKameHouseShell
+  deployKameHouseSnape
   deployKameHouseGroot
   buildKameHouseStatic
   deployKameHouseStatic
@@ -23,6 +24,7 @@ displayDeployEnv() {
   log.debug "DEPLOY_KAMEHOUSE_CMD=${DEPLOY_KAMEHOUSE_CMD}"
   log.debug "DEPLOY_KAMEHOUSE_GROOT=${DEPLOY_KAMEHOUSE_GROOT}"
   log.debug "DEPLOY_KAMEHOUSE_SHELL=${DEPLOY_KAMEHOUSE_SHELL}"
+  log.debug "DEPLOY_KAMEHOUSE_SNAPE=${DEPLOY_KAMEHOUSE_SNAPE}"
   log.debug "DEPLOY_KAMEHOUSE_UI=${DEPLOY_KAMEHOUSE_UI}"
   log.debug "DEPLOY_KAMEHOUSE_MOBILE=${DEPLOY_KAMEHOUSE_MOBILE}"
 }
@@ -64,6 +66,26 @@ deployKameHouseShell() {
   log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "shell" ]; then
+    exitDeploymentSuccessfully
+  fi
+}
+
+deployKameHouseSnape() {
+  if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "snape" ]]; then
+    return
+  fi
+  if ! ${DEPLOY_KAMEHOUSE_SNAPE}; then
+    log.warn "DEPLOY_KAMEHOUSE_SNAPE is false so skip deploying kamehouse-snape"
+    return
+  fi
+  log.info "Deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
+  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
+  ./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
+  checkCommandStatus "$?" "An error occurred deploying kamehouse-snape"
+
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
+
+  if [ "${MODULE_SHORT}" == "snape" ]; then
     exitDeploymentSuccessfully
   fi
 }

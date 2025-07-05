@@ -32,6 +32,8 @@ This application (forever under construction) contains the following modules:
 
 [shell](/kamehouse-shell/README.md)
 
+[snape](/kamehouse-snape/README.md)
+
 [tennisworld](/kamehouse-tennisworld/README.md)
 
 [testmodule](/kamehouse-testmodule/README.md)
