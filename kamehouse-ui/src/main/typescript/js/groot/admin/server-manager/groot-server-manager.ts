@@ -260,7 +260,7 @@ class DeploymentManager {
     kameHouse.util.module.waitForModules(["kameHouseShell", "kameHouseModal", "kameHouseDebugger", "kameHouseGrootSession"], () => {
       this.hideUndeployedModules();
       this.getTomcatModulesStatus();
-      this.getNonTomcatModulesStatus();
+      this.getAllNonTomcatModulesStatus();
       this.getTomcatProcessStatus();
     });
   }
@@ -282,37 +282,28 @@ class DeploymentManager {
   }
 
   /**
-   * Get status from non tomcat modules.
+   * Get status from all non tomcat modules.
    */
-  getNonTomcatModulesStatus() {
-    kameHouse.logger.debug("Getting non tomcat modules status", null);
+  getAllNonTomcatModulesStatus() {
+    kameHouse.logger.debug("Getting all non tomcat modules status", null);
+    this.getNonTomcatModulesStatus("cmd");
+    this.getNonTomcatModulesStatus("desktop");
+    this.getNonTomcatModulesStatus("groot");
+    this.getNonTomcatModulesStatus("shell");
+    this.getNonTomcatModulesStatus("snape");
+    this.getNonTomcatModulesStatus("ui");
+  }
 
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-cmd-version.sh', "", false, false, 60, 
-      (kameHouseCommandResult) => this.#displayModuleCmdStatus(kameHouseCommandResult), 
+  /**
+   * Get status from a non tomcat module.
+   */
+  getNonTomcatModulesStatus(module) {
+    kameHouse.logger.debug("Getting module " + module + " status", null);
+    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-' + module + '-version.sh', "", false, false, 60, 
+      (kameHouseCommandResult) => this.#displayNonTomcatModuleStatus(kameHouseCommandResult, module), 
       () => {
-        kameHouse.util.dom.setHtmlById("mst-cmd-build-version-val", "Error getting data");  
-        kameHouse.util.dom.setHtmlById("mst-cmd-build-date-val", "Error getting data");   
-      });
-
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-groot-version.sh', "", false, false, 60, 
-      (kameHouseCommandResult) => this.#displayModuleGrootStatus(kameHouseCommandResult), 
-      () => {
-        kameHouse.util.dom.setHtmlById("mst-groot-build-version-val", "Error getting data");   
-        kameHouse.util.dom.setHtmlById("mst-groot-build-date-val", "Error getting data");   
-      });
-
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-shell-version.sh', "", false, false, 60, 
-      (kameHouseCommandResult) => this.#displayModuleShellStatus(kameHouseCommandResult), 
-      () => {
-        kameHouse.util.dom.setHtmlById("mst-shell-build-version-val", "Error getting data");
-        kameHouse.util.dom.setHtmlById("mst-shell-build-date-val", "Error getting data");   
-      });
-    
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-ui-version.sh', "", false, false, 60, 
-      (kameHouseCommandResult) => this.#displayModuleUiStatus(kameHouseCommandResult), 
-      () => {
-        kameHouse.util.dom.setHtmlById("mst-ui-build-version-val", "Error getting data");   
-        kameHouse.util.dom.setHtmlById("mst-ui-build-date-val", "Error getting data");   
+        kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", "Error getting data");  
+        kameHouse.util.dom.setHtmlById("mst-" + module + "-build-date-val", "Error getting data");   
       });
   }
 
@@ -334,7 +325,7 @@ class DeploymentManager {
     this.getTomcatModulesStatus();
     this.getTomcatProcessStatus();
     kameHouse.extension.tomcatModuleStatusManager.getAllModulesStatus();
-    this.getNonTomcatModulesStatus();
+    this.getAllNonTomcatModulesStatus();
     kameHouse.extension.serverManager.completeCommandCallback();
   }
   
@@ -539,34 +530,6 @@ class DeploymentManager {
         }        
       }
     });
-  }
-
-  /**
-   * Render cmd module status.
-   */
-  #displayModuleCmdStatus(kameHouseCommandResult) {
-    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "cmd");
-  }
-
-  /**
-   * Render groot module status.
-   */
-  #displayModuleGrootStatus(kameHouseCommandResult) {
-    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "groot");
-  }
-
-  /**
-   * Render shell module status.
-   */
-  #displayModuleShellStatus(kameHouseCommandResult) {
-    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "shell");
-  }
-
-  /**
-   * Render groot module status.
-   */
-  #displayModuleUiStatus(kameHouseCommandResult) {
-    this.#displayNonTomcatModuleStatus(kameHouseCommandResult, "ui");
   }
 
   /**
