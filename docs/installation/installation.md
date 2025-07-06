@@ -30,9 +30,13 @@ sudo npm install typescript -g
   - Windows:
     - Install python to `%USERPROFILE%\programs\python`
     - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
+    ```sh
+    pip install PyQt5
+    ```
   - Linux:
     ```sh
     sudo apt-get install python${PYTHON_VERSION}
+    sudo apt install python3-pyqt5
     ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
