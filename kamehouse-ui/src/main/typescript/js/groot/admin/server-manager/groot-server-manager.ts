@@ -364,10 +364,10 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    let script = 'kamehouse/deploy-kamehouse.sh';
+    let script = 'kamehouse/deploy/deploy-kamehouse.sh';
     let args = "-m " + module;
     if (this.#isDevEnvironment()) {
-      script = 'kamehouse/deploy-kamehouse-dev.sh';
+      script = 'kamehouse/deploy/deploy-kamehouse-dev.sh';
     }
     kameHouse.extension.kameHouseShell.execute(script, args, false, false, 600, () => this.refreshServerView(), () => {});
   }
@@ -382,7 +382,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/undeploy-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy/undeploy-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -394,7 +394,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-s kamehouse/deploy-kamehouse.sh -a -m " + module;
+    const args = "-s kamehouse/deploy/deploy-kamehouse.sh -a -m " + module;
     kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
@@ -407,10 +407,10 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    let script = 'kamehouse/deploy-kamehouse.sh';
+    let script = 'kamehouse/deploy/deploy-kamehouse.sh';
     let args = "";
     if (this.#isDevEnvironment()) {
-      script = 'kamehouse/deploy-kamehouse-dev.sh';
+      script = 'kamehouse/deploy/deploy-kamehouse-dev.sh';
     }
     kameHouse.extension.kameHouseShell.execute(script, args, false, false, 600, () => this.refreshServerView(), () => {});
   }
@@ -424,7 +424,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy-kamehouse.sh", false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy/deploy-kamehouse.sh", false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**

@@ -9,7 +9,7 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --skip-override --log
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-java-home.sh --skip-override --log
   
   echo "********************************************************************************************"
   echo " Redirecting logs to ${TOMCAT_LOG}"

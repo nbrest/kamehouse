@@ -5,7 +5,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 initScriptEnv() {
   PATCH_FILE="kamehouse.patch"
-  DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c "
+  DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c "
   GIT_PROJECT_DIR="${HOME}/git/kamehouse"
 }
 

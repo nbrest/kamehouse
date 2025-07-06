@@ -19,31 +19,31 @@ runFullContinuousIntegrationBuild() {
   setKameHouseRootProjectDir
   gitResetBranch
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m shell -c -l ${LOG_LEVEL}
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -m shell -c -l ${LOG_LEVEL}
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/build-kamehouse.sh
   checkCommandStatus "$?" "An error occurred building kamehouse"
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-integration-tests-trigger.sh
   checkCommandStatus "$?" "An error occurred running the integration tests"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -m mobile -c
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -m mobile -c
   checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile"
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-rebuild-docker-image.sh -c
   checkCommandStatus "$?" "An error occurred rebuilding the docker image"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/sonarcloud-run-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/sonarcloud-run-kamehouse.sh
   checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
   
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/docker/docker-upgrade-containers.sh"
   checkCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy-kamehouse.sh" -a "-m shell"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy/deploy-kamehouse.sh" -a "-m shell"
   checkCommandStatus "$?" "An error occurred deploying kamehouse shell in all servers"  
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy-kamehouse.sh"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy/deploy-kamehouse.sh"
   checkCommandStatus "$?" "An error occurred deploying kamehouse in all servers"  
 
   log.info "Finished running full continuous integration build"

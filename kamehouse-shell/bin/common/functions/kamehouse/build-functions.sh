@@ -180,7 +180,7 @@ buildKameHouseBackend() {
     log.debug "RUN_MAVEN_COMMAND is false so skip running maven command"
     return
   fi
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-java-home.sh --override --log
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
   exportBuildInfoToCommonsCore
   buildMavenCommand
@@ -248,13 +248,13 @@ buildKameHouseMobile() {
   syncStaticFilesOnMobile
   cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home-for-mobile.sh
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-java-home-for-mobile.sh
   prepareCordovaProject
   setMobileKeys
   setBuildInfoOnMobile
   updateConfigWithGitHash
   buildCordovaProject
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --override --log
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-java-home.sh --override --log
   resetMobileAppConfig
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile

@@ -37,12 +37,12 @@ Right click on toolbar > Customize
     - Windows:
       - Name: deploy-kamehouse-dev
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: deploy-kamehouse-dev
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse-dev.sh
       - Working directory: 
 
   ### `start-tomcat`

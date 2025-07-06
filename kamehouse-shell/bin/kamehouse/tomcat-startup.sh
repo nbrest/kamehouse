@@ -10,8 +10,8 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-java-home.sh --skip-override --log
-  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-userhome.sh
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-java-home.sh --skip-override --log
+  source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-userhome.sh
   TOMCAT_DIR="${HOME}/programs/apache-tomcat"
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   cd ${TOMCAT_DIR}

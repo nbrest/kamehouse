@@ -121,8 +121,8 @@ pullKameHouse() {
 
 deployKameHouse() {
   log.info "Deploying latest version of KameHouse"
-  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker -m shell"
-  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -p docker"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -p docker -m shell"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -p docker"
   log.info "Finished deploying latest version of KameHouse"
 }
 

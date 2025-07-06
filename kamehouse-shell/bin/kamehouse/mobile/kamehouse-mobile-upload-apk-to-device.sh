@@ -19,7 +19,7 @@ mainProcess() {
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
     log.info "Building kamehouse-mobile app first"
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/build-kamehouse.sh -m mobile
+    ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/build-kamehouse.sh -m mobile
   fi
   uploadApkToDeviceSftp
 }
