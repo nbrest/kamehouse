@@ -16,6 +16,7 @@ mainProcess() {
   else
     log.info "Killing process ${COL_PURPLE}${HTTPD_PID}"
     cmd.exe "/c taskkill.exe /PID ${HTTPD_PID} /F"
+    powershell.exe -c "Stop-Process -Id ${HTTPD_PID} -Force"
   fi
 }
 

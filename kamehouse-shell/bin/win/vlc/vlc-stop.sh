@@ -24,9 +24,11 @@ mainProcess() {
   else
     log.info "Killing process ${COL_PURPLE}${VLC_PID}"
     cmd.exe "/c taskkill.exe /PID ${VLC_PID} /F"
+    powershell.exe -c "Stop-Process -Id ${VLC_PID} -Force"
   fi
   log.info "Killing remaining vlc process"
   cmd.exe "/c taskkill /im vlc.exe"
+  powershell.exe -c "Stop-Process -Name vlc.exe -Force"
   removeVlcProcessInfo
   rotateVlcLog
 }
