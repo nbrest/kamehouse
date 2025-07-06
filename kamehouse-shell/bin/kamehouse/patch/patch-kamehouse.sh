@@ -47,7 +47,7 @@ applyPatchFile() {
     APPLY_PATCH_ARGS="${APPLY_PATCH_ARGS} -m ${MODULE_SHORT}"
   fi
 
-  SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/apply-patch-kamehouse.sh ${APPLY_PATCH_ARGS}"
+  SSH_COMMAND="~/programs/kamehouse-shell/bin/kamehouse/patch/apply-patch-kamehouse.sh ${APPLY_PATCH_ARGS}"
   executeSshCommand
 }
 

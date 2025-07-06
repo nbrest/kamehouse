@@ -18,7 +18,7 @@ public class ListPlaylistsKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "kamehouse/list-playlists.sh";
+    return "kamehouse/media/list-playlists.sh";
   }
 
   @Override
@@ -28,7 +28,7 @@ public class ListPlaylistsKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "kamehouse/list-playlists.sh";
+    return "kamehouse/media/list-playlists.sh";
   }
 
   @Override

@@ -15,11 +15,11 @@ class GetPlaylistContentKameHouseCommandTest extends AbstractKameHouseCommandTes
 
   @Override
   protected String getWindowsShellCommand() {
-    return "kamehouse/get-playlist-content.sh -f playlist.m3u";
+    return "kamehouse/media/get-playlist-content.sh -f playlist.m3u";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "kamehouse/get-playlist-content.sh -f playlist.m3u";
+    return "kamehouse/media/get-playlist-content.sh -f playlist.m3u";
   }
 }

@@ -152,7 +152,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   /home/${KAMEHOUSE_USERNAME}/programs/apache-maven/bin/mvn clean ; \
   rm -rf /home/${KAMEHOUSE_USERNAME}/.m2/repository/com/nicobrest ; \
   # And recreate sample video playlists directories
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/create-sample-video-playlists.sh" ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/media/create-sample-video-playlists.sh" ; \
   # Configure sudoers for kamehouse
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Install groot
