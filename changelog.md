@@ -5,6 +5,11 @@
 
 # ChangeLog:
 
+#### v10.09
+
+- Reorganized dockerfile to easier to manage scripts
+- Fixed bugs
+
 #### v10.08
 
 - Added initial version of kamehouse-desktop module
