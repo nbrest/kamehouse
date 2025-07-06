@@ -18,9 +18,8 @@ main() {
 }
 
 fixEol() {
-  log.info "Fixing end of line on scripts in `pwd`"
-  #find . -regex ".*sh" -type f -exec vim {} -c "set ff=unix" -c ":wq" \;
-  find . -regex ".*sh" -type f -exec sed -i 's/\r$//' {} \;
+  log.info "Fixing permissions on scripts in `pwd`"
+  find . -regex ".*sh" -type f -exec chmod a+x {} \;
 }
 
 log.info() {
