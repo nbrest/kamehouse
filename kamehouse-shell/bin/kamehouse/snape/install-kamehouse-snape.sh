@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Execute from the root of the kamehouse git project:
-# chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
-# ./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
+# chmod a+x ./kamehouse-shell/bin/kamehouse/snape/install-kamehouse-snape.sh
+# ./kamehouse-shell/bin/kamehouse/snape/install-kamehouse-snape.sh
 
 DEFAULT_KAMEHOUSE_USERNAME=""
 

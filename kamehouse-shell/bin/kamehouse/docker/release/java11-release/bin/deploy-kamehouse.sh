@@ -84,8 +84,8 @@ getHttpdContentRoot() {
 deployKameHouseShell() {
   if [ -d "kamehouse-shell/bin" ]; then
     log.info "Deploying kamehouse shell from current release version ${RELEASE_VERSION}"
-    chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-    ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+    chmod a+x ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
+    ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
   fi
 
   if [ -d "kamehouse-shell/my.scripts" ]; then

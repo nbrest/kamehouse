@@ -69,8 +69,8 @@ setupKameHouseShellForReleaseTag() {
   cd kamehouse-release-${DOCKER_IMAGE_TAG}
   git checkout tags/${DOCKER_IMAGE_TAG} -b ${DOCKER_IMAGE_TAG}
   log.debug "Installing kamehouse-shell from `pwd`"
-  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
+  chmod a+x ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
 }
 
 restoreKameHouseShell() {
@@ -79,8 +79,8 @@ restoreKameHouseShell() {
   rm -r -f kamehouse-release-${DOCKER_IMAGE_TAG}
   cd kamehouse
   log.debug "Installing kamehouse-shell from `pwd`"
-  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh 
+  chmod a+x ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh 
 }
 
 parseArguments() {

@@ -61,8 +61,8 @@ deployKameHouseShell() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh -l ${LOG_LEVEL}
+  chmod a+x kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh -l ${LOG_LEVEL}
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
@@ -81,8 +81,8 @@ deployKameHouseSnape() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
-  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh
+  chmod a+x kamehouse-shell/bin/kamehouse/snape/install-kamehouse-snape.sh
+  ./kamehouse-shell/bin/kamehouse/snape/install-kamehouse-snape.sh
   checkCommandStatus "$?" "An error occurred deploying kamehouse-snape"
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
@@ -101,8 +101,8 @@ deployKameHouseDesktop() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
-  chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
+  chmod a+x kamehouse-shell/bin/kamehouse/desktop/install-kamehouse-desktop.sh
+  ./kamehouse-shell/bin/kamehouse/desktop/install-kamehouse-desktop.sh
   checkCommandStatus "$?" "An error occurred deploying kamehouse-desktop"
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
@@ -252,7 +252,7 @@ uploadKameHouseMobileApkToHttpdServer() {
   SSH_USER="${KAMEHOUSE_MOBILE_APP_SERVER_USERNAME}"
   SSH_SERVER="${KAMEHOUSE_MOBILE_APP_SERVER_IP}"
   IS_REMOTE_LINUX_HOST=true
-  SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
+  SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
   executeSshCommand
 }
 

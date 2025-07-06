@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Execute from the root of the kamehouse git project:
-# chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
-# ./kamehouse-shell/bin/kamehouse/install-kamehouse-desktop.sh
+# chmod a+x ./kamehouse-shell/bin/kamehouse/desktop/install-kamehouse-desktop.sh
+# ./kamehouse-shell/bin/kamehouse/desktop/install-kamehouse-desktop.sh
 
 DEFAULT_KAMEHOUSE_USERNAME=""
 

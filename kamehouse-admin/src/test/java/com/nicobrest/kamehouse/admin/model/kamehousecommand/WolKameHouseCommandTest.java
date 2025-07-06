@@ -15,11 +15,11 @@ class WolKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "kamehouse/kamehouse-cmd.sh -o wol -mac AA:BB:CC:DD:EE:FF -broadcast 192.168.0.255";
+    return "kamehouse/cmd/kamehouse-cmd.sh -o wol -mac AA:BB:CC:DD:EE:FF -broadcast 192.168.0.255";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "kamehouse/kamehouse-cmd.sh -o wol -mac AA:BB:CC:DD:EE:FF -broadcast 192.168.0.255";
+    return "kamehouse/cmd/kamehouse-cmd.sh -o wol -mac AA:BB:CC:DD:EE:FF -broadcast 192.168.0.255";
   }
 }

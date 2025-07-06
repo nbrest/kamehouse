@@ -9,7 +9,7 @@ This module contains most of my python scripts. Named after the best Slytherin w
 
 ## Install
 
-- Install with `deploy-kamehouse.sh -m snape` or `./kamehouse-shell/bin/kamehouse/install-kamehouse-snape.sh` 
+- Install with `deploy-kamehouse.sh -m snape` or `install-kamehouse-snape.sh` 
 
 ## Run
 

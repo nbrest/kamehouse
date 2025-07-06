@@ -12,14 +12,14 @@ initScriptEnv() {
 mainProcess() {
   setKameHouseRootProjectDir
   buildKameHouseMobileStatic
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-resync-static-files.sh -c
   cdToKameHouseModule "kamehouse-mobile"
   cordova run browser
   cdToRootDirFromModule "kamehouse-mobile"
 }
 
 cleanupAfterRun() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-clean.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-clean.sh
   ctrlC
 }
 

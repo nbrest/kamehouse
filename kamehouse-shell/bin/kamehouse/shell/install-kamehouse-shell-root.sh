@@ -24,8 +24,8 @@ main() {
   parseArguments "$@"
   log.info "Setting up root user for kamehouse"
   gitCloneKameHouse
-  sudo /bin/bash -c 'cd /root/git/kamehouse ; chmod a+x kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh'
-  sudo /bin/bash -c 'cd /root/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh'
+  sudo /bin/bash -c 'cd /root/git/kamehouse ; chmod a+x kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh'
+  sudo /bin/bash -c 'cd /root/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh'
   log.info "To ${COL_RED}uninstall${COL_MESSAGE} kamehouse-shell for root, run as root ${COL_PURPLE}cd /root/git/kamehouse ; ./scripts/uninstall-kamehouse.sh"
   log.info "Finished setting up root user for kamehouse"
 }

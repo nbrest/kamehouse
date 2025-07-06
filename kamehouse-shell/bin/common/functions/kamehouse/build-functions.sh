@@ -279,7 +279,7 @@ prepareCordovaProject() {
 
 # runs from root directory of kamehouse project
 syncStaticFilesOnMobile() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-resync-static-files.sh -c
 }
 
 setMobileKeys() {
@@ -302,7 +302,7 @@ buildCordovaProject() {
 }
 
 deleteStaticFilesOnMobile() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/kamehouse-mobile-resync-static-files.sh -c -d
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-resync-static-files.sh -c -d
 }
 
 updateConfigWithGitHash() {

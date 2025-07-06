@@ -144,8 +144,8 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # Checkout git branch
   chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/* ; \
   /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-git-checkout.sh ${DOCKER_IMAGE_TAG} ; \
-  chmod a+x ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
-  ./kamehouse-shell/bin/kamehouse/install-kamehouse-shell.sh ; \
+  chmod a+x ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh ; \
+  ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh ; \
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy-kamehouse.sh -c -p docker ; \
   # Clear temporary files
@@ -156,7 +156,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # Configure sudoers for kamehouse
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Install groot
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Httpd root index.html
   rm /var/www/html/index.html ; \
   # Open mariadb to external connections and intial dump of mariadb data

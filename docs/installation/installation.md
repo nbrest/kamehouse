@@ -94,7 +94,7 @@ The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update you
 
 * Run `set-kamehouse-sudoers-permissions.sh` to setup permissions in linux to execute all commands that need sudo
 
-* **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This doesn't really add any functionality. It's just to have a cooler prompt with root :)
+* **optionally** run `${HOME}/programs/kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell-root.sh` to setup root user with the kamehouse-shell prompt as well. This doesn't really add any functionality. It's just to have a cooler prompt with root :)
 
 ### Create certificate and keystore:
 

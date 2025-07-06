@@ -299,7 +299,7 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus(module) {
     kameHouse.logger.debug("Getting module " + module + " status", null);
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-' + module + '-version.sh', "", false, false, 60, 
+    kameHouse.extension.kameHouseShell.execute('kamehouse/' + module + '/kamehouse-' + module + '-version.sh', "", false, false, 60, 
       (kameHouseCommandResult) => this.#displayNonTomcatModuleStatus(kameHouseCommandResult, module), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", "Error getting data");  
