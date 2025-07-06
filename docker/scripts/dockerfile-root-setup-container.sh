@@ -48,6 +48,7 @@ setupUser() {
   echo "${KAMEHOUSE_USER}:${KAMEHOUSE_PASSWORD}" | chpasswd 
   usermod -a -G adm ${KAMEHOUSE_USER} 
   usermod -a -G sudo ${KAMEHOUSE_USER} 
+  echo ". /home/${KAMEHOUSE_USER}/.bashrc" > /home/${KAMEHOUSE_USER}/.profile
   chown ${KAMEHOUSE_USER}:users -R /home/${KAMEHOUSE_USER} 
 }
 
