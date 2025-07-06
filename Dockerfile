@@ -20,6 +20,7 @@ RUN apt-get update -y && apt-get -y upgrade ; \
   apt-get install -y openssh-server ; \
   apt-get install -y php libapache2-mod-php php-mysql ; \
   apt-get install -y python3.11 ; \
+  apt-get install -y python3-pyqt5 ; \
   apt-get install -y screen ; \
   apt-get install -y sudo ; \
   apt-get install -y tightvncserver ; \
