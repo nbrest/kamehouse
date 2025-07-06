@@ -30,7 +30,7 @@ public class GetKameHouseSecretKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "kamehouse/get-kamehouse-secret.sh";
+    return "kamehouse/secrets/get-kamehouse-secret.sh";
   }
 
   @Override
@@ -40,7 +40,7 @@ public class GetKameHouseSecretKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "kamehouse/get-kamehouse-secret.sh";
+    return "kamehouse/secrets/get-kamehouse-secret.sh";
   }
 
   @Override

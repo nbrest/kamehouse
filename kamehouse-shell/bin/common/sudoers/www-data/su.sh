@@ -11,7 +11,7 @@ EXIT_PROCESS_CANCELLED=4
 main() {
   COMMAND="/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/common/sudoers/www-data/exec-script.sh $@"
   
-  if [[ "$@" =~ ^"kamehouse/get-kamehouse-secret.sh -s ".* ]]; then
+  if [[ "$@" =~ ^"kamehouse/secrets/get-kamehouse-secret.sh -s ".* ]]; then
     COMMAND="/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/$@"
   fi
 
