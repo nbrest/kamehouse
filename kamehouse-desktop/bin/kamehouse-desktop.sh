@@ -15,7 +15,11 @@ mainProcess() {
     export DISPLAY=${DISPLAY} picom &
     #xcompmgr &
   fi
-  python ${SNAPE_PATH}/kamehouse-desktop/kamehouse-desktop.py &
+  startKameHouseDesktop &
+}
+
+startKameHouseDesktop() {
+  python ${SNAPE_PATH}/kamehouse-desktop/kamehouse-desktop.py
 }
 
 main "$@"
