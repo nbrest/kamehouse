@@ -35,6 +35,7 @@ sudo npm install typescript -g
     ```
   - Linux:
     ```sh
+    sudo apt install picom # on raspberrypi
     sudo apt-get install python${PYTHON_VERSION}
     sudo apt install python3-pyqt5
     ```
