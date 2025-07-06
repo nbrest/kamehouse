@@ -115,7 +115,7 @@ buildKameHouseConfigDir() {
 setSudoersPermissions() {
   log.info "Setting sudoers permissions"
   local KAMEHOUSE_USER=`whoami`
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
 }
 
 installKameHouseGroot() {
