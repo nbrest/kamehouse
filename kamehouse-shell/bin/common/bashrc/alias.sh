@@ -33,3 +33,11 @@ fi
 if [ -f "/usr/bin/python3.11" ] && [ ! -f "/usr/bin/python" ]; then
   alias python='python3.11'
 fi
+
+if [ -f "/usr/bin/python3.12" ] && [ ! -f "/usr/bin/python" ]; then
+  alias python='python3.12'
+fi
+
+if [ -f "/usr/bin/python3.13" ] && [ ! -f "/usr/bin/python" ]; then
+  alias python='python3.13'
+fi
