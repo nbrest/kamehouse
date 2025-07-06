@@ -48,12 +48,13 @@ setupUser() {
   echo "${KAMEHOUSE_USER}:${KAMEHOUSE_PASSWORD}" | chpasswd 
   usermod -a -G adm ${KAMEHOUSE_USER} 
   usermod -a -G sudo ${KAMEHOUSE_USER} 
+  chown ${KAMEHOUSE_USER}:users -R /home/${KAMEHOUSE_USER} 
 }
 
 setupHttpd() {
   log.info "Setting up httpd"
-  cp /home/${KAMEHOUSE_USER}/docker/apache2/conf /etc/apache2/conf
-  cp /home/${KAMEHOUSE_USER}/docker/apache2/sites-available /etc/apache2/sites-available
+  cp -r /home/${KAMEHOUSE_USER}/docker/apache2/conf /etc/apache2/conf
+  cp -r /home/${KAMEHOUSE_USER}/docker/apache2/sites-available /etc/apache2/sites-available
   cp /home/${KAMEHOUSE_USER}/docker/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
   cp /home/${KAMEHOUSE_USER}/docker/apache2/certs/apache-selfsigned.key /etc/ssl/private/
   cp /home/${KAMEHOUSE_USER}/docker/apache2/robots.txt /var/www/html/
@@ -79,7 +80,7 @@ setupUserHome() {
     mkdir -p /home/${KAMEHOUSE_USER}/.ssh" 
 
   sudo su - ${KAMEHOUSE_USER} -c "mkdir -p /home/${KAMEHOUSE_USER}/.config/vlc/" 
-  cp /home/${KAMEHOUSE_USER}/docker/vlc/* /home/${KAMEHOUSE_USER}/.config/vlc/
+  cp -r /home/${KAMEHOUSE_USER}/docker/vlc/* /home/${KAMEHOUSE_USER}/.config/vlc/
 
   sudo su - ${KAMEHOUSE_USER} -c "mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/bin ; \
   mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/lib"
