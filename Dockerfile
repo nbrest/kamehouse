@@ -155,7 +155,7 @@ RUN sudo su - ${KAMEHOUSE_USERNAME} -c "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG
   # And recreate sample video playlists directories
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/media/create-sample-video-playlists.sh" ; \
   # Configure sudoers for kamehouse
-  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USERNAME} ; \
+  /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Install groot
   /home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USERNAME} ; \
   # Httpd root index.html
