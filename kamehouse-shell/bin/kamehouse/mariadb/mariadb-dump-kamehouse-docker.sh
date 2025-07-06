@@ -16,14 +16,14 @@ exportMariadbDataOnDocker() {
   SSH_PORT="${DOCKER_PORT_SSH}"
   SSH_USER="${DOCKER_USERNAME}"
   SSH_SERVER="localhost"
-  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-csv-kamehouse.sh"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb/mariadb-csv-kamehouse.sh"
   IS_REMOTE_LINUX_HOST=true
   executeSshCommand --skip-exit-code-check
 
   SSH_PORT="${DOCKER_PORT_SSH}"
   SSH_USER="${DOCKER_USERNAME}"
   SSH_SERVER="localhost"
-  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-dump-kamehouse.sh"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb/mariadb-dump-kamehouse.sh"
   IS_REMOTE_LINUX_HOST=true
   executeSshCommand --skip-exit-code-check
 }

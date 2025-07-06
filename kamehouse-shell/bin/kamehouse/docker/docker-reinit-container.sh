@@ -167,10 +167,10 @@ reinitMariadb() {
   case ${DATA_SOURCE} in
   "docker-defaults"|"docker-data"|"host-data")
     log.info "${COL_RED}Reinit mariadb kamehouse db"
-    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-setup-kamehouse.sh -s"
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb/mariadb-setup-kamehouse.sh -s"
     runSshCommand
 
-    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb-restore-kamehouse.sh"
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/mariadb/mariadb-restore-kamehouse.sh"
     runSshCommand
     ;;
   *) 
