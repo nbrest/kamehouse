@@ -94,13 +94,12 @@ installTomcat() {
   tar -xf /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /home/${KAMEHOUSE_USER}/programs/ ; \
   mv /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-tomcat ; \
   rm /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz ; \
-  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh" 
+  sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh"
 
-  cp /home/${KAMEHOUSE_USER}/docker/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
-  cp /home/${KAMEHOUSE_USER}/docker/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
-  cp /home/${KAMEHOUSE_USER}/docker/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml  
+  sudo su - ${KAMEHOUSE_USER} -c "cp /home/${KAMEHOUSE_USER}/docker/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/"
+  sudo su - ${KAMEHOUSE_USER} -c "cp /home/${KAMEHOUSE_USER}/docker/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/"
+  sudo su - ${KAMEHOUSE_USER} -c "cp /home/${KAMEHOUSE_USER}/docker/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/"
+  sudo su - ${KAMEHOUSE_USER} -c "cp /home/${KAMEHOUSE_USER}/docker/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/"
 }
 
 installMaven() {
@@ -113,6 +112,7 @@ installMaven() {
   echo PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USER}/.bashrc ; \
   echo . /home/${KAMEHOUSE_USER}/.env >> /home/${KAMEHOUSE_USER}/.bashrc" 
 
+  sudo su - ${KAMEHOUSE_USER} -c "cp /home/${KAMEHOUSE_USER}/docker/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml"
   echo "PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:${PATH}" >> /etc/profile ; \
 }
 
