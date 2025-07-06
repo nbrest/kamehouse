@@ -9,7 +9,7 @@
 
 - Added initial version of kamehouse-desktop module
 - Added initial version of kamehouse-snape module
-- Reorganized kamehouse shell scripts by module
+- Reorganized kamehouse shell scripts by module and functionality
 - Fixed bugs
 
 #### v10.07
