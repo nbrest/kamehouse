@@ -6,7 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 initScriptEnv() {
   PORT=443
   SERVICE="httpd"
-  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd-restart.sh"
+  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd/httpd-restart.sh"
 }
 
 mainProcess() {

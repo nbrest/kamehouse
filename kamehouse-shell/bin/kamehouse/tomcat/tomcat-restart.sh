@@ -8,9 +8,9 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-stop.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop.sh
   killRemainingTomcatProcess
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh "${DEBUG_MODE}"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup.sh "${DEBUG_MODE}"
 }
 
 killRemainingTomcatProcess() {

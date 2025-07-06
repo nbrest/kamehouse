@@ -227,7 +227,7 @@ class GitManager {
    * Pull kamehouse in all servers.
    */
   pullKameHouseAllServers() {
-    kameHouse.extension.serverManager.executeShellScript('kamehouse/exec-kamehouse-all-servers.sh', "-s common/git/git-pull-kamehouse.sh");
+    kameHouse.extension.serverManager.executeShellScript('kamehouse/deploy/exec-kamehouse-all-servers.sh', "-s common/git/git-pull-kamehouse.sh");
   }
 
 } // GitManager
@@ -270,7 +270,7 @@ class DeploymentManager {
    */
   hideUndeployedModules() {
     kameHouse.logger.info("Hiding undeployed kamehouse modules", null);
-    kameHouse.extension.kameHouseShell.execute('kamehouse/get-undeployed-kamehouse-modules.sh', "", false, false, 60, (kameHouseCommandResult) => this.#processUndeployedKameHouseModulesResponse(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy/get-undeployed-kamehouse-modules.sh', "", false, false, 60, (kameHouseCommandResult) => this.#processUndeployedKameHouseModulesResponse(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -278,7 +278,7 @@ class DeploymentManager {
    */
   getTomcatModulesStatus() {
     const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/kamehouse-tomcat-modules-status.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesRunningStatusImg(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/tomcat/kamehouse-tomcat-modules-status.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesRunningStatusImg(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -339,7 +339,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/start-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/tomcat/start-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -352,7 +352,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/stop-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/tomcat/stop-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }  
 
   /**
@@ -395,7 +395,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     const args = "-s kamehouse/deploy/deploy-kamehouse.sh -a -m " + module;
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy/exec-kamehouse-all-servers.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -424,7 +424,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy/deploy-kamehouse.sh", false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('kamehouse/deploy/exec-kamehouse-all-servers.sh', "-s kamehouse/deploy/deploy-kamehouse.sh", false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -436,9 +436,9 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    let script = 'kamehouse/tomcat-restart.sh';
+    let script = 'kamehouse/tomcat/tomcat-restart.sh';
     if (this.#isDevEnvironment()) {
-      script = 'kamehouse/tomcat-restart-dev.sh';
+      script = 'kamehouse/tomcat/tomcat-restart-dev.sh';
     }
     const stringArgs = this.#getRestartTomcatParams();
     kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, false, 600, () => this.refreshServerView(), () => {});

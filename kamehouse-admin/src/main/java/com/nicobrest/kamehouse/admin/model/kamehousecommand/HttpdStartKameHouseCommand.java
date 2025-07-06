@@ -22,7 +22,7 @@ public class HttpdStartKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "kamehouse/httpd-startup.sh";
+    return "kamehouse/httpd/httpd-startup.sh";
   }
 
   @Override
@@ -32,7 +32,7 @@ public class HttpdStartKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "kamehouse/httpd-startup.sh";
+    return "kamehouse/httpd/httpd-startup.sh";
   }
 
   @Override

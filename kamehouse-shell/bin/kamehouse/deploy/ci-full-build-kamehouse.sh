@@ -37,13 +37,13 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/sonarcloud-run-kamehouse.sh
   checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
   
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/docker/docker-upgrade-containers.sh"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/exec-kamehouse-all-servers.sh -s "kamehouse/docker/docker-upgrade-containers.sh"
   checkCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy/deploy-kamehouse.sh" -a "-m shell"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/exec-kamehouse-all-servers.sh -s "kamehouse/deploy/deploy-kamehouse.sh" -a "-m shell"
   checkCommandStatus "$?" "An error occurred deploying kamehouse shell in all servers"  
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/exec-kamehouse-all-servers.sh -s "kamehouse/deploy/deploy-kamehouse.sh"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/exec-kamehouse-all-servers.sh -s "kamehouse/deploy/deploy-kamehouse.sh"
   checkCommandStatus "$?" "An error occurred deploying kamehouse in all servers"  
 
   log.info "Finished running full continuous integration build"

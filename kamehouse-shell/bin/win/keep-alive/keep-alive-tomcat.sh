@@ -6,7 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 initScriptEnv() {
   PORT=9090
   SERVICE="tomcat"
-  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-restart.sh"
+  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-restart.sh"
 }
 
 mainProcess() {

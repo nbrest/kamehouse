@@ -65,7 +65,7 @@ startTomcat() {
     return
   fi  
   log.info "Starting tomcat" 
-  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh
+  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup.sh
 }
 
 setLogFilePermissions() {

@@ -135,7 +135,7 @@ checkKameHouseWar() {
 }
 
 startTomcat() {
-  local START_TOMCAT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup.sh"
+  local START_TOMCAT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup.sh"
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat in debug mode"
     START_TOMCAT_CMD=${START_TOMCAT_CMD}" -d"

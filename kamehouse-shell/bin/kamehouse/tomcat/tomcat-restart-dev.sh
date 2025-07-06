@@ -4,9 +4,9 @@ source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-stop-dev.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop-dev.sh
   killRemainingTomcatProcess
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat-startup-dev.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup-dev.sh
 }
 
 killRemainingTomcatProcess() {
