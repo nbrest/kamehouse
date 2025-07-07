@@ -4,6 +4,7 @@ import socket
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGraphicsDropShadowEffect
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
 
 class KameHouseDesktop(QMainWindow):
     def __init__(self):
@@ -11,6 +12,7 @@ class KameHouseDesktop(QMainWindow):
         self.startCompositor()
         self.setWindowProperties()
         self.addHostnameWidget()
+        self.addKameHouseLogoWidget()
         self.showFullScreen()
 
     def setWindowProperties(self):
@@ -26,8 +28,15 @@ class KameHouseDesktop(QMainWindow):
         self.hostname = QLabel(socket.gethostname(), self)
         self.hostname.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.hostname.setStyleSheet("color: white; font-size: 40px; background-color: transparent;")
-        self.hostname.setGeometry(1475, 25, 450, 100)
+        self.hostname.setGeometry(1400, 25, 450, 100)
         self.addShadowEffect(self.hostname)
+
+    def addKameHouseLogoWidget(self):
+        self.kameHouseLogo = QLabel(self)
+        self.kameHouseLogoPixmap = QPixmap('lib/ico/kamehouse.png') 
+        self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
+        self.kameHouseLogo.setGeometry(1850, 45, 60, 60)
+        self.kameHouseLogo.setScaledContents(True) 
 
     def addShadowEffect(self, item):
         effect = QtWidgets.QGraphicsDropShadowEffect()
