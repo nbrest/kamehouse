@@ -30,28 +30,28 @@ class KameHouseDesktop(QMainWindow):
         self.hostname = QLabel(socket.gethostname(), self)
         self.hostname.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.hostname.setStyleSheet("color: white; font-size: 40px; background-color: transparent;")
-        self.hostname.setGeometry(1400, 25, 450, 100)
+        self.hostname.setGeometry(1200, 100, 450, 100)
         self.addShadowEffect(self.hostname)
+
+    def addKameHouseLogoWidget(self):
+        self.kameHouseLogo = QLabel(self)
+        self.kameHouseLogoPixmap = QPixmap('lib/ico/kamehouse.png') 
+        self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
+        self.kameHouseLogo.setGeometry(1660, 120, 60, 60)
+        self.kameHouseLogo.setScaledContents(True) 
 
     def addKameHouseKatakanaWidget(self):
         self.kameHouseKatakana = QLabel("カメハウス", self)
         self.kameHouseKatakana.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.kameHouseKatakana.setStyleSheet("color: #c0c0c0; font-size: 30px; background-color: transparent;")
-        self.kameHouseKatakana.setGeometry(50, 1000, 150, 100)
+        self.kameHouseKatakana.setGeometry(150, 950, 150, 100)
         self.addShadowEffect(self.kameHouseKatakana)
  
     def addWorldCupLogoWidget(self):
         self.kameHouseLogo = QLabel(self)
         self.kameHouseLogoPixmap = QPixmap('lib/ui/img/sports/world-cup.png') 
         self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
-        self.kameHouseLogo.setGeometry(14, 1039, 25, 25)
-        self.kameHouseLogo.setScaledContents(True) 
-
-    def addKameHouseLogoWidget(self):
-        self.kameHouseLogo = QLabel(self)
-        self.kameHouseLogoPixmap = QPixmap('lib/ico/kamehouse.png') 
-        self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
-        self.kameHouseLogo.setGeometry(1850, 45, 60, 60)
+        self.kameHouseLogo.setGeometry(90, 980, 45, 45)
         self.kameHouseLogo.setScaledContents(True) 
 
     def addShadowEffect(self, item):
