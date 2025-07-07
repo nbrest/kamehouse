@@ -13,6 +13,7 @@ class KameHouseDesktop(QMainWindow):
         self.setWindowProperties()
         self.addHostnameWidget()
         self.addKameHouseLogoWidget()
+        self.addKameHouseHiraWidget()
         self.showFullScreen()
 
     def setWindowProperties(self):
@@ -30,6 +31,13 @@ class KameHouseDesktop(QMainWindow):
         self.hostname.setStyleSheet("color: white; font-size: 40px; background-color: transparent;")
         self.hostname.setGeometry(1400, 25, 450, 100)
         self.addShadowEffect(self.hostname)
+
+    def addKameHouseHiraWidget(self):
+        self.kameHouseHira = QLabel("カメハウス", self)
+        self.kameHouseHira.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.kameHouseHira.setStyleSheet("color: #c0c0c0; font-size: 30px; background-color: transparent;")
+        self.kameHouseHira.setGeometry(30, 1000, 150, 100)
+        self.addShadowEffect(self.kameHouseHira)
 
     def addKameHouseLogoWidget(self):
         self.kameHouseLogo = QLabel(self)
