@@ -30,14 +30,14 @@ class KameHouseDesktop(QMainWindow):
         self.hostname = QLabel(socket.gethostname(), self)
         self.hostname.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.hostname.setStyleSheet("color: white; font-size: 40px; background-color: transparent;")
-        self.hostname.setGeometry(1200, 100, 450, 100)
+        self.hostname.setGeometry(1200, 80, 450, 100)
         self.addShadowEffect(self.hostname)
 
     def addKameHouseLogoWidget(self):
         self.kameHouseLogo = QLabel(self)
         self.kameHouseLogoPixmap = QPixmap('lib/ico/kamehouse.png') 
         self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
-        self.kameHouseLogo.setGeometry(1660, 120, 60, 60)
+        self.kameHouseLogo.setGeometry(1660, 100, 60, 60)
         self.kameHouseLogo.setScaledContents(True) 
 
     def addKameHouseKatakanaWidget(self):
