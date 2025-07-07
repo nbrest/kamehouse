@@ -15,14 +15,14 @@ ARG KAMEHOUSE_PASSWORD=gohan
 ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
 # Copy docker setup-container folder
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker/setup-container
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-container /home/${KAMEHOUSE_USERNAME}/docker/setup-container
 RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/*
 
 # Setup container base apps, user and folders
 RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container.sh -u ${KAMEHOUSE_USERNAME} -p ${KAMEHOUSE_PASSWORD}
 
 # Copy docker setup-kamehouse folder
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-kamehouse /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse
 RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse/scripts/*
 
 # Run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
