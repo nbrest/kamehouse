@@ -23,7 +23,7 @@ mainProcess() {
 startKameHouseDesktop() {
   log.info "Starting ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
   cd ${HOME}/programs/kamehouse-desktop
-  python ${HOME}/programs/kamehouse-desktop/bin/kamehouse-desktop.py &
+  python ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py &
 }
 
 main "$@"
