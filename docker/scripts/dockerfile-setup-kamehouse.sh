@@ -15,6 +15,7 @@ COL_PURPLE_STD="\033[0;35m"
 COL_MESSAGE=${COL_GREEN}
 
 KAMEHOUSE_USER=""
+DOCKER_IMAGE_TAG="latest"
 
 # Exit codes
 EXIT_SUCCESS=0
@@ -25,11 +26,78 @@ EXIT_PROCESS_CANCELLED=4
 
 main() {
   parseArguments "$@"
+  setEnvironment
+  setupKameHouseUserHome
+  setupGitRepo
+  installKameHouseShell
+  setContainerDefaults
+  deployKameHouse
+  clearTempFiles
+  createSamplePlaylists
   configureSudoers
   installGroot
   configureMariadb
   startMariadb
   setupKameHouseMariadb
+}
+
+setEnvironment() {
+  log.info "Setting up environment"
+  suCmd "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} >> /home/${KAMEHOUSE_USER}/.env"
+}
+
+setupKameHouseUserHome() {
+  log.info "Setting up kamehouse user home"
+  mkdir -p /home/${KAMEHOUSE_USER}/git 
+  chmod a+xwr /home/${KAMEHOUSE_USER}/git 
+  chmod a+xr /home/${KAMEHOUSE_USER} 
+  mkdir -p /home/${KAMEHOUSE_USER}/logs 
+  chmod a+xr /home/${KAMEHOUSE_USER}/logs 
+  rm -rf /home/${KAMEHOUSE_USER}/git/kamehouse
+  fixPermissions
+}
+
+setupGitRepo() {
+  log.info "Setting up kamehouse git repo"
+  cd /home/${KAMEHOUSE_USER}/git 
+  git clone https://github.com/nbrest/kamehouse.git 
+  cd /home/${KAMEHOUSE_USER}/git/kamehouse 
+  log.info "Checking out git branch for tag ${DOCKER_IMAGE_TAG}"
+  if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
+    git checkout dev
+  else
+    git checkout tags/${DOCKER_IMAGE_TAG} -b ${DOCKER_IMAGE_TAG}
+  fi
+  git branch -D master
+  fixPermissions
+}
+
+installKameHouseShell() {
+  log.info "Installing kamehouse shell"
+  suCmd "chmod a+x /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh"
+  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh"
+}
+
+setContainerDefaults() {
+  log.info "Setting up container defaults"
+  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
+}
+
+deployKameHouse() {
+  log.info "Deploying kamehouse"
+  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
+  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker"
+}
+
+clearTempFiles() {
+  log.info "Clearing up temp files"
+  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/apache-maven/bin/mvn clean"
+  rm -rf /home/${KAMEHOUSE_USER}/.m2/repository/com/nicobrest 
+}
+
+createSamplePlaylists() {
+  log.info "Setting up sample playlists"
+  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/media/create-sample-video-playlists.sh"
 }
 
 configureSudoers() {
@@ -69,6 +137,16 @@ setupKameHouseMariadb() {
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
 }
 
+fixPermissions() {
+  log.info "Fixing permissions"
+  chown ${KAMEHOUSE_USER}:users -R /home/${KAMEHOUSE_USER}/  
+}
+
+suCmd() {
+  local COMMAND=$1
+  sudo su - ${KAMEHOUSE_USER} -c "${COMMAND}"
+}
+
 log.info() {
   local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
   local LOG_MESSAGE=$1
@@ -97,6 +175,9 @@ parseArguments() {
       -u)
         KAMEHOUSE_USER="${CURRENT_OPTION_ARG}"
         ;;
+      -t)
+        DOCKER_IMAGE_TAG="${CURRENT_OPTION_ARG}"
+        ;;
       -?|-??*)
         log.error "Invalid argument ${CURRENT_OPTION}"
         exit ${EXIT_INVALID_ARG}
@@ -113,10 +194,11 @@ parseArguments() {
 
 printHelpMenu() {
   echo -e ""
-  echo -e "Usage: ${COL_PURPLE}dockerfile-root-setup-kamehouse.sh${COL_NORMAL} [options]"
+  echo -e "Usage: ${COL_PURPLE}${SCRIPT_NAME}${COL_NORMAL} [options]"
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "     ${COL_BLUE}-t (tag)${COL_NORMAL} docker image tag"
   echo -e "     ${COL_BLUE}-u (username)${COL_NORMAL} user running kamehouse [${COL_RED}required${COL_NORMAL}]"
 }
 

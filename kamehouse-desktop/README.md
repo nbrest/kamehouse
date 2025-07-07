@@ -16,4 +16,4 @@ This module contains kamehouse-desktop app built with python
 
 ## Run
 
-- Start the desktop app with `kamehouse-desktop.sh` installed in `kamehouse-shell`
+- Start the desktop app with `kamehouse-desktop-startup.sh` installed in `kamehouse-shell`

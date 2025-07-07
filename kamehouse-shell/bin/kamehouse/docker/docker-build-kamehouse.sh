@@ -10,7 +10,7 @@ initScriptEnv() {
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
   DOCKER_COMMAND="docker buildx build"
-  PLATFORM="linux/amd64,linux/arm/v7"
+  PLATFORM="linux/amd64,linux/arm64/v8"
   ACTION="--push"
   USE_CURRENT_DIR=true
 }
@@ -35,8 +35,8 @@ buildLatestImage() {
 
 runDockerBuildCommand() {
   mkdir -p ${HOME}/.docker-cache
-  log.debug "docker buildx create --platform linux/amd64,linux/arm/v7 --name kamehouse-builder --bootstrap --use"
-  docker buildx create --platform linux/amd64,linux/arm/v7 --name kamehouse-builder --bootstrap --use
+  log.debug "docker buildx create --platform ${PLATFORM} --name kamehouse-builder --bootstrap --use"
+  docker buildx create --platform ${PLATFORM} --name kamehouse-builder --bootstrap --use
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
     --cache-from=type=local,src=${HOME}/.docker-cache \

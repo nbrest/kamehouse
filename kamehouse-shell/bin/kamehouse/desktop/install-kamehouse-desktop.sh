@@ -59,6 +59,7 @@ installKameHouseDesktop() {
   mkdir -p ${KAMEHOUSE_DESKTOP_PATH}/conf
   cp -r -f ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-desktop/bin ${KAMEHOUSE_DESKTOP_PATH}/
   cp -r -f ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-desktop/conf ${KAMEHOUSE_DESKTOP_PATH}/
+  cp -r -f ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-desktop/lib ${KAMEHOUSE_DESKTOP_PATH}/
 }
 
 fixPermissions() {
