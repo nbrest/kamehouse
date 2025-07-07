@@ -25,7 +25,7 @@ This module handles the following functionality:
 
 - **IMPORTANT**: When running kamehouse on a docker container controlling a host, the value of `PLAYLISTS_PATH` inside the docker container's `${HOME}/.kamehouse/config/kamehouse.cfg` must match the value on the host's `${HOME}/.kamehouse/config/kamehouse.cfg` for the playlists to be populated properly on the vlc UI running on the container
 
-- This is a sample [kamehouse.cfg](/docker/config/kamehouse.cfg) with all the possible configurations
+- This is a sample [kamehouse.cfg](/docker/setup-kamehouse/config/kamehouse.cfg) with all the possible configurations
 
 ### Playlists folder structure
 
@@ -47,7 +47,7 @@ ${HOME}/.kamehouse/data/playlists/movies/movies_dc_all/movies_dc_all.m3u
 ${HOME}/.kamehouse/data/playlists/movies/movies_marvel_all/movies_marvel_all.m3u
 ${HOME}/.kamehouse/data/playlists/series/game_of_thrones_all/game_of_thrones_all.m3u
 ```
-- The docker [playlist](/docker/media/playlist/) folder contains a sample structure of the playlists used in docker demo
+- The docker [playlist](/docker/setup-kamehouse/media/playlist/) folder contains a sample structure of the playlists used in docker demo
 
 ### Playlists content
 

@@ -14,14 +14,14 @@ createPlaylists() {
   log.info "Creating remote playlists"
   rm -r ${HOME}/.kamehouse/data/playlists
   mkdir -p ${HOME}/.kamehouse/data/playlists
-  cp -rvf ${HOME}/git/kamehouse/docker/media/playlist/* ${HOME}/.kamehouse/data/playlists/
+  cp -rvf ${HOME}/git/kamehouse/docker/setup-kamehouse/media/playlist/* ${HOME}/.kamehouse/data/playlists/
 }
 
 updateMediaFiles() {
   log.info "Updating media files"
-  rm -r ${HOME}/docker/media/video
-  mkdir -p ${HOME}/docker/media/video
-  cp -r ${HOME}/git/kamehouse/docker/media/video ${HOME}/docker/media/
+  rm -r ${HOME}/docker/setup-kamehouse/media/video
+  mkdir -p ${HOME}/docker/setup-kamehouse/media/video
+  cp -r ${HOME}/git/kamehouse/docker/setup-kamehouse/media/video ${HOME}/docker/setup-kamehouse/media/
 }
 
 updatePlaylistsPath() {

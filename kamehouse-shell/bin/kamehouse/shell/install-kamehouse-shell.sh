@@ -130,7 +130,7 @@ installKamehouseConfig() {
   if [ ! -f "${HOME}/.kamehouse/config/kamehouse.cfg" ]; then
     log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/config/
-    cp docker/config/kamehouse.cfg ${HOME}/.kamehouse/config/kamehouse.cfg
+    cp docker/setup-kamehouse/config/kamehouse.cfg ${HOME}/.kamehouse/config/kamehouse.cfg
   else
     log.info "kamehouse.cfg file exists. skipping"
   fi
@@ -141,7 +141,7 @@ installKameHouseSecrets() {
   if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
     log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/config/keys/
-    cp docker/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
+    cp docker/setup-kamehouse/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
     cp kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
     cp kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/config/keys/kamehouse.pub
     cp kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc    

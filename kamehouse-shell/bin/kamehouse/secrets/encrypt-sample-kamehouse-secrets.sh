@@ -16,7 +16,7 @@ validateRequiredFiles() {
     exitProcess ${EXIT_ERROR}
   fi
 
-  if [ ! -f "./docker/keys/.kamehouse-secrets.cfg" ]; then
+  if [ ! -f "./docker/setup-kamehouse/keys/.kamehouse-secrets.cfg" ]; then
     log.error "Missing sample file .kamehouse-secrets.cfg"
     keysFolderStatus
     exitProcess ${EXIT_ERROR}
@@ -25,7 +25,7 @@ validateRequiredFiles() {
 
 encryptFile() {
   log.info "Encrypting sample .kamehouse-secrets.cfg"
-  openssl enc -in ./docker/keys/.kamehouse-secrets.cfg -out ./docker/keys/.kamehouse-secrets.cfg.enc -pbkdf2 -aes256 -kfile ./kamehouse-commons-core/src/test/resources/commons/keys/secrets.key
+  openssl enc -in ./docker/setup-kamehouse/keys/.kamehouse-secrets.cfg -out ./docker/setup-kamehouse/keys/.kamehouse-secrets.cfg.enc -pbkdf2 -aes256 -kfile ./kamehouse-commons-core/src/test/resources/commons/keys/secrets.key
   local RESULT=$?
   if [ "${RESULT}" != "0" ]; then
     log.error "Error encrypting sample .kamehouse-secrets.cfg"
@@ -37,8 +37,8 @@ encryptFile() {
 }
 
 keysFolderStatus() {
-  log.info "ls -lah ./docker/keys/"
-  ls -lah ./docker/keys/
+  log.info "ls -lah ./docker/setup-kamehouse/keys/"
+  ls -lah ./docker/setup-kamehouse/keys/
 }
 
 main "$@"

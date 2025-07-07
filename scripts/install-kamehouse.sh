@@ -98,7 +98,7 @@ buildKameHouseConfigDir() {
   
   if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
     log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg.enc file doesn't exist, creating one from the sample"
-    cp -v docker/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
+    cp -v docker/setup-kamehouse/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
     cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
     cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/config/keys/kamehouse.pub
     cp -v kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc

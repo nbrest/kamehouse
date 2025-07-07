@@ -14,12 +14,16 @@ ENV KAMEHOUSE_USERNAME=${KAMEHOUSE_USERNAME}
 ARG KAMEHOUSE_PASSWORD=gohan
 ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
-# Copy docker setup folder
-COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker
-RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/scripts/*
+# Copy docker setup-container folder
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker/setup-container
+RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/*
 
 # Setup container base apps, user and folders
-RUN /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-setup-container.sh -u ${KAMEHOUSE_USERNAME} -p ${KAMEHOUSE_PASSWORD}
+RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container.sh -u ${KAMEHOUSE_USERNAME} -p ${KAMEHOUSE_PASSWORD}
+
+# Copy docker setup-kamehouse folder
+COPY --chown=${KAMEHOUSE_USERNAME}:users docker /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse
+RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse/scripts/*
 
 # Run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00
@@ -27,7 +31,7 @@ RUN echo "${BUILD_DATE_KAMEHOUSE}" > /home/${KAMEHOUSE_USERNAME}/.docker-image-b
 
 # Setup kamehouse in the container
 ARG DOCKER_IMAGE_TAG
-RUN /home/${KAMEHOUSE_USERNAME}/docker/scripts/dockerfile-setup-kamehouse.sh -u ${KAMEHOUSE_USERNAME} -t ${DOCKER_IMAGE_TAG}
+RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse/scripts/dockerfile-setup-kamehouse.sh -u ${KAMEHOUSE_USERNAME} -t ${DOCKER_IMAGE_TAG}
 
 # Expose ports
 EXPOSE 22 80 443 3306 5000 8000 8080 9090

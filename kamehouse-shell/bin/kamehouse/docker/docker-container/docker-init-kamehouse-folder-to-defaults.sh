@@ -8,11 +8,11 @@ mainProcess() {
   
   log.info "Reinit kamehouse.cfg"
   mkdir -p ${HOME}/.kamehouse/config/
-  cp -v -f ${HOME}/git/kamehouse/docker/config/kamehouse.cfg ${HOME}/.kamehouse/config/
+  cp -v -f ${HOME}/git/kamehouse/docker/setup-kamehouse/config/kamehouse.cfg ${HOME}/.kamehouse/config/
 
   log.info "Reinit keys"
   mkdir -p ${HOME}/.kamehouse/config/keys
-  cp -v -f ${HOME}/git/kamehouse/docker/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
+  cp -v -f ${HOME}/git/kamehouse/docker/setup-kamehouse/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
   cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/config/keys/kamehouse.pkcs12
   cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/config/keys/kamehouse.crt
   cp -v -f ${HOME}/git/kamehouse/kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
