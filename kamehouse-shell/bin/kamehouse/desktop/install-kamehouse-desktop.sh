@@ -41,6 +41,7 @@ main() {
   installKameHouseDesktop
   fixPermissions
   generateBuildInfo
+  deploySourcesFromUiModule
   logKameHouseDesktopStatus
   log.info "Done installing ${COL_PURPLE}kamehouse-desktop!"
 }
@@ -113,6 +114,12 @@ getKameHouseBuildVersion() {
     BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
   fi
   echo "${BUILD_VERSION}"
+}
+
+deploySourcesFromUiModule() {
+  log.info "Deploying source files needed from ui module for desktop"
+  mkdir -p "${KAMEHOUSE_DESKTOP_PATH}/lib/ui"
+  cp -rf ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-ui/src/main/public/img ${KAMEHOUSE_DESKTOP_PATH}/lib/ui/img
 }
 
 logKameHouseDesktopStatus() {

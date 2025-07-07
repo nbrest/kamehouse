@@ -10,7 +10,7 @@ initKameHouseShellEnv() {
 
 mainProcess() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-stop.sh
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-startup.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-startup.sh &
 }
 
 main "$@"
