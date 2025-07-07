@@ -14,6 +14,7 @@ class KameHouseDesktop(QMainWindow):
         self.addHostnameWidget()
         self.addKameHouseLogoWidget()
         self.addKameHouseKatakanaWidget()
+        self.addWorldCupLogoWidget()
         self.showFullScreen()
 
     def setWindowProperties(self):
@@ -36,8 +37,15 @@ class KameHouseDesktop(QMainWindow):
         self.kameHouseKatakana = QLabel("カメハウス", self)
         self.kameHouseKatakana.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.kameHouseKatakana.setStyleSheet("color: #c0c0c0; font-size: 30px; background-color: transparent;")
-        self.kameHouseKatakana.setGeometry(30, 1000, 150, 100)
+        self.kameHouseKatakana.setGeometry(50, 1000, 150, 100)
         self.addShadowEffect(self.kameHouseKatakana)
+ 
+    def addWorldCupLogoWidget(self):
+        self.kameHouseLogo = QLabel(self)
+        self.kameHouseLogoPixmap = QPixmap('lib/ui/img/sports/world-cup.png') 
+        self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
+        self.kameHouseLogo.setGeometry(14, 1039, 25, 25)
+        self.kameHouseLogo.setScaledContents(True) 
 
     def addKameHouseLogoWidget(self):
         self.kameHouseLogo = QLabel(self)
