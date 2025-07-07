@@ -8,6 +8,12 @@
 #### v10.09
 
 - Reorganized dockerfile to easier to manage scripts
+- Moved kamehouse-desktop python script to desktop module
+- Replaced label with hostname in desktop
+- Added kamehouse logo to desktop icon
+- Allow single instance of desktop app
+- Added desktop status script
+- Improved keep alive desktop script
 - Fixed bugs
 
 #### v10.08
