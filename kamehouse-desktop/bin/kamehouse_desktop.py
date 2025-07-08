@@ -1,12 +1,13 @@
 import sys
 import subprocess
-import socket
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGraphicsDropShadowEffect
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from loguru import logger
+
+from widgets.kamehouse_hostname import KameHouseHostnameWidget
 
 class KameHouseDesktop(QMainWindow):
     def __init__(self):
@@ -15,7 +16,7 @@ class KameHouseDesktop(QMainWindow):
         logger.info("Starting kamehouse-desktop")
         self.startCompositor()
         self.setWindowProperties()
-        self.addHostnameWidget()
+        self.hostname = KameHouseHostnameWidget(self)
         self.addKameHouseLogoWidget()
         self.addKameHouseKatakanaWidget()
         self.addWorldCupLogoWidget()
@@ -30,14 +31,6 @@ class KameHouseDesktop(QMainWindow):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setStyleSheet("background-color: transparent;")
-
-    def addHostnameWidget(self):
-        logger.info("Initializing hostname widget")
-        self.hostname = QLabel(socket.gethostname(), self)
-        self.hostname.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.hostname.setStyleSheet("color: white; font-size: 40px; background-color: transparent;")
-        self.hostname.setGeometry(1200, 80, 450, 100)
-        self.addShadowEffect(self.hostname)
 
     def addKameHouseLogoWidget(self):
         logger.info("Initializing kamehouse logo widget")
