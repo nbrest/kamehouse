@@ -8,6 +8,9 @@ from PyQt5.QtGui import QPixmap
 from loguru import logger
 
 from widgets.kamehouse_hostname import KameHouseHostnameWidget
+from widgets.kamehouse_logo import KameHouseLogoWidget
+from widgets.kamehouse_katakana import KameHouseKatakanaWidget
+from widgets.world_cup_logo import WorldCupLogoWidget
 
 class KameHouseDesktop(QMainWindow):
     def __init__(self):
@@ -16,14 +19,17 @@ class KameHouseDesktop(QMainWindow):
         logger.info("Starting kamehouse-desktop")
         self.startCompositor()
         self.setWindowProperties()
-        self.hostname = KameHouseHostnameWidget(self)
-        self.addKameHouseLogoWidget()
-        self.addKameHouseKatakanaWidget()
-        self.addWorldCupLogoWidget()
+        self.initWidgets()
         self.showFullScreen()
 
+    def initWidgets(self):
+        KameHouseHostnameWidget(self)
+        KameHouseLogoWidget(self)
+        KameHouseKatakanaWidget(self)
+        WorldCupLogoWidget(self)
+
     def setWindowProperties(self):
-        logger.trace("Setting window properties")
+        logger.trace("Setting main window properties")
         self.setWindowTitle("KameHouse - Desktop")
         self.setWindowIcon(QtGui.QIcon('lib/ico/kamehouse.png'))
         # Qt.WindowType.WindowStaysOnBottomHint 
@@ -31,38 +37,8 @@ class KameHouseDesktop(QMainWindow):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setStyleSheet("background-color: transparent;")
-
-    def addKameHouseLogoWidget(self):
-        logger.info("Initializing kamehouse logo widget")
-        self.kameHouseLogo = QLabel(self)
-        self.kameHouseLogoPixmap = QPixmap('lib/ico/kamehouse.png') 
-        self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
-        self.kameHouseLogo.setGeometry(1660, 100, 60, 60)
-        self.kameHouseLogo.setScaledContents(True) 
-
-    def addKameHouseKatakanaWidget(self):
-        logger.info("Initializing kamehouse katakana widget")
-        self.kameHouseKatakana = QLabel("カメハウス", self)
-        self.kameHouseKatakana.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.kameHouseKatakana.setStyleSheet("color: #c0c0c0; font-size: 30px; background-color: transparent;")
-        self.kameHouseKatakana.setGeometry(150, 950, 150, 100)
-        self.addShadowEffect(self.kameHouseKatakana)
  
-    def addWorldCupLogoWidget(self):
-        logger.info("Initializing world cup logo widget")
-        self.kameHouseLogo = QLabel(self)
-        self.kameHouseLogoPixmap = QPixmap('lib/ui/img/sports/world-cup.png') 
-        self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
-        self.kameHouseLogo.setGeometry(90, 980, 45, 45)
-        self.kameHouseLogo.setScaledContents(True) 
-
-    def addShadowEffect(self, item):
-        effect = QtWidgets.QGraphicsDropShadowEffect()
-        effect.setBlurRadius(10)
-        effect.setColor(QtGui.QColor("black"))
-        effect.setOffset(4,4)
-        item.setGraphicsEffect(effect)
-
+    # this is needed on raspberrypi to render transparent backgrounds
     def startCompositor(self):
         logger.debug("Starting compositor")
         process = subprocess.Popen("picom", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
