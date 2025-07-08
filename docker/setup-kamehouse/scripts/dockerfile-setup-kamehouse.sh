@@ -85,8 +85,8 @@ setContainerDefaults() {
 
 deployKameHouse() {
   log.info "Deploying kamehouse"
-  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
-  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker"
+  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
+  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker"
 }
 
 clearTempFiles() {
