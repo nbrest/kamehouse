@@ -1,10 +1,9 @@
 import sys
 import subprocess
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGraphicsDropShadowEffect
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
 from loguru import logger
 
 from widgets.hostname import HostnameWidget
@@ -29,7 +28,7 @@ class KameHouseDesktop(QMainWindow):
         WorldCupLogoWidget(self)
 
     def setWindowProperties(self):
-        logger.trace("Setting main window properties")
+        logger.debug("Setting main window properties")
         self.setWindowTitle("KameHouse - Desktop")
         self.setWindowIcon(QtGui.QIcon('lib/ico/kamehouse.png'))
         # Qt.WindowType.WindowStaysOnBottomHint 
@@ -46,7 +45,7 @@ class KameHouseDesktop(QMainWindow):
 
     def initLogger(self):
         logger.remove(0)
-        logger.add(sys.stdout, level="TRACE")
+        logger.add(sys.stdout, level="DEBUG")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
