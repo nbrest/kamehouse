@@ -1,14 +1,18 @@
 import sys
 import subprocess
 import socket
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGraphicsDropShadowEffect
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
+from loguru import logger
 
 class KameHouseDesktop(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.initLogger()
+        logger.info("Starting kamehouse-desktop")
         self.startCompositor()
         self.setWindowProperties()
         self.addHostnameWidget()
@@ -18,6 +22,7 @@ class KameHouseDesktop(QMainWindow):
         self.showFullScreen()
 
     def setWindowProperties(self):
+        logger.trace("Setting window properties")
         self.setWindowTitle("KameHouse - Desktop")
         self.setWindowIcon(QtGui.QIcon('lib/ico/kamehouse.png'))
         # Qt.WindowType.WindowStaysOnBottomHint 
@@ -27,6 +32,7 @@ class KameHouseDesktop(QMainWindow):
         self.setStyleSheet("background-color: transparent;")
 
     def addHostnameWidget(self):
+        logger.info("Initializing hostname widget")
         self.hostname = QLabel(socket.gethostname(), self)
         self.hostname.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.hostname.setStyleSheet("color: white; font-size: 40px; background-color: transparent;")
@@ -34,6 +40,7 @@ class KameHouseDesktop(QMainWindow):
         self.addShadowEffect(self.hostname)
 
     def addKameHouseLogoWidget(self):
+        logger.info("Initializing kamehouse logo widget")
         self.kameHouseLogo = QLabel(self)
         self.kameHouseLogoPixmap = QPixmap('lib/ico/kamehouse.png') 
         self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
@@ -41,6 +48,7 @@ class KameHouseDesktop(QMainWindow):
         self.kameHouseLogo.setScaledContents(True) 
 
     def addKameHouseKatakanaWidget(self):
+        logger.info("Initializing kamehouse katakana widget")
         self.kameHouseKatakana = QLabel("カメハウス", self)
         self.kameHouseKatakana.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.kameHouseKatakana.setStyleSheet("color: #c0c0c0; font-size: 30px; background-color: transparent;")
@@ -48,6 +56,7 @@ class KameHouseDesktop(QMainWindow):
         self.addShadowEffect(self.kameHouseKatakana)
  
     def addWorldCupLogoWidget(self):
+        logger.info("Initializing world cup logo widget")
         self.kameHouseLogo = QLabel(self)
         self.kameHouseLogoPixmap = QPixmap('lib/ui/img/sports/world-cup.png') 
         self.kameHouseLogo.setPixmap(self.kameHouseLogoPixmap)
@@ -62,8 +71,13 @@ class KameHouseDesktop(QMainWindow):
         item.setGraphicsEffect(effect)
 
     def startCompositor(self):
+        logger.debug("Starting compositor")
         process = subprocess.Popen("picom", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         # process = subprocess.Popen("xcompmgr", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    def initLogger(self):
+        logger.remove(0)
+        logger.add(sys.stdout, level="TRACE")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

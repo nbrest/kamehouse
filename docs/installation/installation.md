@@ -32,12 +32,14 @@ sudo npm install typescript -g
     - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
     ```sh
     pip install PyQt5
+    pip install loguru
     ```
   - Linux:
     ```sh
     sudo apt install picom # on raspberrypi
     sudo apt-get install python${PYTHON_VERSION}
     sudo apt install python3-pyqt5
+    sudo apt install python3-loguru
     ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
