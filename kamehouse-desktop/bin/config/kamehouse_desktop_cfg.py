@@ -11,7 +11,10 @@ class KameHouseDesktopCfg():
     def get(self, propertyCategory, propertyKey):
         return self.config[propertyCategory][propertyKey]
 
-    def isTrue(self, propertyCategory, propertyKey):
+    def getInt(self, propertyCategory, propertyKey):
+        return int(self.config[propertyCategory][propertyKey])
+
+    def getBoolean(self, propertyCategory, propertyKey):
         propertyValue = self.config[propertyCategory][propertyKey]
         if propertyValue is None:
           return False

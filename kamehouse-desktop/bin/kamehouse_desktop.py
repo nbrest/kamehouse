@@ -33,7 +33,7 @@ class KameHouseDesktop(QMainWindow):
         logger.debug("Setting main window properties")
         self.setWindowTitle("KameHouse - Desktop")
         self.setWindowIcon(QtGui.QIcon('lib/ico/kamehouse.png'))
-        if (kamehouseDesktopCfg.isTrue('kamehouse_desktop', 'stays_on_bottom')):
+        if (kamehouseDesktopCfg.getBoolean('kamehouse_desktop', 'stays_on_bottom')):
             self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
         else:
             self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)        
@@ -42,7 +42,7 @@ class KameHouseDesktop(QMainWindow):
  
     # this is needed on raspberrypi to render transparent backgrounds
     def startCompositor(self):
-        if (kamehouseDesktopCfg.isTrue('kamehouse_desktop', 'execute_compositor')):
+        if (kamehouseDesktopCfg.getBoolean('kamehouse_desktop', 'execute_compositor')):
             compositorCommand = kamehouseDesktopCfg.get('kamehouse_desktop', 'compositor_command')
             logger.debug("Starting compositor " + compositorCommand)
             process = subprocess.Popen(compositorCommand, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
