@@ -42,6 +42,7 @@ main() {
   fixPermissions
   generateBuildInfo
   deploySourcesFromUiModule
+  installKamehouseDesktopConfig
   logKameHouseDesktopStatus
   log.info "Done installing ${COL_PURPLE}kamehouse-desktop!"
 }
@@ -120,6 +121,17 @@ deploySourcesFromUiModule() {
   log.info "Deploying source files needed from ui module for desktop"
   mkdir -p "${KAMEHOUSE_DESKTOP_PATH}/lib/ui"
   cp -rf ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-ui/src/main/public/img ${KAMEHOUSE_DESKTOP_PATH}/lib/ui/img
+}
+
+installKamehouseDesktopConfig() {
+  log.info "Installing kamehouse-desktop.cfg"
+  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-desktop.cfg" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-desktop.cfg${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/config/
+    cp docker/setup-kamehouse/config/kamehouse-desktop.cfg ${HOME}/.kamehouse/config/kamehouse-desktop.cfg
+  else
+    log.info "kamehouse-desktop.cfg file exists. skipping"
+  fi
 }
 
 logKameHouseDesktopStatus() {
