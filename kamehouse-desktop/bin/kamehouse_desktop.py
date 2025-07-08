@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import Qt
 from loguru import logger
 
+from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+
 from widgets.hostname import HostnameWidget
 from widgets.kamehouse_logo import KameHouseLogoWidget
 from widgets.kamehouse_katakana import KameHouseKatakanaWidget
@@ -45,7 +47,9 @@ class KameHouseDesktop(QMainWindow):
 
     def initLogger(self):
         logger.remove(0)
-        logger.add(sys.stdout, level="DEBUG")
+        logLevel = kamehouseDesktopCfg['kamehouse_desktop']['log_level']
+        logger.add(sys.stdout, level=logLevel)
+        logger.trace("trace logging is enabled")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
