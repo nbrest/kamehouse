@@ -6,7 +6,7 @@ from loguru import logger
 
 from effects.drop_shadow_effect import DropShadowEffect
 
-class KameHouseHostnameWidget(QLabel):
+class HostnameWidget(QLabel):
     def __init__(self, window):
         super().__init__(socket.gethostname(), window)
         logger.info("Initializing hostname widget")

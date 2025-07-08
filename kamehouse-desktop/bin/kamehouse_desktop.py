@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from loguru import logger
 
-from widgets.kamehouse_hostname import KameHouseHostnameWidget
+from widgets.hostname import HostnameWidget
 from widgets.kamehouse_logo import KameHouseLogoWidget
 from widgets.kamehouse_katakana import KameHouseKatakanaWidget
 from widgets.world_cup_logo import WorldCupLogoWidget
@@ -23,7 +23,7 @@ class KameHouseDesktop(QMainWindow):
         self.showFullScreen()
 
     def initWidgets(self):
-        KameHouseHostnameWidget(self)
+        HostnameWidget(self)
         KameHouseLogoWidget(self)
         KameHouseKatakanaWidget(self)
         WorldCupLogoWidget(self)
