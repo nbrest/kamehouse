@@ -33,21 +33,25 @@ class KameHouseDesktop(QMainWindow):
         logger.debug("Setting main window properties")
         self.setWindowTitle("KameHouse - Desktop")
         self.setWindowIcon(QtGui.QIcon('lib/ico/kamehouse.png'))
-        # Qt.WindowType.WindowStaysOnBottomHint 
-        # Qt.WindowType.WindowStaysOnTopHint
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
+        if (kamehouseDesktopCfg.isTrue('kamehouse_desktop', 'stays_on_bottom')):
+            self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
+        else:
+            self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)        
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setStyleSheet("background-color: transparent;")
+        self.setStyleSheet(kamehouseDesktopCfg.get('kamehouse_desktop', 'stylesheet'))
  
     # this is needed on raspberrypi to render transparent backgrounds
     def startCompositor(self):
-        logger.debug("Starting compositor")
-        process = subprocess.Popen("picom", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        # process = subprocess.Popen("xcompmgr", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
+        if (kamehouseDesktopCfg.isTrue('kamehouse_desktop', 'execute_compositor')):
+            compositorCommand = kamehouseDesktopCfg.get('kamehouse_desktop', 'compositor_command')
+            logger.debug("Starting compositor " + compositorCommand)
+            process = subprocess.Popen(compositorCommand, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        else:
+            logger.debug("Skipping compositor")
+        
     def initLogger(self):
         logger.remove(0)
-        logLevel = kamehouseDesktopCfg['kamehouse_desktop']['log_level']
+        logLevel = kamehouseDesktopCfg.get('kamehouse_desktop', 'log_level')
         logger.add(sys.stdout, level=logLevel)
         logger.trace("trace logging is enabled")
 

@@ -1,11 +1,22 @@
 from configparser import ConfigParser
 from pathlib import Path
 
-class KameHouseDesktopCfg(ConfigParser):
+class KameHouseDesktopCfg():
     def __init__(self):
-        super().__init__()
         homeDir = str(Path.home())
         configFiles = [homeDir + '/programs/kamehouse-desktop/conf/default-kamehouse-desktop.cfg', homeDir + '/.kamehouse/config/kamehouse-desktop.cfg']
-        self.read(configFiles)
-        
+        self.config = ConfigParser()
+        self.config.read(configFiles)
+
+    def get(self, propertyCategory, propertyKey):
+        return self.config[propertyCategory][propertyKey]
+
+    def isTrue(self, propertyCategory, propertyKey):
+        propertyValue = self.config[propertyCategory][propertyKey]
+        if propertyValue is None:
+          return False
+
+        propertyValue = propertyValue = propertyValue.lower().strip()
+        return propertyValue == "true"
+
 kamehouseDesktopCfg = KameHouseDesktopCfg()
