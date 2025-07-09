@@ -7,11 +7,11 @@ from PyQt5.QtCore import Qt
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
-
 from widgets.hostname import HostnameWidget
 from widgets.kamehouse_logo import KameHouseLogoWidget
 from widgets.kamehouse_katakana import KameHouseKatakanaWidget
 from widgets.world_cup_logo import WorldCupLogoWidget
+from widgets.clock import ClockWidget
 
 class KameHouseDesktop(QMainWindow):
     def __init__(self):
@@ -28,11 +28,12 @@ class KameHouseDesktop(QMainWindow):
         KameHouseLogoWidget(self)
         KameHouseKatakanaWidget(self)
         WorldCupLogoWidget(self)
+        self.clock = ClockWidget(self)
 
     def setWindowProperties(self):
         logger.debug("Setting main window properties")
         self.setWindowTitle("KameHouse - Desktop")
-        self.setWindowIcon(QtGui.QIcon('lib/ico/kamehouse.png'))
+        self.setWindowIcon(QtGui.QIcon(kamehouseDesktopCfg.get('kamehouse_desktop', 'icon_src')))
         if (kamehouseDesktopCfg.getBoolean('kamehouse_desktop', 'stays_on_bottom')):
             self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
         else:
@@ -54,6 +55,9 @@ class KameHouseDesktop(QMainWindow):
         logLevel = kamehouseDesktopCfg.get('kamehouse_desktop', 'log_level')
         logger.add(sys.stdout, level=logLevel)
         logger.trace("trace logging is enabled")
+
+    def updateClockTime(self):
+        self.clock.updateTime()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

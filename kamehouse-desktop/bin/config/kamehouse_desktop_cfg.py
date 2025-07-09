@@ -18,7 +18,6 @@ class KameHouseDesktopCfg():
         propertyValue = self.config[propertyCategory][propertyKey]
         if propertyValue is None:
           return False
-
         propertyValue = propertyValue = propertyValue.lower().strip()
         return propertyValue == "true"
 

@@ -7,6 +7,11 @@
 
 #### v10.09
 
+- Added kamehouse logo widget
+- Added world cup logo widget
+- Added kamehouse katakana widget
+- Added clock widget
+- Added kamehouse-desktop.cfg to configure desktop app
 - Reorganized dockerfile to easier to manage scripts
 - Moved kamehouse-desktop python script to desktop module
 - Replaced label with hostname in desktop
