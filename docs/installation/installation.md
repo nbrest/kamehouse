@@ -36,10 +36,10 @@ sudo npm install typescript -g
     ```
   - Linux:
     ```sh
-    sudo apt install picom # on raspberrypi
+    sudo apt-get install picom # on raspberrypi
     sudo apt-get install python${PYTHON_VERSION}
-    sudo apt install python3-pyqt5
-    sudo apt install python3-loguru
+    sudo apt-get install python3-pyqt5
+    sudo apt-get install python3-loguru
     ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
