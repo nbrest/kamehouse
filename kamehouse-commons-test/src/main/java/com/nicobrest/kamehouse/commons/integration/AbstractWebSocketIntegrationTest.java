@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -120,7 +120,7 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
       send();
     }
     waitForMessages();
-    assertEquals(expectedMessageCount, messageCount);
+    assertTrue(messageCount >= expectedMessageCount);
     logger.info("Finished defaultWebSocketTest successfully");
   }
 

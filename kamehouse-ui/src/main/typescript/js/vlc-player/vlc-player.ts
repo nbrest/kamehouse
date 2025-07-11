@@ -25,7 +25,7 @@ class VlcPlayer {
     this.#hostname = hostname;
     this.#commandExecutor = new VlcPlayerCommandExecutor(this);
     this.#playlist = new VlcPlayerPlaylist(this);
-    this.#restClient = new VlcPlayerRestClient(this);
+    this.#restClient = new VlcPlayerRestClient();
     this.#mainViewUpdater = new VlcPlayerMainViewUpdater(this);
     this.#vlcPlayerDebugger = new VlcPlayerDebugger(this);
   }
@@ -223,11 +223,6 @@ class VlcPlayer {
       this.#vlcRcStatus = new VlcRcStatus();
     }
   }
-
-  /**
-   * Pol vlcrc status from the websocket.
-   */
-  pollVlcRcStatus() { this.#synchronizer.pollVlcRcStatus(); }
 
   /**
    * Set updated playlist.
@@ -845,9 +840,6 @@ class VlcPlayerSynchronizer {
     this.#playlistWebSocket.topicUrl(playlistWebSocketTopicUrl);
   }
 
-  /** Poll for an update of vlcRcStatus through the web socket. */
-  pollVlcRcStatus() { this.#vlcRcStatusWebSocket.poll(); }
-
   /** Connects the websocket to the backend. */
   connectVlcRcStatus() {
     this.#vlcRcStatusWebSocket.connect((topicResponse) => {
@@ -875,6 +867,7 @@ class VlcPlayerSynchronizer {
    * Break the loop setting isRunningSyncVlcRcStatusLoop to false.
    */
   syncVlcRcStatusLoop() {
+    // vlcRcStatusPullWaitTimeMs should match the configured value in VlcRcService.java pushPeriodicVlcStatus()
     const config = {
       vlcRcStatusPullWaitTimeMs : 1000
     };
@@ -909,6 +902,7 @@ class VlcPlayerSynchronizer {
    * Break the loop setting isRunningSyncVlcPlayerHttpLoop to false.
    */
   syncVlcPlayerHttpLoop() {
+    // syncVlcPlayerHttpWaitMs should match the configured value in VlcRcService.java pushPeriodicVlcPlaylist()
     const config = {
       syncVlcPlayerHttpWaitMs : 7000
     };
@@ -1063,8 +1057,6 @@ class VlcPlayerSynchronizer {
    */
   #updateViewSyncVlcRcStatusLoop() {
     if (this.#vlcRcStatusWebSocket.isConnected()) {
-      // poll VlcRcStatus from the websocket.
-      this.#vlcRcStatusWebSocket.poll();
       this.#vlcPlayer.updateView();
     }
   }
@@ -1075,8 +1067,6 @@ class VlcPlayerSynchronizer {
   async #syncPlaylistLoopRun(config) {
     kameHouse.logger.trace("syncPlaylistLoop", null);
     if (this.#playlistWebSocket.isConnected()) {
-      // poll playlist from the websocket.
-      this.#playlistWebSocket.poll();
       this.#vlcPlayer.reloadPlaylist();
     }
     await kameHouse.core.sleep(config.playlistLoopWaitTimeMs);
@@ -1653,12 +1643,6 @@ class VlcPlayerPlaylist {
  */
 class VlcPlayerRestClient {
 
-  #vlcPlayer = null;
-
-  constructor(vlcPlayer) {
-    this.#vlcPlayer = vlcPlayer;
-  }
-
   /** Execute GET on the specified url and display the output in the debug table. */
   get(url, requestHeaders, requestBody, updateCursor, successCallback, errorCallback) {
     if (updateCursor) {
@@ -1735,7 +1719,6 @@ class VlcPlayerRestClient {
   /** Default actions for succesful api responses */
   #apiCallSuccessDefault(responseBody) {
     kameHouse.plugin.modal.loadingWheelModal.close();
-    this.#vlcPlayer.pollVlcRcStatus();
   }
 
   /** Default actions for error api responses */

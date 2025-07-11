@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -24,12 +26,15 @@ public class VlcRcWebSocketController {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
+  private SimpMessagingTemplate messagingTemplate;
   private VlcRcService vlcRcService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  public VlcRcWebSocketController(VlcRcService vlcRcService) {
+  public VlcRcWebSocketController(VlcRcService vlcRcService,
+      SimpMessagingTemplate messagingTemplate) {
     this.vlcRcService = vlcRcService;
+    this.messagingTemplate = messagingTemplate;
   }
 
   /**
@@ -72,5 +77,25 @@ public class VlcRcWebSocketController {
       vlcPlaylist = new ArrayList<>();
     }
     return vlcPlaylist;
+  }
+
+  /**
+   * Push vlc status periodically to topic to be consumed by websocket clients.
+   */
+  @Scheduled(fixedRate = 1000)
+  public void pushPeriodicVlcStatus() {
+    logger.trace("Pushing scheduled vlc status to topic");
+    VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
+    messagingTemplate.convertAndSend("/topic/vlc-player/status-out", vlcRcStatus);
+  }
+
+  /**
+   * Push vlc playlist periodically to topic to be consumed by websocket clients.
+   */
+  @Scheduled(fixedRate = 7000)
+  public void pushPeriodicVlcPlaylist() {
+    logger.trace("Pushing scheduled vlc playlist to topic");
+    List<VlcRcPlaylistItem> playlist = vlcRcService.getPlaylist("localhost");
+    messagingTemplate.convertAndSend("/topic/vlc-player/playlist-out", playlist);
   }
 }

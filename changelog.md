@@ -7,6 +7,8 @@
 
 #### v10.09
 
+- Moved vlc status and playlist websockets from polling from the clients to pushing the updates from the server to the topic
+- Added vlc status websocket endpoint for desktop app
 - Added kamehouse logo widget
 - Added world cup logo widget
 - Added kamehouse katakana widget

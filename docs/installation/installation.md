@@ -33,6 +33,9 @@ sudo npm install typescript -g
     ```sh
     pip install PyQt5
     pip install loguru
+    pip install requests
+    pip install websockets
+    pip install stomper
     ```
   - Linux:
     ```sh
@@ -40,6 +43,9 @@ sudo npm install typescript -g
     sudo apt-get install python${PYTHON_VERSION}
     sudo apt-get install python3-pyqt5
     sudo apt-get install python3-loguru
+    sudo apt-get install python3-requests
+    sudo apt-get install python3-websockets
+    sudo apt-get install python3-stomper
     ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows

@@ -15,8 +15,7 @@
     <intercept-url pattern="/api/v1/vlc-rc/**" access="permitAll" method="PUT" />
     <intercept-url pattern="/api/v1/vlc-rc/**" access="permitAll" method="DELETE" />
 
-    <intercept-url pattern="/api/ws/vlc-player/status/**" access="permitAll"/>
-    <intercept-url pattern="/api/ws/vlc-player/playlist/**" access="permitAll"/>
+    <intercept-url pattern="/api/ws/**" access="permitAll"/>
 
     <!-- ======================================================================================= -->
     <!-- Commons configuration. Everything from here downwards should be the same in all modules -->
