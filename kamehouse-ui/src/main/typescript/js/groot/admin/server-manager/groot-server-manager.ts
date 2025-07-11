@@ -202,35 +202,35 @@ class GrootServerManager {
 } // ServerManager
 
 /**
- * Manager to execute git commands.
+ * Manager to execute keep alive status and toggle commands.
  * 
  * @author nbrest
  */
-class GitManager {
+class KeepAliveManager {
 
   /**
    * Load the extension.
    */
   load() {
-    kameHouse.logger.info("Loading GitManager", null);
-    kameHouse.util.module.setModuleLoaded("gitManager");
+    kameHouse.logger.info("Loading KeepAliveManager", null);
+    kameHouse.util.module.setModuleLoaded("keepAliveManager");
   }
 
   /**
-   * Pull kamehouse repo.
+   * Get the status of keep alive scripts toggle on the server.
    */
-  pullKameHouse() {
-    kameHouse.extension.serverManager.executeShellScript('common/git/git-pull-kamehouse.sh', "");
+  keepAliveStatus() {
+    kameHouse.extension.serverManager.executeShellScript('common/keep-alive/keep-alive-status.sh', "");
   }
 
   /**
-   * Pull kamehouse in all servers.
+   * Toggle keep alive scripts in the backend.
    */
-  pullKameHouseAllServers() {
-    kameHouse.extension.serverManager.executeShellScript('kamehouse/deploy/exec-kamehouse-all-servers.sh', "-s common/git/git-pull-kamehouse.sh");
+  toggleKeepAlive() {
+    kameHouse.extension.serverManager.executeShellScript('common/keep-alive/keep-alive-toggle.sh', "");
   }
 
-} // GitManager
+} // KeepAliveManager
 
 /**
  * Manager to execute deployment tasks.
@@ -866,7 +866,7 @@ class TailLogManagerWrapper {
 
 kameHouse.ready(() => {
   kameHouse.addExtension("serverManager", new GrootServerManager());
-  kameHouse.addExtension("gitManager", new GitManager());
+  kameHouse.addExtension("keepAliveManager", new KeepAliveManager());
   kameHouse.addExtension("deploymentManager", new DeploymentManager());
   kameHouse.addExtension("tailLogManagerWrapper", new TailLogManagerWrapper());
 });
