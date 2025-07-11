@@ -535,6 +535,10 @@ class DeploymentManager {
         kameHouse.logger.info("Hiding undeployed module " + module, null);
         const moduleRow = document.getElementById("mst-" + module);
         kameHouse.util.dom.classListAdd(moduleRow, "hidden-kh");
+        if (module == "desktop") {
+          const desktopStatusTable = document.getElementById("kamehouse-desktop-status-table");
+          kameHouse.util.dom.classListAdd(desktopStatusTable, "hidden-kh");
+        }
       });
     });
   }
