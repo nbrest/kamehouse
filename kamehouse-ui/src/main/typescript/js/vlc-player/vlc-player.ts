@@ -876,7 +876,6 @@ class VlcPlayerSynchronizer {
    * Break the loop setting isRunningSyncVlcPlayerHttpLoop to false.
    */
   syncVlcPlayerHttpLoop() {
-    // syncVlcPlayerHttpWaitMs should match the configured value in VlcRcService.java pushPeriodicVlcPlaylist()
     const config = {
       syncVlcPlayerHttpWaitMs : 7000
     };
