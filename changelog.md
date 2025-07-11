@@ -7,7 +7,9 @@
 
 #### v10.09
 
+- Updated websockets endpoints to use single endpoint for vlc status and playlist
 - Moved vlc status and playlist websockets from polling from the clients to pushing the updates from the server to the topic
+- Removed redundant sync loops for vlc status and playlist now that the updates on the view are pushed from the server
 - Added vlc status websocket endpoint for desktop app
 - Added kamehouse logo widget
 - Added world cup logo widget

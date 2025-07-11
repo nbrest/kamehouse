@@ -18,7 +18,7 @@ class VlcRcPlaylistWebSocketControllerIntegrationTest extends
 
   @Override
   public String getWebSocketUrl() {
-    return "/api/ws/vlc-player/playlist/";
+    return "/api/ws/vlcrc/sockjs/";
   }
 
   @Override

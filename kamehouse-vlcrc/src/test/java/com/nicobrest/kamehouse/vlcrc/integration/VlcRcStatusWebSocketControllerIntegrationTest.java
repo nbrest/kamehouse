@@ -18,7 +18,7 @@ class VlcRcStatusWebSocketControllerIntegrationTest extends
 
   @Override
   public String getWebSocketUrl() {
-    return "/api/ws/vlc-player/status/";
+    return "/api/ws/vlcrc/sockjs/";
   }
 
   @Override
