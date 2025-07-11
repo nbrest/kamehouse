@@ -263,6 +263,7 @@ class VlcPlayer {
    */
   /** Calls each internal module that has view logic to update it's view. */
   updateView() {
+    kameHouse.logger.trace("Updating vlc player view", null);
     this.#mainViewUpdater.updateView();
     this.#playlist.updateView();
   }
@@ -565,7 +566,6 @@ class VlcPlayerMainViewUpdater {
 
   /** Update vlc player view for main view objects. */
   updateView() {
-    kameHouse.logger.trace("Updating main player view", null);
     if (!kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
       this.#updateMediaTitle();
       this.#updateTimeSlider();
@@ -1255,7 +1255,6 @@ class VlcPlayerPlaylist {
    * to update the view of the playlist when vlcRcStatus changes  
    */
   updateView() {
-    kameHouse.logger.trace("Updating playlist view", null);
     if (!kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
       this.#setCurrentPlaylistPositionVal();
       this.#highlightCurrentPlayingItem();
