@@ -356,6 +356,40 @@ class DeploymentManager {
   }  
 
   /**
+   * Restart kamehouse desktop app.
+   */
+  restartDesktop() {
+    if (kameHouse.extension.serverManager.isCommandRunning()) {
+      return;
+    }
+    kameHouse.extension.serverManager.setCommandRunning();
+    kameHouse.extension.serverManager.openExecutingCommandModal();
+    kameHouse.extension.kameHouseShell.execute('kamehouse/desktop/kamehouse-desktop-restart.sh', null, false, false, 10, () => {
+        kameHouse.extension.serverManager.completeCommandCallback();
+      }, 
+      () => {
+        kameHouse.extension.serverManager.completeCommandCallback();
+      });
+  }
+
+  /**
+   * Stop kamehouse desktop app.
+   */
+  stopDesktop() {
+    if (kameHouse.extension.serverManager.isCommandRunning()) {
+      return;
+    }
+    kameHouse.extension.serverManager.setCommandRunning();
+    kameHouse.extension.serverManager.openExecutingCommandModal();
+    kameHouse.extension.kameHouseShell.execute('kamehouse/desktop/kamehouse-desktop-stop.sh', null, false, false, 600, () => {
+        kameHouse.extension.serverManager.completeCommandCallback();
+      }, 
+      () => {
+        kameHouse.extension.serverManager.completeCommandCallback();
+      });
+  }
+
+  /**
    * Deploy module.
    */
   deployModule(module) {

@@ -92,6 +92,10 @@
   min-width: 250px;
 }
 
+.non-tomcat-modules-table-controls {
+  min-width: 110px;
+}
+
 .non-tomcat-modules-table-deployment {
   min-width: 120px;
 }
