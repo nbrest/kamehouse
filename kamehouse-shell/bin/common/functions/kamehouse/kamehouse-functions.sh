@@ -93,15 +93,15 @@ SNAPE_PATH="${HOME}/programs/kamehouse-snape/bin"
 # ---------------------------
 loadKamehouseCfg() {
   source "${HOME}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
-  if [ ! -f "${HOME}/.kamehouse/config/kamehouse.cfg" ]; then
-    log.debug "~/.kamehouse/config/kamehouse.cfg not found. Using default values"
+  if [ ! -f "${KAMEHOUSE_CFG}" ]; then
+    log.debug "${KAMEHOUSE_CFG} not found. Using default values"
     return
   fi
-  source ${HOME}/.kamehouse/config/kamehouse.cfg
+  source ${KAMEHOUSE_CFG}
   if [ "$?" == "0" ]; then
-    log.trace "Loaded ~/.kamehouse/config/kamehouse.cfg"
+    log.trace "Loaded ${KAMEHOUSE_CFG}"
   else
-    log.error "Error importing ~/.kamehouse/config/kamehouse.cfg. Using default values"
+    log.error "Error importing ${KAMEHOUSE_CFG}. Using default values"
   fi
 }
 

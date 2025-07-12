@@ -7,6 +7,7 @@
 
 #### v10.09
 
+- Added script to update kamehouse config values
 - Added toggle for keep alive scripts in groot server manager
 - Added buttons to start and stop kamehouse desktop from groot server manager
 - Updated websockets endpoints to use single endpoint for vlc status and playlist

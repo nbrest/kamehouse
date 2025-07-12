@@ -35,7 +35,7 @@ updateConfig() {
 
 printUpdatedConfig() {
   log.info "Updated ${CONFIG_KEY} in kamehouse.cfg"
-  cat ${HOME}/.kamehouse/config/kamehouse.cfg | grep "${CONFIG_KEY}="  
+  cat ${KAMEHOUSE_CFG} | grep "${CONFIG_KEY}="  
 }
 
 parseArguments() {
