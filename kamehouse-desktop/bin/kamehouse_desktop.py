@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import os
 
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -20,6 +21,7 @@ class KameHouseDesktop(QMainWindow):
         logger.info("Starting kamehouse-desktop")
         self.startCompositor()
         self.setWindowProperties()
+        openWeatherMapApiKey = os.environ.get('OPENWEATHERMAP_API_KEY')
         self.initWidgets()
         self.showFullScreen()
 
