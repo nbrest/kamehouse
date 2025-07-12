@@ -7,6 +7,7 @@ export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
 # DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
 
+KAMEHOUSE_CFG="${HOME}/.kamehouse/config/kamehouse.cfg"
 GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
