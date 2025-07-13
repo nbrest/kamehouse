@@ -56,12 +56,13 @@ installBaseApps() {
   apt-get install -y openssh-server 
   apt-get install -y php libapache2-mod-php php-mysql 
   apt-get install -y picom
-  apt-get install -y python3.11 
+  apt-get install -y python3
   apt-get install -y python3-pyqt5
   apt-get install -y python3-loguru
   apt-get install -y python3-requests
   apt-get install -y python3-websockets
   apt-get install -y python3-stomper
+  apt-get install -y pip
   apt-get install -y screen 
   apt-get install -y sudo 
   apt-get install -y tightvncserver 
@@ -82,6 +83,10 @@ setupPython() {
     return
   fi
 
+  if [ -f "/usr/bin/python3.10" ]; then
+    ln -s /usr/bin/python3.10 /usr/bin/python
+  fi
+
   if [ -f "/usr/bin/python3.11" ]; then
     ln -s /usr/bin/python3.11 /usr/bin/python
   fi
@@ -92,6 +97,10 @@ setupPython() {
 
   if [ -f "/usr/bin/python3.13" ]; then
     ln -s /usr/bin/python3.13 /usr/bin/python
+  fi
+
+  if [ -f "/usr/bin/python3" ]; then
+    ln -s /usr/bin/python3 /usr/bin/python
   fi
 }
 
