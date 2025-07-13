@@ -56,7 +56,11 @@ installBaseApps() {
   apt-get install -y openssh-server 
   apt-get install -y php libapache2-mod-php php-mysql 
   apt-get install -y python3.11 
-  apt-get install -y python3-pyqt5 
+  apt-get install -y python3-pyqt5
+  apt-get install -y python3-loguru
+  apt-get install -y python3-requests
+  apt-get install -y python3-websockets
+  apt-get install -y python3-stomper
   apt-get install -y screen 
   apt-get install -y sudo 
   apt-get install -y tightvncserver 
@@ -68,6 +72,25 @@ installBaseApps() {
   apt-get clean -y
 
   installNode
+  setupPython
+}
+
+setupPython() {
+  if [ -f "/usr/bin/python" ]; then
+    return
+  fi
+
+  if [ -f "/usr/bin/python3.11" ]; then
+    ln -s /usr/bin/python3.11 /usr/bin/python
+  fi
+
+  if [ -f "/usr/bin/python3.12" ]; then
+    ln -s /usr/bin/python3.12 /usr/bin/python
+  fi
+
+  if [ -f "/usr/bin/python3.13" ]; then
+    ln -s /usr/bin/python3.13 /usr/bin/python
+  fi
 }
 
 installNode() {
