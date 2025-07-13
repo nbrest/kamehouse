@@ -39,7 +39,9 @@ sudo npm install typescript -g
     ```
   - Linux:
     ```sh
-    sudo apt-get install picom # on raspberrypi
+    PYTHON_VERSION=   # set value from versions.md
+    sudo apt-get install picom
+    sudo apt-get install xcompmgr
     sudo apt-get install python${PYTHON_VERSION}
     sudo apt-get install python3-pyqt5
     sudo apt-get install python3-loguru
