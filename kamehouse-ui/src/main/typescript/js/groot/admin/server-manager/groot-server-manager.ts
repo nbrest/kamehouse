@@ -364,7 +364,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/desktop/kamehouse-desktop-restart.sh', null, false, false, 10, () => {
+    kameHouse.extension.kameHouseShell.execute('kamehouse/desktop/kamehouse-desktop-restart.sh', null, true, false, 7, () => {
         kameHouse.extension.serverManager.completeCommandCallback();
       }, 
       () => {
@@ -381,7 +381,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('kamehouse/desktop/kamehouse-desktop-stop.sh', null, false, false, 600, () => {
+    kameHouse.extension.kameHouseShell.execute('kamehouse/desktop/kamehouse-desktop-stop.sh', null, true, false, 600, () => {
         kameHouse.extension.serverManager.completeCommandCallback();
       }, 
       () => {
