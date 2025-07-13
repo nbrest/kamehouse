@@ -84,22 +84,27 @@ setupPython() {
   fi
 
   if [ -f "/usr/bin/python3.10" ]; then
+    rm -f /usr/bin/python
     ln -s /usr/bin/python3.10 /usr/bin/python
   fi
 
   if [ -f "/usr/bin/python3.11" ]; then
+    rm -f /usr/bin/python
     ln -s /usr/bin/python3.11 /usr/bin/python
   fi
 
   if [ -f "/usr/bin/python3.12" ]; then
+    rm -f /usr/bin/python
     ln -s /usr/bin/python3.12 /usr/bin/python
   fi
 
   if [ -f "/usr/bin/python3.13" ]; then
+    rm -f /usr/bin/python
     ln -s /usr/bin/python3.13 /usr/bin/python
   fi
 
   if [ -f "/usr/bin/python3" ]; then
+    rm -f /usr/bin/python
     ln -s /usr/bin/python3 /usr/bin/python
   fi
 }

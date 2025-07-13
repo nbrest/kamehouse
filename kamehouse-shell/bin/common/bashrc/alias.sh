@@ -29,15 +29,3 @@ fi
 if [ -f "/usr/sbin/reboot" ] || [ -f "/sbin/reboot" ]; then
   alias reboot='sudo reboot'
 fi
-
-if [ -f "/usr/bin/python3.11" ]; then
-  alias python='python3.11'
-fi
-
-if [ -f "/usr/bin/python3.12" ]; then
-  alias python='python3.12'
-fi
-
-if [ -f "/usr/bin/python3.13" ]; then
-  alias python='python3.13'
-fi
