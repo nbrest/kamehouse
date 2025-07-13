@@ -50,6 +50,8 @@ The backend functionality is built mostly with `java` and `bash` shell scripts. 
 
 The frontend and mobile app is built in plain `javascript/typescript` mostly without using frameworks like vue, angular or react
 
+The desktop app is built with `python` using `pyqt5` to render the ui components
+
 Follow the readme on each module to see the functionality done by each of them
 
 The project uses **Maven** for building and deployment.
