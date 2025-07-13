@@ -44,8 +44,11 @@ This application (forever under construction) contains the following modules:
 
 [vlcrc](/kamehouse-vlcrc/README.md)
 
-The main idea of this application is to keep improving and learning best practices of software
-development with Java and frontend technologies.
+The main idea of this application is to keep improving and learning best practices of software development
+
+The backend functionality is built mostly with `java` and `bash` shell scripts. Part of the backend functionality is also built with `php` and `python`
+
+The frontend and mobile app is built in plain `javascript/typescript` mostly without using frameworks like vue, angular or react
 
 Follow the readme on each module to see the functionality done by each of them
 
