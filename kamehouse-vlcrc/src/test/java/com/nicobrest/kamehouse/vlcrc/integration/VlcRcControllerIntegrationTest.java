@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Integration tests for the VlcRcController class.
@@ -34,24 +36,6 @@ class VlcRcControllerIntegrationTest extends AbstractControllerIntegrationTest {
   }
 
   @Test
-  void vlcRcPlaylistTest() throws Exception {
-    logger.info("Running vlcRcPlaylistTest");
-
-    HttpResponse response = get(getWebappUrl() + API_URL + "/playlist");
-
-    verifySuccessfulResponse(response, List.class);
-  }
-
-  @Test
-  void vlcRcBrowseTest() throws Exception {
-    logger.info("Running vlcRcBrowseTest");
-
-    HttpResponse response = get(getWebappUrl() + API_URL + "/browse");
-
-    verifySuccessfulResponse(response, List.class);
-  }
-
-  @Test
   void vlcRcCommandsTest() throws Exception {
     logger.info("Running vlcRcCommandsTest");
     VlcRcCommand command = new VlcRcCommand();
@@ -62,12 +46,16 @@ class VlcRcControllerIntegrationTest extends AbstractControllerIntegrationTest {
     assertEquals(HttpStatus.SC_NOT_FOUND, response.getStatusLine().getStatusCode());
   }
 
-  @Test
-  void vlcRcStatsTest() throws Exception {
-    logger.info("Running vlcRcStatsTest");
+  @ParameterizedTest
+  @CsvSource({
+      "vlcRcStatsTest,/stats?fullReport=false&updateStats=false",
+      "vlcRcPlaylistTest,/playlist",
+      "vlcRcBrowseTest,/browse",
+  })
+  void vlcRcEndpointsTest(String testCase, String urlSuffix) throws Exception {
+    logger.info("Running {}", testCase);
 
-    HttpResponse response = get(
-        getWebappUrl() + API_URL + "/stats?fullReport=false&updateStats=false");
+    HttpResponse response = get(getWebappUrl() + API_URL + urlSuffix);
 
     verifySuccessfulResponse(response, List.class);
   }
