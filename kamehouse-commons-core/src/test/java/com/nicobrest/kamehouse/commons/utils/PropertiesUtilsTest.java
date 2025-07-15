@@ -35,7 +35,7 @@ class PropertiesUtilsTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     propertiesUtils.close();
   }
 

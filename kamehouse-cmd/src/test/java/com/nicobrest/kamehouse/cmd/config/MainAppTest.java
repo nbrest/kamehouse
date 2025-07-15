@@ -40,7 +40,7 @@ class MainAppTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     processUtilsMockedStatic.close();
     encryptionUtilsMockedStatic.close();
     fileUtilsMockedStatic.close();

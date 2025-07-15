@@ -73,7 +73,7 @@ class VlcPlayerTest {
   }
 
   @AfterEach
-  public void close() {
+  void close() {
     httpClientUtilsMock.close();
   }
 

@@ -104,7 +104,7 @@ class SshClientUtilsTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     encryptionUtils.close();
     propertiesUtils.close();
     sshClient.close();

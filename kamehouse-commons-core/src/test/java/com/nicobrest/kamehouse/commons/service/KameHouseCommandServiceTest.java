@@ -60,7 +60,7 @@ class KameHouseCommandServiceTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     dockerUtils.close();
     propertiesUtils.close();
     processUtils.close();

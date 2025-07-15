@@ -57,7 +57,7 @@ class ModuleStatusControllerTest extends AbstractControllerTest<Object, Object> 
   }
 
   @AfterEach
-  public void close() {
+  void close() {
     propertiesUtils.close();
   }
 

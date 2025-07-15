@@ -127,7 +127,7 @@ class PerfectGymBookingServiceTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     httpClientUtilsMock.close();
     dateUtilsMock.close();
     encryptionUtilsMock.close();

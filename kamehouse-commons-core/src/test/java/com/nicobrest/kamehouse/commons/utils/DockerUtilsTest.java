@@ -48,7 +48,7 @@ class DockerUtilsTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     propertiesUtils.close();
     sshClientUtils.close();
     httpClientUtils.close();

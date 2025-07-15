@@ -57,7 +57,7 @@ class TennisWorldUserServiceTest
   }
 
   @AfterEach
-  public void close() {
+  void close() {
     encryptionUtilsMock.close();
   }
 

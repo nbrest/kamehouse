@@ -60,7 +60,7 @@ class EncryptionUtilsTest {
    * Tests cleanup.
    */
   @AfterEach
-  public void close() {
+  void close() {
     kameHouseCommandUtilsMockedStatic.close();
   }
 

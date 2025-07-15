@@ -35,7 +35,7 @@ public abstract class AbstractKameHouseCommandTest {
    * Resets mock objects.
    */
   @AfterEach
-  public void close() {
+  void close() {
     propertiesUtils.close();
   }
 

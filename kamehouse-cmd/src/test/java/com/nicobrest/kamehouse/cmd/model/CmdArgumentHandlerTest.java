@@ -26,7 +26,7 @@ class CmdArgumentHandlerTest {
   }
 
   @AfterEach
-  public void close() {
+  void close() {
     processUtilsMockedStatic.close();
   }
 

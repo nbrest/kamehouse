@@ -60,7 +60,7 @@ class PlaylistServiceTest {
   }
 
   @AfterEach
-  public void close() {
+  void close() {
     propertiesUtils.close();
     dockerUtils.close();
   }
