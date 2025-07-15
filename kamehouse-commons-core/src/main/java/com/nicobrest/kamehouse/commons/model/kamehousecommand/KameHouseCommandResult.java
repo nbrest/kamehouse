@@ -88,7 +88,7 @@ public class KameHouseCommandResult {
   }
 
   public void setStandardErrorHtml(List<String> standardErrorHtml) {
-    this.standardError = List.copyOf(standardErrorHtml);
+    this.standardErrorHtml = List.copyOf(standardErrorHtml);
   }
 
   /**
