@@ -170,9 +170,7 @@ class DockerUtilsTest {
    */
   @Test
   void isWindowsHostOrWindowsDockerHostTest() {
-    Assertions.assertDoesNotThrow(
-        () -> DockerUtils.isWindowsHostOrWindowsDockerHost()
-    );
+    Assertions.assertDoesNotThrow(DockerUtils::isWindowsHostOrWindowsDockerHost);
   }
 
   /**
@@ -180,9 +178,7 @@ class DockerUtilsTest {
    */
   @Test
   void getDockerHostHostnameTest() {
-    Assertions.assertDoesNotThrow(
-        () -> DockerUtils.getDockerHostHostname()
-    );
+    Assertions.assertDoesNotThrow(DockerUtils::getDockerHostHostname);
   }
 
   /**
@@ -190,9 +186,7 @@ class DockerUtilsTest {
    */
   @Test
   void getDockerHostUserHomeTest() {
-    Assertions.assertDoesNotThrow(
-        () -> DockerUtils.getDockerHostUserHome()
-    );
+    Assertions.assertDoesNotThrow(DockerUtils::getDockerHostUserHome);
   }
 
   /**

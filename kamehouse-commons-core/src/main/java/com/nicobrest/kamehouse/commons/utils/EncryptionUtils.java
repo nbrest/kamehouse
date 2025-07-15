@@ -86,7 +86,7 @@ public class EncryptionUtils {
     if (secretValue == null || secretValue.size() > 1) {
       throw new KameHouseInvalidDataException("Invalid secretValue for secretKey " + secretKey);
     }
-    if (secretValue.size() == 0) {
+    if (secretValue.isEmpty()) {
       return "";
     }
     return secretValue.get(0);

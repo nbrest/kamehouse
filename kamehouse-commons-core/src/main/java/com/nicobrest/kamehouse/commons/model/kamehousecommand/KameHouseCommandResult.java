@@ -17,6 +17,28 @@ public class KameHouseCommandResult {
 
   @JsonIgnore
   private static final Map<String, String> COLOR_MAPPINGS = getColorMappings();
+  @JsonIgnore
+  private static final String COL_BLACK = "<span style=\"color:black\">";
+  @JsonIgnore
+  private static final String COL_RED = "<span style=\"color:red\">";
+  @JsonIgnore
+  private static final String COL_GREEN = "<span style=\"color:green\">";
+  @JsonIgnore
+  private static final String COL_YELLOW = "<span style=\"color:yellow\">";
+  @JsonIgnore
+  private static final String COL_3996FF = "<span style=\"color:#3996ff\">";
+  @JsonIgnore
+  private static final String COL_PURPLE = "<span style=\"color:purple\">";
+  @JsonIgnore
+  private static final String COL_CYAN = "<span style=\"color:cyan\">";
+  @JsonIgnore
+  private static final String COL_WHITE = "<span style=\"color:white\">";
+  @JsonIgnore
+  private static final String COL_GRAY = "<span style=\"color:gray\">";
+  @JsonIgnore
+  private static final String COL_LIGHT_GREEN = "<span style=\"color:lightgreen\">";
+  @JsonIgnore
+  private static final String SPAN_CLOSE = "</span>";
 
   private String command;
   private int exitCode = -1;
@@ -113,12 +135,8 @@ public class KameHouseCommandResult {
    * Convert the standardOutput and standardError to html and store them in the output lists.
    */
   public void setHtmlOutputs() {
-    standardOutput.forEach(line -> {
-      standardOutputHtml.add(convertLineToHtml(line));
-    });
-    standardError.forEach(line -> {
-      standardErrorHtml.add(convertLineToHtml(line));
-    });
+    standardOutput.forEach(line -> standardOutputHtml.add(convertLineToHtml(line)));
+    standardError.forEach(line -> standardErrorHtml.add(convertLineToHtml(line)));
   }
 
   /**
@@ -129,9 +147,8 @@ public class KameHouseCommandResult {
       return null;
     }
     final String[] htmlOutput = {line};
-    COLOR_MAPPINGS.forEach((bashColor, htmlColor) -> {
-      htmlOutput[0] = htmlOutput[0].replaceAll(bashColor, htmlColor);
-    });
+    COLOR_MAPPINGS.forEach(
+        (bashColor, htmlColor) -> htmlOutput[0] = htmlOutput[0].replaceAll(bashColor, htmlColor));
     // Remove the special character added in my bash color mappings
     htmlOutput[0] = htmlOutput[0].replaceAll("", "");
     htmlOutput[0] = htmlOutput[0].replaceAll("\\x1B", "");
@@ -146,36 +163,36 @@ public class KameHouseCommandResult {
    */
   private static Map<String, String> getColorMappings() {
     Map<String, String> colorMappings = new HashMap<>();
-    colorMappings.put("\\[0;30m", "<span style=\"color:black\">");
-    colorMappings.put("\\[1;30m", "<span style=\"color:black\">");
-    colorMappings.put("\\[0;31m", "<span style=\"color:red\">");
-    colorMappings.put("\\[1;31m", "<span style=\"color:red\">");
-    colorMappings.put("\\[0;32m", "<span style=\"color:green\">");
-    colorMappings.put("\\[00;32m", "<span style=\"color:green\">");
-    colorMappings.put("\\[1;32m", "<span style=\"color:green\">");
+    colorMappings.put("\\[0;30m", COL_BLACK);
+    colorMappings.put("\\[1;30m", COL_BLACK);
+    colorMappings.put("\\[0;31m", COL_RED);
+    colorMappings.put("\\[1;31m", COL_RED);
+    colorMappings.put("\\[0;32m", COL_GREEN);
+    colorMappings.put("\\[00;32m", COL_GREEN);
+    colorMappings.put("\\[1;32m", COL_GREEN);
     // remove these in-the-middle-of green span symbols on build-kamehouse
     colorMappings.put("\\[0;1;32m", "");
-    colorMappings.put("\\[0;33m", "<span style=\"color:yellow\">");
-    colorMappings.put("\\[1;33m", "<span style=\"color:yellow\">");
+    colorMappings.put("\\[0;33m", COL_YELLOW);
+    colorMappings.put("\\[1;33m", COL_YELLOW);
     // remove these in-the-middle-of yellow span symbols on build-kamehouse
     colorMappings.put("\\[0;1;33m", "");
-    colorMappings.put("\\[0;34m", "<span style=\"color:#3996ff\">");
-    colorMappings.put("\\[1;34m", "<span style=\"color:#3996ff\">");
-    colorMappings.put("\\[0;35m", "<span style=\"color:purple\">");
-    colorMappings.put("\\[1;35m", "<span style=\"color:purple\">");
-    colorMappings.put("\\[0;36m", "<span style=\"color:cyan\">");
-    colorMappings.put("\\[1;36m", "<span style=\"color:cyan\">");
-    colorMappings.put("\\[36m", "<span style=\"color:cyan\">");
-    colorMappings.put("\\[0;37m", "<span style=\"color:white\">");
-    colorMappings.put("\\[1;37m", "<span style=\"color:white\">");
-    colorMappings.put("\\[0;39m", "<span style=\"color:gray\">");
-    colorMappings.put("\\[1;39m", "<span style=\"color:gray\">");
-    colorMappings.put("\\[1;32;49m", "<span style=\"color:lightgreen\">");
-    colorMappings.put("\\[0m", "</span>");
-    colorMappings.put("\\[00m", "</span>");
-    colorMappings.put("\\[1m", "</span>");
-    colorMappings.put("\\[0;1m", "</span>");
-    colorMappings.put("\\[m", "</span>");
+    colorMappings.put("\\[0;34m", COL_3996FF);
+    colorMappings.put("\\[1;34m", COL_3996FF);
+    colorMappings.put("\\[0;35m", COL_PURPLE);
+    colorMappings.put("\\[1;35m", COL_PURPLE);
+    colorMappings.put("\\[0;36m", COL_CYAN);
+    colorMappings.put("\\[1;36m", COL_CYAN);
+    colorMappings.put("\\[36m", COL_CYAN);
+    colorMappings.put("\\[0;37m", COL_WHITE);
+    colorMappings.put("\\[1;37m", COL_WHITE);
+    colorMappings.put("\\[0;39m", COL_GRAY);
+    colorMappings.put("\\[1;39m", COL_GRAY);
+    colorMappings.put("\\[1;32;49m", COL_LIGHT_GREEN);
+    colorMappings.put("\\[0m", SPAN_CLOSE);
+    colorMappings.put("\\[00m", SPAN_CLOSE);
+    colorMappings.put("\\[1m", SPAN_CLOSE);
+    colorMappings.put("\\[0;1m", SPAN_CLOSE);
+    colorMappings.put("\\[m", SPAN_CLOSE);
     return colorMappings;
   }
 

@@ -211,9 +211,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
         return null;
       }
       StringBuilder sb = new StringBuilder();
-      scriptArgs.forEach(arg -> {
-        sb.append(arg).append(" ");
-      });
+      scriptArgs.forEach(arg -> sb.append(arg).append(" "));
       return sb.toString().trim();
     } else {
       return getLinuxKameHouseShellScriptArguments();
@@ -307,9 +305,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
     StringBuilder sb = new StringBuilder();
     sb.append("\"");
     sb.append(script);
-    scriptArgs.forEach(arg -> {
-      sb.append(" ").append(arg);
-    });
+    scriptArgs.forEach(arg -> sb.append(" ").append(arg));
     sb.append("\"");
     windowsCommand.add(sb.toString().trim());
   }

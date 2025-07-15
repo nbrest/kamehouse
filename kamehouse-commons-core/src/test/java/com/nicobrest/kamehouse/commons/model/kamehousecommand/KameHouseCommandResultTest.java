@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
  */
 class KameHouseCommandResultTest {
 
-  private static List<String> STANDARD_OUTPUT = getStandardOutput();
-  private static List<String> STANDARD_OUTPUT_HTML = getStandardOutputHtml();
+  private static List<String> standardOutput = getStandardOutput();
+  private static List<String> standardOutputHtml = getStandardOutputHtml();
 
   /**
    * Test converting the standard output to html.
@@ -22,9 +22,9 @@ class KameHouseCommandResultTest {
   @Test
   void setHtmlOutputsTest() {
     KameHouseCommandResult result = new KameHouseCommandResult();
-    result.setStandardOutput(STANDARD_OUTPUT);
+    result.setStandardOutput(standardOutput);
     result.setHtmlOutputs();
-    assertEquals(STANDARD_OUTPUT_HTML, result.getStandardOutputHtml());
+    assertEquals(standardOutputHtml, result.getStandardOutputHtml());
     assertEquals(new ArrayList<>(), result.getStandardErrorHtml());
   }
 
