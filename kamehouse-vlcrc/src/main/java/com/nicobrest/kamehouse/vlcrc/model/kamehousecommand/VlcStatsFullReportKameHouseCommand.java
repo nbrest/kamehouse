@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class VlcStatsFullReportKameHouseCommand extends KameHouseShellScript {
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
     if (updateStats) {
-      return null;
+      return Collections.emptyList();
     }
     return List.of("--show-history-file-only");
   }

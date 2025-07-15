@@ -1,5 +1,6 @@
 package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class TestDaemonCommand extends KameHouseShellScript {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override

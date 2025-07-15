@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.media.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class ListPlaylistsKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override

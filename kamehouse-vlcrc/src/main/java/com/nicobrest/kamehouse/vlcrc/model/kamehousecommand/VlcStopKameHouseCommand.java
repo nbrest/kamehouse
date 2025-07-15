@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.vlcrc.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class VlcStopKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return null;
+    return Collections.emptyList();
   }
 
   @Override
