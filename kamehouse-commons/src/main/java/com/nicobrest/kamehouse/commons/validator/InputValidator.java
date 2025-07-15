@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
  */
 public class InputValidator {
 
-  public static final List<String> FORBIDDEN_CHARS_FOR_SHELL = getForbiddenCharsForShell();
-
   protected static final Logger LOGGER = LoggerFactory.getLogger(InputValidator.class);
   private static final int MAX_STRING_LENGTH = 255;
 
@@ -50,7 +48,7 @@ public class InputValidator {
     if (StringUtils.isEmpty(value)) {
       return;
     }
-    FORBIDDEN_CHARS_FOR_SHELL.forEach(forbiddenChar -> {
+    getForbiddenCharsForShell().forEach(forbiddenChar -> {
       if (value.contains(forbiddenChar)) {
         String errorMessage =
             "The string '" + value + "' contains the forbidden character '" + forbiddenChar + "'";
@@ -73,7 +71,7 @@ public class InputValidator {
    * <p>When I update the forbidden chars here I also need to update them in
    * InputValidator.java</p>
    */
-  private static List<String> getForbiddenCharsForShell() {
+  protected static List<String> getForbiddenCharsForShell() {
     return List.of(">", "<", ";", "|", "&", "*", "(", ")", "{", "}", "[", "]", "^", "#", "`",
         "´", "..", "%", "!", "$", "?");
   }

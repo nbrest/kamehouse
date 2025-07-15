@@ -330,8 +330,8 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   private void buildCommand() {
     List<String> commandList = getCommandList();
     StringBuilder sb = new StringBuilder();
-    for (String command : commandList) {
-      sb.append(command).append(" ");
+    for (String currentCommand : commandList) {
+      sb.append(currentCommand).append(" ");
     }
     command = sb.toString().trim();
   }

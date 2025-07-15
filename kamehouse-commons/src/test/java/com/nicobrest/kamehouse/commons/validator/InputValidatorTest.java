@@ -54,7 +54,7 @@ class InputValidatorTest {
    */
   @Test
   void validateForbiddenCharsForShellExceptionTest() {
-    InputValidator.FORBIDDEN_CHARS_FOR_SHELL.forEach(forbiddenChar -> {
+    InputValidator.getForbiddenCharsForShell().forEach(forbiddenChar -> {
       String arg = "-m module " + forbiddenChar;
       assertThrows(
           KameHouseInvalidDataException.class,
