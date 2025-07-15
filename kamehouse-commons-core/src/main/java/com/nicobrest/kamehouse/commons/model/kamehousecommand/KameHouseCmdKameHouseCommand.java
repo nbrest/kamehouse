@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public abstract class KameHouseCmdKameHouseCommand extends KameHouseShellScript 
   protected List<String> getWindowsKameHouseShellScriptArguments() {
     String args = getKameHouseCmdArguments();
     if (StringUtils.isEmpty(args)) {
-      return null;
+      return Collections.emptyList();
     }
     return Arrays.asList(getKameHouseCmdArguments().split(" "));
   }
