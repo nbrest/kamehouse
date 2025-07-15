@@ -67,7 +67,9 @@ public class DockerUtils {
       HttpResponse response = HttpClientUtils.execRequest(client, request);
       try (InputStream inputStream = HttpClientUtils.getInputStream(response)) {
         String responseBody = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
-        LOGGER.debug("Groot responseBody: {}", StringUtils.sanitize(responseBody));
+        if (LOGGER.isDebugEnabled()) {
+          LOGGER.debug("Groot responseBody: {}", StringUtils.sanitize(responseBody));
+        }
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(responseBody, KameHouseCommandResult.class);
       }

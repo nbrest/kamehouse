@@ -26,6 +26,8 @@ public class VlcRcWebSocketController {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
+  private static final String LOCALHOST = "localhost";
+
   private SimpMessagingTemplate messagingTemplate;
   private VlcRcService vlcRcService;
 
@@ -46,7 +48,7 @@ public class VlcRcWebSocketController {
     logger.trace("/vlc-player/status-in (WEBSOCKET)");
     VlcRcStatus vlcRcStatus = null;
     try {
-      vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
+      vlcRcStatus = vlcRcService.getVlcRcStatus(LOCALHOST);
     } catch (KameHouseNotFoundException e) {
       logger.warn(e.getMessage());
     }
@@ -67,7 +69,7 @@ public class VlcRcWebSocketController {
     logger.trace("/vlc-player/playlist-in (WEBSOCKET)");
     List<VlcRcPlaylistItem> vlcPlaylist = null;
     try {
-      vlcPlaylist = vlcRcService.getPlaylist("localhost");
+      vlcPlaylist = vlcRcService.getPlaylist(LOCALHOST);
     } catch (KameHouseNotFoundException e) {
       logger.warn(e.getMessage());
     }
@@ -85,7 +87,7 @@ public class VlcRcWebSocketController {
   @Scheduled(fixedRate = 1000)
   public void pushPeriodicVlcStatus() {
     logger.trace("Pushing scheduled vlc status to topic");
-    VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus("localhost");
+    VlcRcStatus vlcRcStatus = vlcRcService.getVlcRcStatus(LOCALHOST);
     messagingTemplate.convertAndSend("/topic/vlc-player/status-out", vlcRcStatus);
   }
 
@@ -95,7 +97,7 @@ public class VlcRcWebSocketController {
   @Scheduled(fixedRate = 7000)
   public void pushPeriodicVlcPlaylist() {
     logger.trace("Pushing scheduled vlc playlist to topic");
-    List<VlcRcPlaylistItem> playlist = vlcRcService.getPlaylist("localhost");
+    List<VlcRcPlaylistItem> playlist = vlcRcService.getPlaylist(LOCALHOST);
     messagingTemplate.convertAndSend("/topic/vlc-player/playlist-out", playlist);
   }
 }
