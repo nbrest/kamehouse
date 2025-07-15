@@ -71,7 +71,7 @@ class AbstractKameHouseServletTest {
   private GrantedAuthority grantedAuthority;
 
   @BeforeEach
-  public void init() {
+  void init() {
     MockitoAnnotations.openMocks(this);
     sampleKameHouseServlet = Mockito.spy(new SampleKameHouseServlet());
     doReturn(sessionRepository).when(sampleKameHouseServlet).getSessionRepository(any());

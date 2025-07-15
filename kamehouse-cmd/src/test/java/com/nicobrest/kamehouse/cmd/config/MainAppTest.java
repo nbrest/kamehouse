@@ -30,7 +30,7 @@ class MainAppTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     processUtilsMockedStatic = Mockito.mockStatic(ProcessUtils.class);
     encryptionUtilsMockedStatic = Mockito.mockStatic(EncryptionUtils.class);
     fileUtilsMockedStatic = Mockito.mockStatic(FileUtils.class);

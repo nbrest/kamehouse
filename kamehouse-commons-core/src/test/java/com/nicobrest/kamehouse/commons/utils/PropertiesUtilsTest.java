@@ -26,7 +26,7 @@ class PropertiesUtilsTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     when(PropertiesUtils.getProperty(any())).thenCallRealMethod();
   }

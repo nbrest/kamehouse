@@ -24,7 +24,7 @@ public abstract class AbstractKameHouseCommandTest {
    * Resets mock objects.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     MockitoAnnotations.openMocks(this);
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     when(PropertiesUtils.isWindowsHost()).thenReturn(false);

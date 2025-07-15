@@ -42,7 +42,7 @@ class PlaylistServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     dockerUtils = Mockito.mockStatic(DockerUtils.class);
 

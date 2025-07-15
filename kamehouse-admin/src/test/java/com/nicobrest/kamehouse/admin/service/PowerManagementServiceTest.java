@@ -44,7 +44,7 @@ class PowerManagementServiceTest {
   private JobDetail suspendJobDetail;
 
   @BeforeEach
-  public void before() {
+  void before() {
     powerManagementService = new PowerManagementService(scheduler, shutdownJobDetail,
         suspendJobDetail);
     MockitoAnnotations.openMocks(this);

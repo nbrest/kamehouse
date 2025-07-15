@@ -50,7 +50,7 @@ class EncryptionUtilsTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     MockitoAnnotations.openMocks(this);
     kameHouseCommandUtilsMockedStatic = Mockito.mockStatic(KameHouseCommandUtils.class);
     when(KameHouseCommandUtils.execute(any())).thenReturn(kameHouseCommandResult);

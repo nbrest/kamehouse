@@ -30,7 +30,7 @@ class TestSchedulerServiceTest {
   private Scheduler scheduler;
 
   @BeforeEach
-  public void before() {
+  void before() {
     MockitoAnnotations.openMocks(this);
   }
 

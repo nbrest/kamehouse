@@ -21,7 +21,7 @@ class CmdArgumentHandlerTest {
   private MockedStatic<ProcessUtils> processUtilsMockedStatic;
 
   @BeforeEach
-  public void before() {
+  void before() {
     processUtilsMockedStatic = Mockito.mockStatic(ProcessUtils.class);
   }
 

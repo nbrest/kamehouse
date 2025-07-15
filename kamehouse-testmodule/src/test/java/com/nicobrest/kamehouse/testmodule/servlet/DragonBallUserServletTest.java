@@ -46,7 +46,7 @@ class DragonBallUserServletTest {
   }
 
   @BeforeEach
-  public void init() {
+  void init() {
     initTestData();
     MockitoAnnotations.openMocks(this);
     dragonBallUserServlet = Mockito.spy(new DragonBallUserServlet());

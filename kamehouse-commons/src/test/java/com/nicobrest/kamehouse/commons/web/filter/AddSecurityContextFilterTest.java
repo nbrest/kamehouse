@@ -24,7 +24,7 @@ class AddSecurityContextFilterTest {
   private AddSecurityContextFilter addSecurityContextFilter;
 
   @BeforeEach
-  public void init() {
+  void init() {
     MockitoAnnotations.openMocks(this);
   }
 

@@ -47,7 +47,7 @@ class SchedulerServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     MockitoAnnotations.openMocks(this);
     try {
       Set<JobKey> jobKeySet = new HashSet<>();

@@ -47,7 +47,7 @@ class SessionStatusServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void init() {
+  void init() {
     GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_KAMISAMA");
     authentication = new UsernamePasswordAuthenticationToken("anonymousUser", "anonymousUser",
         List.of(authority));

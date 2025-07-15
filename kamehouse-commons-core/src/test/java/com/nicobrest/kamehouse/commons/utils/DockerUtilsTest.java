@@ -37,7 +37,7 @@ class DockerUtilsTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     sshClientUtils = Mockito.mockStatic(SshClientUtils.class);

@@ -27,7 +27,7 @@ class KameHouseUserDaoInMemoryTest {
    * Initializes test repositories.
    */
   @BeforeEach
-  public void init() {
+  void init() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
     kameHouseUser = testUtils.getSingleTestData();

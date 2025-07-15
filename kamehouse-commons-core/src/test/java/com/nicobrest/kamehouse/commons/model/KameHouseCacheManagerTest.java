@@ -36,7 +36,7 @@ class KameHouseCacheManagerTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() {
+  void before() {
     MockitoAnnotations.openMocks(this);
     when(cacheManager.getCacheNames()).thenReturn(List.of("cache1", "cache2"));
     when(cacheManager.getCache(any())).thenReturn(springCache);
