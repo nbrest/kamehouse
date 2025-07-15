@@ -177,7 +177,7 @@ class DateUtilsTest {
   void convertTimeTest(String input, String expected, String inFormat, String outFormat,
       String lowerCaseOutStr) {
     try {
-      boolean lowerCaseOut = Boolean.valueOf(lowerCaseOutStr);
+      boolean lowerCaseOut = Boolean.parseBoolean(lowerCaseOutStr);
       assertEquals(expected, DateUtils.convertTime(input, inFormat, outFormat, lowerCaseOut));
     } catch (KameHouseInvalidDataException e) {
       logger.error(
