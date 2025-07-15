@@ -73,7 +73,7 @@ class SshClientUtilsTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() throws IOException {
+  void before() throws IOException {
     encryptionUtils = Mockito.mockStatic(EncryptionUtils.class);
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     sshClient = Mockito.mockStatic(SshClient.class);

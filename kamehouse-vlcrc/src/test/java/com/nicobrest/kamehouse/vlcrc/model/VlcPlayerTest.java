@@ -50,7 +50,7 @@ class VlcPlayerTest {
    * Tests setup.
    */
   @BeforeEach
-  public void init() throws Exception {
+  void init() throws Exception {
     vlcPlayerTestUtils.initTestData();
     vlcPlayer = Mockito.spy(vlcPlayerTestUtils.getSingleTestData());
     vlcRcStatusTestUtils.initTestData();

@@ -19,7 +19,7 @@ class DragonBallUserTest {
 
   /** Clears data from the repository before each test. */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     testUtils = new DragonBallUserTestUtils();
     testUtils.initTestData();
   }

@@ -49,7 +49,7 @@ class AbstractCrudDaoJpaUnitTest {
   private Exception illegalArgumentException = new IllegalArgumentException("Test Exception");
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     setupTestData();
     MockitoAnnotations.openMocks(this);
     Mockito.reset(entityManagerFactoryMock, entityManagerMock);

@@ -68,7 +68,7 @@ class ActiveCarrotBookingServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void init() throws Exception {
+  void init() throws Exception {
     bookingRequestTestUtils.initTestData();
     ActiveCarrotBookingService activeCarrotBookingService = new ActiveCarrotBookingService(
         bookingScheduleConfigService, bookingRequestService, bookingResponseService);

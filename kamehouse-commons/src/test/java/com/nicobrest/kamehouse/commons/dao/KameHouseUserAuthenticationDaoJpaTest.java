@@ -36,7 +36,7 @@ class KameHouseUserAuthenticationDaoJpaTest
    * Clear data from the repository before each test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     testUtils = new KameHouseUserTestUtils();
     testUtils.initTestData();
     testUtils.removeIds();

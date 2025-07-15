@@ -76,7 +76,7 @@ class PerfectGymBookingServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void init() throws Exception {
+  void init() throws Exception {
     bookingRequestTestUtils.initTestData();
     PerfectGymBookingService perfectGymBookingService = new PerfectGymBookingService(
         bookingScheduleConfigService, bookingRequestService, bookingResponseService);

@@ -34,7 +34,7 @@ class PlaylistServiceTest {
   private MockedStatic<PropertiesUtils> propertiesUtils;
 
   @BeforeAll
-  public static void beforeClass() {
+  static void beforeClass() {
     playlistService = new PlaylistService();
   }
 

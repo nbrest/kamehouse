@@ -39,7 +39,7 @@ class JsonUtilsTest {
   private ArrayNode emptyJsonArray;
 
   @BeforeEach
-  public void init() throws IOException {
+  void init() throws IOException {
     populateTestData();
   }
 

@@ -85,7 +85,7 @@ class AbstractBookingServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void init() throws Exception {
+  void init() throws Exception {
     bookingRequestTestUtils.initTestData();
     SampleBookingService bookingService = new SampleBookingService(bookingScheduleConfigService,
         bookingRequestService, bookingResponseService);

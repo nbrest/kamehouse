@@ -45,7 +45,7 @@ class KameHouseCommandServiceTest {
    * Tests setup.
    */
   @BeforeEach
-  public void before() throws InterruptedException {
+  void before() throws InterruptedException {
     testUtils.initTestData();
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     processUtils = Mockito.mockStatic(ProcessUtils.class);
