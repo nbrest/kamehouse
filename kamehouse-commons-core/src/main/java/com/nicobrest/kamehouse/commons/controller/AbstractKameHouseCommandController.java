@@ -21,7 +21,7 @@ public abstract class AbstractKameHouseCommandController extends AbstractControl
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-  AbstractKameHouseCommandController(KameHouseCommandService kameHouseCommandService) {
+  public AbstractKameHouseCommandController(KameHouseCommandService kameHouseCommandService) {
     this.kameHouseCommandService = kameHouseCommandService;
   }
 
