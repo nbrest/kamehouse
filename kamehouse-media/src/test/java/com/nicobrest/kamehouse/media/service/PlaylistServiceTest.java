@@ -1,10 +1,11 @@
 package com.nicobrest.kamehouse.media.service;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import com.nicobrest.kamehouse.commons.service.EhCacheService;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
 import com.nicobrest.kamehouse.media.model.Playlist;
@@ -13,30 +14,35 @@ import com.nicobrest.kamehouse.media.testutils.PlaylistTestUtils;
 import java.io.File;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  * Unit tests for the PlaylistService class.
  *
  * @author nbrest
  */
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 class PlaylistServiceTest {
 
-  private static PlaylistService playlistService;
   private final PlaylistTestUtils playlistTestUtils = new PlaylistTestUtils();
-  private Playlist expectedPlaylist;
 
+  @Autowired
+  private PlaylistService playlistService;
+
+  @Autowired
+  private EhCacheService ehCacheService;
+
+  private Playlist expectedPlaylist;
   private MockedStatic<DockerUtils> dockerUtils;
   private MockedStatic<PropertiesUtils> propertiesUtils;
-
-  @BeforeAll
-  static void beforeClass() {
-    playlistService = new PlaylistService();
-  }
 
   /**
    * Tests setup.
@@ -57,6 +63,7 @@ class PlaylistServiceTest {
         PlaylistTestUtils.TEST_PLAYLISTS_PATH);
     playlistTestUtils.initTestData();
     expectedPlaylist = playlistTestUtils.getSingleTestData();
+    ehCacheService.clearAll();
   }
 
   @AfterEach
@@ -215,7 +222,7 @@ class PlaylistServiceTest {
 
     Playlist returnedPlaylist = playlistService.getPlaylist(invalidPath, true);
 
-    assertNull(returnedPlaylist, "Expect a null playlist returned");
+    assertEquals(PlaylistService.EMPTY_PLAYLIST, returnedPlaylist);
   }
 
   /**
@@ -229,7 +236,7 @@ class PlaylistServiceTest {
 
     Playlist returnedPlaylist = playlistService.getPlaylist(invalidExtension, true);
 
-    assertNull(returnedPlaylist, "Expect a null playlist returned");
+    assertEquals(PlaylistService.EMPTY_PLAYLIST, returnedPlaylist);
   }
 
   /**
@@ -245,6 +252,6 @@ class PlaylistServiceTest {
 
     Playlist returnedPlaylist = playlistService.getPlaylist(invalidPath, true);
 
-    assertNull(returnedPlaylist, "Expect a null playlist returned");
+    assertEquals(PlaylistService.EMPTY_PLAYLIST, returnedPlaylist);
   }
 }

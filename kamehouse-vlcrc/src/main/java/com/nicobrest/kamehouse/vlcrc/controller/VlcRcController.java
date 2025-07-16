@@ -98,8 +98,8 @@ public class VlcRcController extends AbstractKameHouseCommandController {
    */
   @GetMapping(path = "/{hostname}/stats")
   public ResponseEntity<List<KameHouseCommandResult>> stats(
-      @RequestParam(value = "fullReport") Boolean fullReport,
-      @RequestParam(value = "updateStats") Boolean updateStats,
+      @RequestParam(value = "fullReport", defaultValue = "false") boolean fullReport,
+      @RequestParam(value = "updateStats", defaultValue = "false") boolean updateStats,
       @PathVariable String hostname) {
     InputValidator.validateForbiddenCharsForShell(hostname);
     List<KameHouseCommand> kameHouseCommands = new ArrayList<>();

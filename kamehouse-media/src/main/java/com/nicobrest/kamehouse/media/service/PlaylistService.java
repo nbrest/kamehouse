@@ -7,6 +7,7 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.media.model.Playlist;
 import com.nicobrest.kamehouse.media.model.kamehousecommand.GetPlaylistContentKameHouseCommand;
 import com.nicobrest.kamehouse.media.model.kamehousecommand.ListPlaylistsKameHouseCommand;
+import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlaylistService {
 
+  public static final Playlist EMPTY_PLAYLIST = new Playlist();
   public static final String DEFAULT_PLAYLISTS_PATH = ".kamehouse/data/playlists";
   public static final String PROP_PLAYLISTS_PATH = "playlists.path";
   private static final String SUPPORTED_PLAYLIST_EXTENSION = ".m3u";
@@ -36,6 +38,9 @@ public class PlaylistService {
   private static final String PLAYLISTS_CACHE = "playlists";
 
   private static final Logger logger = LoggerFactory.getLogger(PlaylistService.class);
+
+  @Resource
+  private PlaylistService playlistServiceResource;
 
   /**
    * Gets all playlists without their contents.
@@ -94,17 +99,16 @@ public class PlaylistService {
    */
   private static Playlist getPlaylistLocal(String playlistFilename, boolean fetchContent) {
     logger.trace("getPlaylistLocal {}", playlistFilename);
+    Playlist playlist = new Playlist();
     Path playlistPath = Paths.get(playlistFilename);
     if (!isValidPlaylist(playlistPath)) {
       logger.error(
           "Invalid playlist path specified. Check the validations for supported playlists");
-      return null;
+      return playlist;
     }
-    Playlist playlist = null;
     Path basePlaylistsPath = getBasePlaylistsPath();
     Path playlistFileNamePath = playlistPath.getFileName();
     if (playlistFileNamePath != null) {
-      playlist = new Playlist();
       playlist.setName(playlistFileNamePath.toString());
       String category = getCategory(basePlaylistsPath, playlistPath);
       playlist.setCategory(category);
@@ -133,8 +137,8 @@ public class PlaylistService {
     }
     List<String> playlistFilePaths = getPlaylistFilePaths(standardOutput);
     for (String playlistFilePath : playlistFilePaths) {
-      Playlist playlist = getPlaylist(playlistFilePath, fetchContent);
-      if (playlist != null) {
+      Playlist playlist = playlistServiceResource.getPlaylist(playlistFilePath, fetchContent);
+      if (playlist != null && !EMPTY_PLAYLIST.equals(playlist)) {
         playlists.add(playlist);
       }
     }
@@ -167,8 +171,9 @@ public class PlaylistService {
       while (filePathsIterator.hasNext()) {
         Path playlistPath = filePathsIterator.next();
         if (!playlistPath.toFile().isDirectory()) {
-          Playlist playlist = getPlaylist(playlistPath.toString(), fetchContent);
-          if (playlist != null) {
+          Playlist playlist = playlistServiceResource.getPlaylist(playlistPath.toString(),
+              fetchContent);
+          if (playlist != null && !EMPTY_PLAYLIST.equals(playlist)) {
             playlists.add(playlist);
           }
         }
