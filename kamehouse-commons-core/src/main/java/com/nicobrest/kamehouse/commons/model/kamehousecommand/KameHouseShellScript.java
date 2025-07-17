@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
+import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
@@ -41,6 +42,8 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
       Arrays.asList("cmd.exe", "/c", "start", "/min");
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
+  private static final String GROOT_EXECUTE_URL =
+      "/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?";
 
   @JsonIgnore
   private int sleepTime = 0;
@@ -194,33 +197,23 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
     return false;
   }
 
-  /**
-   * Get the kamehouse shell script to execute via groot.
-   */
-  public String getShellScript() {
-    if (isCommandExecutedOnWindows()) {
-      return getWindowsKameHouseShellScript();
-    } else {
-      return getLinuxKameHouseShellScript();
+  @Override
+  public String getDockerHostGrootExecuteUrl() {
+    String host = DockerUtils.getDockerHostIp();
+    String port = DockerUtils.getDockerHostPort();
+    StringBuilder sb = new StringBuilder("https://");
+    sb.append(host).append(":").append(port).append(GROOT_EXECUTE_URL).append("script=");
+    sb.append(getShellScript());
+    String args = getShellScriptArgs();
+    if (!com.nicobrest.kamehouse.commons.utils.StringUtils.isEmpty(args)) {
+      String urlEncodedArgs = HttpClientUtils.urlEncode(args.trim());
+      sb.append("&args=").append(urlEncodedArgs);
     }
-  }
-
-  /**
-   * Get the kamehouse shell script args to execute via groot.
-   */
-  @JsonIgnore
-  public String getShellScriptArgs() {
-    if (isCommandExecutedOnWindows()) {
-      List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
-      if (scriptArgs == null || scriptArgs.isEmpty()) {
-        return null;
-      }
-      StringBuilder sb = new StringBuilder();
-      scriptArgs.forEach(arg -> sb.append(arg).append(" "));
-      return sb.toString().trim();
-    } else {
-      return getLinuxKameHouseShellScriptArguments();
+    sb.append("&executeOnDockerHost=false"); // already sending request to docker host here
+    if (isDaemon()) {
+      sb.append("&isDaemon=true");
     }
+    return sb.toString().trim();
   }
 
   /**
@@ -262,6 +255,35 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   @JsonIgnore
   protected boolean windowsCmdStartMinimized() {
     return true;
+  }
+
+  /**
+   * Get the kamehouse shell script to execute via groot.
+   */
+  private String getShellScript() {
+    if (isCommandExecutedOnWindows()) {
+      return getWindowsKameHouseShellScript();
+    } else {
+      return getLinuxKameHouseShellScript();
+    }
+  }
+
+  /**
+   * Get the kamehouse shell script args to execute via groot.
+   */
+  @JsonIgnore
+  private String getShellScriptArgs() {
+    if (isCommandExecutedOnWindows()) {
+      List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
+      if (scriptArgs == null || scriptArgs.isEmpty()) {
+        return null;
+      }
+      StringBuilder sb = new StringBuilder();
+      scriptArgs.forEach(arg -> sb.append(arg).append(" "));
+      return sb.toString().trim();
+    } else {
+      return getLinuxKameHouseShellScriptArguments();
+    }
   }
 
   /**

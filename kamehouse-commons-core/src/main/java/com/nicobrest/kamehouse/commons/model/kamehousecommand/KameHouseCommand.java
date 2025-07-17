@@ -49,4 +49,9 @@ public interface KameHouseCommand {
    * container.
    */
   boolean executeOnDockerHost();
+
+  /**
+   * Build url to execute kamehouse command on remote host via groot.
+   */
+  String getDockerHostGrootExecuteUrl();
 }

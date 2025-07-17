@@ -5,7 +5,6 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
-import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -34,8 +33,6 @@ public class DockerUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(DockerUtils.class);
   private static final String WINDOWS_HOME_PREFIX = "C:\\Users\\";
   private static final String LINUX_HOME_PREFIX = "/home/";
-  private static final String GROOT_EXECUTE_URL =
-      "/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?";
   private static final String GROOT_LOGIN_URL = "/kame-house-groot/api/v1/auth/login.php";
 
   private DockerUtils() {
@@ -45,16 +42,10 @@ public class DockerUtils {
   /**
    * Execute the kamehouse command on the host running the docker container.
    */
-  public static KameHouseCommandResult executeOnDockerHost(
-      KameHouseCommand kameHouseCommand) {
-    if (!(kameHouseCommand instanceof KameHouseShellScript)) {
-      throw new KameHouseServerErrorException(
-          "Only KameHouseShellScript commands can be executed on the docker host at the moment");
-    }
-    KameHouseShellScript kameHouseShellScript = (KameHouseShellScript) kameHouseCommand;
-    kameHouseShellScript.init();
+  public static KameHouseCommandResult executeOnDockerHost(KameHouseCommand kameHouseCommand) {
+    kameHouseCommand.init();
     HttpClient client = getGrootExecuteHttpClient();
-    HttpGet request = HttpClientUtils.httpGet(getDockerHostGrootExecuteUrl(kameHouseShellScript));
+    HttpGet request = HttpClientUtils.httpGet(kameHouseCommand.getDockerHostGrootExecuteUrl());
     try {
       loginToGroot(client);
       HttpResponse response = HttpClientUtils.execRequest(client, request);
@@ -69,7 +60,7 @@ public class DockerUtils {
     } catch (IOException e) {
       LOGGER.error("Error sending groot execute request. Message: {}", e.getMessage());
     }
-    KameHouseCommandResult kameHouseCommandResult = kameHouseShellScript.initResult();
+    KameHouseCommandResult kameHouseCommandResult = kameHouseCommand.initResult();
     kameHouseCommandResult.setExitCode(1);
     kameHouseCommandResult.setPid(-1);
     kameHouseCommandResult.setStatus(KameHouseCommandStatus.FAILED.getStatus());
@@ -241,27 +232,6 @@ public class DockerUtils {
     } catch (IllegalArgumentException e) {
       throw new KameHouseServerErrorException("Unable to decode docker host auth");
     }
-  }
-
-  /**
-   * Build url to execute kamehouse command on remote host via groot.
-   */
-  private static String getDockerHostGrootExecuteUrl(KameHouseShellScript kameHouseShellScript) {
-    String host = getDockerHostIp();
-    String port = getDockerHostPort();
-    StringBuilder sb = new StringBuilder("https://");
-    sb.append(host).append(":").append(port).append(GROOT_EXECUTE_URL).append("script=");
-    sb.append(kameHouseShellScript.getShellScript());
-    String args = kameHouseShellScript.getShellScriptArgs();
-    if (!StringUtils.isEmpty(args)) {
-      String urlEncodedArgs = HttpClientUtils.urlEncode(args.trim());
-      sb.append("&args=").append(urlEncodedArgs);
-    }
-    sb.append("&executeOnDockerHost=false"); // already sending request to docker host here
-    if (kameHouseShellScript.isDaemon()) {
-      sb.append("&isDaemon=true");
-    }
-    return sb.toString().trim();
   }
 
   /**
