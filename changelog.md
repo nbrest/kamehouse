@@ -7,6 +7,8 @@
 
 #### v10.10
 
+- Split non tomcat modules into separate tables in groot server manager
+- Fixed sonar bugs
 - Fixed bugs
 
 #### v10.09
