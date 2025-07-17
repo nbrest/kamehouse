@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.commons.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import java.util.List;
 import org.slf4j.Logger;
@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author nbrest
  */
-public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extends KameHouseDto<E>>
-    implements CrudService<E, D> {
+public abstract class AbstractCrudService<E extends Identifiable, D extends Identifiable> implements
+    CrudService<E, D> {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -22,6 +22,11 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
    * Get crud DAO.
    */
   public abstract CrudDao<E> getCrudDao();
+
+  /**
+   * Get dto translator.
+   */
+  public abstract KameHouseDtoTranslator<E, D> getDtoTranslator();
 
   /**
    * Performs validations on the entity before persisting it to the repository.
@@ -33,7 +38,7 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
     if (logger.isTraceEnabled()) {
       logger.trace("Create {}", StringUtils.sanitize(dto));
     }
-    E entity = dto.buildEntity();
+    E entity = getDtoTranslator().buildEntity(dto);
     validate(entity);
     Long createdId = getCrudDao().create(entity);
     if (logger.isTraceEnabled()) {
@@ -69,7 +74,7 @@ public abstract class AbstractCrudService<E extends KameHouseEntity<D>, D extend
     if (logger.isTraceEnabled()) {
       logger.trace("Update {}", StringUtils.sanitize(dto));
     }
-    E entity = dto.buildEntity();
+    E entity = getDtoTranslator().buildEntity(dto);
     validate(entity);
     getCrudDao().update(entity);
     if (logger.isTraceEnabled()) {

@@ -1,8 +1,5 @@
 package com.nicobrest.kamehouse.commons.model.kamehousecommand;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Test Daemon command that should execute on the docker host to test the KameHouseCommandService.
  *
@@ -36,17 +33,7 @@ public class TestDaemonCommand extends KameHouseShellScript {
   }
 
   @Override
-  protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return Collections.emptyList();
-  }
-
-  @Override
   protected String getLinuxKameHouseShellScript() {
     return "test-script.sh";
-  }
-
-  @Override
-  protected String getLinuxKameHouseShellScriptArguments() {
-    return null;
   }
 }

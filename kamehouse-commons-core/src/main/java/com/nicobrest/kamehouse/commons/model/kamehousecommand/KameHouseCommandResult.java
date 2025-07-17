@@ -114,24 +114,6 @@ public class KameHouseCommandResult {
   }
 
   /**
-   * Initialize the result of a kamehouse command.
-   */
-  public KameHouseCommandResult() {
-
-  }
-
-  /**
-   * Initialize the result of a kamehouse command.
-   */
-  public KameHouseCommandResult(KameHouseCommand kameHouseCommand) {
-    if (kameHouseCommand.hasSensitiveInformation()) {
-      setCommand("Command executed has sensitive information");
-      return;
-    }
-    setCommand(kameHouseCommand.getCommand());
-  }
-
-  /**
    * Convert the standardOutput and standardError to html and store them in the output lists.
    */
   public void setHtmlOutputs() {

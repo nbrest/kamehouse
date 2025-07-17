@@ -14,7 +14,9 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDtoTranslator;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDtoTranslator;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCmdKameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.MouseClickJvncSenderKameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.TextJvncSenderKameHouseCommand;
@@ -79,7 +81,7 @@ class CommonsCoreModelTest {
     kameHouseRoleDto1.setId(1L);
     kameHouseRoleDto1.setKameHouseUser(new KameHouseUserDto());
     kameHouseRoleDto1.setName("goku");
-    kameHouseRoleDto1.buildEntity();
+    new KameHouseRoleDtoTranslator().buildEntity(kameHouseRoleDto1);
 
     KameHouseRoleDto kameHouseRoleDto2 = new KameHouseRoleDto();
     kameHouseRoleDto2.setId(2L);
@@ -108,7 +110,7 @@ class CommonsCoreModelTest {
     kameHouseUserDto1.setId(1L);
     kameHouseUserDto1.setEnabled(true);
     kameHouseUserDto1.setLastLogin(new Date());
-    kameHouseUserDto1.buildEntity();
+    new KameHouseUserDtoTranslator().buildEntity(kameHouseUserDto1);
 
     KameHouseUserDto kameHouseUserDto2 = new KameHouseUserDto();
 
@@ -133,7 +135,7 @@ class CommonsCoreModelTest {
     kameHouseRole1.setName("ROLE_KAMISAMA");
     kameHouseRole1.setKameHouseUser(new KameHouseUser());
     kameHouseRole1.setId(1L);
-    kameHouseRole1.buildDto();
+    new KameHouseRoleDtoTranslator().buildDto(kameHouseRole1);
 
     KameHouseRole kameHouseRole2 = new KameHouseRole();
 
@@ -162,7 +164,7 @@ class CommonsCoreModelTest {
     kameHouseUser1.setLastLogin(new Date());
     kameHouseUser1.addAuthority(new KameHouseRole());
     kameHouseUser1.removeAuthority(new KameHouseRole());
-    kameHouseUser1.buildDto();
+    new KameHouseUserDtoTranslator().buildDto(kameHouseUser1);
 
     KameHouseUser kameHouseUser2 = new KameHouseUser();
     kameHouseUser2.setLastLogin(null);

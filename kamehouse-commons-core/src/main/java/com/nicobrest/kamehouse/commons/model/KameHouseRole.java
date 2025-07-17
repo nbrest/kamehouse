@@ -2,8 +2,7 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Column;
@@ -28,7 +27,7 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Entity
 @Table(name = "kamehouse_role")
-public class KameHouseRole implements KameHouseEntity<KameHouseRoleDto>, GrantedAuthority {
+public class KameHouseRole implements Identifiable, GrantedAuthority {
 
   private static final long serialVersionUID = 1L;
 
@@ -44,19 +43,6 @@ public class KameHouseRole implements KameHouseEntity<KameHouseRoleDto>, Granted
   @JoinColumn(name = "kamehouse_user_id")
   @JsonBackReference
   private KameHouseUser kameHouseUser;
-
-  @Override
-  public KameHouseRoleDto buildDto() {
-    KameHouseRoleDto dto = new KameHouseRoleDto();
-    dto.setId(getId());
-    dto.setName(getName());
-    if (getKameHouseUser() != null) {
-      KameHouseUserDto kameHouseUserDto = new KameHouseUserDto();
-      kameHouseUserDto.setId(getKameHouseUser().getId());
-      dto.setKameHouseUser(kameHouseUserDto);
-    }
-    return dto;
-  }
 
   public Long getId() {
     return id;

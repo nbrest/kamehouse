@@ -1,8 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +24,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "booking_response")
-public class BookingResponse implements KameHouseEntity<BookingResponseDto>, Serializable {
+public class BookingResponse implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -44,16 +43,6 @@ public class BookingResponse implements KameHouseEntity<BookingResponseDto>, Ser
   @OneToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "booking_request_id", referencedColumnName = "id")
   private BookingRequest request;
-
-  @Override
-  public BookingResponseDto buildDto() {
-    BookingResponseDto dto = new BookingResponseDto();
-    dto.setId(getId());
-    dto.setStatus(getStatus());
-    dto.setMessage(getMessage());
-    dto.setRequest(getRequest());
-    return dto;
-  }
 
   public Long getId() {
     return id;

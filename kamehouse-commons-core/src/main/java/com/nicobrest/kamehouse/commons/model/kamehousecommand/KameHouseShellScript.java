@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
@@ -72,6 +73,11 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   protected abstract String getWindowsKameHouseShellScript();
 
   /**
+   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
+   */
+  protected abstract String getLinuxKameHouseShellScript();
+
+  /**
    * Get the arguments to pass to the kamehouse-shell script.
    *
    * <p>Avoid using quotes, escape characters such as \\ and other characters that could break the
@@ -83,24 +89,23 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
    * processing it. If I need to send something that has special characters like a password in
    * kamehouse-cmd, it's probably best to send encoded</p>
    */
-  protected abstract List<String> getWindowsKameHouseShellScriptArguments();
-
-  /**
-   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
-   */
-  protected abstract String getLinuxKameHouseShellScript();
+  protected List<String> getWindowsKameHouseShellScriptArguments() {
+    return Collections.emptyList();
+  }
 
   /**
    * Get the arguments to pass to the kamehouse-shell script.
    *
    * <p>Same as for windows arguments. Avoid certain characters that can break the flow.</p>
    */
-  protected abstract String getLinuxKameHouseShellScriptArguments();
+  protected String getLinuxKameHouseShellScriptArguments() {
+    return null;
+  }
 
   @Override
   public KameHouseCommandResult execute() {
     init();
-    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(this);
+    KameHouseCommandResult kameHouseCommandResult = initResult();
     ProcessBuilder processBuilder = new ProcessBuilder();
     processBuilder.command(getCommandList());
     logger.debug("execute {}", kameHouseCommandResult.getCommand());

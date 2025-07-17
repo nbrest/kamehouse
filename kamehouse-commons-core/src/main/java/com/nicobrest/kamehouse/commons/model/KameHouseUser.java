@@ -2,8 +2,7 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.CascadeType;
@@ -17,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "kamehouse_user")
-public class KameHouseUser implements PasswordEntity<String>, KameHouseEntity<KameHouseUserDto>,
-    UserDetails {
+public class KameHouseUser implements PasswordEntity<String>, Identifiable, UserDetails {
 
   private static final long serialVersionUID = 1L;
 
@@ -84,33 +81,6 @@ public class KameHouseUser implements PasswordEntity<String>, KameHouseEntity<Ka
 
   @Column(name = "enabled")
   private boolean enabled = true;
-
-  @Override
-  public KameHouseUserDto buildDto() {
-    KameHouseUserDto dto = new KameHouseUserDto();
-    dto.setId(getId());
-    dto.setUsername(getUsername());
-    dto.setPassword(getPassword());
-    dto.setEmail(getEmail());
-    dto.setFirstName(getFirstName());
-    dto.setLastName(getLastName());
-    dto.setLastLogin(getLastLogin());
-    if (authorities != null) {
-      Set<KameHouseRoleDto> authoritiesDto = authorities.stream()
-          .map(entity -> {
-            KameHouseRoleDto roleDto = entity.buildDto();
-            roleDto.setKameHouseUser(dto);
-            return roleDto;
-          })
-          .collect(Collectors.toSet());
-      dto.setAuthorities(authoritiesDto);
-    }
-    dto.setAccountNonExpired(isAccountNonExpired());
-    dto.setAccountNonLocked(isAccountNonLocked());
-    dto.setCredentialsNonExpired(isCredentialsNonExpired());
-    dto.setEnabled(isEnabled());
-    return dto;
-  }
 
   public Long getId() {
     return id;

@@ -1,10 +1,12 @@
 package com.nicobrest.kamehouse.vlcrc.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.vlcrc.dao.VlcPlayerDao;
 import com.nicobrest.kamehouse.vlcrc.model.VlcPlayer;
 import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
+import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDtoTranslator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto> {
 
+  private static final VlcPlayerDtoTranslator TRANSLATOR = new VlcPlayerDtoTranslator();
   private VlcPlayerDao vlcPlayerDao;
 
   @Autowired
@@ -29,6 +32,11 @@ public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDt
   @Override
   public CrudDao<VlcPlayer> getCrudDao() {
     return vlcPlayerDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<VlcPlayer, VlcPlayerDto> getDtoTranslator() {
+    return TRANSLATOR;
   }
 
   @Override

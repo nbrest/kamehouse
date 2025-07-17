@@ -18,6 +18,19 @@ public interface KameHouseCommand {
   void init();
 
   /**
+   * Initialize the kamehouse command result associated with this command.
+   */
+  default KameHouseCommandResult initResult() {
+    var kamehouseCommandResult = new KameHouseCommandResult();
+    if (hasSensitiveInformation()) {
+      kamehouseCommandResult.setCommand("Command executed has sensitive information");
+    } else {
+      kamehouseCommandResult.setCommand(getCommand());
+    }
+    return kamehouseCommandResult;
+  }
+
+  /**
    * Get the command to execute as a string.
    */
   String getCommand();

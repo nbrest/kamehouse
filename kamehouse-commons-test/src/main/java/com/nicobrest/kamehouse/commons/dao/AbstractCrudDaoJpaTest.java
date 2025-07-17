@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
@@ -20,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * @author nbrest
  */
 public abstract class AbstractCrudDaoJpaTest
-    <E extends KameHouseEntity<D>, D extends KameHouseDto<E>> extends AbstractDaoJpaTest<E, D> {
+    <E extends Identifiable, D extends Identifiable> extends AbstractDaoJpaTest<E, D> {
 
   public static final Long INVALID_ID = 987987L;
 

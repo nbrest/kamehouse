@@ -83,32 +83,7 @@ public class KameHouseCommandResultCoreTestUtils {
   }
 
   private void initSingleTestData() {
-    singleTestData = new KameHouseCommandResult(new KameHouseCommand() {
-      @Override
-      public KameHouseCommandResult execute() {
-        return null;
-      }
-
-      @Override
-      public void init() {
-        // nothing to do
-      }
-
-      @Override
-      public boolean executeOnDockerHost() {
-        return false;
-      }
-
-      @Override
-      public String getCommand() {
-        return "[tasklist, /FI, IMAGENAME eq shutdown.exe]";
-      }
-
-      @Override
-      public boolean hasSensitiveInformation() {
-        return false;
-      }
-    });
+    singleTestData = new KameHouseCommandResult();
     singleTestData.setExitCode(0);
     singleTestData.setPid(-1);
     singleTestData.setStatus("completed");
@@ -117,65 +92,12 @@ public class KameHouseCommandResultCoreTestUtils {
   }
 
   private void initTestDataList() {
-    KameHouseCommandResult kameHouseCommandResult2 = new KameHouseCommandResult(
-        new KameHouseCommand() {
-          @Override
-          public KameHouseCommandResult execute() {
-            return null;
-          }
-
-          @Override
-          public void init() {
-            // nothing to do
-          }
-
-          @Override
-          public boolean executeOnDockerHost() {
-            return false;
-          }
-
-          @Override
-          public String getCommand() {
-            return
-                "[cmd.exe, /c, start, /min, vlc, D:\\Series\\game_of_thrones\\GameOfThrones.m3u]";
-          }
-
-          @Override
-          public boolean hasSensitiveInformation() {
-            return false;
-          }
-        });
+    KameHouseCommandResult kameHouseCommandResult2 = new KameHouseCommandResult();
     kameHouseCommandResult2.setExitCode(-1);
     kameHouseCommandResult2.setPid(-1);
     kameHouseCommandResult2.setStatus("running");
 
-    KameHouseCommandResult kameHouseCommandResult3 = new KameHouseCommandResult(
-        new KameHouseCommand() {
-          @Override
-          public KameHouseCommandResult execute() {
-            return null;
-          }
-
-          @Override
-          public void init() {
-            // nothing to do
-          }
-
-          @Override
-          public boolean executeOnDockerHost() {
-            return false;
-          }
-
-          @Override
-          public String getCommand() {
-            return "[vncdo (hidden from logs as it contains passwords)]";
-          }
-
-          @Override
-          public boolean hasSensitiveInformation() {
-            return false;
-          }
-        });
+    KameHouseCommandResult kameHouseCommandResult3 = new KameHouseCommandResult();
     kameHouseCommandResult3.setExitCode(0);
     kameHouseCommandResult3.setPid(-1);
     kameHouseCommandResult3.setStatus("completed");

@@ -1,6 +1,5 @@
 package com.nicobrest.kamehouse.cmd.model;
 
-import com.nicobrest.kamehouse.cmd.config.KameHouseCmd;
 import com.nicobrest.kamehouse.commons.utils.ProcessUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,7 +113,7 @@ public class CmdArgumentHandler {
    */
   public void help() {
     HelpFormatter formatter = new HelpFormatter();
-    formatter.printHelp(KameHouseCmd.class.getSimpleName(), ALL_OPTIONS);
+    formatter.printHelp("KameHouseCmd", ALL_OPTIONS);
     ProcessUtils.exitProcess(1);
   }
 

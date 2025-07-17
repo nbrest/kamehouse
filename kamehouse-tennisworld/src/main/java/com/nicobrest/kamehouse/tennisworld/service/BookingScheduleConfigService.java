@@ -3,12 +3,14 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDtoTranslator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,12 @@ public class BookingScheduleConfigService
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public CrudDao<BookingScheduleConfig> getCrudDao() {
     return bookingScheduleConfigDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<BookingScheduleConfig, BookingScheduleConfigDto>
+      getDtoTranslator() {
+    return new BookingScheduleConfigDtoTranslator();
   }
 
   @Override

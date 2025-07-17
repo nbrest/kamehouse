@@ -55,7 +55,7 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   @Override
   @Cacheable(value = DRAGONBALL_USERS_CACHE)
   public List<DragonBallUser> readAll() {
-    return readAll(0, null, true);
+    return super.readAll(0, null, true);
   }
 
   @Override

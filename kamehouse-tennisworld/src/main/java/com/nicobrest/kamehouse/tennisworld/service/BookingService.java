@@ -12,6 +12,8 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse.Status;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDtoTranslator;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDtoTranslator;
 import com.nicobrest.kamehouse.tennisworld.model.perfectgym.RequestBody;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -152,7 +154,8 @@ public abstract class BookingService {
    * Persist the booking response.
    */
   protected void storeBookingResponse(BookingResponse bookingResponse) {
-    Long responseId = bookingResponseService.create(bookingResponse.buildDto());
+    Long responseId = bookingResponseService.create(
+        new BookingResponseDtoTranslator().buildDto(bookingResponse));
     bookingResponse.setId(responseId);
   }
 
@@ -435,7 +438,8 @@ public abstract class BookingService {
    * Persist the booking request in the database.
    */
   private Long persistBookingRequest(BookingRequest bookingRequest) {
-    Long requestId = bookingRequestService.create(bookingRequest.buildDto());
+    Long requestId = bookingRequestService.create(
+        new BookingRequestDtoTranslator().buildDto(bookingRequest));
     bookingRequest.setId(requestId);
     return requestId;
   }

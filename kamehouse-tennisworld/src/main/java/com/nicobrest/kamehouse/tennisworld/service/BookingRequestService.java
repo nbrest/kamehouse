@@ -1,10 +1,12 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDtoTranslator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public CrudDao<BookingRequest> getCrudDao() {
     return bookingRequestDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<BookingRequest, BookingRequestDto> getDtoTranslator() {
+    return new BookingRequestDtoTranslator();
   }
 
   @Override

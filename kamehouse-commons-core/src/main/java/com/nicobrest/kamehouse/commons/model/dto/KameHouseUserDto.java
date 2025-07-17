@@ -2,15 +2,12 @@ package com.nicobrest.kamehouse.commons.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.KameHouseRole;
-import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.commons.utils.PasswordUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -19,7 +16,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class KameHouseUserDto implements KameHouseDto<KameHouseUser>, Serializable {
+public class KameHouseUserDto implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -40,36 +37,11 @@ public class KameHouseUserDto implements KameHouseDto<KameHouseUser>, Serializab
   private boolean enabled = true;
 
   @Override
-  public KameHouseUser buildEntity() {
-    KameHouseUser entity = new KameHouseUser();
-    entity.setId(getId());
-    entity.setUsername(getUsername());
-    entity.setPassword(PasswordUtils.generateHashedPassword(getPassword()));
-    entity.setEmail(getEmail());
-    entity.setFirstName(getFirstName());
-    entity.setLastName(getLastName());
-    entity.setLastLogin(getLastLogin());
-    if (authorities != null) {
-      Set<KameHouseRole> authoritiesEntity = authorities.stream()
-          .map(dto -> {
-            KameHouseRole role = dto.buildEntity();
-            role.setKameHouseUser(entity);
-            return role;
-          })
-          .collect(Collectors.toSet());
-      entity.setAuthorities(authoritiesEntity);
-    }
-    entity.setAccountNonExpired(isAccountNonExpired());
-    entity.setAccountNonLocked(isAccountNonLocked());
-    entity.setCredentialsNonExpired(isCredentialsNonExpired());
-    entity.setEnabled(isEnabled());
-    return entity;
-  }
-
   public Long getId() {
     return id;
   }
 
+  @Override
   public void setId(Long id) {
     this.id = id;
   }

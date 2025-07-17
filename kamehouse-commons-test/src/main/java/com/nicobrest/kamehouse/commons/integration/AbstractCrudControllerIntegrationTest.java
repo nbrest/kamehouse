@@ -2,9 +2,9 @@ package com.nicobrest.kamehouse.commons.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -20,8 +20,8 @@ import org.junit.jupiter.api.TestMethodOrder;
  */
 @TestMethodOrder(OrderAnnotation.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseEntity<D>,
-    D extends KameHouseDto<E>> extends AbstractControllerIntegrationTest {
+public abstract class AbstractCrudControllerIntegrationTest<E extends Identifiable,
+    D extends Identifiable> extends AbstractControllerIntegrationTest {
 
   private static final String UPDATE_ENTITY = "Updating entity {}";
 
@@ -63,10 +63,12 @@ public abstract class AbstractCrudControllerIntegrationTest<E extends KameHouseE
    */
   public abstract void updateDto(D dto);
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public D getDto() {
     return dto;
   }
 
+  @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public void setDto(D dto) {
     this.dto = dto;
   }

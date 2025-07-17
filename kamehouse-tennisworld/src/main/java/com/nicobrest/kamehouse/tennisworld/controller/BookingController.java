@@ -5,6 +5,7 @@ import com.nicobrest.kamehouse.commons.utils.StringUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDtoTranslator;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.List;
@@ -41,7 +42,8 @@ public class BookingController extends AbstractController {
   public ResponseEntity<BookingResponse> bookings(
       @RequestBody BookingRequestDto bookingRequestDto) {
     bookingRequestDto.setScheduled(false);
-    BookingRequest bookingRequest = bookingRequestDto.buildEntity();
+    BookingRequest bookingRequest = new BookingRequestDtoTranslator().buildEntity(
+        bookingRequestDto);
     BookingResponse bookingResponse = bookingService.book(bookingRequest);
     switch (bookingResponse.getStatus()) {
       case ERROR:

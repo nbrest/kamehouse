@@ -93,7 +93,7 @@ public abstract class JvncSenderKameHouseCommand extends KameHouseCmdKameHouseCo
     init();
     String host = DockerUtils.getHostname();
     String password = getVncServerPassword();
-    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(this);
+    KameHouseCommandResult kameHouseCommandResult = initResult();
     logger.debug("execute {}", kameHouseCommandResult.getCommand());
     try {
       VncServer vncServer = new VncServer(host, VNC_PORT, password);

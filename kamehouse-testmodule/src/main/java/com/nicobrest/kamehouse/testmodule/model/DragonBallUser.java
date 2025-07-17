@@ -1,8 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +19,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name = "dragonball_user")
-public class DragonBallUser implements KameHouseEntity<DragonBallUserDto>, Serializable {
+public class DragonBallUser implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -43,18 +42,6 @@ public class DragonBallUser implements KameHouseEntity<DragonBallUserDto>, Seria
 
   @Column(name = "stamina")
   private int stamina;
-
-  @Override
-  public DragonBallUserDto buildDto() {
-    DragonBallUserDto dto = new DragonBallUserDto();
-    dto.setId(getId());
-    dto.setUsername(getUsername());
-    dto.setEmail(getEmail());
-    dto.setAge(getAge());
-    dto.setPowerLevel(getPowerLevel());
-    dto.setStamina(getStamina());
-    return dto;
-  }
 
   public DragonBallUser() {
   }

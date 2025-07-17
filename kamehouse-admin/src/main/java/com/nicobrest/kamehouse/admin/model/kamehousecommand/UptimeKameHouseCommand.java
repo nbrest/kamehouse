@@ -1,8 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * KameHouse command to check the uptime of the server.
@@ -27,17 +25,7 @@ public class UptimeKameHouseCommand extends KameHouseShellScript {
   }
 
   @Override
-  protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return Collections.emptyList();
-  }
-
-  @Override
   protected String getLinuxKameHouseShellScript() {
     return "lin/sysadmin/uptime.sh";
-  }
-
-  @Override
-  protected String getLinuxKameHouseShellScriptArguments() {
-    return null;
   }
 }

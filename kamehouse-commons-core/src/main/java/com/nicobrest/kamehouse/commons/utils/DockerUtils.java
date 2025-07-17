@@ -6,7 +6,6 @@ import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,9 +23,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
  * Utility class to manage all the logic related to docker containers.
@@ -37,8 +32,6 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 public class DockerUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DockerUtils.class);
-  private static final String DOCKER_CONTAINER_ENV =
-      ".kamehouse/config/.kamehouse-docker-container-env";
   private static final String WINDOWS_HOME_PREFIX = "C:\\Users\\";
   private static final String LINUX_HOME_PREFIX = "/home/";
   private static final String GROOT_EXECUTE_URL =
@@ -76,8 +69,7 @@ public class DockerUtils {
     } catch (IOException e) {
       LOGGER.error("Error sending groot execute request. Message: {}", e.getMessage());
     }
-    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(
-        kameHouseShellScript);
+    KameHouseCommandResult kameHouseCommandResult = kameHouseShellScript.initResult();
     kameHouseCommandResult.setExitCode(1);
     kameHouseCommandResult.setPid(-1);
     kameHouseCommandResult.setStatus(KameHouseCommandStatus.FAILED.getStatus());
@@ -191,27 +183,6 @@ public class DockerUtils {
     } else {
       return LINUX_HOME_PREFIX + username;
     }
-  }
-
-  /**
-   * Get the properties from the docker container (if it's running in a container).
-   */
-  public static Properties getDockerContainerProperties() {
-    Properties dockerProperties = new Properties();
-    try {
-      String path = PropertiesUtils.getUserHome() + File.separator + DOCKER_CONTAINER_ENV;
-      File dockerContainerEnvFile = new File(path);
-      if (!dockerContainerEnvFile.exists()) {
-        LOGGER.debug("Docker container env file doesn't exists. Running outside a container");
-        return dockerProperties;
-      }
-      Resource propertiesResource = new FileSystemResource(path);
-      dockerProperties = PropertiesLoaderUtils.loadProperties(propertiesResource);
-      return dockerProperties;
-    } catch (IOException e) {
-      LOGGER.warn("Error loading docker container properties.", e);
-    }
-    return dockerProperties;
   }
 
   /**

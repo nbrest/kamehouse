@@ -1,7 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -11,7 +10,6 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonCommand;
 import com.nicobrest.kamehouse.commons.testutils.KameHouseCommandResultCoreTestUtils;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -153,16 +151,6 @@ class DockerUtilsTest {
     when(PropertiesUtils.getProperty("DOCKER_HOST_USERNAME")).thenReturn("goku");
 
     assertEquals("goku", DockerUtils.getDockerHostUsername());
-  }
-
-  /**
-   * getDockerContainerProperties test.
-   */
-  @Test
-  void getDockerContainerPropertiesTest() {
-    Properties properties = DockerUtils.getDockerContainerProperties();
-
-    assertNotNull(properties);
   }
 
   /**

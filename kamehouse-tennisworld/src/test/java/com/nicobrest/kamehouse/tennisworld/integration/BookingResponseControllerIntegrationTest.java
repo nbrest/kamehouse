@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.integration.AbstractCrudControllerIntegra
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDtoTranslator;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import java.io.IOException;
@@ -53,7 +54,7 @@ class BookingResponseControllerIntegrationTest
     dto.setMessage(randomMessage + " - initial message");
     BookingRequestDto bookingRequestDto = bookingRequestControllerIntegrationTest.getDto();
     bookingRequestDto.setId(bookingRequestControllerIntegrationTest.getCreatedId());
-    dto.setRequest(bookingRequestDto.buildEntity());
+    dto.setRequest(new BookingRequestDtoTranslator().buildEntity(bookingRequestDto));
     return dto;
   }
 

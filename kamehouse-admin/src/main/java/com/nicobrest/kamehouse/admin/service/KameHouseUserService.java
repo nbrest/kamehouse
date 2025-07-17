@@ -3,8 +3,10 @@ package com.nicobrest.kamehouse.admin.service;
 import com.nicobrest.kamehouse.admin.dao.KameHouseUserDao;
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
+import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDtoTranslator;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.KameHouseUserValidator;
@@ -39,6 +41,11 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
   @Override
   public CrudDao<KameHouseUser> getCrudDao() {
     return kameHouseUserDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<KameHouseUser, KameHouseUserDto> getDtoTranslator() {
+    return new KameHouseUserDtoTranslator();
   }
 
   @Override

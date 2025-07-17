@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializable {
+public class BookingRequestDto implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -38,29 +38,11 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
   private Integer retries;
 
   @Override
-  public BookingRequest buildEntity() {
-    BookingRequest entity = new BookingRequest();
-    entity.setId(getId());
-    entity.setCreationDate(getCreationDate());
-    entity.setCardDetails(getCardDetails());
-    entity.setDate(getDate());
-    entity.setDuration(getDuration());
-    entity.setDryRun(isDryRun());
-    entity.setUsername(getUsername());
-    entity.setPassword(getPassword());
-    entity.setScheduled(isScheduled());
-    entity.setSessionType(getSessionType());
-    entity.setSite(getSite());
-    entity.setTime(getTime());
-    entity.setCourtNumber(getCourtNumber());
-    entity.setRetries(getRetries());
-    return entity;
-  }
-
   public Long getId() {
     return id;
   }
 
+  @Override
   public void setId(Long id) {
     this.id = id;
   }
@@ -81,7 +63,9 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
     return password;
   }
 
-  /** Get booking date. */
+  /**
+   * Get booking date.
+   */
   public Date getDate() {
     if (date != null) {
       return (Date) date.clone();
@@ -90,7 +74,9 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
     }
   }
 
-  /** Set booking date. */
+  /**
+   * Set booking date.
+   */
   public void setDate(Date date) {
     if (date != null) {
       this.date = (Date) date.clone();
@@ -149,7 +135,9 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
     this.dryRun = dryRun;
   }
 
-  /** Get date. */
+  /**
+   * Get date.
+   */
   public Date getCreationDate() {
     if (creationDate != null) {
       return (Date) creationDate.clone();
@@ -158,7 +146,9 @@ public class BookingRequestDto implements KameHouseDto<BookingRequest>, Serializ
     }
   }
 
-  /** Set date. */
+  /**
+   * Set date.
+   */
   public void setCreationDate(Date creationDate) {
     if (creationDate != null) {
       this.creationDate = (Date) creationDate.clone();

@@ -1,29 +1,23 @@
 package com.nicobrest.kamehouse.commons.model;
 
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Test Entity DTO to test the abstract classes.
  */
-public class TestEntityDto implements KameHouseDto<TestEntity>, Serializable {
+public class TestEntityDto implements Identifiable, Serializable {
 
   private Long id;
   private String name;
 
   @Override
-  public TestEntity buildEntity() {
-    TestEntity entity = new TestEntity();
-    entity.setId(getId());
-    entity.setName(getName());
-    return entity;
-  }
-
   public Long getId() {
     return id;
   }
 
+  @Override
   public void setId(Long id) {
     this.id = id;
   }

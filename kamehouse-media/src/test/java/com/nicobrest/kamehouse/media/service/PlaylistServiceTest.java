@@ -110,13 +110,13 @@ class PlaylistServiceTest {
     when(DockerUtils.isWindowsDockerHost()).thenReturn(true);
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(true);
-    KameHouseCommandResult playlistFilePaths = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
+    KameHouseCommandResult playlistFilePaths = new GetPlaylistContentKameHouseCommand(
+        "sftp://localhost/test-file.m3u").initResult();
     List<Playlist> expectedPlaylists = playlistTestUtils.getTestDataList();
     playlistFilePaths.setStandardOutput(
         List.of(expectedPlaylists.get(0).getPath(), expectedPlaylists.get(1).getPath()));
-    KameHouseCommandResult dcPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
+    KameHouseCommandResult dcPlaylistContent = new GetPlaylistContentKameHouseCommand(
+        "sftp://localhost/test-file.m3u").initResult();
     dcPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U",
@@ -124,8 +124,8 @@ class PlaylistServiceTest {
             "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4"
         )
     );
-    KameHouseCommandResult marvelPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
+    KameHouseCommandResult marvelPlaylistContent = new GetPlaylistContentKameHouseCommand(
+        "sftp://localhost/test-file.m3u").initResult();
     marvelPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U",
@@ -159,13 +159,13 @@ class PlaylistServiceTest {
     when(DockerUtils.isWindowsDockerHost()).thenReturn(false);
     when(DockerUtils.shouldControlDockerHost()).thenReturn(true);
     when(DockerUtils.isWindowsHostOrWindowsDockerHost()).thenReturn(false);
-    KameHouseCommandResult playlistFilePaths = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
+    KameHouseCommandResult playlistFilePaths = new GetPlaylistContentKameHouseCommand(
+        "sftp://localhost/test-file.m3u").initResult();
     List<Playlist> expectedPlaylists = playlistTestUtils.getTestDataList();
     playlistFilePaths.setStandardOutput(
         List.of(expectedPlaylists.get(0).getPath(), expectedPlaylists.get(1).getPath()));
-    KameHouseCommandResult dcPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
+    KameHouseCommandResult dcPlaylistContent = new GetPlaylistContentKameHouseCommand(
+        "sftp://localhost/test-file.m3u").initResult();
     dcPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U",
@@ -173,8 +173,8 @@ class PlaylistServiceTest {
             "http://kamehouse-server/streaming/movies/heroes/dc/Batman_2_Returns/Batman_Returns_1992.mp4"
         )
     );
-    KameHouseCommandResult marvelPlaylistContent = new KameHouseCommandResult(
-        new GetPlaylistContentKameHouseCommand("sftp://localhost/test-file.m3u"));
+    KameHouseCommandResult marvelPlaylistContent = new GetPlaylistContentKameHouseCommand(
+        "sftp://localhost/test-file.m3u").initResult();
     marvelPlaylistContent.setStandardOutput(
         List.of(
             "#EXTM3U",

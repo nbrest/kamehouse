@@ -1,8 +1,7 @@
 package com.nicobrest.kamehouse.commons.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.nicobrest.kamehouse.commons.model.KameHouseRole;
-import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
@@ -14,31 +13,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class KameHouseRoleDto implements KameHouseDto<KameHouseRole>, Serializable {
+public class KameHouseRoleDto implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
   private Long id;
   private String name;
-  @JsonBackReference private KameHouseUserDto kameHouseUser;
+  @JsonBackReference
+  private KameHouseUserDto kameHouseUser;
 
   @Override
-  public KameHouseRole buildEntity() {
-    KameHouseRole entity = new KameHouseRole();
-    entity.setId(getId());
-    entity.setName(getName());
-    if (getKameHouseUser() != null) {
-      KameHouseUser kameHouseUserRef = new KameHouseUser();
-      kameHouseUserRef.setId(getKameHouseUser().getId());
-      entity.setKameHouseUser(kameHouseUserRef);
-    }
-    return entity;
-  }
-
   public Long getId() {
     return id;
   }
 
+  @Override
   public void setId(Long id) {
     this.id = id;
   }

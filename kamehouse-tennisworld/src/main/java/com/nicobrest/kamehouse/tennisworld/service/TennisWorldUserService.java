@@ -1,12 +1,14 @@
 package com.nicobrest.kamehouse.tennisworld.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.tennisworld.dao.TennisWorldUserDao;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDtoTranslator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +35,11 @@ public class TennisWorldUserService
   @Override
   public CrudDao<TennisWorldUser> getCrudDao() {
     return tennisWorldUserDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<TennisWorldUser, TennisWorldUserDto> getDtoTranslator() {
+    return new TennisWorldUserDtoTranslator();
   }
 
   @Override

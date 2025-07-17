@@ -1,21 +1,22 @@
 package com.nicobrest.kamehouse.commons.model;
 
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import java.io.Serializable;
-import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Test Entity to test all the abstract classes.
  */
 @Entity
 @Table(name = "test_entity")
-public class TestEntity implements KameHouseEntity<TestEntityDto>, Serializable {
+public class TestEntity implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -26,14 +27,6 @@ public class TestEntity implements KameHouseEntity<TestEntityDto>, Serializable 
 
   @Column(name = "name", unique = true, nullable = false)
   private String name;
-
-  @Override
-  public TestEntityDto buildDto() {
-    TestEntityDto dto = new TestEntityDto();
-    dto.setId(getId());
-    dto.setName(getName());
-    return dto;
-  }
 
   @Override
   public Long getId() {

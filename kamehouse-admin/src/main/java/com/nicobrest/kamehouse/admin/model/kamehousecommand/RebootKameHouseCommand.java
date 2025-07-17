@@ -1,8 +1,6 @@
 package com.nicobrest.kamehouse.admin.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * KameHouse command to reboot the server.
@@ -22,17 +20,7 @@ public class RebootKameHouseCommand extends KameHouseShellScript {
   }
 
   @Override
-  protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return Collections.emptyList();
-  }
-
-  @Override
   protected String getLinuxKameHouseShellScript() {
     return "lin/shutdown/reboot.sh";
-  }
-
-  @Override
-  protected String getLinuxKameHouseShellScriptArguments() {
-    return null;
   }
 }

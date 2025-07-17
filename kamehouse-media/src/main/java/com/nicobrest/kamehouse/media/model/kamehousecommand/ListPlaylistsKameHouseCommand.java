@@ -1,8 +1,6 @@
 package com.nicobrest.kamehouse.media.model.kamehousecommand;
 
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseShellScript;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * KameHouse command to list all the playlists in the server. This is used when running on a docker
@@ -23,17 +21,7 @@ public class ListPlaylistsKameHouseCommand extends KameHouseShellScript {
   }
 
   @Override
-  protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return Collections.emptyList();
-  }
-
-  @Override
   protected String getLinuxKameHouseShellScript() {
     return "kamehouse/media/list-playlists.sh";
-  }
-
-  @Override
-  protected String getLinuxKameHouseShellScriptArguments() {
-    return null;
   }
 }

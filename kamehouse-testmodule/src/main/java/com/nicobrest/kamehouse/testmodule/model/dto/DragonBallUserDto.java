@@ -1,8 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.model.dto;
 
-import com.nicobrest.kamehouse.commons.model.dto.KameHouseDto;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,7 +11,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  * @author nbrest
  */
-public class DragonBallUserDto implements KameHouseDto<DragonBallUser>, Serializable {
+public class DragonBallUserDto implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -22,18 +21,6 @@ public class DragonBallUserDto implements KameHouseDto<DragonBallUser>, Serializ
   private int age;
   private int powerLevel;
   private int stamina;
-
-  @Override
-  public DragonBallUser buildEntity() {
-    DragonBallUser entity = new DragonBallUser();
-    entity.setId(getId());
-    entity.setUsername(getUsername());
-    entity.setEmail(getEmail());
-    entity.setAge(getAge());
-    entity.setPowerLevel(getPowerLevel());
-    entity.setStamina(getStamina());
-    return entity;
-  }
 
   public DragonBallUserDto() {
   }
@@ -52,6 +39,7 @@ public class DragonBallUserDto implements KameHouseDto<DragonBallUser>, Serializ
     this.stamina = stamina;
   }
 
+  @Override
   public void setId(Long id) {
     this.id = id;
   }
@@ -76,6 +64,7 @@ public class DragonBallUserDto implements KameHouseDto<DragonBallUser>, Serializ
     this.stamina = stamina;
   }
 
+  @Override
   public Long getId() {
     return id;
   }

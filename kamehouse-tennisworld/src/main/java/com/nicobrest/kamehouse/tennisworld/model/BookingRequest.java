@@ -3,11 +3,10 @@ package com.nicobrest.kamehouse.tennisworld.model;
 import static jakarta.persistence.TemporalType.DATE;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,8 +31,7 @@ import org.hibernate.annotations.CreationTimestamp;
  */
 @Entity
 @Table(name = "booking_request")
-public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<BookingRequestDto>,
-    Serializable {
+public class BookingRequest implements PasswordEntity<String>, Identifiable, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -94,26 +92,6 @@ public class BookingRequest implements PasswordEntity<String>, KameHouseEntity<B
 
   @Column(name = "retries", unique = false, nullable = true)
   private Integer retries;
-
-  @Override
-  public BookingRequestDto buildDto() {
-    BookingRequestDto dto = new BookingRequestDto();
-    dto.setId(getId());
-    dto.setCardDetails(getCardDetails());
-    dto.setCourtNumber(getCourtNumber());
-    dto.setCreationDate(getCreationDate());
-    dto.setDate(getDate());
-    dto.setDryRun(isDryRun());
-    dto.setDuration(getDuration());
-    dto.setPassword(getPassword());
-    dto.setRetries(getRetries());
-    dto.setScheduled(isScheduled());
-    dto.setSessionType(getSessionType());
-    dto.setSite(getSite());
-    dto.setTime(getTime());
-    dto.setUsername(getUsername());
-    return dto;
-  }
 
   public Long getId() {
     return id;

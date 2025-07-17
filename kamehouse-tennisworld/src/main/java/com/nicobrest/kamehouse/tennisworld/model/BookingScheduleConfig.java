@@ -2,10 +2,9 @@ package com.nicobrest.kamehouse.tennisworld.model;
 
 import static jakarta.persistence.TemporalType.DATE;
 
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.tennisworld.model.dto.BookingScheduleConfigDto;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,8 +43,7 @@ import org.hibernate.annotations.ColumnDefault;
             "booking_date",
             "book_ahead_days"
         }))
-public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleConfigDto>,
-    Serializable {
+public class BookingScheduleConfig implements Identifiable, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -112,24 +110,6 @@ public class BookingScheduleConfig implements KameHouseEntity<BookingScheduleCon
 
   @Column(name = "court_number", unique = false, nullable = true)
   private Integer courtNumber = 0;
-
-  @Override
-  public BookingScheduleConfigDto buildDto() {
-    BookingScheduleConfigDto dto = new BookingScheduleConfigDto();
-    dto.setId(getId());
-    dto.setTennisWorldUser(getTennisWorldUser());
-    dto.setSessionType(getSessionType());
-    dto.setSite(getSite());
-    dto.setDay(getDay());
-    dto.setTime(getTime());
-    dto.setBookingDate(getBookingDate());
-    dto.setBookAheadDays(getBookAheadDays());
-    dto.setEnabled(Boolean.valueOf(isEnabled()));
-    dto.setDuration(getDuration());
-    dto.setCourtNumber(getCourtNumber());
-
-    return dto;
-  }
 
   @Override
   public Long getId() {

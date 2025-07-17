@@ -1,10 +1,9 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.model.PasswordEntity;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import com.nicobrest.kamehouse.tennisworld.model.dto.TennisWorldUserDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -23,8 +21,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "tennisworld_user")
-public class TennisWorldUser implements KameHouseEntity<TennisWorldUserDto>,
-    PasswordEntity<byte[]>, Serializable {
+public class TennisWorldUser implements Identifiable, PasswordEntity<byte[]>, Serializable {
 
   private static final long serialVersionUID = 159367676076449689L;
 
@@ -40,17 +37,6 @@ public class TennisWorldUser implements KameHouseEntity<TennisWorldUserDto>,
   @Column(name = "password", unique = false, nullable = false, columnDefinition = "BLOB")
   @Lob
   private byte[] password;
-
-  @Override
-  public TennisWorldUserDto buildDto() {
-    TennisWorldUserDto dto = new TennisWorldUserDto();
-    dto.setId(getId());
-    dto.setEmail(getEmail());
-    if (getPassword() != null) {
-      dto.setPassword(new String(getPassword(), StandardCharsets.UTF_8));
-    }
-    return dto;
-  }
 
   @Override
   public Long getId() {

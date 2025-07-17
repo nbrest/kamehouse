@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
-import com.nicobrest.kamehouse.commons.model.KameHouseEntity;
+import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.DockerUtils;
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.commons.utils.StringUtils;
-import com.nicobrest.kamehouse.vlcrc.model.dto.VlcPlayerDto;
 import com.nicobrest.kamehouse.vlcrc.utils.VlcRcStatusBuilder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @Table(name = "vlc_player")
-public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
+public class VlcPlayer implements Identifiable, Serializable {
 
   @JsonIgnore
   private static final long serialVersionUID = 1L;
@@ -81,17 +80,6 @@ public class VlcPlayer implements KameHouseEntity<VlcPlayerDto>, Serializable {
   @Masked
   @Column(name = "password")
   private String password;
-
-  @Override
-  public VlcPlayerDto buildDto() {
-    VlcPlayerDto dto = new VlcPlayerDto();
-    dto.setId(getId());
-    dto.setHostname(geVlcServerHostname());
-    dto.setPort(getPort());
-    dto.setUsername(getUsername());
-    dto.setPassword(getPassword());
-    return dto;
-  }
 
   public VlcPlayer() {
     super();

@@ -1,12 +1,14 @@
 package com.nicobrest.kamehouse.testmodule.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.service.AbstractCrudService;
 import com.nicobrest.kamehouse.commons.validator.InputValidator;
 import com.nicobrest.kamehouse.commons.validator.UserValidator;
 import com.nicobrest.kamehouse.testmodule.dao.DragonBallUserDao;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDto;
+import com.nicobrest.kamehouse.testmodule.model.dto.DragonBallUserDtoTranslator;
 import com.nicobrest.kamehouse.testmodule.validator.DragonBallUserValidator;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,11 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
   @Override
   public CrudDao<DragonBallUser> getCrudDao() {
     return dragonBallUserDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<DragonBallUser, DragonBallUserDto> getDtoTranslator() {
+    return new DragonBallUserDtoTranslator();
   }
 
   @Override

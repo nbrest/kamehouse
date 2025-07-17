@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
@@ -27,6 +29,8 @@ public class PropertiesUtils {
   private static final Properties properties = new Properties();
   private static final String BUILD_VERSION_PROPERTY = "kamehouse.build.version";
   private static final String BUILD_DATE_PROPERTY = "kamehouse.build.date";
+  private static final String DOCKER_CONTAINER_ENV =
+      ".kamehouse/config/.kamehouse-docker-container-env";
 
   static {
     loadAllPropertiesFiles();
@@ -141,7 +145,28 @@ public class PropertiesUtils {
    * Loads properties from the docker container (if it's running in a container).
    */
   private static void loadDockerContainerProperties() {
-    properties.putAll(DockerUtils.getDockerContainerProperties());
+    properties.putAll(getDockerContainerProperties());
+  }
+
+  /**
+   * Get the properties from the docker container (if it's running in a container).
+   */
+  private static Properties getDockerContainerProperties() {
+    Properties dockerProperties = new Properties();
+    try {
+      String path = PropertiesUtils.getUserHome() + File.separator + DOCKER_CONTAINER_ENV;
+      File dockerContainerEnvFile = new File(path);
+      if (!dockerContainerEnvFile.exists()) {
+        LOGGER.debug("Docker container env file doesn't exists. Running outside a container");
+        return dockerProperties;
+      }
+      Resource propertiesResource = new FileSystemResource(path);
+      dockerProperties = PropertiesLoaderUtils.loadProperties(propertiesResource);
+      return dockerProperties;
+    } catch (IOException e) {
+      LOGGER.warn("Error loading docker container properties.", e);
+    }
+    return dockerProperties;
   }
 
   /**

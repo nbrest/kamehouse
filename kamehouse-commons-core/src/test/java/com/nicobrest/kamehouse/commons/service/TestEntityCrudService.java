@@ -1,8 +1,10 @@
 package com.nicobrest.kamehouse.commons.service;
 
 import com.nicobrest.kamehouse.commons.dao.CrudDao;
+import com.nicobrest.kamehouse.commons.model.KameHouseDtoTranslator;
 import com.nicobrest.kamehouse.commons.model.TestEntity;
 import com.nicobrest.kamehouse.commons.model.TestEntityDto;
+import com.nicobrest.kamehouse.commons.model.TestEntityDtoTranslator;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,11 @@ public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestE
   @Override
   public CrudDao<TestEntity> getCrudDao() {
     return crudDao;
+  }
+
+  @Override
+  public KameHouseDtoTranslator<TestEntity, TestEntityDto> getDtoTranslator() {
+    return new TestEntityDtoTranslator();
   }
 
   @Override

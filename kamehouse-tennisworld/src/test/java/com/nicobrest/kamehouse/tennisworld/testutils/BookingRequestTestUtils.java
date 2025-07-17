@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
+import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDtoTranslator;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -95,7 +96,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
   }
 
   private void initTestDataDto() {
-    testDataDto = singleTestData.buildDto();
+    testDataDto = new BookingRequestDtoTranslator().buildDto(singleTestData);
   }
 
   private void initTestDataList() {

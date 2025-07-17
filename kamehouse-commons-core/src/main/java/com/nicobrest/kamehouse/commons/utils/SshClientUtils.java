@@ -58,8 +58,8 @@ public class SshClientUtils {
 
   /**
    * Execute the kamehouse command over ssh on the docker host setting up the channel as a shell.
-   * This was used when getting the playlists and playlists content from docker via ssh. Now
-   * those are retrieved via https using groot.
+   * This was used when getting the playlists and playlists content from docker via ssh. Now those
+   * are retrieved via https using groot.
    */
   public static KameHouseCommandResult executeShell(String host, String username,
       KameHouseCommand kameHouseCommand, boolean isWindowsShell) {
@@ -88,8 +88,7 @@ public class SshClientUtils {
     }
     KameHouseShellScript kameHouseShellScript = (KameHouseShellScript) kameHouseCommand;
     kameHouseShellScript.init();
-    KameHouseCommandResult kameHouseCommandResult = new KameHouseCommandResult(
-        kameHouseShellScript);
+    KameHouseCommandResult kameHouseCommandResult = kameHouseShellScript.initResult();
     String command = kameHouseShellScript.getCommand();
     LOGGER.debug("Command to execute {}", kameHouseShellScript);
     SshClient client = SshClient.setUpDefaultClient();
