@@ -50,8 +50,8 @@ public class BookingScheduleConfigService
   }
 
   @Override
-  public KameHouseDtoTranslator<BookingScheduleConfig, BookingScheduleConfigDto>
-  getDtoTranslator() {
+  public KameHouseDtoTranslator<BookingScheduleConfig,
+      BookingScheduleConfigDto> getDtoTranslator() {
     return TRANSLATOR;
   }
 
