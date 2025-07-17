@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestEntityDto> {
 
+  private static final TestEntityDtoTranslator TRANSLATOR = new TestEntityDtoTranslator();
   private CrudDao<TestEntity> crudDao = new CrudDaoMock();
 
   @Override
@@ -24,7 +25,7 @@ public class TestEntityCrudService extends AbstractCrudService<TestEntity, TestE
 
   @Override
   public KameHouseDtoTranslator<TestEntity, TestEntityDto> getDtoTranslator() {
-    return new TestEntityDtoTranslator();
+    return TRANSLATOR;
   }
 
   @Override

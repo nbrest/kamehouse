@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class TennisWorldUserService
     extends AbstractCrudService<TennisWorldUser, TennisWorldUserDto> {
 
+  private static final TennisWorldUserDtoTranslator TRANSLATOR = new TennisWorldUserDtoTranslator();
   private TennisWorldUserDao tennisWorldUserDao;
 
   @Autowired
@@ -39,7 +40,7 @@ public class TennisWorldUserService
 
   @Override
   public KameHouseDtoTranslator<TennisWorldUser, TennisWorldUserDto> getDtoTranslator() {
-    return new TennisWorldUserDtoTranslator();
+    return TRANSLATOR;
   }
 
   @Override

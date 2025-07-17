@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 public class BookingResponseService
     extends AbstractCrudService<BookingResponse, BookingResponseDto> {
 
+  private static final BookingResponseDtoTranslator TRANSLATOR =
+      new BookingResponseDtoTranslator();
   private CrudDao<BookingResponse> bookingResponseDao;
 
   @Autowired
@@ -37,7 +39,7 @@ public class BookingResponseService
 
   @Override
   public KameHouseDtoTranslator<BookingResponse, BookingResponseDto> getDtoTranslator() {
-    return new BookingResponseDtoTranslator();
+    return TRANSLATOR;
   }
 
   @Override

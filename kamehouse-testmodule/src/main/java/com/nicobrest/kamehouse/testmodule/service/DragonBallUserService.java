@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DragonBallUserService extends AbstractCrudService<DragonBallUser, DragonBallUserDto> {
 
+  private static final DragonBallUserDtoTranslator TRANSLATOR = new DragonBallUserDtoTranslator();
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
   private static final String GET_DRAGONBALLUSER_RESPONSE = "Get DragonBallUser: {} response {}";
 
@@ -42,7 +43,7 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
 
   @Override
   public KameHouseDtoTranslator<DragonBallUser, DragonBallUserDto> getDtoTranslator() {
-    return new DragonBallUserDtoTranslator();
+    return TRANSLATOR;
   }
 
   @Override

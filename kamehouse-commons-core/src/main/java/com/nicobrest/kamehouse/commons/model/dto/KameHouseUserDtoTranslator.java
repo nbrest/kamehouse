@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 public class KameHouseUserDtoTranslator implements
     KameHouseDtoTranslator<KameHouseUser, KameHouseUserDto> {
 
+  private static final KameHouseRoleDtoTranslator ROLE_TRANSLATOR =
+      new KameHouseRoleDtoTranslator();
+
   @Override
   public KameHouseUser buildEntity(KameHouseUserDto kameHouseUserDto) {
     KameHouseUser entity = new KameHouseUser();
@@ -28,7 +31,7 @@ public class KameHouseUserDtoTranslator implements
     if (kameHouseUserDto.getAuthorities() != null) {
       Set<KameHouseRole> authoritiesEntity = kameHouseUserDto.getAuthorities().stream()
           .map(dto -> {
-            KameHouseRole role = new KameHouseRoleDtoTranslator().buildEntity(dto);
+            KameHouseRole role = ROLE_TRANSLATOR.buildEntity(dto);
             role.setKameHouseUser(entity);
             return role;
           })
@@ -55,7 +58,7 @@ public class KameHouseUserDtoTranslator implements
     if (kameHouseUser.getAuthorities() != null) {
       Set<KameHouseRoleDto> authoritiesDto = kameHouseUser.getAuthorities().stream()
           .map(entity -> {
-            KameHouseRoleDto roleDto = new KameHouseRoleDtoTranslator().buildDto(entity);
+            KameHouseRoleDto roleDto = ROLE_TRANSLATOR.buildDto(entity);
             roleDto.setKameHouseUser(dto);
             return roleDto;
           })

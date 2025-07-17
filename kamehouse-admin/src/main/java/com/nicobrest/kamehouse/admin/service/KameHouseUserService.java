@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 public class KameHouseUserService extends AbstractCrudService<KameHouseUser, KameHouseUserDto>
     implements UserDetailsService {
 
+  private static final KameHouseUserDtoTranslator TRANSLATOR = new KameHouseUserDtoTranslator();
   private KameHouseUserDao kameHouseUserDao;
   private KameHouseUser anonymousUser;
 
@@ -45,7 +46,7 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
 
   @Override
   public KameHouseDtoTranslator<KameHouseUser, KameHouseUserDto> getDtoTranslator() {
-    return new KameHouseUserDtoTranslator();
+    return TRANSLATOR;
   }
 
   @Override

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingRequestService extends AbstractCrudService<BookingRequest, BookingRequestDto> {
 
+  private static final BookingRequestDtoTranslator TRANSLATOR = new BookingRequestDtoTranslator();
   private static final Pattern TIME_PATTERN = Pattern.compile("\\d{2}:\\d{2}");
   private static final Pattern DURATION_PATTERN = Pattern.compile("\\d{1,3}");
 
@@ -41,7 +42,7 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
 
   @Override
   public KameHouseDtoTranslator<BookingRequest, BookingRequestDto> getDtoTranslator() {
-    return new BookingRequestDtoTranslator();
+    return TRANSLATOR;
   }
 
   @Override
