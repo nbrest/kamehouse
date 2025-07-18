@@ -40,7 +40,8 @@ class ZtvPlayerWidget(QWidget):
         else:
             self.soundWave = ImageWidget("ztv_player_sound_wave_widget", window)
             self.setSoundWaveAnimation()
-            self.startSoundWaveAnimation()
+            self.startSoundWaveAnimationExpand()
+            self.startSoundWaveAnimationOpacity()
         self.initWebsocket(window)
         timer = QTimer(window)
         timer.timeout.connect(window.updateZtvPlayerView)
@@ -133,22 +134,40 @@ class ZtvPlayerWidget(QWidget):
         expandedPosY = posY - expandPx
         expandedWidth = width + expandPx * 2 
         expandedHeight = height + expandPx * 2
-        animation_ms = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'animation_ms')
+        animationMs = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'animation_ms')
         self.expand = QPropertyAnimation(self.soundWave, b"geometry")
         self.expand.setStartValue(QRect(posX, posY, width, height))
         self.expand.setEndValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
-        self.expand.setDuration(animation_ms)
+        self.expand.setDuration(animationMs)
         self.contract = QPropertyAnimation(self.soundWave, b"geometry")
         self.contract.setStartValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
         self.contract.setEndValue(QRect(posX, posY, width, height))
-        self.contract.setDuration(animation_ms)
-        self.anim_group = QSequentialAnimationGroup()
-        self.anim_group.addAnimation(self.expand)
-        self.anim_group.addAnimation(self.contract)
-        self.anim_group.finished.connect(self.startSoundWaveAnimation)
+        self.contract.setDuration(animationMs)
+        self.soundWaveAnimExpand = QSequentialAnimationGroup()
+        self.soundWaveAnimExpand.addAnimation(self.expand)
+        self.soundWaveAnimExpand.addAnimation(self.contract)
+        self.soundWaveAnimExpand.finished.connect(self.startSoundWaveAnimationExpand)
 
-    def startSoundWaveAnimation(self):
-        self.anim_group.start()
+        effect = QGraphicsOpacityEffect(self.soundWave)
+        self.soundWave.setGraphicsEffect(effect)
+        self.brighten = QPropertyAnimation(effect, b"opacity")
+        self.brighten.setStartValue(0.5)
+        self.brighten.setEndValue(1)
+        self.brighten.setDuration(animationMs)
+        self.darken = QPropertyAnimation(effect, b"opacity")
+        self.darken.setStartValue(1)
+        self.darken.setEndValue(0.5)
+        self.darken.setDuration(animationMs)
+        self.soundWaveAnimOpacity = QSequentialAnimationGroup()
+        self.soundWaveAnimOpacity.addAnimation(self.brighten)
+        self.soundWaveAnimOpacity.addAnimation(self.darken)
+        self.soundWaveAnimOpacity.finished.connect(self.startSoundWaveAnimationOpacity)
+
+    def startSoundWaveAnimationExpand(self):
+        self.soundWaveAnimExpand.start()
+
+    def startSoundWaveAnimationOpacity(self):
+        self.soundWaveAnimOpacity.start()
 
 class ZtvPlayerWebsocket(QObject):
     topic = "/topic/vlc-player/status-out"
