@@ -60,7 +60,8 @@ installBaseApps() {
   apt-get install -y python3-pyqt5
   apt-get install -y python3-loguru
   apt-get install -y python3-requests
-  apt-get install -y python3-websockets
+  apt-get install -y python3-websocket
+  apt-get install -y python3-websocket-client
   apt-get install -y python3-stomper
   apt-get install -y pip
   apt-get install -y screen 
