@@ -7,7 +7,7 @@ from widgets.text import TextWidget
 
 class ClockWidget(QWidget):
     def __init__(self, window):
-        super().__init__()
+        super().__init__(window)
         logger.info("Initializing clock widget")
         self.text = TextWidget('clock_text_widget', "00:00", window)
         self.updateTime()

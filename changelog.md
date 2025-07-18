@@ -7,6 +7,7 @@
 
 #### v10.10
 
+- Added ztv player widget to kamehouse desktop
 - Split non tomcat modules into separate tables in groot server manager
 - Fixed sonar bugs
 - Fixed bugs

@@ -105,6 +105,7 @@ certain functionality. These external dependencies are:
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces: **[x]** Web
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces > Lua: Set HTTP password to
       1 (or anything else and then update the password in the vlcplayer table in kamehouse)
+    - Tools > Preferences > All Settings > Interfaces > Main Interfaces > Qt > Show notification popup on track change: `Never` when using kamehouse-desktop or `When minimized` when not using kamehouse-desktop
 
 ### VNC Server
 

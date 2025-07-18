@@ -19,4 +19,5 @@ class ImageWidget(QLabel):
         height = kamehouseDesktopCfg.getInt(widgetName, 'height')
         self.setGeometry(posX, posY, width, height)
         self.setScaledContents(kamehouseDesktopCfg.getBoolean(widgetName, 'scaled_contents')) 
+        self.setHidden(False)
         

@@ -30,25 +30,27 @@ sudo npm install typescript -g
   - Windows:
     - Install python to `%USERPROFILE%\programs\python`
     - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
-    ```sh
+```sh
     pip install PyQt5
     pip install loguru
     pip install requests
-    pip install websockets
+    pip install websocket
+    pip install websocket-client
     pip install stomper
-    ```
+```
   - Linux:
-    ```sh
+```sh
     PYTHON_VERSION=   # set value from versions.md
-    sudo apt-get install picom
-    sudo apt-get install xcompmgr
-    sudo apt-get install python${PYTHON_VERSION}
-    sudo apt-get install python3-pyqt5
-    sudo apt-get install python3-loguru
-    sudo apt-get install python3-requests
-    sudo apt-get install python3-websockets
-    sudo apt-get install python3-stomper
-    ```
+    sudo apt-get install -y picom
+    sudo apt-get install -y xcompmgr
+    sudo apt-get install -y python${PYTHON_VERSION}
+    sudo apt-get install -y python3-pyqt5
+    sudo apt-get install -y python3-loguru
+    sudo apt-get install -y python3-requests
+    sudo apt-get install -y python3-websocket
+    sudo apt-get install -y python3-websocket-client
+    sudo apt-get install -y python3-stomper
+```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
 

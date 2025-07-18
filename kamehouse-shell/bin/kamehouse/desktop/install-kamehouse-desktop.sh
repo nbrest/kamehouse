@@ -119,6 +119,7 @@ getKameHouseBuildVersion() {
 
 deploySourcesFromUiModule() {
   log.info "Deploying source files needed from ui module for desktop"
+  rm -rf "${KAMEHOUSE_DESKTOP_PATH}/lib/ui"
   mkdir -p "${KAMEHOUSE_DESKTOP_PATH}/lib/ui"
   cp -rf ${KAMEHOUSE_DESKTOP_SOURCE}/kamehouse-ui/src/main/public/img ${KAMEHOUSE_DESKTOP_PATH}/lib/ui/img
 }

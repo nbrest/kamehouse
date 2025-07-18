@@ -1,6 +1,6 @@
 import sys
 import subprocess
-import os
+import socket
 
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -8,11 +8,11 @@ from PyQt5.QtCore import Qt
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
-from widgets.hostname import HostnameWidget
-from widgets.kamehouse_logo import KameHouseLogoWidget
-from widgets.kamehouse_katakana import KameHouseKatakanaWidget
-from widgets.world_cup_logo import WorldCupLogoWidget
 from widgets.clock import ClockWidget
+from widgets.image import ImageWidget
+from widgets.text import TextWidget
+from widgets.weather import WeatherWidget
+from widgets.ztv_player import ZtvPlayerWidget
 
 class KameHouseDesktop(QMainWindow):
     def __init__(self):
@@ -21,16 +21,19 @@ class KameHouseDesktop(QMainWindow):
         logger.info("Starting kamehouse-desktop")
         self.startCompositor()
         self.setWindowProperties()
-        openWeatherMapApiKey = os.environ.get('OPENWEATHERMAP_API_KEY')
         self.initWidgets()
         self.showFullScreen()
 
     def initWidgets(self):
-        HostnameWidget(self)
-        KameHouseLogoWidget(self)
-        KameHouseKatakanaWidget(self)
-        WorldCupLogoWidget(self)
+        self.hostname = TextWidget('hostname_widget', socket.gethostname(), self)
+        self.logo = ImageWidget('kamehouse_logo_widget', self)
+        self.katakana = TextWidget('kamehouse_katakana_widget', "カメハウス", self)
+        self.worldCupLogo = ImageWidget('world_cup_logo_widget', self)
         self.clock = ClockWidget(self)
+        self.weather = WeatherWidget(self)
+
+    def initDesktop(self):
+        self.ztvPlayer = ZtvPlayerWidget(self)
 
     def setWindowProperties(self):
         logger.debug("Setting main window properties")
@@ -61,7 +64,11 @@ class KameHouseDesktop(QMainWindow):
     def updateClockTime(self):
         self.clock.updateTime()
 
+    def updateZtvPlayerView(self):
+        self.ztvPlayer.updateView()
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = KameHouseDesktop()
+    window.initDesktop()
     sys.exit(app.exec_())
