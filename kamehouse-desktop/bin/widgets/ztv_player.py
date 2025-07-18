@@ -204,7 +204,7 @@ class ZtvPlayerWebsocket(QObject):
             self.window.ztvPlayer.vlcRcStatus = json.loads(frame["body"])
         
     def onError(self, ws, error):
-        logger.error("Error: " + error.args[0])
+        logger.error("Error receiving data from the ztv_player_websocket")
 
     def onClose(self, ws, close_status_code, close_msg):
         logger.info("Closed: status code: " + close_status_code + ", message: " + close_msg)
