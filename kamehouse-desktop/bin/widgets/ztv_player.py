@@ -242,7 +242,7 @@ class ZtvPlayerWebsocket(QObject):
         self.websocket.run_forever()
         websocketReconnectWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
         if (logTrace):
-            logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + websocketReconnectWaitSec + " seconds")
+            logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + str(websocketReconnectWaitSec) + " seconds")
         time.sleep(websocketReconnectWaitSec)
         self.runWebsocketLoop()
 
