@@ -249,8 +249,11 @@ class ZtvPlayerWebsocket(QObject):
         self.window.ztvPlayer.websocketUpdateTime = int(time.time())
         
     def onError(self, ws, error):
-        logger.error("Error receiving data from the ztv_player_websocket")
-        logger.error(error)
+        try:
+            logger.error("Error receiving data from the ztv_player_websocket")
+            logger.error(str(error))
+        except Exception as e:
+            # exception logging error message
 
     def onClose(self, ws, close_status_code, close_msg):
         logger.warning("Closed: status code: " + close_status_code + ", message: " + close_msg)
