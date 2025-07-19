@@ -159,7 +159,7 @@ class ZtvPlayerWidget(QWidget):
         self.soundWave.contract.setStartValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
         self.soundWave.contract.setEndValue(QRect(posX, posY, width, height))
         self.soundWave.contract.setDuration(animationMs)
-        # brighen
+        # brighten
         effect = QGraphicsOpacityEffect(self.soundWave)
         self.soundWave.setGraphicsEffect(effect)
         self.soundWave.brighten = QPropertyAnimation(effect, b"opacity")
