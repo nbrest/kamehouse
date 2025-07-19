@@ -54,7 +54,6 @@ class ZtvPlayerWidget(QWidget):
         self.websocket.moveToThread(self.websocketThread)
         self.websocketThread.started.connect(self.websocket.run)
         self.websocket.finished.connect(self.websocketThread.quit)
-        self.websocket.finished.connect(self.reconnectWebSocket)
         self.websocketThread.finished.connect(self.websocketThread.deleteLater)
         self.websocketThread.start()
 
@@ -68,10 +67,6 @@ class ZtvPlayerWidget(QWidget):
         timer = QTimer(self.window)
         timer.timeout.connect(self.window.updateZtvPlayerView)
         timer.start(1000)
-
-    def reconnectWebSocket(self):
-        logger.warning("Reconnecting websocket")
-        self.initWebsocket(self.window)
 
     def formatTime(self, secondsToFormat):
         timeDelta = datetime.timedelta(seconds=secondsToFormat)
@@ -224,6 +219,11 @@ class ZtvPlayerWebsocket(QObject):
         logger.info("Initializing ztv_player_websocket")
 
     def run(self):
+        self.runWebsocketLoop()
+        self.result.emit("")
+        self.finished.emit()
+
+    def runWebsocketLoop(self):
         protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'ws_protocol')
         hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
         port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
@@ -237,8 +237,11 @@ class ZtvPlayerWebsocket(QObject):
           on_close=self.onClose
         )
         self.websocket.run_forever()
-        self.result.emit("Disconnected from ztv_player_websocket")
-        self.finished.emit()
+        logger.warning("Disconnected from ztv_player_websocket")
+        websocketReconnectWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
+        time.sleep(websocketReconnectWaitSec)
+        logger.warning("Reconnecting websocket")
+        self.runWebsocketLoop()
 
     def onMessage(self, ws, message):
         frame = stomper.unpack_frame(message)
@@ -249,11 +252,7 @@ class ZtvPlayerWebsocket(QObject):
         self.window.ztvPlayer.websocketUpdateTime = int(time.time())
         
     def onError(self, ws, error):
-        try:
-            logger.error("Error receiving data from the ztv_player_websocket")
-            logger.error(str(error))
-        except Exception as e:
-            # exception logging error message
+        logger.error("Error receiving data from the ztv_player_websocket")
 
     def onClose(self, ws, close_status_code, close_msg):
         logger.warning("Closed: status code: " + close_status_code + ", message: " + close_msg)
