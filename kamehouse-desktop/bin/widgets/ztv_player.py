@@ -4,6 +4,8 @@ import json
 import time
 import socket
 import datetime
+import requests
+import urllib3
 
 from PyQt5.QtCore import QObject, pyqtSignal, QThread, QTimer, QTime, Qt, QPropertyAnimation, QParallelAnimationGroup, QSequentialAnimationGroup, QPoint, QRect
 from PyQt5.QtWidgets import QWidget, QGraphicsOpacityEffect
@@ -17,6 +19,7 @@ from widgets.text import TextWidget
 class ZtvPlayerWidget(QWidget):
     isHidden = False
     vlcRcStatus = {}
+    websocketUpdateTime = int(time.time())
     window = None
     
     def __init__(self, window):
@@ -41,14 +44,13 @@ class ZtvPlayerWidget(QWidget):
             self.soundWave = ImageWidget("ztv_player_sound_wave_widget", window)
             self.setSoundWaveAnimation()
             self.startSoundWaveAnimation()
-        self.initWebsocket(window)
-        timer = QTimer(window)
-        timer.timeout.connect(window.updateZtvPlayerView)
-        timer.start(1000)
+        self.initWebsocket()
+        self.initHttpVlcRcStatusSync()
+        self.initUpdateViewSync()
 
-    def initWebsocket(self, window):
+    def initWebsocket(self):
         self.websocketThread = QThread()
-        self.websocket = ZtvPlayerWebsocket(window)
+        self.websocket = ZtvPlayerWebsocket(self.window)
         self.websocket.moveToThread(self.websocketThread)
         self.websocketThread.started.connect(self.websocket.run)
         self.websocket.finished.connect(self.websocketThread.quit)
@@ -56,8 +58,19 @@ class ZtvPlayerWidget(QWidget):
         self.websocketThread.finished.connect(self.websocketThread.deleteLater)
         self.websocketThread.start()
 
+    def initHttpVlcRcStatusSync(self):
+        httpSyncWaitMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'http_sync_wait_ms')
+        timer = QTimer(self.window)
+        timer.timeout.connect(self.httpVlcRcStatusSync)
+        timer.start(httpSyncWaitMs)
+
+    def initUpdateViewSync(self):
+        timer = QTimer(self.window)
+        timer.timeout.connect(self.window.updateZtvPlayerView)
+        timer.start(1000)
+
     def reconnectWebSocket(self):
-        logger.info("Reconnecting websocket")
+        logger.warning("Reconnecting websocket")
         self.initWebsocket(self.window)
 
     def formatTime(self, secondsToFormat):
@@ -173,6 +186,32 @@ class ZtvPlayerWidget(QWidget):
     def startSoundWaveAnimation(self):
         self.soundWave.animGroup.start()
 
+    def httpVlcRcStatusSync(self):
+        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+        websocketMaxSyncDelayMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
+        currentTime = int(time.time())
+        timeSinceLastWebsocketUpdate = (currentTime - self.websocketUpdateTime) * 1000
+        if (timeSinceLastWebsocketUpdate < websocketMaxSyncDelayMs):
+            if (logTrace):
+                logger.trace("Websocket is connected. Skipping http vlcRcStatus sync")
+            return
+        if (logTrace):
+            logger.trace("Executing http vlcRcStatus sync")
+        protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'http_protocol')
+        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
+        port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+        url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/status"
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        verifySsl = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'verify_ssl')
+        try:
+            response = requests.get(url, verify=verifySsl)
+            response.raise_for_status() 
+            vlcRcStatus = response.json()
+            self.vlcRcStatus = vlcRcStatus
+        except requests.exceptions.RequestException as error:
+            logger.error("Error getting vlcRcStatus via http")
+            logger.error(error)
+
 class ZtvPlayerWebsocket(QObject):
     topic = "/topic/vlc-player/status-out"
     finished = pyqtSignal()
@@ -185,9 +224,10 @@ class ZtvPlayerWebsocket(QObject):
         logger.info("Initializing ztv_player_websocket")
 
     def run(self):
-        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'websocket_hostname')
-        port = kamehouseDesktopCfg.get('ztv_player_widget', 'websocket_port')
-        url = "ws://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
+        protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'ws_protocol')
+        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
+        port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+        url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
         logger.debug("Connecting to: " + url)
         self.websocket = websocket.WebSocketApp(
           url,
@@ -206,12 +246,14 @@ class ZtvPlayerWebsocket(QObject):
             self.window.ztvPlayer.vlcRcStatus = {}
         else:
             self.window.ztvPlayer.vlcRcStatus = json.loads(frame["body"])
+        self.window.ztvPlayer.websocketUpdateTime = int(time.time())
         
     def onError(self, ws, error):
         logger.error("Error receiving data from the ztv_player_websocket")
+        logger.error(error)
 
     def onClose(self, ws, close_status_code, close_msg):
-        logger.info("Closed: status code: " + close_status_code + ", message: " + close_msg)
+        logger.warning("Closed: status code: " + close_status_code + ", message: " + close_msg)
 
     def onOpen(self, ws):
         logger.debug("Connection opened")
