@@ -206,7 +206,6 @@ class ZtvPlayerWidget(QWidget):
         except requests.exceptions.RequestException as error:
             if (logTrace):
                 logger.error("Error getting vlcRcStatus via http")
-                logger.error(error)
 
 class ZtvPlayerWebsocket(QObject):
     topic = "/topic/vlc-player/status-out"
