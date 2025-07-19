@@ -44,9 +44,11 @@ class ZtvPlayerWidget(QWidget):
             self.soundWave = ImageWidget("ztv_player_sound_wave_widget", window)
             self.setSoundWaveAnimation()
             self.startSoundWaveAnimation()
+        self.initUpdateViewSync()
+
+    def initSyncThreads(self):
         self.initWebsocket()
         self.initHttpVlcRcStatusSync()
-        self.initUpdateViewSync()
 
     def initWebsocket(self):
         self.websocketThread = QThread()
@@ -58,10 +60,13 @@ class ZtvPlayerWidget(QWidget):
         self.websocketThread.start()
 
     def initHttpVlcRcStatusSync(self):
-        httpSyncWaitMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'http_sync_wait_ms')
-        timer = QTimer(self.window)
-        timer.timeout.connect(self.httpVlcRcStatusSync)
-        timer.start(httpSyncWaitMs)
+        self.httpSyncThread = QThread()
+        self.httpSync = ZtvPlayerHttpSync(self.window)
+        self.httpSync.moveToThread(self.httpSyncThread)
+        self.httpSyncThread.started.connect(self.httpSync.run)
+        self.httpSync.finished.connect(self.httpSyncThread.quit)
+        self.httpSyncThread.finished.connect(self.httpSyncThread.deleteLater)
+        self.httpSyncThread.start()
 
     def initUpdateViewSync(self):
         timer = QTimer(self.window)
@@ -181,15 +186,37 @@ class ZtvPlayerWidget(QWidget):
     def startSoundWaveAnimation(self):
         self.soundWave.animGroup.start()
 
-    def httpVlcRcStatusSync(self):
+class ZtvPlayerHttpSync(QObject):
+    finished = pyqtSignal()
+    progress = pyqtSignal(int)
+    result = pyqtSignal(str)
+
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+        logger.info("Initializing ztv_player_http_sync")
+
+    def run(self):
+        self.runHttpSyncLoop()
+        self.result.emit("")
+        self.finished.emit()
+
+    def runHttpSyncLoop(self):
         logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         websocketMaxSyncDelayMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
         currentTime = int(time.time())
-        timeSinceLastWebsocketUpdate = (currentTime - self.websocketUpdateTime) * 1000
+        timeSinceLastWebsocketUpdate = (currentTime - self.window.ztvPlayer.websocketUpdateTime) * 1000
         if (timeSinceLastWebsocketUpdate < websocketMaxSyncDelayMs):
             if (logTrace):
                 logger.trace("Websocket is connected. Skipping http vlcRcStatus sync")
-            return
+        else:
+            self.executeHttpRequest()
+        httpSyncWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'http_sync_wait_sec')
+        time.sleep(httpSyncWaitSec)
+        self.runHttpSyncLoop()
+
+    def executeHttpRequest(self):
+        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         if (logTrace):
             logger.trace("Executing http vlcRcStatus sync")
         protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'http_protocol')
@@ -202,7 +229,7 @@ class ZtvPlayerWidget(QWidget):
             response = requests.get(url, verify=verifySsl)
             response.raise_for_status() 
             vlcRcStatus = response.json()
-            self.vlcRcStatus = vlcRcStatus
+            self.window.ztvPlayer.vlcRcStatus = vlcRcStatus
         except requests.exceptions.RequestException as error:
             if (logTrace):
                 logger.error("Error getting vlcRcStatus via http")
