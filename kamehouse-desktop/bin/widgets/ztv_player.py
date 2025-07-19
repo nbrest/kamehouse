@@ -47,6 +47,8 @@ class ZtvPlayerWidget(QWidget):
         self.initUpdateViewSync()
 
     def initSyncThreads(self):
+        if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')):
+            return
         self.initWebsocket()
         self.initHttpVlcRcStatusSync()
 
