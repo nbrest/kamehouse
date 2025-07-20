@@ -200,22 +200,23 @@ class ZtvPlayerHttpSync(QObject):
 
     def run(self):
         self.runHttpSyncLoop()
-        self.result.emit("")
+        logger.error("Something went wrong. VlcRcStatus http sync loop ended")
+        self.result.emit("Exiting http sync loop thread")
         self.finished.emit()
 
     def runHttpSyncLoop(self):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        websocketMaxSyncDelayMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
-        currentTime = int(time.time())
-        timeSinceLastWebsocketUpdate = (currentTime - self.window.ztvPlayer.websocketUpdateTime) * 1000
-        if (timeSinceLastWebsocketUpdate < websocketMaxSyncDelayMs):
-            if (logTrace):
-                logger.trace("Websocket is connected. Skipping http vlcRcStatus sync")
-        else:
-            self.executeHttpRequest()
-        httpSyncWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'http_sync_wait_sec')
-        time.sleep(httpSyncWaitSec)
-        self.runHttpSyncLoop()
+        while True:
+            logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+            websocketMaxSyncDelayMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
+            currentTime = int(time.time())
+            timeSinceLastWebsocketUpdate = (currentTime - self.window.ztvPlayer.websocketUpdateTime) * 1000
+            if (timeSinceLastWebsocketUpdate < websocketMaxSyncDelayMs):
+                if (logTrace):
+                    logger.trace("Websocket is connected. Skipping http vlcRcStatus sync")
+            else:
+                self.executeHttpRequest()
+            httpSyncWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'http_sync_wait_sec')
+            time.sleep(httpSyncWaitSec)
 
     def executeHttpRequest(self):
         logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
@@ -249,30 +250,34 @@ class ZtvPlayerWebsocket(QObject):
 
     def run(self):
         self.runWebsocketLoop()
-        self.result.emit("")
+        logger.error("Something went wrong. VlcRcStatus websocket sync loop ended")
+        self.result.emit("Exiting websocket loop thread")
         self.finished.emit()
 
     def runWebsocketLoop(self):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'ws_protocol')
-        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
-        port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
-        url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
-        if (logTrace):
-            logger.debug("Connecting websocket to: " + url)
-        self.websocket = websocket.WebSocketApp(
-          url,
-          on_open=self.onOpen,
-          on_message=self.onMessage,
-          on_error=self.onError,
-          on_close=self.onClose
-        )
-        self.websocket.run_forever()
-        websocketReconnectWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
-        if (logTrace):
-            logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + str(websocketReconnectWaitSec) + " seconds")
-        time.sleep(websocketReconnectWaitSec)
-        self.runWebsocketLoop()
+        while True:
+            logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+            protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'ws_protocol')
+            hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
+            port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+            url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
+            if (logTrace):
+                logger.debug("Connecting websocket to: " + url)
+            try:
+                self.websocket = websocket.WebSocketApp(
+                    url,
+                    on_open=self.onOpen,
+                    on_message=self.onMessage,
+                    on_error=self.onError,
+                    on_close=self.onClose
+                )
+                self.websocket.run_forever()
+            except Exception as error:
+                logger.error("Error running websocket client") 
+            websocketReconnectWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
+            if (logTrace):
+                logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + str(websocketReconnectWaitSec) + " seconds")
+            time.sleep(websocketReconnectWaitSec)
 
     def onMessage(self, ws, message):
         frame = stomper.unpack_frame(message)
