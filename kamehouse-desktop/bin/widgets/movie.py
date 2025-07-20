@@ -25,7 +25,7 @@ class MovieWidget(QLabel):
         self.setMinimumSize(QtCore.QSize(width, height))
         self.setMaximumSize(QtCore.QSize(width, height))
         if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
-            DropShadowEffect(self)
+            DropShadowEffect(self, widgetName)
         self.setHidden(False)
 
     def start(self):

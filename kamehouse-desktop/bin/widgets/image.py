@@ -21,6 +21,6 @@ class ImageWidget(QLabel):
         self.setGeometry(posX, posY, width, height)
         self.setScaledContents(kamehouseDesktopCfg.getBoolean(widgetName, 'scaled_contents')) 
         if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
-            DropShadowEffect(self)
+            DropShadowEffect(self, widgetName)
         self.setHidden(False)
         
