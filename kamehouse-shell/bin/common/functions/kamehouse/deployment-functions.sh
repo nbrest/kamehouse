@@ -118,8 +118,8 @@ restartKameHouseDesktop() {
   if ! ${DEPLOYMENT_RESTART_DESKTOP}; then
     return
   fi
-  log.info "Restarting kamehouse-desktop"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-restart.sh &
+  log.info "Restarting ${COL_PURPLE}kamehouse-desktop"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-restart.sh > /dev/null 2>&1 &
 }
 
 deployKameHouseGroot() {
