@@ -29,6 +29,7 @@ displayDeployEnv() {
   log.debug "DEPLOY_KAMEHOUSE_SNAPE=${DEPLOY_KAMEHOUSE_SNAPE}"
   log.debug "DEPLOY_KAMEHOUSE_UI=${DEPLOY_KAMEHOUSE_UI}"
   log.debug "DEPLOY_KAMEHOUSE_MOBILE=${DEPLOY_KAMEHOUSE_MOBILE}"
+  log.debug "DEPLOYMENT_RESTART_DESKTOP=${DEPLOYMENT_RESTART_DESKTOP}"
 }
 
 setKameHouseDeploymentParameters() {
@@ -107,9 +108,18 @@ deployKameHouseDesktop() {
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
 
+  restartKameHouseDesktop
   if [ "${MODULE_SHORT}" == "desktop" ]; then
     exitDeploymentSuccessfully
   fi
+}
+
+restartKameHouseDesktop() {
+  if ! ${DEPLOYMENT_RESTART_DESKTOP}; then
+    return
+  fi
+  log.info "Restarting kamehouse-desktop"
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-restart.sh &
 }
 
 deployKameHouseGroot() {
