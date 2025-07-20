@@ -7,6 +7,7 @@
 
 #### v10.10
 
+- Added option to restart kamehouse desktop on deployment in kamehouse.cfg
 - Added ztv player widget to kamehouse desktop with sync of vlc status both via websocket and http
 - Split non tomcat modules into separate tables in groot server manager
 - Fixed sonar bugs
