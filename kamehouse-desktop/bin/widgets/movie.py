@@ -5,6 +5,7 @@ from PyQt5.QtGui import QMovie
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+from effects.drop_shadow_effect import DropShadowEffect
 
 class MovieWidget(QLabel):
     def __init__(self, widgetName, window):
@@ -23,6 +24,8 @@ class MovieWidget(QLabel):
         self.setScaledContents(kamehouseDesktopCfg.getBoolean(widgetName, 'scaled_contents')) 
         self.setMinimumSize(QtCore.QSize(width, height))
         self.setMaximumSize(QtCore.QSize(width, height))
+        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
+            DropShadowEffect(self)
         self.setHidden(False)
 
     def start(self):

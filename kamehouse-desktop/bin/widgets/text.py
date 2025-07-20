@@ -26,6 +26,7 @@ class TextWidget(QLabel):
         width = kamehouseDesktopCfg.getInt(widgetName, 'width')
         height = kamehouseDesktopCfg.getInt(widgetName, 'height')
         self.setGeometry(posX, posY, width, height)
+        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
+            DropShadowEffect(self)
         self.setHidden(False)
-        DropShadowEffect(self)
         
