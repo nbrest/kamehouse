@@ -8,6 +8,7 @@ from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
 from effects.drop_shadow_effect import DropShadowEffect
+from effects.opacity_effect import OpacityEffect
 
 class TextWidget(QLabel):
     def __init__(self, widgetName, text, window):
@@ -32,6 +33,8 @@ class TextWidget(QLabel):
         self.setGeometry(posX, posY, width, height)
         if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
             DropShadowEffect(self, widgetName)
+        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_opacity')):
+            OpacityEffect(self, widgetName)
         self.setHidden(False)
                 
 class OutlinedTextWidget(TextWidget):

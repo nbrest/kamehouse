@@ -4,6 +4,7 @@ from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
 from effects.drop_shadow_effect import DropShadowEffect
+from effects.opacity_effect import OpacityEffect
 
 class ImageWidget(QLabel):
     def __init__(self, widgetName, window):
@@ -22,5 +23,7 @@ class ImageWidget(QLabel):
         self.setScaledContents(kamehouseDesktopCfg.getBoolean(widgetName, 'scaled_contents')) 
         if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
             DropShadowEffect(self, widgetName)
+        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_opacity')):
+            OpacityEffect(self, widgetName)
         self.setHidden(False)
         

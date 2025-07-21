@@ -6,6 +6,7 @@ from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
 from effects.drop_shadow_effect import DropShadowEffect
+from effects.opacity_effect import OpacityEffect
 
 class MovieWidget(QLabel):
     def __init__(self, widgetName, window):
@@ -26,6 +27,8 @@ class MovieWidget(QLabel):
         self.setMaximumSize(QtCore.QSize(width, height))
         if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
             DropShadowEffect(self, widgetName)
+        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_opacity')):
+            OpacityEffect(self, widgetName)
         self.setHidden(False)
 
     def start(self):
