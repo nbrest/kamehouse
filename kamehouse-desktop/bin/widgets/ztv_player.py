@@ -53,7 +53,7 @@ class ZtvPlayerWidget(QWidget):
         self.hiddenMessageBubble = ImageWidget("ztv_player_hidden_message_bubble_widget", self.window)
         self.hiddenMessageBubble.setHidden(True)
         self.hiddenMessageText = OutlinedTextWidget("ztv_player_hidden_message_text_widget", "音楽をかけて", self.window)
-        self.hiddenMessageBubble.setHidden(True)
+        self.hiddenMessageText.setHidden(True)
 
     def initSyncThreads(self):
         if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')):
