@@ -14,13 +14,15 @@ from loguru import logger
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
 from widgets.image import ImageWidget
 from widgets.movie import MovieWidget
-from widgets.text import TextWidget
+from widgets.text import OutlinedTextWidget
 
 class ZtvPlayerWidget(QWidget):
     isHidden = False
     vlcRcStatus = {}
     websocketUpdateTime = int(time.time())
     window = None
+    defaultTitle = "DBGT - Dan Dan.mp3"
+    defaultArtist = "Son Goku"
     
     def __init__(self, window):
         super().__init__(window)
@@ -30,13 +32,12 @@ class ZtvPlayerWidget(QWidget):
             self.setHidden(True)
             return
         self.window = window
+        self.setPlayerHiddenWidgets()
         self.logo = ImageWidget("ztv_player_logo_widget", window)
-        self.hiddenLogo = ImageWidget("ztv_player_hidden_logo_widget", window)
-        self.hiddenLogo.setHidden(True)
-        self.title = TextWidget("ztv_player_title_widget", "N/A", window)
-        self.artist = TextWidget("ztv_player_artist_widget", "N/A", window)
-        self.currentTime = TextWidget("ztv_player_current_time_widget", "--:--:--", window)
-        self.totalTime = TextWidget("ztv_player_total_time_widget", "--:--:--", window)
+        self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
+        self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.defaultArtist, window)
+        self.currentTime = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
+        self.totalTime = OutlinedTextWidget("ztv_player_total_time_widget", "--:--:--", window)
         if (kamehouseDesktopCfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
             self.soundWave = MovieWidget("ztv_player_sound_wave_widget", window)
             self.startSoundWaveMovie()
@@ -45,6 +46,14 @@ class ZtvPlayerWidget(QWidget):
             self.setSoundWaveAnimation()
             self.startSoundWaveAnimation()
         self.initUpdateViewSync()
+
+    def setPlayerHiddenWidgets(self):
+        self.hiddenGoku = ImageWidget("ztv_player_hidden_goku_widget", self.window)
+        self.hiddenGoku.setHidden(True)
+        self.hiddenMessageBubble = ImageWidget("ztv_player_hidden_message_bubble_widget", self.window)
+        self.hiddenMessageBubble.setHidden(True)
+        self.hiddenMessageText = OutlinedTextWidget("ztv_player_hidden_message_text_widget", "音楽をかけて", self.window)
+        self.hiddenMessageBubble.setHidden(True)
 
     def initSyncThreads(self):
         if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')):
@@ -103,16 +112,28 @@ class ZtvPlayerWidget(QWidget):
         length = self.formatTime(vlcRcStatus['length'])
         filename = vlcRcStatus['information']['meta']['filename']
         artist = vlcRcStatus['information']['meta']['artist']
-        self.title.setText(filename)
-        self.artist.setText(artist)
+        self.title.setText(self.formatTitle(filename))
+        self.artist.setText(self.formatArtist(artist))
         self.currentTime.setText(time)
         self.totalTime.setText(length)
         self.showZtvPlayer()
 
+    def formatTitle(self, filename):
+        if (filename is None):
+            return self.defaultTitle
+        return filename.replace("-", " ").replace("_", " ").replace(".mp3", "").replace(".MP3", "")
+        
+    def formatArtist(self, artist):
+        if (artist is None):
+            return self.defaultArtist
+        return artist.replace("-", " ").replace("_", " ")
+
     def showZtvPlayer(self):
         if (self.isHidden):
             self.isHidden = False
-            self.hiddenLogo.setHidden(True)
+            self.hiddenGoku.setHidden(True)
+            self.hiddenMessageBubble.setHidden(True)
+            self.hiddenMessageText.setHidden(True)
             self.logo.setHidden(False)
             self.title.setHidden(False)
             self.artist.setHidden(False)
@@ -123,7 +144,9 @@ class ZtvPlayerWidget(QWidget):
     def hideZtvPlayer(self):
         if (not self.isHidden):
             self.isHidden = True
-            self.hiddenLogo.setHidden(False)
+            self.hiddenGoku.setHidden(False)
+            self.hiddenMessageBubble.setHidden(False)
+            self.hiddenMessageText.setHidden(False)
             self.logo.setHidden(True)
             self.title.setHidden(True)
             self.artist.setHidden(True)
