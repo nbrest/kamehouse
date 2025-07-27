@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+from widgets.background_slideshow import BackgroundSlideshowWidget
 from widgets.clock import ClockWidget
 from widgets.image import ImageWidget
 from widgets.text import TextWidget
@@ -15,9 +16,10 @@ from widgets.weather import WeatherWidget
 from widgets.ztv_player import ZtvPlayerWidget
 
 class KameHouseDesktop(QMainWindow):
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
         self.initLogger()
+        self.app = app
         logger.info("Starting kamehouse-desktop")
         self.startCompositor()
         self.setWindowProperties()
@@ -31,6 +33,7 @@ class KameHouseDesktop(QMainWindow):
         self.worldCupLogo = ImageWidget('world_cup_logo_widget', self)
         self.clock = ClockWidget(self)
         self.weather = WeatherWidget(self)
+        self.backgroundSlideshow = BackgroundSlideshowWidget(self)
 
     def initDesktop(self):
         self.ztvPlayer = ZtvPlayerWidget(self)
@@ -70,6 +73,6 @@ class KameHouseDesktop(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = KameHouseDesktop()
+    window = KameHouseDesktop(app)
     window.initDesktop()
     sys.exit(app.exec_())

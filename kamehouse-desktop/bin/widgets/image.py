@@ -14,7 +14,8 @@ class ImageWidget(QLabel):
             logger.debug(widgetName + " is set to hidden")
             self.setHidden(True)
             return
-        self.setPixmap(QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src')))
+        self.imgSrc = QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src'))
+        self.setPixmap(self.imgSrc)
         posX = kamehouseDesktopCfg.getInt(widgetName, 'pos_x')
         posY = kamehouseDesktopCfg.getInt(widgetName, 'pos_y')
         width = kamehouseDesktopCfg.getInt(widgetName, 'width')

@@ -18,6 +18,7 @@ from widgets.text import OutlinedTextWidget
 
 class ZtvPlayerWidget(QWidget):
     isHidden = False
+    logTrace = False
     vlcRcStatus = {}
     websocketUpdateTime = int(time.time())
     window = None
@@ -32,6 +33,7 @@ class ZtvPlayerWidget(QWidget):
             self.setHidden(True)
             return
         self.window = window
+        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         self.setPlayerHiddenWidgets()
         self.logo = ImageWidget("ztv_player_logo_widget", window)
         self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
@@ -91,10 +93,9 @@ class ZtvPlayerWidget(QWidget):
         return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
     
     def updateView(self):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         logVlcRcStatus = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'log_vlc_rc_status')
         vlcRcStatus = self.vlcRcStatus
-        if (logTrace):
+        if (self.logTrace):
             logger.trace("Updating ztv_player_widget view")
             if (logVlcRcStatus):
                 logger.trace("vlcRcStatus: " + str(vlcRcStatus))
@@ -215,11 +216,13 @@ class ZtvPlayerHttpSync(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
+    logTrace = False
 
     def __init__(self, window):
         super().__init__()
         self.window = window
         logger.info("Initializing ztv_player_http_sync")
+        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
 
     def run(self):
         self.runHttpSyncLoop()
@@ -229,12 +232,11 @@ class ZtvPlayerHttpSync(QObject):
 
     def runHttpSyncLoop(self):
         while True:
-            logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
             websocketMaxSyncDelayMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
             currentTime = int(time.time())
             timeSinceLastWebsocketUpdate = (currentTime - self.window.ztvPlayer.websocketUpdateTime) * 1000
             if (timeSinceLastWebsocketUpdate < websocketMaxSyncDelayMs):
-                if (logTrace):
+                if (self.logTrace):
                     logger.trace("Websocket is connected. Skipping http vlcRcStatus sync")
             else:
                 self.executeHttpRequest()
@@ -242,8 +244,7 @@ class ZtvPlayerHttpSync(QObject):
             time.sleep(httpSyncWaitSec)
 
     def executeHttpRequest(self):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        if (logTrace):
+        if (self.logTrace):
             logger.trace("Executing http vlcRcStatus sync")
         protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'http_protocol')
         hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
@@ -257,7 +258,7 @@ class ZtvPlayerHttpSync(QObject):
             vlcRcStatus = response.json()
             self.window.ztvPlayer.vlcRcStatus = vlcRcStatus
         except requests.exceptions.RequestException as error:
-            if (logTrace):
+            if (self.logTrace):
                 logger.error("Error getting vlcRcStatus via http")
 
 class ZtvPlayerWebsocket(QObject):
@@ -265,11 +266,13 @@ class ZtvPlayerWebsocket(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
+    logTrace = False
 
     def __init__(self, window):
         super().__init__()
         self.window = window
         logger.info("Initializing ztv_player_websocket")
+        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
 
     def run(self):
         self.runWebsocketLoop()
@@ -279,12 +282,11 @@ class ZtvPlayerWebsocket(QObject):
 
     def runWebsocketLoop(self):
         while True:
-            logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
             protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'ws_protocol')
             hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
             port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
             url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
-            if (logTrace):
+            if (self.logTrace):
                 logger.debug("Connecting websocket to: " + url)
             try:
                 self.websocket = websocket.WebSocketApp(
@@ -298,7 +300,7 @@ class ZtvPlayerWebsocket(QObject):
             except Exception as error:
                 logger.error("Error running websocket client") 
             websocketReconnectWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
-            if (logTrace):
+            if (self.logTrace):
                 logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + str(websocketReconnectWaitSec) + " seconds")
             time.sleep(websocketReconnectWaitSec)
 
@@ -311,24 +313,21 @@ class ZtvPlayerWebsocket(QObject):
         self.window.ztvPlayer.websocketUpdateTime = int(time.time())
         
     def onError(self, ws, error):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        if (logTrace):
+        if (self.logTrace):
             logger.error("Error receiving data from the ztv_player_websocket")
 
     def onClose(self, ws, close_status_code, close_msg):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        if (logTrace):
+        if (self.logTrace):
             logger.warning("Closed: status code: " + close_status_code + ", message: " + close_msg)
 
     def onOpen(self, ws):
-        logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        if (logTrace):
+        if (self.logTrace):
             logger.debug("Connection opened")
         connect_frame = stomper.connect('', '', '') 
         ws.send(connect_frame)
         subscribe_frame = stomper.subscribe(self.topic, socket.gethostname(), ack='auto')
         ws.send(subscribe_frame)
-        if (logTrace):
+        if (self.logTrace):
             logger.debug("Subscribed to: " + self.topic)
 
     def isEmptyBody(self, frame):
