@@ -83,7 +83,7 @@ class BackgroundSlideshowWidget(QWidget):
 
     def restartBackgroundAnimation(self):
         if (self.logTrace):
-            logger.trace("Reconfiguring background animation")
+            logger.trace("Restarting background slideshow animation")
         self.updateBackgroundImage()
         self.reconfigureBackgroundAnimation()
         self.background.animGroup.start()
