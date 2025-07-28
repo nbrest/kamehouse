@@ -6,6 +6,7 @@ import time
 
 from PyQt5.QtCore import QObject, pyqtSignal, QThread, QTimer
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPixmap
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
@@ -101,6 +102,13 @@ class WeatherHttpSync(QObject):
             if (self.logTrace):
                 logger.trace(weatherStatus)
             self.window.weather.weatherStatus = weatherStatus
+            iconUrl = 'https://openweathermap.org/img/wn/' + weatherStatus["weather"][0]["icon"] + ".png"
+            if (self.logTrace):
+                logger.trace("Loading icon from: " + iconUrl)
+            response = requests.get(iconUrl, verify=verifySsl)
+            pixmap = QPixmap()
+            pixmap.loadFromData(response.content)
+            self.window.weather.logo.setPixmap(pixmap)
             self.window.updateWeatherStatus()
         except requests.exceptions.RequestException as error:
             if (self.logTrace):
