@@ -101,6 +101,7 @@ class WeatherHttpSync(QObject):
             if (self.logTrace):
                 logger.trace(weatherStatus)
             self.window.weather.weatherStatus = weatherStatus
+            self.window.updateWeatherStatus()
         except requests.exceptions.RequestException as error:
             if (self.logTrace):
                 logger.error("Error getting weather status via http")
