@@ -68,6 +68,9 @@ class KameHouseDesktop(QMainWindow):
     def updateClockTime(self):
         self.clock.updateTime()
 
+    def updateWeatherStatus(self):
+        self.weather.updateStatus()
+
     def updateZtvPlayerView(self):
         self.ztvPlayer.updateView()
 

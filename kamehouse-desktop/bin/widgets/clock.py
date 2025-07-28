@@ -17,8 +17,7 @@ class ClockWidget(QWidget):
         timer = QTimer(window)
         timer.timeout.connect(window.updateClockTime)
         timer.start(kamehouseDesktopCfg.getInt('clock_widget', 'timer_wait_ms'))
-        
-    
+
     def updateTime(self):
         currentTime = QTime.currentTime()
         formattedCurrentTime = currentTime.toString('hh:mm')
