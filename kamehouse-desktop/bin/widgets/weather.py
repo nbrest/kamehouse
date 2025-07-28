@@ -47,10 +47,11 @@ class WeatherWidget(QWidget):
             self.text.setText("")
             self.logo.setHidden(True)
             return
-        temp = str(int(self.weatherStatus["main"]["temp"])) + "°C"
+        temp = str(int(self.weatherStatus["main"]["temp"]))
         if (self.logTrace):
             logger.trace("Updating weather to " + temp)
-        self.text.setText(temp)
+        formattedTemp = temp + "°"
+        self.text.setText(formattedTemp)
         self.logo.setHidden(False)
 
     def isEmptyStatus(self):
