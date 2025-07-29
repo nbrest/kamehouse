@@ -49,3 +49,5 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 - Start the desktop app with `kamehouse-desktop-startup.sh` or `kamehouse-desktop-restart.sh` installed with `kamehouse-shell`
 
 - Use groot server manager to start and stop the desktop app from the UI and to toggle keep alive scripts to fully turn off the desktop app
+
+- In my tests in rasperry pis 4 and 5 kamehouse-desktop runs with 200-300mb of ram and about 20-30% cpu usage. The background slideshow widget uses 20-25% of cpu, so disabling it reduces significantly the resources used
