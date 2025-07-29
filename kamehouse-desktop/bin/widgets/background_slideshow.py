@@ -140,7 +140,12 @@ class BackgroundSlideshowWidget(QWidget):
             if (self.logTrace):
                 logger.trace("Configured source is invalid or empty, setting background from default images")
             self.randomImage = random.choice(self.defaultBackgroundImages)
-        self.background.imgSrc = QPixmap(self.randomImage)
+        pixmap = QPixmap(self.randomImage)
+        if (pixmap.width() <= 0 or pixmap.height() <= 0):
+            if (self.logTrace):
+                logger.error("Invalid image " + self.randomImage)
+            return
+        self.background.imgSrc = pixmap
         self.background.setPixmap(self.background.imgSrc)
 
     def configureExpandContractParameters(self):
@@ -157,6 +162,9 @@ class BackgroundSlideshowWidget(QWidget):
         imageHeight = self.background.imgSrc.height()
         if (imageWidth > 0 and imageHeight > 0):
             aspectRatio = imageWidth / imageHeight
+        else:
+            if (self.logTrace):
+                logger.error("Invalid image properties for " + self.randomImage)
         if (self.logTrace and self.logBackgroundImages):
             logger.trace(self.randomImage)
             logger.trace("width: " + str(imageWidth) + ", height: " + str(imageHeight) + ", ar: " + str(aspectRatio))
