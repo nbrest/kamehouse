@@ -4,7 +4,7 @@ import urllib3
 import json
 import time
 
-from PyQt5.QtCore import QObject, pyqtSignal, QThread, QTimer
+from PyQt5.QtCore import QObject, pyqtSignal, QThread
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPixmap
 from loguru import logger
@@ -16,6 +16,7 @@ from widgets.text import TextWidget
 class WeatherWidget(QWidget):
     logTrace = False
     openWeatherMapApiKey = None
+    weatherStatus = None
 
     def __init__(self, window):
         super().__init__()
@@ -29,9 +30,6 @@ class WeatherWidget(QWidget):
         if (self.logTrace):
             logger.trace("openWeatherMapApiKey=" + self.openWeatherMapApiKey)
         self.initHttpStatusSync()
-        timer = QTimer(window)
-        timer.timeout.connect(window.updateWeatherStatus)
-        timer.start(kamehouseDesktopCfg.getInt('weather_widget', 'timer_wait_ms'))
 
     def initHttpStatusSync(self):
         self.httpSyncThread = QThread()
@@ -49,7 +47,7 @@ class WeatherWidget(QWidget):
             return
         temp = str(int(self.weatherStatus["main"]["temp"]))
         if (self.logTrace):
-            logger.trace("Updating weather to " + temp)
+            logger.trace("Updating weather to " + temp + " degrees")
         formattedTemp = temp + "°"
         self.text.setText(formattedTemp)
         self.logo.setHidden(False)
@@ -100,6 +98,11 @@ class WeatherHttpSync(QObject):
             response = requests.get(url, verify=verifySsl)
             response.raise_for_status() 
             weatherStatus = response.json()
+            if (self.isEmptyStatus(weatherStatus)):
+                if (self.logTrace):
+                    logger.warning("Unable to get weather status")
+                    self.window.weather.weatherStatus = None
+                return
             if (self.logTrace):
                 logger.trace(weatherStatus)
             self.window.weather.weatherStatus = weatherStatus
@@ -114,3 +117,12 @@ class WeatherHttpSync(QObject):
         except requests.exceptions.RequestException as error:
             if (self.logTrace):
                 logger.error("Error getting weather status via http")
+
+    def isEmptyStatus(self, weatherStatus):
+        if (weatherStatus is None):
+            return True
+        if (weatherStatus["weather"] is None):
+            return True
+        if (weatherStatus["main"] is None):
+            return True
+        return False
