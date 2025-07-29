@@ -38,6 +38,7 @@ class KameHouseDesktop(QMainWindow):
     def initDesktop(self):
         self.ztvPlayer = ZtvPlayerWidget(self)
         self.ztvPlayer.initSyncThreads()
+        self.ztvPlayer.resetVlcPlayerFullScreen()
 
     def setWindowProperties(self):
         logger.debug("Setting main window properties")

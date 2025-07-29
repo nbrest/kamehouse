@@ -81,6 +81,15 @@ class ZtvPlayerWidget(QWidget):
         self.httpSyncThread.finished.connect(self.httpSyncThread.deleteLater)
         self.httpSyncThread.start()
 
+    def resetVlcPlayerFullScreen(self):
+        self.vlcPlayerFullScreenThread = QThread()
+        self.vlcPlayerFullScreen = VlcPlayerFullScreenSetter(self.window)
+        self.vlcPlayerFullScreen.moveToThread(self.vlcPlayerFullScreenThread)
+        self.vlcPlayerFullScreenThread.started.connect(self.vlcPlayerFullScreen.run)
+        self.vlcPlayerFullScreen.finished.connect(self.vlcPlayerFullScreenThread.quit)
+        self.vlcPlayerFullScreenThread.finished.connect(self.vlcPlayerFullScreenThread.deleteLater)
+        self.vlcPlayerFullScreenThread.start()        
+
     def initUpdateViewSync(self):
         timer = QTimer(self.window)
         timer.timeout.connect(self.window.updateZtvPlayerView)
@@ -336,3 +345,39 @@ class ZtvPlayerWebsocket(QObject):
         if (frame["body"] is None):
             return True
         return False
+
+class VlcPlayerFullScreenSetter(QObject):
+    finished = pyqtSignal()
+    progress = pyqtSignal(int)
+    result = pyqtSignal(str)
+    logTrace = False
+
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+        logger.info("Initializing vlc_player_fullscreen_setter")
+        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+
+    def run(self):
+        self.executeHttpRequest()
+        time.sleep(2)
+        self.executeHttpRequest()
+        self.result.emit("Exiting vlc player fullscreen setter thread")
+        self.finished.emit()
+
+    def executeHttpRequest(self):
+        logger.debug("Executing vlc player fullscreen toggle request")
+        protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'http_protocol')
+        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
+        port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+        url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands"
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        verifySsl = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'verify_ssl')
+        requestBody = {
+          "name": "fullscreen",
+          "val": None
+        }
+        try:
+            requests.post(url, json=requestBody, verify=verifySsl)
+        except requests.exceptions.RequestException as error:
+            logger.error("Error sending request to toggle vlc player fullscreen")
