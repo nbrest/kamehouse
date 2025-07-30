@@ -869,7 +869,7 @@ class CrudManager {
         class: "img-btn-kh",
       },
       mobileClass: null,
-      backgroundImg: "/kame-house/img/other/delete.png",
+      backgroundImg: "/kame-house/img/other/cancel.png",
       html: null,
       data: {
         id: id
