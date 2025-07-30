@@ -7,6 +7,11 @@
 
 #### v10.10
 
+- Updated default styles and position of desktop widgets
+- Added background slideshow widget to kamehouse desktop
+- Added weather widget to kamehouse desktop
+- Updated groot server manager and crud icons
+- Added outline to text widgets
 - Added option to restart kamehouse desktop on deployment in kamehouse.cfg
 - Added ztv player widget to kamehouse desktop with sync of vlc status both via websocket and http
 - Split non tomcat modules into separate tables in groot server manager
