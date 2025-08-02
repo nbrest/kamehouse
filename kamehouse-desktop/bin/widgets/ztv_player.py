@@ -36,6 +36,8 @@ class ZtvPlayerWidget(QWidget):
         self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         self.setPlayerHiddenWidgets()
         self.logo = ImageWidget("ztv_player_logo_widget", window)
+        self.setLogoAnimation()
+        self.startLogoAnimation()
         self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
         self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.defaultArtist, window)
         self.currentTime = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
@@ -220,6 +222,31 @@ class ZtvPlayerWidget(QWidget):
 
     def startSoundWaveAnimation(self):
         self.soundWave.animGroup.start()
+
+    def setLogoAnimation(self):
+        animationMs = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'animation_ms')
+        minOpacity = kamehouseDesktopCfg.getFloat('ztv_player_logo_widget', 'min_opacity')
+        maxOpacity = kamehouseDesktopCfg.getFloat('ztv_player_logo_widget', 'max_opacity')
+        # brighten
+        effect = QGraphicsOpacityEffect(self.logo)
+        self.logo.setGraphicsEffect(effect)
+        self.logo.brighten = QPropertyAnimation(effect, b"opacity")
+        self.logo.brighten.setStartValue(minOpacity)
+        self.logo.brighten.setEndValue(maxOpacity)
+        self.logo.brighten.setDuration(animationMs)
+        # darken
+        self.logo.darken = QPropertyAnimation(effect, b"opacity")
+        self.logo.darken.setStartValue(maxOpacity)
+        self.logo.darken.setEndValue(minOpacity)
+        self.logo.darken.setDuration(animationMs)
+        # animation groups
+        self.logo.animGroup = QSequentialAnimationGroup()
+        self.logo.animGroup.addAnimation(self.logo.brighten)
+        self.logo.animGroup.addAnimation(self.logo.darken)
+        self.logo.animGroup.finished.connect(self.startLogoAnimation)
+
+    def startLogoAnimation(self):
+        self.logo.animGroup.start()
 
 class ZtvPlayerHttpSync(QObject):
     finished = pyqtSignal()
