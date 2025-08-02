@@ -65,7 +65,10 @@ class OutlinedTextWidget(TextWidget):
             indent = self.indent()
 
         if self.alignment() & Qt.AlignLeft:
-            x = rect.left() + indent - min(metrics.leftBearing(self.text()[0]), 0)
+            try:
+                x = rect.left() + indent - min(metrics.leftBearing(self.text()[0]), 0)
+            except Exception as error:
+                x = rect.left() + indent
         elif self.alignment() & Qt.AlignRight:
             x = rect.x() + rect.width() - indent - tr.width()
         else:
