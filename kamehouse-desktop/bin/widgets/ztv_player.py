@@ -121,17 +121,17 @@ class ZtvPlayerWidget(QWidget):
         time = self.formatTime(vlcRcStatus['time'])
         length = self.formatTime(vlcRcStatus['length'])
         filename = vlcRcStatus['information']['meta']['filename']
-        artist = vlcRcStatus['information']['meta']['artist']
-        self.title.setText(self.formatTitle(filename))
-        self.artist.setText(self.formatArtist(artist))
+        artist = self.formatArtist(vlcRcStatus['information']['meta']['artist'])
+        self.title.setText(self.formatTitle(filename, artist))
+        self.artist.setText(artist)
         self.currentTime.setText(time)
         self.totalTime.setText(length)
         self.showZtvPlayer()
 
-    def formatTitle(self, filename):
+    def formatTitle(self, filename, artist):
         if (filename is None):
             return self.defaultTitle
-        return filename.replace("-", " ").replace("_", " ").replace(".mp3", "").replace(".MP3", "").replace(".wav", "").replace(".WAV", "").replace(".", " ").title()
+        return filename.replace("-", " ").replace("_", " ").replace(".mp3", "").replace(".MP3", "").replace(".wav", "").replace(".WAV", "").replace(".", " ").replace(artist + " ", "").replace(artist, "").title()
         
     def formatArtist(self, artist):
         if (artist is None):
