@@ -131,7 +131,7 @@ class ZtvPlayerWidget(QWidget):
     def formatTitle(self, filename, artist):
         if (filename is None):
             return self.defaultTitle
-        return filename.replace("-", " ").replace("_", " ").replace(".mp3", "").replace(".MP3", "").replace(".wav", "").replace(".WAV", "").replace(".", " ").replace(artist + " ", "").replace(artist, "").title()
+        return filename.replace("-", " ").replace("_", " ").replace(".mp3", "").replace(".MP3", "").replace(".wav", "").replace(".WAV", "").replace(".", " ").title().replace(artist + " ", "").replace(artist, "")
         
     def formatArtist(self, artist):
         if (artist is None):
