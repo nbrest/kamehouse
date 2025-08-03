@@ -7,6 +7,9 @@
 
 #### v10.10 (vMaradona.Messi)
 
+- Added shell script and ui in groot to get the lists of successful and invalid desktop backgrounds processed
+- Added kamehouse-desktop tab in groot server manager
+- Added functionality to list successful and invalid backgrounds into list files in desktop
 - Updated default styles and position of desktop widgets
 - Added background slideshow widget to kamehouse desktop
 - Added weather widget to kamehouse desktop

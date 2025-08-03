@@ -155,6 +155,13 @@ class GrootServerManager {
     this.executeShellScript('kamehouse/docker/docker-status-kamehouse.sh', "");
   }
 
+  /**
+   * List kamehouse desktop processed background images.
+   */
+  listKameHouseDesktopProcessedBackrounds() {
+    this.executeShellScript('kamehouse/desktop/list-kamehouse-desktop-processed-backgrounds.sh', "");
+  }
+
   /** Handle Session Status */
   #handleSessionStatus() {
     const sessionStatus = kameHouse.extension.groot.session;

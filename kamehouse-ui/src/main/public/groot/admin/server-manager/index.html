@@ -69,7 +69,9 @@
           <td id="tab-keep-alive-link" class="tab-kh-link"
             onclick="kameHouse.util.tab.openTab('tab-keep-alive', 'kh-groot-server-manager')">Keep Alive</td>     
           <td id="tab-power-link" class="tab-kh-link"
-            onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>            
+            onclick="kameHouse.util.tab.openTab('tab-power', 'kh-groot-server-manager')">Power</td>    
+          <td id="tab-desktop-link" class="tab-kh-link"
+            onclick="kameHouse.util.tab.openTab('tab-desktop', 'kh-groot-server-manager')">Desktop</td>       
         </tr>
       </tbody>
     </table>
@@ -663,7 +665,7 @@
             <tbody>
               <tr>
                 <td>
-                  <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.confirmRebootServer()'></button>
+                  <button class="link-image-img" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.serverManager.confirmRebootServer()'>`</button>
                 </td>
                 <td>
                   <div class="link-image-text">Restart Server</div>
@@ -677,6 +679,51 @@
       </div>
     </div> <!-- tab-power -->
 
+    <div id="tab-desktop" class="tab-content-kh">
+      <div class="default-layout p-7-d-kh w-40-pc-kh w-100-pc-m-kh">
+        <div class="info-image-wrapper-m-80-40">
+          <table class="info-image-table">
+            <caption class="hidden-kh">Image-Info</caption>
+            <thead class="hidden-kh"><tr><th>Image-Info</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="info-image-img">
+                  <img src="/kame-house/img/dbz/hohoho-goku.jpg" alt="info img"/>
+                </td>
+                <td class="info-image-info">
+                  <div class="info-image-title info-image-title-bottom">
+                    KameHouse Desktop
+                  </div>
+                  <div class="info-image-desc">
+                    <p>Get stats and control kamehouse desktop app from groot</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="link-image-wrapper-w-80">
+          <table class="link-image-table">
+            <caption class="hidden-kh">Image-Links</caption>
+            <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>
+                  <button class="link-image-img" data-background-img="/kame-house/img/other/picture.png" onclick='kameHouse.extension.serverManager.listKameHouseDesktopProcessedBackrounds()'></button>
+                </td>
+                <td>
+                  <div class="link-image-text">List processed backgrounds</div>
+                  <div class="link-image-desc">Get the lists of both successful and invalid processed background images on kamehouse desktop running on the current server</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br>
+      </div>
+    </div> <!-- tab-desktop -->
+    
   <div class="default-layout p-7-d-kh">
     <div class="info-image-wrapper-m-80-60">
       <table class="info-image-table">
