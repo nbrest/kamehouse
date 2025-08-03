@@ -18,6 +18,9 @@ class BackgroundSlideshowWidget(QWidget):
     backgroundImages = []
     defaultBackgroundImages = []
     randomImage = None
+    userHome = None
+    backgroundsSuccessListFile = "/.kamehouse/data/desktop/backgrounds-success.list"
+    backgroundsErrorListFile = "/.kamehouse/data/desktop/backgrounds-error.list"
     
     def __init__(self, window):
         super().__init__(window)
@@ -62,9 +65,9 @@ class BackgroundSlideshowWidget(QWidget):
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
                     self.defaultBackgroundImages.append(fullPath)
-        userHome = os.path.expanduser("~").replace("\\", "/")
+        self.userHome = os.path.expanduser("~").replace("\\", "/")
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
-        backgroundImagesPath = userHome + imagesSrcPath
+        backgroundImagesPath = self.userHome + imagesSrcPath
         for root, _, files in os.walk(backgroundImagesPath):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
@@ -144,10 +147,24 @@ class BackgroundSlideshowWidget(QWidget):
         if (pixmap.width() <= 0 or pixmap.height() <= 0):
             if (self.logTrace):
                 logger.error("Invalid image " + self.randomImage)
+            self.updateBackgroundImageListFile(self.backgroundsErrorListFile)
             return
+        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile)
         self.background.imgSrc = pixmap
         self.background.setPixmap(self.background.imgSrc)
-
+            
+    def updateBackgroundImageListFile(self, filePath):
+        backgroundsFile = self.userHome + filePath
+        try:
+            backgroundsList = []
+            with open(backgroundsFile, 'r') as file:
+                backgroundsList = [line.strip() for line in file]
+            if self.randomImage not in backgroundsList:
+                with open(backgroundsFile, 'a') as file:
+                    file.write(self.randomImage + "\n")
+        except IOError as error:
+            logger.error("Error updating background images list file " + backgroundsFile)
+        
     def configureExpandContractParameters(self):
         posX = 0
         posY = 0

@@ -17,6 +17,7 @@ mainProcess() {
     log.warn "kamehouse-desktop is already running. Exiting..."
     exitSuccessfully
   fi
+  initDesktopBackgroundsLists
   startKameHouseDesktop
 }
 

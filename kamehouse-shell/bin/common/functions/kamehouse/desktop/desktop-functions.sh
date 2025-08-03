@@ -1,4 +1,7 @@
 KAMEHOUSE_DESKTOP_PID=""
+KAMEHOUSE_DESKTOP_DATA_PATH=${HOME}/.kamehouse/data/desktop
+KAMEHOUSE_DESKTOP_BACKGROUNDS_SUCCESS_FILE=${KAMEHOUSE_DESKTOP_DATA_PATH}/backgrounds-success.list
+KAMEHOUSE_DESKTOP_BACKGROUNDS_ERROR_FILE=${KAMEHOUSE_DESKTOP_DATA_PATH}/backgrounds-error.list
 
 setKameHouseDesktopPid() {
   log.info "Searching for kamehouse-desktop process"
@@ -10,4 +13,10 @@ setKameHouseDesktopPid() {
     KAMEHOUSE_DESKTOP_PID=`powershell.exe -c "${POWERSHELL_COMMAND}" | grep -v "powershell.exe" | grep -v "CommandLine" | grep "python.exe" | awk '{print $2}'`
   fi
   log.info "KAMEHOUSE_DESKTOP_PID: ${KAMEHOUSE_DESKTOP_PID}"
+}
+
+initDesktopBackgroundsLists() {
+  mkdir -p ${KAMEHOUSE_DESKTOP_DATA_PATH}
+  touch ${KAMEHOUSE_DESKTOP_BACKGROUNDS_SUCCESS_FILE}
+  touch ${KAMEHOUSE_DESKTOP_BACKGROUNDS_ERROR_FILE}
 }
