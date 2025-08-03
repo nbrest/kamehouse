@@ -36,8 +36,9 @@ class ZtvPlayerWidget(QWidget):
         self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         self.setPlayerHiddenWidgets()
         self.logo = ImageWidget("ztv_player_logo_widget", window)
-        self.setLogoAnimation()
-        self.startLogoAnimation()
+        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
+            self.setLogoAnimation()
+            self.startLogoAnimation()
         self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
         self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.defaultArtist, window)
         self.currentTime = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
