@@ -164,3 +164,7 @@
   background-color: #500000;
   color: #dfdfdf;
 }
+
+.tab-kh-link {
+  min-width: 120px;
+}
