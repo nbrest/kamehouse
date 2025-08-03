@@ -154,6 +154,8 @@ class BackgroundSlideshowWidget(QWidget):
         self.background.setPixmap(self.background.imgSrc)
             
     def updateBackgroundImageListFile(self, filePath):
+        if (kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'skip_update_backgrounds_list_files')):
+            return
         backgroundsFile = self.userHome + filePath
         try:
             backgroundsList = []
