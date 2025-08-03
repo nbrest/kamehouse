@@ -5,7 +5,7 @@
 
 # ChangeLog:
 
-#### v10.10
+#### v10.10 (vMaradona.Messi)
 
 - Updated default styles and position of desktop widgets
 - Added background slideshow widget to kamehouse desktop
