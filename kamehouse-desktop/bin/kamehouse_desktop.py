@@ -75,6 +75,9 @@ class KameHouseDesktop(QMainWindow):
     def updateZtvPlayerView(self):
         self.ztvPlayer.updateView()
 
+    def toggleZtvPlayerLogo(self):
+        self.ztvPlayer.toggleLogo()
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = KameHouseDesktop(app)

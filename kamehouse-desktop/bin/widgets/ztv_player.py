@@ -9,6 +9,7 @@ import urllib3
 
 from PyQt5.QtCore import QObject, pyqtSignal, QThread, QTimer, QTime, Qt, QPropertyAnimation, QParallelAnimationGroup, QSequentialAnimationGroup, QPoint, QRect
 from PyQt5.QtWidgets import QWidget, QGraphicsOpacityEffect
+from PyQt5.QtGui import QPixmap
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
@@ -35,21 +36,12 @@ class ZtvPlayerWidget(QWidget):
         self.window = window
         self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         self.setPlayerHiddenWidgets()
-        self.logo = ImageWidget("ztv_player_logo_widget", window)
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
-            self.setLogoAnimation()
-            self.startLogoAnimation()
+        self.configureLogo()
         self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
         self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.defaultArtist, window)
         self.currentTime = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
         self.totalTime = OutlinedTextWidget("ztv_player_total_time_widget", "--:--:--", window)
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
-            self.soundWave = MovieWidget("ztv_player_sound_wave_widget", window)
-            self.startSoundWaveMovie()
-        else:
-            self.soundWave = ImageWidget("ztv_player_sound_wave_widget", window)
-            self.setSoundWaveAnimation()
-            self.startSoundWaveAnimation()
+        self.configureSoundWave()
         self.initUpdateViewSync()
 
     def setPlayerHiddenWidgets(self):
@@ -59,6 +51,26 @@ class ZtvPlayerWidget(QWidget):
         self.hiddenMessageBubble.setHidden(True)
         self.hiddenMessageText = OutlinedTextWidget("ztv_player_hidden_message_text_widget", "音楽をかけて", self.window)
         self.hiddenMessageText.setHidden(True)
+
+    def configureLogo(self):
+        self.logo = ImageWidget("ztv_player_logo_widget", self.window)
+        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
+            self.setLogoAnimation()
+            self.startLogoAnimation()
+        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'toggle_alt_img_src')):
+            self.logo.isAltImgSrc = False
+            timer = QTimer(self.window)
+            timer.timeout.connect(self.window.toggleZtvPlayerLogo)
+            timer.start(kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'toggle_alt_img_wait_ms'))
+
+    def configureSoundWave(self):
+        if (kamehouseDesktopCfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
+            self.soundWave = MovieWidget("ztv_player_sound_wave_widget", self.window)
+            self.startSoundWaveMovie()
+        else:
+            self.soundWave = ImageWidget("ztv_player_sound_wave_widget", self.window)
+            self.setSoundWaveAnimation()
+            self.startSoundWaveAnimation()
 
     def initSyncThreads(self):
         if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')):
@@ -248,6 +260,21 @@ class ZtvPlayerWidget(QWidget):
 
     def startLogoAnimation(self):
         self.logo.animGroup.start()
+
+    def toggleLogo(self):
+        prefix = ''
+        if (not self.logo.isAltImgSrc):
+            prefix = 'alt_'
+            self.logo.isAltImgSrc = True
+        else:
+            self.logo.isAltImgSrc = False
+        self.logo.imgSrc = QPixmap(kamehouseDesktopCfg.get('ztv_player_logo_widget', prefix + 'img_src'))
+        self.logo.setPixmap(self.logo.imgSrc)
+        posX = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'pos_x')
+        posY = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'pos_y')
+        width = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'width')
+        height = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'height')
+        self.logo.setGeometry(posX, posY, width, height)
 
 class ZtvPlayerHttpSync(QObject):
     finished = pyqtSignal()
