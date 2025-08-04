@@ -1,6 +1,7 @@
 import websocket
 import stomper
 import json
+import random
 import time
 import socket
 import datetime
@@ -57,11 +58,12 @@ class ZtvPlayerWidget(QWidget):
         if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
             self.setLogoAnimation()
             self.startLogoAnimation()
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'toggle_alt_img_src')):
-            self.logo.isAltImgSrc = False
+        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
+            randomSrc = kamehouseDesktopCfg.get('ztv_player_logo_widget', 'random_src'); 
+            self.logo.randomSrc = json.loads(randomSrc)
             timer = QTimer(self.window)
-            timer.timeout.connect(self.window.toggleZtvPlayerLogo)
-            timer.start(kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'toggle_alt_img_wait_ms'))
+            timer.timeout.connect(self.window.setZtvPlayerRandomLogo)
+            timer.start(kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'random_src_wait_ms'))
 
     def configureSoundWave(self):
         if (kamehouseDesktopCfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
@@ -261,20 +263,11 @@ class ZtvPlayerWidget(QWidget):
     def startLogoAnimation(self):
         self.logo.animGroup.start()
 
-    def toggleLogo(self):
-        prefix = ''
-        if (not self.logo.isAltImgSrc):
-            prefix = 'alt_'
-            self.logo.isAltImgSrc = True
-        else:
-            self.logo.isAltImgSrc = False
-        self.logo.imgSrc = QPixmap(kamehouseDesktopCfg.get('ztv_player_logo_widget', prefix + 'img_src'))
+    def setRandomLogo(self):
+        randomLogo = random.choice(self.logo.randomSrc)
+        self.logo.imgSrc = QPixmap(randomLogo["imgSrc"])
         self.logo.setPixmap(self.logo.imgSrc)
-        posX = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'pos_x')
-        posY = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'pos_y')
-        width = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'width')
-        height = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', prefix + 'height')
-        self.logo.setGeometry(posX, posY, width, height)
+        self.logo.setGeometry(randomLogo["posX"], randomLogo["posY"], randomLogo["width"], randomLogo["height"])
 
 class ZtvPlayerHttpSync(QObject):
     finished = pyqtSignal()
