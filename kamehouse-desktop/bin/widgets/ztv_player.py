@@ -19,7 +19,7 @@ from widgets.movie import MovieWidget
 from widgets.text import OutlinedTextWidget
 
 class ZtvPlayerWidget(QWidget):
-    isHidden = False
+    isPlayingMedia = True
     logTrace = False
     vlcRcStatus = {}
     websocketUpdateTime = int(time.time())
@@ -36,7 +36,7 @@ class ZtvPlayerWidget(QWidget):
             return
         self.window = window
         self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
-        self.setPlayerHiddenWidgets()
+        self.setPlayerOffWidgets()
         self.configureLogo()
         self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
         self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.defaultArtist, window)
@@ -45,13 +45,13 @@ class ZtvPlayerWidget(QWidget):
         self.configureSoundWave()
         self.initUpdateViewSync()
 
-    def setPlayerHiddenWidgets(self):
-        self.hiddenGoku = ImageWidget("ztv_player_hidden_goku_widget", self.window)
-        self.hiddenGoku.setHidden(True)
-        self.hiddenMessageBubble = ImageWidget("ztv_player_hidden_message_bubble_widget", self.window)
-        self.hiddenMessageBubble.setHidden(True)
-        self.hiddenMessageText = OutlinedTextWidget("ztv_player_hidden_message_text_widget", "音楽をかけて", self.window)
-        self.hiddenMessageText.setHidden(True)
+    def setPlayerOffWidgets(self):
+        self.ztvPlayerOffGoku = ImageWidget("ztv_player_off_goku_widget", self.window)
+        self.ztvPlayerOffGoku.setHidden(True)
+        self.ztvPlayerOffKintoUn = ImageWidget("ztv_player_off_kintoun_widget", self.window)
+        self.ztvPlayerOffKintoUn.setHidden(True)
+        self.ztvPlayerOffMessage = OutlinedTextWidget("ztv_player_off_message_widget", "音楽をかけて", self.window)
+        self.ztvPlayerOffMessage.setHidden(True)
 
     def configureLogo(self):
         self.logo = ImageWidget("ztv_player_logo_widget", self.window)
@@ -156,11 +156,11 @@ class ZtvPlayerWidget(QWidget):
         return artist.replace("-", " ").replace("_", " ").replace(".", " ").title()
 
     def showZtvPlayer(self):
-        if (self.isHidden):
-            self.isHidden = False
-            self.hiddenGoku.setHidden(True)
-            self.hiddenMessageBubble.setHidden(True)
-            self.hiddenMessageText.setHidden(True)
+        if (not self.isPlayingMedia):
+            self.isPlayingMedia = True
+            self.ztvPlayerOffGoku.setHidden(True)
+            self.ztvPlayerOffKintoUn.setHidden(True)
+            self.ztvPlayerOffMessage.setHidden(True)
             self.logo.setHidden(False)
             self.title.setHidden(False)
             self.artist.setHidden(False)
@@ -169,11 +169,11 @@ class ZtvPlayerWidget(QWidget):
             self.soundWave.setHidden(False) 
 
     def hideZtvPlayer(self):
-        if (not self.isHidden):
-            self.isHidden = True
-            self.hiddenGoku.setHidden(False)
-            self.hiddenMessageBubble.setHidden(False)
-            self.hiddenMessageText.setHidden(False)
+        if (self.isPlayingMedia):
+            self.isPlayingMedia = False
+            self.ztvPlayerOffGoku.setHidden(False)
+            self.ztvPlayerOffKintoUn.setHidden(False)
+            self.ztvPlayerOffMessage.setHidden(False)
             self.logo.setHidden(True)
             self.title.setHidden(True)
             self.artist.setHidden(True)
