@@ -49,7 +49,7 @@ BEGIN {
   Ddd_RX="[A-Z][a-z]{2}";
   Mmm_RX="[A-Z][a-z]{2}";
   # IP
-  IPV4_RX="[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}"; # 192.168.0.2
+  IPV4_RX="[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}"; # 192.168.99.2
   IPV6_RX="[0-9a-zA-Z:]+"; # 0:0:0:0:0:0:0:1
   IPV4_OR_V6_RX="("IPV4_RX"|"IPV6_RX")";
   HOSTNAME_IP_PORT_RX="[A-Za-z\\.\\-:0-9]+" # This matches hostname, hostname:port, ip, ip:port
@@ -136,9 +136,9 @@ function matchApacheErrorLog(errorLog_rx_loc_) {
 # Apache Httpd: ssl_request.log 
 function matchApacheSslRequestLog(sslRequestLog_rx_loc_) {
   # [07/Apr/2020:22:19:38 +1000] ::1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /kame-house/api/ws/vlc-player/status/923/4cey2f5b/websocket HTTP/1.1" -
-  # [09/Apr/2020:21:29:52 +1000] 192.168.0.100 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET / HTTP/1.1" 28544  
+  # [09/Apr/2020:21:29:52 +1000] 192.168.99.100 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET / HTTP/1.1" 28544  
   # [07/Apr/2020:22:19:37 +1000] ::1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /kame-house/img/other/sync-btn-info.png HTTP/2.0" 1041
-  # [08/Apr/2020:21:26:47 +1000] 192.168.0.100 - - "GET / HTTP/1.0" 853
+  # [08/Apr/2020:21:26:47 +1000] 192.168.99.100 - - "GET / HTTP/1.0" 853
   # Format: '[DD/Mmm/YYYY:HH:MM:SS +9999] IP .* .* "HTTP_METHOD URL HTTP/VERSION".*'
   sslRequestLog_rx_loc_ = "^\\[[0-9]{2}\\/"Mmm_RX"\\/"YEAR_RX":"HH_MM_SS_RX" "TZONE_RX"\\] "IPV4_OR_V6_RX" .* .* \""HTTP_METHOD_RX" .*"HTTP_VERSION_RX"\".*";
   if ($0 ~ sslRequestLog_rx_loc_){ 

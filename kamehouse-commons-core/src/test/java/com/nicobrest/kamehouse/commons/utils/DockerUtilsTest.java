@@ -138,9 +138,9 @@ class DockerUtilsTest {
    */
   @Test
   void getDockerHostIpTest() {
-    when(PropertiesUtils.getProperty("DOCKER_HOST_IP")).thenReturn("192.168.0.99");
+    when(PropertiesUtils.getProperty("DOCKER_HOST_IP")).thenReturn("192.168.99.99");
 
-    assertEquals("192.168.0.99", DockerUtils.getDockerHostIp());
+    assertEquals("192.168.99.99", DockerUtils.getDockerHostIp());
   }
 
   /**

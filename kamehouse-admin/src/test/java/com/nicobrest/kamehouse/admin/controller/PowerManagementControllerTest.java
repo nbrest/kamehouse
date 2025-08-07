@@ -237,7 +237,7 @@ class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTe
 
     MockHttpServletResponse response =
         doPost(
-            "/api/v1/admin/power-management/wol?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.0.255");
+            "/api/v1/admin/power-management/wol?mac=AA:BB:CC:DD:EE:FF&broadcast=192.168.99.255");
 
     assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }

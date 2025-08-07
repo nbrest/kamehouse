@@ -255,7 +255,7 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 
 ```sh
 ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "pi"
-ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.0.129"
+ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.99.129"
 ```
 
 ## Can't tail apache httpd log on linux
