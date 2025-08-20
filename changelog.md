@@ -5,6 +5,11 @@
 
 # ChangeLog:
 
+#### v10.11
+
+- Updated default location to Madrid in docker container and desktop weather widget
+- Fixed bugs
+
 #### v10.10 (vMaradona.Messi)
 
 - Added shell script and ui in groot to get the lists of successful and invalid desktop backgrounds processed

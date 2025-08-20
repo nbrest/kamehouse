@@ -37,7 +37,7 @@ RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse/scripts/dockerfile-setup-
 EXPOSE 22 80 443 3306 5000 8000 8080 9090
 
 # Set timezone
-ENV TZ=Australia/Sydney
+ENV TZ=Europe/Madrid
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 CMD "/home/${KAMEHOUSE_USERNAME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse.sh"
