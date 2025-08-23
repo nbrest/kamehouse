@@ -331,6 +331,15 @@ class VlcPlayer {
   }
 
   /**
+   * Open a modal to confirm rebooting the server.
+   */
+  confirmRebootServer() {
+    kameHouse.plugin.modal.basicModal.setHtml(this.#getRebootServerModalMessage());
+    kameHouse.plugin.modal.basicModal.appendHtml(this.#createRebootButton());
+    kameHouse.plugin.modal.basicModal.open();
+  }
+
+  /**
    * Single left click.
    */
   mouseSingleClick() {
@@ -392,6 +401,32 @@ class VlcPlayer {
   }
 
   /**
+   * Get reboot server modal message.
+   */
+  #getRebootServerModalMessage() {
+    const rebootModalMessage = kameHouse.util.dom.getSpan({}, "Are you sure you want to reboot the server? ");
+    kameHouse.util.dom.append(rebootModalMessage, kameHouse.util.dom.getBr());
+    kameHouse.util.dom.append(rebootModalMessage, kameHouse.util.dom.getBr());
+    return rebootModalMessage;
+  }
+
+  /**
+   * Get reboot button.
+   */
+  #createRebootButton() {
+    return kameHouse.util.dom.getButton({
+      attr: {
+        class: "img-btn-kh",
+      },
+      mobileClass: null,
+      backgroundImg: "/kame-house/img/pc/shutdown-red.png",
+      html: null,
+      data: null,
+      click: (event, data) => this.#rebootServer()
+    });
+  }
+
+  /**
    * Create suspend button.
    */
   #createSuspendButton() {
@@ -422,6 +457,21 @@ class VlcPlayer {
       }, 
       () => {
         kameHouse.logger.error("Error suspending server", null); 
+      });
+  }
+
+  /**
+   * Reboot the server.
+   */
+  #rebootServer() {
+    kameHouse.plugin.modal.basicModal.close();
+    const REBOOT_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/reboot";
+    this.getRestClient().post(REBOOT_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), null, 
+      () => {
+        kameHouse.logger.info("Server rebooted", null);
+      }, 
+      () => {
+        kameHouse.logger.error("Error rebooting server", null); 
       });
   }
 

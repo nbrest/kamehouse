@@ -7,6 +7,7 @@
 
 #### v10.11
 
+- Added reboot server button to vlc player debug mode
 - Updated default location to Madrid in docker container and desktop weather widget
 - Fixed bugs
 
