@@ -466,7 +466,7 @@ class VlcPlayer {
   #rebootServer() {
     kameHouse.plugin.modal.basicModal.close();
     const REBOOT_SERVER_URL = "/kame-house-admin/api/v1/admin/power-management/reboot";
-    this.getRestClient().post(REBOOT_SERVER_URL, kameHouse.http.getUrlEncodedHeaders(), null, 
+    this.getRestClient().post(REBOOT_SERVER_URL, null, null, 
       () => {
         kameHouse.logger.info("Server rebooted", null);
       }, 
