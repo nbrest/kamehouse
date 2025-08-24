@@ -3,7 +3,7 @@ from PyQt5.QtCore import QTimer, QTime, Qt
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
-from widgets.text import TextWidget
+from widgets.text import OutlinedTextWidget
 
 class ClockWidget(QWidget):
     logTrace = False
@@ -12,7 +12,7 @@ class ClockWidget(QWidget):
         super().__init__(window)
         logger.info("Initializing clock widget")
         self.logTrace = kamehouseDesktopCfg.getBoolean('clock_widget', 'trace_log_enabled')
-        self.text = TextWidget('clock_text_widget', "00:00", window)
+        self.text = OutlinedTextWidget('clock_text_widget', "00:00", window)
         self.updateTime()
         timer = QTimer(window)
         timer.timeout.connect(window.updateClockTime)
