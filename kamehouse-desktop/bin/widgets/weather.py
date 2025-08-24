@@ -11,7 +11,7 @@ from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
 from widgets.image import ImageWidget
-from widgets.text import TextWidget
+from widgets.text import OutlinedTextWidget
 
 class WeatherWidget(QWidget):
     logTrace = False
@@ -24,7 +24,7 @@ class WeatherWidget(QWidget):
         self.window = window
         self.logTrace = kamehouseDesktopCfg.getBoolean('weather_widget', 'trace_log_enabled')
         self.openWeatherMapApiKey = os.environ.get('OPENWEATHERMAP_API_KEY')
-        self.text = TextWidget('weather_text_widget', "", window)
+        self.text = OutlinedTextWidget('weather_text_widget', "", window)
         self.logo = ImageWidget('weather_logo_widget', window)
         self.logo.setHidden(True)
         if (self.logTrace):
