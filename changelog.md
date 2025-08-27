@@ -7,6 +7,7 @@
 
 #### v10.11
 
+- Added kamehouse-openwrt to default servers
 - Updated default position of desktop elements
 - Updated ztv player icons
 - Added reboot server button to vlc player debug mode
