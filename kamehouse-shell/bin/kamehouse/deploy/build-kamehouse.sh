@@ -47,6 +47,9 @@ parseArguments() {
       -f)
         FAST_BUILD=true
         ;;
+      --ci-build)
+        CI_BUILD=true
+        ;;
       -i)
         INTEGRATION_TESTS=true
         ;;

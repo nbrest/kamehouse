@@ -22,7 +22,7 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -m shell -c -l ${LOG_LEVEL}
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/build-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/build-kamehouse.sh --ci-build
   checkCommandStatus "$?" "An error occurred building kamehouse"
 
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ci-integration-tests-trigger.sh

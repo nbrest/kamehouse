@@ -30,7 +30,9 @@ deleteGitRepoBuildInfoFiles() {
 buildKameHouseStatic() {
   if ! ${DEPLOY_KAMEHOUSE_UI}; then
     log.debug "DEPLOY_KAMEHOUSE_UI is false so skip building kamehouse ui"
-    return
+    if ! ${CI_BUILD}; then
+      return
+    fi
   fi
   if ${INTEGRATION_TESTS}; then
     log.debug "Running integration tests, skippking ui static code build"
@@ -177,8 +179,10 @@ buildKameHouseBackend() {
     RUN_MAVEN_COMMAND=false
   fi
   if ! ${RUN_MAVEN_COMMAND}; then
-    log.debug "RUN_MAVEN_COMMAND is false so skip running maven command"
-    return
+    if ! ${CI_BUILD}; then
+      log.debug "RUN_MAVEN_COMMAND is false so skip running maven command"
+      return
+    fi
   fi
   source ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-java-home.sh --override --log
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
