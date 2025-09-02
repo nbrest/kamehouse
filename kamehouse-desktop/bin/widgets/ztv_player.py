@@ -64,7 +64,7 @@ class ZtvPlayerWidget(QWidget):
             for i in range(1, randomSrcCount + 1):
                 randomSrcEntryName = "random_src_" + str(i).zfill(2)
                 randomSrcEntry = kamehouseDesktopCfg.get('ztv_player_logo_widget', randomSrcEntryName)
-                randomSrc.append(randomSrcEntry)
+                randomSrc.append(json.loads(randomSrcEntry))
                 if (self.logTrace):
                     logger.info("Adding ztv_player_logo_widget randomSrc: " + randomSrcEntryName)                
             self.logo.randomSrc = randomSrc
