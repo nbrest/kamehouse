@@ -59,8 +59,15 @@ class ZtvPlayerWidget(QWidget):
             self.setLogoAnimation()
             self.startLogoAnimation()
         if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
-            randomSrc = kamehouseDesktopCfg.get('ztv_player_logo_widget', 'random_src'); 
-            self.logo.randomSrc = json.loads(randomSrc)
+            randomSrcCount = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'random_src_entries_count')
+            randomSrc = []
+            for i in range(1, randomSrcCount + 1):
+                randomSrcEntryName = "random_src_" + str(i).zfill(2)
+                randomSrcEntry = kamehouseDesktopCfg.get('ztv_player_logo_widget', randomSrcEntryName)
+                randomSrc.append(randomSrcEntry)
+                if (self.logTrace):
+                    logger.info("Adding ztv_player_logo_widget randomSrc: " + randomSrcEntryName)                
+            self.logo.randomSrc = randomSrc
             timer = QTimer(self.window)
             timer.timeout.connect(self.window.setZtvPlayerRandomLogo)
             timer.start(kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'random_src_wait_ms'))
