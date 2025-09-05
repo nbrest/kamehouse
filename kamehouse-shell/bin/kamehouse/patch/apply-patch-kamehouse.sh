@@ -43,7 +43,7 @@ runDeployment() {
   if [ "$?" == "0" ]; then
     log.info "${COL_YELLOW}SUCCESS!!!!!! Patch applied successfully"
     if [ "${MODULE_SHORT}" == "desktop" ]; then
-      ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-restart.sh
+      ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-restart.sh &
     fi
   else
     log.error "Deployment error after applying patch"
