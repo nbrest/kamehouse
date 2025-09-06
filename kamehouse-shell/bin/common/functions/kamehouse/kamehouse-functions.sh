@@ -479,12 +479,16 @@ pullLatestKameHouseChanges() {
   fi
   log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} from repository"     
   git checkout dev
-  checkCommandStatus "$?" "An error occurred checking out dev branch"
+  if [ "$?" != "0" ]; then
+    log.error "An error occurred checking out dev branch. Continuing process anyway"
+  fi
   
   git reset --hard
 
   git pull origin dev
-  checkCommandStatus "$?" "An error occurred pulling origin dev"
+  if [ "$?" != "0" ]; then
+    log.error "An error occurred pulling dev changes. Continuing process anyway"
+  fi
 }
 
 cleanLogsInGitRepoFolder() {
