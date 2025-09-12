@@ -308,7 +308,7 @@ class KameHouseAuth {
     global $kameHouse;
     $mariadbPassword = $kameHouse->shell->getKameHouseSecret("MARIADB_PASS_KAMEHOUSE");
     return '{ 
-      "server" : "localhost",
+      "server" : "127.0.0.1",
       "username" : "kamehouse",
       "password" : "'.$mariadbPassword.'",
       "database" : "kamehouse"
