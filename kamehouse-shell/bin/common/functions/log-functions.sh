@@ -22,7 +22,7 @@ COL_DEFAULT_LOG=${COL_GREEN}
 # Override LOG_CMD_ARGS variable in the function initKameHouseShellEnv in the shell scripts
 LOG_CMD_ARGS=true
 
-# Set to true to remove color from scripts
+# Set to true in the function initKameHouseShellEnv to remove color from scripts
 UNCOLOR_SCRIPT=false
 
 # Override in scripts to set a dmsg log file for different os
