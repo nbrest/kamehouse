@@ -25,6 +25,9 @@ LOG_CMD_ARGS=true
 # Set to true to remove color from scripts
 UNCOLOR_SCRIPT=false
 
+# Override in scripts to set a dmsg log file for different os
+DMSG_LOG="/dev/kmsg"
+
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
 log() {
@@ -104,6 +107,14 @@ log.warn() {
 # Log error
 log.error() {
   log "ERROR" "$1" "$2"
+}
+
+# Log INFO to dmsg and console
+log.dmsg() {
+  local ENTRY_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
+  local LOG_MESSAGE=$1
+  log.info "${LOG_MESSAGE}"
+  echo -e "${ENTRY_DATE} - [INFO] - ${SCRIPT_NAME} - ${LOG_MESSAGE}" >> ${DMSG_LOG}
 }
 
 # Log standard start of the script
@@ -198,3 +209,4 @@ setLogColors() {
     uncolorScripts
   fi
 }
+
