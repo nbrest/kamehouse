@@ -22,6 +22,9 @@ COL_DEFAULT_LOG=${COL_GREEN}
 # Override LOG_CMD_ARGS variable in the function initKameHouseShellEnv in the shell scripts
 LOG_CMD_ARGS=true
 
+# Set to true to remove color from scripts
+UNCOLOR_SCRIPT=false
+
 # Log an event to the console passing log level and the message as arguments.
 # DON'T use this function directly. Use log.info, log.debug, log.warn, log.error, log.trace functions
 log() {
@@ -186,5 +189,12 @@ setLogLevelFromEnv() {
   if [ -n "${log}" ]; then
     LOG_LEVEL_NUMBER=`getLogLevelNumber ${log}`
     LOG=${log}
+  fi
+}
+
+# Configure script colors
+setLogColors() {
+  if ${UNCOLOR_SCRIPT}; then
+    uncolorScripts
   fi
 }

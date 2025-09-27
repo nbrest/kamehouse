@@ -113,6 +113,7 @@ mainProcess() {
 # Configure the kamehouse shell environment
 configureKameHouseShell() {
   setLogLevelFromEnv
+  setLogColors
   setRootPrefix
   setIsLinuxHost
 }

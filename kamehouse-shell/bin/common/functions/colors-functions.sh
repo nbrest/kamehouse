@@ -37,3 +37,48 @@ COL_GREEN_ITA="\033[3;32m"
 COL_PURPLE_ITA="\033[3;35m"
 COL_RED_ITA="\033[3;31m"
 COL_YELLOW_ITA="\033[3;33m"
+
+# Remove all color from scripts
+uncolorScripts() {
+  COL_DEFAULT_LOG=""
+
+  # bold (default)
+  COL_BOLD=""
+
+  COL_BLUE=""
+  COL_CYAN=""
+  COL_GREEN=""
+  COL_PURPLE=""
+  COL_RED=""
+  COL_YELLOW=""
+
+  # normal
+  COL_NORMAL=""
+
+  COL_BLUE_STD=""
+  COL_CYAN_STD=""
+  COL_GREEN_STD=""
+  COL_PURPLE_STD=""
+  COL_RED_STD=""
+  COL_YELLOW_STD=""
+
+  # faint
+  COL_NORMAL_FNT=""
+
+  COL_BLUE_FNT=""
+  COL_CYAN_FNT=""
+  COL_GREEN_FNT=""
+  COL_PURPLE_FNT=""
+  COL_RED_FNT=""
+  COL_YELLOW_FNT=""
+
+  # italic
+  COL_NORMAL_ITA=""
+
+  COL_BLUE_ITA=""
+  COL_CYAN_ITA=""
+  COL_GREEN_ITA=""
+  COL_PURPLE_ITA=""
+  COL_RED_ITA=""
+  COL_YELLOW_ITA=""  
+}
