@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v10.12
+
+- Fixed bugs
+
 #### v10.11
 
 - Added kamehouse-openwrt to default servers
