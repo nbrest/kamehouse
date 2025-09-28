@@ -8,6 +8,8 @@
 #### v10.11
 
 - Added kamehouse-openwrt to default servers
+- Added functions to log to dmeg and uncolored logs
+- Updated default home network settings
 - Updated default position of desktop elements
 - Updated ztv player icons
 - Added reboot server button to vlc player debug mode
