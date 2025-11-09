@@ -84,6 +84,8 @@ class BackgroundSlideshowWidget(QWidget):
                  imagePath.endswith(".JPEG") or 
                  imagePath.endswith(".jpg") or 
                  imagePath.endswith(".JPG") or 
+                 imagePath.endswith(".heic") or 
+                 imagePath.endswith(".HEIC") or 
                  imagePath.endswith(".bmp") or 
                  imagePath.endswith(".BMP") or 
                  imagePath.endswith(".png") or 

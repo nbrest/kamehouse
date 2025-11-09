@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Add support for HEIC images in kamehouse desktop background slideshow
 - Fixed bugs
 
 #### v10.11
