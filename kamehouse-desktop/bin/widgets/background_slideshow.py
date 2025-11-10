@@ -80,18 +80,13 @@ class BackgroundSlideshowWidget(QWidget):
     def isValidImageFile(self, imagePath):
         if (imagePath is None):
             return False
-        return (imagePath.endswith(".jpeg") or 
-                 imagePath.endswith(".JPEG") or 
-                 imagePath.endswith(".jpg") or 
-                 imagePath.endswith(".JPG") or 
-                 imagePath.endswith(".heic") or 
-                 imagePath.endswith(".HEIC") or 
-                 imagePath.endswith(".bmp") or 
-                 imagePath.endswith(".BMP") or 
-                 imagePath.endswith(".png") or 
-                 imagePath.endswith(".PNG") or 
-                 imagePath.endswith(".webp") or 
-                 imagePath.endswith(".WEBP"))
+        imagePathLower = imagePath.lower()
+        return (imagePathLower.endswith(".jpeg") or 
+                 imagePathLower.endswith(".jpg") or 
+                 imagePathLower.endswith(".heic") or 
+                 imagePathLower.endswith(".bmp") or 
+                 imagePathLower.endswith(".png") or 
+                 imagePathLower.endswith(".webp"))
 
     def setBackgroundAnimation(self):
         animationMs = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'animation_ms')
