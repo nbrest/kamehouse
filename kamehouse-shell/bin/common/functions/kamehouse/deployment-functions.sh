@@ -262,6 +262,10 @@ uploadKameHouseMobileApkToHttpdServer() {
   SSH_USER="${KAMEHOUSE_MOBILE_APP_SERVER_USERNAME}"
   SSH_SERVER="${KAMEHOUSE_MOBILE_APP_SERVER_IP}"
   IS_REMOTE_LINUX_HOST=true
+
+  SSH_COMMAND="chmod a+rx ${KAMEHOUSE_MOBILE_APP_SERVER_PATH}/kamehouse.apk"
+  executeSshCommand
+  
   SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
   executeSshCommand
 }
