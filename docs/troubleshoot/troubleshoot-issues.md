@@ -254,8 +254,8 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 ## Remove known host keys when the server keys changed:
 
 ```sh
-ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "pi"
-ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.99.129"
+ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "kamehouse-pegasus"
+ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.99.1"
 ```
 
 ## Can't tail apache httpd log on linux
