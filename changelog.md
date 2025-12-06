@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Renamed openwrt to pegasus
 - Add support for HEIC images in kamehouse desktop background slideshow
 - Fixed bugs
 
