@@ -77,6 +77,9 @@ sudo npm install typescript -g
 ```sh
 wget https://raw.githubusercontent.com/nbrest/kamehouse/refs/heads/dev/scripts/install-kamehouse.sh
 chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
+
+# Run with -s to install shell only
+chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh -s
 ```
 
 * Update the values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup then rebuild kamehouse with `deploy-kamehouse.sh`
