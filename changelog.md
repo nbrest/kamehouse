@@ -7,7 +7,8 @@
 
 #### v10.12
 
-- Renamed vlc player to ztv player
+- Added more ztv desktop player logos
+- Renamed vlc player to ztv player in the ui
 - Renamed openwrt to pegasus
 - Add support for HEIC images in kamehouse desktop background slideshow
 - Fixed bugs
