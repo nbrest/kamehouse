@@ -225,3 +225,10 @@ getDockerHostUserHome() {
     echo "/C:/Users/${DOCKER_HOST_USERNAME}"
   fi
 }
+
+checkDockerScripsEnabled() {
+  if ! ${DOCKER_ENABLED}; then
+    log.warn "Docker scripts are disabled in kamehouse.cfg, exiting"
+    exitSuccessfully
+  fi
+}

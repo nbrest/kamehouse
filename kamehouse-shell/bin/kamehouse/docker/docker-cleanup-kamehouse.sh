@@ -7,6 +7,7 @@ source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-fu
 if [ "$?" != "0" ]; then echo "Error importing docker-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
+  checkDockerScripsEnabled
   listDockerImages
   removeUntaggedImages
   listDockerImages

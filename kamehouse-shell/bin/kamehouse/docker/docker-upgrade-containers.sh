@@ -7,6 +7,7 @@ source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-fu
 if [ "$?" != "0" ]; then echo "Error importing docker-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
+  checkDockerScripsEnabled
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p prod
   ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p demo

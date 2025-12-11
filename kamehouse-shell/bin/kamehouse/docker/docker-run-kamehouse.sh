@@ -24,6 +24,7 @@ initScriptEnv() {
 }
 
 mainProcess() {
+  checkDockerScripsEnabled
   setEnvironment
   printEnv
   runDockerImage  

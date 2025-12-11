@@ -7,6 +7,7 @@ source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/docker-fu
 if [ "$?" != "0" ]; then echo "Error importing docker-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
+  checkDockerScripsEnabled
   log.info "Pushing docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   log.debug "docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}"
   docker push nbrest/kamehouse:${DOCKER_IMAGE_TAG}

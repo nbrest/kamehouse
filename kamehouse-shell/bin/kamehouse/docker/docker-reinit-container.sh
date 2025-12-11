@@ -17,6 +17,7 @@ initScriptEnv() {
 }
 
 mainProcess() {
+  checkDockerScripsEnabled
   printReinitSettings
 
   requestConfirmation

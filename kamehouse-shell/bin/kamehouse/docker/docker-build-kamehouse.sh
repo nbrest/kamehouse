@@ -16,6 +16,7 @@ initScriptEnv() {
 }
 
 mainProcess() {
+  checkDockerScripsEnabled
   setKameHouseRootProjectDir
   if ${RUN_BUILD_STEP_FOR_RELEASE_TAG}; then
     runDockerBuildCommand

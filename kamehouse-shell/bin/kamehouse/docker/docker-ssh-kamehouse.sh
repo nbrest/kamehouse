@@ -14,6 +14,7 @@ initScriptEnv() {
 }
 
 mainProcess() {
+  checkDockerScripsEnabled
   log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
   if ${REMOVE_SERVER_KEY}; then
     ${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-server-key-remove.sh -p ${DOCKER_PROFILE}
