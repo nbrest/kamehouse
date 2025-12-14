@@ -127,13 +127,12 @@ certain functionality. These external dependencies are:
 
 - Download [Git Bash](https://www.git-scm.com/download/win)
 - Needed to run kamehouse shell scripts in **Windows**
-- Make sure it's installed to `C:\Program Files\Git\bin\bash.exe`
 
 ### Msys2 (windows)
 
 - Download [msys2](https://www.msys2.org/)
+- Check [installation](/docs/installation/installation.md) to install needed packages
 - Needed to run tmux scripts to run detached ssh sessions
-- Make sure it's installed to `C:\msys64`
 
 ### SSH Server
 

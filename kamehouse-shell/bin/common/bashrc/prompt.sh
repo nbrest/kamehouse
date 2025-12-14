@@ -6,6 +6,7 @@ if (( $EUID != 0 )); then
   # Normal user
   PS1_PREFIX="\[\e]0;\u@\h:\w\a\]"
   PS1_SCREEN="\[${COL_BLUE}\]S:"
+  PS1_TMUX="\[${COL_BLUE}\]tmux:"
   PS1_KAMEHOUSE="\[${COL_BLUE}\][\[${COL_PURPLE}\]KameHouse\[${COL_BLUE}\]] "
   PS1_USERNAME="\[${COL_GREEN}\]\u"
   PS1_AT="\[${COL_BLUE}\]@"
@@ -18,6 +19,7 @@ else
   # root
   PS1_PREFIX="\[\e]0;\u@\h:\w\a\]"
   PS1_SCREEN="\[${COL_BLUE}\]S:"
+  PS1_TMUX="\[${COL_BLUE}\]tmux:"
   PS1_KAMEHOUSE="\[${COL_BLUE}\][\[${COL_RED}\]KameHouse\[${COL_BLUE}\]] "
   PS1_USERNAME="\[${COL_RED}\]\u"
   PS1_AT="\[${COL_BLUE}\]@"
@@ -28,8 +30,15 @@ else
   PS1_SUFFIX="\[${COL_BLUE}\]\$ \[${COL_NORMAL}\]"
 fi
 
-if [ -z "$STY" ]; then
-  PS1=${PS1_PREFIX}${PS1_KAMEHOUSE}${PS1_USERNAME}${PS1_AT}${PS1_HOSTNAME}${PS1_DOT}${PS1_PWD}${PS1_GIT}${PS1_SUFFIX}  
-else
+if [ -n "$STY" ]; then
+  # using screen
   PS1=${PS1_PREFIX}${PS1_SCREEN}${PS1_KAMEHOUSE}${PS1_USERNAME}${PS1_AT}${PS1_HOSTNAME}${PS1_DOT}${PS1_PWD}${PS1_GIT}${PS1_SUFFIX}
+else
+  if [ "${TERM_PROGRAM}" == "tmux" ]; then
+    # using tmux
+    PS1=${PS1_PREFIX}${PS1_TMUX}${PS1_KAMEHOUSE}${PS1_USERNAME}${PS1_AT}${PS1_HOSTNAME}${PS1_DOT}${PS1_PWD}${PS1_GIT}${PS1_SUFFIX}
+  else
+    # using standard screen
+    PS1=${PS1_PREFIX}${PS1_KAMEHOUSE}${PS1_USERNAME}${PS1_AT}${PS1_HOSTNAME}${PS1_DOT}${PS1_PWD}${PS1_GIT}${PS1_SUFFIX}  
+  fi
 fi

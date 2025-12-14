@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 mainProcess() {
-  /c/msys64/usr/bin/bash.exe -c "export HOME=${HOME} ; /bin/tmux"
+  tmux set mouse on
 }
 
 main "$@"
