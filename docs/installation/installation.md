@@ -33,7 +33,13 @@ cp /c/Users/$USER/.ssh/* /home/$USER/.ssh
 # In a msys64 terminal
 echo "" >> /etc/profile
 echo 'export HOME=\"/c/Users/$USER"' >> /etc/profile
+echo 'cd ${HOME}' >> /etc/profile
 ```
+
+  - Configure a new windows terminal profile `Msys2`:
+      - Command: `C:\msys64\usr\bin\bash.exe -i -l`
+      - Starting dir: `%USERPROFILE%`
+      - Run as admin: check
 
 * Install node [(versions)](/docs/versions/versions.md) 
 ```sh

@@ -184,7 +184,7 @@ KameHouse should run fine without admin permissions, but you can configure windo
 - properties > shortcut > run > minimized 
 - properties > shortcut > advanced > run as administrator 
 
-- If needed, also configure windows terminal app to run `Git Bash`, `PowerShell` and `Console` profiles as administrator
+- If needed, also configure windows terminal app to run `Msys2`, `Git Bash`, `PowerShell` and `Console` profiles as administrator
 
 *********************
 
