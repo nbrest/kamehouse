@@ -129,6 +129,12 @@ certain functionality. These external dependencies are:
 - Needed to run kamehouse shell scripts in **Windows**
 - Make sure it's installed to `C:\Program Files\Git\bin\bash.exe`
 
+### Msys2 (windows)
+
+- Download [msys2](https://www.msys2.org/)
+- Needed to run tmux scripts to run detached ssh sessions
+- Make sure it's installed to `C:\msys64`
+
 ### SSH Server
 
 - This is only really needed in a remote host that will be controlled by a kamehouse docker

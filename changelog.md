@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Added tmux scripts for windows to use detached ssh sessions on windows servers
 - Added config to disable docker scripts in kamehouse.cfg
 - Added more ztv desktop player logos
 - Renamed vlc player to ztv player in the ui
