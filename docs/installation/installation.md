@@ -28,8 +28,11 @@ mkdir -p /home/$USER/.ssh
 cp /c/Users/$USER/.ssh/* /home/$USER/.ssh
 ```
 
-  - Set user home to windows user home in msys2
+  - Configure msys2 environment
 ```sh
+# In a msys64 terminal add to the BEGINNING of /etc/profile to inherit PATH
+MSYS2_PATH_TYPE=inherit
+
 # In a msys64 terminal
 echo "" >> /etc/profile
 echo 'export HOME=\"/c/Users/$USER"' >> /etc/profile
