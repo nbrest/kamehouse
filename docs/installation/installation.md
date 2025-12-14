@@ -35,7 +35,7 @@ MSYS2_PATH_TYPE=inherit
 
 # In a msys64 terminal
 echo "" >> /etc/profile
-echo 'export HOME=\"/c/Users/$USER"' >> /etc/profile
+echo 'export HOME="/c/Users/$USER"' >> /etc/profile
 echo 'cd ${HOME}' >> /etc/profile
 ```
 
