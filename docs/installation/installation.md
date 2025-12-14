@@ -28,6 +28,13 @@ mkdir -p /home/$USER/.ssh
 cp /c/Users/$USER/.ssh/* /home/$USER/.ssh
 ```
 
+  - Set user home to windows user home in msys2
+```sh
+# In a msys64 terminal
+echo "" >> /etc/profile
+echo 'export HOME=\"/c/Users/$USER"' >> /etc/profile
+```
+
 * Install node [(versions)](/docs/versions/versions.md) 
 ```sh
 # Update dockerfile when updating node version here
