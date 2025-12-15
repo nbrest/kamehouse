@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Added msys2 support to replace git for windows bash implementation
 - Added tmux scripts for windows to use detached ssh sessions on windows servers
 - Added config to disable docker scripts in kamehouse.cfg
 - Added more ztv desktop player logos

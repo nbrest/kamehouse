@@ -1,6 +1,10 @@
 @echo off
 rem Set DEBUG_GIT_BASH env variable to true to log debug
 setlocal EnableDelayedExpansion
+if "%SWITCH_TO_MSYS2%"=="true" (
+  %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat %*
+  exit
+)
 set INFO=- [INFO] - git-bash.bat -
 set DEBUG=- [DEBUG] - git-bash.bat -
 echo "" > %USERPROFILE%/logs/git-bash.log
