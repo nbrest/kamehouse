@@ -115,10 +115,14 @@ setIsLinuxHost() {
 setRootPrefix() {
   # Ubuntu for windows
   ROOT_PREFIX="/mnt"
-  local MSYSTEM_MINGW="${MSYSTEM}"
-  MSYSTEM_MINGW=`echo ${MSYSTEM_MINGW:0:5}`
+  local MSYSTEM_MINGW=`echo ${MSYSTEM:0:5}`
   if [ "${MSYSTEM_MINGW}" == "MINGW" ]; then
     # Git Bash
+    ROOT_PREFIX=""
+  fi
+  local MSYSTEM_MSYS=`echo ${MSYSTEM:0:4}`
+  if [ "${MSYSTEM_MSYS}" == "MSYS" ]; then
+    # Msys2
     ROOT_PREFIX=""
   fi
 }
