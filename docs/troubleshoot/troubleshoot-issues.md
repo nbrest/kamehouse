@@ -179,6 +179,9 @@ audio output failed: the audio device "default" could not be used: unknown error
 
 ## Windows
 
+### Msys2 prefixes / with C:/msys64 when using parameters on commands starting with /
+- In windows it's common to have command line parameters starting with `/`. Msys2 sometimes treats this as the root of the drive and prefixes it with `C:/msys64` breaking the commands. To avoid this, set the env variable `MSYS2_ARG_CONV_EXCL` with the comma separated values `/param1,/param2` that it needs to exclude from the conversion
+
 ### Any permission errors when loading tomcat/httpd
 KameHouse should run fine without admin permissions, but you can configure windows startup shortcuts to run as administrator: 
 - properties > shortcut > run > minimized 
