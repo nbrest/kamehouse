@@ -24,6 +24,9 @@ pacman -S tmux
 pacman -S git
 pacman -S vim
 pacman -S rsync
+pacman -S wget
+pacman -S zip
+pacman -S unzip
 mkdir -p /home/$USER/.ssh
 cp /c/Users/$USER/.ssh/* /home/$USER/.ssh
 ```
