@@ -42,10 +42,11 @@ echo 'export HOME="/c/Users/$USER"' >> /etc/profile
 echo 'cd ${HOME}' >> /etc/profile
 ```
 
-  - Configure a new windows terminal profile `Msys2`:
+  - Configure a new windows terminal profile `KameHouse Shell`:
       - Command: `C:\msys64\usr\bin\bash.exe -i -l`
       - Starting dir: `%USERPROFILE%`
       - Run as admin: check
+      - Set icon as favicon.ico from kamehouse-ui
 
 * Install node [(versions)](/docs/versions/versions.md) 
 ```sh
