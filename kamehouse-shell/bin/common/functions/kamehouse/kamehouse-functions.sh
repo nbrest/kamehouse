@@ -357,6 +357,7 @@ executeSshCommand() {
   else
     log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""`
+    SSH_OUTPUT="${COL_YELLOW}  Remote windows server ssh output is not available. Check the logs in the remote server"
     SSH_EXIT_CODE=$?
   fi
   log.info "${COL_CYAN}---------- ${SSH_USER}@${SSH_SERVER} ssh command output start. SID:${SESSION_ID}"
