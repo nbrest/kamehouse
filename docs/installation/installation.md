@@ -20,13 +20,14 @@
   - Make sure it's installed to `C:\msys64`
 ```sh
 # In a msys64 terminal
-pacman -S tmux
-pacman -S git
-pacman -S vim
-pacman -S rsync
-pacman -S wget
-pacman -S zip
-pacman -S unzip
+pacman --noconfirm -S git
+pacman --noconfirm -S gzip
+pacman --noconfirm -S tmux
+pacman --noconfirm -S rsync
+pacman --noconfirm -S unzip
+pacman --noconfirm -S vim
+pacman --noconfirm -S wget
+pacman --noconfirm -S zip
 mkdir -p /home/$USER/.ssh
 cp /c/Users/$USER/.ssh/* /home/$USER/.ssh
 ```
