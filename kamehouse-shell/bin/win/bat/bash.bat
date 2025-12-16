@@ -14,7 +14,7 @@ rem Execute bash.exe without arguments
 if "!arguments!"=="" ( 
   echo %DATE% %TIME% %INFO% Started executing bash.exe without arguments >> %USERPROFILE%/logs/bash.log
   
-  "C:\msys64\usr\bin\bash.exe" 
+  "C:\msys64\usr\bin\bash.exe" -i -l
   
   echo %DATE% %TIME% %INFO% Finished executing bash.exe without arguments >> %USERPROFILE%/logs/bash.log
 )
@@ -25,7 +25,7 @@ if defined arguments (
     echo %DATE% %TIME% %DEBUG% Started executing bash.exe with arguments !arguments! >> %USERPROFILE%/logs/bash.log
   )
 
-  "C:\msys64\usr\bin\bash.exe" !arguments!
+  "C:\msys64\usr\bin\bash.exe" -i -l !arguments!
   
   if "%DEBUG_BASH%"=="true" (
     echo %DATE% %TIME% %DEBUG% Finished executing bash.exe with arguments !arguments! >> %USERPROFILE%/logs/bash.log
