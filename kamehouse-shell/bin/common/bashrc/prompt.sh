@@ -6,7 +6,7 @@ if (( $EUID != 0 )); then
   # Normal user
   PS1_PREFIX="\[\e]0;\u@\h:\w\a\]"
   PS1_SCREEN="\[${COL_BLUE}\]S:"
-  PS1_TMUX="\[${COL_BLUE}\]tmux:"
+  PS1_TMUX="\[${COL_BLUE}\]T:"
   PS1_KAMEHOUSE="\[${COL_BLUE}\][\[${COL_PURPLE}\]KameHouse\[${COL_BLUE}\]] "
   PS1_USERNAME="\[${COL_GREEN}\]\u"
   PS1_AT="\[${COL_BLUE}\]@"
@@ -19,7 +19,7 @@ else
   # root
   PS1_PREFIX="\[\e]0;\u@\h:\w\a\]"
   PS1_SCREEN="\[${COL_BLUE}\]S:"
-  PS1_TMUX="\[${COL_BLUE}\]tmux:"
+  PS1_TMUX="\[${COL_BLUE}\]T:"
   PS1_KAMEHOUSE="\[${COL_BLUE}\][\[${COL_RED}\]KameHouse\[${COL_BLUE}\]] "
   PS1_USERNAME="\[${COL_RED}\]\u"
   PS1_AT="\[${COL_BLUE}\]@"
