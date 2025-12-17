@@ -8,7 +8,7 @@ export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
 DEFAULT_KAMEHOUSE_USERNAME=""
 
 KAMEHOUSE_CFG="${HOME}/.kamehouse/config/kamehouse.cfg"
-GIT_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat"
+WIN_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
 USE_CURRENT_DIR=false
@@ -355,8 +355,8 @@ executeSshCommand() {
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"`
     SSH_EXIT_CODE=$?
   else
-    log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${GIT_BASH} -c \\\"${SSH_COMMAND}\\\"\""
-    SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} "${GIT_BASH} -c \"${SSH_COMMAND}\""`
+    log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} \"${WIN_BASH} -c \\\"${SSH_COMMAND}\\\"\""
+    SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} "${WIN_BASH} -c \"${SSH_COMMAND}\""`
     SSH_OUTPUT="${COL_YELLOW}  Remote windows server ssh output is not available. Check the logs in the remote server"
     SSH_EXIT_CODE=$?
   fi

@@ -26,7 +26,7 @@ sudo usermod -a -G adm username
 
 ### Windows:
 
-- Run `copy-b-bat.sh` to copy `b.bat` to the home directory. Then from cmd.exe just type b enter to start git-bash
+- Run `copy-b-bat.sh` to copy `b.bat` to the home directory. Then from cmd.exe just type b enter to start bash
 
 - Use windows task scheduler to schedule every X minutes the keep-alive-\*.bat that calls the keep-alive-\*.sh 
 

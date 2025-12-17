@@ -72,7 +72,7 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse-dev.sh'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory:
@@ -87,7 +87,7 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup-dev.sh'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory: 
@@ -102,7 +102,7 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-status-dev.sh'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-status-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory: 
@@ -117,7 +117,7 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop-dev.sh'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop-dev.sh'"
       - Linux
         - location: /bin/bash
         - working directory:

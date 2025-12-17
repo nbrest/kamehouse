@@ -85,7 +85,7 @@ class KameHouseShell {
       $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . $suScript . " -s " . $csvScript));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . $csvScript . "\""));
+      $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c \"~" . $shellScriptsBasePath . $csvScript . "\""));
     }
   
     if (empty($kameHouseShellCSV)) {
@@ -107,7 +107,7 @@ class KameHouseShell {
       return rtrim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash-silent.bat -c \"~" . $shellScriptsBasePath . "kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey;
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash-silent.bat -c \"~" . $shellScriptsBasePath . "kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey;
       return rtrim(shell_exec($shellCommand));
     }
   } 
@@ -210,7 +210,7 @@ class KameHouseShell {
       $shellCommand = "sudo " . $userHome . $suScript;
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/git-bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " --execute-on-docker-host";

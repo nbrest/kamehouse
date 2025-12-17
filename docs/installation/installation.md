@@ -13,9 +13,6 @@
 
 * Install maven [(versions)](/docs/versions/versions.md)
 
-* Install git (and git bash on windows)
-  - On windows make sure it's installed to `C:\Program Files\Git\bin\bash.exe`
-
 * Install msys2 (for tmux use on windows)
   - Make sure it's installed to `C:\msys64`
 ```sh

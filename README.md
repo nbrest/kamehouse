@@ -123,11 +123,6 @@ certain functionality. These external dependencies are:
 - Store encrypted user password as described in [kamehouse-shell](/kamehouse-shell/README.md) in order
   to unlock the screen through kamehouse
 
-### Git Bash (windows)
-
-- Download [Git Bash](https://www.git-scm.com/download/win)
-- Needed to run kamehouse shell scripts in **Windows**
-
 ### Msys2 (windows)
 
 - Download [msys2](https://www.msys2.org/)

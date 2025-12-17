@@ -210,7 +210,7 @@ setIsLinuxDockerHost() {
   fi  
 }
 
-getHostUserHomeGitBash() {
+getHostUserHome() {
   if ${IS_LINUX_HOST}; then
     echo "${HOME}"
   else

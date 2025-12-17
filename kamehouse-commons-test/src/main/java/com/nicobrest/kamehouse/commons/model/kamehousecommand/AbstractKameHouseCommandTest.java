@@ -85,7 +85,7 @@ public abstract class AbstractKameHouseCommandTest {
    * Full windows command to expect.
    */
   protected String getExpectedWindowsCommmand() {
-    return "C:\\Users\\goku/programs/kamehouse-shell/bin/win/bat/git-bash.bat "
+    return "C:\\Users\\goku/programs/kamehouse-shell/bin/win/bat/bash.bat "
         + "-c \"${HOME}/programs/kamehouse-shell/bin/" + getWindowsShellCommand() + "\"";
   }
 

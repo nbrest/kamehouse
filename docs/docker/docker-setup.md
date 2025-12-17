@@ -20,7 +20,7 @@ The kamehouse docker container can be used stand alone or it can be used to cont
 
 ## Install kamehouse shell scripts to control the kamehouse docker container
 
-- On windows install Git Bash as described [here](/README.md)
+- On windows install Msys2 bash as described [here](/README.md)
 
 - Download the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, then execute with -o parameter to copy only kamehouse-shell scripts, without affecting the current user's shell at all
 ```sh

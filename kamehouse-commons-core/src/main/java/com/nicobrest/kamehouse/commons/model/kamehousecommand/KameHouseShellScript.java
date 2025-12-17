@@ -33,9 +33,9 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
-  private static final String GIT_BASH_BAT = "win/bat/git-bash.bat";
-  private static final String GIT_BASH_SILENT_BAT = "win/bat/git-bash-silent.bat";
-  private static final String GIT_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
+  private static final String WIN_BASH_BAT = "win/bat/bash.bat";
+  private static final String WIN_BASH_SILENT_BAT = "win/bat/bash-silent.bat";
+  private static final String WIN_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
   private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
   private static final List<String> WINDOWS_CMD_START_MIN =
@@ -233,10 +233,10 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
-   * Override to run the command with git-bash-silent.bat on Windows.
+   * Override to run the command with bash-silent.bat on Windows.
    */
   @JsonIgnore
-  public boolean useGitBashSilent() {
+  public boolean useWinBashSilent() {
     return false;
   }
 
@@ -317,9 +317,9 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
     if (shouldAddWindowsCmdStartPrefix()) {
       addWindowsCmdStartPrefix();
     }
-    windowsCommand.add(getGitBashBatScript());
+    windowsCommand.add(getWinBashBatScript());
     windowsCommand.add("-c");
-    String script = GIT_BASH_SHELL_BASE + getWindowsKameHouseShellScript();
+    String script = WIN_BASH_SHELL_BASE + getWindowsKameHouseShellScript();
     List<String> scriptArgs = getWindowsKameHouseShellScriptArguments();
     if (scriptArgs == null || scriptArgs.isEmpty()) {
       StringBuilder sb = new StringBuilder();
@@ -394,13 +394,13 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
-   * Get git-bash.bat to run kamehouse shell scripts on windows.
+   * Get bash.bat to run kamehouse shell scripts on windows.
    */
-  private String getGitBashBatScript() {
-    if (useGitBashSilent()) {
-      return getKameHouseShellBasePath() + GIT_BASH_SILENT_BAT;
+  private String getWinBashBatScript() {
+    if (useWinBashSilent()) {
+      return getKameHouseShellBasePath() + WIN_BASH_SILENT_BAT;
     }
-    return getKameHouseShellBasePath() + GIT_BASH_BAT;
+    return getKameHouseShellBasePath() + WIN_BASH_BAT;
   }
 
   /**

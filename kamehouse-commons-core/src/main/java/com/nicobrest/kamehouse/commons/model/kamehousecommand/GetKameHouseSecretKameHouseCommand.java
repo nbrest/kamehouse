@@ -24,7 +24,7 @@ public class GetKameHouseSecretKameHouseCommand extends KameHouseShellScript {
   }
 
   @Override
-  public boolean useGitBashSilent() {
+  public boolean useWinBashSilent() {
     return true;
   }
 
