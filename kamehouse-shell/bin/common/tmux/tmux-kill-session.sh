@@ -14,10 +14,10 @@ initScriptEnv() {
 mainProcess() {
   if [ -z "${SESSION_ID}" ]; then
     log.info "Killing all tmux sessions"
-    /c/msys64/usr/bin/bash.exe -c "/bin/tmux kill-server"
+    tmux kill-server
   else
     log.info "Killing tmux session id: ${SESSION_ID}"
-    /c/msys64/usr/bin/bash.exe -c "/bin/tmux kill-session -t ${SESSION_ID}"
+    tmux kill-session -t ${SESSION_ID}
   fi
 }
 

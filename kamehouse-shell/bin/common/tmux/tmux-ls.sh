@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 mainProcess() {
-  /c/msys64/usr/bin/bash.exe -c "/bin/tmux attach -d"
+  tmux ls
 }
 
 main "$@"
