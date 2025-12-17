@@ -91,11 +91,15 @@ class KameHouseCore {
 
   /** Returns true if the host os running php is a linux server */
   public function isLinuxHost() {
+    global $kameHouse;
     $osType = php_uname();
+    $kameHouse->logger->info("osType:" . $osType);
     $linuxStrPos = stripos($osType, 'Linux');
     if ($linuxStrPos === false) {
+      $kameHouse->logger->info("Is windows host");
       return false;
     } else {
+      $kameHouse->logger->info("Is linux host");
       return true;
     }
   }
