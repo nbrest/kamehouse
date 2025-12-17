@@ -93,7 +93,6 @@ class KameHouseCore {
   public function isLinuxHost() {
     global $kameHouse;
     $osType = php_uname();
-    $kameHouse->logger->info("osType:" . $osType);
     $linuxStrPos = stripos($osType, 'Linux');
     if ($linuxStrPos === false) {
       return false;
