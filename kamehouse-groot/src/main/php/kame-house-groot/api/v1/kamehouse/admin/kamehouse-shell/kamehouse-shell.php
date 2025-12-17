@@ -107,7 +107,7 @@ class KameHouseShell {
       return rtrim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash-silent.bat -c \"~" . $shellScriptsBasePath . "kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey;
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash-silent.bat -c \". /etc/profile ; ~" . $shellScriptsBasePath . "kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey . "\"";
       return rtrim(shell_exec($shellCommand));
     }
   } 
