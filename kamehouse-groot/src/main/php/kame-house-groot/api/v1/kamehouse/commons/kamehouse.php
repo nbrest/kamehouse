@@ -96,10 +96,8 @@ class KameHouseCore {
     $kameHouse->logger->info("osType:" . $osType);
     $linuxStrPos = stripos($osType, 'Linux');
     if ($linuxStrPos === false) {
-      $kameHouse->logger->info("Is windows host");
       return false;
     } else {
-      $kameHouse->logger->info("Is linux host");
       return true;
     }
   }

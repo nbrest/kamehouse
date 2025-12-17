@@ -127,7 +127,7 @@ certain functionality. These external dependencies are:
 
 - Download [msys2](https://www.msys2.org/)
 - Check [installation](/docs/installation/installation.md) to install needed packages
-- Needed to run tmux scripts to run detached ssh sessions
+- Needed to run all kamehouse shell scripts including the installation script in windows
 
 ### SSH Server
 
