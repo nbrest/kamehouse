@@ -53,7 +53,7 @@ echo 'cd ${HOME}' >> /etc/profile
 db_home: windows
 ```
 
-* Configure intellij, vscode and source tree to use git from `C:\msys64\usr\bin\git.exe` / `C:/msys64/usr/bin/git.exe`
+* Configure intellij, vscode and source tree to use git from `C:\msys64\usr\bin\git.exe` / `C:/msys64/usr/bin/git.exe` / `C:\\msys64\\usr\\bin\\git.exe`
 
 * Install node [(versions)](/docs/versions/versions.md) 
 ```sh
