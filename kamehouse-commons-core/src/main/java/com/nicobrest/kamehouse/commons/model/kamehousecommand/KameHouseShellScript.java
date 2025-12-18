@@ -35,6 +35,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
   private static final String WIN_BASH_BAT = "win/bat/bash.bat";
   private static final String WIN_BASH_SILENT_BAT = "win/bat/bash-silent.bat";
+  private static final String WIN_BASH_SILENT_PREFIX = ". /etc/profile ; ";
   private static final String WIN_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
   private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
@@ -331,6 +332,9 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
     }
     StringBuilder sb = new StringBuilder();
     sb.append("\"");
+    if (useWinBashSilent()) {
+      sb.append(WIN_BASH_SILENT_PREFIX);
+    }
     sb.append(script);
     scriptArgs.forEach(arg -> sb.append(" ").append(arg));
     sb.append("\"");
