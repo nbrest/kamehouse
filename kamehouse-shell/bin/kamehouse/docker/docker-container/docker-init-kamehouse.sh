@@ -167,7 +167,11 @@ printStartupMessage() {
   echo -e "   ${KAMEHOUSE} ${COL_NORMAL}docker container init script ${COL_RED}finished${COL_NORMAL}"
   echo ""
 
-  echo -e "${COL_BLUE} - ${COL_NORMAL}Ssh into the container from another terminal:"
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Open a shell in the container from another terminal:"
+  echo -e "     ${COL_PURPLE}docker-shell-kamehouse.sh -p ${DOCKER_PROFILE}${COL_NORMAL}"
+  echo ""
+
+  echo -e "${COL_BLUE} - ${COL_NORMAL}Or ssh into the container from another terminal:"
   echo -e "     ${COL_PURPLE}docker-ssh-kamehouse.sh -p ${DOCKER_PROFILE}${COL_NORMAL}"
   echo ""
 
