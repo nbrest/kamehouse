@@ -18,8 +18,8 @@ mainProcess() {
 
   if [ -n "${CONTAINER}" ]; then 
     log.info "Loading a shell in container ${COL_PURPLE}${CONTAINER}"
-    log.debug "docker exec -it ${CONTAINER} bash"
-    docker exec -it ${CONTAINER} bash
+    log.debug "docker exec -u ${DOCKER_USERNAME} -it ${CONTAINER} bash"
+    docker exec -u ${DOCKER_USERNAME} -it ${CONTAINER} bash
   else
     log.warn "No kamehouse container running detected for profile ${COL_PURPLE}${DOCKER_PROFILE}"
   fi
