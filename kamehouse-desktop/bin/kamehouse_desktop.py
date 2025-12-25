@@ -51,6 +51,14 @@ class KameHouseDesktop(QMainWindow):
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setStyleSheet(kamehouseDesktopCfg.get('kamehouse_desktop', 'stylesheet'))
  
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Q:
+            self.on_q_pressed()
+
+    def on_q_pressed(self):
+        logger.info("Captured key 'q' press. Extiting kamehouse-desktop")
+        QApplication.quit()
+
     # this is needed on raspberrypi to render transparent backgrounds
     def startCompositor(self):
         if (kamehouseDesktopCfg.getBoolean('kamehouse_desktop', 'execute_compositor')):

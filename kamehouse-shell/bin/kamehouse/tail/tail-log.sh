@@ -74,6 +74,9 @@ setTailLogParameters() {
     fi
     addFileToLogFiles ${DEPLOY_LOG}
     ;;
+  "desktop")
+    setKameHouseDesktopLogFiles
+    ;;
   "kamehouse")
     setKameHouseLogFiles
     ;;
@@ -104,6 +107,10 @@ setApacheLogFiles() {
 setKameHouseLogFiles() {
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.${LOG_DATE}.log"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"  
+}
+
+setKameHouseDesktopLogFiles() {
+  addFileToLogFiles "${USER_HOME}/logs/kamehouse-desktop-startup.log"
 }
 
 setTomcatLogFiles() {
@@ -184,6 +191,7 @@ setFileArg() {
     [ "${FILE_ARG}" != "build" ] &&
     [ "${FILE_ARG}" != "cmd" ] &&
     [ "${FILE_ARG}" != "deploy" ] &&
+    [ "${FILE_ARG}" != "desktop" ] &&
     [ "${FILE_ARG}" != "kamehouse" ] &&
     [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
     [ "${FILE_ARG}" != "tomcat-dev" ] &&
@@ -234,7 +242,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|apache-error|build|cmd|deploy|kamehouse|tomcat|tomcat-dev|logs/*.log)" "log file to tail" "r"
+  addHelpOption "-f (apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|tomcat-dev|logs/*.log)" "log file to tail" "r"
   addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   addHelpOption "-q" "quit after tailing once. Don't follow log"

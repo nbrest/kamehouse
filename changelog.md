@@ -7,6 +7,8 @@
 
 #### v10.12
 
+- Added key press handler to kamehouse-desktop to exit app on q key press
+- Added kamehouse desktop to tail log script
 - Replaced git bash for windows with msys2
 - Added tmux scripts for windows to use detached ssh sessions on windows servers
 - Added config to disable docker scripts in kamehouse.cfg
