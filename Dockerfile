@@ -25,6 +25,11 @@ RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-kamehouse /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse
 RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse/scripts/*
 
+# Copy kamehouse git repo into container
+RUN mkdir -p /home/${KAMEHOUSE_USERNAME}/git
+RUN chown -R ${KAMEHOUSE_USERNAME}:users /home/${KAMEHOUSE_USERNAME}/git
+COPY --chown=${KAMEHOUSE_USERNAME}:users . /home/${KAMEHOUSE_USERNAME}/git/kamehouse
+
 # Run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00
 RUN echo "${BUILD_DATE_KAMEHOUSE}" > /home/${KAMEHOUSE_USERNAME}/.docker-image-build-date; 

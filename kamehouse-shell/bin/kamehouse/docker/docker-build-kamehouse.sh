@@ -13,6 +13,7 @@ initScriptEnv() {
   PLATFORM="linux/amd64,linux/arm64/v8"
   ACTION="--push"
   USE_CURRENT_DIR=true
+  USE_FROM_CACHE=true
 }
 
 mainProcess() {
@@ -39,8 +40,11 @@ runDockerBuildCommand() {
   log.debug "docker buildx create --platform ${PLATFORM} --name kamehouse-builder --bootstrap --use"
   docker buildx create --platform ${PLATFORM} --name kamehouse-builder --bootstrap --use
 
+  if ${USE_FROM_CACHE}; then
+    DOCKER_COMMAND=${DOCKER_COMMAND}"\
+      --cache-from=type=local,src=${HOME}/.docker-cache "
+  fi
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    --cache-from=type=local,src=${HOME}/.docker-cache \
     --cache-to=type=local,dest=${HOME}/.docker-cache \
     --progress plain
     --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
@@ -101,6 +105,9 @@ parseArguments() {
       -b)
         BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
         ;;
+      --skip-from-cache)
+        USE_FROM_CACHE=false
+        ;;
       -r)
         RUN_BUILD_STEP_FOR_RELEASE_TAG=true
         ;;
@@ -118,6 +125,7 @@ setEnvFromArguments() {
 printHelpOptions() {
   addHelpOption "-b" "force build of kamehouse. Skip docker cache from build step"
   addHelpOption "-r" "run only the build step for the release tag. Ignore. Used internally recursively by the script"
+  addHelpOption "--skip-from-cache" "Skip using from .docker-cache parameter for build"
   printDockerTagOption
 }
 

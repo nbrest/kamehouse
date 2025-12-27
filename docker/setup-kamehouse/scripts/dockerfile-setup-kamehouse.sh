@@ -48,19 +48,15 @@ setEnvironment() {
 
 setupKameHouseUserHome() {
   log.info "Setting up kamehouse user home"
-  mkdir -p /home/${KAMEHOUSE_USER}/git 
   chmod a+xwr /home/${KAMEHOUSE_USER}/git 
   chmod a+xr /home/${KAMEHOUSE_USER} 
   mkdir -p /home/${KAMEHOUSE_USER}/logs 
   chmod a+xr /home/${KAMEHOUSE_USER}/logs 
-  rm -rf /home/${KAMEHOUSE_USER}/git/kamehouse
   fixPermissions
 }
 
 setupGitRepo() {
   log.info "Setting up kamehouse git repo"
-  cd /home/${KAMEHOUSE_USER}/git 
-  git clone https://github.com/nbrest/kamehouse.git 
   cd /home/${KAMEHOUSE_USER}/git/kamehouse 
   log.info "Checking out git branch for tag ${DOCKER_IMAGE_TAG}"
   if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
