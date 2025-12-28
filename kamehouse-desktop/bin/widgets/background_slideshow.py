@@ -3,7 +3,7 @@ import random
 
 from PyQt5.QtCore import Qt, QPropertyAnimation, QParallelAnimationGroup, QSequentialAnimationGroup, QRect, QSize
 from PyQt5.QtWidgets import QWidget, QGraphicsOpacityEffect, QLabel
-from PyQt5.QtGui import QPixmap, QPalette, QColor, QImageReader
+from PyQt5.QtGui import QPixmap, QPalette, QColor, QImageReader, QPainter
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
@@ -17,6 +17,7 @@ class BackgroundSlideshowWidget(QWidget):
     expandPx = 0
     backgroundImages = []
     defaultBackgroundImages = []
+    portraitBackgroundImages = []
     randomImage = None
     userHome = None
     backgroundsSuccessListFile = "/.kamehouse/data/desktop/backgrounds-success.list"
@@ -67,6 +68,8 @@ class BackgroundSlideshowWidget(QWidget):
                     image = self.getBackgroundImage(fullPath)
                     if image is not None:
                         self.defaultBackgroundImages.append(image)
+                        if (image.getPortrait()):
+                            self.portraitBackgroundImages.append(image)
         self.userHome = os.path.expanduser("~").replace("\\", "/")
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
@@ -77,6 +80,8 @@ class BackgroundSlideshowWidget(QWidget):
                     image = self.getBackgroundImage(fullPath)
                     if image is not None:
                         self.backgroundImages.append(image)
+                        if (image.getPortrait()):
+                            self.portraitBackgroundImages.append(image)
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
@@ -166,16 +171,42 @@ class BackgroundSlideshowWidget(QWidget):
         self.background.animGroup.start()
 
     def selectRandomBackgroundImage(self):
-        if (len(self.backgroundImages) > 0):
-            self.randomImage = random.choice(self.backgroundImages)
+        self.randomImage = self.getRandomImage()
+        if (self.randomImage.getPortrait()):
+            secondPortraitImage = self.getSecondPortraitImage(self.randomImage.getFilename())
+            pixmap1 = QPixmap(self.randomImage.getFilename())
+            pixmap2 = QPixmap(secondPortraitImage.getFilename()).scaled(pixmap1.width(), pixmap1.height())
+            totalWidth = pixmap1.width() + pixmap2.width()
+            combinedPixmap = QPixmap(totalWidth, pixmap1.height())
+            combinedPixmap.fill(Qt.transparent)
+            painter = QPainter(combinedPixmap)
+            painter.drawPixmap(0, 0, pixmap1)               
+            painter.drawPixmap(pixmap1.width(), 0, pixmap2)
+            painter.end()
+            self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
+            self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, secondPortraitImage.getFilename())
+            self.background.imgSrc = combinedPixmap
+            self.background.setPixmap(self.background.imgSrc)
         else:
+            pixmap = QPixmap(self.randomImage.getFilename())
+            self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
+            self.background.imgSrc = pixmap
+            self.background.setPixmap(self.background.imgSrc)
+
+    def useDefaultBackgroundImages(self):
+        return len(self.backgroundImages) <= 0
+
+    def getRandomImage(self):
+        if (self.useDefaultBackgroundImages()):
             if (self.logTrace):
                 logger.trace("Configured source is invalid or empty, setting background from default images")
-            self.randomImage = random.choice(self.defaultBackgroundImages)
-        pixmap = QPixmap(self.randomImage.getFilename())
-        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
-        self.background.imgSrc = pixmap
-        self.background.setPixmap(self.background.imgSrc)
+            return random.choice(self.defaultBackgroundImages)
+        else:
+           return random.choice(self.backgroundImages)
+
+    def getSecondPortraitImage(self, currentFilePath):
+        filteredImages = [image for image in self.portraitBackgroundImages if (not image.getFilename() == currentFilePath)]
+        return random.choice(filteredImages)
 
     def updateBackgroundImageListFile(self, filePath, currentFilePath):
         if (kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'skip_update_backgrounds_list_files')):
