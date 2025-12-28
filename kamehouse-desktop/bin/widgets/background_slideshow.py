@@ -102,10 +102,12 @@ class BackgroundSlideshowWidget(QWidget):
         image.setFilename(imagePath)
         imageReader = QImageReader(imagePath)
         if not imageReader.canRead():
+            logger.error("Can't read image: " + imagePath)
             self.updateInvalidBackgroundImageListFile(imagePath)
             return None
         size = imageReader.size() 
         if not size.isValid():
+            logger.error("Invalid size for image: " + imagePath)
             self.updateInvalidBackgroundImageListFile(imagePath)
             return None
         width = size.width()
@@ -113,6 +115,7 @@ class BackgroundSlideshowWidget(QWidget):
         image.setWidth(width)
         image.setHeight(height)
         if (width <= 0 or height <= 0):
+            logger.error("Width or height are <= 0 for image: " + imagePath)
             self.updateInvalidBackgroundImageListFile(imagePath)
             return None
         if (width / height <= 1):
