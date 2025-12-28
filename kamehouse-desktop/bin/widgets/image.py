@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QPixmap
 from loguru import logger
+from time import strftime
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
 from effects.drop_shadow_effect import DropShadowEffect
@@ -14,7 +15,10 @@ class ImageWidget(QLabel):
             logger.debug(widgetName + " is set to hidden")
             self.setHidden(True)
             return
-        self.imgSrc = QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src'))
+        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_christmas') and self.isChristmasTime()):
+            self.imgSrc = QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src_christmas'))
+        else:
+            self.imgSrc = QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src'))
         self.setPixmap(self.imgSrc)
         posX = kamehouseDesktopCfg.getInt(widgetName, 'pos_x')
         posY = kamehouseDesktopCfg.getInt(widgetName, 'pos_y')
@@ -27,4 +31,6 @@ class ImageWidget(QLabel):
         if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_opacity')):
             OpacityEffect(self, widgetName)
         self.setHidden(False)
-        
+    
+    def isChristmasTime(self):
+        return strftime("%b") == "Dec"

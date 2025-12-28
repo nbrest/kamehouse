@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Added christmas time logos to kamehouse desktop
 - Added key press handler to kamehouse-desktop to exit app on q key press
 - Added kamehouse desktop to tail log script
 - Replaced git bash for windows with msys2
