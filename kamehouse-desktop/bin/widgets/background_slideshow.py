@@ -123,8 +123,7 @@ class BackgroundSlideshowWidget(QWidget):
         return image
 
     def updateInvalidBackgroundImageListFile(self, imagePath):
-        if (self.logTrace):
-            logger.error("Invalid image " + imagePath)
+        logger.error("Invalid image: " + imagePath)
         self.updateBackgroundImageListFile(self.backgroundsErrorListFile, imagePath)
         return
 
