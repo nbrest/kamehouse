@@ -33,6 +33,7 @@ class BackgroundSlideshowWidget(QWidget):
         self.window = window
         self.logTrace = kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'trace_log_enabled')
         self.logBackgroundImages = kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'log_background_images')
+        self.userHome = os.path.expanduser("~").replace("\\", "/")
         self.expandPx = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'expand_px')
         self.setScreenSize()
         self.setBackgroundColor()
@@ -70,7 +71,6 @@ class BackgroundSlideshowWidget(QWidget):
                         self.defaultBackgroundImages.append(image)
                         if (image.getPortrait()):
                             self.portraitBackgroundImages.append(image)
-        self.userHome = os.path.expanduser("~").replace("\\", "/")
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
         for root, _, files in os.walk(backgroundImagesPath):
