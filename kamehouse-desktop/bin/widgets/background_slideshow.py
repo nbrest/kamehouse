@@ -176,19 +176,21 @@ class BackgroundSlideshowWidget(QWidget):
         self.randomImage = self.getRandomImage()
         if (self.randomImage.getPortrait()):
             secondPortraitImage = self.getSecondPortraitImage(self.randomImage.getFilename())
-            pixmap1 = QPixmap(self.randomImage.getFilename())
-            pixmap2 = QPixmap(secondPortraitImage.getFilename()).scaled(pixmap1.width(), pixmap1.height())
+            portraitWidth = self.screenWidth / 2
+            portraitHeight = self.screenHeight
+            portraitLeft = QPixmap(self.randomImage.getFilename()).scaled(portraitWidth, portraitHeight)
+            portraitRight = QPixmap(secondPortraitImage.getFilename()).scaled(portraitWidth, portraitHeight)
             portraitSeparatorPx = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'portrait_separator_px')
-            totalWidth = pixmap1.width() + pixmap2.width() + portraitSeparatorPx
-            combinedPixmap = QPixmap(totalWidth, pixmap1.height())
-            combinedPixmap.fill(Qt.transparent)
-            painter = QPainter(combinedPixmap)
-            painter.drawPixmap(0, 0, pixmap1)               
-            painter.drawPixmap(pixmap1.width() + portraitSeparatorPx, 0, pixmap2)
+            totalWidth = portraitLeft.width() + portraitRight.width() + portraitSeparatorPx
+            combinedPortraits = QPixmap(totalWidth, portraitHeight)
+            combinedPortraits.fill(Qt.transparent)
+            painter = QPainter(combinedPortraits)
+            painter.drawPixmap(0, 0, portraitLeft)               
+            painter.drawPixmap(portraitLeft.width() + portraitSeparatorPx, 0, portraitRight)
             painter.end()
             self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
             self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, secondPortraitImage.getFilename())
-            self.background.imgSrc = combinedPixmap
+            self.background.imgSrc = combinedPortraits
             self.background.setPixmap(self.background.imgSrc)
         else:
             pixmap = QPixmap(self.randomImage.getFilename())
