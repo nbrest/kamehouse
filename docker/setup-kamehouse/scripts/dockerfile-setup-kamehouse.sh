@@ -59,6 +59,7 @@ setupGitRepo() {
   log.info "Setting up kamehouse git repo"
   cd /home/${KAMEHOUSE_USER}/git/kamehouse 
   git clean -d -x -f
+  git reset --hard
   log.info "Checking out git branch for tag ${DOCKER_IMAGE_TAG}"
   if [ "${DOCKER_IMAGE_TAG}" == "latest" ]; then
     git checkout dev
