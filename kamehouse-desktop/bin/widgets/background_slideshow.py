@@ -1,9 +1,9 @@
 import os
 import random
 
-from PyQt5.QtCore import Qt, QPropertyAnimation, QParallelAnimationGroup, QSequentialAnimationGroup, QRect
+from PyQt5.QtCore import Qt, QPropertyAnimation, QParallelAnimationGroup, QSequentialAnimationGroup, QRect, QSize
 from PyQt5.QtWidgets import QWidget, QGraphicsOpacityEffect, QLabel
-from PyQt5.QtGui import QPixmap, QPalette, QColor
+from PyQt5.QtGui import QPixmap, QPalette, QColor, QImageReader
 from loguru import logger
 
 from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
@@ -91,6 +91,16 @@ class BackgroundSlideshowWidget(QWidget):
     def getBackgroundImage(self, imagePath):
         image = BackgroundImage()
         image.setFilename(imagePath)
+        imageReader = QImageReader(imagePath)
+        if imageReader.canRead():
+            size = imageReader.size() 
+            if size.isValid():
+                width = size.width()
+                height = size.height()
+                image.setWidth(width)
+                image.setHeight(height)
+                if (width > 0 and height > 0 and (width / height) <= 1):
+                    image.setPortrait(True)
         return image
         
     def setBackgroundAnimation(self):
@@ -154,7 +164,7 @@ class BackgroundSlideshowWidget(QWidget):
         self.updateBackgroundImageListFile(self.backgroundsSuccessListFile)
         self.background.imgSrc = pixmap
         self.background.setPixmap(self.background.imgSrc)
-            
+
     def updateBackgroundImageListFile(self, filePath):
         if (kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'skip_update_backgrounds_list_files')):
             return
@@ -227,7 +237,7 @@ class BackgroundImage():
     def setFilename(self, value):
         self.filename = value
 
-    def isPortrait(self):
+    def getPortrait(self):
         return self.isPortrait
 
     def setPortrait(self, value):
