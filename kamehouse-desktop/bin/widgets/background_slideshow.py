@@ -64,9 +64,7 @@ class BackgroundSlideshowWidget(QWidget):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
-                    image = BackgroundImage()
-                    image.setFilename(fullPath)
-                    self.defaultBackgroundImages.append(image)
+                    self.defaultBackgroundImages.append(self.getBackgroundImage(fullPath))
         self.userHome = os.path.expanduser("~").replace("\\", "/")
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
@@ -74,9 +72,7 @@ class BackgroundSlideshowWidget(QWidget):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
-                    image = BackgroundImage()
-                    image.setFilename(fullPath)
-                    self.backgroundImages.append(image)
+                    self.backgroundImages.append(self.getBackgroundImage(fullPath))
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
@@ -92,6 +88,11 @@ class BackgroundSlideshowWidget(QWidget):
                  imagePathLower.endswith(".png") or 
                  imagePathLower.endswith(".webp"))
 
+    def getBackgroundImage(self, imagePath):
+        image = BackgroundImage()
+        image.setFilename(imagePath)
+        return image
+        
     def setBackgroundAnimation(self):
         animationMs = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'animation_ms')
         minOpacity = kamehouseDesktopCfg.getFloat('background_slideshow_widget', 'min_opacity')
