@@ -48,6 +48,8 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - Start the desktop app with `kamehouse-desktop-startup.sh` or `kamehouse-desktop-restart.sh` installed with `kamehouse-shell`
 
+- Press 'q' key to exit desktop app when the focus is set on the app
+
 - List the backgrounds processed successfully and unsuccessfully with `list-kamehouse-desktop-processed-backgrounds.sh`
 
 Use groot server manager to: 
