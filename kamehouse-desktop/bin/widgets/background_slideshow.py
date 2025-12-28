@@ -176,7 +176,7 @@ class BackgroundSlideshowWidget(QWidget):
         self.randomImage = self.getRandomImage()
         if (self.randomImage.getPortrait()):
             secondPortraitImage = self.getSecondPortraitImage(self.randomImage.getFilename())
-            portraitWidth = self.screenWidth / 2
+            portraitWidth = int(self.screenWidth / 2)
             portraitHeight = self.screenHeight
             portraitLeft = QPixmap(self.randomImage.getFilename()).scaled(portraitWidth, portraitHeight)
             portraitRight = QPixmap(secondPortraitImage.getFilename()).scaled(portraitWidth, portraitHeight)
