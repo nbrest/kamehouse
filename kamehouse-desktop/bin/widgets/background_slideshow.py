@@ -76,7 +76,7 @@ class BackgroundSlideshowWidget(QWidget):
                 if (self.isValidImageFile(fullPath)):
                     image = self.getBackgroundImage(fullPath)
                     if image is not None:
-                        self.backgroundImages.append(self.getBackgroundImage(fullPath))
+                        self.backgroundImages.append(image)
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
