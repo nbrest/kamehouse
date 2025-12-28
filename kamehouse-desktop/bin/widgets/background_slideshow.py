@@ -64,7 +64,9 @@ class BackgroundSlideshowWidget(QWidget):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
-                    self.defaultBackgroundImages.append(self.getBackgroundImage(fullPath))
+                    image = self.getBackgroundImage(fullPath)
+                    if image is not None:
+                        self.defaultBackgroundImages.append(image)
         self.userHome = os.path.expanduser("~").replace("\\", "/")
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
@@ -72,7 +74,9 @@ class BackgroundSlideshowWidget(QWidget):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
-                    self.backgroundImages.append(self.getBackgroundImage(fullPath))
+                    image = self.getBackgroundImage(fullPath)
+                    if image is not None:
+                        self.backgroundImages.append(self.getBackgroundImage(fullPath))
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
@@ -92,17 +96,30 @@ class BackgroundSlideshowWidget(QWidget):
         image = BackgroundImage()
         image.setFilename(imagePath)
         imageReader = QImageReader(imagePath)
-        if imageReader.canRead():
-            size = imageReader.size() 
-            if size.isValid():
-                width = size.width()
-                height = size.height()
-                image.setWidth(width)
-                image.setHeight(height)
-                if (width > 0 and height > 0 and (width / height) <= 1):
-                    image.setPortrait(True)
+        if not imageReader.canRead():
+            self.updateInvalidBackgroundImageListFile(imagePath)
+            return None
+        size = imageReader.size() 
+        if not size.isValid():
+            self.updateInvalidBackgroundImageListFile(imagePath)
+            return None
+        width = size.width()
+        height = size.height()
+        image.setWidth(width)
+        image.setHeight(height)
+        if (width <= 0 or height <= 0):
+            self.updateInvalidBackgroundImageListFile(imagePath)
+            return None
+        if (width / height <= 1):
+            image.setPortrait(True)
         return image
-        
+
+    def updateInvalidBackgroundImageListFile(self, imagePath):
+        if (self.logTrace):
+            logger.error("Invalid image " + imagePath)
+        self.updateBackgroundImageListFile(self.backgroundsErrorListFile, imagePath)
+        return
+
     def setBackgroundAnimation(self):
         animationMs = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'animation_ms')
         minOpacity = kamehouseDesktopCfg.getFloat('background_slideshow_widget', 'min_opacity')
@@ -156,16 +173,11 @@ class BackgroundSlideshowWidget(QWidget):
                 logger.trace("Configured source is invalid or empty, setting background from default images")
             self.randomImage = random.choice(self.defaultBackgroundImages)
         pixmap = QPixmap(self.randomImage.getFilename())
-        if (pixmap.width() <= 0 or pixmap.height() <= 0):
-            if (self.logTrace):
-                logger.error("Invalid image " + self.randomImage.getFilename())
-            self.updateBackgroundImageListFile(self.backgroundsErrorListFile)
-            return
-        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile)
+        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
         self.background.imgSrc = pixmap
         self.background.setPixmap(self.background.imgSrc)
 
-    def updateBackgroundImageListFile(self, filePath):
+    def updateBackgroundImageListFile(self, filePath, currentFilePath):
         if (kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'skip_update_backgrounds_list_files')):
             return
         backgroundsFile = self.userHome + filePath
@@ -173,9 +185,9 @@ class BackgroundSlideshowWidget(QWidget):
             backgroundsList = []
             with open(backgroundsFile, 'r') as file:
                 backgroundsList = [line.strip() for line in file]
-            if self.randomImage.getFilename() not in backgroundsList:
+            if currentFilePath not in backgroundsList:
                 with open(backgroundsFile, 'a') as file:
-                    file.write(self.randomImage.getFilename() + "\n")
+                    file.write(currentFilePath + "\n")
         except IOError as error:
             logger.error("Error updating background images list file " + backgroundsFile)
         
