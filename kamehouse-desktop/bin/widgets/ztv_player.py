@@ -66,7 +66,7 @@ class ZtvPlayerWidget(QWidget):
                 randomSrcEntry = kamehouseDesktopCfg.get('ztv_player_logo_widget', randomSrcEntryName)
                 randomSrc.append(json.loads(randomSrcEntry))
                 if (self.logTrace):
-                    logger.info("Adding ztv_player_logo_widget randomSrc: " + randomSrcEntryName)                
+                    logger.trace("Adding ztv_player_logo_widget randomSrc: " + randomSrcEntryName)                
             self.logo.randomSrc = randomSrc
             timer = QTimer(self.window)
             timer.timeout.connect(self.window.setZtvPlayerRandomLogo)

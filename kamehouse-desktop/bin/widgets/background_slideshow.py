@@ -64,7 +64,9 @@ class BackgroundSlideshowWidget(QWidget):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
-                    self.defaultBackgroundImages.append(fullPath)
+                    image = BackgroundImage()
+                    image.setFilename(fullPath)
+                    self.defaultBackgroundImages.append(image)
         self.userHome = os.path.expanduser("~").replace("\\", "/")
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
@@ -72,7 +74,9 @@ class BackgroundSlideshowWidget(QWidget):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
                 if (self.isValidImageFile(fullPath)):
-                    self.backgroundImages.append(fullPath)
+                    image = BackgroundImage()
+                    image.setFilename(fullPath)
+                    self.backgroundImages.append(image)
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
@@ -140,10 +144,10 @@ class BackgroundSlideshowWidget(QWidget):
             if (self.logTrace):
                 logger.trace("Configured source is invalid or empty, setting background from default images")
             self.randomImage = random.choice(self.defaultBackgroundImages)
-        pixmap = QPixmap(self.randomImage)
+        pixmap = QPixmap(self.randomImage.getFilename())
         if (pixmap.width() <= 0 or pixmap.height() <= 0):
             if (self.logTrace):
-                logger.error("Invalid image " + self.randomImage)
+                logger.error("Invalid image " + self.randomImage.getFilename())
             self.updateBackgroundImageListFile(self.backgroundsErrorListFile)
             return
         self.updateBackgroundImageListFile(self.backgroundsSuccessListFile)
@@ -158,9 +162,9 @@ class BackgroundSlideshowWidget(QWidget):
             backgroundsList = []
             with open(backgroundsFile, 'r') as file:
                 backgroundsList = [line.strip() for line in file]
-            if self.randomImage not in backgroundsList:
+            if self.randomImage.getFilename() not in backgroundsList:
                 with open(backgroundsFile, 'a') as file:
-                    file.write(self.randomImage + "\n")
+                    file.write(self.randomImage.getFilename() + "\n")
         except IOError as error:
             logger.error("Error updating background images list file " + backgroundsFile)
         
@@ -180,9 +184,9 @@ class BackgroundSlideshowWidget(QWidget):
             aspectRatio = imageWidth / imageHeight
         else:
             if (self.logTrace):
-                logger.error("Invalid image properties for " + self.randomImage)
+                logger.error("Invalid image properties for " + self.randomImage.getFilename())
         if (self.logTrace and self.logBackgroundImages):
-            logger.trace(self.randomImage)
+            logger.trace(self.randomImage.getFilename())
             logger.trace("width: " + str(imageWidth) + ", height: " + str(imageHeight) + ", ar: " + str(aspectRatio))
         if (aspectRatio >= 1):
             width = self.screenWidth
@@ -206,3 +210,36 @@ class BackgroundSlideshowWidget(QWidget):
         # set expand parameters
         self.background.expand.setStartValue(QRect(posX, posY, width, height))
         self.background.expand.setEndValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
+
+class BackgroundImage():
+    filename = None
+    isPortrait = False
+    width = 0
+    height = 0
+
+    def __init__(self):
+        return
+
+    def getFilename(self):
+        return self.filename
+
+    def setFilename(self, value):
+        self.filename = value
+
+    def isPortrait(self):
+        return self.isPortrait
+
+    def setPortrait(self, value):
+        self.isPortrait = value
+
+    def getWidth(self):
+        return self.width
+
+    def setWidth(self, value):
+        self.width = value    
+
+    def getHeight(self):
+        return self.height
+
+    def setHeight(self, value):
+        self.height = value  
