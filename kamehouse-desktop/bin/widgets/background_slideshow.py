@@ -1,3 +1,4 @@
+import json
 import os
 import random
 
@@ -16,10 +17,10 @@ class BackgroundSlideshowWidget(QWidget):
     screenHeight = 0
     expandPx = 0
     backgroundImages = []
-    defaultBackgroundImages = []
     portraitBackgroundImages = []
     randomImage = None
     userHome = None
+    defaultBackgroundImagesPath = "lib/ui/img/banners"
     backgroundsSuccessListFile = "/.kamehouse/data/desktop/backgrounds-success.list"
     backgroundsErrorListFile = "/.kamehouse/data/desktop/backgrounds-error.list"
     
@@ -63,28 +64,31 @@ class BackgroundSlideshowWidget(QWidget):
     def setBackgroundImagesList(self):
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
-        self.addBackgroundsToLists(backgroundImagesPath, self.backgroundImages)
+        self.addBackgroundsToLists(backgroundImagesPath)
         if (self.logTrace and self.logBackgroundImages):
-            logger.trace("background images path: " + backgroundImagesPath)
-            logger.trace(self.backgroundImages)
+            backgroundImagesJson = json.dumps([obj.__dict__ for obj in self.backgroundImages])
+            logger.trace(backgroundImagesJson)
+            logger.trace("Loaded background images from path: " + backgroundImagesPath)
         if (self.useDefaultBackgroundImages()):
             logger.info("Using default background images")
-            defaultBackgroundImagesPath = "lib/ui/img/banners"
-            self.addBackgroundsToLists(defaultBackgroundImagesPath, self.defaultBackgroundImages)
+            self.addBackgroundsToLists(self.defaultBackgroundImagesPath)
 
-    def addBackgroundsToLists(self, backgroundsPath, backgroundsList):
+    def useDefaultBackgroundImages(self):
+        return len(self.backgroundImages) <= 0
+
+    def addBackgroundsToLists(self, backgroundsPath):
         for root, _, files in os.walk(backgroundsPath):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
-                self.addBackgroundToLists(backgroundsList, fullPath)
+                self.addBackgroundToLists(fullPath)
 
-    def addBackgroundToLists(self, backgroundsList, fullPath):
+    def addBackgroundToLists(self, fullPath):
         if (not self.isValidImageFile(fullPath)):
             return
         image = self.getBackgroundImage(fullPath)
         if image is None:
             return
-        backgroundsList.append(image)
+        self.backgroundImages.append(image)
         if (image.getPortrait()):
             self.portraitBackgroundImages.append(image)
 
@@ -179,11 +183,10 @@ class BackgroundSlideshowWidget(QWidget):
         if (imageWidth > 0 and imageHeight > 0):
             aspectRatio = imageWidth / imageHeight
         else:
-            if (self.logTrace):
+            if (self.randomImage.getPortrait()):
+                logger.error("Invalid image properties generated for combined portrait images")
+            else:
                 logger.error("Invalid image properties for " + self.randomImage.getFilename())
-        if (self.logTrace and self.logBackgroundImages):
-            logger.trace(self.randomImage.getFilename())
-            logger.trace("width: " + str(imageWidth) + ", height: " + str(imageHeight) + ", ar: " + str(aspectRatio))
         if (aspectRatio >= 1):
             width = self.screenWidth
             height = self.screenHeight
@@ -225,13 +228,13 @@ class BackgroundSlideshowWidget(QWidget):
             self.setLandscapeBackground()
 
     def getRandomImage(self):
-        if (self.useDefaultBackgroundImages()):
-            return random.choice(self.defaultBackgroundImages)
-        else:
-           return random.choice(self.backgroundImages)
+        image = random.choice(self.backgroundImages)
+        self.logSelectedImage(image)
+        return image
 
-    def useDefaultBackgroundImages(self):
-        return len(self.backgroundImages) <= 0
+    def logSelectedImage(self, image):
+        if (self.logTrace and self.logBackgroundImages):
+            logger.trace("Loaded image: " + str(image))
 
     def setPortraitBackground(self):
         portraitWidth = int(self.screenWidth / 2)
@@ -254,7 +257,9 @@ class BackgroundSlideshowWidget(QWidget):
 
     def getSecondPortraitImage(self):
         filteredImages = [image for image in self.portraitBackgroundImages if (not image.getFilename() == self.randomImage.getFilename())]
-        return random.choice(filteredImages)
+        image = random.choice(filteredImages)
+        self.logSelectedImage(image)
+        return image
 
     def setLandscapeBackground(self):
         pixmap = QPixmap(self.randomImage.getFilename())
@@ -308,3 +313,6 @@ class BackgroundImage():
 
     def setHeight(self, value):
         self.height = value  
+
+    def __str__(self):
+        return json.dumps(self.__dict__)
