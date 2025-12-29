@@ -10,7 +10,7 @@ initScriptEnv() {
   BANNERS_DIR=${HOME}/programs/kamehouse-desktop/lib/ui/img/banners
   BACKGROUNDS=""
   BACKGROUNDS_SRC_DIR="${HOME}/.kamehouse/data/desktop/backgrounds"
-  EXCLUDED_FILES="000_SlideShow_README.md"
+  EXCLUDED_FILES=".*\.md$"
 }
 
 mainProcess() {
@@ -28,7 +28,7 @@ getAllBackgrounds() {
   if ${USE_BANNERS_DIR}; then
     BACKGROUNDS=`find ${BANNERS_DIR} -type f -exec basename {} \;`
   else
-    BACKGROUNDS=`ls -1 "${BACKGROUNDS_SRC_DIR}" | grep -v "${EXCLUDED_FILES}"`
+    BACKGROUNDS=`ls -1 "${BACKGROUNDS_SRC_DIR}" | grep -v -E "${EXCLUDED_FILES}"`
   fi
   local COUNT=`echo -e "${BACKGROUNDS}" | wc -l`
   log.info "Total backgrounds: ${COUNT}"  
