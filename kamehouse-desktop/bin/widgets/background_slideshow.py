@@ -234,10 +234,10 @@ class BackgroundSlideshowWidget(QWidget):
         return len(self.backgroundImages) <= 0
 
     def setPortraitBackground(self):
-        secondPortraitImage = self.getSecondPortraitImage(self.randomImage.getFilename())
         portraitWidth = int(self.screenWidth / 2)
         portraitHeight = self.screenHeight
         portraitLeft = QPixmap(self.randomImage.getFilename()).scaled(portraitWidth, portraitHeight)
+        secondPortraitImage = self.getSecondPortraitImage()
         portraitRight = QPixmap(secondPortraitImage.getFilename()).scaled(portraitWidth, portraitHeight)
         portraitSeparatorPx = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'portrait_separator_px')
         totalWidth = portraitLeft.width() + portraitRight.width() + portraitSeparatorPx
@@ -252,8 +252,8 @@ class BackgroundSlideshowWidget(QWidget):
         self.background.imgSrc = combinedPortraits
         self.background.setPixmap(self.background.imgSrc)
 
-    def getSecondPortraitImage(self, currentFilePath):
-        filteredImages = [image for image in self.portraitBackgroundImages if (not image.getFilename() == currentFilePath)]
+    def getSecondPortraitImage(self):
+        filteredImages = [image for image in self.portraitBackgroundImages if (not image.getFilename() == self.randomImage.getFilename())]
         return random.choice(filteredImages)
 
     def setLandscapeBackground(self):
