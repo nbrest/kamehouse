@@ -63,20 +63,28 @@ class BackgroundSlideshowWidget(QWidget):
     def setBackgroundImagesList(self):
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
-        for root, _, files in os.walk(backgroundImagesPath):
-            for file in files:
-                fullPath = os.path.join(root, file).replace("\\", "/")
-                self.addBackgroundToLists(self.backgroundImages, fullPath)
+        self.addBackgroundsToLists(backgroundImagesPath, self.backgroundImages)
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
         if (self.useDefaultBackgroundImages()):
             logger.info("Using default background images")
             defaultBackgroundImagesPath = "lib/ui/img/banners"
-            for root, _, files in os.walk(defaultBackgroundImagesPath):
-                for file in files:
-                    fullPath = os.path.join(root, file).replace("\\", "/")
-                    self.addBackgroundToLists(self.defaultBackgroundImages, fullPath)
+            self.addBackgroundsToLists(defaultBackgroundImagesPath, self.defaultBackgroundImages)
+
+    def addBackgroundsToLists(self, backgroundsPath, backgroundsList):
+        for root, _, files in os.walk(backgroundsPath):
+            for file in files:
+                fullPath = os.path.join(root, file).replace("\\", "/")
+                self.addBackgroundToLists(backgroundsList, fullPath)
+
+    def addBackgroundToLists(self, backgroundsList, fullPath):
+        if (self.isValidImageFile(fullPath)):
+            image = self.getBackgroundImage(fullPath)
+            if image is not None:
+                backgroundsList.append(image)
+                if (image.getPortrait()):
+                    self.portraitBackgroundImages.append(image)
 
     def isValidImageFile(self, imagePath):
         if (imagePath is None):
@@ -88,14 +96,6 @@ class BackgroundSlideshowWidget(QWidget):
                  imagePathLower.endswith(".bmp") or 
                  imagePathLower.endswith(".png") or 
                  imagePathLower.endswith(".webp"))
-
-    def addBackgroundToLists(self, backgroundsList, fullPath):
-        if (self.isValidImageFile(fullPath)):
-            image = self.getBackgroundImage(fullPath)
-            if image is not None:
-                backgroundsList.append(image)
-                if (image.getPortrait()):
-                    self.portraitBackgroundImages.append(image)
 
     def getBackgroundImage(self, imagePath):
         image = BackgroundImage()
