@@ -61,30 +61,22 @@ class BackgroundSlideshowWidget(QWidget):
         self.backgroundColor.lower()
 
     def setBackgroundImagesList(self):
-        defaultBackgroundImagesPath = "lib/ui/img/banners"
-        for root, _, files in os.walk(defaultBackgroundImagesPath):
-            for file in files:
-                fullPath = os.path.join(root, file).replace("\\", "/")
-                if (self.isValidImageFile(fullPath)):
-                    image = self.getBackgroundImage(fullPath)
-                    if image is not None:
-                        self.defaultBackgroundImages.append(image)
-                        if (image.getPortrait()):
-                            self.portraitBackgroundImages.append(image)
         imagesSrcPath = kamehouseDesktopCfg.get('background_slideshow_widget', 'images_src_path')
         backgroundImagesPath = self.userHome + imagesSrcPath
         for root, _, files in os.walk(backgroundImagesPath):
             for file in files:
                 fullPath = os.path.join(root, file).replace("\\", "/")
-                if (self.isValidImageFile(fullPath)):
-                    image = self.getBackgroundImage(fullPath)
-                    if image is not None:
-                        self.backgroundImages.append(image)
-                        if (image.getPortrait()):
-                            self.portraitBackgroundImages.append(image)
+                self.addBackgroundToLists(self.backgroundImages, fullPath)
         if (self.logTrace and self.logBackgroundImages):
             logger.trace("background images path: " + backgroundImagesPath)
             logger.trace(self.backgroundImages)
+        if (self.useDefaultBackgroundImages()):
+            logger.info("Using default background images")
+            defaultBackgroundImagesPath = "lib/ui/img/banners"
+            for root, _, files in os.walk(defaultBackgroundImagesPath):
+                for file in files:
+                    fullPath = os.path.join(root, file).replace("\\", "/")
+                    self.addBackgroundToLists(self.defaultBackgroundImages, fullPath)
 
     def isValidImageFile(self, imagePath):
         if (imagePath is None):
@@ -96,6 +88,14 @@ class BackgroundSlideshowWidget(QWidget):
                  imagePathLower.endswith(".bmp") or 
                  imagePathLower.endswith(".png") or 
                  imagePathLower.endswith(".webp"))
+
+    def addBackgroundToLists(self, backgroundsList, fullPath):
+        if (self.isValidImageFile(fullPath)):
+            image = self.getBackgroundImage(fullPath)
+            if image is not None:
+                backgroundsList.append(image)
+                if (image.getPortrait()):
+                    self.portraitBackgroundImages.append(image)
 
     def getBackgroundImage(self, imagePath):
         image = BackgroundImage()
@@ -162,71 +162,6 @@ class BackgroundSlideshowWidget(QWidget):
         self.background.animGroup.addAnimation(self.background.expandDarken)
         self.background.animGroup.finished.connect(self.restartBackgroundAnimation)
 
-    def startBackgroundAnimation(self):
-        self.background.animGroup.start()
-
-    def restartBackgroundAnimation(self):
-        if (self.logTrace):
-            logger.trace("Restarting background slideshow animation")
-        self.selectRandomBackgroundImage()
-        self.configureExpandContractParameters()
-        self.background.animGroup.start()
-
-    def selectRandomBackgroundImage(self):
-        self.randomImage = self.getRandomImage()
-        if (self.randomImage.getPortrait()):
-            secondPortraitImage = self.getSecondPortraitImage(self.randomImage.getFilename())
-            portraitWidth = int(self.screenWidth / 2)
-            portraitHeight = self.screenHeight
-            portraitLeft = QPixmap(self.randomImage.getFilename()).scaled(portraitWidth, portraitHeight)
-            portraitRight = QPixmap(secondPortraitImage.getFilename()).scaled(portraitWidth, portraitHeight)
-            portraitSeparatorPx = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'portrait_separator_px')
-            totalWidth = portraitLeft.width() + portraitRight.width() + portraitSeparatorPx
-            combinedPortraits = QPixmap(totalWidth, portraitHeight)
-            combinedPortraits.fill(Qt.transparent)
-            painter = QPainter(combinedPortraits)
-            painter.drawPixmap(0, 0, portraitLeft)               
-            painter.drawPixmap(portraitLeft.width() + portraitSeparatorPx, 0, portraitRight)
-            painter.end()
-            self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
-            self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, secondPortraitImage.getFilename())
-            self.background.imgSrc = combinedPortraits
-            self.background.setPixmap(self.background.imgSrc)
-        else:
-            pixmap = QPixmap(self.randomImage.getFilename())
-            self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
-            self.background.imgSrc = pixmap
-            self.background.setPixmap(self.background.imgSrc)
-
-    def useDefaultBackgroundImages(self):
-        return len(self.backgroundImages) <= 0
-
-    def getRandomImage(self):
-        if (self.useDefaultBackgroundImages()):
-            if (self.logTrace):
-                logger.trace("Configured source is invalid or empty, setting background from default images")
-            return random.choice(self.defaultBackgroundImages)
-        else:
-           return random.choice(self.backgroundImages)
-
-    def getSecondPortraitImage(self, currentFilePath):
-        filteredImages = [image for image in self.portraitBackgroundImages if (not image.getFilename() == currentFilePath)]
-        return random.choice(filteredImages)
-
-    def updateBackgroundImageListFile(self, filePath, currentFilePath):
-        if (kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'skip_update_backgrounds_list_files')):
-            return
-        backgroundsFile = self.userHome + filePath
-        try:
-            backgroundsList = []
-            with open(backgroundsFile, 'r') as file:
-                backgroundsList = [line.strip() for line in file]
-            if currentFilePath not in backgroundsList:
-                with open(backgroundsFile, 'a') as file:
-                    file.write(currentFilePath + "\n")
-        except IOError as error:
-            logger.error("Error updating background images list file " + backgroundsFile)
-        
     def configureExpandContractParameters(self):
         posX = 0
         posY = 0
@@ -269,6 +204,77 @@ class BackgroundSlideshowWidget(QWidget):
         # set expand parameters
         self.background.expand.setStartValue(QRect(posX, posY, width, height))
         self.background.expand.setEndValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
+
+    def startBackgroundAnimation(self):
+        self.background.animGroup.start()
+
+    def restartBackgroundAnimation(self):
+        if (self.logTrace):
+            logger.trace("Restarting background slideshow animation")
+        self.selectRandomBackgroundImage()
+        self.configureExpandContractParameters()
+        self.background.animGroup.start()
+
+    def selectRandomBackgroundImage(self):
+        self.randomImage = self.getRandomImage()
+        if (self.randomImage.getPortrait()):
+            self.setPortraitBackground()
+        else:
+            self.setLandscapeBackground()
+
+    def getRandomImage(self):
+        if (self.useDefaultBackgroundImages()):
+            if (self.logTrace):
+                logger.trace("Configured source is invalid or empty, setting background from default images")
+            return random.choice(self.defaultBackgroundImages)
+        else:
+           return random.choice(self.backgroundImages)
+
+    def useDefaultBackgroundImages(self):
+        return len(self.backgroundImages) <= 0
+
+    def setPortraitBackground(self):
+        secondPortraitImage = self.getSecondPortraitImage(self.randomImage.getFilename())
+        portraitWidth = int(self.screenWidth / 2)
+        portraitHeight = self.screenHeight
+        portraitLeft = QPixmap(self.randomImage.getFilename()).scaled(portraitWidth, portraitHeight)
+        portraitRight = QPixmap(secondPortraitImage.getFilename()).scaled(portraitWidth, portraitHeight)
+        portraitSeparatorPx = kamehouseDesktopCfg.getInt('background_slideshow_widget', 'portrait_separator_px')
+        totalWidth = portraitLeft.width() + portraitRight.width() + portraitSeparatorPx
+        combinedPortraits = QPixmap(totalWidth, portraitHeight)
+        combinedPortraits.fill(Qt.transparent)
+        painter = QPainter(combinedPortraits)
+        painter.drawPixmap(0, 0, portraitLeft)               
+        painter.drawPixmap(portraitLeft.width() + portraitSeparatorPx, 0, portraitRight)
+        painter.end()
+        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
+        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, secondPortraitImage.getFilename())
+        self.background.imgSrc = combinedPortraits
+        self.background.setPixmap(self.background.imgSrc)
+
+    def getSecondPortraitImage(self, currentFilePath):
+        filteredImages = [image for image in self.portraitBackgroundImages if (not image.getFilename() == currentFilePath)]
+        return random.choice(filteredImages)
+
+    def setLandscapeBackground(self):
+        pixmap = QPixmap(self.randomImage.getFilename())
+        self.updateBackgroundImageListFile(self.backgroundsSuccessListFile, self.randomImage.getFilename())
+        self.background.imgSrc = pixmap
+        self.background.setPixmap(self.background.imgSrc)
+
+    def updateBackgroundImageListFile(self, filePath, currentFilePath):
+        if (kamehouseDesktopCfg.getBoolean('background_slideshow_widget', 'skip_update_backgrounds_list_files')):
+            return
+        backgroundsFile = self.userHome + filePath
+        try:
+            backgroundsList = []
+            with open(backgroundsFile, 'r') as file:
+                backgroundsList = [line.strip() for line in file]
+            if currentFilePath not in backgroundsList:
+                with open(backgroundsFile, 'a') as file:
+                    file.write(currentFilePath + "\n")
+        except IOError as error:
+            logger.error("Error updating background images list file " + backgroundsFile)
 
 class BackgroundImage():
     filename = None
