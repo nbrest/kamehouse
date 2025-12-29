@@ -79,12 +79,14 @@ class BackgroundSlideshowWidget(QWidget):
                 self.addBackgroundToLists(backgroundsList, fullPath)
 
     def addBackgroundToLists(self, backgroundsList, fullPath):
-        if (self.isValidImageFile(fullPath)):
-            image = self.getBackgroundImage(fullPath)
-            if image is not None:
-                backgroundsList.append(image)
-                if (image.getPortrait()):
-                    self.portraitBackgroundImages.append(image)
+        if (not self.isValidImageFile(fullPath)):
+            return
+        image = self.getBackgroundImage(fullPath)
+        if image is None:
+            return
+        backgroundsList.append(image)
+        if (image.getPortrait()):
+            self.portraitBackgroundImages.append(image)
 
     def isValidImageFile(self, imagePath):
         if (imagePath is None):
@@ -224,8 +226,6 @@ class BackgroundSlideshowWidget(QWidget):
 
     def getRandomImage(self):
         if (self.useDefaultBackgroundImages()):
-            if (self.logTrace):
-                logger.trace("Configured source is invalid or empty, setting background from default images")
             return random.choice(self.defaultBackgroundImages)
         else:
            return random.choice(self.backgroundImages)
