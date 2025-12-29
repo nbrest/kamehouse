@@ -7,6 +7,8 @@
 
 #### v10.12
 
+- Added audio section to ztv player settings tab
+- Updated kamehouse desktop stats scripts
 - Added support to render portrait backgrounds in pairs to use full screen on kamehouse desktop
 - Added christmas time logos to kamehouse desktop
 - Added key press handler to kamehouse-desktop to exit app on q key press
