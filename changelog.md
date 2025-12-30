@@ -5,6 +5,10 @@
 
 # ChangeLog:
 
+#### v11.00
+
+- Fixed bugs
+
 #### v10.12
 
 - Added dns parameter to docker run script
