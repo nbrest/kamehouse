@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Added dns parameter to docker run script
 - Added more ztv servers to the servers list
 - Added audio section to ztv player settings tab
 - Updated kamehouse desktop stats scripts

@@ -110,6 +110,7 @@ runDockerImage() {
 
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
       --name ${DOCKER_IMAGE_HOSTNAME}-kamehouse \
+      --dns=${DOCKER_DNS} \
       -h ${DOCKER_IMAGE_HOSTNAME} \
       --env BUILD_ON_STARTUP=${BUILD_ON_STARTUP} \
       --env DEBUG_MODE=${DEBUG_MODE} \
