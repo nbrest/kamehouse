@@ -7,6 +7,7 @@
 
 #### v10.12
 
+- Added more ztv servers to the servers list
 - Added audio section to ztv player settings tab
 - Updated kamehouse desktop stats scripts
 - Added support to render portrait backgrounds in pairs to use full screen on kamehouse desktop
