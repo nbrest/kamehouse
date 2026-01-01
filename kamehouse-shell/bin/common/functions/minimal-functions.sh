@@ -126,3 +126,13 @@ setRootPrefix() {
     ROOT_PREFIX=""
   fi
 }
+
+# Import common functions
+importFunctions() {
+  local FUNCTIONS_FILE=$1
+  source ${FUNCTIONS_FILE}
+  if [ "$?" != "0" ]; then 
+    echo "Error importing ${FUNCTIONS_FILE}"
+    exit 99 
+  fi
+}
