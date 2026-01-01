@@ -2,9 +2,7 @@
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
-
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/git/git-pull-functions.sh
-if [ "$?" != "0" ]; then echo "Error importing git-pull-functions.sh" ; exit 99 ; fi
+importFunctions ${HOME}/programs/kamehouse-shell/bin/common/functions/git/git-pull-functions.sh
 
 initScriptEnv() {
   GIT_PROJECT_DIR=${HOME}/git/kamehouse

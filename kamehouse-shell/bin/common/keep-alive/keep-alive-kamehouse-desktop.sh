@@ -2,9 +2,7 @@
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
-
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/desktop/desktop-functions.sh
-if [ "$?" != "0" ]; then echo "Error importing desktop-functions.sh" ; exit 99 ; fi
+importFunctions ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/desktop/desktop-functions.sh
 
 initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
