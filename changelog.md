@@ -7,6 +7,7 @@
 
 #### v11.00
 
+- Updated servers list
 - Fixed bugs
 
 #### v10.12
