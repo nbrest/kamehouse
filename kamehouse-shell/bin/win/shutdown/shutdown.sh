@@ -19,9 +19,9 @@ mainProcess() {
 shutdownProcess() {
   countdown
   if [ "${HIBERNATE}" == "true" ]; then
-    cmd.exe "/c shutdown.exe ${SHUTDOWN_ACTION} /f"
+    shutdown.exe ${SHUTDOWN_ACTION} /f
   else
-    cmd.exe "/c shutdown.exe ${SHUTDOWN_ACTION} /f /t 0"
+    shutdown.exe ${SHUTDOWN_ACTION} /f /t 0
   fi
 }
 
