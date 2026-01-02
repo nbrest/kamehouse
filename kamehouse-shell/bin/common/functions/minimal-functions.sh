@@ -40,6 +40,9 @@ export IS_LINUX_HOST=false
 # absolute paths I define in the script.
 ROOT_PREFIX="/mnt"
 
+# Default kamehouse-shell installation path
+KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell/bin
+
 # Adds a script option to the help menu
 addHelpOption() {
   local OPTION=$1
@@ -127,12 +130,12 @@ setRootPrefix() {
   fi
 }
 
-# Import common functions
-importFunctions() {
+# Import common kamehouse functions
+importKamehouse() {
   local FUNCTIONS_FILE=$1
-  source ${FUNCTIONS_FILE}
+  source ${KAMEHOUSE_SHELL_PATH}/${FUNCTIONS_FILE}
   if [ "$?" != "0" ]; then 
-    echo "Error importing ${FUNCTIONS_FILE}"
+    echo "Error importing ${KAMEHOUSE_SHELL_PATH}/${FUNCTIONS_FILE}"
     exit 99 
   fi
 }

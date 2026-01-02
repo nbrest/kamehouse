@@ -4,7 +4,8 @@
 
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
-importFunctions ${HOME}/programs/kamehouse-shell/bin/common/functions/vlc/vlc-functions.sh
+
+importKamehouse common/functions/vlc/vlc-functions.sh
 
 initScriptEnv() {
   DEFAULT_VLC_PORT="8080"
