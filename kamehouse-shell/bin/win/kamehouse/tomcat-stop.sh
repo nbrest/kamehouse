@@ -11,7 +11,7 @@ mainProcess() {
     log.info "Tomcat is not running"
   else
     log.info "Killing process ${COL_PURPLE}${TOMCAT_PID}"
-    cmd.exe "/c taskkill.exe /PID ${TOMCAT_PID} /F"
+    powershell.exe -c "taskkill.exe /PID ${TOMCAT_PID} /F"
     powershell.exe -c "Stop-Process -Id ${TOMCAT_PID} -Force"
   fi
 }

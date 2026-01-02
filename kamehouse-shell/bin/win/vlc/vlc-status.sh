@@ -5,7 +5,7 @@ if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; 
 
 mainProcess() {
   netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1
-  cmd.exe "/c tasklist.exe /FI IMAGENAME eq vlc.exe"
+  powershell.exe -c "tasklist.exe /FI IMAGENAME eq vlc.exe"
 }
 
 main "$@"

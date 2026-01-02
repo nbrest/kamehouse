@@ -7,6 +7,7 @@
 
 #### v11.00
 
+- Moved cmd.exe to powershell.exe
 - Refactored import functions on kamehouse shell
 - Updated servers list
 - Fixed bugs

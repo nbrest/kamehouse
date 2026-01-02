@@ -4,7 +4,7 @@ source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
-  cmd.exe "/c shutdown.exe /a"
+  powershell.exe -c "shutdown.exe /a"
 }
 
 main "$@"

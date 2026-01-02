@@ -19,9 +19,9 @@ mainProcess() {
 shutdownProcess() {
   countdown
   if [ "${HIBERNATE}" == "true" ]; then
-    shutdown.exe ${SHUTDOWN_ACTION} /f
+    powershell.exe -c "shutdown.exe ${SHUTDOWN_ACTION} /f"
   else
-    shutdown.exe ${SHUTDOWN_ACTION} /f /t 0
+    powershell.exe -c "shutdown.exe ${SHUTDOWN_ACTION} /f /t 0"
   fi
 }
 

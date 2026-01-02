@@ -17,7 +17,7 @@ mainProcess() {
     kill -9 ${KAMEHOUSE_DESKTOP_PID}
   else
     log.info "Killing process ${COL_PURPLE}${KAMEHOUSE_DESKTOP_PID}"
-    cmd.exe "/c taskkill.exe /PID ${KAMEHOUSE_DESKTOP_PID} /F"
+    powershell.exe -c "taskkill.exe /PID ${KAMEHOUSE_DESKTOP_PID} /F"
     powershell.exe -c "Stop-Process -Id ${KAMEHOUSE_DESKTOP_PID} -Force"
   fi
 }

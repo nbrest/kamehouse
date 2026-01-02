@@ -3,7 +3,7 @@ USERHOME_WIN="${HOME}"
 USERHOME_LIN="/home/${DEFAULT_KAMEHOUSE_USERNAME}"
 
 setUserHome() {
-  # WIN_USER_HOME=`cmd.exe '/c echo %USERPROFILE%'`
+  # WIN_USER_HOME=`powershell.exe -c 'echo %USERPROFILE%'`
   # WIN_USER_HOME=${WIN_USER_HOME::-1}
 
   if ${IS_LINUX_HOST}; then
