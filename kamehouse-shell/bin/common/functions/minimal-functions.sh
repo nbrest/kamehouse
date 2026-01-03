@@ -130,7 +130,17 @@ setRootPrefix() {
   fi
 }
 
-# Import common kamehouse functions
+# Import functions external to kamehouse shell
+importFunctions() {
+  local FUNCTIONS_FILE=$1
+  source ${FUNCTIONS_FILE}
+  if [ "$?" != "0" ]; then 
+    echo "Error importing ${FUNCTIONS_FILE}"
+    exit 99 
+  fi
+}
+
+# Import kamehouse shell functions
 importKamehouse() {
   local FUNCTIONS_FILE=$1
   source ${KAMEHOUSE_SHELL_PATH}/${FUNCTIONS_FILE}
