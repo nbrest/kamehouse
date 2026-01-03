@@ -3,8 +3,6 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-importKamehouse common/functions/kamehouse/docker-functions.sh
-
 initScriptEnv() {
   KNOWN_KEY_TO_REMOVE=""
 }
@@ -47,6 +45,5 @@ setEnvFromArguments() {
 printHelpOptions() {
   addHelpOption "-k key" "'hostname/ip' or '[hostname/ip]:port' to remove from known_hosts" "r"
 }
-
 
 main "$@"
