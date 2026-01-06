@@ -27,7 +27,7 @@ class KameHouseDesktop(QMainWindow):
         self.showFullScreen()
 
     def initWidgets(self):
-        self.hostname = TextWidget('hostname_widget', socket.gethostname(), self)
+        self.hostname = TextWidget('hostname_widget', self.getHostname(), self)
         self.logo = ImageWidget('kamehouse_logo_widget', self)
         self.katakana = TextWidget('kamehouse_katakana_widget', "カメハウス", self)
         self.worldCupLogo = ImageWidget('world_cup_logo_widget', self)
@@ -53,11 +53,17 @@ class KameHouseDesktop(QMainWindow):
  
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Q:
-            self.on_q_pressed()
+            self.pressedQKeyAction()
 
-    def on_q_pressed(self):
+    def pressedQKeyAction(self):
         logger.info("Captured key 'q' press. Extiting kamehouse-desktop")
         QApplication.quit()
+
+    def getHostname(self):
+        hostname = socket.gethostname()
+        if (kamehouseDesktopCfg.getBoolean('hostname_widget', 'format_hostname')):
+            hostname = hostname.replace("-", " ").replace("_", " ").replace(".", " ")
+        return hostname
 
     # this is needed on raspberrypi to render transparent backgrounds
     def startCompositor(self):
