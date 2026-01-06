@@ -11,6 +11,7 @@ initScriptEnv() {
 mainProcess() {
   log.info "Executing snape script ${COL_PURPLE}${SNAPE_SCRIPT}${COL_DEFAULT_LOG} with args ${COL_PURPLE}${SNAPE_SCRIPT_ARGS}"
   python ${SNAPE_PATH}/${SNAPE_SCRIPT} ${SNAPE_SCRIPT_ARGS}
+  exitProcess $?
 }
 
 parseArguments() {
