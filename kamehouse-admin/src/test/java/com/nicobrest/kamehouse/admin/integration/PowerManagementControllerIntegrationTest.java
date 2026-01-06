@@ -103,7 +103,7 @@ class PowerManagementControllerIntegrationTest extends AbstractControllerIntegra
   void wolTest() throws Exception {
     logger.info("Running wolTest");
 
-    HttpResponse response = post(getWebappUrl() + API_URL + "/wol?server=kamehouse-r2d2");
+    HttpResponse response = post(getWebappUrl() + API_URL + "/wol?server=kamehouse-server");
 
     verifySuccessfulCreatedResponse(response, KameHouseGenericResponse.class);
   }

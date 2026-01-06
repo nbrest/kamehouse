@@ -15,12 +15,12 @@
   text-align: left;
 }
 
-.kamehouse-r2d2-section {
+.kamehouse-server-section {
   width: 100%;
 }
 
 @media (max-width : 900px) {
-  .kamehouse-r2d2-section {
+  .kamehouse-server-section {
     width: 100%;
   }
 }

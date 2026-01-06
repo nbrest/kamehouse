@@ -223,7 +223,7 @@ class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTe
     doNothing().when(powerManagementService).wakeOnLan(anyString(), anyString());
 
     MockHttpServletResponse response =
-        doPost("/api/v1/admin/power-management/wol?server=kamehouse-r2d2");
+        doPost("/api/v1/admin/power-management/wol?server=kamehouse-server");
 
     assertEquals(HttpStatus.CREATED.value(), response.getStatus());
   }

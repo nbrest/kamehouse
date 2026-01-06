@@ -311,17 +311,6 @@ class VlcPlayer {
   }
 
   /**
-   * Wake on lan kamehouse-r2d2.
-   */
-  wolKameHouseR2D2() {
-    const requestParam =  {
-      server : "kamehouse-r2d2"
-    };
-    const WOL_KAMEHOUSE_R2D2_API_URL = "/kame-house-admin/api/v1/admin/power-management/wol";
-    this.getRestClient().post(WOL_KAMEHOUSE_R2D2_API_URL, kameHouse.http.getUrlEncodedHeaders(), requestParam, () => {}, () => {});
-  }
-
-  /**
    * Open modal to confirm suspending the server.
    */
   confirmSuspendServer() {
@@ -349,8 +338,8 @@ class VlcPlayer {
       positionY: 500,
       clickCount: 1
     };
-    const WOL_KAMEHOUSE_R2D2_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
-    this.getRestClient().post(WOL_KAMEHOUSE_R2D2_API_URL, kameHouse.http.getUrlEncodedHeaders(), params, () => {}, () => {});
+    const MOUSE_CLICK_API_URL = "/kame-house-admin/api/v1/admin/screen/mouse-click";
+    this.getRestClient().post(MOUSE_CLICK_API_URL, kameHouse.http.getUrlEncodedHeaders(), params, () => {}, () => {});
   }
 
   /**

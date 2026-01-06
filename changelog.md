@@ -11,6 +11,7 @@
 - Added format of hostname in desktop
 - Moved cmd.exe to powershell.exe
 - Refactored import functions on kamehouse shell
+- Renamed kamehouse-r2d2 to kamehouse-server
 - Updated servers list
 - Fixed bugs
 

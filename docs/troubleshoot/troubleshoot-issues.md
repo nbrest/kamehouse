@@ -233,16 +233,6 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 
 *********************
 
-## Enable CORS on kamehouse-r2d2:
-
-- To be able to test it's connectivity from js in kamehouse-mobile:
-- Add the following line to conf/kamehouse/http.conf: `Header add Access-Control-Allow-Origin *`
-- Restart httpd
-- Don't do this if the server is exposed to internet
-- It's not strictly necessary. If the connectivity test fails with CORS error, it will try to load kamehouse-r2d2 page in the inappbrowser anyway, and that should still work. In a way, receiving a CORS error is a successful connectivity test
-
-*********************
-
 ## Commands on docker host don't work:
 
 - When running on docker, commands executed on the host are done through ssh
