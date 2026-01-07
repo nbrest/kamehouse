@@ -1,13 +1,14 @@
 import socket
 import struct
 import sys
+import click
 from loguru import logger
 
-# 1st arg: mac address: aa:bb:cc:dd:ee:ff
-# 2nd arg: broadcast address: 192.168.x.255
-
-def main():
-    sendWol(sys.argv[1], sys.argv[2])
+@click.command()
+@click.option('--mac', required=True, help='MAC address. ej: aa:bb:cc:dd:ee:ff')
+@click.option('--broadcast', required=True, help='Broadcast address. ej: 192.168.0.255')
+def main(mac, broadcast):
+    sendWol(mac, broadcast)
 
 def sendWol(macAddress, broadcastAddress):
     logger.info("Waking up: " + macAddress + " using broadcast: " + broadcastAddress)

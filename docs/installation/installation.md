@@ -76,6 +76,7 @@ sudo npm install typescript -g
     - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
 ```sh
     pip install PyQt5
+    pip install click
     pip install loguru
     pip install requests
     pip install websocket
@@ -89,11 +90,20 @@ sudo npm install typescript -g
     sudo apt-get install -y xcompmgr
     sudo apt-get install -y python${PYTHON_VERSION}
     sudo apt-get install -y python3-pyqt5
+    sudo apt-get install -y python3-click
     sudo apt-get install -y python3-loguru
     sudo apt-get install -y python3-requests
     sudo apt-get install -y python3-websocket
     sudo apt-get install -y python3-websocket-client
     sudo apt-get install -y python3-stomper
+```
+
+  - OpenWrt:
+```sh
+opkg update
+opkg install python3
+opkg install python3-pip
+# then use pip install like in windows (they all install except: PyQt5)
 ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
