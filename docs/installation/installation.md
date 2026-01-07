@@ -83,6 +83,7 @@ sudo npm install typescript -g
     pip install websocket-client
     pip install stomper
 ```
+
   - Linux:
 ```sh
     PYTHON_VERSION=   # set value from versions.md
