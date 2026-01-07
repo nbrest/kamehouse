@@ -32,4 +32,9 @@ printHelpOptions() {
   addHelpOption "snape-script.py [args]" "Snape script and its optional arguments" "r"
 }
 
+parseHelp() {
+  printHelp
+  # continue to python script
+}
+
 main "$@"
