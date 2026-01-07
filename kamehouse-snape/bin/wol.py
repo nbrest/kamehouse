@@ -5,10 +5,10 @@ import click
 from loguru import logger
 
 @click.command()
-@click.option('--mac', required=True, help='MAC address. ej: aa:bb:cc:dd:ee:ff')
-@click.option('--broadcast', required=True, help='Broadcast address. ej: 192.168.0.255')
-def main(mac, broadcast):
-    sendWol(mac, broadcast)
+@click.option('--mac-address', required=True, help='MAC address. ej: aa:bb:cc:dd:ee:ff')
+@click.option('--broadcast-address', required=True, help='Broadcast address. ej: 192.168.0.255')
+def main(mac_address, broadcast_address):
+    sendWol(mac_address, broadcast_address)
 
 def sendWol(macAddress, broadcastAddress):
     logger.info("Waking up: " + macAddress + " using broadcast: " + broadcastAddress)
