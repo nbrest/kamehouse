@@ -33,6 +33,7 @@ printHelpOptions() {
 
 parseHelp() {
   printHelp
+  echo ""
   # continue to python script
 }
 
