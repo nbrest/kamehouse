@@ -3,33 +3,33 @@ from PyQt5.QtGui import QPixmap
 from loguru import logger
 from time import strftime
 
-from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+from config.kamehouse_desktop_cfg import kamehouse_desktop_cfg
 from effects.drop_shadow_effect import DropShadowEffect
 from effects.opacity_effect import OpacityEffect
 
 class ImageWidget(QLabel):
-    def __init__(self, widgetName, window):
+    def __init__(self, widget_name, window):
         super().__init__(window)
-        logger.info("Initializing " + widgetName)
-        if (kamehouseDesktopCfg.getBoolean(widgetName, 'hidden')):
-            logger.debug(widgetName + " is set to hidden")
+        logger.info("Initializing " + widget_name)
+        if (kamehouse_desktop_cfg.getBoolean(widget_name, 'hidden')):
+            logger.debug(widget_name + " is set to hidden")
             self.setHidden(True)
             return
-        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_christmas') and self.isChristmasTime()):
-            self.imgSrc = QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src_christmas'))
+        if (kamehouse_desktop_cfg.getBoolean(widget_name, 'use_christmas') and self.isChristmasTime()):
+            self.img_src = QPixmap(kamehouse_desktop_cfg.get(widget_name, 'img_src_christmas'))
         else:
-            self.imgSrc = QPixmap(kamehouseDesktopCfg.get(widgetName, 'img_src'))
-        self.setPixmap(self.imgSrc)
-        posX = kamehouseDesktopCfg.getInt(widgetName, 'pos_x')
-        posY = kamehouseDesktopCfg.getInt(widgetName, 'pos_y')
-        width = kamehouseDesktopCfg.getInt(widgetName, 'width')
-        height = kamehouseDesktopCfg.getInt(widgetName, 'height')
-        self.setGeometry(posX, posY, width, height)
-        self.setScaledContents(kamehouseDesktopCfg.getBoolean(widgetName, 'scaled_contents')) 
-        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_drop_shadow')):
-            DropShadowEffect(self, widgetName)
-        if (kamehouseDesktopCfg.getBoolean(widgetName, 'use_opacity')):
-            OpacityEffect(self, widgetName)
+            self.img_src = QPixmap(kamehouse_desktop_cfg.get(widget_name, 'img_src'))
+        self.setPixmap(self.img_src)
+        pos_x = kamehouse_desktop_cfg.getInt(widget_name, 'pos_x')
+        pos_y = kamehouse_desktop_cfg.getInt(widget_name, 'pos_y')
+        width = kamehouse_desktop_cfg.getInt(widget_name, 'width')
+        height = kamehouse_desktop_cfg.getInt(widget_name, 'height')
+        self.setGeometry(pos_x, pos_y, width, height)
+        self.setScaledContents(kamehouse_desktop_cfg.getBoolean(widget_name, 'scaled_contents')) 
+        if (kamehouse_desktop_cfg.getBoolean(widget_name, 'use_drop_shadow')):
+            DropShadowEffect(self, widget_name)
+        if (kamehouse_desktop_cfg.getBoolean(widget_name, 'use_opacity')):
+            OpacityEffect(self, widget_name)
         self.setHidden(False)
     
     def isChristmasTime(self):

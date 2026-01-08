@@ -3,29 +3,29 @@ from pathlib import Path
 
 class KameHouseDesktopCfg():
     def __init__(self):
-        homeDir = str(Path.home())
-        configFiles = [homeDir + '/programs/kamehouse-desktop/conf/default-kamehouse-desktop.cfg', homeDir + '/.kamehouse/config/kamehouse-desktop.cfg']
+        home_dir = str(Path.home())
+        config_files = [home_dir + '/programs/kamehouse-desktop/conf/default-kamehouse-desktop.cfg', home_dir + '/.kamehouse/config/kamehouse-desktop.cfg']
         self.config = ConfigParser()
-        self.config.read(configFiles)
+        self.config.read(config_files)
 
-    def get(self, propertyCategory, propertyKey):
-        return self.config[propertyCategory][propertyKey]
+    def get(self, property_category, property_key):
+        return self.config[property_category][property_key]
 
-    def getInt(self, propertyCategory, propertyKey):
-        return int(self.config[propertyCategory][propertyKey])
+    def getInt(self, property_category, property_key):
+        return int(self.config[property_category][property_key])
 
-    def getFloat(self, propertyCategory, propertyKey):
-        propertyValue = self.config[propertyCategory][propertyKey]
-        if propertyValue is None:
+    def getFloat(self, property_category, property_key):
+        property_value = self.config[property_category][property_key]
+        if property_value is None:
           return 0.0
-        propertyValue = propertyValue = propertyValue.lower().strip()
-        return float(propertyValue)
+        property_value = property_value = property_value.lower().strip()
+        return float(property_value)
 
-    def getBoolean(self, propertyCategory, propertyKey):
-        propertyValue = self.config[propertyCategory][propertyKey]
-        if propertyValue is None:
+    def getBoolean(self, property_category, property_key):
+        property_value = self.config[property_category][property_key]
+        if property_value is None:
           return False
-        propertyValue = propertyValue = propertyValue.lower().strip()
-        return propertyValue == "true"
+        property_value = property_value = property_value.lower().strip()
+        return property_value == "true"
 
-kamehouseDesktopCfg = KameHouseDesktopCfg()
+kamehouse_desktop_cfg = KameHouseDesktopCfg()

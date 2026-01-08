@@ -13,106 +13,106 @@ from PyQt5.QtWidgets import QWidget, QGraphicsOpacityEffect
 from PyQt5.QtGui import QPixmap
 from loguru import logger
 
-from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+from config.kamehouse_desktop_cfg import kamehouse_desktop_cfg
 from widgets.image import ImageWidget
 from widgets.movie import MovieWidget
 from widgets.text import OutlinedTextWidget
 
 class ZtvPlayerWidget(QWidget):
-    isPlayingMedia = True
-    logTrace = False
-    vlcRcStatus = {}
-    websocketUpdateTime = int(time.time())
+    is_playing_media = True
+    log_trace = False
+    vlc_rc_status = {}
+    websocket_update_time = int(time.time())
     window = None
-    defaultTitle = "DBGT - Dan Dan.mp3"
-    defaultArtist = "Son Goku"
+    default_title = "DBGT - Dan Dan.mp3"
+    default_artist = "Son Goku"
     
     def __init__(self, window):
         super().__init__(window)
         logger.info("Initializing ztv_player_widget")
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')):
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')):
             logger.debug("ztv_player_widget is set to hidden")
             self.setHidden(True)
             return
         self.window = window
-        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+        self.log_trace = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
         self.setPlayerOffWidgets()
         self.configureLogo()
-        self.title = OutlinedTextWidget("ztv_player_title_widget", self.defaultTitle, window)
-        self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.defaultArtist, window)
-        self.currentTime = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
-        self.totalTime = OutlinedTextWidget("ztv_player_total_time_widget", "--:--:--", window)
+        self.title = OutlinedTextWidget("ztv_player_title_widget", self.default_title, window)
+        self.artist = OutlinedTextWidget("ztv_player_artist_widget", self.default_artist, window)
+        self.current_time = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
+        self.total_time = OutlinedTextWidget("ztv_player_total_time_widget", "--:--:--", window)
         self.configureSoundWave()
         self.initUpdateViewSync()
 
     def setPlayerOffWidgets(self):
-        self.ztvPlayerOffGoku = ImageWidget("ztv_player_off_goku_widget", self.window)
-        self.ztvPlayerOffGoku.setHidden(True)
-        self.ztvPlayerOffKintoUn = ImageWidget("ztv_player_off_kintoun_widget", self.window)
-        self.ztvPlayerOffKintoUn.setHidden(True)
-        self.ztvPlayerOffMessage = OutlinedTextWidget("ztv_player_off_message_widget", "音楽をかけて", self.window)
-        self.ztvPlayerOffMessage.setHidden(True)
+        self.ztv_player_off_goku = ImageWidget("ztv_player_off_goku_widget", self.window)
+        self.ztv_player_off_goku.setHidden(True)
+        self.ztv_player_off_kintoun = ImageWidget("ztv_player_off_kintoun_widget", self.window)
+        self.ztv_player_off_kintoun.setHidden(True)
+        self.ztv_player_off_message = OutlinedTextWidget("ztv_player_off_message_widget", "音楽をかけて", self.window)
+        self.ztv_player_off_message.setHidden(True)
 
     def configureLogo(self):
         self.logo = ImageWidget("ztv_player_logo_widget", self.window)
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
             self.setLogoAnimation()
             self.startLogoAnimation()
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
-            randomSrcCount = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'random_src_entries_count')
-            randomSrc = []
-            for i in range(1, randomSrcCount + 1):
-                randomSrcEntryName = "random_src_" + str(i).zfill(2)
-                randomSrcEntry = kamehouseDesktopCfg.get('ztv_player_logo_widget', randomSrcEntryName)
-                randomSrc.append(json.loads(randomSrcEntry))
-                if (self.logTrace):
-                    logger.trace("Adding ztv_player_logo_widget randomSrc: " + randomSrcEntryName)                
-            self.logo.randomSrc = randomSrc
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
+            random_src_count = kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_entries_count')
+            random_src = []
+            for i in range(1, random_src_count + 1):
+                random_src_entry_name = "random_src_" + str(i).zfill(2)
+                random_src_entry = kamehouse_desktop_cfg.get('ztv_player_logo_widget', random_src_entry_name)
+                random_src.append(json.loads(random_src_entry))
+                if (self.log_trace):
+                    logger.trace("Adding ztv_player_logo_widget random_src: " + random_src_entry_name)                
+            self.logo.random_src = random_src
             timer = QTimer(self.window)
             timer.timeout.connect(self.window.setZtvPlayerRandomLogo)
-            timer.start(kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'random_src_wait_ms'))
+            timer.start(kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_wait_ms'))
 
     def configureSoundWave(self):
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
-            self.soundWave = MovieWidget("ztv_player_sound_wave_widget", self.window)
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
+            self.sound_wave = MovieWidget("ztv_player_sound_wave_widget", self.window)
             self.startSoundWaveMovie()
         else:
-            self.soundWave = ImageWidget("ztv_player_sound_wave_widget", self.window)
+            self.sound_wave = ImageWidget("ztv_player_sound_wave_widget", self.window)
             self.setSoundWaveAnimation()
             self.startSoundWaveAnimation()
 
     def initSyncThreads(self):
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')):
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')):
             return
         self.initWebsocket()
         self.initHttpVlcRcStatusSync()
 
     def initWebsocket(self):
-        self.websocketThread = QThread()
+        self.websocket_thread = QThread()
         self.websocket = ZtvPlayerWebsocket(self.window)
-        self.websocket.moveToThread(self.websocketThread)
-        self.websocketThread.started.connect(self.websocket.run)
-        self.websocket.finished.connect(self.websocketThread.quit)
-        self.websocketThread.finished.connect(self.websocketThread.deleteLater)
-        self.websocketThread.start()
+        self.websocket.moveToThread(self.websocket_thread)
+        self.websocket_thread.started.connect(self.websocket.run)
+        self.websocket.finished.connect(self.websocket_thread.quit)
+        self.websocket_thread.finished.connect(self.websocket_thread.deleteLater)
+        self.websocket_thread.start()
 
     def initHttpVlcRcStatusSync(self):
-        self.httpSyncThread = QThread()
-        self.httpSync = ZtvPlayerHttpSync(self.window)
-        self.httpSync.moveToThread(self.httpSyncThread)
-        self.httpSyncThread.started.connect(self.httpSync.run)
-        self.httpSync.finished.connect(self.httpSyncThread.quit)
-        self.httpSyncThread.finished.connect(self.httpSyncThread.deleteLater)
-        self.httpSyncThread.start()
+        self.http_sync_thread = QThread()
+        self.http_sync = ZtvPlayerHttpSync(self.window)
+        self.http_sync.moveToThread(self.http_sync_thread)
+        self.http_sync_thread.started.connect(self.http_sync.run)
+        self.http_sync.finished.connect(self.http_sync_thread.quit)
+        self.http_sync_thread.finished.connect(self.http_sync_thread.deleteLater)
+        self.http_sync_thread.start()
 
     def resetVlcPlayerFullScreen(self):
-        self.vlcPlayerFullScreenThread = QThread()
-        self.vlcPlayerFullScreen = VlcPlayerFullScreenSetter(self.window)
-        self.vlcPlayerFullScreen.moveToThread(self.vlcPlayerFullScreenThread)
-        self.vlcPlayerFullScreenThread.started.connect(self.vlcPlayerFullScreen.run)
-        self.vlcPlayerFullScreen.finished.connect(self.vlcPlayerFullScreenThread.quit)
-        self.vlcPlayerFullScreenThread.finished.connect(self.vlcPlayerFullScreenThread.deleteLater)
-        self.vlcPlayerFullScreenThread.start()        
+        self.vlc_player_full_screen_thread = QThread()
+        self.vlc_player_full_screen = VlcPlayerFullScreenSetter(self.window)
+        self.vlc_player_full_screen.moveToThread(self.vlc_player_full_screen_thread)
+        self.vlc_player_full_screen_thread.started.connect(self.vlc_player_full_screen.run)
+        self.vlc_player_full_screen.finished.connect(self.vlc_player_full_screen_thread.quit)
+        self.vlc_player_full_screen_thread.finished.connect(self.vlc_player_full_screen_thread.deleteLater)
+        self.vlc_player_full_screen_thread.start()        
 
     def initUpdateViewSync(self):
         timer = QTimer(self.window)
@@ -120,173 +120,173 @@ class ZtvPlayerWidget(QWidget):
         timer.start(1000)
 
     def formatTime(self, secondsToFormat):
-        timeDelta = datetime.timedelta(seconds=secondsToFormat)
-        hours, remainder = divmod(timeDelta.total_seconds(), 3600)
+        time_delta = datetime.timedelta(seconds=secondsToFormat)
+        hours, remainder = divmod(time_delta.total_seconds(), 3600)
         minutes, seconds = divmod(remainder, 60)
         return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
     
     def updateView(self):
-        logVlcRcStatus = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'log_vlc_rc_status')
-        vlcRcStatus = self.vlcRcStatus
-        if (self.logTrace):
+        log_vlcrc_status = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'log_vlc_rc_status')
+        vlc_rc_status = self.vlc_rc_status
+        if (self.log_trace):
             logger.trace("Updating ztv_player_widget view")
-            if (logVlcRcStatus):
-                logger.trace("vlcRcStatus: " + str(vlcRcStatus))
-        isZtvPlayerHidden = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden')
-        if (isZtvPlayerHidden or
-            vlcRcStatus == {} or 
-            vlcRcStatus['time'] is None or
-            vlcRcStatus['length'] is None or
-            vlcRcStatus['information'] is None or
-            vlcRcStatus['information']['meta'] is None or
-            vlcRcStatus['information']['meta']['filename'] is None):
+            if (log_vlcrc_status):
+                logger.trace("vlc_rc_status: " + str(vlc_rc_status))
+        is_ztv_player_hidden = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')
+        if (is_ztv_player_hidden or
+            vlc_rc_status == {} or 
+            vlc_rc_status['time'] is None or
+            vlc_rc_status['length'] is None or
+            vlc_rc_status['information'] is None or
+            vlc_rc_status['information']['meta'] is None or
+            vlc_rc_status['information']['meta']['filename'] is None):
             self.hideZtvPlayer()
             return
-        time = self.formatTime(vlcRcStatus['time'])
-        length = self.formatTime(vlcRcStatus['length'])
-        filename = vlcRcStatus['information']['meta']['filename']
-        artist = self.formatArtist(vlcRcStatus['information']['meta']['artist'])
+        time = self.formatTime(vlc_rc_status['time'])
+        length = self.formatTime(vlc_rc_status['length'])
+        filename = vlc_rc_status['information']['meta']['filename']
+        artist = self.formatArtist(vlc_rc_status['information']['meta']['artist'])
         self.title.setText(self.formatTitle(filename, artist))
         self.artist.setText(artist)
-        self.currentTime.setText(time)
-        self.totalTime.setText(length)
+        self.current_time.setText(time)
+        self.total_time.setText(length)
         self.showZtvPlayer()
 
     def formatTitle(self, filename, artist):
         if (filename is None):
-            return self.defaultTitle
+            return self.default_title
         return filename.replace("-", " ").replace("_", " ").replace(".mp3", "").replace(".MP3", "").replace(".wav", "").replace(".WAV", "").replace(".", " ").title().replace(artist + " ", "").replace(artist, "")
         
     def formatArtist(self, artist):
         if (artist is None):
-            return self.defaultArtist
+            return self.default_artist
         return artist.replace("-", " ").replace("_", " ").replace(".", " ").title()
 
     def showZtvPlayer(self):
-        if (not self.isPlayingMedia):
-            self.isPlayingMedia = True
-            self.ztvPlayerOffGoku.setHidden(True)
-            self.ztvPlayerOffKintoUn.setHidden(True)
-            self.ztvPlayerOffMessage.setHidden(True)
+        if (not self.is_playing_media):
+            self.is_playing_media = True
+            self.ztv_player_off_goku.setHidden(True)
+            self.ztv_player_off_kintoun.setHidden(True)
+            self.ztv_player_off_message.setHidden(True)
             self.logo.setHidden(False)
             self.title.setHidden(False)
             self.artist.setHidden(False)
-            self.currentTime.setHidden(False)
-            self.totalTime.setHidden(False)
-            self.soundWave.setHidden(False) 
+            self.current_time.setHidden(False)
+            self.total_time.setHidden(False)
+            self.sound_wave.setHidden(False) 
 
     def hideZtvPlayer(self):
-        if (self.isPlayingMedia):
-            self.isPlayingMedia = False
-            self.ztvPlayerOffGoku.setHidden(False)
-            self.ztvPlayerOffKintoUn.setHidden(False)
-            self.ztvPlayerOffMessage.setHidden(False)
+        if (self.is_playing_media):
+            self.is_playing_media = False
+            self.ztv_player_off_goku.setHidden(False)
+            self.ztv_player_off_kintoun.setHidden(False)
+            self.ztv_player_off_message.setHidden(False)
             self.logo.setHidden(True)
             self.title.setHidden(True)
             self.artist.setHidden(True)
-            self.currentTime.setHidden(True)
-            self.totalTime.setHidden(True) 
-            self.soundWave.setHidden(True) 
+            self.current_time.setHidden(True)
+            self.total_time.setHidden(True) 
+            self.sound_wave.setHidden(True) 
 
     def startSoundWaveMovie(self):
-        if (kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'hidden') or
-            kamehouseDesktopCfg.getBoolean('ztv_player_sound_wave_widget', 'hidden')):
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden') or
+            kamehouse_desktop_cfg.getBoolean('ztv_player_sound_wave_widget', 'hidden')):
             return
         timer = QTimer(self.window)
-        timer.singleShot(100, self.soundWave.start)
+        timer.singleShot(100, self.sound_wave.start)
 
     def setSoundWaveAnimation(self):
-        posX = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'pos_x')
-        posY = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'pos_y')
-        width = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'width')
-        height = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'height')
-        expandPx = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'expand_px')
-        expandedPosX = posX - expandPx
-        expandedPosY = posY - expandPx
-        expandedWidth = width + expandPx * 2 
-        expandedHeight = height + expandPx * 2
-        animationMs = kamehouseDesktopCfg.getInt('ztv_player_sound_wave_widget', 'animation_ms')
-        minOpacity = kamehouseDesktopCfg.getFloat('ztv_player_sound_wave_widget', 'min_opacity')
-        maxOpacity = kamehouseDesktopCfg.getFloat('ztv_player_sound_wave_widget', 'max_opacity')
+        pos_x = kamehouse_desktop_cfg.getInt('ztv_player_sound_wave_widget', 'pos_x')
+        pos_y = kamehouse_desktop_cfg.getInt('ztv_player_sound_wave_widget', 'pos_y')
+        width = kamehouse_desktop_cfg.getInt('ztv_player_sound_wave_widget', 'width')
+        height = kamehouse_desktop_cfg.getInt('ztv_player_sound_wave_widget', 'height')
+        expand_px = kamehouse_desktop_cfg.getInt('ztv_player_sound_wave_widget', 'expand_px')
+        expanded_pos_x = pos_x - expand_px
+        expanded_pos_y = pos_y - expand_px
+        expanded_width = width + expand_px * 2 
+        expanded_height = height + expand_px * 2
+        animation_ms = kamehouse_desktop_cfg.getInt('ztv_player_sound_wave_widget', 'animation_ms')
+        min_opacity = kamehouse_desktop_cfg.getFloat('ztv_player_sound_wave_widget', 'min_opacity')
+        max_opacity = kamehouse_desktop_cfg.getFloat('ztv_player_sound_wave_widget', 'max_opacity')
         # expand animation
-        self.soundWave.expand = QPropertyAnimation(self.soundWave, b"geometry")
-        self.soundWave.expand.setStartValue(QRect(posX, posY, width, height))
-        self.soundWave.expand.setEndValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
-        self.soundWave.expand.setDuration(animationMs)
+        self.sound_wave.expand = QPropertyAnimation(self.sound_wave, b"geometry")
+        self.sound_wave.expand.setStartValue(QRect(pos_x, pos_y, width, height))
+        self.sound_wave.expand.setEndValue(QRect(expanded_pos_x, expanded_pos_y, expanded_width, expanded_height))
+        self.sound_wave.expand.setDuration(animation_ms)
         # contract animation
-        self.soundWave.contract = QPropertyAnimation(self.soundWave, b"geometry")
-        self.soundWave.contract.setStartValue(QRect(expandedPosX, expandedPosY, expandedWidth, expandedHeight))
-        self.soundWave.contract.setEndValue(QRect(posX, posY, width, height))
-        self.soundWave.contract.setDuration(animationMs)
+        self.sound_wave.contract = QPropertyAnimation(self.sound_wave, b"geometry")
+        self.sound_wave.contract.setStartValue(QRect(expanded_pos_x, expanded_pos_y, expanded_width, expanded_height))
+        self.sound_wave.contract.setEndValue(QRect(pos_x, pos_y, width, height))
+        self.sound_wave.contract.setDuration(animation_ms)
         # brighten
-        effect = QGraphicsOpacityEffect(self.soundWave)
-        self.soundWave.setGraphicsEffect(effect)
-        self.soundWave.brighten = QPropertyAnimation(effect, b"opacity")
-        self.soundWave.brighten.setStartValue(minOpacity)
-        self.soundWave.brighten.setEndValue(maxOpacity)
-        self.soundWave.brighten.setDuration(animationMs)
+        effect = QGraphicsOpacityEffect(self.sound_wave)
+        self.sound_wave.setGraphicsEffect(effect)
+        self.sound_wave.brighten = QPropertyAnimation(effect, b"opacity")
+        self.sound_wave.brighten.setStartValue(min_opacity)
+        self.sound_wave.brighten.setEndValue(max_opacity)
+        self.sound_wave.brighten.setDuration(animation_ms)
         # darken
-        self.soundWave.darken = QPropertyAnimation(effect, b"opacity")
-        self.soundWave.darken.setStartValue(maxOpacity)
-        self.soundWave.darken.setEndValue(minOpacity)
-        self.soundWave.darken.setDuration(animationMs)
+        self.sound_wave.darken = QPropertyAnimation(effect, b"opacity")
+        self.sound_wave.darken.setStartValue(max_opacity)
+        self.sound_wave.darken.setEndValue(min_opacity)
+        self.sound_wave.darken.setDuration(animation_ms)
         # animation groups
-        self.soundWave.contractDarken = QParallelAnimationGroup()
-        self.soundWave.contractDarken.addAnimation(self.soundWave.contract)
-        self.soundWave.contractDarken.addAnimation(self.soundWave.darken)
-        self.soundWave.expandBrighten = QParallelAnimationGroup()
-        self.soundWave.expandBrighten.addAnimation(self.soundWave.expand)
-        self.soundWave.expandBrighten.addAnimation(self.soundWave.brighten)
-        self.soundWave.animGroup = QSequentialAnimationGroup()
-        self.soundWave.animGroup.addAnimation(self.soundWave.contractDarken)
-        self.soundWave.animGroup.addAnimation(self.soundWave.expandBrighten)
-        self.soundWave.animGroup.finished.connect(self.startSoundWaveAnimation)
+        self.sound_wave.contract_darken = QParallelAnimationGroup()
+        self.sound_wave.contract_darken.addAnimation(self.sound_wave.contract)
+        self.sound_wave.contract_darken.addAnimation(self.sound_wave.darken)
+        self.sound_wave.expand_brighten = QParallelAnimationGroup()
+        self.sound_wave.expand_brighten.addAnimation(self.sound_wave.expand)
+        self.sound_wave.expand_brighten.addAnimation(self.sound_wave.brighten)
+        self.sound_wave.anim_group = QSequentialAnimationGroup()
+        self.sound_wave.anim_group.addAnimation(self.sound_wave.contract_darken)
+        self.sound_wave.anim_group.addAnimation(self.sound_wave.expand_brighten)
+        self.sound_wave.anim_group.finished.connect(self.startSoundWaveAnimation)
 
     def startSoundWaveAnimation(self):
-        self.soundWave.animGroup.start()
+        self.sound_wave.anim_group.start()
 
     def setLogoAnimation(self):
-        animationMs = kamehouseDesktopCfg.getInt('ztv_player_logo_widget', 'animation_ms')
-        minOpacity = kamehouseDesktopCfg.getFloat('ztv_player_logo_widget', 'min_opacity')
-        maxOpacity = kamehouseDesktopCfg.getFloat('ztv_player_logo_widget', 'max_opacity')
+        animation_ms = kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'animation_ms')
+        min_opacity = kamehouse_desktop_cfg.getFloat('ztv_player_logo_widget', 'min_opacity')
+        max_opacity = kamehouse_desktop_cfg.getFloat('ztv_player_logo_widget', 'max_opacity')
         # brighten
         effect = QGraphicsOpacityEffect(self.logo)
         self.logo.setGraphicsEffect(effect)
         self.logo.brighten = QPropertyAnimation(effect, b"opacity")
-        self.logo.brighten.setStartValue(minOpacity)
-        self.logo.brighten.setEndValue(maxOpacity)
-        self.logo.brighten.setDuration(animationMs)
+        self.logo.brighten.setStartValue(min_opacity)
+        self.logo.brighten.setEndValue(max_opacity)
+        self.logo.brighten.setDuration(animation_ms)
         # darken
         self.logo.darken = QPropertyAnimation(effect, b"opacity")
-        self.logo.darken.setStartValue(maxOpacity)
-        self.logo.darken.setEndValue(minOpacity)
-        self.logo.darken.setDuration(animationMs)
+        self.logo.darken.setStartValue(max_opacity)
+        self.logo.darken.setEndValue(min_opacity)
+        self.logo.darken.setDuration(animation_ms)
         # animation groups
-        self.logo.animGroup = QSequentialAnimationGroup()
-        self.logo.animGroup.addAnimation(self.logo.brighten)
-        self.logo.animGroup.addAnimation(self.logo.darken)
-        self.logo.animGroup.finished.connect(self.startLogoAnimation)
+        self.logo.anim_group = QSequentialAnimationGroup()
+        self.logo.anim_group.addAnimation(self.logo.brighten)
+        self.logo.anim_group.addAnimation(self.logo.darken)
+        self.logo.anim_group.finished.connect(self.startLogoAnimation)
 
     def startLogoAnimation(self):
-        self.logo.animGroup.start()
+        self.logo.anim_group.start()
 
     def setRandomLogo(self):
-        randomLogo = random.choice(self.logo.randomSrc)
-        self.logo.imgSrc = QPixmap(randomLogo["imgSrc"])
-        self.logo.setPixmap(self.logo.imgSrc)
-        self.logo.setGeometry(randomLogo["posX"], randomLogo["posY"], randomLogo["width"], randomLogo["height"])
+        random_logo = random.choice(self.logo.random_src)
+        self.logo.img_src = QPixmap(random_logo["img_src"])
+        self.logo.setPixmap(self.logo.img_src)
+        self.logo.setGeometry(random_logo["pos_x"], random_logo["pos_y"], random_logo["width"], random_logo["height"])
 
 class ZtvPlayerHttpSync(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
-    logTrace = False
+    log_trace = False
 
     def __init__(self, window):
         super().__init__()
         self.window = window
         logger.info("Initializing ztv_player_http_sync")
-        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+        self.log_trace = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
 
     def run(self):
         self.runHttpSyncLoop()
@@ -296,47 +296,47 @@ class ZtvPlayerHttpSync(QObject):
 
     def runHttpSyncLoop(self):
         while True:
-            websocketMaxSyncDelayMs = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
-            currentTime = int(time.time())
-            timeSinceLastWebsocketUpdate = (currentTime - self.window.ztvPlayer.websocketUpdateTime) * 1000
-            if (timeSinceLastWebsocketUpdate < websocketMaxSyncDelayMs):
-                if (self.logTrace):
-                    logger.trace("Websocket is connected. Skipping http vlcRcStatus sync")
+            websocket_max_sync_delay_ms = kamehouse_desktop_cfg.getInt('ztv_player_widget', 'websocket_max_sync_delay_ms')
+            current_time = int(time.time())
+            time_since_last_ws_update = (current_time - self.window.ztv_player.websocket_update_time) * 1000
+            if (time_since_last_ws_update < websocket_max_sync_delay_ms):
+                if (self.log_trace):
+                    logger.trace("Websocket is connected. Skipping http vlc_rc_status sync")
             else:
                 self.executeHttpRequest()
-            httpSyncWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'http_sync_wait_sec')
-            time.sleep(httpSyncWaitSec)
+            http_sync_wait_sec = kamehouse_desktop_cfg.getInt('ztv_player_widget', 'http_sync_wait_sec')
+            time.sleep(http_sync_wait_sec)
 
     def executeHttpRequest(self):
-        if (self.logTrace):
-            logger.trace("Executing http vlcRcStatus sync")
-        protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'http_protocol')
-        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
-        port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+        if (self.log_trace):
+            logger.trace("Executing http vlc_rc_status sync")
+        protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'http_protocol')
+        hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
+        port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
         url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/status"
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        verifySsl = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'verify_ssl')
+        verify_ssl = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'verify_ssl')
         try:
-            response = requests.get(url, verify=verifySsl)
+            response = requests.get(url, verify=verify_ssl)
             response.raise_for_status() 
-            vlcRcStatus = response.json()
-            self.window.ztvPlayer.vlcRcStatus = vlcRcStatus
+            vlc_rc_status = response.json()
+            self.window.ztv_player.vlc_rc_status = vlc_rc_status
         except requests.exceptions.RequestException as error:
-            if (self.logTrace):
-                logger.error("Error getting vlcRcStatus via http")
+            if (self.log_trace):
+                logger.error("Error getting vlc_rc_status via http")
 
 class ZtvPlayerWebsocket(QObject):
     topic = "/topic/vlc-player/status-out"
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
-    logTrace = False
+    log_trace = False
 
     def __init__(self, window):
         super().__init__()
         self.window = window
         logger.info("Initializing ztv_player_websocket")
-        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+        self.log_trace = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
 
     def run(self):
         self.runWebsocketLoop()
@@ -346,11 +346,11 @@ class ZtvPlayerWebsocket(QObject):
 
     def runWebsocketLoop(self):
         while True:
-            protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'ws_protocol')
-            hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
-            port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+            protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'ws_protocol')
+            hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
+            port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
             url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
-            if (self.logTrace):
+            if (self.log_trace):
                 logger.debug("Connecting websocket to: " + url)
             try:
                 self.websocket = websocket.WebSocketApp(
@@ -363,35 +363,35 @@ class ZtvPlayerWebsocket(QObject):
                 self.websocket.run_forever()
             except Exception as error:
                 logger.error("Error running websocket client") 
-            websocketReconnectWaitSec = kamehouseDesktopCfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
-            if (self.logTrace):
-                logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + str(websocketReconnectWaitSec) + " seconds")
-            time.sleep(websocketReconnectWaitSec)
+            websocket_reconnect_wait_sec = kamehouse_desktop_cfg.getInt('ztv_player_widget', 'websocket_reconnect_wait_sec')
+            if (self.log_trace):
+                logger.warning("Disconnected from ztv_player_websocket. Reconnecting in " + str(websocket_reconnect_wait_sec) + " seconds")
+            time.sleep(websocket_reconnect_wait_sec)
 
     def onMessage(self, ws, message):
         frame = stomper.unpack_frame(message)
         if (self.isEmptyBody(frame)):
-            self.window.ztvPlayer.vlcRcStatus = {}
+            self.window.ztv_player.vlc_rc_status = {}
         else:
-            self.window.ztvPlayer.vlcRcStatus = json.loads(frame["body"])
-        self.window.ztvPlayer.websocketUpdateTime = int(time.time())
+            self.window.ztv_player.vlc_rc_status = json.loads(frame["body"])
+        self.window.ztv_player.websocket_update_time = int(time.time())
         
     def onError(self, ws, error):
-        if (self.logTrace):
+        if (self.log_trace):
             logger.error("Error receiving data from the ztv_player_websocket")
 
     def onClose(self, ws, close_status_code, close_msg):
-        if (self.logTrace):
+        if (self.log_trace):
             logger.warning("Closed: status code: " + close_status_code + ", message: " + close_msg)
 
     def onOpen(self, ws):
-        if (self.logTrace):
+        if (self.log_trace):
             logger.debug("Connection opened")
         connect_frame = stomper.connect('', '', '') 
         ws.send(connect_frame)
         subscribe_frame = stomper.subscribe(self.topic, socket.gethostname(), ack='auto')
         ws.send(subscribe_frame)
-        if (self.logTrace):
+        if (self.log_trace):
             logger.debug("Subscribed to: " + self.topic)
 
     def isEmptyBody(self, frame):
@@ -405,13 +405,13 @@ class VlcPlayerFullScreenSetter(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
-    logTrace = False
+    log_trace = False
 
     def __init__(self, window):
         super().__init__()
         self.window = window
         logger.info("Initializing vlc_player_fullscreen_setter")
-        self.logTrace = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
+        self.log_trace = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
 
     def run(self):
         self.executeHttpRequest()
@@ -422,17 +422,17 @@ class VlcPlayerFullScreenSetter(QObject):
 
     def executeHttpRequest(self):
         logger.debug("Executing vlc player fullscreen toggle request")
-        protocol = kamehouseDesktopCfg.get('ztv_player_widget', 'http_protocol')
-        hostname = kamehouseDesktopCfg.get('ztv_player_widget', 'hostname')
-        port = kamehouseDesktopCfg.get('ztv_player_widget', 'port')
+        protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'http_protocol')
+        hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
+        port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
         url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands"
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        verifySsl = kamehouseDesktopCfg.getBoolean('ztv_player_widget', 'verify_ssl')
+        verify_ssl = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'verify_ssl')
         requestBody = {
           "name": "fullscreen",
           "val": None
         }
         try:
-            requests.post(url, json=requestBody, verify=verifySsl)
+            requests.post(url, json=requestBody, verify=verify_ssl)
         except requests.exceptions.RequestException as error:
             logger.error("Error sending request to toggle vlc player fullscreen")

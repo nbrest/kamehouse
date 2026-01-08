@@ -2,25 +2,25 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QTimer, QTime, Qt
 from loguru import logger
 
-from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+from config.kamehouse_desktop_cfg import kamehouse_desktop_cfg
 from widgets.text import OutlinedTextWidget
 
 class ClockWidget(QWidget):
-    logTrace = False
+    log_trace = False
 
     def __init__(self, window):
         super().__init__(window)
         logger.info("Initializing clock widget")
-        self.logTrace = kamehouseDesktopCfg.getBoolean('clock_widget', 'trace_log_enabled')
+        self.log_trace = kamehouse_desktop_cfg.getBoolean('clock_widget', 'trace_log_enabled')
         self.text = OutlinedTextWidget('clock_text_widget', "00:00", window)
         self.updateTime()
         timer = QTimer(window)
         timer.timeout.connect(window.updateClockTime)
-        timer.start(kamehouseDesktopCfg.getInt('clock_widget', 'timer_wait_ms'))
+        timer.start(kamehouse_desktop_cfg.getInt('clock_widget', 'timer_wait_ms'))
 
     def updateTime(self):
-        currentTime = QTime.currentTime()
-        formattedCurrentTime = currentTime.toString('hh:mm')
-        if (self.logTrace):
-            logger.trace("Updating clock time to " + formattedCurrentTime)
-        self.text.setText(formattedCurrentTime)
+        current_time = QTime.currentTime()
+        formatted_current_time = current_time.toString('hh:mm')
+        if (self.log_trace):
+            logger.trace("Updating clock time to " + formatted_current_time)
+        self.text.setText(formatted_current_time)

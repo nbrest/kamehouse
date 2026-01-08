@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import Qt
 from loguru import logger
 
-from config.kamehouse_desktop_cfg import kamehouseDesktopCfg
+from config.kamehouse_desktop_cfg import kamehouse_desktop_cfg
 from widgets.background_slideshow import BackgroundSlideshowWidget
 from widgets.clock import ClockWidget
 from widgets.image import ImageWidget
@@ -30,26 +30,26 @@ class KameHouseDesktop(QMainWindow):
         self.hostname = TextWidget('hostname_widget', self.getHostname(), self)
         self.logo = ImageWidget('kamehouse_logo_widget', self)
         self.katakana = TextWidget('kamehouse_katakana_widget', "カメハウス", self)
-        self.worldCupLogo = ImageWidget('world_cup_logo_widget', self)
+        self.world_cup_logo = ImageWidget('world_cup_logo_widget', self)
         self.clock = ClockWidget(self)
         self.weather = WeatherWidget(self)
-        self.backgroundSlideshow = BackgroundSlideshowWidget(self)
+        self.background_slideshow = BackgroundSlideshowWidget(self)
 
     def initDesktop(self):
-        self.ztvPlayer = ZtvPlayerWidget(self)
-        self.ztvPlayer.initSyncThreads()
-        self.ztvPlayer.resetVlcPlayerFullScreen()
+        self.ztv_player = ZtvPlayerWidget(self)
+        self.ztv_player.initSyncThreads()
+        self.ztv_player.resetVlcPlayerFullScreen()
 
     def setWindowProperties(self):
         logger.debug("Setting main window properties")
         self.setWindowTitle("KameHouse - Desktop")
-        self.setWindowIcon(QtGui.QIcon(kamehouseDesktopCfg.get('kamehouse_desktop', 'icon_src')))
-        if (kamehouseDesktopCfg.getBoolean('kamehouse_desktop', 'stays_on_bottom')):
+        self.setWindowIcon(QtGui.QIcon(kamehouse_desktop_cfg.get('kamehouse_desktop', 'icon_src')))
+        if (kamehouse_desktop_cfg.getBoolean('kamehouse_desktop', 'stays_on_bottom')):
             self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
         else:
             self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)        
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setStyleSheet(kamehouseDesktopCfg.get('kamehouse_desktop', 'stylesheet'))
+        self.setStyleSheet(kamehouse_desktop_cfg.get('kamehouse_desktop', 'stylesheet'))
  
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Q:
@@ -61,23 +61,23 @@ class KameHouseDesktop(QMainWindow):
 
     def getHostname(self):
         hostname = socket.gethostname()
-        if (kamehouseDesktopCfg.getBoolean('hostname_widget', 'format_hostname')):
+        if (kamehouse_desktop_cfg.getBoolean('hostname_widget', 'format_hostname')):
             hostname = hostname.replace("-", " ").replace("_", " ").replace(".", " ")
         return hostname
 
     # this is needed on raspberrypi to render transparent backgrounds
     def startCompositor(self):
-        if (kamehouseDesktopCfg.getBoolean('kamehouse_desktop', 'execute_compositor')):
-            compositorCommand = kamehouseDesktopCfg.get('kamehouse_desktop', 'compositor_command')
-            logger.debug("Starting compositor " + compositorCommand)
-            process = subprocess.Popen(compositorCommand, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if (kamehouse_desktop_cfg.getBoolean('kamehouse_desktop', 'execute_compositor')):
+            compositor_command = kamehouse_desktop_cfg.get('kamehouse_desktop', 'compositor_command')
+            logger.debug("Starting compositor " + compositor_command)
+            process = subprocess.Popen(compositor_command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         else:
             logger.debug("Skipping compositor")
         
     def initLogger(self):
         logger.remove(0)
-        logLevel = kamehouseDesktopCfg.get('kamehouse_desktop', 'log_level')
-        logger.add(sys.stdout, level=logLevel)
+        log_level = kamehouse_desktop_cfg.get('kamehouse_desktop', 'log_level')
+        logger.add(sys.stdout, level=log_level)
         logger.trace("trace logging is enabled")
 
     def updateClockTime(self):
@@ -87,10 +87,10 @@ class KameHouseDesktop(QMainWindow):
         self.weather.updateStatus()
 
     def updateZtvPlayerView(self):
-        self.ztvPlayer.updateView()
+        self.ztv_player.updateView()
 
     def setZtvPlayerRandomLogo(self):
-        self.ztvPlayer.setRandomLogo()
+        self.ztv_player.setRandomLogo()
         
 if __name__ == "__main__":
     app = QApplication(sys.argv)
