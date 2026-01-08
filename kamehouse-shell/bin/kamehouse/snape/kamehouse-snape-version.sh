@@ -8,8 +8,8 @@ initKameHouseShellEnv() {
 }
 
 mainProcess() {
-  local CMD_VERSION_FILE="${HOME}/programs/kamehouse-snape/conf/build-info.json"
-  cat "${CMD_VERSION_FILE}"
+  local VERSION_FILE="${HOME}/programs/kamehouse-snape/conf/build-info.json"
+  cat "${VERSION_FILE}"
 }
 
 main "$@"
