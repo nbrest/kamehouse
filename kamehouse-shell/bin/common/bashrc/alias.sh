@@ -41,3 +41,4 @@ fi
 # kamehouse-shell scripts shortcuts
 alias kat="keep-alive-toggle.sh"
 alias kas="keep-alive-status.sh"
+alias snape="snape.sh"

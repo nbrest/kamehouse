@@ -23,13 +23,12 @@ parseArguments() {
 setEnvFromArguments() {
   checkRequiredOption "snape script" "${SNAPE_SCRIPT}" 
   if [[ ! "${SNAPE_SCRIPT}" =~ .*\.py$ ]]; then
-    log.error "Invalid snape script. Needs to end in .py"
-    exit ${EXIT_INVALID_ARG}
+    SNAPE_SCRIPT=${SNAPE_SCRIPT}.py
   fi
 }
 
 printHelpOptions() {
-  addHelpOption "snape-script.py [args]" "Snape script and its optional arguments" "r"
+  addHelpOption "snape-script.py [args]" "Snape script (with or without .py suffix) and its optional arguments" "r"
 }
 
 parseHelp() {

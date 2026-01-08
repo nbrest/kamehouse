@@ -7,6 +7,7 @@
 
 #### v11.00
 
+- Updated the command to execute snape scripts
 - Added snape wol script
 - Added format of hostname in desktop
 - Moved cmd.exe to powershell.exe
