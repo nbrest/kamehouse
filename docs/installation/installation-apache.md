@@ -81,3 +81,11 @@ sudo chmod a+rx /var/log/apache2
 chmod a+rx ${HOME}
 chmod a+rx ${HOME}/logs
 ```
+
+## Update session expiry for kamehouse-groot sessions
+
+- Configure php session expiry for groot sessions in `php.ini`
+```sh
+session.cookie_lifetime = 2592000
+session.gc_maxlifetime = 2592000
+```
