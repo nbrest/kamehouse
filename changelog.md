@@ -7,6 +7,8 @@
 
 #### v11.01
 
+- Updated default min opacity in backgrounds in kamehouse desktop
+- Added esc key press on vlc settings
 - Fixed bugs
 
 #### v11.00
