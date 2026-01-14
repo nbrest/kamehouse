@@ -7,6 +7,8 @@
 
 #### v11.01
 
+- Updated servers list
+- Added new css styles for brightness
 - Updated default min opacity in backgrounds in kamehouse desktop
 - Added esc key press on vlc settings
 - Fixed bugs

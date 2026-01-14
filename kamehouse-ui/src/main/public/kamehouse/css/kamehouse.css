@@ -60,6 +60,14 @@ body {
   border: 1px solid #292929;
 }
 
+.brightness-50 {
+  filter: brightness(50%);
+}
+
+.brightness-60 {
+  filter: brightness(60%);
+}
+
 .btn {
   border-radius: 0;
   /** Make all buttons square overriding bootstrap's default */
