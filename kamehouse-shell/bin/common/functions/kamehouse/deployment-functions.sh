@@ -271,36 +271,9 @@ uploadKameHouseMobileApkToHttpdServer() {
 }
 
 uploadKameHouseMobileApkToGDrive() {
-  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}" ]; then
-    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}"
-    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
-    log.info "Deployed kamehouse-mobile apk status"
-    log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
-    ls -lh "${KAMEHOUSE_MOBILE_GDRIVE_PATH_WIN}/kamehouse.apk"
-  fi
-
-  mountLinuxGoogleDrive
-  
-  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
-    log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to google drive${COL_DEFAULT_LOG} folder ${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}"
-    cp ${KAMEHOUSE_ANDROID_APK_PATH} "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
-    log.info "Deployed kamehouse-mobile apk status"
-    log.info "ls -lh ${COL_CYAN_STD}${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
-    ls -lh "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}/kamehouse.apk"
-  fi
-}
-
-mountLinuxGoogleDrive() {
-  if [ -d "${KAMEHOUSE_MOBILE_GDRIVE_PATH_LIN}" ]; then
-    log.info "Google Drive is already mounted"
-    return
-  fi
-
-  if [ -d "${HOME}/GoogleDrive" ]; then
-    log.info "Mounting google drive"
-    google-drive-ocamlfuse ${HOME}/GoogleDrive
-    sleep 8
-  fi
+  mkdir -p ${HOME}/temp
+  cp -f ${KAMEHOUSE_ANDROID_APK_PATH} ${HOME}/temp/kamehouse.apk
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/snape/snape.sh upload_kamehouse_mobile_to_gdrive
 }
 
 deployKameHouseStatic() {

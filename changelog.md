@@ -7,6 +7,7 @@
 
 #### v11.01
 
+- Moved upload kamehouse mobile apk to an api call with snape
 - Updated servers list
 - Added new css styles for brightness
 - Updated default min opacity in backgrounds in kamehouse desktop

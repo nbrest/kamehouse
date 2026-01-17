@@ -77,6 +77,9 @@ sudo npm install typescript -g
 ```sh
     pip install PyQt5
     pip install click
+    pip install google-api-python-client 
+    pip install google-auth-httplib2 
+    pip install google-auth-oauthlib
     pip install loguru
     pip install requests
     pip install websocket
@@ -84,7 +87,7 @@ sudo npm install typescript -g
     pip install stomper
 ```
 
-  - Linux:
+  - Linux: (when adding here also update `dockerfile-setup-container.sh`)
 ```sh
     PYTHON_VERSION=   # set value from versions.md
     sudo apt-get install -y picom
@@ -92,6 +95,9 @@ sudo npm install typescript -g
     sudo apt-get install -y python${PYTHON_VERSION}
     sudo apt-get install -y python3-pyqt5
     sudo apt-get install -y python3-click
+    sudo apt-get install -y python3-google-api-python-client 
+    sudo apt-get install -y python3-google-auth-httplib2 
+    sudo apt-get install -y python3-google-auth-oauthlib    
     sudo apt-get install -y python3-loguru
     sudo apt-get install -y python3-requests
     sudo apt-get install -y python3-websocket

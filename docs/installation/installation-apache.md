@@ -52,18 +52,18 @@
 - Install apache httpd from the package manager
 - Install php from the package manager
 - Install php mariadb: 
-```
+```sh
 sudo apt-get install php-mysql libapache2-mod-php
 ```
 
 - Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
-  ```sh
-  # config apache
-  sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
-  sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
-  sudo a2ensite default-ssl
-  sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
-  ```
+```sh
+# config apache
+sudo cp -v -f -r local-setup/apache/lin/conf to /var/apache2/conf
+sudo cp -v -f -r local-setup/apache/lin/sites-available to /var/apache2/sites-available
+sudo a2ensite default-ssl
+sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
+```
 
 - Make static content root dir for kamehouse:
 ```sh
@@ -80,6 +80,12 @@ sudo chmod a+rx /var/log/apache2
 ```sh
 chmod a+rx ${HOME}
 chmod a+rx ${HOME}/logs
+```
+
+- Setup tail log script for apache logs
+```sh
+mkdir -p ${HOME}/programs/apache-httpd
+ln -s /var/log/apache2 ${HOME}/programs/apache-httpd/logs
 ```
 
 ## Update session expiry for kamehouse-groot sessions

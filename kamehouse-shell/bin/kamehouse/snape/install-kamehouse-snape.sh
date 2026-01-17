@@ -41,6 +41,7 @@ main() {
   installKameHouseSnape
   fixPermissions
   generateBuildInfo
+  installKamehouseSnapeConfig
   logKameHouseSnapeStatus
   log.info "Done installing ${COL_PURPLE}kamehouse-snape!"
 }
@@ -112,6 +113,17 @@ getKameHouseBuildVersion() {
     BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
   fi
   echo "${BUILD_VERSION}"
+}
+
+installKamehouseSnapeConfig() {
+  log.info "Installing kamehouse-snape.cfg"
+  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-snape.cfg" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-snape.cfg${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/config/
+    cp docker/setup-kamehouse/config/kamehouse-snape.cfg ${HOME}/.kamehouse/config/kamehouse-snape.cfg
+  else
+    log.info "kamehouse-snape.cfg file exists. skipping"
+  fi
 }
 
 logKameHouseSnapeStatus() {
