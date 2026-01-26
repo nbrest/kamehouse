@@ -50,7 +50,7 @@ updateSudoersEntry() {
   local SUDOERS_LINE="$1"
   sudo cat /etc/sudoers | grep "${SUDOERS_LINE}" > /dev/null
   if [ "$?" != "0" ]; then
-    log.info "${SUDOERS_LINE} NOT in sudoers file. Adding it"
+    log.info "${COL_RED}${SUDOERS_LINE} NOT in sudoers file. Adding it"
     sudo /bin/bash -c "echo \"\" >> /etc/sudoers"
     sudo /bin/bash -c "echo \"${SUDOERS_LINE}\" >> /etc/sudoers"
   else 
