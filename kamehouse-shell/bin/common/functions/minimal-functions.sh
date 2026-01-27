@@ -158,10 +158,10 @@ updateScriptConfig() {
   local SCRIPT_CONFIG_KEY=$1
   local SCRIPT_CONFIG_VALUE=$2
 
-  log.info "Checking for valid script config key ${SCRIPT_CONFIG_KEY}"
+  log.debug "Checking for valid script config key ${SCRIPT_CONFIG_KEY}"
   cat ${SCRIPT_CONFIG_FILE} | grep "${SCRIPT_CONFIG_KEY}=" > /dev/null
   if [ "$?" != "0" ]; then 
-    log.warn "${SCRIPT_CONFIG_KEY} not found in ${SCRIPT_CONFIG_FILE}. Adding it with value ${SCRIPT_CONFIG_VALUE}"
+    log.info "${SCRIPT_CONFIG_KEY} not found in ${SCRIPT_CONFIG_FILE}. Adding it with value ${SCRIPT_CONFIG_VALUE}"
     echo "${SCRIPT_CONFIG_KEY}=${SCRIPT_CONFIG_VALUE}" >> ${SCRIPT_CONFIG_FILE}
     cat ${SCRIPT_CONFIG_FILE} | grep "${SCRIPT_CONFIG_KEY}="  
     return
