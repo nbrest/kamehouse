@@ -590,6 +590,7 @@ setLinuxEnvXauhority() {
 
 loadConfigFiles() {
   loadKamehouseCfg
+  loadScriptConfigFile
   if ${LOAD_KAMEHOUSE_SECRETS}; then
     loadKamehouseSecrets
   fi

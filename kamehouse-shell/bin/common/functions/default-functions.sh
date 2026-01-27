@@ -121,7 +121,12 @@ setEnvFromArguments() {
 
 # Override to load the configuration files for each script before parsing arguments
 loadConfigFiles() {
-  return
+  loadScriptConfigFile
+}
+
+# Load script config file
+loadScriptConfigFile() {
+  source ${SCRIPT_CONFIG_FILE}
 }
 
 # Set the kamehouse shell environment parameters before configuring the shell
