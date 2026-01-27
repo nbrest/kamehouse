@@ -126,6 +126,7 @@ loadConfigFiles() {
 
 # Load script config file
 loadScriptConfigFile() {
+  touch ${SCRIPT_CONFIG_FILE}
   source ${SCRIPT_CONFIG_FILE}
 }
 

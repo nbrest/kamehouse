@@ -5,11 +5,11 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 mainProcess() {
   if ${KEEP_ALIVE_SCRIPTS_DISABLED}; then
-    log.info "keep alive scripts are ${COL_RED}disabled${COL_DEFAULT_LOG} in kamehouse.cfg. Switching to ${COL_YELLOW}enabled"
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/config/update-kamehouse-config.sh -k "KEEP_ALIVE_SCRIPTS_DISABLED" -v "false"
+    log.info "keep alive scripts are disabled in kamehouse.cfg. Switching to enabled"
+    updateKameHouseConfig KEEP_ALIVE_SCRIPTS_DISABLED false
   else
-    log.info "keep alive scripts are ${COL_YELLOW}enabled${COL_DEFAULT_LOG} in kamehouse.cfg. Switching to ${COL_RED}disabled"
-    ${HOME}/programs/kamehouse-shell/bin/kamehouse/config/update-kamehouse-config.sh -k "KEEP_ALIVE_SCRIPTS_DISABLED" -v "true"
+    log.info "keep alive scripts are enabled in kamehouse.cfg. Switching to disabled"
+    updateKameHouseConfig KEEP_ALIVE_SCRIPTS_DISABLED true
   fi
   ${HOME}/programs/kamehouse-shell/bin/common/keep-alive/keep-alive-status.sh 
 }

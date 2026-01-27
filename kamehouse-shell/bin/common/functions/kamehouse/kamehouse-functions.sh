@@ -602,3 +602,20 @@ loadConfigFiles() {
 customKamehouseLoadConfigFiles() {
   return
 }
+
+# Update kamehouse config
+updateKameHouseConfig() {
+  local KAMEHOUSE_CONFIG_KEY=$1
+  local KAMEHOUSE_CONFIG_VALUE=$2
+
+  log.debug "Checking for valid kamehouse config key ${KAMEHOUSE_CONFIG_KEY}"
+  cat ${KAMEHOUSE_CFG} | grep "${KAMEHOUSE_CONFIG_KEY}=" > /dev/null
+  if [ "$?" != "0" ]; then 
+    log.error "${KAMEHOUSE_CONFIG_KEY} not found in kamehouse.cfg"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+
+  sed -i -E "s/^#${KAMEHOUSE_CONFIG_KEY}=.*/${KAMEHOUSE_CONFIG_KEY}=/I" ${KAMEHOUSE_CFG}
+  sed -i -E "s#^${KAMEHOUSE_CONFIG_KEY}=.*#${KAMEHOUSE_CONFIG_KEY}=${KAMEHOUSE_CONFIG_VALUE}#I" ${KAMEHOUSE_CFG}
+  log.info "Set '${KAMEHOUSE_CONFIG_KEY}=${KAMEHOUSE_CONFIG_VALUE}' in kamehouse.cfg"
+}
