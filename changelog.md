@@ -7,6 +7,7 @@
 
 #### v11.01
 
+- Added script config and show script config argument to kamehouse-shell scripts
 - Moved upload kamehouse mobile apk to an api call with snape
 - Updated servers list
 - Added new css styles for brightness

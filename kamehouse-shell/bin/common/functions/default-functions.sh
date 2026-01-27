@@ -13,6 +13,7 @@ ctrlC() {
 # Parse command line arguments
 parseCmdArguments() {
   parseHelpArgument "$@"
+  parseShowScriptConfigArgument "$@"
   parseArguments "$@"
 }
 
@@ -23,6 +24,18 @@ parseHelpArgument() {
     case "${ARGS[i]}" in
       -h|--help)
         parseHelp
+        ;;
+    esac
+  done
+}
+
+# Parse show script config argument
+parseShowScriptConfigArgument() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      --show-script-config)
+        parseShowScriptConfig
         ;;
     esac
   done
@@ -70,8 +83,25 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"
   addHelpOption "-h --help" "display help"
+  addHelpOption "--show-script-config" "display script config file"
   printHelpOptions
   printHelpFooter
+}
+
+# Show script config and exit
+parseShowScriptConfig() {
+  showScriptConfig
+  exitSuccessfully
+}
+
+# Show script config
+showScriptConfig() {
+  if [ -f "${SCRIPT_CONFIG_FILE}" ]; then
+    log.info "Script config: ${SCRIPT_CONFIG_FILE}"
+    cat ${SCRIPT_CONFIG_FILE}
+  else
+    log.info "Script config file ${SCRIPT_CONFIG_FILE} doesn't exist"
+  fi
 }
 
 # Override in each script with the options specific to the script
