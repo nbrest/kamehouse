@@ -9,6 +9,7 @@ SCRIPT_START_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
 SCRIPT_START_TIME="$(date +%s)"
 # Script configuration file
 SCRIPT_CONFIG_FILE=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_NAME%.*}.cfg
+touch ${SCRIPT_CONFIG_FILE}
 
 # Stores the command line arguments from the script that sources this file.
 CMD_ARGUMENTS=$@
@@ -150,4 +151,24 @@ importKamehouse() {
     echo "Error importing ${KAMEHOUSE_SHELL_PATH}/${FUNCTIONS_FILE}"
     exit 99 
   fi
+}
+
+# Update script config
+updateScriptConfig() {
+  local SCRIPT_CONFIG_KEY=$1
+  local SCRIPT_CONFIG_VALUE=$2
+
+  log.info "Checking for valid script config key ${SCRIPT_CONFIG_KEY}"
+  cat ${SCRIPT_CONFIG_FILE} | grep "${SCRIPT_CONFIG_KEY}=" > /dev/null
+  if [ "$?" != "0" ]; then 
+    log.warn "${SCRIPT_CONFIG_KEY} not found in ${SCRIPT_CONFIG_FILE}. Adding it with value ${SCRIPT_CONFIG_VALUE}"
+    echo "${SCRIPT_CONFIG_KEY}=${SCRIPT_CONFIG_VALUE}" >> ${SCRIPT_CONFIG_FILE}
+    cat ${SCRIPT_CONFIG_FILE} | grep "${SCRIPT_CONFIG_KEY}="  
+    return
+  fi
+
+  sed -i -E "s/^#${SCRIPT_CONFIG_KEY}=.*/${SCRIPT_CONFIG_KEY}=/I" ${SCRIPT_CONFIG_FILE}
+  sed -i -E "s#^${SCRIPT_CONFIG_KEY}=.*#${SCRIPT_CONFIG_KEY}=${SCRIPT_CONFIG_VALUE}#I" ${SCRIPT_CONFIG_FILE}
+  log.info "Updated ${SCRIPT_CONFIG_KEY} to ${SCRIPT_CONFIG_VALUE} in ${SCRIPT_CONFIG_FILE}"
+  cat ${SCRIPT_CONFIG_FILE} | grep "${SCRIPT_CONFIG_KEY}="  
 }
