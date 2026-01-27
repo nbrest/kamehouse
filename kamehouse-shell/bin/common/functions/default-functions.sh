@@ -12,8 +12,6 @@ ctrlC() {
 
 # Parse command line arguments
 parseCmdArguments() {
-  parseHelpArgument "$@"
-  parseShowScriptConfigArgument "$@"
   parseArguments "$@"
 }
 
@@ -73,7 +71,7 @@ parseInvalidArgument() {
 # Print the help and exit
 parseHelp() {
   printHelp
-  exitSuccessfully
+  exit ${EXIT_SUCCESS}
 }
 
 # Default print help message
@@ -91,7 +89,7 @@ printHelp() {
 # Show script config and exit
 parseShowScriptConfig() {
   showScriptConfig
-  exitSuccessfully
+  exit ${EXIT_SUCCESS}
 }
 
 # Show script config
@@ -169,6 +167,8 @@ mainWrapper() {
 main() {
   initKameHouseShellEnv
   configureKameHouseShell
+  parseHelpArgument "$@"
+  parseShowScriptConfigArgument "$@"
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
     # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default
