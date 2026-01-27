@@ -109,7 +109,7 @@ printHelpOptions() {
 
 # Override in each script to print a footer after the help options
 printHelpFooter() {
-  return
+  echo ""
 }
 
 # Set and validate the environment variables after parsing the command line arguments
