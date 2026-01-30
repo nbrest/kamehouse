@@ -128,19 +128,19 @@ loadKamehouseSecrets() {
     exit 99
   fi  
   local SUFFIX=$RANDOM
-  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
-  openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
-  if [ ! -s "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}" ]; then
-    log.error "Decrypted .kamehouse-secrets.cfg.${SUFFIX} is empty"
+  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.tmp.${SUFFIX}
+  openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.tmp.${SUFFIX}
+  if [ ! -s "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX}" ]; then
+    log.error "Decrypted .kamehouse-secrets.cfg.tmp.${SUFFIX} is empty"
   else
-    source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
+    source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX}
     if [ "$?" == "0" ]; then
       KAMEHOUSE_SECRETS_LOADED=true
       log.trace "Loaded ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
     fi
   fi  
-  rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
-  rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}  
+  rm -f ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.tmp.${SUFFIX} 
+  rm -f ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX}  
   if ! ${KAMEHOUSE_SECRETS_LOADED}; then
     log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
     exit 99
