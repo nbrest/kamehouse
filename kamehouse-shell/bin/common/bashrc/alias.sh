@@ -31,12 +31,8 @@ alias sd='screen -d'
 alias s='screen'
 
 # sudo
-if [ -f "/usr/sbin/poweroff" ] || [ -f "/sbin/poweroff" ]; then
-  alias poweroff='sudo poweroff' 
-fi
-if [ -f "/usr/sbin/reboot" ] || [ -f "/sbin/reboot" ]; then
-  alias reboot='sudo reboot'
-fi
+alias poweroff='sudo poweroff' 
+alias reboot='sudo reboot'
 
 # kamehouse-shell scripts shortcuts
 alias kat="keep-alive-toggle.sh"

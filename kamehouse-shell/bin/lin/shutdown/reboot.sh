@@ -6,6 +6,9 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 mainProcess() {
   setSudoKameHouseCommand "/usr/sbin/reboot"
   ${SUDO_KAMEHOUSE_COMMAND}
+
+  setSudoKameHouseCommand "/sbin/reboot"
+  ${SUDO_KAMEHOUSE_COMMAND}
 }
 
 main "$@"
