@@ -32,7 +32,7 @@ parseShowScriptConfigArgument() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
-      --show-script-config)
+      --show-config)
         parseShowScriptConfig
         ;;
     esac
@@ -81,7 +81,7 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"
   addHelpOption "-h --help" "display help"
-  addHelpOption "--show-script-config" "display script config file"
+  addHelpOption "--show-config" "display script config file"
   printHelpOptions
   printHelpFooter
 }
