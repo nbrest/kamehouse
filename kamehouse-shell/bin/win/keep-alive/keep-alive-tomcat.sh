@@ -3,14 +3,15 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse common/functions/keep-alive/keep-alive-functions.sh
+
 initScriptEnv() {
   PORT=9090
   SERVICE="tomcat"
   SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-restart.sh"
 }
 
-mainProcess() {
-  checkKeepAliveScriptsEnabled
+runKeepAlive() {
   netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1
   PID=`netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1 | awk '{print $5}'`
   if [[ -z "${PID}" ]]; then

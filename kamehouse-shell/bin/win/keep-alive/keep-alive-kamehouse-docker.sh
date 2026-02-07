@@ -3,6 +3,7 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse common/functions/keep-alive/keep-alive-functions.sh
 importKamehouse common/functions/kamehouse/docker-functions.sh
 
 initScriptEnv() {
@@ -13,8 +14,7 @@ initScriptEnv() {
   DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 }
 
-mainProcess() {
-  checkKeepAliveScriptsEnabled
+runKeepAlive() {
   netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1
   PID=`netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1 | awk '{print $5}'`
   if [ -z "${PID}" ]; then

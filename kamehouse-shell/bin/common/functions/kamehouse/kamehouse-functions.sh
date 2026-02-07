@@ -529,14 +529,6 @@ setKameHouseMobileApkPath() {
   log.debug "Setting KAMEHOUSE_ANDROID_APK_PATH=${KAMEHOUSE_ANDROID_APK_PATH}"
 }
 
-# exit the process if keep alive scripts are disabled in the configuration
-checkKeepAliveScriptsEnabled() {
-  if ${KEEP_ALIVE_SCRIPTS_DISABLED}; then
-    log.info "keep alive scripts are disabled in kamehouse.cfg"
-    exitProcess ${EXIT_PROCESS_CANCELLED}
-  fi
-}
-
 # set git commit hash from the git repo in the current directory
 setGitCommitHash() {
   GIT_COMMIT_HASH=`git rev-parse HEAD`

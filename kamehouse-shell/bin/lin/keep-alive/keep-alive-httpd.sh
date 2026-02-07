@@ -3,14 +3,15 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse common/functions/keep-alive/keep-alive-functions.sh
+
 initScriptEnv() {
   PORT=443
   SERVICE="httpd"
   SERVICE_STARTUP="sudo service apache2 start"
 }
 
-mainProcess() {
-  checkKeepAliveScriptsEnabled
+runKeepAlive() {
   log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
   PID=`sudo netstat -nltp | grep ":${PORT} " | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z "${PID}" ]; then

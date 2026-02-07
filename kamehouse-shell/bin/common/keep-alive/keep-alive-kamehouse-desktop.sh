@@ -3,6 +3,7 @@
 source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse common/functions/keep-alive/keep-alive-functions.sh
 importKamehouse common/functions/kamehouse/desktop/desktop-functions.sh
 
 initKameHouseShellEnv() {
@@ -14,8 +15,7 @@ initScriptEnv() {
   SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-startup.sh"
 }
 
-mainProcess() {
-  checkKeepAliveScriptsEnabled
+runKeepAlive() {
   setKameHouseDesktopPid
   if [ -z "${KAMEHOUSE_DESKTOP_PID}" ]; then
     log.error "${SERVICE} not running. Starting it now"
