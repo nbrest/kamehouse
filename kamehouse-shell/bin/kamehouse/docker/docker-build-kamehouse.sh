@@ -6,14 +6,13 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 importKamehouse common/functions/kamehouse/docker-functions.sh
 
 initScriptEnv() {
+  BUILDKIT_CFG=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_NAME_NO_EXT}/buildkitd.toml
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
   DOCKER_COMMAND="docker buildx build"
   PLATFORM="linux/amd64,linux/arm64/v8"
   ACTION="--push"
   USE_CURRENT_DIR=true
-  USE_FROM_CACHE=true
-  USE_TO_CACHE=true
 }
 
 mainProcess() {
@@ -36,16 +35,12 @@ buildLatestImage() {
 }
 
 runDockerBuildCommand() {
-  mkdir -p ${HOME}/.docker-cache
-  log.debug "docker buildx create --platform ${PLATFORM} --name kamehouse-builder --bootstrap --use"
-  docker buildx create --platform ${PLATFORM} --name kamehouse-builder --bootstrap --use
+  log.debug "Creating buildx container for platform ${PLATFORM}"
+  docker buildx create --platform "${PLATFORM}" \
+    --name kamehouse-builder \
+    --config "${BUILDKIT_CFG}" \
+    --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
 
-  if ${USE_FROM_CACHE}; then
-    DOCKER_COMMAND=${DOCKER_COMMAND}" --cache-from=type=local,src=${HOME}/.docker-cache "
-  fi
-  if ${USE_TO_CACHE}; then
-    DOCKER_COMMAND=${DOCKER_COMMAND}" --cache-to=type=local,dest=${HOME}/.docker-cache "
-  fi
   DOCKER_COMMAND=${DOCKER_COMMAND}"\
     --progress plain
     --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
@@ -106,12 +101,6 @@ parseArguments() {
       -b)
         BUILD_DATE_KAMEHOUSE=$(date +%Y-%m-%d'_'%H:%M:%S)
         ;;
-      --skip-from-cache)
-        USE_FROM_CACHE=false
-        ;;
-      --skip-to-cache)
-        USE_TO_CACHE=false
-        ;;
       -r)
         RUN_BUILD_STEP_FOR_RELEASE_TAG=true
         ;;
@@ -129,8 +118,6 @@ setEnvFromArguments() {
 printHelpOptions() {
   addHelpOption "-b" "force build of kamehouse. Skip docker cache from build step"
   addHelpOption "-r" "run only the build step for the release tag. Ignore. Used internally recursively by the script"
-  addHelpOption "--skip-from-cache" "Skip using from ~/.docker-cache parameter for build"
-  addHelpOption "--skip-to-cache" "Skip using to ~/.docker-cache parameter for build"
   printDockerTagOption
 }
 

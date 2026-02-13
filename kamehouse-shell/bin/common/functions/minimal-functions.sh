@@ -4,11 +4,12 @@ USER=`whoami`
 # Calling script name. This won't store common-functions.sh. It will store the name
 # of the script that is executed in the command line and sources this file.
 SCRIPT_NAME=`basename "$0"`
+SCRIPT_NAME_NO_EXT=${SCRIPT_NAME%.*}
 # Current script start date and time
 SCRIPT_START_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
 SCRIPT_START_TIME="$(date +%s)"
 # Script configuration file
-SCRIPT_CONFIG_FILENAME=${SCRIPT_NAME%.*}.cfg
+SCRIPT_CONFIG_FILENAME=${SCRIPT_NAME_NO_EXT}.cfg
 SCRIPT_CONFIG_FILE=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_CONFIG_FILENAME}
 
 # Stores the command line arguments from the script that sources this file.
@@ -26,7 +27,7 @@ LOG_PROCESS_TO_FILE=true
 mkdir -p ${HOME}/logs
 
 # File to log the output of the process to.
-PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME%.*}.log
+PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME_NO_EXT}.log
 
 # Exit codes
 EXIT_SUCCESS=0

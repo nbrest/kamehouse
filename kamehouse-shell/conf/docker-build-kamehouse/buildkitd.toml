@@ -1,0 +1,5 @@
+[worker.oci]
+  enabled = true
+  gc = true
+  gckeepstorage = "50GB"
+  
