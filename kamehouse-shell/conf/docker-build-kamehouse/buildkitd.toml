@@ -1,5 +1,5 @@
 [worker.oci]
   enabled = true
   gc = true
-  gckeepstorage = "40GB"
+  gckeepstorage = "35GB"
   

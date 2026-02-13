@@ -7,7 +7,7 @@
 
 #### v11.01
 
-- Refactored docker build script to limit build cache to 40gb
+- Refactored docker build script to limit build cache to 35gb
 - Reorganized vlc player settings
 - Refactored keep alive scripts
 - Added script config and show script config argument to kamehouse-shell scripts
