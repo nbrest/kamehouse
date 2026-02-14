@@ -11,18 +11,18 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  SERVICE="kamehouse-desktop"
-  SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-startup.sh"
+  KEEP_ALIVE_SERVICE="kamehouse-desktop"
+  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-startup.sh"
 }
 
-runKeepAlive() {
+setKeepAliveServicePidLin() {
   setKameHouseDesktopPid
-  if [ -z "${KAMEHOUSE_DESKTOP_PID}" ]; then
-    log.error "${SERVICE} not running. Starting it now"
-    ${SERVICE_STARTUP} &
-  else
-    log.info "${SERVICE} is currently running with pid ${COL_PURPLE}${KAMEHOUSE_DESKTOP_PID}"
-  fi
+  KEEP_ALIVE_SERVICE_PID=${KAMEHOUSE_DESKTOP_PID}
+}
+
+setKeepAliveServicePidWin() {
+  setKameHouseDesktopPid
+  KEEP_ALIVE_SERVICE_PID=${KAMEHOUSE_DESKTOP_PID}
 }
 
 main "$@"
