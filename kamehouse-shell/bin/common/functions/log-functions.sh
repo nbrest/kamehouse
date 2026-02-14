@@ -210,3 +210,7 @@ setLogColors() {
   fi
 }
 
+logNeedsSudoPermissions() {
+  BINS="$@"
+  log.warn "User running this script needs ${COL_RED}sudo ${BINS}${COL_DEFAULT_LOG} permissions"
+}
