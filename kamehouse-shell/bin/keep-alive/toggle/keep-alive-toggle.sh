@@ -11,7 +11,7 @@ mainProcess() {
     log.info "keep alive scripts are enabled in kamehouse.cfg. Switching to disabled"
     updateKameHouseConfig KEEP_ALIVE_SCRIPTS_DISABLED true
   fi
-  ${HOME}/programs/kamehouse-shell/bin/common/keep-alive/keep-alive-status.sh 
+  ${HOME}/programs/kamehouse-shell/bin/keep-alive/toggle/keep-alive-status.sh 
 }
 
 main "$@"

@@ -227,14 +227,14 @@ class KeepAliveManager {
    * Get the status of keep alive scripts toggle on the server.
    */
   keepAliveStatus() {
-    kameHouse.extension.serverManager.executeShellScript('common/keep-alive/keep-alive-status.sh', "");
+    kameHouse.extension.serverManager.executeShellScript('keep-alive/toggle/keep-alive-status.sh', "");
   }
 
   /**
    * Toggle keep alive scripts in the backend.
    */
   toggleKeepAlive() {
-    kameHouse.extension.serverManager.executeShellScript('common/keep-alive/keep-alive-toggle.sh', "");
+    kameHouse.extension.serverManager.executeShellScript('keep-alive/toggle/keep-alive-toggle.sh', "");
   }
 
 } // KeepAliveManager
