@@ -2,4 +2,3 @@
   enabled = true
   gc = true
   gckeepstorage = "35GB"
-  max-parallelism = 1
