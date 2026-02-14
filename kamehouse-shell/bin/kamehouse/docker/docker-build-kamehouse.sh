@@ -38,6 +38,7 @@ buildLatestImage() {
 runDockerBuildCommand() {
   log.debug "Creating buildx container for platform ${PLATFORM}"
   docker buildx create --platform "${PLATFORM}" \
+    --config ${BUILDKIT_CFG} \
     --name kamehouse-builder \
     --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
 
@@ -48,7 +49,6 @@ runDockerBuildCommand() {
     log.info "Starting build for platform: ${PLATFORM}"
     DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
       --progress plain \
-      --config ${BUILDKIT_CFG} \
       --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
       --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
       --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
