@@ -22,21 +22,25 @@ runKeepAlive() {
   else
     setKeepAliveServicePidWin
   fi
+  checkKeepAliveServicePid
+}
 
+# Override to set pid in linux servers
+setKeepAliveServicePidLin() {
+  KEEP_ALIVE_SERVICE_PID=""
+}
+
+# Override to set pid in windows servers
+setKeepAliveServicePidWin() {
+  KEEP_ALIVE_SERVICE_PID=""
+}
+
+# Override to run custom checks on keep alive service pid
+checkKeepAliveServicePid() {
   if [[ -z "${KEEP_ALIVE_SERVICE_PID}" ]]; then
     log.error "${KEEP_ALIVE_SERVICE} not running. Starting it now"
     ${KEEP_ALIVE_SERVICE_STARTUP} &
   else 
     log.info "${KEEP_ALIVE_SERVICE} is currently running with pid ${COL_PURPLE}${PKEEP_ALIVE_SERVICE_PID}"
   fi
-}
-
-# override to set pid in linux servers
-setKeepAliveServicePidLin() {
-  KEEP_ALIVE_SERVICE_PID=""
-}
-
-# override to set pid in windows servers
-setKeepAliveServicePidWin() {
-  KEEP_ALIVE_SERVICE_PID=""
 }
