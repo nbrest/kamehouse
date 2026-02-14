@@ -44,7 +44,7 @@ runDockerBuildCommand() {
   for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do
     log.info "Starting build for platform: ${PLATFORM}"
     DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
-      --progress plain
+      --progress plain \
       --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
       --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
       --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
