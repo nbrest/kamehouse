@@ -39,8 +39,19 @@ setKeepAliveServicePidWin() {
 checkKeepAliveServicePid() {
   if [[ -z "${KEEP_ALIVE_SERVICE_PID}" ]]; then
     log.error "${KEEP_ALIVE_SERVICE} not running. Starting it now"
-    ${KEEP_ALIVE_SERVICE_STARTUP} &
+    runKeepAlivePidNotFound
   else 
     log.info "${KEEP_ALIVE_SERVICE} is currently running with pid ${COL_PURPLE}${PKEEP_ALIVE_SERVICE_PID}"
+    runKeepAlivePidFound
   fi
+}
+
+# Override to run custom logic when pid is not found
+runKeepAlivePidNotFound() {
+  ${KEEP_ALIVE_SERVICE_STARTUP} &
+}
+
+# Override to run custom logic when pid is found
+runKeepAlivePidFound() {
+  return 
 }
