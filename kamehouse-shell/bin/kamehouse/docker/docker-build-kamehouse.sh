@@ -10,7 +10,7 @@ initScriptEnv() {
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
   DOCKER_COMMAND="docker buildx build"
-  PLATFORM="linux/amd64,linux/arm64/v8"
+  PLATFORMS_ARRAY=("linux/amd64" "linux/arm64/v8")
   ACTION="--push"
   USE_CURRENT_DIR=true
 }
@@ -40,18 +40,21 @@ runDockerBuildCommand() {
     --name kamehouse-builder \
     --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
 
-  DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    --progress plain
-    --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
-    --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
-    --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-    --platform=${PLATFORM} \
-    ${ACTION} \
-    -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
-  "
-  log.debug "${DOCKER_COMMAND}"
-  ${DOCKER_COMMAND}
-  checkCommandStatus "$?" "Error building the kamehouse docker image" 
+  for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do
+    log.info "Starting build for platform: ${PLATFORM}"
+    DOCKER_COMMAND=${DOCKER_COMMAND}"\
+      --progress plain
+      --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
+      --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
+      --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+      --platform=${PLATFORM} \
+      ${ACTION} \
+      -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
+    "
+    log.debug "${DOCKER_COMMAND}"
+    ${DOCKER_COMMAND}
+    checkCommandStatus "$?" "Error building the kamehouse docker image" 
+  done
 }
 
 buildReleaseTag() {
