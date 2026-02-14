@@ -44,7 +44,7 @@ runDockerBuildCommand() {
     docker buildx create --platform "${PLATFORM}" \
       --config ${BUILDKIT_CFG} \
       --name kamehouse-builder-${PLATFORM} \
-      --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
+      --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder-${PLATFORM} --bootstrap
 
     log.info "Starting build for platform: ${PLATFORM}"
     DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
