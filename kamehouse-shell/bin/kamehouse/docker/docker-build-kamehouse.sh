@@ -41,10 +41,14 @@ runDockerBuildCommand() {
     --name kamehouse-builder \
     --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
 
+  export BUILDKIT_STEP_LOG_MAX_SIZE=0
+  export MOBY_ASG_MAX_PARALLELISM=1
+  
   for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do
     log.info "Starting build for platform: ${PLATFORM}"
     DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
       --progress plain \
+      --config ${BUILDKIT_CFG} \
       --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
       --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
       --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
