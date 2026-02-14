@@ -36,16 +36,16 @@ buildLatestImage() {
 }
 
 runDockerBuildCommand() {
-  log.debug "Creating buildx container for platform ${PLATFORM}"
-  docker buildx create --platform "${PLATFORM}" \
-    --config ${BUILDKIT_CFG} \
-    --name kamehouse-builder \
-    --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
-
   export BUILDKIT_STEP_LOG_MAX_SIZE=0
   export MOBY_ASG_MAX_PARALLELISM=1
   
-  for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do
+  for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do    
+    log.info "Creating buildx container for platform ${PLATFORM}"
+    docker buildx create --platform "${PLATFORM}" \
+      --config ${BUILDKIT_CFG} \
+      --name kamehouse-builder-${PLATFORM} \
+      --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
+
     log.info "Starting build for platform: ${PLATFORM}"
     DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
       --progress plain \
@@ -58,7 +58,7 @@ runDockerBuildCommand() {
     "
     log.debug "${DOCKER_COMMAND}"
     ${DOCKER_COMMAND}
-    checkCommandStatus "$?" "Error building the kamehouse docker image" 
+    checkCommandStatus "$?" "Error building the kamehouse docker image for platform ${PLATFORM}" 
   done
 }
 
