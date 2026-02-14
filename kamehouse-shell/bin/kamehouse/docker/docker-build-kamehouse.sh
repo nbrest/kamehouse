@@ -9,7 +9,8 @@ initScriptEnv() {
   BUILDKIT_CFG=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_NAME_NO_EXT}/buildkitd.toml
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
-  DOCKER_COMMAND="docker buildx build"
+  DOCKER_COMMAND_BASE="docker buildx build"
+  DOCKER_COMMAND=""
   PLATFORMS_ARRAY=("linux/amd64" "linux/arm64/v8")
   ACTION="--push"
   USE_CURRENT_DIR=true
@@ -42,7 +43,7 @@ runDockerBuildCommand() {
 
   for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do
     log.info "Starting build for platform: ${PLATFORM}"
-    DOCKER_COMMAND=${DOCKER_COMMAND}"\
+    DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
       --progress plain
       --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
       --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
