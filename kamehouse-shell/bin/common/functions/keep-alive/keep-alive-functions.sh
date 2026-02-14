@@ -41,7 +41,7 @@ checkKeepAliveServicePid() {
     log.error "${KEEP_ALIVE_SERVICE} not running. Starting it now"
     runKeepAliveServicePidNotFound
   else 
-    log.info "${KEEP_ALIVE_SERVICE} is currently running with pid ${COL_PURPLE}${PKEEP_ALIVE_SERVICE_PID}"
+    log.info "${KEEP_ALIVE_SERVICE} is currently running with pid ${COL_PURPLE}${KEEP_ALIVE_SERVICE_PID}"
     runKeepAliveServicePidFound
   fi
 }
