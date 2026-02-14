@@ -41,9 +41,10 @@ runDockerBuildCommand() {
   
   for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do    
     log.info "Creating buildx container for platform ${PLATFORM}"
+    FORMATTED_PLATFORM=${PLATFORM//\//-}
     docker buildx create --platform "${PLATFORM}" \
       --config ${BUILDKIT_CFG} \
-      --name kamehouse-builder-${PLATFORM} \
+      --name kamehouse-builder-${FORMATTED_PLATFORM} \
       --bootstrap --use
 
     log.info "Starting build for platform: ${PLATFORM}"
