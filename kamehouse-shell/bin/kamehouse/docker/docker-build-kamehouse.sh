@@ -9,9 +9,8 @@ initScriptEnv() {
   BUILDKIT_CFG=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_NAME_NO_EXT}/buildkitd.toml
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
-  DOCKER_COMMAND_BASE="docker buildx build"
-  DOCKER_COMMAND=""
-  PLATFORMS_ARRAY=("linux/amd64" "linux/arm64/v8")
+  DOCKER_COMMAND="docker buildx build"
+  PLATFORM="linux/amd64,linux/arm64/v8"
   ACTION="--push"
   USE_CURRENT_DIR=true
 }
@@ -36,31 +35,24 @@ buildLatestImage() {
 }
 
 runDockerBuildCommand() {
-  export BUILDKIT_STEP_LOG_MAX_SIZE=0
-  export MOBY_ASG_MAX_PARALLELISM=1
-  
-  for PLATFORM in "${PLATFORMS_ARRAY[@]}"; do    
-    log.info "Creating buildx container for platform ${PLATFORM}"
-    FORMATTED_PLATFORM=${PLATFORM//\//-}
-    docker buildx create --platform "${PLATFORM}" \
-      --config ${BUILDKIT_CFG} \
-      --name kamehouse-builder-${FORMATTED_PLATFORM} \
-      --bootstrap --use
+  log.info "Creating buildx container for platform ${PLATFORM}"
+  docker buildx create --platform "${PLATFORM}" \
+    --name kamehouse-builder \
+    --config ${BUILDKIT_CFG} \
+    --bootstrap --use 2>/dev/null || docker buildx inspect kamehouse-builder --bootstrap
 
-    log.info "Starting build for platform: ${PLATFORM}"
-    DOCKER_COMMAND=${DOCKER_COMMAND_BASE}"\
-      --progress plain \
-      --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
-      --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
-      --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-      --platform=${PLATFORM} \
-      ${ACTION} \
-      -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
-    "
-    log.debug "${DOCKER_COMMAND}"
-    ${DOCKER_COMMAND}
-    checkCommandStatus "$?" "Error building the kamehouse docker image for platform ${PLATFORM}" 
-  done
+  DOCKER_COMMAND=${DOCKER_COMMAND}"\
+    --progress plain
+    --build-arg BUILD_DATE_KAMEHOUSE=\"${BUILD_DATE_KAMEHOUSE}\" \
+    --build-arg DOCKER_IMAGE_BASE=${DOCKER_IMAGE_BASE} \
+    --build-arg DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+    --platform=${PLATFORM} \
+    ${ACTION} \
+    -t nbrest/kamehouse:${DOCKER_IMAGE_TAG} .
+  "
+  log.debug "${DOCKER_COMMAND}"
+  ${DOCKER_COMMAND}
+  checkCommandStatus "$?" "Error building the kamehouse docker image for platform ${PLATFORM}"
 }
 
 buildReleaseTag() {
