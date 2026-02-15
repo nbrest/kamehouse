@@ -424,7 +424,7 @@ executeOperationInTomcatManager() {
     local URL_OPERATION_MASKED="${URL_OPERATION}"
     URL_OPERATION_MASKED="`sed 's#://.*:.*@#://****:****@#' <<<"${URL_OPERATION_MASKED}"`"
     log.debug "curl url: ${URL_OPERATION_MASKED}"
-    curl "${URL_OPERATION}" 2>/dev/null
+    curl --connect-timeout 10 "${URL_OPERATION}" 2>/dev/null
     sleep 2
   done
 }

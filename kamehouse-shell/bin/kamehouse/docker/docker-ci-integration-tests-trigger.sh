@@ -146,11 +146,11 @@ loginCheckLoop() {
 
 loginCheck() {
   log.trace "Executing logout from kamehouse"
-  curl --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-auth/logout" > /dev/null
+  curl --connect-timeout 10 --max-time 60 -k --request POST "http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-auth/logout" > /dev/null
 
   local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house/admin/server-management"
   log.info "Executing request to ${COL_PURPLE}${URL}"
-  local CURL_RESPONSE=`curl --max-time 60 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
+  local CURL_RESPONSE=`curl --connect-timeout 10 --max-time 60 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
   log.trace "${COL_CYAN}---------- ${URL} response start"
   log.trace "${CURL_RESPONSE}" --log-message-only
   log.trace "${COL_CYAN}---------- ${URL} response end"
@@ -185,7 +185,7 @@ executeIntegrationTestsLoop() {
 executeIntegrationTests() {
   local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
   log.info "Executing request to ${COL_PURPLE}${URL}"
-  local CURL_RESPONSE=`curl --max-time 1200 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
+  local CURL_RESPONSE=`curl --connect-timeout 10 --max-time 1200 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
   echo ${CURL_RESPONSE} | grep "${INTEGRATION_TESTS_SUCCESS_MESSAGE}" > /dev/null
   local INTEGRATION_TESTS_RESULT="$?"
   log.trace "INTEGRATION_TESTS_RESULT ${INTEGRATION_TESTS_RESULT}"

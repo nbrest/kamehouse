@@ -104,7 +104,7 @@ execCurlRequest() {
   local BASIC_AUTH=$2
   local SESSION_ID=$RANDOM
   log.debug "SID:${SESSION_ID}: Executing request: ${COL_BLUE}${URL}"
-  local CURL_RESPONSE=`curl --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
+  local CURL_RESPONSE=`curl --connect-timeout 10 --max-time 1800 -k --location --request GET "${URL}" --header "Authorization: Basic ${BASIC_AUTH}" 2>/dev/null`
   log.debug "${COL_CYAN}---------- ${URL} response start. SID:${SESSION_ID}"
   log.debug "${CURL_RESPONSE}" --log-message-only
   log.debug "${COL_CYAN}---------- ${URL} response end. SID:${SESSION_ID}"
