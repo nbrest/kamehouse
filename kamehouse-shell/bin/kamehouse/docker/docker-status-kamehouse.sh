@@ -10,12 +10,12 @@ mainProcess() {
   echo ""
   log.info "Docker containers"
   echo ""
-  docker container list
+  docker container list -a
 
   echo ""
   log.info "Docker images"
   echo ""
-  docker images
+  docker images -a
 
   echo ""
   log.info "Docker volumes"
