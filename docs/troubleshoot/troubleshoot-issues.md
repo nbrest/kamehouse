@@ -289,13 +289,6 @@ PubkeyAcceptedKeyTypes ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed255
 
 *********************
 
-## Docker buildx fails with .docker-cache errors:
-
-- Check permissions on `${HOME}/.docker-cache`
-- If it fails with an error about not finding `${HOME}/.docker-cache/index.json`, manually run `docker-build-kamehouse.sh` script with `--skip-from-cache` parameter to populate the cache. Subsequent builds should work automatically
-
-*********************
-
 ## kamehouse-mobile build errors:
 
 ### No platform defined for cordova project
