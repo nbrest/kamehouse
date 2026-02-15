@@ -20,7 +20,7 @@ listDockerImages() {
 removeUntaggedImages() {
   log.info "Removing untagged kamehouse docker images"
 
-  local DOCKER_IMAGES=`docker image list | grep "<none>" | awk '{print $3}'`
+  local DOCKER_IMAGES=`docker image list -a | grep -E "<none>|<untagged>" | awk '{print $2}'`
   echo -e "${DOCKER_IMAGES}" | while read DOCKER_IMAGE; do
     if [ -n "${DOCKER_IMAGE}" ] && [ "${DOCKER_IMAGE}" != "" ]; then
       log.info "Removing image ${COL_PURPLE}${DOCKER_IMAGE}"
