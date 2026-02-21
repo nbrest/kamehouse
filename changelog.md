@@ -7,6 +7,7 @@
 
 #### v11.02
 
+- Added more desktop ztv player icons
 - Fixed bugs
 
 #### v11.01
