@@ -7,6 +7,7 @@
 
 #### v11.02
 
+- Added random logos for ztv off status
 - Added more desktop ztv player icons
 - Fixed bugs
 
