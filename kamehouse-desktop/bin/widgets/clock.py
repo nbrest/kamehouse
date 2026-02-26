@@ -11,11 +11,14 @@ class ClockWidget(QWidget):
     def __init__(self, window):
         super().__init__(window)
         logger.info("Initializing clock widget")
+        self.window = window
         self.log_trace = kamehouse_desktop_cfg.getBoolean('clock_widget', 'trace_log_enabled')
         self.text = OutlinedTextWidget('clock_text_widget', "00:00", window)
         self.updateTime()
-        timer = QTimer(window)
-        timer.timeout.connect(window.updateClockTime)
+
+    def postInit(self):
+        timer = QTimer(self.window)
+        timer.timeout.connect(self.window.clock.updateTime)
         timer.start(kamehouse_desktop_cfg.getInt('clock_widget', 'timer_wait_ms'))
 
     def updateTime(self):

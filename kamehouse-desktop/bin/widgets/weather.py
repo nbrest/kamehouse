@@ -29,6 +29,8 @@ class WeatherWidget(QWidget):
         self.logo.setHidden(True)
         if (self.log_trace):
             logger.trace("openweathermap_api_key=" + self.openweathermap_api_key)
+
+    def postInit(self):
         self.initHttpStatusSync()
 
     def initHttpStatusSync(self):
@@ -113,7 +115,7 @@ class WeatherHttpSync(QObject):
             pixmap = QPixmap()
             pixmap.loadFromData(response.content)
             self.window.weather.logo.setPixmap(pixmap)
-            self.window.updateWeatherStatus()
+            self.window.weather.updateStatus()
         except requests.exceptions.RequestException as error:
             if (self.log_trace):
                 logger.error("Error getting weather status via http")

@@ -7,6 +7,8 @@
 
 #### v11.02
 
+- Refactored kamehouse-desktop to reuse same random src for ztv on/off logos
+- Removed widget specific functions from main kamehouse-desktop class
 - Added random logos for ztv off status
 - Added more desktop ztv player icons
 - Fixed bugs

@@ -43,7 +43,12 @@ class ZtvPlayerWidget(QWidget):
         self.current_time = OutlinedTextWidget("ztv_player_current_time_widget", "--:--:--", window)
         self.total_time = OutlinedTextWidget("ztv_player_total_time_widget", "--:--:--", window)
         self.configureSoundWave()
+
+    def postInit(self):
         self.initUpdateViewSync()
+        self.setLogoRandomSrc()
+        self.initSyncThreads()
+        self.resetVlcPlayerFullScreen()
 
     def setPlayerOffWidgets(self):
         self.ztv_player_off_kintoun = ImageWidget("ztv_player_off_kintoun_widget", self.window)
@@ -52,38 +57,43 @@ class ZtvPlayerWidget(QWidget):
         self.ztv_player_off_message.setHidden(True)
         self.ztv_player_off_logo = ImageWidget("ztv_player_off_logo_widget", self.window)
         self.ztv_player_off_logo.setHidden(True)
-        if (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src')):
-            random_src_count = kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_entries_count')
-            random_src = []
-            for i in range(1, random_src_count + 1):
-                random_src_entry_name = "random_src_" + str(i).zfill(2)
-                random_src_entry = kamehouse_desktop_cfg.get('ztv_player_off_logo_widget', random_src_entry_name)
-                random_src.append(json.loads(random_src_entry))
-                if (self.log_trace):
-                    logger.trace("Adding ztv_player_off_logo_widget random_src: " + random_src_entry_name)                
-            self.ztv_player_off_logo.random_src = random_src
-            timer = QTimer(self.window)
-            timer.timeout.connect(self.window.setZtvPlayerRandomLogo)
-            timer.start(kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_wait_ms'))
 
     def configureLogo(self):
         self.logo = ImageWidget("ztv_player_logo_widget", self.window)
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
             self.setLogoAnimation()
             self.startLogoAnimation()
-        if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
-            random_src_count = kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_entries_count')
-            random_src = []
-            for i in range(1, random_src_count + 1):
-                random_src_entry_name = "random_src_" + str(i).zfill(2)
-                random_src_entry = kamehouse_desktop_cfg.get('ztv_player_logo_widget', random_src_entry_name)
-                random_src.append(json.loads(random_src_entry))
-                if (self.log_trace):
-                    logger.trace("Adding ztv_player_logo_widget random_src: " + random_src_entry_name)                
-            self.logo.random_src = random_src
+
+    def setLogoRandomSrc(self):
+        random_src_count = kamehouse_desktop_cfg.getInt('ztv_player_logo_random_src', 'random_src_entries_count')
+        random_src = []
+        for i in range(1, random_src_count + 1):
+            random_src_entry_name = "random_src_" + str(i).zfill(2)
+            random_src_entry = kamehouse_desktop_cfg.get('ztv_player_logo_random_src', random_src_entry_name)
+            random_src.append(json.loads(random_src_entry))
+            if (self.log_trace):
+                logger.trace("Adding ztv_player_logo_random_src: " + random_src_entry_name)                
+        self.ztv_player_logo_random_src = random_src
+        if ((kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')) or
+            (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src'))):
             timer = QTimer(self.window)
-            timer.timeout.connect(self.window.setZtvPlayerRandomLogo)
-            timer.start(kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_wait_ms'))
+            timer.timeout.connect(self.window.ztv_player.setRandomLogo)
+            timer.start(kamehouse_desktop_cfg.getInt('ztv_player_logo_random_src', 'random_src_wait_ms'))
+
+    def setRandomLogo(self):
+        random_logo = random.choice(self.ztv_player_logo_random_src)
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
+            self.logo.img_src = QPixmap(random_logo["img_src"])
+            self.logo.setPixmap(self.logo.img_src)
+            pos_x = random_logo["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_x_offset')
+            pos_y = random_logo["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_y_offset')
+            self.logo.setGeometry(pos_x, pos_y, random_logo["width"], random_logo["height"])
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src')):
+            self.ztv_player_off_logo.img_src = QPixmap(random_logo["img_src"])
+            self.ztv_player_off_logo.setPixmap(self.ztv_player_off_logo.img_src)
+            pos_x = random_logo["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_x_offset')
+            pos_y = random_logo["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_y_offset')
+            self.ztv_player_off_logo.setGeometry(pos_x, pos_y, random_logo["width"], random_logo["height"])
 
     def configureSoundWave(self):
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
@@ -129,7 +139,7 @@ class ZtvPlayerWidget(QWidget):
 
     def initUpdateViewSync(self):
         timer = QTimer(self.window)
-        timer.timeout.connect(self.window.updateZtvPlayerView)
+        timer.timeout.connect(self.window.ztv_player.updateView)
         timer.start(1000)
 
     def formatTime(self, secondsToFormat):
@@ -282,18 +292,6 @@ class ZtvPlayerWidget(QWidget):
 
     def startLogoAnimation(self):
         self.logo.anim_group.start()
-
-    def setRandomLogo(self):
-        if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
-            random_logo = random.choice(self.logo.random_src)
-            self.logo.img_src = QPixmap(random_logo["img_src"])
-            self.logo.setPixmap(self.logo.img_src)
-            self.logo.setGeometry(random_logo["pos_x"], random_logo["pos_y"], random_logo["width"], random_logo["height"])
-        if (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src')):
-            random_off_logo = random.choice(self.ztv_player_off_logo.random_src)
-            self.ztv_player_off_logo.img_src = QPixmap(random_off_logo["img_src"])
-            self.ztv_player_off_logo.setPixmap(self.ztv_player_off_logo.img_src)
-            self.ztv_player_off_logo.setGeometry(random_off_logo["pos_x"], random_off_logo["pos_y"], random_off_logo["width"], random_off_logo["height"])
 
 class ZtvPlayerHttpSync(QObject):
     finished = pyqtSignal()
