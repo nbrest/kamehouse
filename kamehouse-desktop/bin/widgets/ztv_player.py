@@ -46,8 +46,8 @@ class ZtvPlayerWidget(QWidget):
 
     def postInit(self):
         self.initUpdateViewSync()
-        self.setLogoRandomSrc()
         self.initSyncThreads()
+        self.setLogoRandomSrc()
         self.resetVlcPlayerFullScreen()
 
     def setPlayerOffWidgets(self):
@@ -63,6 +63,53 @@ class ZtvPlayerWidget(QWidget):
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_animation')):
             self.setLogoAnimation()
             self.startLogoAnimation()
+
+    def configureSoundWave(self):
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
+            self.sound_wave = MovieWidget("ztv_player_sound_wave_widget", self.window)
+            self.startSoundWaveMovie()
+        else:
+            self.sound_wave = ImageWidget("ztv_player_sound_wave_widget", self.window)
+            self.setSoundWaveAnimation()
+            self.startSoundWaveAnimation()
+
+    def resetVlcPlayerFullScreen(self):
+        self.vlc_player_full_screen_thread = QThread()
+        self.vlc_player_full_screen = VlcPlayerFullScreenSetter(self.window)
+        self.vlc_player_full_screen.moveToThread(self.vlc_player_full_screen_thread)
+        self.vlc_player_full_screen_thread.started.connect(self.vlc_player_full_screen.run)
+        self.vlc_player_full_screen.finished.connect(self.vlc_player_full_screen_thread.quit)
+        self.vlc_player_full_screen_thread.finished.connect(self.vlc_player_full_screen_thread.deleteLater)
+        self.vlc_player_full_screen_thread.start()        
+
+    def initUpdateViewSync(self):
+        timer = QTimer(self.window)
+        timer.timeout.connect(self.window.ztv_player.updateView)
+        timer.start(1000)
+
+    def initSyncThreads(self):
+        if (kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')):
+            return
+        self.initWebsocket()
+        self.initHttpVlcRcStatusSync()
+
+    def initWebsocket(self):
+        self.websocket_thread = QThread()
+        self.websocket = ZtvPlayerWebsocket(self.window)
+        self.websocket.moveToThread(self.websocket_thread)
+        self.websocket_thread.started.connect(self.websocket.run)
+        self.websocket.finished.connect(self.websocket_thread.quit)
+        self.websocket_thread.finished.connect(self.websocket_thread.deleteLater)
+        self.websocket_thread.start()
+
+    def initHttpVlcRcStatusSync(self):
+        self.http_sync_thread = QThread()
+        self.http_sync = ZtvPlayerHttpSync(self.window)
+        self.http_sync.moveToThread(self.http_sync_thread)
+        self.http_sync_thread.started.connect(self.http_sync.run)
+        self.http_sync.finished.connect(self.http_sync_thread.quit)
+        self.http_sync_thread.finished.connect(self.http_sync_thread.deleteLater)
+        self.http_sync_thread.start()
 
     def setLogoRandomSrc(self):
         random_src_count = kamehouse_desktop_cfg.getInt('ztv_player_logo_random_src', 'random_src_entries_count')
@@ -94,53 +141,6 @@ class ZtvPlayerWidget(QWidget):
             pos_x = random_logo["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_x_offset')
             pos_y = random_logo["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_y_offset')
             self.ztv_player_off_logo.setGeometry(pos_x, pos_y, random_logo["width"], random_logo["height"])
-
-    def configureSoundWave(self):
-        if (kamehouse_desktop_cfg.getBoolean('ztv_player_sound_wave_widget', 'use_movie_src')):
-            self.sound_wave = MovieWidget("ztv_player_sound_wave_widget", self.window)
-            self.startSoundWaveMovie()
-        else:
-            self.sound_wave = ImageWidget("ztv_player_sound_wave_widget", self.window)
-            self.setSoundWaveAnimation()
-            self.startSoundWaveAnimation()
-
-    def initSyncThreads(self):
-        if (kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')):
-            return
-        self.initWebsocket()
-        self.initHttpVlcRcStatusSync()
-
-    def initWebsocket(self):
-        self.websocket_thread = QThread()
-        self.websocket = ZtvPlayerWebsocket(self.window)
-        self.websocket.moveToThread(self.websocket_thread)
-        self.websocket_thread.started.connect(self.websocket.run)
-        self.websocket.finished.connect(self.websocket_thread.quit)
-        self.websocket_thread.finished.connect(self.websocket_thread.deleteLater)
-        self.websocket_thread.start()
-
-    def initHttpVlcRcStatusSync(self):
-        self.http_sync_thread = QThread()
-        self.http_sync = ZtvPlayerHttpSync(self.window)
-        self.http_sync.moveToThread(self.http_sync_thread)
-        self.http_sync_thread.started.connect(self.http_sync.run)
-        self.http_sync.finished.connect(self.http_sync_thread.quit)
-        self.http_sync_thread.finished.connect(self.http_sync_thread.deleteLater)
-        self.http_sync_thread.start()
-
-    def resetVlcPlayerFullScreen(self):
-        self.vlc_player_full_screen_thread = QThread()
-        self.vlc_player_full_screen = VlcPlayerFullScreenSetter(self.window)
-        self.vlc_player_full_screen.moveToThread(self.vlc_player_full_screen_thread)
-        self.vlc_player_full_screen_thread.started.connect(self.vlc_player_full_screen.run)
-        self.vlc_player_full_screen.finished.connect(self.vlc_player_full_screen_thread.quit)
-        self.vlc_player_full_screen_thread.finished.connect(self.vlc_player_full_screen_thread.deleteLater)
-        self.vlc_player_full_screen_thread.start()        
-
-    def initUpdateViewSync(self):
-        timer = QTimer(self.window)
-        timer.timeout.connect(self.window.ztv_player.updateView)
-        timer.start(1000)
 
     def formatTime(self, secondsToFormat):
         time_delta = datetime.timedelta(seconds=secondsToFormat)

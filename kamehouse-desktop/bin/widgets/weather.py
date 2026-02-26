@@ -108,17 +108,24 @@ class WeatherHttpSync(QObject):
             if (self.log_trace):
                 logger.trace(weather_status)
             self.window.weather.weather_status = weather_status
-            icon_url = 'https://openweathermap.org/img/wn/' + weather_status["weather"][0]["icon"] + ".png"
+            self.window.weather.updateStatus()
+            self.updateWeatherLogo()
+        except requests.exceptions.RequestException as error:
+            if (self.log_trace):
+                logger.error("Error getting weather status via http")
+
+    def updateWeatherLogo(self):
+        try:
+            icon_url = 'https://openweathermap.org/img/wn/' + self.window.weather.weather_status["weather"][0]["icon"] + ".png"
             if (self.log_trace):
                 logger.trace("Loading icon from: " + icon_url)
             response = requests.get(icon_url, verify=verify_ssl)
             pixmap = QPixmap()
             pixmap.loadFromData(response.content)
             self.window.weather.logo.setPixmap(pixmap)
-            self.window.weather.updateStatus()
         except requests.exceptions.RequestException as error:
             if (self.log_trace):
-                logger.error("Error getting weather status via http")
+                logger.error("Error getting weather status logo via http")
 
     def isEmptyStatus(self, weather_status):
         if (weather_status is None):
