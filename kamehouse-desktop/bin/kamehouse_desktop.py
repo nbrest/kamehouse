@@ -27,11 +27,8 @@ class KameHouseDesktop(QMainWindow):
         self.showFullScreen()
 
     def postInit(self):
-        self.clock = ClockWidget(self)
         self.clock.postInit()
-        self.weather = WeatherWidget(self)
         self.weather.postInit()
-        self.ztv_player = ZtvPlayerWidget(self)
         self.ztv_player.postInit()
 
     def initLogger(self):
@@ -66,6 +63,9 @@ class KameHouseDesktop(QMainWindow):
         self.katakana = TextWidget('kamehouse_katakana_widget', "カメハウス", self)
         self.world_cup_logo = ImageWidget('world_cup_logo_widget', self)
         self.background_slideshow = BackgroundSlideshowWidget(self)
+        self.clock = ClockWidget(self)
+        self.weather = WeatherWidget(self)
+        self.ztv_player = ZtvPlayerWidget(self)
 
     def getHostname(self):
         hostname = socket.gethostname()
