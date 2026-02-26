@@ -115,7 +115,7 @@ class WeatherHttpSync(QObject):
                 logger.error("Error getting weather status via http")
 
     def updateWeatherLogo(self):
-        vrify_ssl = kamehouse_desktop_cfg.getBoolean('weather_widget', 'verify_ssl')
+        verify_ssl = kamehouse_desktop_cfg.getBoolean('weather_widget', 'verify_ssl')
         try:
             icon_url = 'https://openweathermap.org/img/wn/' + self.window.weather.weather_status["weather"][0]["icon"] + ".png"
             if (self.log_trace):
