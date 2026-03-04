@@ -26,6 +26,8 @@ class ZtvPlayerWidget(QWidget):
     window = None
     default_title = "DBGT - Dan Dan.mp3"
     default_artist = "Son Goku"
+    ztv_player_logo_random_src = []
+    ztv_player_logo_src = None
     
     def __init__(self, window):
         super().__init__(window)
@@ -128,19 +130,21 @@ class ZtvPlayerWidget(QWidget):
             timer.start(kamehouse_desktop_cfg.getInt('ztv_player_logo_random_src', 'random_src_wait_ms'))
 
     def setRandomLogo(self):
-        random_logo = random.choice(self.ztv_player_logo_random_src)
+        if (self.ztv_player_logo_src is not None):
+            filtered_random_src = [src_entry for src_entry in self.ztv_player_logo_random_src if (not src_entry["img_src"] == self.ztv_player_logo_src["img_src"])]
+            self.ztv_player_logo_src = random.choice(filtered_random_src)
+        else:
+            self.ztv_player_logo_src = random.choice(self.ztv_player_logo_random_src)
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')):
-            self.logo.img_src = QPixmap(random_logo["img_src"])
-            self.logo.setPixmap(self.logo.img_src)
-            pos_x = random_logo["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_x_offset')
-            pos_y = random_logo["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_y_offset')
-            self.logo.setGeometry(pos_x, pos_y, random_logo["width"], random_logo["height"])
+            self.logo.setPixmap(QPixmap(self.ztv_player_logo_src["img_src"]))
+            pos_x = self.ztv_player_logo_src["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_x_offset')
+            pos_y = self.ztv_player_logo_src["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_y_offset')
+            self.logo.setGeometry(pos_x, pos_y, self.ztv_player_logo_src["width"], self.ztv_player_logo_src["height"])
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src')):
-            self.ztv_player_off_logo.img_src = QPixmap(random_logo["img_src"])
-            self.ztv_player_off_logo.setPixmap(self.ztv_player_off_logo.img_src)
-            pos_x = random_logo["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_x_offset')
-            pos_y = random_logo["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_y_offset')
-            self.ztv_player_off_logo.setGeometry(pos_x, pos_y, random_logo["width"], random_logo["height"])
+            self.ztv_player_off_logo.setPixmap(QPixmap(self.ztv_player_logo_src["img_src"]))
+            pos_x = self.ztv_player_logo_src["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_x_offset')
+            pos_y = self.ztv_player_logo_src["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_y_offset')
+            self.ztv_player_off_logo.setGeometry(pos_x, pos_y, self.ztv_player_logo_src["width"], self.ztv_player_logo_src["height"])
 
     def formatTime(self, secondsToFormat):
         time_delta = datetime.timedelta(seconds=secondsToFormat)
