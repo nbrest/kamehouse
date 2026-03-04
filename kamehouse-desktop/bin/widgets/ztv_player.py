@@ -139,12 +139,16 @@ class ZtvPlayerWidget(QWidget):
             self.logo.setPixmap(QPixmap(self.ztv_player_logo_src["img_src"]))
             pos_x = self.ztv_player_logo_src["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_x_offset')
             pos_y = self.ztv_player_logo_src["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_logo_widget', 'random_src_pos_y_offset')
-            self.logo.setGeometry(pos_x, pos_y, self.ztv_player_logo_src["width"], self.ztv_player_logo_src["height"])
+            width = self.ztv_player_logo_src["width"]
+            height = self.ztv_player_logo_src["height"]
+            self.logo.setGeometry(pos_x, pos_y, width, height)
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src')):
             self.ztv_player_off_logo.setPixmap(QPixmap(self.ztv_player_logo_src["img_src"]))
             pos_x = self.ztv_player_logo_src["pos_x"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_x_offset')
             pos_y = self.ztv_player_logo_src["pos_y"] + kamehouse_desktop_cfg.getInt('ztv_player_off_logo_widget', 'random_src_pos_y_offset')
-            self.ztv_player_off_logo.setGeometry(pos_x, pos_y, self.ztv_player_logo_src["width"], self.ztv_player_logo_src["height"])
+            width = self.ztv_player_logo_src["width"]
+            height = self.ztv_player_logo_src["height"]
+            self.ztv_player_off_logo.setGeometry(pos_x, pos_y, width, height)
 
     def formatTime(self, secondsToFormat):
         time_delta = datetime.timedelta(seconds=secondsToFormat)
