@@ -7,6 +7,7 @@
 
 #### v11.02
 
+- Added scripts to reset kamehouse.cfg to default values
 - Avoided repeating the last random logo in desktop ztv player
 - Refactored kamehouse-desktop to reuse same random src for ztv on/off logos
 - Removed widget specific functions from main kamehouse-desktop class
