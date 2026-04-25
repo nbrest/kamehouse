@@ -15,7 +15,7 @@ main() {
     COMMAND="/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/$@"
   fi
 
-  /usr/bin/su - ${KAMEHOUSE_USER} -c "${COMMAND}"
+  ${COMMAND}
 }
 
 validateCommandLineArguments() {

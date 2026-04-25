@@ -159,7 +159,7 @@ class GrootServerManager {
    * List kamehouse desktop processed background images.
    */
   listKameHouseDesktopProcessedBackrounds() {
-    this.executeShellScript('kamehouse/desktop/list-kamehouse-desktop-processed-backgrounds.sh', "");
+    this.executeShellScript('kamehouse/desktop/kamehouse-desktop-list-processed-backgrounds.sh', "");
   }
 
   /** Handle Session Status */

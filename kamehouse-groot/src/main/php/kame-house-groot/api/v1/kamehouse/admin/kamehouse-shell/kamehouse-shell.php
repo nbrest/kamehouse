@@ -81,8 +81,9 @@ class KameHouseShell {
     
     if ($kameHouse->core->isLinuxHost()) {
       $username = $kameHouse->core->getKameHouseUser();
-      $suScript = $this->getSuScript();
-      $kameHouseShellCSV = trim(shell_exec("sudo /home/" . $username . $suScript . " -s " . $csvScript));
+      $execScript = $this->getExecScript();
+      $envPrefix = $this->getEnvPrefix($username);
+      $kameHouseShellCSV = trim(shell_exec($envPrefix . "/home/" . $username . $execScript . " -s " . $csvScript));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
       $kameHouseShellCSV = trim(shell_exec("%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c \"~" . $shellScriptsBasePath . $csvScript . "\""));
@@ -104,7 +105,9 @@ class KameHouseShell {
     global $kameHouse;
     if ($kameHouse->core->isLinuxHost()) {
       $username = $kameHouse->core->getKameHouseUser();
-      return rtrim(shell_exec("sudo /home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey));
+      $envPrefix = $this->getEnvPrefix($username);
+      $command = $envPrefix . "/home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . escapeshellarg($secretKey);
+      return rtrim(shell_exec($command));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
       $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash-silent.bat -c \". /etc/profile ; ~" . $shellScriptsBasePath . "kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey . "\"";
@@ -113,10 +116,17 @@ class KameHouseShell {
   } 
 
   /**
-   * Get the su script to execute shell scripts on linux.
+   * Return the user environment prefix for shell commands.
    */
-  private function getSuScript() {
-    return $this->getShellScriptsBasePath() . "common/sudoers/www-data/su.sh";
+  private function getEnvPrefix($username) {
+    return "HOME=/home/" . $username . " USER=" . $username . " ";
+  }
+
+  /**
+   * Get the exec script to execute shell scripts on linux.
+   */
+  private function getExecScript() {
+    return $this->getShellScriptsBasePath() . "common/sudoers/www-data/exec-script.sh";
   }  
 
   /**
@@ -206,8 +216,10 @@ class KameHouseShell {
     $shellCommand = "";
     $userHome = $this->getUserHome();
     if ($kameHouse->core->isLinuxHost()) {
-      $suScript = $this->getSuScript();
-      $shellCommand = "sudo " . $userHome . $suScript;
+      $execScript = $this->getExecScript();
+      $username = $kameHouse->core->getKameHouseUser();
+      $envPrefix = $this->getEnvPrefix($username);
+      $shellCommand = $envPrefix . $userHome . $execScript;
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
       $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
@@ -219,7 +231,7 @@ class KameHouseShell {
       $shellCommand = $shellCommand . " --daemon"; 
     }
     if ($kameHouse->core->isLinuxHost()) {
-      $shellCommand = $shellCommand . " -s \'" . $script . "\' -a \'" . $scriptArgs . "\'";
+      $shellCommand = $shellCommand . " -s " . $script . " -a \'" . $scriptArgs . "\'";
     } else {
       $shellCommand = $shellCommand . " -s '" . $script . "' -a '" . $scriptArgs . "' \"";
     }

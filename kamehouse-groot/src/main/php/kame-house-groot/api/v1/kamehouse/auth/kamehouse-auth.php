@@ -167,23 +167,27 @@ class KameHouseAuth {
 
     $isAuthorizedUser = false;
     
-    $dbConfig = json_decode($this->getDatabaseConfig());
-    $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
-    if ($dbConnection->connect_error) {
-      $kameHouse->logger->info("Database connection failed: " . $dbConnection->connect_error);
-      return false;
-    }
+    try {
+      $dbConfig = json_decode($this->getDatabaseConfig());
+      $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
+      if ($dbConnection->connect_error) {
+        $kameHouse->logger->info("Database connection failed: " . $dbConnection->connect_error);
+        return false;
+      }
 
-    $sql = "SELECT password FROM kamehouse_user where username = '$username'";
-    $result = $dbConnection->query($sql);
-    if ($result->num_rows == 1) {
-      while($row = $result->fetch_assoc()) {
-        if (password_verify($password, $row["password"])) {
-          $isAuthorizedUser = true;
+      $sql = "SELECT password FROM kamehouse_user where username = '$username'";
+      $result = $dbConnection->query($sql);
+      if ($result->num_rows == 1) {
+        while($row = $result->fetch_assoc()) {
+          if (password_verify($password, $row["password"])) {
+            $isAuthorizedUser = true;
+          }
         }
       }
+      $dbConnection->close();
+    } catch (Exception $e) {
+      $kameHouse->logger->info("Database exception checking if the user is authorised: " . $e->getMessage());
     }
-    $dbConnection->close();
 
     return $isAuthorizedUser;
   }
@@ -200,21 +204,25 @@ class KameHouseAuth {
 
     $roles = [];
     
-    $dbConfig = json_decode($this->getDatabaseConfig());
-    $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
-    if ($dbConnection->connect_error) {
-      $kameHouse->logger->info("Database connection failed: " . $dbConnection->connect_error);
-      return false;
-    }
-
-    $sql = "SELECT name FROM kamehouse_role where kamehouse_user_id = (select id from kamehouse_user where username = '$username')";
-    $result = $dbConnection->query($sql);
-    if ($result->num_rows > 0) {
-      while($row = $result->fetch_assoc()) {
-        array_push($roles, $row["name"]);
+    try {
+      $dbConfig = json_decode($this->getDatabaseConfig());
+      $dbConnection = new mysqli($dbConfig->server, $dbConfig->username, $dbConfig->password, $dbConfig->database);
+      if ($dbConnection->connect_error) {
+        $kameHouse->logger->info("Database connection failed: " . $dbConnection->connect_error);
+        return false;
       }
+
+      $sql = "SELECT name FROM kamehouse_role where kamehouse_user_id = (select id from kamehouse_user where username = '$username')";
+      $result = $dbConnection->query($sql);
+      if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+          array_push($roles, $row["name"]);
+        }
+      }
+      $dbConnection->close();
+    } catch (Exception $e) {
+      $kameHouse->logger->info("Database exception getting roles: " . $e->getMessage());
     }
-    $dbConnection->close();
 
     return $roles;
   }
@@ -307,6 +315,9 @@ class KameHouseAuth {
   private function getDatabaseConfig() {
     global $kameHouse;
     $mariadbPassword = $kameHouse->shell->getKameHouseSecret("MARIADB_PASS_KAMEHOUSE");
+    if (empty($mariadbPassword)) {
+      $kameHouse->logger->info("Get MARIADB_PASS_KAMEHOUSE kamehouse secret returned empty string. Is it set in kamehouse secrets?");
+    }
     return '{ 
       "server" : "127.0.0.1",
       "username" : "kamehouse",

@@ -12,8 +12,8 @@ initKameHouseShellEnv() {
 initScriptEnv() {
   SCRIPT=""
   SCRIPT_ARGS=""
-  BASE_PATH="${HOME}/programs/kamehouse-shell/bin/"
-  REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin/"
+  BASE_PATH="${HOME}/programs/kamehouse-shell/bin"
+  REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin"
   EXECUTE_ON_DOCKER_HOST=false
   IS_DAEMON=false
   IS_EXECUTABLE_ON_DOCKER_HOST=false
@@ -21,7 +21,7 @@ initScriptEnv() {
 
 mainProcess() {
   validateCommandLineArguments "$@"
-  log.info "Executing script ${COL_PURPLE}'${BASE_PATH}${SCRIPT}'${COL_DEFAULT_LOG}"
+  log.info "Executing script ${COL_PURPLE}'${BASE_PATH}/${SCRIPT}'${COL_DEFAULT_LOG}"
   log.trace "script args ${COL_PURPLE}'${SCRIPT_ARGS}'"
   initEnv
 
@@ -47,7 +47,7 @@ validateCommandLineArguments() {
   fi
 
   if [ ! -f "${BASE_PATH}/${SCRIPT}" ]; then
-    log.error "Script ${SCRIPT} doesn't exist"
+    log.error "Script ${BASE_PATH}/${SCRIPT} doesn't exist"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 }
@@ -73,7 +73,7 @@ printEnv() {
 }
 
 executeRemote() {
-  local REMOTE_COMMAND="${REMOTE_BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+  local REMOTE_COMMAND="${REMOTE_BASE_PATH}/${SCRIPT} ${SCRIPT_ARGS}"
   IS_REMOTE_LINUX_HOST=${IS_LINUX_DOCKER_HOST}
   SSH_USER="${DOCKER_HOST_USERNAME}"
   SSH_SERVER="${DOCKER_HOST_IP}"
@@ -82,7 +82,7 @@ executeRemote() {
 }
 
 executeLocal() {
-  local LOCAL_COMMAND="${BASE_PATH}${SCRIPT} ${SCRIPT_ARGS}"
+  local LOCAL_COMMAND="${BASE_PATH}/${SCRIPT} ${SCRIPT_ARGS}"
   if ${IS_DAEMON}; then
     log.trace "${LOCAL_COMMAND} &"
     ${LOCAL_COMMAND} &
