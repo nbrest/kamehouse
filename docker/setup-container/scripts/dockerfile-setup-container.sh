@@ -22,6 +22,7 @@ TOMCAT_VERSION=10.1.11
 
 KAMEHOUSE_USER=""
 KAMEHOUSE_PASSWORD=""
+IS_OUTSIDE_DOCKERFILE=false
 
 # Exit codes
 EXIT_SUCCESS=0
@@ -163,8 +164,8 @@ setupHttpd() {
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lock/apache2
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lib/apache2
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lib/php/sessions
-  sed -i \"s#APACHE_RUN_USER=www-data#APACHE_RUN_USER=${KAMEHOUSE_USER}#g\" /etc/apache2/envvars
-  sed -i \"s#APACHE_RUN_GROUP=www-data#APACHE_RUN_GROUP=${KAMEHOUSE_USER}#g\" /etc/apache2/envvars
+  sed -i "s#APACHE_RUN_USER=www-data#APACHE_RUN_USER=${KAMEHOUSE_USER}#g" /etc/apache2/envvars
+  sed -i "s#APACHE_RUN_GROUP=www-data#APACHE_RUN_GROUP=${KAMEHOUSE_USER}#g" /etc/apache2/envvars
 
   rm /var/www/html/index.html 
 }
@@ -217,6 +218,9 @@ installMaven() {
 }
 
 setupMockedBins() {
+  if ${IS_OUTSIDE_DOCKERFILE}; then
+    return
+  fi
   log.info "Setting up mocked bins"
   mv /usr/bin/vlc /usr/bin/vlc-bin 
 
@@ -269,6 +273,9 @@ parseArguments() {
         printHelpMenu
         exit ${EXIT_SUCCESS}
         ;;
+      --is-outside-dockerfile)
+        IS_OUTSIDE_DOCKERFILE=true
+        ;;
       -u)
         KAMEHOUSE_USER="${CURRENT_OPTION_ARG}"
         ;;
@@ -303,6 +310,7 @@ printHelpMenu() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-u (username)${COL_NORMAL} user running kamehouse [${COL_RED}required${COL_NORMAL}]"
   echo -e "     ${COL_BLUE}-p (password)${COL_NORMAL} password for user running kamehouse [${COL_RED}required${COL_NORMAL}]"
+  echo -e "     ${COL_BLUE}--is-outside-dockerfile${COL_NORMAL} Set this flag when running outside dockerfile"
 }
 
 main "$@"

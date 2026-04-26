@@ -16,6 +16,7 @@ COL_MESSAGE=${COL_GREEN}
 
 KAMEHOUSE_USER=""
 DOCKER_IMAGE_TAG="latest"
+IS_OUTSIDE_DOCKERFILE=false
 
 # Exit codes
 EXIT_SUCCESS=0
@@ -42,6 +43,9 @@ main() {
 }
 
 setEnvironment() {
+  if ${IS_OUTSIDE_DOCKERFILE}; then
+    return
+  fi  
   log.info "Setting up environment"
   suCmd "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} >> /home/${KAMEHOUSE_USER}/.env"
 }
@@ -77,23 +81,37 @@ installKameHouseShell() {
 }
 
 setContainerDefaults() {
+  if ${IS_OUTSIDE_DOCKERFILE}; then
+    return
+  fi
   log.info "Setting up container defaults"
   suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
 }
 
 deployKameHouse() {
   log.info "Deploying kamehouse"
-  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
-  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker"
+  if ${IS_OUTSIDE_DOCKERFILE}; then
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c"
+  else
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker"
+  fi
 }
 
 clearTempFiles() {
+  if ${IS_OUTSIDE_DOCKERFILE}; then
+    return
+  fi
   log.info "Clearing up temp files"
   suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/apache-maven/bin/mvn clean"
   rm -rf /home/${KAMEHOUSE_USER}/.m2/repository/com/nicobrest 
 }
 
 createSamplePlaylists() {
+  if ${IS_OUTSIDE_DOCKERFILE}; then
+    return
+  fi
   log.info "Setting up sample playlists"
   suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/media/create-sample-video-playlists.sh"
 }
@@ -170,6 +188,9 @@ parseArguments() {
         printHelpMenu
         exit ${EXIT_SUCCESS}
         ;;
+      --is-outside-dockerfile)
+        IS_OUTSIDE_DOCKERFILE=true
+        ;;
       -u)
         KAMEHOUSE_USER="${CURRENT_OPTION_ARG}"
         ;;
@@ -198,6 +219,7 @@ printHelpMenu() {
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
   echo -e "     ${COL_BLUE}-t (tag)${COL_NORMAL} docker image tag"
   echo -e "     ${COL_BLUE}-u (username)${COL_NORMAL} user running kamehouse [${COL_RED}required${COL_NORMAL}]"
+  echo -e "     ${COL_BLUE}--is-outside-dockerfile${COL_NORMAL} Set this flag when running outside dockerfile"
 }
 
 main "$@"
