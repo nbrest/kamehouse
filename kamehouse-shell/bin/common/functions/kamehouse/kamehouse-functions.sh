@@ -549,8 +549,9 @@ setupLinuxEnvironment() {
   log.debug "TERM=${TERM}"
 
   if [ -z "${DISPLAY}" ]; then
-    export DISPLAY=:0.0
+    DISPLAY=:0.0
   fi
+  export DISPLAY=${DISPLAY}
   log.debug "DISPLAY=${DISPLAY}"
 
   if [ -z "${XDG_RUNTIME_DIR}" ]; then
@@ -571,13 +572,22 @@ setLinuxEnvXauhority() {
     return;
   fi
   local USER_UID=`id -u`
-  if [ -z "${XAUTHORITY}" ]; then
-    local XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
-    if [ -n "${XAUTHORITY_VAL}" ]; then
-      export XAUTHORITY=${XAUTHORITY_VAL}
-    fi
+  if [ -n "${XAUTHORITY}" ]; then
+    log.debug "XAUTHORITY=${XAUTHORITY}"
+    return
   fi
-  log.debug "XAUTHORITY=${XAUTHORITY}"  
+  local XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
+  if [ -n "${XAUTHORITY_VAL}" ]; then
+    export XAUTHORITY=${XAUTHORITY_VAL}
+    log.debug "XAUTHORITY=${XAUTHORITY}"
+    return
+  fi
+  XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/gdm/Xauthority* 2>/dev/null`
+  if [ -n "${XAUTHORITY_VAL}" ]; then
+    export XAUTHORITY=${XAUTHORITY_VAL}
+    log.debug "XAUTHORITY=${XAUTHORITY}"
+    return
+  fi    
 }
 
 loadConfigFiles() {
