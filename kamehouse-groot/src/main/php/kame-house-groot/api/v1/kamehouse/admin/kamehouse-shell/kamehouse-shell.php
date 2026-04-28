@@ -231,7 +231,7 @@ class KameHouseShell {
       $shellCommand = $shellCommand . " --daemon"; 
     }
     if ($kameHouse->core->isLinuxHost()) {
-      $shellCommand = $shellCommand . " -s " . $script . " -a \'" . $scriptArgs . "\'";
+      $shellCommand = $shellCommand . " -s " . escapeshellarg($script) . " -a " . escapeshellarg($scriptArgs);
     } else {
       $shellCommand = $shellCommand . " -s '" . $script . "' -a '" . $scriptArgs . "' \"";
     }
