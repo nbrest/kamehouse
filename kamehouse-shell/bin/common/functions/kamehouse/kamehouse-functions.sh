@@ -11,6 +11,7 @@ KAMEHOUSE_CFG="${HOME}/.kamehouse/config/kamehouse.cfg"
 WIN_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
+DEV_PROJECT_DIR="${HOME}/workspace/${PROJECT}"
 USE_CURRENT_DIR=false
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
 SSH_OPTIONS="-t -o ServerAliveInterval=10"
@@ -33,6 +34,7 @@ SFTP_COMMAND=""
 SFTP_EXIT_CODE=""
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
+IS_DEV_DEPLOYMENT="false"
 
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
@@ -454,12 +456,13 @@ setKameHouseRootProjectDir() {
   log.debug "Setting kamehouse project root directory to use"
   if ${USE_CURRENT_DIR}; then
     PROJECT_DIR=`pwd`
-  else  
-    cd ${PROJECT_DIR}
-    checkCommandStatus "$?" "Can't cd to ${PROJECT_DIR}. Invalid kamehouse project root directory" 
   fi
-  checkValidRootKameHouseProject
+  if [[ "${PROJECT_DIR}" == /var/www/kamehouse-webserver* ]]; then
+    PROJECT_DIR="${DEV_PROJECT_DIR}"
+  fi
+  cd ${PROJECT_DIR}
   log.info "Using kamehouse project root directory: ${COL_PURPLE}${PROJECT_DIR}"
+  checkValidRootKameHouseProject
 }
 
 checkValidRootKameHouseProject() {
