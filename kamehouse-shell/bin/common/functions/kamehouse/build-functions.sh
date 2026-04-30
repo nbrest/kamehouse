@@ -62,7 +62,8 @@ buildKameHouseUiStatic() {
   cdToKameHouseModule "kamehouse-ui"
   log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
   log.debug "Cleaning up dist directory"
-  rm -rf ./dist/*
+  rm -rf ./dist
+  mkdir ./dist
 
   buildFrontendCode
 
