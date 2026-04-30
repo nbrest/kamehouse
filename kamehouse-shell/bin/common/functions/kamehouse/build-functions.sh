@@ -62,8 +62,14 @@ buildKameHouseUiStatic() {
   cdToKameHouseModule "kamehouse-ui"
   log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
   log.debug "Cleaning up dist directory"
-  rm -rf ./dist
-  mkdir ./dist
+  if ${USE_SUDO_FOR_UI_BUILD}; then
+    sudo rm -rf ./dist
+    sudo mkdir ./dist
+    sudo chown -R ${USER}:${USER} ./dist
+  else
+    rm -rf ./dist
+    mkdir ./dist
+  fi
 
   buildFrontendCode
 
@@ -71,8 +77,14 @@ buildKameHouseUiStatic() {
   find . -regex ".*.js.map" -type f -exec sed -i "s#../../src/main/typescript#../../../../src/main/typescript#g" {} \;
 
   log.info "Building kamehouse-ui bundle in dist folder"
-  cp -r ./src/main/public/* ./dist
-  cp -f ../build-info.json ./dist/
+  if ${USE_SUDO_FOR_UI_BUILD}; then
+    sudo cp -r ./src/main/public/* ./dist
+    sudo cp -f ../build-info.json ./dist/
+    sudo chown -R ${USER}:${USER} ./dist
+  else
+    cp -r ./src/main/public/* ./dist
+    cp -f ../build-info.json ./dist/
+  fi
   cdToRootDirFromModule "kamehouse-ui"
 }
 
