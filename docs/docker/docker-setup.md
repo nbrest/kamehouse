@@ -127,6 +127,22 @@ You can then run the image as mentioned above
 
 *********************
 
+## Docker dev permissions issue on Linux
+
+- When running docker dev environment on a Linux host, it mounts git/kamehouse repository as user ubuntu instead of goku, which makes it fail kamehouse deployments. To fix this issue, **INSIDE** the container run:
+```sh
+docker-dev-fix-permissions.sh
+```
+
+Then when I want to modify files in workspace/kamehouse in the host, run **OUTSIDE** the container:
+```sh
+docker-dev-fix-permissions.sh
+```
+This will revert the ownership of files back to the host user
+
+
+*********************
+
 ## Other useful docker scripts
 
 - `docker-upgrade-containers.sh` pulls the latest version of kamehouse, stops the existing running containers and cleans up the old images
