@@ -7,7 +7,7 @@ EXIT_VAR_NOT_SET=2
 EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
-DOCKER_CONTAINER_USERNAME=`ls /home | grep -v "nbrest"`
+DOCKER_CONTAINER_USERNAME=$(ls /home | grep -vE "nbrest|ubuntu" | head -n 1)
 
 . /home/${DOCKER_CONTAINER_USERNAME}/.env
 

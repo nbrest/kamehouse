@@ -14,7 +14,7 @@ COL_MESSAGE=${COL_GREEN}
 
 KAMEHOUSE=${COL_NORMAL}Kame${COL_RED}House${COL_MESSAGE}
 
-DOCKER_CONTAINER_USERNAME=`ls /home | grep -v "nbrest"`
+DOCKER_CONTAINER_USERNAME=$(ls /home | grep -vE "nbrest|ubuntu" | head -n 1)
 
 . /home/${DOCKER_CONTAINER_USERNAME}/.env
 

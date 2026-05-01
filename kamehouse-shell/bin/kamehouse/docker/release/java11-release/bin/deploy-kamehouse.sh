@@ -11,7 +11,7 @@ COL_RED="\033[1;31m"
 COL_YELLOW="\033[1;33m"
 COL_MESSAGE=${COL_GREEN}
 
-DOCKER_CONTAINER_USERNAME=`ls /home | grep -v "nbrest"`
+DOCKER_CONTAINER_USERNAME=$(ls /home | grep -vE "nbrest|ubuntu" | head -n 1)
 
 . /home/${DOCKER_CONTAINER_USERNAME}/.env
 
