@@ -5,7 +5,7 @@
 
 # ChangeLog:
 
-#### v11.02
+#### v11.02 (vLionel.Towa)
 
 - Updated docker base image to ubuntu 24.04
 - Moved apache2 user to kamehouse user from www-data
