@@ -39,6 +39,18 @@ parseShowScriptConfigArgument() {
   done
 }
 
+# Parse edit script config argument
+parseEditScriptConfigArgument() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      --edit-config)
+        parseEditScriptConfig
+        ;;
+    esac
+  done
+}
+
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
@@ -82,6 +94,7 @@ printHelp() {
   echo -e "  Options:"
   addHelpOption "-h --help" "display help"
   addHelpOption "--show-config" "display script config file"
+  addHelpOption "--edit-config" "edit script config file"
   printHelpOptions
   printHelpFooter
 }
@@ -97,6 +110,22 @@ showScriptConfig() {
   if [ -f "${SCRIPT_CONFIG_FILE}" ]; then
     log.info "Script config: ${SCRIPT_CONFIG_FILE}"
     cat ${SCRIPT_CONFIG_FILE}
+  else
+    log.info "Script config file ${SCRIPT_CONFIG_FILE} doesn't exist"
+  fi
+}
+
+# Edit script config and exit
+parseEditScriptConfig() {
+  editScriptConfig
+  exit ${EXIT_SUCCESS}
+}
+
+# Edit script config
+editScriptConfig() {
+  if [ -f "${SCRIPT_CONFIG_FILE}" ]; then
+    log.info "Editing script config: ${SCRIPT_CONFIG_FILE}"
+    vim ${SCRIPT_CONFIG_FILE}
   else
     log.info "Script config file ${SCRIPT_CONFIG_FILE} doesn't exist"
   fi
@@ -179,6 +208,7 @@ main() {
   configureKameHouseShell
   parseHelpArgument "$@"
   parseShowScriptConfigArgument "$@"
+  parseEditScriptConfigArgument "$@"
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
     # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default
