@@ -24,6 +24,19 @@ VLC_PARAMS=""
 
 VLC_STATS_MEDIA_FILES="\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U"
 
+setDefaultScriptConfigVlcFunctions() {
+  # Set to true to use a visualizer effect when loading music playlists and files
+  # Besides setting true here, the visualizer needs to be enabled in vlc players app configuration
+  #       - Preferences > Audio > Visualization: Visualizer Filter
+  # To turn off, set to false here and disable in vlc player configuration
+  #       - Preferences > Audio > Visualization: Disabled
+  VLC_MUSIC_USE_VISUALIZER=false
+}
+
+setDefaultScriptConfig() {
+  setDefaultScriptConfigVlcFunctions
+}
+
 checkExistingVlcLogFile() {
   if [ ! -f "${VLC_LOG_FILE}" ]; then
     log.error "${VLC_LOG_FILE} doesn't exist. Check vlc configuration"
