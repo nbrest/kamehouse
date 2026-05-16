@@ -134,6 +134,11 @@ initKameHouseShellEnv() {
   return
 }
 
+# Override to load the script configuration variables from the script config file
+initScriptConfig() {
+  return
+}
+
 # Set the global environment variables for the script after loading the configuration files
 # and before parsing arguments that may override the global variables set here
 initScriptEnv() {
@@ -157,6 +162,7 @@ configureKameHouseShell() {
 mainWrapper() {
   logStart
   loadConfigFiles
+  initScriptConfig
   initScriptEnv
   parseCmdArguments "$@"
   setEnvFromArguments
