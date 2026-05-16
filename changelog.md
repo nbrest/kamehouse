@@ -7,6 +7,7 @@
 
 #### v11.03
 
+- Updated shell script config paths to use .kamehouse folder
 - Fixed bugs
 
 #### v11.02 (vLionel.Towa)
