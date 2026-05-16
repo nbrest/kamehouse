@@ -24,17 +24,14 @@ VLC_PARAMS=""
 
 VLC_STATS_MEDIA_FILES="\.mp3|\.MP3|\.mp4|\.MP4|\.mkv|\.MKV|\.m3u|\.M3U"
 
-setDefaultScriptConfigVlcFunctions() {
+# Set default script config for lin/win vlc-start.sh scripts
+setDefaultScriptConfigVlcStart() {
   # Set to true to use a visualizer effect when loading music playlists and files
   # Besides setting true here, the visualizer needs to be enabled in vlc players app configuration
   #       - Preferences > Audio > Visualization: Visualizer Filter
   # To turn off, set to false here and disable in vlc player configuration
   #       - Preferences > Audio > Visualization: Disabled
   VLC_MUSIC_USE_VISUALIZER=false
-}
-
-setDefaultScriptConfig() {
-  setDefaultScriptConfigVlcFunctions
 }
 
 checkExistingVlcLogFile() {
@@ -93,8 +90,8 @@ checkRunningVlcProcess() {
   fi  
 }
 
-setVlcParams() {
-  log.debug "Setting vlc params"
+setVlcStartParams() {
+  log.debug "Setting vlc start params"
   local FILE_EXT=${FILE_TO_PLAY: -3}
   local MUSIC_PLAYLIST_RX=.*${PLAYLISTS_PATH}/music/.*
   local IS_MUSIC_PLAYLIST=false

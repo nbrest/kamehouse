@@ -5,13 +5,17 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 importKamehouse common/functions/vlc/vlc-functions.sh
 
+setDefaultScriptConfig() {
+  setDefaultScriptConfigVlcStart
+}
+
 mainProcess() {
   setupLinuxEnvironment
   rotateVlcLog
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
   setVlcProcessInfo
-  setVlcParams
+  setVlcStartParams
   vlc ${FILE_TO_PLAY} ${VLC_PARAMS} &
 }
 

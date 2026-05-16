@@ -5,12 +5,16 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 importKamehouse common/functions/vlc/vlc-functions.sh
 
+setDefaultScriptConfig() {
+  setDefaultScriptConfigVlcStart
+}
+
 mainProcess() {
   rotateVlcLog
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"
   setVlcProcessInfo
-  setVlcParams
+  setVlcStartParams
   local WINDOWS_FILE_RX=^[A-Za-z]:/.*
   if [[ "${FILE_TO_PLAY}" =~ ${WINDOWS_FILE_RX} ]]; then
     log.info "Playing a local windows file, rewriting paths to windows"
