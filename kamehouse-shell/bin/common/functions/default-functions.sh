@@ -161,8 +161,8 @@ configureKameHouseShell() {
 # Default main function wrapper. This should never be overriden
 mainWrapper() {
   logStart
-  loadConfigFiles
   initScriptConfig
+  loadConfigFiles
   initScriptEnv
   parseCmdArguments "$@"
   setEnvFromArguments
