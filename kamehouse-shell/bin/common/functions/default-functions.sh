@@ -134,8 +134,8 @@ initKameHouseShellEnv() {
   return
 }
 
-# Override to load the script configuration variables from the script config file
-initScriptConfig() {
+# Set default script configuration variables that can be overriden in the script config file
+setDefaultScriptConfig() {
   return
 }
 
@@ -161,7 +161,7 @@ configureKameHouseShell() {
 # Default main function wrapper. This should never be overriden
 mainWrapper() {
   logStart
-  initScriptConfig
+  setDefaultScriptConfig
   loadConfigFiles
   initScriptEnv
   parseCmdArguments "$@"
