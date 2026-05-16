@@ -124,6 +124,7 @@ loadConfigFiles() {
 
 # Load script config file
 loadScriptConfigFile() {
+  mkdir -p ${SCRIPT_CONFIG_PATH}
   touch ${SCRIPT_CONFIG_FILE}
   source ${SCRIPT_CONFIG_FILE}
 }

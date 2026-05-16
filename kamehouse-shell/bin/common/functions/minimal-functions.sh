@@ -10,7 +10,8 @@ SCRIPT_START_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
 SCRIPT_START_TIME="$(date +%s)"
 # Script configuration file
 SCRIPT_CONFIG_FILENAME=${SCRIPT_NAME_NO_EXT}.cfg
-SCRIPT_CONFIG_FILE=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_CONFIG_FILENAME}
+SCRIPT_CONFIG_PATH=${HOME}/.kamehouse/config/shell
+SCRIPT_CONFIG_FILE="${SCRIPT_CONFIG_PATH}/${SCRIPT_CONFIG_FILENAME}"
 
 # Stores the command line arguments from the script that sources this file.
 CMD_ARGUMENTS=$@
