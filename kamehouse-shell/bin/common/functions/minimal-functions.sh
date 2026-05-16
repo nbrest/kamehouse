@@ -8,7 +8,9 @@ SCRIPT_NAME_NO_EXT=${SCRIPT_NAME%.*}
 # Current script start date and time
 SCRIPT_START_DATE="$(date +%Y-%m-%d' '%H:%M:%S)"
 SCRIPT_START_TIME="$(date +%s)"
-# Script configuration file
+# Script configuration file. 
+# This config file can be used to override the default variable values defined in setDefaultScriptConfig() 
+# and also to override default values of script variables that can be modified by script command line parameters.
 SCRIPT_CONFIG_FILENAME=${SCRIPT_NAME_NO_EXT}.cfg
 SCRIPT_CONFIG_PATH=${HOME}/.kamehouse/config/shell
 SCRIPT_CONFIG_FILE="${SCRIPT_CONFIG_PATH}/${SCRIPT_CONFIG_FILENAME}"
