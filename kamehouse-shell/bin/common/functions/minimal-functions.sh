@@ -37,8 +37,8 @@ EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 EXIT_INVALID_CONFIG=5
 
-# Set to true when running on linux
-export IS_LINUX_HOST=false
+# Set to false when running outside linux
+export IS_LINUX_HOST=true
 
 # Subsystem root prefix for mounted drives. Use this as a prefix to all
 # absolute paths I define in the script.
@@ -98,20 +98,18 @@ checkCommandStatus() {
 }
 
 setIsLinuxHost() {
-  export IS_LINUX_HOST=false
+  export IS_LINUX_HOST=true
   local UNAME_S=`uname -s`
   local UNAME_R=`uname -r`
   if [ "${UNAME_S}" != "Linux" ]; then
     # Using Win Bash
     export IS_LINUX_HOST=false
-  else
-    if [[ ${UNAME_R} == *"Microsoft"* ]]; then
-      # Using Ubuntu for Windows 10 (deprecated. don't use that anymore, use an ubuntu vm)
-      export IS_LINUX_HOST=false
-    else
-      # Using Linux
-      export IS_LINUX_HOST=true
-    fi
+    return
+  fi
+  if [[ ${UNAME_R} == *"Microsoft"* ]]; then
+    # Using Ubuntu WSL for Windows WSL
+    export IS_LINUX_HOST=false
+    return
   fi
 }
 
