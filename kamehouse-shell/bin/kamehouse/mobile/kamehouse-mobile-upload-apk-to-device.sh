@@ -7,6 +7,18 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
+setDefaultScriptConfig() {
+  # Set the properties to upload kamehouse mobile APK to an android device via sftp
+  #   - IP: ip/hostname of the android device
+  #   - PORT: sftp port running on the android device
+  #   - USERNAME: sftp username used to upload the APK
+  #   - APK_DEST_PATH: path in the android device's filesystem to upload the APK to
+  ANDROID_SFTP_IP="192.168.99.91"
+  ANDROID_SFTP_PORT="2222"
+  ANDROID_SFTP_USERNAME="android"
+  ANDROID_SFTP_APK_DEST_PATH="/0/Download"
+}
+
 initScriptEnv() {
   SKIP_BUILD_MOBILE=false
   USE_CURRENT_DIR=true

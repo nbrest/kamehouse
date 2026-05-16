@@ -9,6 +9,12 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
+setDefaultScriptConfig() {
+  # Set to false to skip killing the ci docker container processes. 
+  # When it is set to try to kill them, it requires sudo for netstat and kill
+  KAMEHOUSE_KILL_CI_CONTAINER_PROCESSES=true
+}
+
 initScriptEnv() {
   INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
   SCRIPT="kamehouse/docker/docker-container/docker-integration-tests-run.sh"
