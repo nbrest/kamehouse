@@ -5,10 +5,6 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 importKamehouse common/functions/vlc/vlc-functions.sh
 
-setDefaultScriptConfig() {
-  setDefaultScriptConfigVlcStart
-}
-
 mainProcess() {
   setupLinuxEnvironment
   rotateVlcLog
