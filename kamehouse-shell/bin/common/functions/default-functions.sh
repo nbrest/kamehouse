@@ -203,7 +203,7 @@ initKameHouseShellEnv() {
 # Set default script configuration variables that can be overriden in the script config file
 # This is mainly for variables that are used in a single script. 
 # For variables shared between multiple scripts or used in *-function.sh scripts, 
-# use kamehouse.cfg instead of script config file
+# in most cases it's better to use kamehouse.cfg instead of script config file
 setDefaultScriptConfig() {
   return
 }
