@@ -50,6 +50,9 @@ ROOT_PREFIX="/mnt"
 # Default kamehouse-shell installation path
 KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell/bin
 
+# Default kamehouse-shell config template 
+SCRIPT_CONFIG_TEMPLATE_FILE="${KAMEHOUSE_SHELL_PATH}/../conf/kamehouse-shell-script-config-template.cfg"
+
 # Adds a script option to the help menu
 addHelpOption() {
   local OPTION=$1

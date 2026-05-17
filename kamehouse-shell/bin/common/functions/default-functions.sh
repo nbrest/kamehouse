@@ -27,12 +27,19 @@ parseHelpArgument() {
   done
 }
 
+# Parse script config arguments
+parseScriptConfigArguments() {
+  parseShowScriptConfigArgument "$@"
+  parseEditScriptConfigArgument "$@"
+  parseResetScriptConfigArgument "$@"
+}
+
 # Parse show script config argument
 parseShowScriptConfigArgument() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
-      --show-config)
+      -sc|--show-config)
         parseShowScriptConfig
         ;;
     esac
@@ -44,8 +51,20 @@ parseEditScriptConfigArgument() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
-      --edit-config)
+      -ec|--edit-config)
         parseEditScriptConfig
+        ;;
+    esac
+  done
+}
+
+# Parse reset script config argument
+parseResetScriptConfigArgument() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      -rc|--reset-config)
+        parseResetScriptConfig
         ;;
     esac
   done
@@ -93,8 +112,9 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"
   addHelpOption "-h --help" "display help"
-  addHelpOption "--show-config" "display script config file"
-  addHelpOption "--edit-config" "edit script config file"
+  addHelpOption "-sc|--show-config" "display script config file"
+  addHelpOption "-ec|--edit-config" "edit script config file"
+  addHelpOption "-rc|--reset-config" "reset script config file to default values"
   printHelpOptions
   printHelpFooter
 }
@@ -131,6 +151,20 @@ editScriptConfig() {
   fi
 }
 
+# Reset script config and exit
+parseResetScriptConfig() {
+  log.info "Resetting script config: ${SCRIPT_CONFIG_FILE}"
+  createScriptConfigFile
+  exit ${EXIT_SUCCESS}
+}
+
+# Create script config file
+createScriptConfigFile() {
+  mkdir -p ${SCRIPT_CONFIG_PATH}
+  cp -fv ${SCRIPT_CONFIG_TEMPLATE_FILE} ${SCRIPT_CONFIG_FILE}
+  sed -i "s#---SCRIPT_NAME---#${SCRIPT_NAME}#g" "${SCRIPT_CONFIG_FILE}"
+}
+
 # Override in each script with the options specific to the script
 printHelpOptions() {
   return
@@ -153,9 +187,12 @@ loadConfigFiles() {
 
 # Load script config file
 loadScriptConfigFile() {
-  mkdir -p ${SCRIPT_CONFIG_PATH}
-  touch ${SCRIPT_CONFIG_FILE}
+  if [ ! -f "${SCRIPT_CONFIG_FILE}" ]; then
+    log.info "Missing script config. Creating: ${SCRIPT_CONFIG_FILE}"
+    createScriptConfigFile
+  fi
   source ${SCRIPT_CONFIG_FILE}
+  log.trace "Loaded ${SCRIPT_CONFIG_FILE}"
 }
 
 # Set the kamehouse shell environment parameters before configuring the shell
@@ -207,8 +244,7 @@ main() {
   initKameHouseShellEnv
   configureKameHouseShell
   parseHelpArgument "$@"
-  parseShowScriptConfigArgument "$@"
-  parseEditScriptConfigArgument "$@"
+  parseScriptConfigArguments "$@"
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
     # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default

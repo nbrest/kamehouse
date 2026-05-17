@@ -7,7 +7,8 @@
 
 #### v11.03
 
-- Added command line option to edit script config
+- Added template for kamehouse shell script config file
+- Added command line option to edit and reset script config
 - Moved configs from kamehouse.cfg to script specific config files
 - Updated shell script config paths to use .kamehouse folder
 - Fixed bugs
