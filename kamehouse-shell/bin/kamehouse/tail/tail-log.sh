@@ -242,9 +242,9 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f (apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|tomcat-dev|logs/*.log)" "log file to tail" "r"
-  addHelpOption "-l (trace|debug|info|warn|error)" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
-  addHelpOption "-n (lines)" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
+  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|tomcat-dev|logs/*.log]" "log file to tail" "r"
+  addHelpOption "-l [trace|debug|info|warn|error]" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
+  addHelpOption "-n [lines]" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   addHelpOption "-q" "quit after tailing once. Don't follow log"
   addHelpOption "-x" "Filter extra lines that don't have a log level tag, like bash command outputs"
 }

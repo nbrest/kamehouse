@@ -53,7 +53,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-c (container id)" "id of the container to get a shell"
+  addHelpOption "-c [container id]" "id of the container to get a shell"
   printDockerProfileOption
 }
 

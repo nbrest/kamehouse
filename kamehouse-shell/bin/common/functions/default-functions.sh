@@ -112,9 +112,9 @@ printHelp() {
   echo -e ""
   echo -e "  Options:"
   addHelpOption "-h --help" "display help"
-  addHelpOption "-sc|--show-config" "display script config file"
-  addHelpOption "-ec|--edit-config" "edit script config file"
-  addHelpOption "-rc|--reset-config" "reset script config file to default values"
+  addHelpOption "-sc -show-config" "display script config file"
+  addHelpOption "-ec --edit-config" "edit script config file"
+  addHelpOption "-rc --reset-config" "reset script config file to default values"
   printHelpOptions
   printHelpFooter
 }

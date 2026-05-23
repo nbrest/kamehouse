@@ -237,7 +237,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-d (docker-defaults|docker-data|host-data)" "data source to reset data from"
+  addHelpOption "-d [docker-defaults|docker-data|host-data]" "data source to reset data from"
   addHelpOption "-k" "reinit .kamehouse folder only. doesn't reinit ssh keys or persisted data in the database"
   printDockerProfileOption
   addHelpOption "-s" "reinit ssh keys only. doesn't reinit .kamehouse folder or persisted data in the database"

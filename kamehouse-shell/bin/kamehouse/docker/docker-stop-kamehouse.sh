@@ -55,7 +55,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-c (container id)" "id of the container to stop"
+  addHelpOption "-c [container id]" "id of the container to stop"
   printDockerProfileOption
 }
 

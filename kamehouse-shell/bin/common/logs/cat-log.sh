@@ -58,7 +58,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-f file" "log file to cat"
-  addHelpOption "-l (ALL|TRACE|DEBUG|INFO|WARN|ERROR)" "log level"
+  addHelpOption "-l [ALL|TRACE|DEBUG|INFO|WARN|ERROR]" "log level"
 }
 
 main "$@"

@@ -234,7 +234,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-v (9.99)" "Release version" "r"
+  addHelpOption "-v [9.99]" "Release version" "r"
 }
 
 main "$@"

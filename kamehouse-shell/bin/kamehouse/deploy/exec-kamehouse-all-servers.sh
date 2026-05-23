@@ -123,8 +123,8 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-s (script)" "script to execute" "r"
-  addHelpOption "-a (args)" "script args"
+  addHelpOption "-s [script]" "script to execute" "r"
+  addHelpOption "-a [args]" "script args"
 }
 
 printHelpFooter() {
