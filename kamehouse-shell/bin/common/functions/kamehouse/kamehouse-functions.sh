@@ -39,11 +39,11 @@ IS_DEV_DEPLOYMENT="false"
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
 
-MODULES_LIST="(admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc)"
+MODULES_LIST="[admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc]"
 MODULE_SHORT=""
 MODULE=""
 
-MAVEN_PROFILES_LIST="(prod|qa|dev|docker|ci)"
+MAVEN_PROFILES_LIST="[prod|qa|dev|docker|ci]"
 DEFAULT_MAVEN_PROFILE="prod"
 MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
 
