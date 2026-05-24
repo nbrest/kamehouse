@@ -7,6 +7,7 @@
 
 #### v11.03
 
+- Added command line option to show script log
 - Added template for kamehouse shell script config file
 - Added command line option to edit and reset script config
 - Moved configs from kamehouse.cfg to script specific config files

@@ -70,6 +70,18 @@ parseResetScriptConfigArgument() {
   done
 }
 
+# Parse show script log
+parseShowScriptLogArgument() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      --log)
+        parseShowScriptLog
+        ;;
+    esac
+  done
+}
+
 # Default implementation of the function to parse command line arguments
 # Override this function in the scripts that source this file
 parseArguments() {
@@ -115,6 +127,7 @@ printHelp() {
   addHelpOption "-sc --show-config" "display script config file"
   addHelpOption "-ec --edit-config" "edit script config file"
   addHelpOption "-rc --reset-config" "reset script config file to default values"
+  addHelpOption "--log" "display script log from last run"
   printHelpOptions
   printHelpFooter
 }
@@ -163,6 +176,13 @@ createScriptConfigFile() {
   mkdir -p ${SCRIPT_CONFIG_PATH}
   cp -fv ${SCRIPT_CONFIG_TEMPLATE_FILE} ${SCRIPT_CONFIG_FILE}
   sed -i "s#---SCRIPT_NAME---#${SCRIPT_NAME}#g" "${SCRIPT_CONFIG_FILE}"
+}
+
+# Show script log and exit
+parseShowScriptLog() {
+  log.info "cat ${PROCESS_LOG_FILE}"
+  cat ${PROCESS_LOG_FILE}
+  exit ${EXIT_SUCCESS}
 }
 
 # Override in each script with the options specific to the script
@@ -244,6 +264,7 @@ main() {
   initKameHouseShellEnv
   configureKameHouseShell
   parseHelpArgument "$@"
+  parseShowScriptLogArgument "$@"
   parseScriptConfigArguments "$@"
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
