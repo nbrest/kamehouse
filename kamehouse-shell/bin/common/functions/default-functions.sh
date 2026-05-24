@@ -247,6 +247,13 @@ configureKameHouseShell() {
   setIsLinuxHost
 }
 
+# Rotate log file
+rotateLogs() {
+  if [ -f "${PROCESS_LOG_FILE}" ]; then
+    mv ${PROCESS_LOG_FILE} ${PROCESS_LOG_FILE}.old
+  fi
+}
+
 # Default main function wrapper. This should never be overriden
 mainWrapper() {
   logStart
@@ -271,6 +278,7 @@ main() {
     # set -o pipefail : if mainWrapper exits with != 0, echo $? will show the error code. With the default
     # behavior the pipe | swallows the error code and echo $? shows 0 from the tee command
     set -o pipefail
+    rotateLogs
     mainWrapper "$@" 2>&1 | tee ${PROCESS_LOG_FILE}
   else
     mainWrapper "$@"
