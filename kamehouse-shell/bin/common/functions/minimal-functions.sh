@@ -25,12 +25,13 @@ INITIAL_DIR="`pwd`"
 # Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
 # Override LOG_PROCESS_TO_FILE variable in the function initKameHouseShellEnv in the shell scripts
 LOG_PROCESS_TO_FILE=true
+PROCESS_LOG_DIR="${HOME}/logs"
 
 # Create logs dir
-mkdir -p ${HOME}/logs
+mkdir -p ${PROCESS_LOG_DIR}/old
 
 # File to log the output of the process to.
-PROCESS_LOG_FILE=${HOME}/logs/${SCRIPT_NAME_NO_EXT}.log
+PROCESS_LOG_FILE=${PROCESS_LOG_DIR}/${SCRIPT_NAME_NO_EXT}.log
 
 # Exit codes
 EXIT_SUCCESS=0

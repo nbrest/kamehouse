@@ -250,7 +250,7 @@ configureKameHouseShell() {
 # Rotate log file
 rotateLogs() {
   if [ -f "${PROCESS_LOG_FILE}" ]; then
-    mv ${PROCESS_LOG_FILE} ${PROCESS_LOG_FILE}.old
+    mv ${PROCESS_LOG_FILE} ${PROCESS_LOG_DIR}/old/
   fi
 }
 
