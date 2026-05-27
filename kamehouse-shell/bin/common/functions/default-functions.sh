@@ -180,8 +180,9 @@ createScriptConfigFile() {
 
 # Show script log and exit
 parseShowScriptLog() {
-  log.info "cat ${PROCESS_LOG_FILE}"
+  log.info "Start of ${PROCESS_LOG_FILE}"
   cat ${PROCESS_LOG_FILE}
+  log.info "End of ${PROCESS_LOG_FILE}"
   exit ${EXIT_SUCCESS}
 }
 
