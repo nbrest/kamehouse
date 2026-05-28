@@ -4,6 +4,11 @@ source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse common/functions/vlc/vlc-functions.sh
+importKamehouse common/functions/vlc/vlc-start-functions.sh
+
+setDefaultScriptConfig() {
+  setDefaultScriptConfigVlcStart
+}
 
 mainProcess() {
   setupLinuxEnvironment
