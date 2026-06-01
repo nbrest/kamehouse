@@ -70,6 +70,12 @@ parseResetScriptConfigArgument() {
   done
 }
 
+# Parse script log arguments
+parseScriptLogArguments() {
+  parseShowScriptLogArgument "$@"
+  parseTailScriptLogArgument "$@"
+}
+
 # Parse show script log
 parseShowScriptLogArgument() {
   local ARGS=("$@")
@@ -77,6 +83,18 @@ parseShowScriptLogArgument() {
     case "${ARGS[i]}" in
       --log)
         parseShowScriptLog
+        ;;
+    esac
+  done
+}
+
+# Parse tail script log
+parseTailScriptLogArgument() {
+  local ARGS=("$@")
+  for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+      --tail-log)
+        parseTailScriptLog
         ;;
     esac
   done
@@ -186,6 +204,14 @@ parseShowScriptLog() {
   exit ${EXIT_SUCCESS}
 }
 
+# Tail script log and exit
+parseTailScriptLog() {
+  log.info "Start of ${PROCESS_LOG_FILE}"
+  tail -n 100000 -f ${PROCESS_LOG_FILE}
+  log.info "End of ${PROCESS_LOG_FILE}"
+  exit ${EXIT_SUCCESS}
+}
+
 # Override in each script with the options specific to the script
 printHelpOptions() {
   return
@@ -272,7 +298,7 @@ main() {
   initKameHouseShellEnv
   configureKameHouseShell
   parseHelpArgument "$@"
-  parseShowScriptLogArgument "$@"
+  parseScriptLogArguments "$@"
   parseScriptConfigArguments "$@"
   if ${LOG_PROCESS_TO_FILE}; then
     # default: set +o pipefail
