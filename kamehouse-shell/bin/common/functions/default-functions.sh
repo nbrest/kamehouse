@@ -146,6 +146,7 @@ printHelp() {
   addHelpOption "-ec --edit-config" "edit script config file"
   addHelpOption "-rc --reset-config" "reset script config file to default values"
   addHelpOption "--log" "display script log from last run"
+  addHelpOption "--tail-log" "tail script log"
   printHelpOptions
   printHelpFooter
 }
