@@ -193,7 +193,7 @@ parseResetScriptConfig() {
 # Create script config file
 createScriptConfigFile() {
   mkdir -p ${SCRIPT_CONFIG_PATH}
-  cp -fv ${SCRIPT_CONFIG_TEMPLATE_FILE} ${SCRIPT_CONFIG_FILE}
+  cp -f ${SCRIPT_CONFIG_TEMPLATE_FILE} ${SCRIPT_CONFIG_FILE}
   sed -i "s#---SCRIPT_NAME---#${SCRIPT_NAME}#g" "${SCRIPT_CONFIG_FILE}"
 }
 
