@@ -28,7 +28,7 @@ class TailLogManager {
       logLevel = "";
     }    
     const params = {
-      script: "common/logs/cat-log.sh",
+      script: "cat/cat-log.sh",
       args: "-f "  + logFileName + " -l " + logLevel,
       executeOnDockerHost: executeOnDockerHost,
       isDaemon: isDaemon

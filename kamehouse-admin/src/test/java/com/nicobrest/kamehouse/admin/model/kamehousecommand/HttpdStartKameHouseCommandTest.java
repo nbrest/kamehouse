@@ -15,11 +15,11 @@ class HttpdStartKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "kamehouse/httpd/httpd-startup.sh";
+    return "httpd/httpd-startup.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "kamehouse/httpd/httpd-startup.sh";
+    return "httpd/httpd-startup.sh";
   }
 }

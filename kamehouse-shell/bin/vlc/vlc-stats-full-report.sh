@@ -20,7 +20,7 @@ mainProcess() {
 }
 
 showCurrentRunPlayedFilesSortedHeadTail() {
-  local PLAYLIST=`${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-get-current-run-played-files.sh --sort-alpha`
+  local PLAYLIST=`${HOME}/programs/kamehouse-shell/bin/vlc/vlc-get-current-run-played-files.sh --sort-alpha`
   echo "${PLAYLIST}" | head -n 10
   echo "..."
   echo "${PLAYLIST}" | tail -n 10  
@@ -37,7 +37,7 @@ showVlcLogsFiltered() {
 }
 
 showCurrentRunPlayedFilesHeadTail() {
-  local PLAYLIST=`${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-get-current-run-played-files.sh`
+  local PLAYLIST=`${HOME}/programs/kamehouse-shell/bin/vlc/vlc-get-current-run-played-files.sh`
   echo "${PLAYLIST}" | head -n 10
   echo "..."
   echo "${PLAYLIST}" | tail -n 10
@@ -62,7 +62,7 @@ showVlcStats() {
   else
     VLC_STATS_ARGS="${VLC_STATS_ARGS} -n 2"
   fi
-  ${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-stats.sh ${VLC_STATS_ARGS}
+  ${HOME}/programs/kamehouse-shell/bin/vlc/vlc-stats.sh ${VLC_STATS_ARGS}
 }
 
 showVlcLogsLastDrm() {

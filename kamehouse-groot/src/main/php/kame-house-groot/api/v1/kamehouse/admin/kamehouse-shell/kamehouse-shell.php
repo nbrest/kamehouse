@@ -106,7 +106,7 @@ class KameHouseShell {
     if ($kameHouse->core->isLinuxHost()) {
       $username = $kameHouse->core->getKameHouseUser();
       $envPrefix = $this->getEnvPrefix($username);
-      $command = $envPrefix . "/home/" . $username . "/programs/kamehouse-shell/bin/common/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . escapeshellarg($secretKey);
+      $command = $envPrefix . "/home/" . $username . "/programs/kamehouse-shell/bin/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . escapeshellarg($secretKey);
       return rtrim(shell_exec($command));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
@@ -126,7 +126,7 @@ class KameHouseShell {
    * Get the exec script to execute shell scripts on linux.
    */
   private function getExecScript() {
-    return $this->getShellScriptsBasePath() . "common/sudoers/www-data/exec-script.sh";
+    return $this->getShellScriptsBasePath() . "sudoers/www-data/exec-script.sh";
   }  
 
   /**
@@ -222,7 +222,7 @@ class KameHouseShell {
       $shellCommand = $envPrefix . $userHome . $execScript;
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c \"~" . $shellScriptsBasePath . "common/sudoers/www-data/exec-script.sh";
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c \"~" . $shellScriptsBasePath . "sudoers/www-data/exec-script.sh";
     }
     if ($executeOnDockerHost) {
       $shellCommand = $shellCommand . " --execute-on-docker-host";

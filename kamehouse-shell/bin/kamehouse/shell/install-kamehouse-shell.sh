@@ -160,7 +160,7 @@ updateUsername() {
   log.info "Updating username in kamehouse-shell scripts to ${COL_PURPLE}${USERNAME}"
 
   sed -i "s#USERHOME_LIN=\"/home/\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/kamehouse/deploy/set-userhome.sh"
-  sed -i "s#USERNAME=\"\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/sudoers/www-data/su.sh"
+  sed -i "s#USERNAME=\"\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/sudoers/www-data/su.sh"
   
   sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/kamehouse/kamehouse-functions.sh"
 
@@ -202,15 +202,15 @@ updateBashRc() {
   if [ ! -f "${HOME}/.bashrc" ]; then
     log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} not found. Creating one"
     echo "" > ${HOME}/.bashrc
-    echo "source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> ${HOME}/.bashrc
+    echo "source \${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
   else 
-    cat ${HOME}/.bashrc | grep "/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" > /dev/null
+    cat ${HOME}/.bashrc | grep "/programs/kamehouse-shell/bin/bashrc/bashrc.sh" > /dev/null
     if [ "$?" != "0" ]; then
       log.info "Adding bashrc/bashrc.sh to ${COL_PURPLE}${HOME}/.bashrc"
       echo "" >> ${HOME}/.bashrc
-      echo "source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh" >> ${HOME}/.bashrc
+      echo "source \${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
     else 
-      log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
+      log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
     fi
   fi
 }
@@ -243,7 +243,7 @@ getPathWithSubdirectories() {
   # List all directories
   local PATH_WITH_SUBDIRS=$(find ${BASE_PATH} -name '.*' -prune -o -type d)
   # Filter bashrc
-  PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /common/bashrc)
+  PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /bashrc)
   # Filter docker container scripts
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /kamehouse/docker/docker-container)
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /kamehouse/docker/release/java8-release/bin)

@@ -58,7 +58,7 @@ calculateCurrentRunStats() {
   fi
   MM_PLAYED=$((TOTAL_MINS_PLAYED - MM_PLAYED)) 
 
-  ${HOME}/programs/kamehouse-shell/bin/common/vlc/vlc-get-current-run-played-files.sh --quiet-mode
+  ${HOME}/programs/kamehouse-shell/bin/vlc/vlc-get-current-run-played-files.sh --quiet-mode
   LAST_PLAYED_FILE=`tail -n 1 "${VLC_CURRENT_RUN_PLAYED_FILES}" | sed 's#\\\#/#Ig'`
   NUM_FILES_PLAYED=`cat "${VLC_CURRENT_RUN_PLAYED_FILES}" | wc -l`
   NUM_FILES_PLAYED=$((NUM_FILES_PLAYED - 1)) # remove .m3u from count

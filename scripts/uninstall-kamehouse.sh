@@ -62,7 +62,7 @@ checkUninstalForRoot() {
 
 revertBashRc() {
   log.info "Reverting ${HOME}/.bashrc"
-  sed -i "s#source \${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh##Ig" "${HOME}/.bashrc"
+  sed -i "s#source \${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh##Ig" "${HOME}/.bashrc"
 }
 
 deleteTomcatWebapps() {

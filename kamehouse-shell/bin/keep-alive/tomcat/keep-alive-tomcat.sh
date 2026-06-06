@@ -8,7 +8,7 @@ importKamehouse common/functions/keep-alive/keep-alive-functions.sh
 initScriptEnv() {
   PORT=9090
   KEEP_ALIVE_SERVICE="tomcat"
-  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-restart.sh"
+  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-restart.sh"
 }
 
 setKeepAliveServicePidLin() {

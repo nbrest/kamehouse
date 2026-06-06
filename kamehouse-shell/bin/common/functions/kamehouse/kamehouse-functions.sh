@@ -354,7 +354,7 @@ executeSshCommand() {
   local SKIP_EXIT_CODE_CHECK=$1
   local SESSION_ID=$RANDOM
   if ${IS_REMOTE_LINUX_HOST}; then
-    SSH_COMMAND="source ~/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh ; "${SSH_COMMAND}
+    SSH_COMMAND="source ~/programs/kamehouse-shell/bin/bashrc/bashrc.sh ; "${SSH_COMMAND}
     log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"`
     SSH_EXIT_CODE=$?

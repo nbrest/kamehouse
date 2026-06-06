@@ -8,7 +8,7 @@ importKamehouse common/functions/keep-alive/keep-alive-functions.sh
 initScriptEnv() {
   PORT=443
   KEEP_ALIVE_SERVICE="httpd"
-  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/httpd/httpd-restart.sh"
+  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/httpd/httpd-restart.sh"
 }
 
 setKeepAliveServicePidLin() {

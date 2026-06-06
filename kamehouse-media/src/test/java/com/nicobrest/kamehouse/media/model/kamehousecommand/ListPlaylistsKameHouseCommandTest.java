@@ -15,11 +15,11 @@ class ListPlaylistsKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "kamehouse/media/list-playlists.sh";
+    return "media/list-playlists.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "kamehouse/media/list-playlists.sh";
+    return "media/list-playlists.sh";
   }
 }

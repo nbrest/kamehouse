@@ -37,7 +37,7 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "kamehouse/media/get-playlist-content.sh";
+    return "media/get-playlist-content.sh";
   }
 
   @Override
@@ -47,7 +47,7 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "kamehouse/media/get-playlist-content.sh";
+    return "media/get-playlist-content.sh";
   }
 
   @Override

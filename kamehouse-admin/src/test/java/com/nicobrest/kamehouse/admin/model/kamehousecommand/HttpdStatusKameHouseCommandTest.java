@@ -15,11 +15,11 @@ class HttpdStatusKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "kamehouse/httpd/httpd-status.sh";
+    return "httpd/httpd-status.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "kamehouse/httpd/httpd-status.sh";
+    return "httpd/httpd-status.sh";
   }
 }

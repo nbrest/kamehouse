@@ -18,7 +18,7 @@ mainProcess() {
   SCRIPTS_PATH=$(find ${BASE_DIR} -name '.*' -prune -o -type f)
 
   # Filter bashrc
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /common/bashrc) 
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /bashrc) 
   # Filter docker container scripts
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/docker-container)
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java8-release/bin)

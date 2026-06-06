@@ -153,16 +153,16 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh -s
 
 * [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
-* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/kamehouse/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
+* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
 
 * Then start both tomcat and apache to access kamehouse at http://localhost/kame-house or https://localhost/kame-house
 
 * From a new bash terminal access KameHouse CMD module through `kamehouse-cmd.sh` and all other kamehouse-shell scripts
 
-* All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh`
+* All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh`
 
 **WARNING**
-The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/common/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](/scripts/uninstall-kamehouse.sh) script
+The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](/scripts/uninstall-kamehouse.sh) script
 
 * Follow the [Execution](/docs/execution/execution.md) guide to run kamehouse
 

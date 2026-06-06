@@ -49,36 +49,36 @@ Right click on toolbar > Customize
     - Windows:
       - Name: start-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: start-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-startup-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup-dev.sh
       - Working directory: 
       
   ### `stop-tomcat`
     - Windows:
       - Name: stop-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: stop-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop-dev.sh
       - Working directory: 
 
   ### `status-tomcat`
     - Windows:
       - Name: status-tomcat
       - Program: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-status-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: status-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-status-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status-dev.sh
       - Working directory: 
 
 ## Start tomcat: 

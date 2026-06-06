@@ -113,7 +113,7 @@ createSamplePlaylists() {
     return
   fi
   log.info "Setting up sample playlists"
-  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/media/create-sample-video-playlists.sh"
+  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/media/create-sample-video-playlists.sh"
 }
 
 configureSudoers() {

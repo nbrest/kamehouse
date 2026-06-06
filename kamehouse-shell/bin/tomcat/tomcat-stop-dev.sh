@@ -9,7 +9,7 @@ initKameHouseShellEnv() {
 }
 
 mainProcess() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop.sh -p ${DEFAULT_TOMCAT_DEV_PORT}
+  ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop.sh -p ${DEFAULT_TOMCAT_DEV_PORT}
 }
 
 main "$@"
