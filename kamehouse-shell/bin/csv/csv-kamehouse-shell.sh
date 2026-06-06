@@ -20,11 +20,11 @@ mainProcess() {
   # Filter bashrc
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /bashrc) 
   # Filter docker container scripts
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/docker-container)
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java8-release/bin)
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java8-release/docker)
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java11-release/bin)
-  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /kamehouse/docker/release/java11-release/docker)    
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/docker-container)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java8-release/bin)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java8-release/docker)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java11-release/bin)
+  SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java11-release/docker)    
   # Filter win/lin paths
   if ${IS_LINUX_HOST}; then
     SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/win/') 

@@ -69,11 +69,11 @@ checkPath() {
 }
 
 installKameHouseShell() {
-  chmod a+x kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
+  chmod a+x kamehouse-shell/bin/shell/install-kamehouse-shell.sh
   if ${KAMEHOUSE_SHELL_SCRIPTS_ONLY}; then
-    ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh -o
+    ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh -o
   else
-    ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
+    ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh
   fi  
 }
 
@@ -115,21 +115,21 @@ buildKameHouseConfigDir() {
 setSudoersPermissions() {
   log.info "Setting sudoers permissions"
   local KAMEHOUSE_USER=`whoami`
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+  ${HOME}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
 }
 
 installKameHouseGroot() {
   log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
   local KAMEHOUSE_USER=`whoami`
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER}
+  ${HOME}/programs/kamehouse-shell/bin/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER}
 }
 
 deployKameHouse() {
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
 }
 
 logInstallRootMessage() {
-  log.info "${COL_YELLOW}OPTIONAL:${COL_MESSAGE} If running on ${COL_PURPLE}linux${COL_MESSAGE}, setup ${COL_PURPLE}root${COL_MESSAGE} account to use kamehouse-shell as well by running the script ${COL_PURPLE}\${HOME}/programs/kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell-root.sh as ${COL_PURPLE}root${COL_MESSAGE}"
+  log.info "${COL_YELLOW}OPTIONAL:${COL_MESSAGE} If running on ${COL_PURPLE}linux${COL_MESSAGE}, setup ${COL_PURPLE}root${COL_MESSAGE} account to use kamehouse-shell as well by running the script ${COL_PURPLE}\${HOME}/programs/kamehouse-shell/bin/shell/install-kamehouse-shell-root.sh as ${COL_PURPLE}root${COL_MESSAGE}"
 }
 
 log.info() {

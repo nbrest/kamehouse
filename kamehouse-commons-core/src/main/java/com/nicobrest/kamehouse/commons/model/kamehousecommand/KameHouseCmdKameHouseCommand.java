@@ -20,7 +20,7 @@ public abstract class KameHouseCmdKameHouseCommand extends KameHouseShellScript 
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "kamehouse/cmd/kamehouse-cmd.sh";
+    return "cmd/kamehouse-cmd.sh";
   }
 
   @Override
@@ -34,7 +34,7 @@ public abstract class KameHouseCmdKameHouseCommand extends KameHouseShellScript 
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "kamehouse/cmd/kamehouse-cmd.sh";
+    return "cmd/kamehouse-cmd.sh";
   }
 
   @Override

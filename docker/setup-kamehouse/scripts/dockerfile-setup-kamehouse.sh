@@ -76,8 +76,8 @@ setupGitRepo() {
 
 installKameHouseShell() {
   log.info "Installing kamehouse shell"
-  suCmd "chmod a+x /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh"
-  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh"
+  suCmd "chmod a+x /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/bin/shell/install-kamehouse-shell.sh"
+  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh"
 }
 
 setContainerDefaults() {
@@ -85,17 +85,17 @@ setContainerDefaults() {
     return
   fi
   log.info "Setting up container defaults"
-  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
+  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
 }
 
 deployKameHouse() {
   log.info "Deploying kamehouse"
   if ${IS_OUTSIDE_DOCKERFILE}; then
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -m shell" 
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c"
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c"
   else
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/deploy-kamehouse.sh -c -p docker"
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker"
   fi
 }
 
@@ -118,12 +118,12 @@ createSamplePlaylists() {
 
 configureSudoers() {
   log.info "Setting up sudoers"
-  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
 }
 
 installGroot() {
   log.info "Installing groot"
-  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/kamehouse/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER} 
+  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER} 
 }
 
 configureMariadb() {

@@ -37,7 +37,7 @@ chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 
 You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub. If you do have the image locally already, this will pull the latest changes to the image from docker hub
 
-Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-pull-kamehouse.sh`
+Execute the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-pull-kamehouse.sh`
 
 *********************
 
@@ -55,7 +55,7 @@ vegeta:trunks (guest)
 
 ## Run the image
 
-Execute the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh -p demo` 
+Execute the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p demo` 
 
 - Execute the script with `-h` to see all the profiles and options
 
@@ -67,7 +67,7 @@ After that, once the init script finishes deploying kamehouse to tomcat in the c
 
 You can also access kamehouse groot at [https://localhost:12443/kame-house/groot/](https://localhost:12443/kame-house/groot/) or [http://localhost:12080/kame-house/groot/](http://localhost:12080/kame-house/groot/) and login to groot with the admin user mentioned above
 
-You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` 
+You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` 
 
 In the container console, you can run the following scripts:
 
@@ -89,7 +89,7 @@ deploy-kamehouse.sh -c
 
 ## Check the status
 
-- Check the status of the docker containers, images and volumes in the system with the command `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-status-kamehouse.sh`
+- Check the status of the docker containers, images and volumes in the system with the command `${HOME}/programs/kamehouse-shell/bin/docker/docker-status-kamehouse.sh`
 
 ```sh
 docker container list
@@ -101,7 +101,7 @@ docker volume ls
 
 ## Stopping the container
 
-Use the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-stop-kamehouse.sh -p demo`
+Use the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p demo`
 
 *********************
 
@@ -109,7 +109,7 @@ Use the script `${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-sto
 
 If for any reason you can't pull the image from docker hub, you can build it manually. At the root of the project there's a Dockerfile that can be used to build the image to run kamehouse in a container
 
-At the root of the project execute the script `./kamehouse-shell/bin/kamehouse/docker/docker-build-kamehouse.sh`
+At the root of the project execute the script `./kamehouse-shell/bin/docker/docker-build-kamehouse.sh`
 
 You can then run the image as mentioned above 
 

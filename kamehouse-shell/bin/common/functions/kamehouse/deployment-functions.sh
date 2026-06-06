@@ -62,8 +62,8 @@ deployKameHouseShell() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
-  chmod a+x kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh
-  ./kamehouse-shell/bin/kamehouse/shell/install-kamehouse-shell.sh -l ${LOG_LEVEL}
+  chmod a+x kamehouse-shell/bin/shell/install-kamehouse-shell.sh
+  ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh -l ${LOG_LEVEL}
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
@@ -82,8 +82,8 @@ deployKameHouseSnape() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
-  chmod a+x kamehouse-shell/bin/kamehouse/snape/install-kamehouse-snape.sh
-  ./kamehouse-shell/bin/kamehouse/snape/install-kamehouse-snape.sh
+  chmod a+x kamehouse-shell/bin/snape/install-kamehouse-snape.sh
+  ./kamehouse-shell/bin/snape/install-kamehouse-snape.sh
   checkCommandStatus "$?" "An error occurred deploying kamehouse-snape"
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
@@ -102,8 +102,8 @@ deployKameHouseDesktop() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
-  chmod a+x kamehouse-shell/bin/kamehouse/desktop/install-kamehouse-desktop.sh
-  ./kamehouse-shell/bin/kamehouse/desktop/install-kamehouse-desktop.sh
+  chmod a+x kamehouse-shell/bin/desktop/install-kamehouse-desktop.sh
+  ./kamehouse-shell/bin/desktop/install-kamehouse-desktop.sh
   checkCommandStatus "$?" "An error occurred deploying kamehouse-desktop"
 
   log.info "Finished deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
@@ -119,7 +119,7 @@ restartKameHouseDesktop() {
     return
   fi
   log.info "Restarting ${COL_PURPLE}kamehouse-desktop"
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-restart.sh > /dev/null 2>&1 &
+  ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh > /dev/null 2>&1 &
 }
 
 deployKameHouseGroot() {
@@ -266,14 +266,14 @@ uploadKameHouseMobileApkToHttpdServer() {
   SSH_COMMAND="chmod a+rx ${KAMEHOUSE_MOBILE_APP_SERVER_PATH}/kamehouse.apk"
   executeSshCommand
   
-  SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/kamehouse/mobile/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
+  SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
   executeSshCommand
 }
 
 uploadKameHouseMobileApkToGDrive() {
   mkdir -p ${HOME}/temp
   cp -f ${KAMEHOUSE_ANDROID_APK_PATH} ${HOME}/temp/kamehouse.apk
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/snape/snape.sh upload_kamehouse_mobile_to_gdrive
+  ${HOME}/programs/kamehouse-shell/bin/snape/snape.sh upload_kamehouse_mobile_to_gdrive
 }
 
 deployKameHouseStatic() {

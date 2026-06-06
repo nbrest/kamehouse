@@ -8,7 +8,7 @@ importKamehouse common/functions/kamehouse/docker-functions.sh
 
 initScriptEnv() {
   KEEP_ALIVE_SERVICE="kamehouse-docker"
-  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/docker/docker-run-kamehouse.sh"
+  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/docker/docker-run-kamehouse.sh"
   DEFAULT_DOCKER_PROFILE="prod"
   DOCKER_PORT_HTTP=${DOCKER_PORT_HTTP_PROD}
   DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"

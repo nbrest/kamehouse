@@ -12,7 +12,7 @@ initKameHouseShellEnv() {
 
 initScriptEnv() {
   KEEP_ALIVE_SERVICE="kamehouse-desktop"
-  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-startup.sh"
+  KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-startup.sh"
 }
 
 setKeepAliveServicePidLin() {

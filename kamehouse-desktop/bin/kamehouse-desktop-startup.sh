@@ -23,7 +23,7 @@ mainProcess() {
 startKameHouseDesktop() {
   log.info "Starting ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} version:"
   echo -ne "${COL_YELLOW_STD}     "
-  ${HOME}/programs/kamehouse-shell/bin/kamehouse/desktop/kamehouse-desktop-version.sh
+  ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
   echo -ne "${COL_NORMAL}"
   cd ${HOME}/programs/kamehouse-desktop
   export OPENWEATHERMAP_API_KEY=${OPENWEATHERMAP_API_KEY}

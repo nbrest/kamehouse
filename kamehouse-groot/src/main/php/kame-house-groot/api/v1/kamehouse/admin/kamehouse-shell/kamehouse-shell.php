@@ -106,11 +106,11 @@ class KameHouseShell {
     if ($kameHouse->core->isLinuxHost()) {
       $username = $kameHouse->core->getKameHouseUser();
       $envPrefix = $this->getEnvPrefix($username);
-      $command = $envPrefix . "/home/" . $username . "/programs/kamehouse-shell/bin/sudoers/www-data/su.sh kamehouse/secrets/get-kamehouse-secret.sh -s " . escapeshellarg($secretKey);
+      $command = $envPrefix . "/home/" . $username . "/programs/kamehouse-shell/bin/sudoers/www-data/su.sh secrets/get-kamehouse-secret.sh -s " . escapeshellarg($secretKey);
       return rtrim(shell_exec($command));
     } else {
       $shellScriptsBasePath = $this->getShellScriptsBasePath();
-      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash-silent.bat -c \". /etc/profile ; ~" . $shellScriptsBasePath . "kamehouse/secrets/get-kamehouse-secret.sh -s " . $secretKey . "\"";
+      $shellCommand = "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash-silent.bat -c \". /etc/profile ; ~" . $shellScriptsBasePath . "secrets/get-kamehouse-secret.sh -s " . $secretKey . "\"";
       return rtrim(shell_exec($shellCommand));
     }
   } 

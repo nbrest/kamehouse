@@ -1,0 +1,19 @@
+#!/bin/bash
+
+source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
+
+importKamehouse common/functions/kamehouse/docker-functions.sh
+
+mainProcess() {
+  checkDockerScripsEnabled
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-pull-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p prod
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p demo
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p dev
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p ci
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-cleanup-kamehouse.sh
+  ${HOME}/programs/kamehouse-shell/bin/docker/docker-status-kamehouse.sh
+}
+
+main "$@"
