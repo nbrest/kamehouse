@@ -8,10 +8,7 @@
  */
 class GrootServerManager {
 
-  #isLinuxHost = false;
-  #isLinuxDockerHost = false;
   #isDockerContainer = false;
-  #dockerControlHost = false;
   #isCommandRunningFlag = false;
 
   /**
@@ -140,10 +137,7 @@ class GrootServerManager {
   /** Handle Session Status */
   #handleSessionStatus() {
     const sessionStatus = kameHouse.extension.groot.session;
-    this.#isLinuxHost = sessionStatus.isLinuxHost;
-    this.#isLinuxDockerHost = sessionStatus.isLinuxDockerHost;
     this.#isDockerContainer = sessionStatus.isDockerContainer;
-    this.#dockerControlHost = sessionStatus.dockerControlHost;
   }
 
   /**
