@@ -20,7 +20,7 @@ initScriptEnv() {
   FILE_ARG=""
   FOLLOW="-F"
   LOG_LEVEL_ARG=""
-  NUM_LINES_ARG="0"
+  NUM_LINES_ARG="100000"
   FILTER_EXTRA_LINES=false
 
   # Global variables set during the process
@@ -86,8 +86,8 @@ setTailLogParameters() {
   "tomcat-dev")
     setTomcatDevLogFiles
     ;;
-  logs/*.log)
-    addFileToLogFiles "${HOME}/${FILE_ARG}"
+  *.log)
+    addFileToLogFiles "${HOME}/logs/${FILE_ARG}"
     ;;
   *)
     ;;
@@ -185,7 +185,7 @@ setFileArg() {
   FILE_ARG=$1
   # Turn argument to lowercase
   FILE_ARG=$(echo "${FILE_ARG}" | tr '[:upper:]' '[:lower:]')
-  local LOGS_REGEX=^logs/.*\.log$
+  local LOGS_REGEX=^.*\.log$
   if [ "${FILE_ARG}" != "apache" ] &&
     [ "${FILE_ARG}" != "apache-error" ] &&
     [ "${FILE_ARG}" != "build" ] &&
@@ -242,7 +242,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|tomcat-dev|logs/*.log]" "log file to tail" "r"
+  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|tomcat-dev|*.log]" "log file to tail" "r"
   addHelpOption "-l [trace|debug|info|warn|error]" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n [lines]" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   addHelpOption "-q" "quit after tailing once. Don't follow log"
