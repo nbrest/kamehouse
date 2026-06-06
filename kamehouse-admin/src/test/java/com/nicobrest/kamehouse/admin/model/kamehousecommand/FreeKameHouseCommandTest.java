@@ -15,11 +15,11 @@ class FreeKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/free.sh";
+    return "sysadmin/free.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/free.sh";
+    return "sysadmin/free.sh";
   }
 }

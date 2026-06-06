@@ -15,11 +15,11 @@ class RebootKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/shutdown/reboot.sh";
+    return "shutdown/reboot.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/shutdown/reboot.sh";
+    return "shutdown/reboot.sh";
   }
 }

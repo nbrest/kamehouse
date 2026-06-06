@@ -15,11 +15,11 @@ class SuspendKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/shutdown/suspend.sh";
+    return "shutdown/suspend.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/shutdown/suspend.sh";
+    return "shutdown/suspend.sh";
   }
 }

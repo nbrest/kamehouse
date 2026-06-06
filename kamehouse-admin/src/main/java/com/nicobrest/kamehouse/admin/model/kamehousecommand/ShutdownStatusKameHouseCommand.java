@@ -16,11 +16,11 @@ public class ShutdownStatusKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/shutdown/shutdown-status.sh";
+    return "shutdown/shutdown-status.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/shutdown/shutdown-status.sh";
+    return "shutdown/shutdown-status.sh";
   }
 }

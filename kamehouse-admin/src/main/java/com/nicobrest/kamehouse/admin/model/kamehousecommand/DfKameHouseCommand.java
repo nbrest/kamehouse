@@ -21,11 +21,11 @@ public class DfKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/sysadmin/df.sh";
+    return "sysadmin/df.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/sysadmin/df.sh";
+    return "sysadmin/df.sh";
   }
 }

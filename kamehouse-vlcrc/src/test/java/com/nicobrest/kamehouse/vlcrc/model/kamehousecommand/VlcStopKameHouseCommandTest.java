@@ -15,11 +15,11 @@ class VlcStopKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/vlc/vlc-stop.sh";
+    return "vlc/vlc-stop.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/vlc/vlc-stop.sh";
+    return "vlc/vlc-stop.sh";
   }
 }

@@ -21,11 +21,11 @@ public class TopKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/sysadmin/top.sh";
+    return "sysadmin/top.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/sysadmin/top.sh";
+    return "sysadmin/top.sh";
   }
 }

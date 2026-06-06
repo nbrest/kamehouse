@@ -21,11 +21,11 @@ public class ScreenLockKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/screen/screen-lock.sh";
+    return "screen/screen-lock.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/screen/screen-lock.sh";
+    return "screen/screen-lock.sh";
   }
 }

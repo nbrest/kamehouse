@@ -15,11 +15,11 @@ class ShutdownStatusKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/shutdown/shutdown-status.sh";
+    return "shutdown/shutdown-status.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/shutdown/shutdown-status.sh";
+    return "shutdown/shutdown-status.sh";
   }
 }

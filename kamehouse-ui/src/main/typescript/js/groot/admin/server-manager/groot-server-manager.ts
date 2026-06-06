@@ -101,31 +101,6 @@ class GrootServerManager {
   }
 
   /**
-   * Get host os.
-   */
-  getHostOs() {
-    if (this.#isLinuxHost) {
-      return "lin";
-    } else {
-      return "win";
-    }
-  }
-
-  /**
-   * Get the os to execute the command on, considering if it's running inside a docker container.
-   */
-  getExecutionOs() {
-    if (this.#isDockerContainer && this.#dockerControlHost) {
-      if (this.#isLinuxDockerHost) {
-        return "lin";
-      } else {
-        return "win";
-      }
-    }
-    return this.getHostOs();
-  }
-
-  /**
    * Open modal to confirm reboot.
    */
   confirmRebootServer() {
@@ -176,8 +151,7 @@ class GrootServerManager {
    */
   #rebootServer() {
     kameHouse.plugin.modal.basicModal.close();
-    const hostOs = this.getExecutionOs();
-    this.executeShellScript(hostOs + '/shutdown/reboot.sh', "");
+    this.executeShellScript('/shutdown/reboot.sh', "");
   }
 
   /**
@@ -318,9 +292,8 @@ class DeploymentManager {
    * Get the tomcat process status.
    */
   getTomcatProcessStatus() {
-    const hostOs = kameHouse.extension.serverManager.getHostOs();
     const args = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute(hostOs + '/kamehouse/tomcat-status.sh', args, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('/kamehouse/tomcat/tomcat-status.sh', args, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
   }
   
   /**

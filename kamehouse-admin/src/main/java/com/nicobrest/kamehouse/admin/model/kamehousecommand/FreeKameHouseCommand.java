@@ -21,11 +21,11 @@ public class FreeKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/sysadmin/free.sh";
+    return "sysadmin/free.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/sysadmin/free.sh";
+    return "sysadmin/free.sh";
   }
 }

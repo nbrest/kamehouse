@@ -21,11 +21,11 @@ public class UptimeKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/sysadmin/uptime.sh";
+    return "sysadmin/uptime.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/sysadmin/uptime.sh";
+    return "sysadmin/uptime.sh";
   }
 }

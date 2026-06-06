@@ -73,12 +73,12 @@ Right click on toolbar > Customize
     - Windows:
       - Name: status-tomcat
       - Program: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/win/kamehouse/tomcat-status-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-status-dev.sh'"
       - Working directory: 
     - Linux:
       - Name: status-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-status-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-status-dev.sh
       - Working directory: 
 
 ## Start tomcat: 

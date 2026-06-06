@@ -102,11 +102,11 @@
       - Windows:
         - location: C:\Windows\System32\cmd.exe
         - working directory: 
-        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '~/programs/kamehouse-shell/bin/win/kamehouse/tomcat-status-dev.sh'"
+        - arguments: "/c %USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-status-dev.sh'"
       - Linux:
         - location: /bin/bash
         - working directory: 
-        - arguments: -c '~/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-status-dev.sh'
+        - arguments: -c '~/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-status-dev.sh'
     - Common tab:
       - display in favorites menu > External tools: check
 

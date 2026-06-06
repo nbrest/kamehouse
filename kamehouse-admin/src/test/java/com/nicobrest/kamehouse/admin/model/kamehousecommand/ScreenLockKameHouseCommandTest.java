@@ -15,11 +15,11 @@ class ScreenLockKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/screen/screen-lock.sh";
+    return "screen/screen-lock.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/screen/screen-lock.sh";
+    return "screen/screen-lock.sh";
   }
 }

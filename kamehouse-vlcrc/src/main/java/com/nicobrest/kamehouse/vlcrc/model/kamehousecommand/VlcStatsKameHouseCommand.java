@@ -28,7 +28,7 @@ public class VlcStatsKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "common/vlc/vlc-stats.sh";
+    return "vlc/vlc-stats.sh";
   }
 
   @Override
@@ -41,7 +41,7 @@ public class VlcStatsKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "common/vlc/vlc-stats.sh";
+    return "vlc/vlc-stats.sh";
   }
 
   @Override

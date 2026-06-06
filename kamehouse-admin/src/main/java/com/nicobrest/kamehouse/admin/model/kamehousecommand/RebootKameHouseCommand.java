@@ -16,11 +16,11 @@ public class RebootKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/shutdown/reboot.sh";
+    return "shutdown/reboot.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/shutdown/reboot.sh";
+    return "shutdown/reboot.sh";
   }
 }

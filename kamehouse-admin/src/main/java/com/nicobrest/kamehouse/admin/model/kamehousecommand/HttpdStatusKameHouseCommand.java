@@ -16,11 +16,11 @@ public class HttpdStatusKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/kamehouse/httpd-status.sh";
+    return "kamehouse/httpd/httpd-status.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/kamehouse/httpd-status.sh";
+    return "kamehouse/httpd/httpd-status.sh";
   }
 }

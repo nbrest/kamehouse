@@ -9,11 +9,7 @@ initKameHouseShellEnv() {
 }
 
 mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    ${HOME}/programs/kamehouse-shell/bin/lin/kamehouse/tomcat-stop.sh -p ${DEFAULT_TOMCAT_DEV_PORT}
-  else
-    ${HOME}/programs/kamehouse-shell/bin/win/kamehouse/tomcat-stop.sh -p ${DEFAULT_TOMCAT_DEV_PORT}
-  fi
+  ${HOME}/programs/kamehouse-shell/bin/kamehouse/tomcat/tomcat-stop.sh -p ${DEFAULT_TOMCAT_DEV_PORT}
 }
 
 main "$@"

@@ -29,7 +29,7 @@ public class VlcStatsFullReportKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "common/vlc/vlc-stats-full-report.sh";
+    return "vlc/vlc-stats-full-report.sh";
   }
 
   @Override
@@ -42,7 +42,7 @@ public class VlcStatsFullReportKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "common/vlc/vlc-stats-full-report.sh";
+    return "vlc/vlc-stats-full-report.sh";
   }
 
   @Override

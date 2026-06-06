@@ -15,11 +15,11 @@ class VlcStatsFullReportKameHouseCommandTest extends AbstractKameHouseCommandTes
 
   @Override
   protected String getWindowsShellCommand() {
-    return "common/vlc/vlc-stats-full-report.sh --show-history-file-only";
+    return "vlc/vlc-stats-full-report.sh --show-history-file-only";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "common/vlc/vlc-stats-full-report.sh --show-history-file-only";
+    return "vlc/vlc-stats-full-report.sh --show-history-file-only";
   }
 }

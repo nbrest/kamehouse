@@ -16,11 +16,11 @@ public class VlcStatusKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/vlc/vlc-status.sh";
+    return "vlc/vlc-status.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/vlc/vlc-status.sh";
+    return "vlc/vlc-status.sh";
   }
 }

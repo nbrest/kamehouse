@@ -15,11 +15,11 @@ class VlcStartKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/vlc/vlc-start.sh -f file.mkv";
+    return "vlc/vlc-start.sh -f file.mkv";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/vlc/vlc-start.sh -f file.mkv";
+    return "vlc/vlc-start.sh -f file.mkv";
   }
 }

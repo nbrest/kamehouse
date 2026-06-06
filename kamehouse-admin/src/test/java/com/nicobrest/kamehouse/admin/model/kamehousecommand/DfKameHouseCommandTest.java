@@ -15,11 +15,11 @@ class DfKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/df.sh";
+    return "sysadmin/df.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/df.sh";
+    return "sysadmin/df.sh";
   }
 }

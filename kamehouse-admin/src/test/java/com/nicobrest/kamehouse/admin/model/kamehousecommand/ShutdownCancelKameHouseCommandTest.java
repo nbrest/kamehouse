@@ -15,11 +15,11 @@ class ShutdownCancelKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/shutdown/shutdown-cancel.sh";
+    return "shutdown/shutdown-cancel.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/shutdown/shutdown-cancel.sh";
+    return "shutdown/shutdown-cancel.sh";
   }
 }

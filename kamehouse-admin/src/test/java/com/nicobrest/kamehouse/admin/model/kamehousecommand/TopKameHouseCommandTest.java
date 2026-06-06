@@ -15,11 +15,11 @@ class TopKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/top.sh";
+    return "sysadmin/top.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/top.sh";
+    return "sysadmin/top.sh";
   }
 }

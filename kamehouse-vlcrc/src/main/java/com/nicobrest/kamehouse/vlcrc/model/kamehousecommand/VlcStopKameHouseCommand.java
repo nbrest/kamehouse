@@ -29,11 +29,11 @@ public class VlcStopKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/vlc/vlc-stop.sh";
+    return "vlc/vlc-stop.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/vlc/vlc-stop.sh";
+    return "vlc/vlc-stop.sh";
   }
 }

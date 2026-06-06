@@ -15,11 +15,11 @@ class UptimeKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/sysadmin/uptime.sh";
+    return "sysadmin/uptime.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/sysadmin/uptime.sh";
+    return "sysadmin/uptime.sh";
   }
 }

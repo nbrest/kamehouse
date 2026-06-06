@@ -21,11 +21,11 @@ public class ShutdownCancelKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/shutdown/shutdown-cancel.sh";
+    return "shutdown/shutdown-cancel.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/shutdown/shutdown-cancel.sh";
+    return "shutdown/shutdown-cancel.sh";
   }
 }

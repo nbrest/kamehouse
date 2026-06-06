@@ -21,11 +21,11 @@ public class HttpdStopKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/kamehouse/httpd-stop.sh";
+    return "kamehouse/httpd/httpd-stop.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/kamehouse/httpd-stop.sh";
+    return "kamehouse/httpd/httpd-stop.sh";
   }
 }

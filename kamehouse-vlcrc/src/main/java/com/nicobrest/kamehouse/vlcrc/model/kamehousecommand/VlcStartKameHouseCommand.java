@@ -44,7 +44,7 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/vlc/vlc-start.sh";
+    return "vlc/vlc-start.sh";
   }
 
   @Override
@@ -54,7 +54,7 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/vlc/vlc-start.sh";
+    return "vlc/vlc-start.sh";
   }
 
   @Override

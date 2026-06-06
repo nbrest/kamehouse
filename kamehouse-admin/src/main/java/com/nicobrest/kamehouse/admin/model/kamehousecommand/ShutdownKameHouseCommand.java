@@ -37,17 +37,17 @@ public class ShutdownKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/shutdown/shutdown.sh";
+    return "shutdown/shutdown.sh";
   }
 
   @Override
   protected List<String> getWindowsKameHouseShellScriptArguments() {
-    return List.of("-s", "-t", String.valueOf(shutdownDelaySeconds));
+    return List.of("-s", "-d", String.valueOf(shutdownDelaySeconds));
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/shutdown/shutdown.sh";
+    return "shutdown/shutdown.sh";
   }
 
   @Override

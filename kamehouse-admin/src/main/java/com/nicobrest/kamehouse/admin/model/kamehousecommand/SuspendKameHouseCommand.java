@@ -21,11 +21,11 @@ public class SuspendKameHouseCommand extends KameHouseShellScript {
 
   @Override
   protected String getWindowsKameHouseShellScript() {
-    return "win/shutdown/suspend.sh";
+    return "shutdown/suspend.sh";
   }
 
   @Override
   protected String getLinuxKameHouseShellScript() {
-    return "lin/shutdown/suspend.sh";
+    return "shutdown/suspend.sh";
   }
 }

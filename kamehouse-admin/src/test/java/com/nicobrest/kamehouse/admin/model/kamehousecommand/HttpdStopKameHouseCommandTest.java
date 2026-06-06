@@ -15,11 +15,11 @@ class HttpdStopKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected String getWindowsShellCommand() {
-    return "win/kamehouse/httpd-stop.sh";
+    return "kamehouse/httpd/httpd-stop.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "lin/kamehouse/httpd-stop.sh";
+    return "kamehouse/httpd/httpd-stop.sh";
   }
 }
