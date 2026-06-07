@@ -2,10 +2,10 @@
 
 # Fix websockets reconnecting constantly
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
-importKamehouse common/functions/vlc/vlc-functions.sh
+importKamehouse functions/vlc/vlc-functions.sh
 
 initScriptEnv() {
   DEFAULT_VLC_PORT="8080"

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/common-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
-importKamehouse common/functions/kamehouse/docker/release/java11-release-functions.sh
+importKamehouse functions/docker/release/java11-release-functions.sh
 
 mainProcess() {
   log.info "Stopping container kamehouse-${DOCKER_IMAGE_TAG}"

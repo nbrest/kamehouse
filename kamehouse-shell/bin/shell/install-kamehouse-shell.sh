@@ -162,7 +162,7 @@ updateUsername() {
   sed -i "s#USERHOME_LIN=\"/home/\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/deploy/set-userhome.sh"
   sed -i "s#USERNAME=\"\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/sudoers/www-data/su.sh"
   
-  sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/kamehouse/kamehouse-functions.sh"
+  sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/functions/kamehouse/kamehouse-functions.sh"
 
   sed -i "s#KAMEHOUSE_USER=\"\"#KAMEHOUSE_USER=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/startup/kamehouse-startup-service.sh"
   sed -i "s#KAMEHOUSE_USER#${USERNAME}#g" "${KAMEHOUSE_SHELL_PATH}/bin/startup/kamehouse-startup.service"
@@ -194,7 +194,7 @@ updateLogLevel() {
   if [ "${LEVEL}" == "DISABLED" ]; then
     LEVEL_NUMBER="0"
   fi  
-  sed -i "s#LOG_LEVEL_NUMBER=3#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/common/functions/log-functions.sh"
+  sed -i "s#LOG_LEVEL_NUMBER=3#LOG_LEVEL_NUMBER=${LEVEL_NUMBER}#g" "${KAMEHOUSE_SHELL_PATH}/bin/functions/log-functions.sh"
 }
 
 updateBashRc() {

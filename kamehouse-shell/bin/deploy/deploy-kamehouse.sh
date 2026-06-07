@@ -1,11 +1,11 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-importKamehouse common/functions/kamehouse/docker-functions.sh
-importKamehouse common/functions/kamehouse/build-functions.sh
-importKamehouse common/functions/kamehouse/deployment-functions.sh
+importKamehouse functions/docker/docker-functions.sh
+importKamehouse functions/deploy/build-functions.sh
+importKamehouse functions/deploy/deployment-functions.sh
 
 initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true

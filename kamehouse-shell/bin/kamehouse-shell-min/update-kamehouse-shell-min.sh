@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
@@ -25,17 +25,17 @@ pullChangesFromGit() {
 updateKameHouseShellMin() {
   log.info "Updating kamehouse-shell-min source files from ${COL_PURPLE}${SRC_PROJECT_DIR}"
   rm -rf ${PROJECT_DIR}/bin
-  mkdir -p ${PROJECT_DIR}/bin/common/functions
-  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/colors-functions.sh ${PROJECT_DIR}/bin/common/functions/
-  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/common-functions.sh ${PROJECT_DIR}/bin/common/functions/
-  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/default-functions.sh ${PROJECT_DIR}/bin/common/functions/
-  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/log-functions.sh ${PROJECT_DIR}/bin/common/functions/
-  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/common/functions/minimal-functions.sh ${PROJECT_DIR}/bin/common/functions/
+  mkdir -p ${PROJECT_DIR}/bin/functions
+  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/functions/colors-functions.sh ${PROJECT_DIR}/bin/functions/
+  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/functions/common-functions.sh ${PROJECT_DIR}/bin/functions/
+  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/functions/default-functions.sh ${PROJECT_DIR}/bin/functions/
+  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/functions/log-functions.sh ${PROJECT_DIR}/bin/functions/
+  cp -vf ${SRC_PROJECT_DIR}/kamehouse-shell/bin/functions/minimal-functions.sh ${PROJECT_DIR}/bin/functions/
 }
 
 updateCommonFunctionsImport() {
   log.info "Removing unnecessary imports from common-functions.sh"
-  cd ${PROJECT_DIR}/bin/common/functions/
+  cd ${PROJECT_DIR}/bin/functions/
   sed -i "s# \"extended-functions.sh\" \"git/git-functions.sh\"##g" common-functions.sh
 }
 

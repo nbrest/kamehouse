@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/common/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-importKamehouse common/functions/keep-alive/keep-alive-functions.sh
-importKamehouse common/functions/kamehouse/docker-functions.sh
+importKamehouse functions/keep-alive/keep-alive-functions.sh
+importKamehouse functions/docker/docker-functions.sh
 
 initScriptEnv() {
   KEEP_ALIVE_SERVICE="kamehouse-docker"
