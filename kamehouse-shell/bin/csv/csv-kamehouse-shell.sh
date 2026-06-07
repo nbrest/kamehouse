@@ -25,12 +25,6 @@ mainProcess() {
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java8-release/docker)
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java11-release/bin)
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v /docker/release/java11-release/docker)    
-  # Filter win/lin paths
-  if ${IS_LINUX_HOST}; then
-    SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/win/') 
-  else
-    SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v '/lin/') 
-  fi
   
   # Filter -functions.sh scripts
   SCRIPTS_PATH=$(echo "$SCRIPTS_PATH" | grep -v -e '\-functions\.sh$') 

@@ -35,7 +35,7 @@ initScriptEnv() {
   DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
 }
 
-mainProcess() {
+mainProcessWin() {
   log.info "World Cup Bookings background script"
   setupDirs
 

@@ -14,7 +14,7 @@ initScriptEnv() {
   SALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-sale-home-data.html"
 }
 
-mainProcess() {
+mainProcessWin() {
   setupDataDir
   runNodeApp
   processDataFiles
