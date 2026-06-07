@@ -3,15 +3,7 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   log.info "Searching for apache httpd process"
   setSudoKameHouseCommand "netstat -nltp"
   HTTPD_PID=`${SUDO_KAMEHOUSE_COMMAND} | grep ":${HTTPD_PORT} " | grep apache | awk '{print $7}' | cut -d '/' -f 1`
@@ -22,7 +14,7 @@ processLin() {
   fi
 }
 
-processWin() {
+mainProcessWin() {
   log.info "Searching for apache httpd process"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | tail -n 1
   HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`

@@ -7,14 +7,14 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort
-  else
-    PLAYLISTS=`find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort`
-    PLAYLISTS="`sed 's#/c/Users/#C:/Users/#Ig' <<<"${PLAYLISTS}"`"
-    echo -e "${PLAYLISTS}"
-  fi
+mainProcessLin() {
+  find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort
+}
+
+mainProcessWin() {
+  PLAYLISTS=`find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort`
+  PLAYLISTS="`sed 's#/c/Users/#C:/Users/#Ig' <<<"${PLAYLISTS}"`"
+  echo -e "${PLAYLISTS}"
 }
 
 main "$@"

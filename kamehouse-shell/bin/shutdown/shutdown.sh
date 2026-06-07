@@ -11,20 +11,12 @@ initScriptEnv() {
   SHUTDOWN_ACTION="/s"
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   setSudoKameHouseCommand "/usr/sbin/shutdown"
   ${SUDO_KAMEHOUSE_COMMAND} -P ${SHUTDOWN_DELAY_MIN}
 }
 
-processWin() {
+mainProcessWin() {
   shutdownProcess &
   wait
 }

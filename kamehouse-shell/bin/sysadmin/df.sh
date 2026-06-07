@@ -7,19 +7,11 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   sudo df -h
 }
 
-processWin() {
+mainProcessWin() {
   log.info "Executing 'powershell.exe -c \"gdr\"'"
   powershell.exe -c "gdr"
 }

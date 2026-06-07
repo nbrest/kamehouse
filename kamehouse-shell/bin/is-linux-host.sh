@@ -11,13 +11,17 @@ initKameHouseShellEnv() {
 # Returns true if it's a linux host, false if it isn't.
 # It can also be infered by the return value. 
 # Returns 0 for true, 1 for false.
-mainProcess() {
+
+mainProcessPre() {
 	echo ${IS_LINUX_HOST}
-  if ${IS_LINUX_HOST}; then
-    exit ${EXIT_SUCCESS}
-  else
-    exit ${EXIT_ERROR}
-  fi
+}
+
+mainProcessLin() {
+  exit ${EXIT_SUCCESS}
+}
+
+mainProcessWin() {
+  exit ${EXIT_ERROR}
 }
 
 main "$@"

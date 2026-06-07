@@ -7,19 +7,11 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   TERM=xterm top -b -n 1
 }
 
-processWin() {
+mainProcessWin() {
   log.info "Executing 'powershell.exe -c \"ps | sort -desc cpu | select -first 20\"'"
   powershell.exe -c "ps | sort -desc cpu | select -first 20"
 }

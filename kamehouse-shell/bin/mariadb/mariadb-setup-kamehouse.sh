@@ -14,18 +14,16 @@ initScriptEnv() {
   ADD_DUMP_DATA=false
 }
 
-mainProcess() {
+mainProcessPre() {
   requestConfirmation
   log.info "Setting up kamehouse database"
-  if ${IS_LINUX_HOST}; then
-    setupKameHouseLinux
-  else
-    setupKameHouseWindows
-  fi
+}
+
+mainProcessPost() {
   log.info "Finished setting up kamehouse database"
 }
 
-setupKameHouseLinux() {
+mainProcessLin() {
   setSudoKameHouseCommand "mariadb"
 
   log.info "Executing add-kamehouse-user.sql"
@@ -47,7 +45,7 @@ setupKameHouseLinux() {
   fi
 }
 
-setupKameHouseWindows() {
+mainProcessWin() {
   log.info "Executing add-kamehouse-user.sql"
   mariadb -u root -p${MARIADB_PASS_ROOT_WIN} -e"set @kameHousePass = '${MARIADB_PASS_KAMEHOUSE}'; `cat ${PATH_SQL}/add-kamehouse-user.sql`"
   checkCommandStatus "$?" "Error running add-kamehouse-user.sql"

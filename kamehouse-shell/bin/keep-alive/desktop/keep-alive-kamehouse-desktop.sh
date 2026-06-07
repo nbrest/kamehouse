@@ -15,12 +15,12 @@ initScriptEnv() {
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-startup.sh"
 }
 
-setKeepAliveServicePidLin() {
+mainProcessLin() {
   setKameHouseDesktopPid
   KEEP_ALIVE_SERVICE_PID=${KAMEHOUSE_DESKTOP_PID}
 }
 
-setKeepAliveServicePidWin() {
+mainProcessWin() {
   setKameHouseDesktopPid
   KEEP_ALIVE_SERVICE_PID=${KAMEHOUSE_DESKTOP_PID}
 }

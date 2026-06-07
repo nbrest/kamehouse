@@ -294,6 +294,37 @@ mainWrapper() {
   exitSuccessfully
 }
 
+# Override in individual scripts if there's no need for win/lin distinction
+mainProcess() {
+  mainProcessPre
+  if ${IS_LINUX_HOST}; then
+    mainProcessLin
+  else
+    mainProcessWin
+  fi
+  mainProcessPost
+}
+
+# Override in individual scripts for common pre lin/win actions
+mainProcessPre() {
+  return
+}
+
+# Override in individual scripts for linux actions
+mainProcessLin() {
+  return
+}
+
+# Override in individual scripts for windows actions
+mainProcessWin() {
+  return
+}
+
+# Override in individual scripts for common post lin/win actions
+mainProcessPost() {
+  return
+}
+
 # main function to call from each script
 main() {
   initKameHouseShellEnv

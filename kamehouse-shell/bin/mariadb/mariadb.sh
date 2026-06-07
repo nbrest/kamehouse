@@ -8,19 +8,11 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   sudo mariadb
 }
 
-processWin() {
+mainProcessWin() {
   log.info "mariadb -u root -p***"
   mariadb -u root -p${MARIADB_PASS_ROOT_WIN}
 }

@@ -17,7 +17,7 @@ initScriptEnv() {
   SERVICE_ARGS=""
 }
 
-runKeepAlive() {
+mainProcessPost() {
   log.warn "User running this script needs ${COL_RED}sudo netstat${COL_DEFAULT_LOG} permissions"
   PID=`sudo netstat -nltp | grep ":${DOCKER_HTTP_PORT} " | awk '{print $7}' | cut -d '/' -f 1`
   if [ -z "${PID}" ]; then

@@ -14,12 +14,12 @@ initScriptEnv() {
   DOCKER_PROFILE="${DEFAULT_DOCKER_PROFILE}"
 }
 
-setKeepAliveServicePidLin() {
+mainProcessLin() {
   logNeedsSudoPermissions netstat
   KEEP_ALIVE_SERVICE_PID=`sudo netstat -nltp | grep ":${DOCKER_PORT_HTTP} " | awk '{print $7}' | cut -d '/' -f 1`
 }
 
-setKeepAliveServicePidWin() {
+mainProcessWin() {
   netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1
   KEEP_ALIVE_SERVICE_PID=`netstat -ano | grep "LISTENING" | grep ":${DOCKER_PORT_HTTP} " | tail -n 1 | awk '{print $5}'`
 }

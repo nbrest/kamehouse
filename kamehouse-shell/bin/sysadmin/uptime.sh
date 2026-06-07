@@ -7,19 +7,11 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   uptime
 }
 
-processWin() {
+mainProcessWin() {
   log.info "Executing 'powershell.exe -c \"systeminfo\" | grep Time'"
   powershell.exe -c "systeminfo" | grep Time
 }

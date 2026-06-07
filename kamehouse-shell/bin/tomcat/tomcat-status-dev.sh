@@ -7,15 +7,7 @@ initScriptEnv() {
   TOMCAT_PORT=${DEFAULT_TOMCAT_DEV_PORT}
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   log.info "Searching for tomcat process"
   netstat -nltp | grep ":${TOMCAT_PORT} " | grep java
   TOMCAT_PID=`netstat -nltp | grep ":${TOMCAT_PORT} " | grep java | awk '{print $7}' | cut -d '/' -f 1`
@@ -26,7 +18,7 @@ processLin() {
   fi
 }
 
-processWin() {
+mainProcessWin() {
   log.info "Searching for tomcat process"
   netstat -ano | grep "LISTENING" | grep ":${TOMCAT_PORT} " | tail -n 1
   TOMCAT_PID=`netstat -ano | grep "LISTENING" | grep ":${TOMCAT_PORT} " | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`

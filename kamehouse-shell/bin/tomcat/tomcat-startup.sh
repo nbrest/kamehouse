@@ -9,20 +9,15 @@ initScriptEnv() {
   TOMCAT_LOG=""
 }
 
-mainProcess() {
+mainProcessPre() {
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --skip-override --log
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-userhome.sh
   TOMCAT_DIR="${HOME}/programs/apache-tomcat"
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   cd ${TOMCAT_DIR}
-  if ${IS_LINUX_HOST}; then
-    startTomcatLinux
-  else
-    startTomcatWindows
-  fi
 }
 
-startTomcatLinux() {
+mainProcessLin() {
   setupLinuxEnvironment
 
   if ${DEBUG_MODE}; then
@@ -38,7 +33,7 @@ startTomcatLinux() {
   fi
 }
 
-startTomcatWindows() {
+mainProcessWin() {
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat ${TOMCAT_DIR} in debug mode"
     log.debug "powershell.exe -c \"Start-Process ./bin/catalina.bat -ArgumentList \\\"jpda start\\\"\" &"

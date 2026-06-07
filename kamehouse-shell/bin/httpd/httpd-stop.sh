@@ -7,21 +7,13 @@ initScriptEnv() {
   VLC_HTTP_PORT="8080"
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   log.info "Stopping apache httpd server"
   setSudoKameHouseCommand "/usr/sbin/service apache2 stop"
   ${SUDO_KAMEHOUSE_COMMAND}
 }
 
-processWin() {
+mainProcessWin() {
   log.info "Searching for apache httpd process"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | grep -v ${VLC_HTTP_PORT} | tail -n 1
   HTTPD_PID=`netstat -ano | grep "LISTENING" | grep "\[::\]:${HTTPD_PORT} " | grep -v ${VLC_HTTP_PORT} | tail -n 1 | awk '{print $5}' | cut -d '/' -f 1`

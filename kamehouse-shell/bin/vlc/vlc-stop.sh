@@ -12,15 +12,7 @@ initScriptEnv() {
   VLC_PORT=""
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   log.debug "VLC_PORT ${VLC_PORT}"
   log.info "Searching for vlc process with an http server"
   netstat -nltp | grep ":${VLC_PORT} " | grep vlc | grep -v tcp6 | awk '{print $7}' | cut -d '/' -f 1
@@ -41,7 +33,7 @@ processLin() {
   rotateVlcLog
 }
 
-processWin() {
+mainProcessWin() {
   log.debug "VLC_PORT ${VLC_PORT}"
   log.info "Searching for vlc process with an http server"
   netstat -ano | grep "LISTENING" | grep "\[::\]:${VLC_PORT} " | tail -n 1

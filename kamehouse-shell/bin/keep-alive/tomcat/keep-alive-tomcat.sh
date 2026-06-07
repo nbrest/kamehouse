@@ -11,12 +11,12 @@ initScriptEnv() {
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-restart.sh"
 }
 
-setKeepAliveServicePidLin() {
+mainProcessWin() {
   netstat -nltp | grep ":${PORT} " | grep java 
   KEEP_ALIVE_SERVICE_PID=`netstat -nltp | grep ":${PORT} " | grep java | awk '{print $7}' | cut -d '/' -f 1`
 }
 
-setKeepAliveServicePidWin() {
+mainProcessWin() {
   netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1
   KEEP_ALIVE_SERVICE_PID=`netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1 | awk '{print $5}'`
 }

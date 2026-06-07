@@ -10,15 +10,7 @@ setDefaultScriptConfig() {
   setDefaultScriptConfigVlcStart
 }
 
-mainProcess() {
-  if ${IS_LINUX_HOST}; then
-    processLin
-  else
-    processWin
-  fi
-}
-
-processLin() {
+mainProcessLin() {
   setupLinuxEnvironment
   rotateVlcLog
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
@@ -28,7 +20,7 @@ processLin() {
   vlc ${FILE_TO_PLAY} ${VLC_PARAMS} &
 }
 
-processWin() {
+mainProcessWin() {
   rotateVlcLog
   FILE_TO_PLAY="`sed 's#"##Ig' <<<"${FILE_TO_PLAY}"`"
   log.info "Playing file ${FILE_TO_PLAY}"

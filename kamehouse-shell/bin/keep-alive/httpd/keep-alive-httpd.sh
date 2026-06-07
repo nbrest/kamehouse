@@ -11,13 +11,13 @@ initScriptEnv() {
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/programs/kamehouse-shell/bin/httpd/httpd-restart.sh"
 }
 
-setKeepAliveServicePidLin() {
+mainProcessLin() {
   logNeedsSudoPermissions netstat
   sudo netstat -nltp | grep ":${PORT} "
   KEEP_ALIVE_SERVICE_PID=`sudo netstat -nltp | grep ":${PORT} " | awk '{print $7}' | cut -d '/' -f 1`
 }
 
-setKeepAliveServicePidWin() {
+mainProcessWin() {
   netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1
   KEEP_ALIVE_SERVICE_PID=`netstat -ano | grep "LISTENING" | grep ":${PORT} " | tail -n 1 | awk '{print $5}'`
 }

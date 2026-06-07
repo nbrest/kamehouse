@@ -2,9 +2,12 @@ KEEP_ALIVE_SERVICE=""
 KEEP_ALIVE_SERVICE_STARTUP=""
 KEEP_ALIVE_SERVICE_PID=""
 
-mainProcess() {
+mainProcessPre() {
   checkKeepAliveScriptsEnabled
-  runKeepAlive
+}
+
+mainProcessPost() {
+  checkKeepAliveServicePid
 }
 
 # exit the process if keep alive scripts are disabled in the configuration
@@ -15,23 +18,13 @@ checkKeepAliveScriptsEnabled() {
   fi
 }
 
-# Override in scrips to execute custom keep alive logic that doesn't rely on pid check
-runKeepAlive() {
-  if ${IS_LINUX_HOST}; then
-    setKeepAliveServicePidLin
-  else
-    setKeepAliveServicePidWin
-  fi
-  checkKeepAliveServicePid
-}
-
 # Override to set pid in linux servers
-setKeepAliveServicePidLin() {
+mainProcessLin() {
   KEEP_ALIVE_SERVICE_PID=""
 }
 
 # Override to set pid in windows servers
-setKeepAliveServicePidWin() {
+mainProcessWin() {
   KEEP_ALIVE_SERVICE_PID=""
 }
 
