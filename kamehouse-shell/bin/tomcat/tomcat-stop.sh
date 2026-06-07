@@ -3,10 +3,6 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-initKameHouseShellEnv() {
-  LOG=DISABLED
-}
-
 mainProcessLin() {
   log.info "Searching for tomcat process"
   netstat -nltp | grep ":${TOMCAT_PORT} " | grep java
