@@ -8,7 +8,7 @@ initScriptEnv() {
   RESTART=false
   HIBERNATE=true
   SHUTDOWN=false
-  SHUTDOWN_ACTION="/h"
+  SHUTDOWN_ACTION="/s"
 }
 
 mainProcess() {
