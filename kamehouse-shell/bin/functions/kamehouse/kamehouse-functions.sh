@@ -463,6 +463,7 @@ setKameHouseRootProjectDir() {
     PROJECT_DIR="${DEV_PROJECT_DIR}"
   fi
   cd ${PROJECT_DIR}
+  checkCommandStatus "$?" "An error occurred changing to project directory ${PROJECT_DIR}"
   log.info "Using kamehouse project root directory: ${COL_PURPLE}${PROJECT_DIR}"
   checkValidRootKameHouseProject
 }
