@@ -89,8 +89,7 @@ installKameHouseShell() {
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/sql ${KAMEHOUSE_SHELL_PATH}/
-  chmod -R 755 ${KAMEHOUSE_SHELL_PATH}/conf
-  chmod -R 755 ${KAMEHOUSE_SHELL_PATH}/sql
+  chmod -R 755 ${KAMEHOUSE_SHELL_PATH}
 }
 
 fixPermissions() {

@@ -60,7 +60,7 @@ installKameHouseSnape() {
   mkdir -p ${KAMEHOUSE_SNAPE_PATH}/conf
   cp -r -f ${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-snape/bin ${KAMEHOUSE_SNAPE_PATH}/
   cp -r -f ${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-snape/conf ${KAMEHOUSE_SNAPE_PATH}/
-  chmod -R 755 ${KAMEHOUSE_SNAPE_PATH}/conf
+  chmod -R 755 ${KAMEHOUSE_SNAPE_PATH}
 }
 
 fixPermissions() {
