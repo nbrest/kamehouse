@@ -89,12 +89,14 @@ installKameHouseShell() {
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/conf ${KAMEHOUSE_SHELL_PATH}/
   cp -r -f ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/sql ${KAMEHOUSE_SHELL_PATH}/
+  chmod -R 755 ${KAMEHOUSE_SHELL_PATH}/conf
+  chmod -R 755 ${KAMEHOUSE_SHELL_PATH}/sql
 }
 
 fixPermissions() {
-  log.info "Fixing permissions"
+  log.info "Fixing script permissions"
   local KAMEHOUSE_SHELL_BIN_PATH=${KAMEHOUSE_SHELL_PATH}/bin
-  chmod -R 700 ${KAMEHOUSE_SHELL_BIN_PATH} 
+  chmod -R 755 ${KAMEHOUSE_SHELL_BIN_PATH} 
   
   local NON_SCRIPTS=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read NON_SCRIPT; do
@@ -106,7 +108,7 @@ fixPermissions() {
   local SCRIPTS=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.bat$\|\.awk$\|\.ps1$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
-      chmod u+rx ${SCRIPT}
+      chmod a+rx ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
@@ -120,7 +122,7 @@ fixPermissions() {
   local DIRECTORIES=`find ${KAMEHOUSE_SHELL_BIN_PATH} -name '.*' -prune -o -type d`
   while read DIRECTORY; do
     if [ -n "${DIRECTORY}" ]; then
-      chmod u+rx ${DIRECTORY}
+      chmod a+rx ${DIRECTORY}
     fi
   done <<< ${DIRECTORIES}
 }
