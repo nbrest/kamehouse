@@ -33,7 +33,6 @@ main() {
   checkPath
   installKameHouseShell
   if ${KAMEHOUSE_SHELL_ONLY}; then
-    logInstallRootMessage
     log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
     exit ${EXIT_SUCCESS}
   fi
@@ -41,7 +40,6 @@ main() {
   setSudoersPermissions
   installKameHouseGroot
   deployKameHouse
-  logInstallRootMessage
   log.info "Finished installing ${COL_PURPLE}kamehouse"
 }
 
@@ -126,10 +124,6 @@ installKameHouseGroot() {
 
 deployKameHouse() {
   ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
-}
-
-logInstallRootMessage() {
-  log.info "${COL_YELLOW}OPTIONAL:${COL_MESSAGE} If running on ${COL_PURPLE}linux${COL_MESSAGE}, setup ${COL_PURPLE}root${COL_MESSAGE} account to use kamehouse-shell as well by running the script ${COL_PURPLE}\${HOME}/programs/kamehouse-shell/bin/shell/install-kamehouse-shell-root.sh as ${COL_PURPLE}root${COL_MESSAGE}"
 }
 
 log.info() {
