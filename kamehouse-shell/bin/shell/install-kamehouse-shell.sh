@@ -26,6 +26,7 @@ TEMP_PATH=${HOME}/temp
 KAMEHOUSE_SHELL_SOURCE=`pwd`
 INSTALL_SCRIPTS_ONLY=false
 LOG_LEVEL=""
+UPDATE_BASHRC_ONLY=false
 
 # Exit codes
 EXIT_SUCCESS=0
@@ -40,6 +41,10 @@ main() {
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SHELL_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
   getDefaultKameHouseUsername
+  if ${UPDATE_BASHRC_ONLY}; then
+    updateBashRc
+    exit ${EXIT_SUCCESS}
+  fi
   createDirs
   installKameHouseShell
   updateUsername
@@ -319,6 +324,9 @@ parseArguments() {
         printHelpMenu
         exit ${EXIT_SUCCESS}
         ;;
+      --bashrc-only)
+        UPDATE_BASHRC_ONLY=true  
+        ;;
       -o)
         INSTALL_SCRIPTS_ONLY=true
         ;;
@@ -342,6 +350,7 @@ printHelpMenu() {
   echo -e ""
   echo -e "  Options:"  
   echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
+  echo -e "     ${COL_BLUE}--bashrc-only${COL_NORMAL} only update .bashrc"
   echo -e "     ${COL_BLUE}-o${COL_NORMAL} only install kamehouse shell scripts. Don't modify the shell"
   echo -e "     ${COL_BLUE}-l [ERROR|WARN|INFO|DEBUG|TRACE]${COL_NORMAL} set log level for scripts. Default is INFO"
   echo -e "     ${COL_BLUE}-p${COL_NORMAL} use kamehouse git prod directory instead of current dir"
