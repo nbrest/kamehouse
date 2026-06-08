@@ -247,6 +247,11 @@ getPathWithSubdirectories() {
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /docker/release/java11-release/bin)
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /docker/release/java11-release/docker)  
   
+  # Filter /win on linux hosts
+  if [ ! -d "/c/Users" ]; then
+    PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v /win)  
+  fi
+
   # Filter .. directory
   PATH_WITH_SUBDIRS=$(echo "$PATH_WITH_SUBDIRS" | grep -v '/\..*')
   
