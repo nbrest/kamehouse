@@ -60,12 +60,13 @@ installKameHouseSnape() {
   mkdir -p ${KAMEHOUSE_SNAPE_PATH}/conf
   cp -r -f ${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-snape/bin ${KAMEHOUSE_SNAPE_PATH}/
   cp -r -f ${KAMEHOUSE_SNAPE_SOURCE}/kamehouse-snape/conf ${KAMEHOUSE_SNAPE_PATH}/
+  chmod -R 755 ${KAMEHOUSE_SNAPE_PATH}/conf
 }
 
 fixPermissions() {
-  log.info "Fixing permissions"
+  log.info "Fixing scripts permissions"
   local KAMEHOUSE_SNAPE_BIN_PATH=${KAMEHOUSE_SNAPE_PATH}/bin
-  chmod -R 700 ${KAMEHOUSE_SNAPE_BIN_PATH} 
+  chmod -R 755 ${KAMEHOUSE_SNAPE_BIN_PATH} 
   
   local NON_SCRIPTS=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type f | grep -v -e "\.sh$\|\.py$"`;
   while read NON_SCRIPT; do
@@ -77,7 +78,7 @@ fixPermissions() {
   local SCRIPTS=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type f | grep -e "\.sh$\|\.py$"`;
   while read SCRIPT; do
     if [ -n "${SCRIPT}" ]; then
-      chmod u+rx ${SCRIPT}
+      chmod a+rx ${SCRIPT}
     fi
   done <<< ${SCRIPTS}
 
@@ -91,7 +92,7 @@ fixPermissions() {
   local DIRECTORIES=`find ${KAMEHOUSE_SNAPE_BIN_PATH} -name '.*' -prune -o -type d`
   while read DIRECTORY; do
     if [ -n "${DIRECTORY}" ]; then
-      chmod u+rx ${DIRECTORY}
+      chmod a+rx ${DIRECTORY}
     fi
   done <<< ${DIRECTORIES}
 }
