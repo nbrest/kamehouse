@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 mainProcessLin() {
-  sudo df -h
+  df -h
 }
 
 mainProcessWin() {
