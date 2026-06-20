@@ -11,17 +11,24 @@ initKameHouseShellEnv() {
   return
 }
 
+setDefaultScriptConfig() {
+  # Set a script property to override in the script's own config file
+  SAMPLE_SCRIPT_CFG_VAR=default-value
+}
+
 initScriptEnv() {
   TEST_PARAM=""
 }
 
 mainProcessLin() {
   log.info "base script lin: TEST_PARAM=${TEST_PARAM}"
+  log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
   printHelp
 }
 
 mainProcessWin() {
   log.info "base script win: TEST_PARAM=${TEST_PARAM}"
+  log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
   printHelp
 }
 
