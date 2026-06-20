@@ -3,7 +3,7 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
-mainProcess() {
+mainProcessLin() {
   log.info "Deploying kamehouse-startup-service.sh systemd service"
   log.warn "User running this script needs ${COL_RED}sudo chmod,cp,systemctl${COL_DEFAULT_LOG} permissions"
   local USERNAME=`whoami`
