@@ -15,8 +15,13 @@ initScriptEnv() {
   TEST_PARAM=""
 }
 
-mainProcess() {
-  log.info "base script: TEST_PARAM=${TEST_PARAM}"
+mainProcessLin() {
+  log.info "base script lin: TEST_PARAM=${TEST_PARAM}"
+  printHelp
+}
+
+mainProcessWin() {
+  log.info "base script win: TEST_PARAM=${TEST_PARAM}"
   printHelp
 }
 
