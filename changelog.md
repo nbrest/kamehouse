@@ -7,12 +7,14 @@
 
 #### v11.03
 
+- Reorganized shell scripts. Moved away from lin/win separation
 - Added command line option to tail script log
-- Added command line option to show script log
 - Added template for kamehouse shell script config file
-- Added command line option to edit and reset script config
+- Added command line option to edit, show and reset script config
 - Moved configs from kamehouse.cfg to script specific config files
 - Updated shell script config paths to use .kamehouse folder
+- Added new default servers
+- Made linux default in shell scripts
 - Fixed bugs
 
 #### v11.02 (vLionel.Towa)
