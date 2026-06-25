@@ -309,7 +309,7 @@ public class VlcRcStatusBuilder {
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
     subtitle.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
-    subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
+    subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC, "Unknown"));
     subtitle.setType(JsonUtils.getText(jsonNode, TYPE_CC));
     subtitle.setName(name);
     subtitle.setNumber(name.replaceAll("[^0-9]", ""));

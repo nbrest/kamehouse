@@ -131,10 +131,17 @@ public class JsonUtils {
    * Returns the text value of the specified key and node. Returns null if not found.
    */
   public static String getText(JsonNode jsonNode, String key) {
+    return getText(jsonNode, key, null);
+  }
+
+  /**
+   * Returns the text value of the specified key and node. Returns default value if not found.
+   */
+  public static String getText(JsonNode jsonNode, String key, String defaultValue) {
     if (jsonNode != null && jsonNode.has(key)) {
       return jsonNode.get(key).asText();
     } else {
-      return null;
+      return defaultValue;
     }
   }
 
