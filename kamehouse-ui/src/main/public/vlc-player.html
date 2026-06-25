@@ -372,14 +372,16 @@
               <td class="vlc-player-config-btn"></td>
               <td>
                 <div class="m-15-d-t-kh">
-                  <div class="link-image-text">Track Menu</div>
-                  <div class="link-image-desc">Choose a specific subtitle track</div>
-                  <select id="subtitle-dropdown" class="select-kh-dark subtitle-dropdown va-m-kh"
-                      onclick="kameHouse.extension.vlcPlayer.updateSubtitleTrack()" 
-                      onchange="kameHouse.extension.vlcPlayer.updateSubtitleTrack()"
-                      onkeydown="kameHouse.extension.vlcPlayer.updateSubtitleTrack()" tabindex="0">
-                    <option value="" selected>Subtitle Tracks</option>
-                  </select>
+                  <div class="link-image-text">Tracks List</div>
+                  <div class="link-image-desc">Choose a specific subtitle language</div>
+                  <div class="subtitle-dropdown-wrapper">
+                    <select id="subtitle-dropdown" class="select-kh-dark subtitle-dropdown va-m-kh"
+                        onclick="kameHouse.extension.vlcPlayer.updateSubtitleTrack()" 
+                        onchange="kameHouse.extension.vlcPlayer.updateSubtitleTrack()"
+                        onkeydown="kameHouse.extension.vlcPlayer.updateSubtitleTrack()" tabindex="0">
+                      <option value="" selected>Select Subtitle Track</option>
+                    </select>
+                  </div>
                 </div>
               </td>
             </tr>

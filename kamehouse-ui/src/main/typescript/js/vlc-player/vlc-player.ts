@@ -178,8 +178,13 @@ class VlcPlayer {
    */
   updateSubtitleTrack() {
     const subtitleTrack = (document.getElementById("subtitle-dropdown") as HTMLSelectElement).value;
-    if (!kameHouse.core.isEmpty(subtitleTrack)) {
+    if (kameHouse.core.isEmpty(subtitleTrack)) {
+      return;
+    }
+    if (subtitleTrack !== "disabled") {
       this.#commandExecutor.execVlcRcCommand('subtitle_track', subtitleTrack);
+    } else {
+      this.#commandExecutor.execVlcRcCommand('subtitle_track', -1);
     }
   }
 
@@ -738,7 +743,8 @@ class VlcPlayerMainViewUpdater {
     this.#subtitleTracks = subtitles;
     let subtitleDropdown = document.getElementById("subtitle-dropdown");
     subtitleDropdown.innerHTML = "";
-    subtitleDropdown.appendChild(this.#createSubtitleTracksOption());
+    subtitleDropdown.appendChild(this.#createSelectSubtitleTrackOption());
+    subtitleDropdown.appendChild(this.#createDisableSubtitleTrackOption());
     if (kameHouse.core.isEmpty(this.#subtitleTracks) || this.#subtitleTracks.length === 0) {
       return;
     }
@@ -783,13 +789,22 @@ class VlcPlayerMainViewUpdater {
     return false;
   }
 
-  /** Create subtitle tracks initial option */
-  #createSubtitleTracksOption() {
+  /** Create select subtitle track option */
+  #createSelectSubtitleTrackOption() {
     let option = document.createElement("option");
     option.value = "";
-    option.text = "Subtitle Tracks";
+    option.text = "Select Subtitle Track";
     return option;
   }
+
+  /** Create disable subtitle track option */
+  #createDisableSubtitleTrackOption() {
+    let option = document.createElement("option");
+    option.value = "disabled";
+    option.text = "Disabled";
+    return option;
+  }
+
 
   /** Reset subtitle delay. */
   #resetSubtitleDelay() {

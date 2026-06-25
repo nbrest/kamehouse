@@ -484,13 +484,19 @@
   color: #4a90e2;
 }
 
+.subtitle-dropdown-wrapper {
+  width: 100%;
+  margin: auto;
+}
+
 .subtitle-dropdown {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 80%;
+  width: 60%;
   margin-top: 20px;
   margin-bottom: 20px;
+  float:left;
   border-color: #4a90e2;
   padding-left: 10px;
   padding-right: 10px;
@@ -510,6 +516,7 @@
     width: 90%;
     margin-top: 20px;
     margin-bottom: 20px;
+    float:left;
     border-color: #4a90e2;
     padding-left: 10px;
     padding-right: 10px;
