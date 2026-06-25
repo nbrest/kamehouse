@@ -737,7 +737,7 @@ class VlcPlayerMainViewUpdater {
   #updateSubtitlesDropdown() {
     let subtitles = this.#getSubtitlesInfo();
     if (!this.#isSubtitlesListUpdated(subtitles)) {
-      kameHouse.logger.info("Subtitle tracks not changed.", null); //trace
+      kameHouse.logger.trace("Subtitle tracks not changed.", null);
       return;
     }
     this.#subtitleTracks = subtitles;
@@ -751,7 +751,16 @@ class VlcPlayerMainViewUpdater {
     for (let i = 0; i < this.#subtitleTracks.length; i++) {
       let option = document.createElement("option");
       option.value = this.#subtitleTracks[i].number;
-      option.text = this.#subtitleTracks[i].language;
+      let text = "Unknown";
+      const description = this.#subtitleTracks[i].description;
+      if (!kameHouse.core.isEmpty(description)) {
+        text = description;
+      }
+      const language = this.#subtitleTracks[i].language;
+      if (!kameHouse.core.isEmpty(language)) {
+        text = language
+      }
+      option.text = text;
       subtitleDropdown.appendChild(option);
     }
   }
@@ -1888,6 +1897,7 @@ class Subtitle {
   type: string;
   codec: string;
   language: string;
+  description: string;
 
 } // Subtitle
 

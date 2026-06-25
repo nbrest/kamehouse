@@ -32,6 +32,7 @@ public class VlcRcStatusBuilder {
   private static final String TITLE = "title";
   private static final String CODEC_CC = "Codec";
   private static final String LANGUAGE_CC = "Language";
+  private static final String DESCRIPTION_CC = "Description";
   private static final String TYPE_CC = "Type";
 
   private VlcRcStatusBuilder() {
@@ -309,8 +310,9 @@ public class VlcRcStatusBuilder {
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
     subtitle.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
-    subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC, "Unknown"));
+    subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
     subtitle.setType(JsonUtils.getText(jsonNode, TYPE_CC));
+    subtitle.setDescription(JsonUtils.getText(jsonNode, DESCRIPTION_CC));
     subtitle.setName(name);
     subtitle.setNumber(name.replaceAll("[^0-9]", ""));
     information.addSubtitle(subtitle);

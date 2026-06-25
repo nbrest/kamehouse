@@ -752,6 +752,7 @@ public class VlcRcStatus {
       private String type;
       private String codec;
       private String language;
+      private String description;
 
       public String getNumber() {
         return number;
@@ -791,6 +792,14 @@ public class VlcRcStatus {
 
       public void setLanguage(String language) {
         this.language = language;
+      }
+
+      public String getDescription() {
+        return description;
+      }
+
+      public void setDescription(String description) {
+        this.description = description;
       }
 
       @Override
