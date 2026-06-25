@@ -243,7 +243,7 @@ public class VlcRcStatusBuilder {
             setInformationAudio(categoryNode, name, information);
             break;
           case "Subtitle":
-            setInformationSubtitle(categoryNode, name, information);
+            addInformationSubtitle(categoryNode, name, information);
             break;
           default:
             LOGGER.warn("Unrecognized Information category Type returned by VLC: {}", type);
@@ -305,13 +305,14 @@ public class VlcRcStatusBuilder {
   /**
    * Sets vlcRcStatus information audio category.
    */
-  private static void setInformationSubtitle(
+  private static void addInformationSubtitle(
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {
     VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
     subtitle.setCodec(JsonUtils.getText(jsonNode, CODEC_CC));
     subtitle.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
     subtitle.setType(JsonUtils.getText(jsonNode, TYPE_CC));
     subtitle.setName(name);
-    information.setSubtitle(subtitle);
+    subtitle.setNumber(name.replaceAll("[^0-9]", ""));
+    information.addSubtitle(subtitle);
   }
 }

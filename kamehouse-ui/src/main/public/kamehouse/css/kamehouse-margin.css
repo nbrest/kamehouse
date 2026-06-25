@@ -21,7 +21,7 @@
   }
 }
 
-.m-5-t-d-kh {
+.m-5-d-t-kh {
   margin-top: 5px;
 }
 
@@ -106,6 +106,10 @@
   .m-15-m-r-kh {
     margin-right: 15px;
   }
+}
+
+.m-15-d-t-kh {
+  margin-top: 15px;
 }
 
 /** margin 20 */

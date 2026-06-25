@@ -7,6 +7,7 @@
 
 #### v11.03
 
+- Added subtitle track dropdown to vlc player settings
 - Reorganized shell scripts. Moved away from lin/win separation
 - Added command line option to tail script log
 - Added template for kamehouse shell script config file

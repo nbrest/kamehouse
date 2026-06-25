@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcStatus;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -192,9 +193,10 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
   /** Assert subtitle attribute of information of VlcRcStatus. */
   private void assertSubtitle(
       VlcRcStatus.Information expectedInformation, VlcRcStatus.Information returnedInformation) {
-    VlcRcStatus.Information.Subtitle expected = expectedInformation.getSubtitle();
-    VlcRcStatus.Information.Subtitle returned = returnedInformation.getSubtitle();
+    VlcRcStatus.Information.Subtitle expected = expectedInformation.getSubtitles().get(0);
+    VlcRcStatus.Information.Subtitle returned = returnedInformation.getSubtitles().get(0);
     if (expected != null && returned != null) {
+      assertEquals(expected.getNumber(), returned.getNumber());
       assertEquals(expected.getCodec(), returned.getCodec());
       assertEquals(expected.getLanguage(), returned.getLanguage());
       assertEquals(expected.getName(), returned.getName());
@@ -305,10 +307,11 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     // Information Subtitle
     VlcRcStatus.Information.Subtitle subtitle = new VlcRcStatus.Information.Subtitle();
     subtitle.setName("Stream 2");
+    subtitle.setNumber("2");
     subtitle.setType("Subtitle");
     subtitle.setCodec("Text subtitles with various tags (subt)");
     subtitle.setLanguage("\\subs\\1 - Winter Is Coming");
-    information.setSubtitle(subtitle);
+    information.setSubtitles(List.of(subtitle));
     singleTestData.setInformation(information);
   }
 }

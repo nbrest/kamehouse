@@ -364,8 +364,23 @@
                   onclick="kameHouse.extension.vlcPlayer.execVlcRcCommand('key', 'subtitle-track')"></button>
               </td>
               <td>
-                <div class="link-image-text">Track</div>
+                <div class="link-image-text">Track Cycle</div>
                 <div class="link-image-desc">Loop through subtitle tracks</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="vlc-player-config-btn"></td>
+              <td>
+                <div class="m-15-d-t-kh">
+                  <div class="link-image-text">Track Menu</div>
+                  <div class="link-image-desc">Choose a specific subtitle track</div>
+                  <select id="subtitle-dropdown" class="select-kh-dark subtitle-dropdown va-m-kh"
+                      onclick="kameHouse.extension.vlcPlayer.updateSubtitleTrack()" 
+                      onchange="kameHouse.extension.vlcPlayer.updateSubtitleTrack()"
+                      onkeydown="kameHouse.extension.vlcPlayer.updateSubtitleTrack()" tabindex="0">
+                    <option value="" selected>Subtitle Tracks</option>
+                  </select>
+                </div>
               </td>
             </tr>
             <tr>

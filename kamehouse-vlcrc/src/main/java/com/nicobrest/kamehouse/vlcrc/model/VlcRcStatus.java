@@ -2,6 +2,8 @@ package com.nicobrest.kamehouse.vlcrc.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -506,7 +508,7 @@ public class VlcRcStatus {
     private List<String> titles;
     private Audio audio;
     private Meta meta;
-    private Subtitle subtitle;
+    private List<Subtitle> subtitles;
     private Video video;
 
     public String getChapter() {
@@ -566,13 +568,23 @@ public class VlcRcStatus {
     }
 
     @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-    public Subtitle getSubtitle() {
-      return subtitle;
+    public List<Subtitle> getSubtitles() {
+      return subtitles;
     }
 
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-    public void setSubtitle(Subtitle subtitle) {
-      this.subtitle = subtitle;
+    public void setSubtitles(List<Subtitle> subtitles) {
+      this.subtitles = subtitles;
+    }
+
+    /**
+     * Add subtittle stream info.
+     */
+    public void addSubtitle(Subtitle subtitle) {
+      if (this.subtitles == null) {
+        this.subtitles = new ArrayList<>();
+      }
+      this.subtitles.add(subtitle);
     }
 
     @SuppressFBWarnings(value = "EI_EXPOSE_REP")
@@ -736,10 +748,19 @@ public class VlcRcStatus {
 
     /** Subtitle element of the Information class of VlcRcStatus. */
     public static class Subtitle {
+      private String number;
       private String name;
       private String type;
       private String codec;
       private String language;
+
+      public String getNumber() {
+        return number;
+      }
+
+      public void setNumber(String number) {
+        this.number = number;
+      }
 
       public String getName() {
         return name;

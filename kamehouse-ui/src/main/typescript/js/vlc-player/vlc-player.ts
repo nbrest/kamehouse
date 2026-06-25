@@ -174,6 +174,16 @@ class VlcPlayer {
   }
 
   /**
+   * Set subtitle track.
+   */
+  updateSubtitleTrack() {
+    const subtitleTrack = (document.getElementById("subtitle-dropdown") as HTMLSelectElement).value;
+    if (!kameHouse.core.isEmpty(subtitleTrack)) {
+      this.#commandExecutor.execVlcRcCommand('subtitle_track', subtitleTrack);
+    }
+  }
+
+  /**
    * Set aspect ratio.
    */
   updateAspectRatio() {
@@ -592,6 +602,7 @@ class VlcPlayerMainViewUpdater {
   #statefulButtons = [];
   #timeSliderLocked = false;
   #volumeSliderLocked = false;
+  #subtitleTracks = [];
 
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
@@ -610,6 +621,7 @@ class VlcPlayerMainViewUpdater {
       this.#updateTimeSlider();
       this.#updateVolumeSlider();
       this.#updateSubtitleDelay();
+      this.#updateSubtitlesDropdown();
       this.#updateAspectRatioDropdown();
       this.#statefulButtons.forEach((statefulButton) => statefulButton.updateState());
     } else {
@@ -714,6 +726,69 @@ class VlcPlayerMainViewUpdater {
       subtitleDelay = "0";
     }
     kameHouse.util.dom.setHtmlById("subtitle-delay-value", String(subtitleDelay));
+  }
+
+  /** Update subtitles dropdown list. */
+  #updateSubtitlesDropdown() {
+    let subtitles = this.#getSubtitlesInfo();
+    if (!this.#isSubtitlesListUpdated(subtitles)) {
+      kameHouse.logger.info("Subtitle tracks not changed.", null); //trace
+      return;
+    }
+    this.#subtitleTracks = subtitles;
+    let subtitleDropdown = document.getElementById("subtitle-dropdown");
+    subtitleDropdown.innerHTML = "";
+    subtitleDropdown.appendChild(this.#createSubtitleTracksOption());
+    if (kameHouse.core.isEmpty(this.#subtitleTracks) || this.#subtitleTracks.length === 0) {
+      return;
+    }
+    for (let i = 0; i < this.#subtitleTracks.length; i++) {
+      let option = document.createElement("option");
+      option.value = this.#subtitleTracks[i].number;
+      option.text = this.#subtitleTracks[i].language;
+      subtitleDropdown.appendChild(option);
+    }
+  }
+
+  /** Get subtitles info from vlc status */
+  #getSubtitlesInfo() {
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
+      return [];
+    }
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
+      return [];
+    }
+    return this.#vlcPlayer.getVlcRcStatus().information.subtitles;
+  }
+
+  /** Check if subtitles list changed */
+  #isSubtitlesListUpdated(updatedSubtitleTracks) {
+    if (kameHouse.core.isEmpty(updatedSubtitleTracks) && kameHouse.core.isEmpty(this.#subtitleTracks)) {
+      return false;
+    }
+    if (!kameHouse.core.isEmpty(updatedSubtitleTracks) && kameHouse.core.isEmpty(this.#subtitleTracks)) {
+      return true;
+    }
+    if (!kameHouse.core.isEmpty(this.#subtitleTracks) && kameHouse.core.isEmpty(updatedSubtitleTracks)) {
+      return true;
+    }
+    if (updatedSubtitleTracks.length !== this.#subtitleTracks.length) {
+      return true;
+    }
+    for (let i = 0; i < updatedSubtitleTracks.length; i++) {
+      if (updatedSubtitleTracks[i].language !== this.#subtitleTracks[i].language) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Create subtitle tracks initial option */
+  #createSubtitleTracksOption() {
+    let option = document.createElement("option");
+    option.value = "";
+    option.text = "Subtitle Tracks";
+    return option;
   }
 
   /** Reset subtitle delay. */
@@ -1768,7 +1843,7 @@ class Information {
   titles: string[];
   audio: any;
   meta: Meta;
-  subtitle: any;
+  subtitles: Subtitle[];
   video: any;
 
 } // Information
@@ -1787,5 +1862,18 @@ class Meta {
   artworkUrl: string;
 
 } // Meta
+
+/**
+ * Subtitle.
+ */
+class Subtitle {
+  
+  name: string;
+  number: string;
+  type: string;
+  codec: string;
+  language: string;
+
+} // Subtitle
 
 kameHouse.ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
