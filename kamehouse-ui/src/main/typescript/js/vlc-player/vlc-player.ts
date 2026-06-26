@@ -826,7 +826,7 @@ class VlcPlayerMainViewUpdater {
   #createSelectSubtitleTrackOption() {
     let option = document.createElement("option");
     option.value = "";
-    option.text = "Select Subtitle Track";
+    option.text = "Subtitle Tracks";
     return option;
   }
 
@@ -913,7 +913,7 @@ class VlcPlayerMainViewUpdater {
   #createSelectAudioTrackOption() {
     let option = document.createElement("option");
     option.value = "";
-    option.text = "Select Audio Track";
+    option.text = "Audio Tracks";
     return option;
   }
 
