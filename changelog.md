@@ -7,6 +7,7 @@
 
 #### v11.03
 
+- Added audio track dropdown to vlc player settings
 - Added subtitle track dropdown to vlc player settings
 - Reorganized shell scripts. Moved away from lin/win separation
 - Added command line option to tail script log

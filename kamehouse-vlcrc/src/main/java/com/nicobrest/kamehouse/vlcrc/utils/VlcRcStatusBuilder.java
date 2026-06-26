@@ -297,14 +297,15 @@ public class VlcRcStatusBuilder {
     audio.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
     audio.setType(JsonUtils.getText(jsonNode, TYPE_CC));
     audio.setName(name);
+    audio.setNumber(name.replaceAll("[^0-9]", ""));
     audio.setBitrate(JsonUtils.getText(jsonNode, "Bitrate"));
     audio.setChannels(JsonUtils.getText(jsonNode, "Channels"));
     audio.setSampleRate(JsonUtils.getText(jsonNode, "Sample_rate"));
-    information.setAudio(audio);
+    information.addAudio(audio);
   }
 
   /**
-   * Sets vlcRcStatus information audio category.
+   * Sets vlcRcStatus information subtitle category.
    */
   private static void addInformationSubtitle(
       JsonNode jsonNode, String name, VlcRcStatus.Information information) {

@@ -189,6 +189,17 @@ class VlcPlayer {
   }
 
   /**
+   * Set audio track.
+   */
+  updateAudioTrack() {
+    const audioTrack = (document.getElementById("audio-track-dropdown") as HTMLSelectElement).value;
+    if (kameHouse.core.isEmpty(audioTrack)) {
+      return;
+    }
+    this.#commandExecutor.execVlcRcCommand('audio_track', audioTrack);
+  }
+
+  /**
    * Set aspect ratio.
    */
   updateAspectRatio() {
@@ -608,6 +619,7 @@ class VlcPlayerMainViewUpdater {
   #timeSliderLocked = false;
   #volumeSliderLocked = false;
   #subtitleTracks = [];
+  #audioTracks = [];
 
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
@@ -627,6 +639,7 @@ class VlcPlayerMainViewUpdater {
       this.#updateVolumeSlider();
       this.#updateSubtitleDelay();
       this.#updateSubtitlesDropdown();
+      this.#updateAudioTracksDropdown();
       this.#updateAspectRatioDropdown();
       this.#statefulButtons.forEach((statefulButton) => statefulButton.updateState());
     } else {
@@ -663,6 +676,8 @@ class VlcPlayerMainViewUpdater {
     this.#resetTimeSlider();
     this.#resetVolumeSlider();
     this.#resetSubtitleDelay();
+    this.#resetSubtitlesDropdown();
+    this.#resetAudioTracksDropdown();
     this.#resetAspectRatioDropdown();
     this.#statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
@@ -733,6 +748,11 @@ class VlcPlayerMainViewUpdater {
     kameHouse.util.dom.setHtmlById("subtitle-delay-value", String(subtitleDelay));
   }
 
+  /** Reset subtitle delay. */
+  #resetSubtitleDelay() {
+    kameHouse.util.dom.setHtmlById("subtitle-delay-value", "0");
+  }
+
   /** Update subtitles dropdown list. */
   #updateSubtitlesDropdown() {
     let subtitles = this.#getSubtitlesInfo();
@@ -741,9 +761,8 @@ class VlcPlayerMainViewUpdater {
       return;
     }
     this.#subtitleTracks = subtitles;
+    this.#resetSubtitlesDropdown();
     let subtitleDropdown = document.getElementById("subtitle-dropdown");
-    subtitleDropdown.innerHTML = "";
-    subtitleDropdown.appendChild(this.#createSelectSubtitleTrackOption());
     subtitleDropdown.appendChild(this.#createDisableSubtitleTrackOption());
     if (kameHouse.core.isEmpty(this.#subtitleTracks) || this.#subtitleTracks.length === 0) {
       return;
@@ -758,7 +777,7 @@ class VlcPlayerMainViewUpdater {
       }
       const language = this.#subtitleTracks[i].language;
       if (!kameHouse.core.isEmpty(language)) {
-        text = language
+        text = language;
       }
       option.text = text;
       subtitleDropdown.appendChild(option);
@@ -814,10 +833,85 @@ class VlcPlayerMainViewUpdater {
     return option;
   }
 
+  /** Reset subtitle track dropdown. */
+  #resetSubtitlesDropdown() {
+    let subtitleDropdown = document.getElementById("subtitle-dropdown");
+    subtitleDropdown.innerHTML = "";
+    subtitleDropdown.appendChild(this.#createSelectSubtitleTrackOption());
+  }
 
-  /** Reset subtitle delay. */
-  #resetSubtitleDelay() {
-    kameHouse.util.dom.setHtmlById("subtitle-delay-value", "0");
+  /** Update audio tracks dropdown list. */
+  #updateAudioTracksDropdown() {
+    let audioTracks = this.#getAudioTracksInfo();
+    if (!this.#isAudioTracksListUpdated(audioTracks)) {
+      kameHouse.logger.trace("Audio tracks not changed.", null);
+      return;
+    }
+    this.#audioTracks = audioTracks;
+    this.#resetAudioTracksDropdown();
+    let audioTracksDropdown = document.getElementById("audio-track-dropdown");
+    if (kameHouse.core.isEmpty(this.#audioTracks) || this.#audioTracks.length === 0) {
+      return;
+    }
+    for (let i = 0; i < this.#audioTracks.length; i++) {
+      let option = document.createElement("option");
+      option.value = this.#audioTracks[i].number;
+      let text = "Unknown";
+      const language = this.#audioTracks[i].language;
+      if (!kameHouse.core.isEmpty(language)) {
+        text = language;
+      }
+      option.text = text;
+      audioTracksDropdown.appendChild(option);
+    }
+  }
+
+  /** Get audio tracks info from vlc status */
+  #getAudioTracksInfo() {
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
+      return [];
+    }
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
+      return [];
+    }
+    return this.#vlcPlayer.getVlcRcStatus().information.audio;
+  }
+
+  /** Check if audio tracks list changed */
+  #isAudioTracksListUpdated(updatedAudioTracks) {
+    if (kameHouse.core.isEmpty(updatedAudioTracks) && kameHouse.core.isEmpty(this.#audioTracks)) {
+      return false;
+    }
+    if (!kameHouse.core.isEmpty(updatedAudioTracks) && kameHouse.core.isEmpty(this.#audioTracks)) {
+      return true;
+    }
+    if (!kameHouse.core.isEmpty(this.#audioTracks) && kameHouse.core.isEmpty(updatedAudioTracks)) {
+      return true;
+    }
+    if (updatedAudioTracks.length !== this.#audioTracks.length) {
+      return true;
+    }
+    for (let i = 0; i < updatedAudioTracks.length; i++) {
+      if (updatedAudioTracks[i].language !== this.#audioTracks[i].language) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Create select audio track option */
+  #createSelectAudioTrackOption() {
+    let option = document.createElement("option");
+    option.value = "";
+    option.text = "Select Audio Track";
+    return option;
+  }
+
+  /** Reset audio tracks dropdown. */
+  #resetAudioTracksDropdown() {
+    let audioTracksDropdown = document.getElementById("audio-track-dropdown");
+    audioTracksDropdown.innerHTML = "";
+    audioTracksDropdown.appendChild(this.#createSelectAudioTrackOption());
   }
 
   /**
@@ -1865,7 +1959,7 @@ class Information {
   chapters: string[];
   title: string;
   titles: string[];
-  audio: any;
+  audio: AudioTrack[];
   meta: Meta;
   subtitles: Subtitle[];
   video: any;
@@ -1900,5 +1994,21 @@ class Subtitle {
   description: string;
 
 } // Subtitle
+
+/**
+ * Audio.
+ */
+class AudioTrack {
+  
+  name: string;
+  number: string;
+  type: string;
+  bitrate: string;
+  channels: string;
+  sampleRate: string;
+  codec: string;
+  language: string;
+
+} // AudioTtrack
 
 kameHouse.ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});

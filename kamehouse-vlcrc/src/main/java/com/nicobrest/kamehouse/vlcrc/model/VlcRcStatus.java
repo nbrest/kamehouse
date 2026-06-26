@@ -505,7 +505,7 @@ public class VlcRcStatus {
     private List<String> chapters;
     private String title;
     private List<String> titles;
-    private Audio audio;
+    private List<Audio> audio;
     private Meta meta;
     private List<Subtitle> subtitles;
     private Video video;
@@ -547,12 +547,12 @@ public class VlcRcStatus {
     }
 
     @SuppressFBWarnings(value = "EI_EXPOSE_REP")
-    public Audio getAudio() {
+    public List<Audio> getAudio() {
       return audio;
     }
 
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
-    public void setAudio(Audio audio) {
+    public void setAudio(List<Audio> audio) {
       this.audio = audio;
     }
 
@@ -574,6 +574,16 @@ public class VlcRcStatus {
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
     public void setSubtitles(List<Subtitle> subtitles) {
       this.subtitles = subtitles;
+    }
+
+    /**
+     * Add audio stream info.
+     */
+    public void addAudio(Audio audioStream) {
+      if (this.audio == null) {
+        this.audio = new ArrayList<>();
+      }
+      this.audio.add(audioStream);
     }
 
     /**
@@ -604,6 +614,7 @@ public class VlcRcStatus {
     /** Audio element of the Information class of VlcRcStatus. */
     public static class Audio {
       private String name;
+      private String number;
       private String type;
       private String bitrate;
       private String channels;
@@ -617,6 +628,14 @@ public class VlcRcStatus {
 
       public void setName(String name) {
         this.name = name;
+      }
+
+      public String getNumber() {
+        return number;
+      }
+
+      public void setNumber(String number) {
+        this.number = number;
       }
 
       public String getType() {

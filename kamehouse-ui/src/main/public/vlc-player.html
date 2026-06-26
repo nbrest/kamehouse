@@ -455,6 +455,23 @@
                 <div class="link-image-desc">Loop through audio tracks</div>
               </td>
             </tr>
+            <tr>
+              <td class="vlc-player-config-btn"></td>
+              <td>
+                <div class="m-15-d-t-kh">
+                  <div class="link-image-text">Tracks List</div>
+                  <div class="link-image-desc">Choose a specific audio track</div>
+                  <div class="audio-track-dropdown-wrapper">
+                    <select id="audio-track-dropdown" class="select-kh-dark audio-track-dropdown va-m-kh"
+                        onclick="kameHouse.extension.vlcPlayer.updateAudioTrack()" 
+                        onchange="kameHouse.extension.vlcPlayer.updateAudioTrack()"
+                        onkeydown="kameHouse.extension.vlcPlayer.updateAudioTrack()" tabindex="0">
+                      <option value="" selected>Select Audio Track</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

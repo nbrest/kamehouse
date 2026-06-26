@@ -122,6 +122,52 @@
   min-width: 50px;
 }
 
+
+.audio-track-dropdown-wrapper {
+  width: 100%;
+  margin: auto;
+}
+
+.audio-track-dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 60%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  float:left;
+  border-color: #4a90e2;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-width: 1px;
+  color: #4a90e2;
+  font-size: 16px;
+  text-align: center;
+}
+
+@media (max-width : 900px) {
+  .audio-track-dropdown {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    float:left;
+    border-color: #4a90e2;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-width: 1px;
+    color: #4a90e2;
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
 .btn-audio {
   margin-left: 5px;
   margin-right: 5px;
