@@ -770,7 +770,7 @@ class VlcPlayerMainViewUpdater {
     for (let i = 0; i < this.#subtitleTracks.length; i++) {
       let option = document.createElement("option");
       option.value = this.#subtitleTracks[i].number;
-      let text = "Unknown";
+      let text = "Track " + this.#subtitleTracks[i].number;
       const description = this.#subtitleTracks[i].description;
       if (!kameHouse.core.isEmpty(description)) {
         text = description;
@@ -856,7 +856,7 @@ class VlcPlayerMainViewUpdater {
     for (let i = 0; i < this.#audioTracks.length; i++) {
       let option = document.createElement("option");
       option.value = this.#audioTracks[i].number;
-      let text = "Unknown";
+      let text = "Track " + this.#audioTracks[i].number;
       const language = this.#audioTracks[i].language;
       if (!kameHouse.core.isEmpty(language)) {
         text = language;
