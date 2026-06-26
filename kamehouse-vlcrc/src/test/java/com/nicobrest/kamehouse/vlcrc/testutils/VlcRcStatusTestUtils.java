@@ -154,8 +154,8 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
   /** Assert audio attribute of information of VlcRcStatus. */
   private void assertAudio(
       VlcRcStatus.Information expectedInformation, VlcRcStatus.Information returnedInformation) {
-    VlcRcStatus.Information.Audio expected = expectedInformation.getAudio();
-    VlcRcStatus.Information.Audio returned = returnedInformation.getAudio();
+    VlcRcStatus.Information.Audio expected = expectedInformation.getAudio().get(0);
+    VlcRcStatus.Information.Audio returned = returnedInformation.getAudio().get(0);
     if (expected != null && returned != null) {
       assertEquals(expected.getBitrate(), returned.getBitrate());
       assertEquals(expected.getChannels(), returned.getChannels());
@@ -291,7 +291,7 @@ public class VlcRcStatusTestUtils extends AbstractTestUtils<VlcRcStatus, Object>
     audio.setSampleRate("48000 Hz");
     audio.setCodec("MPEG Audio layer 3 (mp3 )");
     audio.setLanguage(null);
-    information.setAudio(audio);
+    information.setAudio(List.of(audio));
     // Information Meta
     VlcRcStatus.Information.Meta meta = new VlcRcStatus.Information.Meta();
     meta.setName("meta");
