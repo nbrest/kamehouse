@@ -756,6 +756,9 @@ class VlcPlayerMainViewUpdater {
   /** Update subtitles dropdown list. */
   #updateSubtitlesDropdown() {
     let subtitles = this.#getSubtitlesInfo();
+    if (!kameHouse.core.isEmpty(subtitles)) {
+      subtitles = [...subtitles].sort((a, b) => Number(a.number) - Number(b.number));
+    }
     if (!this.#isSubtitlesListUpdated(subtitles)) {
       kameHouse.logger.trace("Subtitle tracks not changed.", null);
       return;
@@ -809,8 +812,10 @@ class VlcPlayerMainViewUpdater {
     if (updatedSubtitleTracks.length !== this.#subtitleTracks.length) {
       return true;
     }
-    for (let i = 0; i < updatedSubtitleTracks.length; i++) {
-      if (updatedSubtitleTracks[i].language !== this.#subtitleTracks[i].language) {
+    const sortedUpdated = [...updatedSubtitleTracks].sort((a, b) => Number(a.number) - Number(b.number));
+    const sortedExisting = [...this.#subtitleTracks].sort((a, b) => Number(a.number) - Number(b.number));
+    for (let i = 0; i < sortedUpdated.length; i++) {
+      if (sortedUpdated[i].language !== sortedExisting[i].language) {
         return true;
       }
     }
@@ -843,6 +848,9 @@ class VlcPlayerMainViewUpdater {
   /** Update audio tracks dropdown list. */
   #updateAudioTracksDropdown() {
     let audioTracks = this.#getAudioTracksInfo();
+    if (!kameHouse.core.isEmpty(audioTracks)) {
+      audioTracks = [...audioTracks].sort((a, b) => Number(a.number) - Number(b.number));
+    }
     if (!this.#isAudioTracksListUpdated(audioTracks)) {
       kameHouse.logger.trace("Audio tracks not changed.", null);
       return;
@@ -891,8 +899,10 @@ class VlcPlayerMainViewUpdater {
     if (updatedAudioTracks.length !== this.#audioTracks.length) {
       return true;
     }
-    for (let i = 0; i < updatedAudioTracks.length; i++) {
-      if (updatedAudioTracks[i].language !== this.#audioTracks[i].language) {
+    const sortedUpdated = [...updatedAudioTracks].sort((a, b) => Number(a.number) - Number(b.number));
+    const sortedExisting = [...this.#audioTracks].sort((a, b) => Number(a.number) - Number(b.number));
+    for (let i = 0; i < sortedUpdated.length; i++) {
+      if (sortedUpdated[i].language !== sortedExisting[i].language) {
         return true;
       }
     }
