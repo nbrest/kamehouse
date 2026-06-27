@@ -830,6 +830,7 @@ class VlcPlayerMainViewUpdater {
       kameHouse.logger.trace(trackConfig.getType() + " tracks not changed.", null);
       return;
     }
+    kameHouse.logger.trace(trackConfig.getType() + " tracks changed. Updating dropdown.", null);
     trackConfig.setTracks(currentTracks);
     this.#resetTracksDropdown(trackConfig.getType());
     const tracksDropdown = document.getElementById(trackConfig.getType().toLowerCase() + "-track-dropdown");
