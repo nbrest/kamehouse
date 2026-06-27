@@ -274,7 +274,9 @@ class VlcPlayer {
     const filenameFromVlcRcStatus = this.getFilenameFromVlcRcStatus();
     if (currentFilename != filenameFromVlcRcStatus) {
       this.setCurrentFilename(filenameFromVlcRcStatus);
-      kameHouse.logger.info("Playing file: " + filenameFromVlcRcStatus, null);
+      if (!kameHouse.core.isEmpty(filenameFromVlcRcStatus)) {
+        kameHouse.logger.info("Playing file: " + filenameFromVlcRcStatus, null);
+      }
       this.#mainViewUpdater.processFilenameChange();
     }
   }
