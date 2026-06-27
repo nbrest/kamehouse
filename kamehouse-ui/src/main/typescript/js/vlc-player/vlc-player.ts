@@ -174,29 +174,17 @@ class VlcPlayer {
   }
 
   /**
-   * Set subtitle track.
+   * Update subtitle track.
    */
   updateSubtitleTrack() {
-    const subtitleTrack = (document.getElementById("subtitle-dropdown") as HTMLSelectElement).value;
-    if (kameHouse.core.isEmpty(subtitleTrack)) {
-      return;
-    }
-    if (subtitleTrack !== "disabled") {
-      this.#commandExecutor.execVlcRcCommand('subtitle_track', subtitleTrack);
-    } else {
-      this.#commandExecutor.execVlcRcCommand('subtitle_track', -1);
-    }
+    this.#updateTrackFromDropdown("subtitle", "subtitle_track");
   }
 
   /**
-   * Set audio track.
+   * Update audio track.
    */
   updateAudioTrack() {
-    const audioTrack = (document.getElementById("audio-track-dropdown") as HTMLSelectElement).value;
-    if (kameHouse.core.isEmpty(audioTrack)) {
-      return;
-    }
-    this.#commandExecutor.execVlcRcCommand('audio_track', audioTrack);
+    this.#updateTrackFromDropdown("audio", "audio_track");
   }
 
   /**
@@ -536,6 +524,21 @@ class VlcPlayer {
     }
     this.openTab(currentTab);
   }
+
+  /**
+   * Update track from dropdown value.
+   */
+  #updateTrackFromDropdown(trackType, updateCommand) {
+    const track = (document.getElementById(trackType + "-track-dropdown") as HTMLSelectElement).value;
+    if (kameHouse.core.isEmpty(track)) {
+      return;
+    }
+    if (track !== "Disable") {
+      this.#commandExecutor.execVlcRcCommand(updateCommand, track);
+    } else {
+      this.#commandExecutor.execVlcRcCommand(updateCommand, -1);
+    }
+  }
 } // End VlcPlayer
 
 /** 
@@ -618,8 +621,16 @@ class VlcPlayerMainViewUpdater {
   #statefulButtons = [];
   #timeSliderLocked = false;
   #volumeSliderLocked = false;
-  #subtitleTracks = [];
-  #audioTracks = [];
+  #subtitleTrackConfig = {
+    type: "Subtitle",
+    tracks : [],
+    updateDropdown: false
+  };
+  #audioTrackConfig = {
+    type: "Audio",
+    tracks : [],
+    updateDropdown: false
+  };
 
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
@@ -638,8 +649,8 @@ class VlcPlayerMainViewUpdater {
       this.#updateTimeSlider();
       this.#updateVolumeSlider();
       this.#updateSubtitleDelay();
-      this.#updateSubtitlesDropdown();
-      this.#updateAudioTracksDropdown();
+      this.#updateTrackDropdown(this.#subtitleTrackConfig, this.#getCurrentTracks("subtitles"));
+      this.#updateTrackDropdown(this.#audioTrackConfig, this.#getCurrentTracks("audio"));
       this.#updateAspectRatioDropdown();
       this.#statefulButtons.forEach((statefulButton) => statefulButton.updateState());
     } else {
@@ -676,8 +687,8 @@ class VlcPlayerMainViewUpdater {
     this.#resetTimeSlider();
     this.#resetVolumeSlider();
     this.#resetSubtitleDelay();
-    this.#resetSubtitlesDropdown();
-    this.#resetAudioTracksDropdown();
+    this.#resetTracksDropdown(this.#subtitleTrackConfig.type);
+    this.#resetTracksDropdown(this.#audioTrackConfig.type);
     this.#resetAspectRatioDropdown();
     this.#statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
@@ -753,175 +764,95 @@ class VlcPlayerMainViewUpdater {
     kameHouse.util.dom.setHtmlById("subtitle-delay-value", "0");
   }
 
-  /** Update subtitles dropdown list. */
-  #updateSubtitlesDropdown() {
-    let subtitles = this.#getSubtitlesInfo();
-    if (!kameHouse.core.isEmpty(subtitles)) {
-      subtitles = [...subtitles].sort((a, b) => Number(a.number) - Number(b.number));
+  /** Get tracks info from vlc status sorted */
+  #getCurrentTracks(tracksPropertyName) {
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
+      return [];
     }
-    if (!this.#isSubtitlesListUpdated(subtitles)) {
-      kameHouse.logger.trace("Subtitle tracks not changed.", null);
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
+      return [];
+    }
+    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information[tracksPropertyName])) {
+      return [];
+    }
+    const tracks = this.#vlcPlayer.getVlcRcStatus().information[tracksPropertyName];
+    return [...tracks].sort((a, b) => Number(a.number) - Number(b.number));
+  }
+
+  /** Update track dropdown list. */
+  #updateTrackDropdown(trackConfig, currentTracks) {
+    const storedTracks = trackConfig.tracks;
+    if (!this.#isTracksListUpdated(storedTracks, currentTracks)) {
+      kameHouse.logger.trace(trackConfig.type + " tracks not changed.", null);
       return;
     }
-    this.#subtitleTracks = subtitles;
-    this.#resetSubtitlesDropdown();
-    let subtitleDropdown = document.getElementById("subtitle-dropdown");
-    subtitleDropdown.appendChild(this.#createDisableSubtitleTrackOption());
-    if (kameHouse.core.isEmpty(this.#subtitleTracks) || this.#subtitleTracks.length === 0) {
+    trackConfig.tracks = currentTracks;
+    this.#resetTracksDropdown(trackConfig.type);
+    const tracksDropdown = document.getElementById(trackConfig.type.toLowerCase() + "-track-dropdown");
+    tracksDropdown.appendChild(this.#createDisableTrackOption());
+    if (kameHouse.core.isEmpty(currentTracks) || currentTracks.length === 0) {
       return;
     }
-    for (let i = 0; i < this.#subtitleTracks.length; i++) {
-      let option = document.createElement("option");
-      option.value = this.#subtitleTracks[i].number;
-      let text = "Track " + this.#subtitleTracks[i].number;
-      const description = this.#subtitleTracks[i].description;
+    for (let i = 0; i < currentTracks.length; i++) {
+      const option = document.createElement("option");
+      option.value = currentTracks[i].number;
+      let text = "Track " + currentTracks[i].number;
+      const description = currentTracks[i].description;
       if (!kameHouse.core.isEmpty(description)) {
         text = description;
       }
-      const language = this.#subtitleTracks[i].language;
+      const language = currentTracks[i].language;
       if (!kameHouse.core.isEmpty(language)) {
         text = language;
       }
       option.text = text;
-      subtitleDropdown.appendChild(option);
+      tracksDropdown.appendChild(option);
     }
   }
 
-  /** Get subtitles info from vlc status */
-  #getSubtitlesInfo() {
-    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
-      return [];
-    }
-    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
-      return [];
-    }
-    return this.#vlcPlayer.getVlcRcStatus().information.subtitles;
-  }
-
-  /** Check if subtitles list changed */
-  #isSubtitlesListUpdated(updatedSubtitleTracks) {
-    if (kameHouse.core.isEmpty(updatedSubtitleTracks) && kameHouse.core.isEmpty(this.#subtitleTracks)) {
+  /** Check if tracks list changed */
+  #isTracksListUpdated(storedTracks, currentTracks) {
+    if (kameHouse.core.isEmpty(currentTracks) && kameHouse.core.isEmpty(storedTracks)) {
       return false;
     }
-    if (!kameHouse.core.isEmpty(updatedSubtitleTracks) && kameHouse.core.isEmpty(this.#subtitleTracks)) {
+    if (!kameHouse.core.isEmpty(currentTracks) && kameHouse.core.isEmpty(storedTracks)) {
       return true;
     }
-    if (!kameHouse.core.isEmpty(this.#subtitleTracks) && kameHouse.core.isEmpty(updatedSubtitleTracks)) {
+    if (!kameHouse.core.isEmpty(storedTracks) && kameHouse.core.isEmpty(currentTracks)) {
       return true;
     }
-    if (updatedSubtitleTracks.length !== this.#subtitleTracks.length) {
+    if (currentTracks.length !== storedTracks.length) {
       return true;
     }
-    const sortedUpdated = [...updatedSubtitleTracks].sort((a, b) => Number(a.number) - Number(b.number));
-    const sortedExisting = [...this.#subtitleTracks].sort((a, b) => Number(a.number) - Number(b.number));
-    for (let i = 0; i < sortedUpdated.length; i++) {
-      if (sortedUpdated[i].language !== sortedExisting[i].language) {
+    for (let i = 0; i < currentTracks.length; i++) {
+      if (currentTracks[i].number !== storedTracks[i].number) {
         return true;
       }
     }
     return false;
   }
 
-  /** Create select subtitle track option */
-  #createSelectSubtitleTrackOption() {
-    let option = document.createElement("option");
+  /** Create select track option */
+  #createSelectTrackOption(trackType: string) {
+    const option = document.createElement("option");
     option.value = "";
-    option.text = "Subtitle Tracks";
+    option.text = trackType + " Track";
     return option;
   }
 
-  /** Create disable subtitle track option */
-  #createDisableSubtitleTrackOption() {
-    let option = document.createElement("option");
-    option.value = "disabled";
-    option.text = "Disabled";
+  /** Create disable track option */
+  #createDisableTrackOption() {
+    const option = document.createElement("option");
+    option.value = "Disable";
+    option.text = "Disable";
     return option;
   }
 
-  /** Reset subtitle track dropdown. */
-  #resetSubtitlesDropdown() {
-    let subtitleDropdown = document.getElementById("subtitle-dropdown");
-    subtitleDropdown.innerHTML = "";
-    subtitleDropdown.appendChild(this.#createSelectSubtitleTrackOption());
-  }
-
-  /** Update audio tracks dropdown list. */
-  #updateAudioTracksDropdown() {
-    let audioTracks = this.#getAudioTracksInfo();
-    if (!kameHouse.core.isEmpty(audioTracks)) {
-      audioTracks = [...audioTracks].sort((a, b) => Number(a.number) - Number(b.number));
-    }
-    if (!this.#isAudioTracksListUpdated(audioTracks)) {
-      kameHouse.logger.trace("Audio tracks not changed.", null);
-      return;
-    }
-    this.#audioTracks = audioTracks;
-    this.#resetAudioTracksDropdown();
-    let audioTracksDropdown = document.getElementById("audio-track-dropdown");
-    if (kameHouse.core.isEmpty(this.#audioTracks) || this.#audioTracks.length === 0) {
-      return;
-    }
-    for (let i = 0; i < this.#audioTracks.length; i++) {
-      let option = document.createElement("option");
-      option.value = this.#audioTracks[i].number;
-      let text = "Track " + this.#audioTracks[i].number;
-      const language = this.#audioTracks[i].language;
-      if (!kameHouse.core.isEmpty(language)) {
-        text = language;
-      }
-      option.text = text;
-      audioTracksDropdown.appendChild(option);
-    }
-  }
-
-  /** Get audio tracks info from vlc status */
-  #getAudioTracksInfo() {
-    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
-      return [];
-    }
-    if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
-      return [];
-    }
-    return this.#vlcPlayer.getVlcRcStatus().information.audio;
-  }
-
-  /** Check if audio tracks list changed */
-  #isAudioTracksListUpdated(updatedAudioTracks) {
-    if (kameHouse.core.isEmpty(updatedAudioTracks) && kameHouse.core.isEmpty(this.#audioTracks)) {
-      return false;
-    }
-    if (!kameHouse.core.isEmpty(updatedAudioTracks) && kameHouse.core.isEmpty(this.#audioTracks)) {
-      return true;
-    }
-    if (!kameHouse.core.isEmpty(this.#audioTracks) && kameHouse.core.isEmpty(updatedAudioTracks)) {
-      return true;
-    }
-    if (updatedAudioTracks.length !== this.#audioTracks.length) {
-      return true;
-    }
-    const sortedUpdated = [...updatedAudioTracks].sort((a, b) => Number(a.number) - Number(b.number));
-    const sortedExisting = [...this.#audioTracks].sort((a, b) => Number(a.number) - Number(b.number));
-    for (let i = 0; i < sortedUpdated.length; i++) {
-      if (sortedUpdated[i].language !== sortedExisting[i].language) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /** Create select audio track option */
-  #createSelectAudioTrackOption() {
-    let option = document.createElement("option");
-    option.value = "";
-    option.text = "Audio Tracks";
-    return option;
-  }
-
-  /** Reset audio tracks dropdown. */
-  #resetAudioTracksDropdown() {
-    let audioTracksDropdown = document.getElementById("audio-track-dropdown");
-    audioTracksDropdown.innerHTML = "";
-    audioTracksDropdown.appendChild(this.#createSelectAudioTrackOption());
+  /** Reset track dropdown. */
+  #resetTracksDropdown(trackType: string) {
+    const trackDropdown = document.getElementById(trackType.toLowerCase() + "-track-dropdown");
+    trackDropdown.innerHTML = "";
+    trackDropdown.appendChild(this.#createSelectTrackOption(trackType));
   }
 
   /**

@@ -506,12 +506,12 @@
   color: #4a90e2;
 }
 
-.subtitle-dropdown-wrapper {
+.subtitle-track-dropdown-wrapper {
   width: 100%;
   margin: auto;
 }
 
-.subtitle-dropdown {
+.subtitle-track-dropdown {
   width: 50%;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -519,7 +519,7 @@
 }
 
 @media (max-width : 900px) {
-  .subtitle-dropdown {
+  .subtitle-track-dropdown {
     width: 90%;
     margin-top: 20px;
     margin-bottom: 20px;
