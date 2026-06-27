@@ -19,6 +19,7 @@ class VlcPlayer {
   #synchronizer = null;
 
   #vlcRcStatus = new VlcRcStatus();
+  #currentFilename = null;
   #hostname = null;
 
   constructor(hostname) {
@@ -238,6 +239,46 @@ class VlcPlayer {
     }
   }
 
+  /** 
+   * Get the current filename.
+   */
+  getCurrentFilename() { return this.#currentFilename; }
+
+  /** 
+   * Set the current filename.
+   */
+  setCurrentFilename(currentFilename) { this.#currentFilename = currentFilename; }
+
+  /** Get the filename from the current vlcRc status. */
+  getFilenameFromVlcRcStatus() {
+    const vlcRcStatus = this.getVlcRcStatus();
+    if (kameHouse.core.isEmpty(vlcRcStatus)) {
+      return null;
+    }
+    const information = vlcRcStatus.information;
+    if (kameHouse.core.isEmpty(information)) {
+      return null;
+    }
+    const meta = information.meta;
+    if (kameHouse.core.isEmpty(meta)) {
+      return null;
+    }
+    return meta.filename;
+  }
+
+  /** 
+   * Process filename change.
+   */
+  processFilenameChange() {
+    const currentFilename = this.getCurrentFilename();
+    const filenameFromVlcRcStatus = this.getFilenameFromVlcRcStatus();
+    if (currentFilename != filenameFromVlcRcStatus) {
+      this.setCurrentFilename(filenameFromVlcRcStatus);
+      kameHouse.logger.info("Playing file: " + filenameFromVlcRcStatus, null);
+      this.#mainViewUpdater.processFilenameChange();
+    }
+  }
+
   /**
    * Set updated playlist.
    */
@@ -285,6 +326,7 @@ class VlcPlayer {
   /** Calls each internal module that has view logic to reset it's view. */
   resetView() {
     this.setVlcRcStatus({});
+    this.processFilenameChange();
     this.#mainViewUpdater.resetView();
     this.#playlist.resetView();
   }
@@ -642,6 +684,15 @@ class VlcPlayerMainViewUpdater {
   /** Set volume slider locked. */
   volumeSliderLocked(value) { this.#volumeSliderLocked = value; }
 
+  /** 
+   * Process filename change. 
+   * Set flags to trigger ui changes when the current playing filename changes.
+   */
+  processFilenameChange() {
+    this.#audioTrackConfig.updateDropdown = true;
+    this.#subtitleTrackConfig.updateDropdown = true;
+  }
+
   /** Update vlc player view for main view objects. */
   updateView() {
     if (!kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
@@ -781,8 +832,7 @@ class VlcPlayerMainViewUpdater {
 
   /** Update track dropdown list. */
   #updateTrackDropdown(trackConfig, currentTracks) {
-    const storedTracks = trackConfig.tracks;
-    if (!this.#isTracksListUpdated(storedTracks, currentTracks)) {
+    if (!this.#isTracksListUpdated(trackConfig.tracks, currentTracks) && !trackConfig.updateDropdown) {
       kameHouse.logger.trace(trackConfig.type + " tracks not changed.", null);
       return;
     }
@@ -808,6 +858,7 @@ class VlcPlayerMainViewUpdater {
       option.text = text;
       tracksDropdown.appendChild(option);
     }
+    trackConfig.updateDropdown = false;
   }
 
   /** Check if tracks list changed */
@@ -1013,8 +1064,10 @@ class VlcPlayerSynchronizer {
     this.#vlcRcStatusWebSocket.connect((topicResponse) => {
       if (!kameHouse.core.isEmpty(topicResponse) && !kameHouse.core.isEmpty(topicResponse.body)) {
         this.#vlcPlayer.setVlcRcStatus(kameHouse.json.parse(topicResponse.body));
+        this.#vlcPlayer.processFilenameChange();
       } else {
         this.#vlcPlayer.setVlcRcStatus({});
+        this.#vlcPlayer.processFilenameChange();
       }
       this.#vlcPlayer.updateView();
     });
@@ -1841,6 +1894,7 @@ class VlcPlayerDebugger {
   /** Update the main player view. */
   #getVlcRcStatusApiSuccessCallback(responseBody, responseCode, responseDescription, responseHeaders) {
     this.#vlcPlayer.setVlcRcStatus(responseBody);
+    this.#vlcPlayer.processFilenameChange();
     this.#vlcPlayer.updateView();
   }
 
