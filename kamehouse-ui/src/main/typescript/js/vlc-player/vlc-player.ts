@@ -812,13 +812,13 @@ class VlcPlayerMainViewUpdater {
   /** Get tracks info from vlc status sorted */
   #getCurrentTracks(tracksPropertyName) {
     if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus())) {
-      return [];
+      return new Array<VlcStreamTrack>();
     }
     if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information)) {
-      return [];
+      return new Array<VlcStreamTrack>();
     }
     if (kameHouse.core.isEmpty(this.#vlcPlayer.getVlcRcStatus().information[tracksPropertyName])) {
-      return [];
+      return new Array<VlcStreamTrack>();
     }
     const tracks = this.#vlcPlayer.getVlcRcStatus().information[tracksPropertyName];
     return [...tracks].sort((a, b) => Number(a.number) - Number(b.number));
@@ -831,6 +831,7 @@ class VlcPlayerMainViewUpdater {
       return;
     }
     kameHouse.logger.trace(trackConfig.getType() + " tracks changed. Updating dropdown.", null);
+    trackConfig.setUpdateDropdown(false);
     trackConfig.setTracks(currentTracks);
     this.#resetTracksDropdown(trackConfig.getType());
     const tracksDropdown = document.getElementById(trackConfig.getType().toLowerCase() + "-track-dropdown");
@@ -853,7 +854,6 @@ class VlcPlayerMainViewUpdater {
       option.text = text;
       tracksDropdown.appendChild(option);
     }
-    trackConfig.setUpdateDropdown(false);
   }
 
   /** Check if tracks list changed */

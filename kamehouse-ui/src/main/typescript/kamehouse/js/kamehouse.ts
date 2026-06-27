@@ -2957,12 +2957,12 @@ class KameHouseCore {
     const logEntry = timestamp + " - [" + logLevelUpperCase + "] - " + message;
     const logEntryForDebugMode = this.#buildLogEntryForDebug(timestamp, logLevelUpperCase, message, coloredMessage);
     if (logLevelUpperCase == "ERROR" && this.#logLevelNumber >= 1) {
-      console.error(logEntry);
+      console.info(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
       return;
     }
     if (logLevelUpperCase == "WARN" && this.#logLevelNumber >= 2) {
-      console.warn(logEntry);
+      console.info(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
       return;
     }
@@ -2973,7 +2973,7 @@ class KameHouseCore {
     }
     if (logLevelUpperCase == "DEBUG" && this.#logLevelNumber >= 4) {
       // Use debug to log behavior, such as executing x method, selected x playlist, etc.
-      console.debug(logEntry);
+      console.info(logEntry);
       this.#logToDebugMode(logEntryForDebugMode);
       return;
     }
