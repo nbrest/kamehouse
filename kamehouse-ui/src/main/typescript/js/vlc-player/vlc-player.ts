@@ -240,40 +240,13 @@ class VlcPlayer {
   }
 
   /** 
-   * Get the current filename.
-   */
-  getCurrentFilename() { return this.#currentFilename; }
-
-  /** 
-   * Set the current filename.
-   */
-  setCurrentFilename(currentFilename) { this.#currentFilename = currentFilename; }
-
-  /** Get the filename from the current vlcRc status. */
-  getFilenameFromVlcRcStatus() {
-    const vlcRcStatus = this.getVlcRcStatus();
-    if (kameHouse.core.isEmpty(vlcRcStatus)) {
-      return null;
-    }
-    const information = vlcRcStatus.information;
-    if (kameHouse.core.isEmpty(information)) {
-      return null;
-    }
-    const meta = information.meta;
-    if (kameHouse.core.isEmpty(meta)) {
-      return null;
-    }
-    return meta.filename;
-  }
-
-  /** 
    * Process filename change.
    */
   processFilenameChange() {
-    const currentFilename = this.getCurrentFilename();
-    const filenameFromVlcRcStatus = this.getFilenameFromVlcRcStatus();
+    const currentFilename = this.#getCurrentFilename();
+    const filenameFromVlcRcStatus = this.#getFilenameFromVlcRcStatus();
     if (currentFilename != filenameFromVlcRcStatus) {
-      this.setCurrentFilename(filenameFromVlcRcStatus);
+      this.#setCurrentFilename(filenameFromVlcRcStatus);
       if (!kameHouse.core.isEmpty(filenameFromVlcRcStatus)) {
         kameHouse.logger.info("Playing file: " + filenameFromVlcRcStatus, null);
       }
@@ -569,6 +542,33 @@ class VlcPlayer {
     this.openTab(currentTab);
   }
 
+  /** 
+   * Get the current filename.
+   */
+  #getCurrentFilename() { return this.#currentFilename; }
+
+  /** 
+   * Set the current filename.
+   */
+  #setCurrentFilename(currentFilename) { this.#currentFilename = currentFilename; }
+
+  /** Get the filename from the current vlcRc status. */
+  #getFilenameFromVlcRcStatus() {
+    const vlcRcStatus = this.getVlcRcStatus();
+    if (kameHouse.core.isEmpty(vlcRcStatus)) {
+      return null;
+    }
+    const information = vlcRcStatus.information;
+    if (kameHouse.core.isEmpty(information)) {
+      return null;
+    }
+    const meta = information.meta;
+    if (kameHouse.core.isEmpty(meta)) {
+      return null;
+    }
+    return meta.filename;
+  }
+
   /**
    * Update track from dropdown value.
    */
@@ -665,16 +665,8 @@ class VlcPlayerMainViewUpdater {
   #statefulButtons = [];
   #timeSliderLocked = false;
   #volumeSliderLocked = false;
-  #subtitleTrackConfig = {
-    type: "Subtitle",
-    tracks : [],
-    updateDropdown: false
-  };
-  #audioTrackConfig = {
-    type: "Audio",
-    tracks : [],
-    updateDropdown: false
-  };
+  #subtitleTrackConfig = new VlcTrackConfig("Subtitle");
+  #audioTrackConfig = new VlcTrackConfig("Audio");
 
   constructor(vlcPlayer) {
     this.#vlcPlayer = vlcPlayer;
@@ -691,8 +683,8 @@ class VlcPlayerMainViewUpdater {
    * Set flags to trigger ui changes when the current playing filename changes.
    */
   processFilenameChange() {
-    this.#audioTrackConfig.updateDropdown = true;
-    this.#subtitleTrackConfig.updateDropdown = true;
+    this.#audioTrackConfig.setUpdateDropdown(true);
+    this.#subtitleTrackConfig.setUpdateDropdown(true);
   }
 
   /** Update vlc player view for main view objects. */
@@ -740,8 +732,8 @@ class VlcPlayerMainViewUpdater {
     this.#resetTimeSlider();
     this.#resetVolumeSlider();
     this.#resetSubtitleDelay();
-    this.#resetTracksDropdown(this.#subtitleTrackConfig.type);
-    this.#resetTracksDropdown(this.#audioTrackConfig.type);
+    this.#resetTracksDropdown(this.#subtitleTrackConfig.getType());
+    this.#resetTracksDropdown(this.#audioTrackConfig.getType());
     this.#resetAspectRatioDropdown();
     this.#statefulButtons.forEach(statefulButton => statefulButton.updateState());
   }
@@ -833,14 +825,14 @@ class VlcPlayerMainViewUpdater {
   }
 
   /** Update track dropdown list. */
-  #updateTrackDropdown(trackConfig, currentTracks) {
-    if (!this.#isTracksListUpdated(trackConfig.tracks, currentTracks) && !trackConfig.updateDropdown) {
-      kameHouse.logger.trace(trackConfig.type + " tracks not changed.", null);
+  #updateTrackDropdown(trackConfig: VlcTrackConfig, currentTracks: VlcStreamTrack[]) {
+    if (!this.#isTracksListUpdated(trackConfig.getTracks(), currentTracks) && !trackConfig.getUpdateDropdown()) {
+      kameHouse.logger.trace(trackConfig.getType() + " tracks not changed.", null);
       return;
     }
-    trackConfig.tracks = currentTracks;
-    this.#resetTracksDropdown(trackConfig.type);
-    const tracksDropdown = document.getElementById(trackConfig.type.toLowerCase() + "-track-dropdown");
+    trackConfig.setTracks(currentTracks);
+    this.#resetTracksDropdown(trackConfig.getType());
+    const tracksDropdown = document.getElementById(trackConfig.getType().toLowerCase() + "-track-dropdown");
     tracksDropdown.appendChild(this.#createDisableTrackOption());
     if (kameHouse.core.isEmpty(currentTracks) || currentTracks.length === 0) {
       return;
@@ -860,11 +852,11 @@ class VlcPlayerMainViewUpdater {
       option.text = text;
       tracksDropdown.appendChild(option);
     }
-    trackConfig.updateDropdown = false;
+    trackConfig.setUpdateDropdown(false);
   }
 
   /** Check if tracks list changed */
-  #isTracksListUpdated(storedTracks, currentTracks) {
+  #isTracksListUpdated(storedTracks: VlcStreamTrack[], currentTracks: VlcStreamTrack[]) {
     if (kameHouse.core.isEmpty(currentTracks) && kameHouse.core.isEmpty(storedTracks)) {
       return false;
     }
@@ -1956,9 +1948,9 @@ class Information {
   chapters: string[];
   title: string;
   titles: string[];
-  audio: AudioTrack[];
+  audio: VlcStreamTrack[];
   meta: Meta;
-  subtitles: Subtitle[];
+  subtitles: VlcStreamTrack[];
   video: any;
 
 } // Information
@@ -1978,11 +1970,9 @@ class Meta {
 
 } // Meta
 
-/**
- * Subtitle.
- */
-class Subtitle {
-  
+/** Base class for vlc stream tracks. */
+class VlcStreamTrack {
+
   name: string;
   number: string;
   type: string;
@@ -1990,22 +1980,30 @@ class Subtitle {
   language: string;
   description: string;
 
-} // Subtitle
+}
 
-/**
- * Audio.
+/** 
+ * Represents the configuration for vlc player track updates.
+ *
+ * @author nbrest
  */
-class AudioTrack {
-  
-  name: string;
-  number: string;
-  type: string;
-  bitrate: string;
-  channels: string;
-  sampleRate: string;
-  codec: string;
-  language: string;
+class VlcTrackConfig {
 
-} // AudioTtrack
+  #type: string = null;
+  #tracks: VlcStreamTrack[] = [];
+  #updateDropdown: boolean = false;
+
+  constructor(type: string) {
+    this.#type = type;
+  }
+
+  getType() { return this.#type; }
+  getTracks() { return this.#tracks; }
+  getUpdateDropdown() { return this.#updateDropdown; }
+
+  setTracks(tracks) { this.#tracks = tracks; }
+  setUpdateDropdown(updateDropdown) { this.#updateDropdown = updateDropdown; }
+  
+}
 
 kameHouse.ready(() => {kameHouse.addExtension("vlcPlayer", new VlcPlayer("localhost"))});
