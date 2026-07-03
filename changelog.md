@@ -5,6 +5,8 @@
 
 # ChangeLog:
 
+#### v11.04
+
 #### v11.03
 
 - Added audio track dropdown to vlc player settings
