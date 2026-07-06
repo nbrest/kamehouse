@@ -22,6 +22,8 @@ EXIT_VAR_NOT_SET=2
 EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 
+SUDOERS_FILE="/etc/sudoers.d/kamehouse"
+
 main() {
   parseArguments "$@"
   log.info "Started setting sudoers for kamehouse"
@@ -50,11 +52,11 @@ updateSudoers() {
 
 updateSudoersEntry() {
   local SUDOERS_LINE="$1"
-  sudo cat /etc/sudoers | grep "${SUDOERS_LINE}" > /dev/null
+  sudo cat "${SUDOERS_FILE}" | grep "${SUDOERS_LINE}" > /dev/null
   if [ "$?" != "0" ]; then
     log.info "${COL_RED}${SUDOERS_LINE} NOT in sudoers file. Adding it"
-    sudo /bin/bash -c "echo \"\" >> /etc/sudoers"
-    sudo /bin/bash -c "echo \"${SUDOERS_LINE}\" >> /etc/sudoers"
+    sudo /bin/bash -c "echo \"\" >> ${SUDOERS_FILE}"
+    sudo /bin/bash -c "echo \"${SUDOERS_LINE}\" >> ${SUDOERS_FILE}"
   else 
     log.info "'${SUDOERS_LINE}' is already in sudoers. No need to update"
   fi    

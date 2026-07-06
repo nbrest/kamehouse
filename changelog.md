@@ -7,6 +7,9 @@
 
 #### v11.04
 
+- Moved sudoers entries to custom kamehouse sudoers file
+- Fixed bugs
+
 #### v11.03
 
 - Added audio track dropdown to vlc player settings
