@@ -9,3 +9,7 @@ source ${HOME}/programs/kamehouse-shell/bin/bashrc/tmux.sh
 source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --skip-override --skip-log
 
 export EDITOR=vim
+
+# Use same sorting order from tty and ssh
+export LC_ALL=C
+
