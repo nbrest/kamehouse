@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Fixed different sort order from tty and ssh
 - Moved sudoers entries to custom kamehouse sudoers file
 - Fixed bugs
 
