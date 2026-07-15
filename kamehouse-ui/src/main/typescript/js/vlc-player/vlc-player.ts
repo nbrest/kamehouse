@@ -843,13 +843,13 @@ class VlcPlayerMainViewUpdater {
       const option = document.createElement("option");
       option.value = currentTracks[i].number;
       let text = "Track " + currentTracks[i].number;
-      const description = currentTracks[i].description;
-      if (!kameHouse.core.isEmpty(description)) {
-        text = description;
-      }
       const language = currentTracks[i].language;
       if (!kameHouse.core.isEmpty(language)) {
         text = language;
+      }
+      const description = currentTracks[i].description;
+      if (!kameHouse.core.isEmpty(description)) {
+        text = description;
       }
       option.text = text;
       tracksDropdown.appendChild(option);
