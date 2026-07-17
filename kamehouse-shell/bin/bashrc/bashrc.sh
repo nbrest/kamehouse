@@ -1,6 +1,6 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/colors-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/urlencode/urlencode-functions.sh
 source ${HOME}/programs/kamehouse-shell/bin/bashrc/alias.sh
-source ${HOME}/programs/kamehouse-shell/bin/bashrc/functions.sh
 source ${HOME}/programs/kamehouse-shell/bin/bashrc/prompt.sh
 source ${HOME}/programs/kamehouse-shell/bin/bashrc/message.sh
 source ${HOME}/programs/kamehouse-shell/bin/bashrc/path.sh

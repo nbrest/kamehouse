@@ -1,4 +1,3 @@
-# Custom non-native bash functions
 
 urlencode() {
     # urlencode <string>
