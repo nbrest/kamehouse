@@ -40,7 +40,7 @@ main() {
   log.info "Installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SHELL_PATH}"
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SHELL_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
-  importCustomFunctions
+  importKameHouseShellFunctions
   getDefaultKameHouseUsername
   if ${UPDATE_BASHRC_ONLY}; then
     updateBashRc
@@ -71,10 +71,10 @@ checkSourcePath() {
   fi
 }
 
-importCustomFunctions() {
+importKameHouseShellFunctions() {
   source ${KAMEHOUSE_SHELL_SOURCE}/kamehouse-shell/bin/functions/kamehouse/get-kamehouse-shell-path-content-functions.sh
   if [ "$?" != "0" ]; then
-    log.error "Could not import custom functions. Can't continue"
+    log.error "Could not import get-kamehouse-shell-path-content-functions.sh. Can't continue"
     exit ${EXIT_ERROR}
   fi
 }
