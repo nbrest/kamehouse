@@ -62,6 +62,8 @@ setupKameHouseUserHome() {
 
 setupGitRepo() {
   log.info "Setting up kamehouse git repo"
+  suCmd "git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse"
+  git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse
   cd /home/${KAMEHOUSE_USER}/git/kamehouse 
   git clean -d -x -f
   git reset --hard
@@ -139,12 +141,12 @@ createSamplePlaylists() {
 
 configureSudoers() {
   log.info "Setting up sudoers"
-  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+  ${HOME}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
 }
 
 installGroot() {
   log.info "Installing groot"
-  /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER} 
+  ${HOME}/programs/kamehouse-shell/bin/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER} 
 }
 
 configureMariadb() {
