@@ -14,10 +14,10 @@ COL_PURPLE_STD="\033[0;35m"
 COL_MESSAGE=${COL_GREEN}
 
 main() {
-  fixEol
+  fixPermissions
 }
 
-fixEol() {
+fixPermissions() {
   log.info "Fixing permissions on scripts in `pwd`"
   find . -regex ".*sh" -type f -exec chmod a+x {} \;
 }

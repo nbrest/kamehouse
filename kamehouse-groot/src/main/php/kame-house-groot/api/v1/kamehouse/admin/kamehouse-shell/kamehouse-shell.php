@@ -25,7 +25,6 @@ class KameHouseShell {
     }
 
     return $kameHouse->util->string->contains($script, "www-data/su.sh") 
-      || $kameHouse->util->string->contains($script, "www-data-shell.sh")
       || $kameHouse->util->string->contains($script, "get-kamehouse-secret.sh")
       || $kameHouse->util->string->contains($script, "encrypt-kamehouse-secrets.sh")
       || $kameHouse->util->string->contains($script, "decrypt-kamehouse-secrets.sh")
