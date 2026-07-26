@@ -34,4 +34,8 @@ validateCommandLineArguments() {
   fi
 }
 
+parseArguments() {
+  return
+}
+
 main "$@"

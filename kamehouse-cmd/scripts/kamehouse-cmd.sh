@@ -35,4 +35,8 @@ executeApp() {
   fi
 }
 
+parseArguments() {
+  return
+}
+
 main "$@"
