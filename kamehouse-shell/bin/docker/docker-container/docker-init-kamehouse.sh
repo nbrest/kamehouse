@@ -3,13 +3,12 @@
 # This script runs inside the docker container, not on the host
 # Init script to execute every time a docker instance starts
 
-DOCKER_CONTAINER_USERNAME=$(ls /home | grep -v ubuntu | head -n 1)
-
-source /home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
+  DOCKER_CONTAINER_USERNAME=$(ls /home | grep -v ubuntu | head -n 1)
 }
 
 initScriptEnv() {

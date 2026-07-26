@@ -40,6 +40,7 @@ main() {
   configureMariadb
   startMariadb
   setupKameHouseMariadb
+  setupKameHouseForRootUser
 }
 
 setEnvironment() {
@@ -151,6 +152,26 @@ setupKameHouseMariadb() {
   mariadb < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql 
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
+}
+
+setupKameHouseForRootUser() {
+  log.info "Setting up kamehouse access for root user"
+  chmod a+rx /home/${KAMEHOUSE_USER}
+  chmod a+rx /home/${KAMEHOUSE_USER}/programs 
+  chmod a+rx /home/${KAMEHOUSE_USER}/git/kamehouse 
+
+  rm -rf /root/programs/kamehouse-*
+  mkdir -p /root/programs
+  ln -s /home/${KAMEHOUSE_USER}/programs/kamehouse-shell /root/programs/kamehouse-shell
+  ln -s /home/${KAMEHOUSE_USER}/programs/kamehouse-snape /root/programs/kamehouse-snape
+
+  # configure kamehouse-shell for root
+  rm -rf /root/git
+  mkdir -p /root/git
+  ln -s /home/${KAMEHOUSE_USER}/git/kamehouse /root/git/kamehouse
+  cd /home/${KAMEHOUSE_USER}/git/kamehouse
+  ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh --bashrc-only
+  rm -rf /root/git
 }
 
 fixPermissions() {
