@@ -11,7 +11,6 @@ initScriptEnv() {
 mainProcessLin() {
   log.info "Started setting sudoers for kamehouse"
   updateSudoers
-  log.info "Ignore ${COL_PURPLE}sudo${COL_MESSAGE} error on windows. This is only needed in linux"
   log.info "Done setting sudoers for kamehouse"
 }
 
