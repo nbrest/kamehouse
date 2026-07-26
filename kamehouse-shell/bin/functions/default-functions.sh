@@ -296,13 +296,13 @@ mainWrapper() {
 
 # Override in individual scripts if there's no need for win/lin distinction
 mainProcess() {
-  mainProcessPre
+  mainProcessPre "$@"
   if ${IS_LINUX_HOST}; then
-    mainProcessLin
+    mainProcessLin "$@"
   else
-    mainProcessWin
+    mainProcessWin "$@"
   fi
-  mainProcessPost
+  mainProcessPost "$@"
 }
 
 # Override in individual scripts for common pre lin/win actions
