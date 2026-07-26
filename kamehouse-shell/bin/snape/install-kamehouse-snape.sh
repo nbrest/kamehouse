@@ -1,40 +1,17 @@
 #!/bin/bash
 
-# Execute from the root of the kamehouse git project:
-# chmod a+x ./kamehouse-shell/bin/snape/install-kamehouse-snape.sh
-# ./kamehouse-shell/bin/snape/install-kamehouse-snape.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-DEFAULT_KAMEHOUSE_USERNAME=""
+importKamehouse functions/deploy/build-functions.sh
 
-SCRIPT_NAME=`basename "$0"`
-COL_BLUE="\033[1;34m"
-COL_BOLD="\033[1m"
-COL_CYAN="\033[1;36m"
-COL_GREEN="\033[1;32m"
-COL_NORMAL="\033[0;39m"
-COL_PURPLE="\033[1;35m"
-COL_RED="\033[1;31m"
-COL_YELLOW="\033[1;33m"
-COL_CYAN_STD="\033[0;36m"
-COL_PURPLE_STD="\033[0;35m"
-COL_YELLOW_STD="\033[0;33m"
-COL_MESSAGE=${COL_GREEN}
+initScriptEnv() {
+  KAMEHOUSE_SNAPE_PATH=${HOME}/programs/kamehouse-snape
+  TEMP_PATH=${HOME}/temp
+  KAMEHOUSE_SNAPE_SOURCE=`pwd`
+}
 
-KAMEHOUSE_SNAPE_PATH=${HOME}/programs/kamehouse-snape
-TEMP_PATH=${HOME}/temp
-
-KAMEHOUSE_SNAPE_SOURCE=`pwd`
-LOG_LEVEL=""
-
-# Exit codes
-EXIT_SUCCESS=0
-EXIT_ERROR=1
-EXIT_VAR_NOT_SET=2
-EXIT_INVALID_ARG=3
-EXIT_PROCESS_CANCELLED=4
-
-main() {
-  parseArguments "$@"
+mainProcessPre() {
   log.info "Installing ${COL_PURPLE}kamehouse-snape${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SNAPE_PATH}"
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SNAPE_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
@@ -104,18 +81,6 @@ generateBuildInfo() {
   echo '{ "buildVersion": "'${KAMEHOUSE_BUILD_VERSION}'", "buildDate": "'${BUILD_DATE}'" }' > ${KAMEHOUSE_SNAPE_CONF_PATH}/build-info.json
 }
 
-getKameHouseBuildVersion() {
-  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
-  local GIT_COMMIT_HASH=`git rev-parse HEAD`
-  GIT_COMMIT_HASH=`echo ${GIT_COMMIT_HASH:0:9}`
-  local BUILD_VERSION="${GIT_COMMIT_HASH}"
-  if [ -n "${KAMEHOUSE_RELEASE_VERSION}" ]; then
-    BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
-  fi
-  echo "${BUILD_VERSION}"
-}
-
 installKamehouseSnapeConfig() {
   log.info "Installing kamehouse-snape.cfg"
   if [ ! -f "${HOME}/.kamehouse/config/kamehouse-snape.cfg" ]; then
@@ -137,18 +102,6 @@ logKameHouseSnapeStatus() {
   echo -ne "${COL_NORMAL}"
 }
 
-log.info() {
-  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-  local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_CYAN_STD}${SCRIPT_NAME}${COL_NORMAL} - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
-}
-
-log.error() {
-  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-  local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${SCRIPT_NAME}${COL_NORMAL} - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
-}
-
 parseArguments() {
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -158,28 +111,18 @@ parseArguments() {
     fi
     local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
-      -h)
-        printHelpMenu
-        exit ${EXIT_SUCCESS}
-        ;;
       -p)
         KAMEHOUSE_SNAPE_SOURCE=${HOME}/git/kamehouse
         ;;
       -?|-??*)
-        log.error "Invalid argument ${CURRENT_OPTION}"
-        exit ${EXIT_INVALID_ARG}
-        ;;        
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;
     esac
-  done    
+  done
 }
 
-printHelpMenu() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}install-kamehouse-snape.sh${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p${COL_NORMAL} use kamehouse git prod directory instead of current dir"
+printHelpOptions() {
+  addHelpOption "-p" "use kamehouse git prod directory instead of current dir"
 }
 
 main "$@"

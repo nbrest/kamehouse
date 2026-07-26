@@ -1,31 +1,14 @@
 #!/bin/bash
 
-SCRIPT_NAME=`basename "$0"`
-COL_BLUE="\033[1;34m"
-COL_BOLD="\033[1m"
-COL_CYAN="\033[1;36m"
-COL_GREEN="\033[1;32m"
-COL_NORMAL="\033[0;39m"
-COL_PURPLE="\033[1;35m"
-COL_RED="\033[1;31m"
-COL_YELLOW="\033[1;33m"
-COL_CYAN_STD="\033[0;36m"
-COL_PURPLE_STD="\033[0;35m"
-COL_MESSAGE=${COL_GREEN}
+source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
-KAMEHOUSE_USER=""
+initScriptEnv() {
+  KAMEHOUSE_USER=""
+  SUDOERS_FILE="/etc/sudoers.d/kamehouse"
+}
 
-# Exit codes
-EXIT_SUCCESS=0
-EXIT_ERROR=1
-EXIT_VAR_NOT_SET=2
-EXIT_INVALID_ARG=3
-EXIT_PROCESS_CANCELLED=4
-
-SUDOERS_FILE="/etc/sudoers.d/kamehouse"
-
-main() {
-  parseArguments "$@"
+mainProcessLin() {
   log.info "Started setting sudoers for kamehouse"
   updateSudoers
   log.info "Ignore ${COL_PURPLE}sudo${COL_MESSAGE} error on windows. This is only needed in linux"
@@ -62,18 +45,6 @@ updateSudoersEntry() {
   fi    
 }
 
-log.info() {
-  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-  local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_CYAN_STD}${SCRIPT_NAME}${COL_NORMAL} - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
-}
-
-log.error() {
-  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-  local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${SCRIPT_NAME}${COL_NORMAL} - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
-}
-
 parseArguments() {
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -83,34 +54,22 @@ parseArguments() {
     fi
     local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
-      -h)
-        printHelpMenu
-        exit ${EXIT_SUCCESS}
-        ;;
       -u)
         KAMEHOUSE_USER="${CURRENT_OPTION_ARG}"
         ;;
       -?|-??*)
-        log.error "Invalid argument ${CURRENT_OPTION}"
-        exit ${EXIT_INVALID_ARG}
+        parseInvalidArgument "${CURRENT_OPTION}"
         ;;        
     esac
-  done    
-
-  if [ -z "${KAMEHOUSE_USER}" ]; then
-    log.error "Option -u is required"
-    printHelpMenu
-    exit ${EXIT_INVALID_ARG}
-  fi
+  done
 }
 
-printHelpMenu() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}set-kamehouse-sudoers-permissions.sh${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-u (username)${COL_NORMAL} user running kamehouse [${COL_RED}required${COL_NORMAL}]"
+setEnvFromArguments() {
+  checkRequiredOption "-u" "${KAMEHOUSE_USER}" 
+}
+
+printHelpOptions() {
+  addHelpOption "-u (username)" "user running kamehouse" "r"
 }
 
 main "$@"

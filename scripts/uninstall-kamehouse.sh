@@ -1,36 +1,14 @@
 #!/bin/bash
 
-# Execute this script with: 
-# chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
+source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-SCRIPT_NAME=`basename "$0"`
-COL_BLUE="\033[1;34m"
-COL_BOLD="\033[1m"
-COL_CYAN="\033[1;36m"
-COL_GREEN="\033[1;32m"
-COL_NORMAL="\033[0;39m"
-COL_PURPLE="\033[1;35m"
-COL_RED="\033[1;31m"
-COL_YELLOW="\033[1;33m"
-COL_CYAN_STD="\033[0;36m"
-COL_PURPLE_STD="\033[0;35m"
-COL_MESSAGE=${COL_GREEN}
+initScriptEnv() {
+  PURGE_CONFIG=false
+  KAMEHOUSE_SHELL_ONLY=false
+}
 
-PURGE_CONFIG=false
-KAMEHOUSE_SHELL_ONLY=false
-UNINSTALL_FOR_ROOT=false
-
-# Exit codes
-EXIT_SUCCESS=0
-EXIT_ERROR=1
-EXIT_VAR_NOT_SET=2
-EXIT_INVALID_ARG=3
-EXIT_PROCESS_CANCELLED=4
-
-main() {
-  parseArguments "$@"
-  checkUninstalForRoot
-
+mainProcessPre() {
   log.info "Uninstalling ${COL_PURPLE}kamehouse"
 
   revertBashRc
@@ -50,14 +28,6 @@ main() {
   fi
 
   log.info "Finished uninstalling ${COL_PURPLE}kamehouse"
-}
-
-checkUninstalForRoot() {
-  if ${UNINSTALL_FOR_ROOT}; then
-    sudo /bin/bash -c "cd /root/git/kamehouse ; ./scripts/uninstall-kamehouse.sh -p"
-    log.info "Uninstalled kamehouse for root user"
-    exit ${EXIT_SUCCESS}
-  fi
 }
 
 revertBashRc() {
@@ -120,18 +90,6 @@ purgeConfigFiles() {
   fi
 }
 
-log.info() {
-  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-  local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_BLUE}INFO${COL_NORMAL}] - ${COL_CYAN_STD}${SCRIPT_NAME}${COL_NORMAL} - ${COL_MESSAGE}${LOG_MESSAGE}${COL_NORMAL}"
-}
-
-log.error() {
-  local ENTRY_DATE="${COL_CYAN}$(date +%Y-%m-%d' '%H:%M:%S)${COL_NORMAL}"
-  local LOG_MESSAGE=$1
-  echo -e "${ENTRY_DATE} - [${COL_RED}ERROR${COL_NORMAL}] - ${COL_RED}${SCRIPT_NAME}${COL_NORMAL} - ${COL_RED}${LOG_MESSAGE}${COL_NORMAL}"
-}
-
 parseArguments() {
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -141,36 +99,22 @@ parseArguments() {
     fi
     local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
-      -h)
-        printHelpMenu
-        exit ${EXIT_SUCCESS}
-        ;;
       -p)
         PURGE_CONFIG=true
         ;;
       -s)
         KAMEHOUSE_SHELL_ONLY=true
         ;;
-      -r)
-        UNINSTALL_FOR_ROOT=true
-        ;;
       -?|-??*)
-        log.error "Invalid argument ${CURRENT_OPTION}"
-        exit ${EXIT_INVALID_ARG}
+        parseInvalidArgument "${CURRENT_OPTION}"
         ;;        
     esac
   done 
 }
 
-printHelpMenu() {
-  echo -e ""
-  echo -e "Usage: ${COL_PURPLE}uninstall-kamehouse.sh${COL_NORMAL} [options]"
-  echo -e ""
-  echo -e "  Options:"  
-  echo -e "     ${COL_BLUE}-h${COL_NORMAL} display help"
-  echo -e "     ${COL_BLUE}-p${COL_NORMAL} purge config files as well"
-  echo -e "     ${COL_BLUE}-s${COL_NORMAL} uninstall kamehouse-shell only"
-  echo -e "     ${COL_BLUE}-r${COL_NORMAL} uninstall kamehouse for root"
+printHelpOptions() {
+  addHelpOption "-p" "purge config files as well"
+  addHelpOption "-s" "uninstall kamehouse-shell only"
 }
 
 main "$@"
