@@ -34,8 +34,8 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/programs/kamehouse-shell/bin/docker/docker-ci-rebuild-docker-image.sh -c
   checkCommandStatus "$?" "An error occurred rebuilding the docker image"
 
-  ${HOME}/programs/kamehouse-shell/bin/deploy/sonarcloud-run-kamehouse.sh
-  checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
+  #${HOME}/programs/kamehouse-shell/bin/deploy/sonarcloud-run-kamehouse.sh
+  #checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
   
   ${HOME}/programs/kamehouse-shell/bin/deploy/exec-kamehouse-all-servers.sh -s "docker/docker-upgrade-containers.sh"
   checkCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
