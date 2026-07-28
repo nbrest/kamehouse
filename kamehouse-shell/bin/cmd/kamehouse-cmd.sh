@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
-mainProcessPre() {
+mainProcess() {
   # Execute the latest deployed version of kamehouse-cmd
   ${HOME}/programs/kamehouse-cmd/bin/kamehouse-cmd.sh "$@"
 }

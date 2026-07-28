@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
-mainProcessPre() {
+mainProcess() {
   # Execute the latest deployed version of kamehouse-desktop
   ${HOME}/programs/kamehouse-desktop/bin/kamehouse-desktop-startup.sh "$@"
 }

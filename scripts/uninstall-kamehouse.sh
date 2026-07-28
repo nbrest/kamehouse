@@ -8,7 +8,7 @@ initScriptEnv() {
   KAMEHOUSE_SHELL_ONLY=false
 }
 
-mainProcessPre() {
+mainProcess() {
   log.info "Uninstalling ${COL_PURPLE}kamehouse"
 
   revertBashRc

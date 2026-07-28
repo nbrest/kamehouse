@@ -12,7 +12,7 @@ initScriptEnv() {
   KAMEHOUSE_CMD_PATH=${HOME}/programs/kamehouse-cmd
 }
 
-mainProcessPre() {
+mainProcess() {
   setEnvironment
   executeApp "$@"
 }

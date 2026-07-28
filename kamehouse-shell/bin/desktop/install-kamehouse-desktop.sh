@@ -11,7 +11,7 @@ initScriptEnv() {
   KAMEHOUSE_DESKTOP_SOURCE=`pwd`
 }
 
-mainProcessPre() {
+mainProcess() {
   log.info "Installing ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_DESKTOP_PATH}"
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_DESKTOP_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
