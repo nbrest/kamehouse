@@ -11,5 +11,5 @@ source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --skip-overr
 export EDITOR=vim
 
 # Use same sorting order from tty and ssh
-export LC_ALL=C
+export LC_COLLATE=C
 
