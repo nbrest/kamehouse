@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Updated default servers list
 - Moved old java8 and java11 releases docker build image scripts to separate repos
 - Moved most scripts to use kamehouse-shell framework
 - Refactored kamehouse shell path content functions to be reused

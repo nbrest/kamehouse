@@ -43,7 +43,7 @@ MODULES_LIST="[admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld
 MODULE_SHORT=""
 MODULE=""
 
-KAMEHOUSE_SERVERS_LIST="[kamehouse-r2d2|kamehouse-krypton|kamehouse-watchtower|kamehouse-thor|kamehouse-namek|kamehouse-cc|kamehouse-c3p0|kamehouse-giru|kamehouse-pegasus|kamehouse-asgard|kamehouse-ztv-ssj1|kamehouse-ztv-ssj2|kamehouse-ztv-ssj3|kamehouse-ztv-ssj4|kamehouse-ztv-ssj5]"
+KAMEHOUSE_SERVERS_LIST="[kamehouse-r2d2|kamehouse-krypton|kamehouse-watchtower|kamehouse-thor|kamehouse-namek|kamehouse-cc|kamehouse-cc-kamino|kamehouse-c3p0|kamehouse-giru|kamehouse-pegasus|kamehouse-asgard|kamehouse-ztv-ssj1|kamehouse-ztv-ssj2|kamehouse-ztv-ssj3|kamehouse-ztv-ssj4|kamehouse-ztv-ssj5]"
 
 MAVEN_PROFILES_LIST="[prod|qa|dev|docker|ci]"
 DEFAULT_MAVEN_PROFILE="prod"
