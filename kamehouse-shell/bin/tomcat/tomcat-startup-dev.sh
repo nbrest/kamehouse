@@ -8,7 +8,11 @@ initScriptEnv() {
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
 }
 
-mainProcess() {
+mainProcessLin() {
+  setupLinuxEnvironment
+}
+
+mainProcessPost() {
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --skip-override --log
   
   echo "********************************************************************************************"
