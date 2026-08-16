@@ -579,19 +579,19 @@ setLinuxEnvXauhority() {
   fi
   local USER_UID=`id -u`
   if [ -n "${XAUTHORITY}" ]; then
-    log.debug "XAUTHORITY=${XAUTHORITY}"
+    log.info "XAUTHORITY=${XAUTHORITY}"
     return
   fi
   local XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/.mutter-Xwaylandauth* 2>/dev/null`
   if [ -n "${XAUTHORITY_VAL}" ]; then
     export XAUTHORITY=${XAUTHORITY_VAL}
-    log.debug "XAUTHORITY=${XAUTHORITY}"
+    log.info "XAUTHORITY=${XAUTHORITY}"
     return
   fi
   XAUTHORITY_VAL=`ls -1 /run/user/${USER_UID}/gdm/Xauthority* 2>/dev/null`
   if [ -n "${XAUTHORITY_VAL}" ]; then
     export XAUTHORITY=${XAUTHORITY_VAL}
-    log.debug "XAUTHORITY=${XAUTHORITY}"
+    log.info "XAUTHORITY=${XAUTHORITY}"
     return
   fi    
 }
