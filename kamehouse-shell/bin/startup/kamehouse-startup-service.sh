@@ -47,11 +47,11 @@ startTomcat() {
     return
   fi
   if ${KAMEHOUSE_STARTUP_USE_DEV}; then
-    log.info "Starting tomcat" 
-    su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
-  else
     log.info "Starting tomcat dev"
     su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/tomcat/tomcat-startup-dev.sh
+  else
+    log.info "Starting tomcat" 
+    su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
   fi
 }
 
