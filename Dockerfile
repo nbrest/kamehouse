@@ -19,7 +19,8 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-container /home/${KAMEHOUS
 RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/*
 
 # Setup container base apps, user and folders
-RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container.sh -u ${KAMEHOUSE_USERNAME} -p ${KAMEHOUSE_PASSWORD}
+RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container-os.sh
+RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container-user-apps.sh -u ${KAMEHOUSE_USERNAME} -p ${KAMEHOUSE_PASSWORD}
 
 # Copy docker setup-kamehouse folder
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-kamehouse /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse
