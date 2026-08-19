@@ -1,7 +1,14 @@
 # BUILD: docker-build-kamehouse.sh : builds the docker image from this file
 # RUN: docker-run-kamehouse.sh : runs a temporary container from an image built from this file
 
+# When updating versions here, also update in /docs/versions/versions.md
+ARG MAVEN_VERSION=3.9.3
+ARG TOMCAT_VERSION=10.1.11
 ARG DOCKER_IMAGE_BASE
+
+FROM maven:${MAVEN_VERSION}-eclipse-temurin-17 AS maven_source
+FROM tomcat:${TOMCAT_VERSION}-jdk17 AS tomcat_source
+
 FROM ${DOCKER_IMAGE_BASE}
 LABEL maintainer="brest.nico@gmail.com"
 
@@ -18,8 +25,14 @@ ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-container /home/${KAMEHOUSE_USERNAME}/docker/setup-container
 RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/*
 
-# Setup container base apps, user and folders
+# Setup container os
 RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container-os.sh
+
+# Setup container user apps
+RUN mkdir -p /home/${KAMEHOUSE_USERNAME}/programs
+COPY --from=maven_source /usr/share/maven /home/${KAMEHOUSE_USERNAME}/programs/apache-maven
+COPY --from=tomcat_source /usr/local/tomcat /home/${KAMEHOUSE_USERNAME}/programs/apache-tomcat
+
 RUN /home/${KAMEHOUSE_USERNAME}/docker/setup-container/scripts/dockerfile-setup-container-user-apps.sh -u ${KAMEHOUSE_USERNAME} -p ${KAMEHOUSE_PASSWORD}
 
 # Copy docker setup-kamehouse folder

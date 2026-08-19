@@ -14,12 +14,6 @@ COL_CYAN_STD="\033[0;36m"
 COL_PURPLE_STD="\033[0;35m"
 COL_MESSAGE=${COL_GREEN}
 
-# When updating versions here, also update in /docs/versions/versions.md
-MAVEN_TOP_LEVEL_VERSION=3
-MAVEN_VERSION=3.9.3
-TOMCAT_TOP_LEVEL_VERSION=10
-TOMCAT_VERSION=10.1.11
-
 KAMEHOUSE_USER=""
 KAMEHOUSE_PASSWORD=""
 IS_OUTSIDE_DOCKERFILE=false
@@ -37,8 +31,8 @@ main() {
   setupKameHouseUser
   setupHttpd
   setupKameHouseUserHome
-  installTomcat
-  installMaven
+  setupTomcat
+  setupMaven
   setupMockedBins
   setupRootBashRc
   fixPermissions
@@ -112,15 +106,9 @@ setupKameHouseUserHome() {
   fixPermissions
 }
 
-installTomcat() {
+setupTomcat() {
   log.info "Setting up tomcat"
-  mkdir -p /home/${KAMEHOUSE_USER}/programs
-  cd /home/${KAMEHOUSE_USER}/programs ; wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_TOP_LEVEL_VERSION}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
-  tar -xf /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /home/${KAMEHOUSE_USER}/programs/
-  mv /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-tomcat
-  rm /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz
   sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh
-  
   mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost
   cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
   cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
@@ -129,14 +117,9 @@ installTomcat() {
   fixPermissions
 }
 
-installMaven() {
+setupMaven() {
   log.info "Setting up maven"
-  cd /home/${KAMEHOUSE_USER}/programs ; wget --no-check-certificate https://archive.apache.org/dist/maven/maven-${MAVEN_TOP_LEVEL_VERSION}/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
-  tar -xf /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /home/${KAMEHOUSE_USER}/programs/
-  mv /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-maven
-  rm /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz
   echo PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USER}/.bashrc
-
   mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-maven/conf
   cp /home/${KAMEHOUSE_USER}/docker/setup-container/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml
   echo "PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:${PATH}" >> /etc/profile
