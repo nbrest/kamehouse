@@ -77,7 +77,8 @@ setupHttpd() {
   a2ensite default-ssl 
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
 
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-httpd"
+  mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-httpd
+  fixPermissions
 
   chmod a+rx /var/log/apache2 
   ln -s /var/log/apache2 /home/${KAMEHOUSE_USER}/programs/apache-httpd/logs   
@@ -94,49 +95,52 @@ setupHttpd() {
 
 setupKameHouseUserHome() {
   log.info "Setting up kamehouse user home"
-  suCmd "touch /home/${KAMEHOUSE_USER}/.env" 
-  suCmd "echo \"source /home/${KAMEHOUSE_USER}/.env\" >> /home/${KAMEHOUSE_USER}/.bashrc"
+  touch /home/${KAMEHOUSE_USER}/.env 
+  echo "source /home/${KAMEHOUSE_USER}/.env" >> /home/${KAMEHOUSE_USER}/.bashrc
 
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/config/" 
-  suCmd "touch /home/${KAMEHOUSE_USER}/.kamehouse/config/.kamehouse-docker-container-env" 
-  suCmd "echo \"source /home/${KAMEHOUSE_USER}/.kamehouse/config/.kamehouse-docker-container-env\" >> /home/${KAMEHOUSE_USER}/.bashrc"
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/config/ 
+  touch /home/${KAMEHOUSE_USER}/.kamehouse/config/.kamehouse-docker-container-env 
+  echo "source /home/${KAMEHOUSE_USER}/.kamehouse/config/.kamehouse-docker-container-env" >> /home/${KAMEHOUSE_USER}/.bashrc
 
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/.ssh" 
+  mkdir -p /home/${KAMEHOUSE_USER}/.ssh 
 
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/.config/vlc/" 
+  mkdir -p /home/${KAMEHOUSE_USER}/.config/vlc/ 
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container/vlc/* /home/${KAMEHOUSE_USER}/.config/vlc/
 
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/bin"
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/lib"
+  mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/bin
+  mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/lib
+  fixPermissions
 }
 
 installTomcat() {
   log.info "Setting up tomcat"
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/programs"
-  suCmd "cd /home/${KAMEHOUSE_USER}/programs ; wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_TOP_LEVEL_VERSION}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz"
-  suCmd "tar -xf /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /home/${KAMEHOUSE_USER}/programs/"
-  suCmd "mv /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-tomcat"
-  suCmd "rm /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz"
-  suCmd "sed -i \"s#localhost:8000#0.0.0.0:8000#g\" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh"  
-
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost"
-  suCmd "cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/"
-  suCmd "cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/"
-  suCmd "cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/"
-  suCmd "cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/"
+  mkdir -p /home/${KAMEHOUSE_USER}/programs
+  cd /home/${KAMEHOUSE_USER}/programs ; wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_TOP_LEVEL_VERSION}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
+  tar -xf /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /home/${KAMEHOUSE_USER}/programs/
+  mv /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-tomcat
+  rm /home/${KAMEHOUSE_USER}/programs/apache-tomcat-${TOMCAT_VERSION}.tar.gz
+  sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh
+  
+  mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
+  fixPermissions
 }
 
 installMaven() {
   log.info "Setting up maven"
-  suCmd "cd /home/${KAMEHOUSE_USER}/programs ; wget --no-check-certificate https://archive.apache.org/dist/maven/maven-${MAVEN_TOP_LEVEL_VERSION}/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-  suCmd "tar -xf /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /home/${KAMEHOUSE_USER}/programs/"
-  suCmd "mv /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-maven"
-  suCmd "rm /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-  suCmd "echo PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USER}/.bashrc"
+  cd /home/${KAMEHOUSE_USER}/programs ; wget --no-check-certificate https://archive.apache.org/dist/maven/maven-${MAVEN_TOP_LEVEL_VERSION}/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+  tar -xf /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /home/${KAMEHOUSE_USER}/programs/
+  mv /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION} /home/${KAMEHOUSE_USER}/programs/apache-maven
+  rm /home/${KAMEHOUSE_USER}/programs/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+  echo PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USER}/.bashrc
 
-  suCmd "mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-maven/conf"
-  suCmd "cp /home/${KAMEHOUSE_USER}/docker/setup-container/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml"
+  mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-maven/conf
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml
   echo "PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:${PATH}" >> /etc/profile
+  fixPermissions
 }
 
 setupMockedBins() {
@@ -162,12 +166,6 @@ setupRootBashRc() {
 
 fixPermissions() {
   log.info "Fixing permissions"
-  chown ${KAMEHOUSE_USER}:users -R /home/${KAMEHOUSE_USER}/  
-}
-
-suCmd() {
-  local COMMAND=$1
-  sudo su - ${KAMEHOUSE_USER} -c "${COMMAND}"
   chown ${KAMEHOUSE_USER}:users -R /home/${KAMEHOUSE_USER}/  
 }
 
