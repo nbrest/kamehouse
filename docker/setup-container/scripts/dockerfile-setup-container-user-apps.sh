@@ -40,7 +40,7 @@ main() {
 
 deleteDefaultUser() {
   log.info "Deleting default users"
-  deluser -rf ubuntu 
+  deluser --remove-home ubuntu 
 }
 
 setupKameHouseUser() {
