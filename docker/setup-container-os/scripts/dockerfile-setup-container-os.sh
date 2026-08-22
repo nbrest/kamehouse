@@ -28,43 +28,40 @@ main() {
 
 installBaseApps() {
   log.info "Installing base apps"
-  apt-get update -y && \
-  apt-get upgrade -y && \
-  apt-get install -y \
-    apache2 \
-    curl \
-    git \
-    iputils-ping \
-    openjdk-17-jdk \
-    mariadb-server \
-    net-tools \
-    openssh-server \
-    php \
-    libapache2-mod-php \
-    php-mysql \
-    picom \
-    python3 \
-    python3-pyqt5 \
-    python3-click \
-    python3-google-api-python-client \
-    python3-google-auth-httplib2 \
-    python3-google-auth-oauthlib \
-    python3-loguru \
-    python3-requests \
-    python3-websocket \
-    python3-websocket-client \
-    python3-stomper \
-    python3-pip \
-    screen \
-    sudo \
-    tightvncserver \
-    tmux \
-    vim \
-    vlc \
-    xcompmgr \
-    zip && \
-  apt-get autopurge -y && \
-  apt-get autoclean -y && \
+  apt-get update -y && apt-get -y upgrade
+  apt-get install -y apache2
+  apt-get install -y curl
+  apt-get install -y git
+  apt-get install -y iputils-ping
+  apt-get install -y openjdk-17-jdk
+  apt-get install -y mariadb-server
+  apt-get install -y net-tools
+  apt-get install -y openssh-server
+  apt-get install -y php libapache2-mod-php php-mysql
+  apt-get install -y picom
+  apt-get install -y python3
+  apt-get install -y python3-pyqt5
+  apt-get install -y python3-click
+  apt-get install -y python3-google-api-python-client
+  apt-get install -y python3-google-auth-httplib2
+  apt-get install -y python3-google-auth-oauthlib
+  apt-get install -y python3-loguru
+  apt-get install -y python3-requests
+  apt-get install -y python3-websocket
+  apt-get install -y python3-websocket-client
+  apt-get install -y python3-stomper
+  apt-get install -y pip
+  apt-get install -y screen
+  apt-get install -y sudo
+  apt-get install -y tightvncserver
+  apt-get install -y tmux
+  apt-get install -y vim
+  apt-get install -y vlc
+  apt-get install -y xcompmgr
+  apt-get install -y zip
+
+  apt-get autopurge -y
+  apt-get autoclean -y
   apt-get clean -y
 
   installNode
