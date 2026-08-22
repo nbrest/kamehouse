@@ -87,7 +87,7 @@ sudo npm install typescript -g
     pip install stomper
 ```
 
-  - Linux: (when adding here also update `dockerfile-setup-container.sh`)
+  - Linux: (when adding here also update `dockerfile-setup-container-os.sh`)
 ```sh
     PYTHON_VERSION=   # set value from versions.md
     sudo apt-get install -y picom

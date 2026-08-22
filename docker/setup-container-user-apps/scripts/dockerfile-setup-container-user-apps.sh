@@ -58,11 +58,11 @@ setupKameHouseUser() {
 setupHttpd() {
   log.info "Setting up httpd"
   mkdir -p /etc/apache2/conf
-  cp -r /home/${KAMEHOUSE_USER}/docker/setup-container/apache2/conf/* /etc/apache2/conf
-  cp -r /home/${KAMEHOUSE_USER}/docker/setup-container/apache2/sites-available/* /etc/apache2/sites-available
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/apache2/certs/apache-selfsigned.key /etc/ssl/private/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/apache2/robots.txt /var/www/html/
+  cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/conf/* /etc/apache2/conf
+  cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/sites-available/* /etc/apache2/sites-available
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.key /etc/ssl/private/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/robots.txt /var/www/html/
   chown ${KAMEHOUSE_USER}:users -R /var/www/html 
 
   ln -s /var/www/html/ /var/www/kamehouse-webserver 
@@ -99,7 +99,7 @@ setupKameHouseUserHome() {
   mkdir -p /home/${KAMEHOUSE_USER}/.ssh 
 
   mkdir -p /home/${KAMEHOUSE_USER}/.config/vlc/ 
-  cp -r /home/${KAMEHOUSE_USER}/docker/setup-container/vlc/* /home/${KAMEHOUSE_USER}/.config/vlc/
+  cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/vlc/* /home/${KAMEHOUSE_USER}/.config/vlc/
 
   mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/bin
   mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/lib
@@ -110,10 +110,10 @@ setupTomcat() {
   log.info "Setting up tomcat"
   sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh
   mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
   fixPermissions
 }
 
@@ -121,7 +121,7 @@ setupMaven() {
   log.info "Setting up maven"
   echo PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USER}/.bashrc
   mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-maven/conf
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml
   echo "PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:${PATH}" >> /etc/profile
   fixPermissions
 }
@@ -133,10 +133,10 @@ setupMockedBins() {
   log.info "Setting up mocked bins"
   mv /usr/bin/vlc /usr/bin/vlc-bin 
 
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/mocked-bin/vlc /usr/bin/vlc
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/mocked-bin/vlc /usr/bin/vlc
   chmod a+rx /usr/bin/vlc 
 
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/mocked-bin/gnome-screensaver-command /usr/bin/gnome-screensaver-command
   chmod a+rx /usr/bin/gnome-screensaver-command
 }
 
