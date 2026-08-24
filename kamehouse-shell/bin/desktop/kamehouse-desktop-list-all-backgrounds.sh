@@ -13,36 +13,16 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  initOutputFile
-  getAllBackgrounds
-  listUnprocessedBackgrounds
+  listAllBackgrounds
 }
 
-initOutputFile() {
-  echo -ne "" > ${KAMEHOUSE_DESKTOP_BACKGROUNDS_UNPROCESSED_FILE}
-}
-
-getAllBackgrounds() {
+listAllBackgrounds() {
   log.info "Getting all backgrounds from ${BACKGROUNDS_SRC_DIR}"
-  BACKGROUNDS=`find "${BACKGROUNDS_SRC_DIR}" -type f ! -regex ".*\.md$" -exec basename {} \;`
+  BACKGROUNDS=`find "${BACKGROUNDS_SRC_DIR}" -type f ! -regex ".*\.md$" -printf "%P\n"`
+  log.info "Backgrounds:"
+  echo -e "${BACKGROUNDS}"
   local COUNT=`echo -e "${BACKGROUNDS}" | wc -l`
   log.info "Total backgrounds: ${COUNT}"  
-}
-
-listUnprocessedBackgrounds() {
-  log.info "Checking for unprocessed backgrounds"
-  while read BACKGROUND; do
-    if [ -n "${BACKGROUND}" ]; then
-      cat ${KAMEHOUSE_DESKTOP_BACKGROUNDS_SUCCESS_FILE} | grep -e ".*${BACKGROUND}$" > /dev/null
-      if [ "$?" != "0" ]; then
-        echo "${BACKGROUND}" >> ${KAMEHOUSE_DESKTOP_BACKGROUNDS_UNPROCESSED_FILE}
-      fi
-    fi
-  done <<< ${BACKGROUNDS}
-  log.info "List of unprocessed backgrounds"
-  cat ${KAMEHOUSE_DESKTOP_BACKGROUNDS_UNPROCESSED_FILE} 
-  local NUMBER=`cat ${KAMEHOUSE_DESKTOP_BACKGROUNDS_UNPROCESSED_FILE} | wc -l`
-  log.info "Unprocessed backgrounds count: ${COL_RED}${NUMBER}"  
 }
 
 parseArguments() {

@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Fixed list unprocessed desktop backgrounds and added list all backgrounds script
 - Added dev mode to kamehouse startup service
 - Updated default servers list
 - Moved old java8 and java11 releases docker build image scripts to separate repos
