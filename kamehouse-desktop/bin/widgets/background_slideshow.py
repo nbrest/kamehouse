@@ -72,6 +72,8 @@ class BackgroundSlideshowWidget(QWidget):
         if (self.useDefaultBackgroundImages()):
             logger.info("Using default background images")
             self.addBackgroundsToLists(self.default_backgrounds_path)
+        logger.info("Background images count: " + str(len(self.background_images)))
+        logger.info("Portrait background images count: " + str(len(self.portrait_background_images)))
 
     def useDefaultBackgroundImages(self):
         return len(self.background_images) <= 0
