@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Added multiple screens support to kamehouse-desktop
 - Renamed setDefaultScriptConfig function to initScriptConfig
 - Added compare desktop backgrounds script
 - Fixed list unprocessed desktop backgrounds and added list all backgrounds script

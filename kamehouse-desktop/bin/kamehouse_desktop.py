@@ -1,6 +1,7 @@
 import sys
 import subprocess
 import socket
+import os
 
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -23,6 +24,7 @@ class KameHouseDesktop(QMainWindow):
         self.app = app
         self.startCompositor()
         self.setWindowProperties()
+        self.moveToTargetScreen()
         self.initWidgets()
         self.showFullScreen()
 
@@ -56,7 +58,29 @@ class KameHouseDesktop(QMainWindow):
             self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)        
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setStyleSheet(kamehouse_desktop_cfg.get('kamehouse_desktop', 'stylesheet'))
- 
+
+    def moveToTargetScreen(self):
+        if "KAMEHOUSE_DESKTOP_SCREEN" not in os.environ:
+            logger.info("KAMEHOUSE_DESKTOP_SCREEN not set. Using Qt default screen placement")
+            return
+        try:
+            target_index = int(os.environ["KAMEHOUSE_DESKTOP_SCREEN"])
+        except ValueError:
+            logger.warning(f"KAMEHOUSE_DESKTOP_SCREEN value '{os.environ['KAMEHOUSE_DESKTOP_SCREEN']}' is not a valid integer. Defaulting to Qt placement.")
+            return
+
+        screens = self.app.screens()
+        logger.info(f"Detected {len(screens)} screen(s)")
+
+        if 0 <= target_index < len(screens):
+            target_screen = screens[target_index]
+            logger.info(f"Moving app to monitor index {target_index} ({target_screen.name()})")
+            screen_geometry = target_screen.geometry()
+            self.move(screen_geometry.x(), screen_geometry.y())
+            self.setGeometry(screen_geometry)
+        else:
+            logger.warning(f"Target monitor index {target_index} out of range (Found {len(screens)} screens). Defaulting to Qt placement.")
+
     def initWidgets(self):
         self.hostname = TextWidget('hostname_widget', self.getHostname(), self)
         self.logo = ImageWidget('kamehouse_logo_widget', self)

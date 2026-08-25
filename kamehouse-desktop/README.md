@@ -55,6 +55,10 @@ Use groot server manager to:
 - Toggle keep alive scripts to fully turn off the desktop app
 - Get stats of kamehouse-desktop run like which and how many backgrounds it loaded successfully and unsuccessfully
 
+## Multiple screens
+
+When running kamehouse-desktop on multiple screens, set `KAMEHOUSE_DESKTOP_SCREEN` in the script config file with the index of the screen to use. The index should be 0 or 1 or 2 etc depending on how many screens are connected
+
 ## Backgrounds slideshow management
 
 The backgrounds slideshow widget gets the backgrounds images from a directory defined in the kamehouse desktop config file

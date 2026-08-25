@@ -9,6 +9,11 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
+initScriptConfig() {
+  # Set the screen to use to render kamehouse-desktop
+  KAMEHOUSE_DESKTOP_SCREEN=""
+}
+
 mainProcess() {
   setupLinuxEnvironment
   setKameHouseDesktopPid
@@ -17,7 +22,17 @@ mainProcess() {
     exitSuccessfully
   fi
   initDesktopBackgroundsLists
+  exportAppVariables
   startKameHouseDesktop
+}
+
+exportAppVariables() {
+  export OPENWEATHERMAP_API_KEY=${OPENWEATHERMAP_API_KEY}
+
+  if [ -n "${KAMEHOUSE_DESKTOP_SCREEN}" ]; then
+    log.info "Exporting KAMEHOUSE_DESKTOP_SCREEN=${KAMEHOUSE_DESKTOP_SCREEN}"
+    export KAMEHOUSE_DESKTOP_SCREEN=${KAMEHOUSE_DESKTOP_SCREEN}
+  fi
 }
 
 startKameHouseDesktop() {
@@ -26,7 +41,6 @@ startKameHouseDesktop() {
   ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
   echo -ne "${COL_NORMAL}"
   cd ${HOME}/programs/kamehouse-desktop
-  export OPENWEATHERMAP_API_KEY=${OPENWEATHERMAP_API_KEY}
   python ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py &
 }
 
