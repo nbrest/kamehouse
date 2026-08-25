@@ -50,15 +50,31 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - Press 'q' key to exit desktop app when the focus is set on the app
 
-- List all backgrounds with `kamehouse-desktop-list-all-backgrounds.sh`
-- List the backgrounds processed successfully and unsuccessfully with `kamehouse-desktop-list-processed-backgrounds.sh` 
-- List unprocessed backgrounds with `kamehouse-desktop-list-unprocessed-backgrounds.sh`
-- Clear the stats files with `kamehouse-desktop-clear-stats-files.sh`
-
 Use groot server manager to: 
 - Start and stop the desktop app from kamehouse-ui/mobile 
 - Toggle keep alive scripts to fully turn off the desktop app
 - Get stats of kamehouse-desktop run like which and how many backgrounds it loaded successfully and unsuccessfully
+
+## Backgrounds slideshow management
+
+The backgrounds slideshow widget gets the backgrounds images from a directory defined in the kamehouse desktop config file
+
+These are a few scripts to help with backgrounds management:
+
+`kamehouse-desktop-list-all-backgrounds.sh`:
+- List all backgrounds in the src directory. The src directory can be configured in the script config file
+
+`kamehouse-desktop-list-processed-backgrounds.sh`:
+- List the backgrounds processed successfully and unsuccessfully by kamehouse-desktop. If a background is rendered successfully, it's added to the success list, otherwise it's added to the error list
+
+`kamehouse-desktop-list-unprocessed-backgrounds.sh`:
+- List backgrounds still not processed by kamehouse-desktop
+
+`kamehouse-desktop-clear-stats-files.sh`:
+- Clear the stats files of processed and unprocessed backgrounds
+
+`kamehouse-desktop-compare-backgrounds-dir.sh`
+- This script is useful when building the backgrounds slideshow dir. It compares an initial source dir with a destination dir and shows the difference between those dirs. The source and destination dirs can be configured in the script config file and they can be reversed using `-r` or `--reverse` flags
 
 ## Performance
 

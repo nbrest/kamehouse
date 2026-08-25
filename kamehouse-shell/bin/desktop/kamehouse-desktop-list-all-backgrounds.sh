@@ -5,11 +5,15 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 importKamehouse functions/desktop/desktop-functions.sh
 
+setDefaultScriptConfig() {
+  # Default directory to search for kamehouse desktop backgrounds
+  BACKGROUNDS_SRC_DIR="${HOME}/.kamehouse/data/desktop/backgrounds"
+}
+
 initScriptEnv() {
   USE_BANNERS_DIR=false
   BANNERS_DIR=${HOME}/programs/kamehouse-desktop/lib/ui/img/banners
   BACKGROUNDS=""
-  BACKGROUNDS_SRC_DIR="${HOME}/.kamehouse/data/desktop/backgrounds"
 }
 
 mainProcess() {
