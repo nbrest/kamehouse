@@ -3,7 +3,7 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
-setDefaultScriptConfig() {
+initScriptConfig() {
   # Default source directory to compare kamehouse desktop backgrounds
   BACKGROUNDS_SRC_DIR="${HOME}/Downloads/kamehouse-desktop-backgrounds"
   

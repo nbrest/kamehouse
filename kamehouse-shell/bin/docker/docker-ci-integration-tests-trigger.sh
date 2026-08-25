@@ -9,7 +9,7 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
-setDefaultScriptConfig() {
+initScriptConfig() {
   # Set to false to skip killing the ci docker container processes. 
   # When it is set to try to kill them, it requires sudo for netstat and kill
   KAMEHOUSE_KILL_CI_CONTAINER_PROCESSES=true

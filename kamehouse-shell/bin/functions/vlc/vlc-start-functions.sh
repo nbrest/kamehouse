@@ -1,5 +1,5 @@
 
-setDefaultScriptConfigVlcStart() {
+initScriptConfigVlcStart() {
   # Set to true to use a visualizer effect when loading music playlists and files
   # Besides setting true here, the visualizer needs to be enabled in vlc players app configuration
   #       - Preferences > Audio > Visualization: Visualizer Filter

@@ -7,6 +7,8 @@
 
 #### v11.04
 
+- Renamed setDefaultScriptConfig function to initScriptConfig
+- Added compare desktop backgrounds script
 - Fixed list unprocessed desktop backgrounds and added list all backgrounds script
 - Added dev mode to kamehouse startup service
 - Updated default servers list

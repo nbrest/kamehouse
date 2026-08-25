@@ -7,7 +7,7 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
-setDefaultScriptConfig() {
+initScriptConfig() {
   # Set the properties to upload kamehouse mobile APK to an android device via sftp
   #   - IP: ip/hostname of the android device
   #   - PORT: sftp port running on the android device

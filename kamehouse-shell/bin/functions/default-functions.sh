@@ -252,7 +252,7 @@ initKameHouseShellEnv() {
 # This is mainly for variables that are used in a single script. 
 # For variables shared between multiple scripts or used in *-function.sh scripts, 
 # in most cases it's better to use kamehouse.cfg instead of script config file
-setDefaultScriptConfig() {
+initScriptConfig() {
   return
 }
 
@@ -285,7 +285,7 @@ rotateLogs() {
 # Default main function wrapper. This should never be overriden
 mainWrapper() {
   logStart
-  setDefaultScriptConfig
+  initScriptConfig
   loadConfigFiles
   initScriptEnv
   parseCmdArguments "$@"

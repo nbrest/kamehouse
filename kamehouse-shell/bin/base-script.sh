@@ -11,7 +11,7 @@ initKameHouseShellEnv() {
   return
 }
 
-setDefaultScriptConfig() {
+initScriptConfig() {
   # Set a script property to override in the script's own config file
   SAMPLE_SCRIPT_CFG_VAR=default-value
 }
