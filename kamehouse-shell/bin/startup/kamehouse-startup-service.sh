@@ -14,6 +14,7 @@ mainProcessLin() {
   loadKamehouseUserCfg
   checkEnv
   startTomcat
+  startKameHouseDesktop
   log.info "Finished kamehouse-startup-service.sh"
 }
 
@@ -53,6 +54,15 @@ startTomcat() {
     log.info "Starting tomcat" 
     su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
   fi
+}
+
+startKameHouseDesktop() {
+  log.info "KAMEHOUSE_STARTUP_START_KAMEHOUSE_DESKTOP=${KAMEHOUSE_STARTUP_START_KAMEHOUSE_DESKTOP}"
+  if ! ${KAMEHOUSE_STARTUP_START_KAMEHOUSE_DESKTOP}; then
+    return
+  fi
+  log.info "Starting kamehouse desktop"
+  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-startup.sh
 }
 
 exitWithError() {
