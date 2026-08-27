@@ -6,20 +6,20 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
 /**
  * Test kamehouse command.
  */
-class KameHouseDesktopRestartKameHouseCommandTest extends AbstractKameHouseCommandTest {
+class KameHouseDesktopStartupKameHouseCommandTest extends AbstractKameHouseCommandTest {
 
   @Override
   protected KameHouseCommand getKameHouseCommand() {
-    return new KameHouseDesktopRestartKameHouseCommand();
+    return new KameHouseDesktopStartupKameHouseCommand();
   }
 
   @Override
   protected String getWindowsShellCommand() {
-    return "desktop/kamehouse-desktop-restart.sh";
+    return "desktop/kamehouse-desktop-startup.sh";
   }
 
   @Override
   protected String getLinuxShellCommand() {
-    return "desktop/kamehouse-desktop-restart.sh";
+    return "desktop/kamehouse-desktop-startup.sh";
   }
 }

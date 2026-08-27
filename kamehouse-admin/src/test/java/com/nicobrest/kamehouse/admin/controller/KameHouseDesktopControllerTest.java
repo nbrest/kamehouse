@@ -38,10 +38,10 @@ class KameHouseDesktopControllerTest extends AbstractKameHouseCommandControllerT
   }
 
   /**
-   * kamehouse-desktop restart successful test.
+   * kamehouse-desktop startup successful test.
    */
   @Test
-  void kameHouseDesktopRestartSuccessfulTest() throws Exception {
+  void kameHouseDesktopStartupSuccessfulTest() throws Exception {
     execPostKameHouseCommandsTest("/api/v1/admin/kamehouse-desktop");
   }
 }

@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.admin.controller;
 
-import com.nicobrest.kamehouse.admin.model.kamehousecommand.KameHouseDesktopRestartKameHouseCommand;
+import com.nicobrest.kamehouse.admin.model.kamehousecommand.KameHouseDesktopStartupKameHouseCommand;
 import com.nicobrest.kamehouse.admin.model.kamehousecommand.KameHouseDesktopStopKameHouseCommand;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandController;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Controller class to restart and stop kamehouse-desktop.
+ * Controller class to start and stop kamehouse-desktop.
  *
  * @author nbrest
  */
@@ -33,12 +33,12 @@ public class KameHouseDesktopController extends AbstractKameHouseCommandControll
   }
 
   /**
-   * Restarts kamehouse-desktop.
+   * Starts kamehouse-desktop.
    */
   @PostMapping()
-  public ResponseEntity<List<KameHouseCommandResult>> restartKameHouseDesktop() {
+  public ResponseEntity<List<KameHouseCommandResult>> startKameHouseDesktop() {
     List<KameHouseCommand> kameHouseCommands = new ArrayList<>();
-    kameHouseCommands.add(new KameHouseDesktopRestartKameHouseCommand());
+    kameHouseCommands.add(new KameHouseDesktopStartupKameHouseCommand());
     return execKameHouseCommands(kameHouseCommands);
   }
 

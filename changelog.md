@@ -7,7 +7,8 @@
 
 #### v11.04
 
-- Added kamehouse-desktop stop and restart endpoints
+- Added buttons to start and stop kamehouse desktop in vlc player debug mode
+- Added kamehouse-desktop start and stop endpoints
 - Added option to start kamehouse desktop to startup service
 - Added multiple screens support to kamehouse-desktop
 - Renamed setDefaultScriptConfig function to initScriptConfig

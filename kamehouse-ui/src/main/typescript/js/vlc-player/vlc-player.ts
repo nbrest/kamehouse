@@ -404,6 +404,23 @@ class VlcPlayer {
   } 
 
   /**
+   * Start kamehouse desktop.
+   */
+  startKameHouseDesktop() {
+    const KAMEHOUSE_DESKTOP_API_URL = "/kame-house-admin/api/v1/admin/kamehouse-desktop";
+    this.getRestClient().post(KAMEHOUSE_DESKTOP_API_URL, null, null, () => {}, () => {});
+  }
+
+  /**
+   * Stop kamehouse desktop.
+   */
+  stopKameHouseDesktop() {
+    const KAMEHOUSE_DESKTOP_API_URL = "/kame-house-admin/api/v1/admin/kamehouse-desktop";
+    this.getRestClient().delete(KAMEHOUSE_DESKTOP_API_URL, null, null, () => {}, () => {});
+  }
+  
+  
+  /**
    * Get the vlc stats from the backend.
    */
   getVlcStats() {

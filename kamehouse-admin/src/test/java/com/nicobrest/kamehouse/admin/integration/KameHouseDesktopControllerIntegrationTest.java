@@ -26,7 +26,7 @@ class KameHouseDesktopControllerIntegrationTest extends AbstractControllerIntegr
   }
 
   @Test
-  void kameHouseDesktopRestartTest() throws Exception {
+  void kameHouseDesktopStartupTest() throws Exception {
     HttpResponse response = post(getWebappUrl() + API_URL);
     verifySuccessfulResponseList(response, KameHouseCommandResult.class);
   }
