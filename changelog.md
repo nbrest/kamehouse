@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Added kamehouse-desktop stop and restart endpoints
 - Added option to start kamehouse desktop to startup service
 - Added multiple screens support to kamehouse-desktop
 - Renamed setDefaultScriptConfig function to initScriptConfig
