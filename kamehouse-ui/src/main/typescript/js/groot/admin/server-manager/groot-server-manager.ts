@@ -215,6 +215,7 @@ class KeepAliveManager {
 class DeploymentManager {
 
   #DEV_PORTS = ["9980", "9989", "9949"];
+  #DEV_SERVERS = ["kamehouse-cc", "kamehouse-cc-kamino"];
   #TOMCAT_DEV_PORT = "9980";
 
   #statusBallBlueImg = null;
@@ -274,7 +275,11 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus(module) {
     kameHouse.logger.debug("Getting module " + module + " status", null);
-    kameHouse.extension.kameHouseShell.execute(module + '/kamehouse-' + module + '-version.sh', "", false, false, 60, 
+    let scriptArgs = "";
+    if (this.#isDevEnvironment()) {
+      scriptArgs = "--dev-env";
+    }
+    kameHouse.extension.kameHouseShell.execute(module + '/kamehouse-' + module + '-version.sh', scriptArgs, false, false, 60, 
       (kameHouseCommandResult) => this.#displayNonTomcatModuleStatus(kameHouseCommandResult, module), 
       () => {
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", "Error getting data");  
@@ -468,11 +473,7 @@ class DeploymentManager {
           kameHouse.logger.warn("Selected backend name is empty", null);
           return false;
         }
-        if (selectedBackend.name == "Dev Apache" 
-              || selectedBackend.name == "Dev Tomcat HTTP") {
-          return true;
-        }
-        return false;
+        return this.#DEV_SERVERS.includes(selectedBackend.name);
       }
     );
   }

@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Fixed non tomcat module versions in groot server manager for dev env
 - Added buttons to start and stop kamehouse desktop in vlc player debug mode
 - Added kamehouse-desktop start and stop endpoints
 - Added option to start kamehouse desktop to startup service

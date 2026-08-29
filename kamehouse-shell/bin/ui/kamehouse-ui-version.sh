@@ -3,12 +3,17 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse functions/kamehouse/kamehouse-module-version-functions.sh
+
 initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
 mainProcess() {
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+  if ${IS_DEV_ENVIRONMENT}; then
+    HTTPD_CONTENT_ROOT="${HTTPD_CONTENT_ROOT}-dev"
+  fi
   local UI_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house/build-info.json"
   cat "${UI_VERSION_FILE}"
 }
