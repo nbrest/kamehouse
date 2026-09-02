@@ -114,6 +114,8 @@ setupTomcat() {
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
+  cp -r /home/${KAMEHOUSE_USER}/programs/apache-tomcat/webapps.dist/* /home/${KAMEHOUSE_USER}/programs/apache-tomcat/webapps/
+
   fixPermissions
 }
 
