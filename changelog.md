@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Added shell function to update kamehouse-desktop config
 - Fixed non tomcat module versions in groot server manager for dev env
 - Added buttons to start and stop kamehouse desktop in vlc player debug mode
 - Added kamehouse-desktop start and stop endpoints

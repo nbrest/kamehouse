@@ -8,6 +8,7 @@ export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
 DEFAULT_KAMEHOUSE_USERNAME=""
 
 KAMEHOUSE_CFG="${HOME}/.kamehouse/config/kamehouse.cfg"
+KAMEHOUSE_DESKTOP_CFG="${HOME}/.kamehouse/config/kamehouse-desktop.cfg"
 WIN_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
@@ -626,4 +627,51 @@ updateKameHouseConfig() {
   sed -i -E "s/^#${KAMEHOUSE_CONFIG_KEY}=.*/${KAMEHOUSE_CONFIG_KEY}=/I" ${KAMEHOUSE_CFG}
   sed -i -E "s#^${KAMEHOUSE_CONFIG_KEY}=.*#${KAMEHOUSE_CONFIG_KEY}=${KAMEHOUSE_CONFIG_VALUE}#I" ${KAMEHOUSE_CFG}
   log.info "Set '${KAMEHOUSE_CONFIG_KEY}=${KAMEHOUSE_CONFIG_VALUE}' in kamehouse.cfg"
+}
+
+# Update kamehouse-desktop config
+updateKameHouseDesktopConfig() {
+  local SECTION=$1
+  local KEY=$2
+  local VALUE=$3
+
+  if ! grep -q -i "^\[${SECTION}\]" "${KAMEHOUSE_DESKTOP_CFG}"; then
+    log.error "Section [${SECTION}] not found in kamehouse-desktop.cfg"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+
+  awk -v sec="${SECTION}" -v key="${KEY}" -v val="${VALUE}" '
+    BEGIN { IGNORECASE=1; in_sec=0; updated=0 }
+    /^\[.*\]/ {
+      # Check if we are entering the target section
+      if ($0 ~ "^\\[" sec "\\]") { in_sec=1 } else { in_sec=0 }
+    }
+    in_sec && $0 ~ "^#?[[:space:]]*" key "[[:space:]]*=" {
+      # Replace key (whether commented or active) within target section
+      print key " = " val
+      updated=1
+      next
+    }
+    { print }
+    END {
+      if (!updated) {
+        exit 1
+      }
+    }
+  ' "${KAMEHOUSE_DESKTOP_CFG}" > "${KAMEHOUSE_DESKTOP_CFG}.tmp"
+
+  if [ $? -ne 0 ]; then
+    rm -f "${KAMEHOUSE_DESKTOP_CFG}.tmp"
+    log.error "${KEY} not found under section [${SECTION}] in kamehouse-desktop.cfg"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+
+  mv "${KAMEHOUSE_DESKTOP_CFG}.tmp" "${KAMEHOUSE_DESKTOP_CFG}"
+  
+  if grep -A 15 -i "^\[${SECTION}\]" "${KAMEHOUSE_DESKTOP_CFG}" | grep -q -F "${KEY} = ${VALUE}"; then
+    log.info "Set '${KEY} = ${VALUE}' under [${SECTION}] in kamehouse-desktop.cfg"
+  else
+    log.error "Verification failed of update of ${KEY} under [${SECTION}]"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
 }
