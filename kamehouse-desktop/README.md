@@ -80,6 +80,8 @@ These are a few scripts to help with backgrounds management:
 `kamehouse-desktop-compare-backgrounds-dir.sh`
 - This script is useful when building the backgrounds slideshow dir. It compares an initial source dir with a destination dir and shows the difference between those dirs. The source and destination dirs can be configured in the script config file and they can be reversed using `-r` or `--reverse` flags
 
+- `kamehouse-desktop-set-backgrounds-folder.sh -f "futbol/messi"` to show only a subfolder of desktop backgrounds. Revert to show all backrounds by running the same script without arguments
+
 ## Performance
 
 - In my tests on rasperry pis 4 and 5 kamehouse-desktop runs with 200-300mb of ram and about 20-30% cpu usage. The background slideshow widget uses 20-25% of cpu, so disabling it reduces significantly the resources used
