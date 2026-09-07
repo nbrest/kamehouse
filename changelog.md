@@ -7,6 +7,7 @@
 
 #### v11.04
 
+- Fixed show/edit/reset script config files functions to handle missing template and config file
 - Added script to select a subfolder of kamehouse-desktop backgrounds
 - Added shell function to update kamehouse-desktop config
 - Fixed non tomcat module versions in groot server manager for dev env

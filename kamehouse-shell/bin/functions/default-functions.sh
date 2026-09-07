@@ -159,12 +159,11 @@ parseShowScriptConfig() {
 
 # Show script config
 showScriptConfig() {
-  if [ -f "${SCRIPT_CONFIG_FILE}" ]; then
-    log.info "Script config: ${SCRIPT_CONFIG_FILE}"
-    cat ${SCRIPT_CONFIG_FILE}
-  else
-    log.info "Script config file ${SCRIPT_CONFIG_FILE} doesn't exist"
+  if [ ! -f "${SCRIPT_CONFIG_FILE}" ]; then
+    createScriptConfigFile
   fi
+  log.info "Script config: ${SCRIPT_CONFIG_FILE}"
+  cat ${SCRIPT_CONFIG_FILE}  
 }
 
 # Edit script config and exit
@@ -175,12 +174,11 @@ parseEditScriptConfig() {
 
 # Edit script config
 editScriptConfig() {
-  if [ -f "${SCRIPT_CONFIG_FILE}" ]; then
-    log.info "Editing script config: ${SCRIPT_CONFIG_FILE}"
-    vim ${SCRIPT_CONFIG_FILE}
-  else
-    log.info "Script config file ${SCRIPT_CONFIG_FILE} doesn't exist"
+  if [ ! -f "${SCRIPT_CONFIG_FILE}" ]; then
+    createScriptConfigFile
   fi
+  log.info "Editing script config: ${SCRIPT_CONFIG_FILE}"
+  vim ${SCRIPT_CONFIG_FILE}
 }
 
 # Reset script config and exit
@@ -193,8 +191,12 @@ parseResetScriptConfig() {
 # Create script config file
 createScriptConfigFile() {
   mkdir -p ${SCRIPT_CONFIG_PATH}
-  cp -f ${SCRIPT_CONFIG_TEMPLATE_FILE} ${SCRIPT_CONFIG_FILE}
-  sed -i "s#---SCRIPT_NAME---#${SCRIPT_NAME}#g" "${SCRIPT_CONFIG_FILE}"
+  if [ -f "${SCRIPT_CONFIG_TEMPLATE_FILE}" ]; then
+    cp -f ${SCRIPT_CONFIG_TEMPLATE_FILE} ${SCRIPT_CONFIG_FILE}
+    sed -i "s#---SCRIPT_NAME---#${SCRIPT_NAME}#g" "${SCRIPT_CONFIG_FILE}"
+  else
+    touch ${SCRIPT_CONFIG_FILE}
+  fi
 }
 
 # Show script log and exit
