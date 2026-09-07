@@ -238,7 +238,7 @@ loadConfigFiles() {
 # Load script config file
 loadScriptConfigFile() {
   if [ ! -f "${SCRIPT_CONFIG_FILE}" ]; then
-    log.info "Missing script config. Creating: ${SCRIPT_CONFIG_FILE}"
+    log.debug "Missing script config. Creating: ${SCRIPT_CONFIG_FILE}"
     createScriptConfigFile
   fi
   source ${SCRIPT_CONFIG_FILE}
