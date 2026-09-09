@@ -279,7 +279,7 @@ buildKameHouseMobile() {
 }
 
 setLinuxBuildEnv() {
-  if ! ${IS_LINUX_HOST}; then
+  if ! ${IS_LIN_HOST}; then
     return
   fi
   log.info "Setting android build env for linux"

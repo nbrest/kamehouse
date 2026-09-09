@@ -273,8 +273,7 @@ mainProcess() {
 configureKameHouseShell() {
   setLogLevelFromEnv
   setLogColors
-  setRootPrefix
-  setIsLinuxHost
+  setHostOs
 }
 
 # Rotate log file
@@ -296,18 +295,22 @@ mainWrapper() {
   exitSuccessfully
 }
 
-# Override in individual scripts if there's no need for win/lin distinction
+# Override in individual scripts if there's no need for lin/win/mac distinction
 mainProcess() {
   mainProcessPre "$@"
-  if ${IS_LINUX_HOST}; then
+  if [ "${IS_LIN_HOST}" == "true" ]; then
     mainProcessLin "$@"
-  else
+  fi
+  if [ "${IS_WIN_HOST}" == "true" ]; then
     mainProcessWin "$@"
+  fi
+  if [ "${IS_MAC_HOST}" == "true" ]; then
+    mainProcessMac "$@"
   fi
   mainProcessPost "$@"
 }
 
-# Override in individual scripts for common pre lin/win actions
+# Override in individual scripts for common pre lin/win/mac actions
 mainProcessPre() {
   return
 }
@@ -322,7 +325,12 @@ mainProcessWin() {
   return
 }
 
-# Override in individual scripts for common post lin/win actions
+# Override in individual scripts for mac actions
+mainProcessMac() {
+  return
+}
+
+# Override in individual scripts for common post lin/win/mac actions
 mainProcessPost() {
   return
 }

@@ -13,7 +13,7 @@ initKameHouseShellEnv() {
 # Returns 0 for true, 1 for false.
 
 mainProcessPre() {
-	echo ${IS_LINUX_HOST}
+	echo ${IS_LIN_HOST}
 }
 
 mainProcessLin() {

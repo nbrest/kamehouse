@@ -437,7 +437,7 @@ executeOperationInTomcatManager() {
 # Set sudo for a command that requires sudo
 setSudoKameHouseCommand() {
   SUDO_KAMEHOUSE_COMMAND=$1
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     log.info "${COL_PURPLE}'${SUDO_KAMEHOUSE_COMMAND}'${COL_DEFAULT_LOG} needs to run with ${COL_RED}sudo${COL_DEFAULT_LOG}. Running as user ${COL_RED}${USER}${COL_DEFAULT_LOG}"
     if ! ${IS_ROOT_USER}; then
       SUDO_KAMEHOUSE_COMMAND="sudo ${SUDO_KAMEHOUSE_COMMAND}"
@@ -448,7 +448,7 @@ setSudoKameHouseCommand() {
 
 # Get kamehouse httpd content root directory
 getHttpdContentRoot() {
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     echo "/var/www/kamehouse-webserver"  
   else
     echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
@@ -544,7 +544,7 @@ setGitCommitHash() {
 
 # setup environment for scripts running in linux
 setupLinuxEnvironment() {
-  if ! ${IS_LINUX_HOST}; then
+  if ! ${IS_LIN_HOST}; then
     return
   fi
   log.info "Setting linux environment"

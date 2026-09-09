@@ -25,12 +25,11 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 public class PropertiesUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtils.class);
-  private static final boolean IS_WINDOWS_HOST = setIsWindowsHost();
+  private static final boolean IS_WIN_HOST = setIsWindowsHost();
   private static final Properties properties = new Properties();
   private static final String BUILD_VERSION_PROPERTY = "kamehouse.build.version";
   private static final String BUILD_DATE_PROPERTY = "kamehouse.build.date";
-  private static final String DOCKER_CONTAINER_ENV =
-      ".kamehouse/config/.kamehouse-docker-container-env";
+  private static final String DOCKER_CONTAINER_ENV = ".kamehouse/config/.kamehouse-docker-container-env";
 
   static {
     loadAllPropertiesFiles();
@@ -42,17 +41,18 @@ public class PropertiesUtils {
   }
 
   /**
-   * Sets the IS_WINDOWS_HOST variable.
+   * Sets the IS_WIN_HOST variable.
    */
   private static boolean setIsWindowsHost() {
     return System.getProperty("os.name").toLowerCase(Locale.getDefault()).startsWith("windows");
   }
 
   /**
-   * Returns true if the application is running on a windows host, false otherwise.
+   * Returns true if the application is running on a windows host, false
+   * otherwise.
    */
   public static boolean isWindowsHost() {
-    return IS_WINDOWS_HOST;
+    return IS_WIN_HOST;
   }
 
   /**
@@ -73,11 +73,10 @@ public class PropertiesUtils {
       }
       return "INVALID_HOSTNAME";
     } else {
-      try (BufferedReader reader =
-          new BufferedReader(
-              new InputStreamReader(
-                  Runtime.getRuntime().exec("hostname").getInputStream(),
-                  StandardCharsets.UTF_8))) {
+      try (BufferedReader reader = new BufferedReader(
+          new InputStreamReader(
+              Runtime.getRuntime().exec("hostname").getInputStream(),
+              StandardCharsets.UTF_8))) {
         return reader.readLine();
       } catch (IOException e) {
         LOGGER.error("Error getting hostname.", e);
@@ -87,7 +86,8 @@ public class PropertiesUtils {
   }
 
   /**
-   * Gets the current module name (ej: admin, media, tennisworld, testmodule, ui, vlcrc) as defined
+   * Gets the current module name (ej: admin, media, tennisworld, testmodule, ui,
+   * vlcrc) as defined
    * in kamehouse.properties.
    */
   public static String getModuleName() {
@@ -95,14 +95,16 @@ public class PropertiesUtils {
   }
 
   /**
-   * Gets the specified property from the commons/kamehouse application properties.
+   * Gets the specified property from the commons/kamehouse application
+   * properties.
    */
   public static String getProperty(String propertyName) {
     return properties.getProperty(propertyName);
   }
 
   /**
-   * Gets the specified property from the commons/kamehouse application properties.
+   * Gets the specified property from the commons/kamehouse application
+   * properties.
    */
   public static String getProperty(String propertyName, String defaultValue) {
     String value = properties.getProperty(propertyName);
@@ -113,7 +115,8 @@ public class PropertiesUtils {
   }
 
   /**
-   * Get the boolean value of a property. Returns false if the property is not set.
+   * Get the boolean value of a property. Returns false if the property is not
+   * set.
    */
   public static boolean getBooleanProperty(String propertyName) {
     return Boolean.valueOf(getProperty(propertyName, "false"));
@@ -149,7 +152,8 @@ public class PropertiesUtils {
   }
 
   /**
-   * Get the properties from the docker container (if it's running in a container).
+   * Get the properties from the docker container (if it's running in a
+   * container).
    */
   private static Properties getDockerContainerProperties() {
     Properties dockerProperties = new Properties();

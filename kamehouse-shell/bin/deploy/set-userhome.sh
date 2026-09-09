@@ -6,7 +6,7 @@ setUserHome() {
   # WIN_USER_HOME=`powershell.exe -c 'echo %USERPROFILE%'`
   # WIN_USER_HOME=${WIN_USER_HOME::-1}
 
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     export HOME="${USERHOME_LIN}"
   else
     export HOME="${USERHOME_WIN}"

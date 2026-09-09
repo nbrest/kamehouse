@@ -6,7 +6,7 @@ KAMEHOUSE_DESKTOP_BACKGROUNDS_UNPROCESSED_FILE=${KAMEHOUSE_DESKTOP_DATA_PATH}/ba
 
 setKameHouseDesktopPid() {
   log.info "Searching for kamehouse-desktop process"
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     ps aux | grep "kamehouse_desktop.py" | grep "python" | awk '{print $2}'
     KAMEHOUSE_DESKTOP_PID=`ps aux | grep "kamehouse_desktop.py" | grep "python" | awk '{print $2}'`
   else

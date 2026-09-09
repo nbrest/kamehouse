@@ -95,7 +95,7 @@ setTailLogParameters() {
 }
 
 setApacheLogFiles() {
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/other_vhosts_access.log"
   else
     addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/ssl_request.log"

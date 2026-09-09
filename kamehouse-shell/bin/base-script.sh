@@ -20,15 +20,27 @@ initScriptEnv() {
   TEST_PARAM=""
 }
 
+mainProcessPre() {
+  log.info "process pre"
+}
+
 mainProcessLin() {
-  log.info "base script lin: TEST_PARAM=${TEST_PARAM}"
+  log.info "${COL_RED}LIN HOST${COL_DEFAULT_LOG}: base script: TEST_PARAM=${TEST_PARAM}"
   log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
-  printHelp
 }
 
 mainProcessWin() {
-  log.info "base script win: TEST_PARAM=${TEST_PARAM}"
+  log.info "${COL_RED}WIN HOST${COL_DEFAULT_LOG}: base script: TEST_PARAM=${TEST_PARAM}"
   log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
+}
+
+mainProcessMac() {
+  log.info "${COL_RED}MAC HOST${COL_DEFAULT_LOG}: base script: TEST_PARAM=${TEST_PARAM}"
+  log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
+}
+
+mainProcessPost() {
+  log.info "process post. printing help"
   printHelp
 }
 

@@ -29,7 +29,7 @@ mainProcess() {
 setupInitialDirectories() {
   log.info "Creating export directories if they don't exist"
   mkdir -v -p ${PATH_CSV}/old
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     mkdir -p ${TMP_EXPORT_DIR}
     chmod a+rwx ${TMP_EXPORT_DIR}
     log.info "Cleaning up ${TMP_EXPORT_DIR} csv files"
@@ -40,13 +40,13 @@ setupInitialDirectories() {
 
 executeExport() {
   log.info "Exporting kamehouse database to csv"
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     OUT_FILE_BASE="${TMP_EXPORT_DIR}/"
   else
     OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/config/mariadb/csv/"
   fi
   mariadb --force -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} --init-command="set @outFileBase = '${OUT_FILE_BASE}';" < ${PATH_SQL}/csv-kamehouse.sql
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     log.info "Moving generated csv files from ${TMP_EXPORT_DIR} to ${PATH_CSV}"
     chown ${USER}:${USER} ${TMP_EXPORT_DIR}/*.tmpcsv
     mv -v -f ${TMP_EXPORT_DIR}/*.tmpcsv ${PATH_CSV}

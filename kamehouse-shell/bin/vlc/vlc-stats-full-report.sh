@@ -44,7 +44,7 @@ showCurrentRunPlayedFilesHeadTail() {
 }
 
 showVlcSystemProcessInfo() {
-  if ! ${IS_LINUX_HOST}; then
+  if ! ${IS_LIN_HOST}; then
     return
   fi
   log.info "Running top command to check vlc process status"
@@ -57,7 +57,7 @@ showVlcSystemProcessInfo() {
 }  
 
 showVlcStats() {
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     VLC_STATS_ARGS="${VLC_STATS_ARGS} -n 8"
   else
     VLC_STATS_ARGS="${VLC_STATS_ARGS} -n 2"

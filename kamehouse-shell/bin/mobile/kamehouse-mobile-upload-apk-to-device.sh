@@ -46,7 +46,7 @@ uploadApkToDeviceSftp() {
   SFTP_USER="${ANDROID_SFTP_USERNAME}"
   SFTP_SERVER="${ANDROID_SFTP_IP}"
   SFTP_COMMAND="put ${KAMEHOUSE_ANDROID_APK_PATH} ${ANDROID_SFTP_APK_DEST_PATH}/kamehouse.apk"
-  if ${IS_LINUX_HOST}; then 
+  if ${IS_LIN_HOST}; then 
     executeSftpCommand
   else
     log.warn "Putty pscp needs to be installed to send the apk to android device without password prompt"

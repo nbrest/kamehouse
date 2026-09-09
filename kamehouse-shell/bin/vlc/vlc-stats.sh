@@ -77,7 +77,7 @@ showCurrentRunStats() {
 }
 
 logVlcCpuUsage() {
-  if ! ${IS_LINUX_HOST}; then
+  if ! ${IS_LIN_HOST}; then
     return
   fi
   local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(${VLC_STATS_MEDIA_FILES}).*" | awk '{print $2}'`
@@ -86,7 +86,7 @@ logVlcCpuUsage() {
 }
 
 logTemperature() {
-  if ! ${IS_LINUX_HOST}; then
+  if ! ${IS_LIN_HOST}; then
     return
   fi
   local TEMPERATURE=`vcgencmd measure_temp | grep "temp="`

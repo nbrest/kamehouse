@@ -211,7 +211,7 @@ setIsLinuxDockerHost() {
 }
 
 getHostUserHome() {
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     echo "${HOME}"
   else
     echo "//c/Users/${USER}"

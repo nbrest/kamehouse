@@ -110,7 +110,7 @@ killCiContainerProcesses() {
 }
 
 killProcessRunningOnPort() {
-  if ! ${IS_LINUX_HOST}; then
+  if ! ${IS_LIN_HOST}; then
     return
   fi
   local PORT=$1

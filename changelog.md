@@ -7,6 +7,8 @@
 
 #### v11.04
 
+- Refactored shell OS selection. Added manual override
+- Added support for mac only actions in shell scripts
 - Fixed show/edit/reset script config files functions to handle missing template and config file
 - Added script to select a subfolder of kamehouse-desktop backgrounds
 - Added shell function to update kamehouse-desktop config

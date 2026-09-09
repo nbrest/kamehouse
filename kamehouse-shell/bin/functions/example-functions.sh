@@ -20,7 +20,7 @@ exampleFunctions() {
 
 exampleIf() {
   log.info "${COL_RED}exampleIf"
-  if ${IS_LINUX_HOST}; then
+  if ${IS_LIN_HOST}; then
     log.info "In linux host"
   else
     log.info "Not in linux host"
@@ -85,8 +85,6 @@ exampleLog() {
   log.info "${COL_RED}exampleLog"
   log.info "Run script with \`LOG=DEBUG script-name.sh\` or \`log=debug script-name.sh\` to see al debug logs"
   log.info "Run script with \`LOG=TRACE script-name.sh\` or \`log=trace script-name.sh\` to see al trace logs"
-  log.info "${COL_RED}Use ROOT_PREFIX var to prefix all absolute paths, so they work in any bash implementation"
-  log.info "Current value for ROOT_PREFIX: ${ROOT_PREFIX}"
   log.trace "TRACE gohan"
   log.debug "DEBUG goku"
   log.info "INFO Mada mada dane"

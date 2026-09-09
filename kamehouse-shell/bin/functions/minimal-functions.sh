@@ -1,3 +1,11 @@
+# Host OS is determined automatically by setHostOs function. To override it's values, in .bashrc
+# set the following variables. Set only ONE os to true and the other 2 os to false.
+# For example to run in a windows host:
+#export USE_ENV_TO_DETERMINE_OS=true
+#export IS_LIN_HOST=false
+#export IS_WIN_HOST=true
+#export IS_MAC_HOST=false
+
 # Current user
 USER=`whoami`
 
@@ -40,13 +48,6 @@ EXIT_VAR_NOT_SET=2
 EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 EXIT_INVALID_CONFIG=5
-
-# Set to false when running outside linux
-export IS_LINUX_HOST=true
-
-# Subsystem root prefix for mounted drives. Use this as a prefix to all
-# absolute paths I define in the script.
-ROOT_PREFIX="/mnt"
 
 # Default kamehouse-shell installation path
 KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell/bin
@@ -104,38 +105,33 @@ checkCommandStatus() {
   fi
 }
 
-setIsLinuxHost() {
-  export IS_LINUX_HOST=true
+setHostOs() {
+  if [ "${USE_ENV_TO_DETERMINE_OS}" == "true" ]; then
+    log.debug "Using env to determine os"
+    log.debug "IS_LIN_HOST=${IS_LIN_HOST}"
+    log.debug "IS_WIN_HOST=${IS_WIN_HOST}"
+    log.debug "IS_MAC_HOST=${IS_WIN_HOST}"
+    return
+  fi
+
+  # Default to linux
+  export IS_LIN_HOST=true
+  export IS_WIN_HOST=false
+  export IS_MAC_HOST=false
+
   local UNAME_S=`uname -s`
   local UNAME_R=`uname -r`
   if [ "${UNAME_S}" != "Linux" ]; then
-    # Using Win Bash
-    export IS_LINUX_HOST=false
-    return
-  fi
-  if [[ ${UNAME_R} == *"Microsoft"* ]]; then
-    # Using Ubuntu WSL for Windows WSL
-    export IS_LINUX_HOST=false
-    return
-  fi
-}
-
-# Check if I'm using Ubuntu for windows, Msys2, Git Bash or any other bash implementation.
-# Default is Ubuntu for windows. Set root prefix for mounted drives based on the subsystem.
-# In Msys2 and Git Bash drives are mounted /c /d so root prefix is empty.
-# In Ubuntu for windows drives are mounted in /mnt/c /mnt/d so root prefix is /mnt
-setRootPrefix() {
-  # Ubuntu for windows
-  ROOT_PREFIX="/mnt"
-  local MSYSTEM_MINGW=`echo ${MSYSTEM:0:5}`
-  if [ "${MSYSTEM_MINGW}" == "MINGW" ]; then
-    # Git Bash
-    ROOT_PREFIX=""
-  fi
-  local MSYSTEM_MSYS=`echo ${MSYSTEM:0:4}`
-  if [ "${MSYSTEM_MSYS}" == "MSYS" ]; then
-    # Msys2
-    ROOT_PREFIX=""
+    export IS_LIN_HOST=false
+    if [[ ${UNAME_R} == *"Microsoft"* ]]; then
+      # Windows host
+      export IS_WIN_HOST=true
+      export IS_MAC_HOST=false
+    else
+      # Assume Mac host
+      export IS_WIN_HOST=false
+      export IS_MAC_HOST=true
+    fi
   fi
 }
 
