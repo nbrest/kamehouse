@@ -5,6 +5,9 @@
 
 # ChangeLog:
 
+#### v11.05
+
+
 #### v11.04
 
 - Refactored shell OS selection. Added manual override
