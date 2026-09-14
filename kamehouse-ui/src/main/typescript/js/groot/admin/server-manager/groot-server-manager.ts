@@ -378,7 +378,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'deploy/deploy-kamehouse.sh';
-    let args = "-m " + module;
+    const args = "-m " + module;
     if (this.#isDevEnvironment()) {
       script = 'deploy/deploy-kamehouse-dev.sh';
     }
@@ -421,7 +421,7 @@ class DeploymentManager {
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
     let script = 'deploy/deploy-kamehouse.sh';
-    let args = "";
+    const args = "";
     if (this.#isDevEnvironment()) {
       script = 'deploy/deploy-kamehouse-dev.sh';
     }
