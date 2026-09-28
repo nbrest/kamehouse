@@ -86,3 +86,30 @@ These are a few scripts to help with backgrounds management:
 
 - In my tests on rasperry pis 4 and 5 kamehouse-desktop runs with 200-300mb of ram and about 20-30% cpu usage. The background slideshow widget uses 20-25% of cpu, so disabling it reduces significantly the resources used
 - On windows it runs with around 50mb of ram and around 20% cpu usage.
+
+## Add ubuntu applications menu button
+
+- Create launcher
+```sh
+vim ~/.local/share/applications/kamehouse-desktop-restart.desktop
+
+# Replace USER with your username
+[Desktop Entry]
+Version=1.0
+Name=Restart KameHouse Desktop
+Comment=Restarts the KameHouse desktop interface
+Exec=/home/USER/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh
+Icon=/home/USER/programs/kamehouse-desktop/lib/ui/img/dbz/kamesenin-logo.png
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupNotify=true
+```
+
+- Reload application launchers
+```sh
+update-desktop-database ~/.local/share/applications/
+```
+
+After that you can search for the restart kamehouse desktop button and pin it
+
