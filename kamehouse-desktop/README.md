@@ -96,7 +96,7 @@ vim ~/.local/share/applications/kamehouse-desktop-restart.desktop
 # Replace USER with your username
 [Desktop Entry]
 Version=1.0
-Name=Restart KameHouse Desktop
+Name=KameHouse Desktop Restart
 Comment=Restarts the KameHouse desktop interface
 Exec=/home/USER/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh
 Icon=/home/USER/programs/kamehouse-desktop/lib/ui/img/dbz/kamesenin-logo.png
