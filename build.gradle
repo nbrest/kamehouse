@@ -126,4 +126,14 @@ tasks.register('printVersion') {
  */
 if (providers.gradleProperty('sonar').isPresent()) {
   apply plugin: 'org.sonarqube'
+
+  sonar {
+    properties {
+      // The sonar.organization and sonar.host.url values defined in gradle.properties are NOT
+      // forwarded automatically by the sonarqube plugin (only -Dsonar.* system properties and
+      // SONAR_* environment variables are), so forward them to the scanner explicitly.
+      property 'sonar.organization', project.findProperty('sonar.organization')
+      property 'sonar.host.url', project.findProperty('sonar.host.url')
+    }
+  }
 }

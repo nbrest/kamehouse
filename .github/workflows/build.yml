@@ -39,5 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         # The sonarqube plugin is only applied when the build runs with -Psonar. The
-        # sonar.organization and sonar.host.url properties are in the gradle.properties file
+        # sonar.organization and sonar.host.url properties are in gradle.properties and are
+        # forwarded to the scanner by the sonar{} block in build.gradle.
         run: ./gradlew clean build sonar -Psonar --no-daemon --console=plain -Dsonar.projectKey=nbrest_kamehouse
