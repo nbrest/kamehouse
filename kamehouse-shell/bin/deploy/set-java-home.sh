@@ -30,6 +30,22 @@ setJavaHome() {
     export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64
   fi
 
+  # Fallback: JDK 21 downloaded by the gradle toolchain (ie. foojay resolver) into
+  # ~/.gradle/jdks. Used when no java-21 is installed in the system so tomcat can still
+  # run the Java 21 webapps. A system java-21-openjdk-amd64 still takes priority below.
+  local GRADLE_JAVA_21_HOME=""
+  local GRADLE_JAVA_21_BIN=`find ${HOME}/.gradle/jdks -type f -name java 2>/dev/null`
+  while read GRADLE_JAVA_BIN; do
+    if [ -n "${GRADLE_JAVA_BIN}" ] && "${GRADLE_JAVA_BIN}" -version 2>&1 | grep -Eq 'version "21'; then
+      GRADLE_JAVA_21_HOME=$(dirname "$(dirname "${GRADLE_JAVA_BIN}")")
+      break
+    fi
+  done <<< "${GRADLE_JAVA_21_BIN}"
+  if [ -d "${GRADLE_JAVA_21_HOME}" ]; then
+    setJavaHomeLogger "Using JDK 21 downloaded by gradle in ${GRADLE_JAVA_21_HOME}" "${LOG_INFO}"
+    export JAVA_HOME=${GRADLE_JAVA_21_HOME}
+  fi
+
   if [ -d "/usr/lib/jvm/java-21-openjdk-amd64" ]; then
     export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
   fi
