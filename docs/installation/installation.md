@@ -11,7 +11,9 @@
 
 * Install java JDK [(versions)](/docs/versions/versions.md)
 
-* Install maven [(versions)](/docs/versions/versions.md)
+* Nothing else to install the build tools. The project builds with the gradle wrapper
+  (`./gradlew build`), that downloads the gradle distribution declared in
+  `gradle/wrapper/gradle-wrapper.properties`
 
 * Install msys2 (for tmux use on windows)
   - Make sure it's installed to `C:\msys64`

@@ -26,7 +26,7 @@ Right click on toolbar > Customize
     - Select google checks in the configuration file
 - Download latest intellij-java-google-style.xml (Use the one in the /checkstyle folder in the repo)
 - Settings -> Editor -> Code Style -> Scheme -> Import Scheme -> Intellij IDEA Code Scheme XML
-- After that I can press the following to format java files and they should pass checkstyle in maven:
+- After that I can press the following to format java files and they should pass checkstyle in the gradle build:
   - ctrl + alt + o
   - ctrl + alt + l
 
@@ -114,7 +114,7 @@ tail-log.sh -f tomcat-dev
 
 ## Setup integration tests:
 
-- Run -> Edit Configurations -> click "+" Maven.
+- Run -> Edit Configurations -> click "+" Gradle.
   - name: integration-tests
-  - commannd: test-compile failsafe:integration-test failsafe:verify
+  - task: integrationTest
 - I can also run these with my build script from the command line

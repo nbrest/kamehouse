@@ -32,7 +32,7 @@ main() {
   setupHttpd
   setupKameHouseUserHome
   setupTomcat
-  setupMaven
+  setupGradle
   setupMockedBins
   setupRootBashRc
   fixPermissions
@@ -119,12 +119,12 @@ setupTomcat() {
   fixPermissions
 }
 
-setupMaven() {
-  log.info "Setting up maven"
-  echo PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:\${PATH} >> /home/${KAMEHOUSE_USER}/.bashrc
-  mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-maven/conf
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/maven/settings.xml /home/${KAMEHOUSE_USER}/programs/apache-maven/conf/settings.xml
-  echo "PATH=/home/${KAMEHOUSE_USER}/programs/apache-maven/bin:${PATH}" >> /etc/profile
+setupGradle() {
+  log.info "Setting up gradle"
+  # the gradle wrapper of the kamehouse project is used to build the project, so gradle doesn't
+  # need to be installed. The daemon is disabled because it is not needed to build the image
+  mkdir -p /home/${KAMEHOUSE_USER}/.gradle
+  echo "org.gradle.daemon=false" > /home/${KAMEHOUSE_USER}/.gradle/gradle.properties
   fixPermissions
 }
 

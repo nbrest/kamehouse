@@ -20,8 +20,8 @@ mainProcess() {
   requestConfirmation
   checkCurrentReleaseBranch
   gitMergeMasterToReleaseBranch
-  checkUncommitedChangesInPomXml
-  updateReleaseVersionInPomXml
+  checkUncommitedChangesInBuildGradle
+  updateReleaseVersionInBuildGradle
   updateKameHouseMobileAppVersion
   gitCommitReleaseVersionUpdate 
   gitCheckoutMaster
@@ -61,8 +61,11 @@ displayGitStatus() {
 }
 
 getPreviousReleaseVersion() {
-  PREVIOUS_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  PREVIOUS_RELEASE_VERSION=`echo ${PREVIOUS_RELEASE_VERSION:9:5}`
+  PREVIOUS_RELEASE_VERSION=`${GRADLE_WRAPPER} --quiet --console=plain printVersion 2>/dev/null | tr -d "\r" | grep -E "^[0-9]+\.[0-9]{2}\.[0-9]+-KAMEHOUSE-SNAPSHOT$" | head -1 | sed -e "s/\.[0-9]*-KAMEHOUSE-SNAPSHOT$//"`
+  if [ -z "${PREVIOUS_RELEASE_VERSION}" ]; then
+    log.error "Could not read the previous release version from the gradle project version. Can't continue"
+    exitProcess ${EXIT_ERROR}
+  fi
 }
 
 requestConfirmation() {
@@ -94,32 +97,25 @@ gitMergeMasterToReleaseBranch() {
   checkCommandStatus "$?"
 }
 
-checkUncommitedChangesInPomXml() {
-  log.info "Checking pom.xml for uncommited changes"
-  git status | grep "pom.xml" &>/dev/null
-  local POM_MODIFIED_STATUS=$?
-  if [ "${POM_MODIFIED_STATUS}" == "0" ]; then
-    log.error "pom.xml has uncommited changes. Check them with 'git diff'. Commit or revert the changes before doing the release"
+checkUncommitedChangesInBuildGradle() {
+  log.info "Checking build.gradle for uncommited changes"
+  git status | grep "build.gradle" &>/dev/null
+  local BUILD_GRADLE_MODIFIED_STATUS=$?
+  if [ "${BUILD_GRADLE_MODIFIED_STATUS}" == "0" ]; then
+    log.error "build.gradle has uncommited changes. Check them with 'git diff'. Commit or revert the changes before doing the release"
     exitProcess ${EXIT_ERROR}
   fi
 }
 
-updateReleaseVersionInPomXml() {
-  local PREVIOUS_VERSION_IN_POM="<version>${PREVIOUS_RELEASE_VERSION}.1-KAMEHOUSE-SNAPSHOT</version>"
-  local RELEASE_VERSION_IN_POM="<version>${RELEASE_VERSION}.1-KAMEHOUSE-SNAPSHOT</version>"
+updateReleaseVersionInBuildGradle() {
+  local PREVIOUS_VERSION_IN_BUILD_GRADLE="${PREVIOUS_RELEASE_VERSION}.1-KAMEHOUSE-SNAPSHOT"
+  local RELEASE_VERSION_IN_BUILD_GRADLE="${RELEASE_VERSION}.1-KAMEHOUSE-SNAPSHOT"
 
-  local PREVIOUS_KAMEHOUSE_VERSION_PROPERTY="<kamehouse.version>${PREVIOUS_RELEASE_VERSION}.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>"
-  local RELEASE_KAMEHOUSE_VERSION_PROPERTY="<kamehouse.version>${RELEASE_VERSION}.1-KAMEHOUSE-SNAPSHOT</kamehouse.version>"
-
-  log.info "Updating release version in pom.xml"
-  sed -i "s+${PREVIOUS_VERSION_IN_POM}+${RELEASE_VERSION_IN_POM}+g" pom.xml
-  sed -i "s+${PREVIOUS_KAMEHOUSE_VERSION_PROPERTY}+${RELEASE_KAMEHOUSE_VERSION_PROPERTY}+g" pom.xml
-
-  log.info "Updating release version in modules"
-  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
-  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    sed -i "s+${PREVIOUS_VERSION_IN_POM}+${RELEASE_VERSION_IN_POM}+g" ${KAMEHOUSE_MODULE}/pom.xml      
-  done
+  log.info "Updating release version in build.gradle"
+  sed -i -e "s+^\(  version = \)'${PREVIOUS_VERSION_IN_BUILD_GRADLE}'$+\1'${RELEASE_VERSION_IN_BUILD_GRADLE}'+" \
+    -e "s+^\(  'kamehouse.version' *: *\)'${PREVIOUS_VERSION_IN_BUILD_GRADLE}',$+\1'${RELEASE_VERSION_IN_BUILD_GRADLE}',+" \
+    build.gradle
+  checkCommandStatus "$?"
 }
 
 updateKameHouseMobileAppVersion() {
@@ -131,19 +127,13 @@ updateKameHouseMobileAppVersion() {
 }
 
 gitCommitReleaseVersionUpdate() {
-  log.info "Commiting changes to release version in the root and modules"
-  
-  git add pom.xml
+  log.info "Commiting changes to release version in build.gradle and kamehouse-mobile"
+
+  git add build.gradle
   checkCommandStatus "$?"
 
   git add kamehouse-mobile/source-config.xml
   checkCommandStatus "$?"
-
-  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
-  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    git add ${KAMEHOUSE_MODULE}/pom.xml
-    checkCommandStatus "$?"
-  done
 
   git commit -m "Updated project files to release v${RELEASE_VERSION}"
   #checkCommandStatus "$?"

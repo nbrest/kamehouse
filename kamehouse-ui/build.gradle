@@ -1,0 +1,6 @@
+/*
+ * KameHouse kamehouse-ui: Web user interface (node/typescript), no java sources to compile.
+ */
+plugins {
+  id 'base'
+}

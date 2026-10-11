@@ -1,0 +1,31 @@
+/*
+ * This library contains abstract test classes and interfaces to be used on unit tests only.
+ * It should always be imported with scope test.
+ */
+plugins {
+  id 'java-library'
+  id 'checkstyle'
+  id 'jacoco'
+  id 'com.github.spotbugs'
+}
+
+def versions = rootProject.ext.kamehouseVersions
+
+ext['kamehouse.finalName'] = 'kamehouse-commons-test'
+ext['kamehouse.jacoco'] = false
+
+ext['kamehouse.dependencies'] = [
+  ['api', project(':kamehouse-commons-core')],
+  // Testing dependencies. In the maven pom.xml they are compile scoped because this library is
+  // only imported with the test scope by the other modules
+  ['api', "org.hamcrest:hamcrest:${versions['hamcrest.version']}"],
+  ['api', dependencies
+      .add('api', "org.junit.jupiter:junit-jupiter-api:${versions['junit.jupiter.version']}")
+      .exclude([group: 'org.hamcrest', module: 'hamcrest'])],
+  ['api', "org.junit.jupiter:junit-jupiter-engine:${versions['junit.jupiter.version']}"],
+  ['api', "org.mockito:mockito-core:${versions['mockito.version']}"],
+  ['api', "org.springframework:spring-test:${versions['spring.version']}"],
+  ['api', "org.springframework.security:spring-security-test:${versions['spring.security.version']}"]
+]
+
+apply from: rootProject.file('gradle/kamehouse-java-module.gradle')

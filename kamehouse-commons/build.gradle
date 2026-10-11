@@ -1,0 +1,19 @@
+/*
+ * This library contains the common utilities and functionality used by several modules in
+ * kamehouse.
+ */
+plugins {
+  id 'java-library'
+  id 'checkstyle'
+  id 'jacoco'
+  id 'com.github.spotbugs'
+}
+
+ext['kamehouse.finalName'] = 'kamehouse-commons'
+ext['kamehouse.jacoco'] = true
+ext['kamehouse.dependencies'] = [
+  ['api', project(':kamehouse-commons-core')],
+  ['testImplementation', project(':kamehouse-commons-test')]
+]
+
+apply from: rootProject.file('gradle/kamehouse-java-module.gradle')

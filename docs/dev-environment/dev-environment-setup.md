@@ -7,10 +7,6 @@
 
 *********************
 
-# Eclipse:
-
-- Follow [dev-environment-setup-eclipse.md](/docs/dev-environment/dev-environment-setup-eclipse.md) 
-
 # IntelliJ:
 
 - Follow [dev-environment-setup-intellij.md](/docs/dev-environment/dev-environment-setup-intellij.md) 
@@ -64,7 +60,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 - Docker with dev profile will run with the directory `${HOME}/git/kamehouse` inside the container binded to the directory `${HOME}/workspace/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
 
-- To remote debug tomcat running in the dev container from your ide, follow the above eclipse and intellij guides to setup remote debugging
+- To remote debug tomcat running in the dev container from your ide, follow the above intellij guide to setup remote debugging
 
 - Changes made to the UI in kamehouse-ui and kamehouse-groot require re deployments with `deploy-kamehouse.sh -m ui` and `deploy-kamehouse.sh -m groot`
 

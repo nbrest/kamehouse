@@ -12,25 +12,26 @@ setJavaHome() {
     return
   fi
   setJavaHomeLogger "Setting new value for JAVA_HOME" "${LOG_INFO}"
-  ### Java 17
-  # Sort them in order from less priority to highest priority 
+  # Sort them in order from less priority to highest priority
   # so the last one that matches is the one I want
-  export JAVA_HOME="C:\Program Files\Java\jdk-17"
+  if [ -d "/c/Program Files/Java/jdk-21" ]; then
+     export JAVA_HOME="C:\Program Files\Java\jdk-21"
+  fi
 
   if [ -d "/usr/lib/jvm/default-java" ]; then
     export JAVA_HOME=/usr/lib/jvm/default-java
   fi
   
-  if [ -d "/usr/lib/jvm/java-17-openjdk-armhf" ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-armhf
+  if [ -d "/usr/lib/jvm/java-21-openjdk-armhf" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-armhf
   fi
 
-  if [ -d "/usr/lib/jvm/java-17-openjdk-arm64" ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
+  if [ -d "/usr/lib/jvm/java-21-openjdk-arm64" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64
   fi
 
-  if [ -d "/usr/lib/jvm/java-17-openjdk-amd64" ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+  if [ -d "/usr/lib/jvm/java-21-openjdk-amd64" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
   fi
 
   setJavaHomeLogger "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"

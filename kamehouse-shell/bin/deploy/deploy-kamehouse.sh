@@ -29,7 +29,7 @@ deployKameHouseMobileStatic() {
 
 parseArguments() {
   parseKameHouseModule "$@"
-  parseMavenProfile "$@"
+  parseBuildProfile "$@"
 
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -57,14 +57,14 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForKameHouseModule
-  setEnvForMavenProfile
+  setEnvForBuildProfile
 }
 
 printHelpOptions() {
   addHelpOption "-c" "deploy from the current directory without pulling latest git changes. Default deployment dir: ${COL_PURPLE}${PROJECT_DIR}"
   addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
-  printMavenProfileOption
+  printBuildProfileOption
 }
 
 main "$@"

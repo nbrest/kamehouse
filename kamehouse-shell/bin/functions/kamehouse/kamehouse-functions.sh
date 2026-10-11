@@ -1,8 +1,6 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
-export PATH="${HOME}/programs/apache-maven/bin:${PATH}"
-
 # Common kamehouse variables
 # DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
@@ -46,9 +44,14 @@ MODULE=""
 
 KAMEHOUSE_SERVERS_LIST="[kamehouse-r2d2|kamehouse-krypton|kamehouse-watchtower|kamehouse-thor|kamehouse-namek|kamehouse-cc|kamehouse-cc-kamino|kamehouse-c3p0|kamehouse-giru|kamehouse-pegasus|kamehouse-asgard|kamehouse-ztv-ssj1|kamehouse-ztv-ssj2|kamehouse-ztv-ssj3|kamehouse-ztv-ssj4|kamehouse-ztv-ssj5]"
 
-MAVEN_PROFILES_LIST="[prod|qa|dev|docker|ci]"
-DEFAULT_MAVEN_PROFILE="prod"
-MAVEN_PROFILE="${DEFAULT_MAVEN_PROFILE}"
+BUILD_PROFILES_LIST="[prod|docker|ci]"
+DEFAULT_BUILD_PROFILE="prod"
+BUILD_PROFILE="${DEFAULT_BUILD_PROFILE}"
+GRADLE_WRAPPER="./gradlew"
+GRADLE_SKIP_CHECKS_ARGS="-x test -x integrationTest -x checkstyleMain -x checkstyleTest -x spotbugsMain -x spotbugsTest -x jacocoTestReport -x jacocoTestCoverageVerification"
+
+GRADLE_ANDROID_VERSION="7.1.1"
+GRADLE_ANDROID_PATH_ADDED=""
 
 KAMEHOUSE_SERVER=""
 
@@ -76,8 +79,8 @@ IS_REMOTE_LINUX_HOST=false
 USERNAME_ARG=""
 PASSWORD_ARG=""
 
-# buildMavenCommand defaults 
-MAVEN_COMMAND=
+# buildGradleCommand defaults 
+GRADLE_COMMAND=
 INTEGRATION_TESTS=false
 CI_BUILD=false
 CONTINUE_INTEGRATION_TESTS_ON_ERRORS=false
@@ -186,12 +189,12 @@ parseKameHouseServer() {
   done
 }
 
-parseMavenProfile() {
+parseBuildProfile() {
   local ARGS=("$@")
   for i in "${!ARGS[@]}"; do
     case "${ARGS[i]}" in
       -p)
-        MAVEN_PROFILE="${ARGS[i+1]}"
+        BUILD_PROFILE="${ARGS[i+1]}"
         ;;
     esac
   done
@@ -299,15 +302,13 @@ setEnvForKameHouseServer() {
   fi
 }
 
-setEnvForMavenProfile() {
-  MAVEN_PROFILE=`echo "${MAVEN_PROFILE}" | tr '[:upper:]' '[:lower:]'`
-  
-  if [ "${MAVEN_PROFILE}" != "prod" ] \
-      && [ "${MAVEN_PROFILE}" != "qa" ] \
-      && [ "${MAVEN_PROFILE}" != "dev" ] \
-      && [ "${MAVEN_PROFILE}" != "docker" ] \
-      && [ "${MAVEN_PROFILE}" != "ci" ]; then
-    log.error "Option -p profile needs to be in ${MAVEN_PROFILES_LIST}"
+setEnvForBuildProfile() {
+  BUILD_PROFILE=`echo "${BUILD_PROFILE}" | tr '[:upper:]' '[:lower:]'`
+
+  if [ "${BUILD_PROFILE}" != "prod" ] \
+      && [ "${BUILD_PROFILE}" != "docker" ] \
+      && [ "${BUILD_PROFILE}" != "ci" ]; then
+    log.error "Option -p profile needs to be in ${BUILD_PROFILES_LIST}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}
   fi
@@ -335,8 +336,8 @@ printKameHouseServerOption() {
   addHelpOption "-z ${KAMEHOUSE_SERVERS_LIST}" "server to execute script on" "r"
 }
 
-printMavenProfileOption() {
-  addHelpOption "-p ${MAVEN_PROFILES_LIST}" "maven profile to build the project with. Default is ${DEFAULT_MAVEN_PROFILE} if not specified"
+printBuildProfileOption() {
+  addHelpOption "-p ${BUILD_PROFILES_LIST}" "build profile to build the project with. Default is ${DEFAULT_BUILD_PROFILE} if not specified"
 }
 
 printPasswordArgOption() {
@@ -509,9 +510,50 @@ cleanLogsInGitRepoFolder() {
   done
 }
 
-cleanUpMavenRepository() {
-  log.info "Removing com.nicobrest entries from ${HOME}/.m2"
-  rm -rf ${HOME}/.m2/repository/com/nicobrest
+cleanUpKameHouseBuildArtifacts() {
+  log.info "Removing the kamehouse build artifacts from the git repo folder"
+  local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-`
+  echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
+    rm -v -rf ${KAMEHOUSE_MODULE}/build/libs
+    rm -v -rf ${KAMEHOUSE_MODULE}/build/distributions
+  done
+}
+
+getKameHouseModulesFromGradleSettings() {
+  local SETTINGS_FILE="${GRADLE_SETTINGS_FILE:-./settings.gradle}"
+  if [ ! -f "${SETTINGS_FILE}" ]; then
+    log.error "File ${SETTINGS_FILE} not found. Are you running this script from the root of the kamehouse project?"
+    exitProcess ${EXIT_ERROR}
+  fi
+  # the groovy settings.gradle declares the modules with single quotes
+  sed -n '/^include/,/^)/p' ${SETTINGS_FILE} | grep -oE "'[a-zA-Z0-9_-]+'" | tr -d "'"
+}
+
+isKameHouseJavaModule() {
+  local KAMEHOUSE_MODULE=$1
+  # the modules without java sources only apply the gradle base plugin, so they don't have the
+  # build, test or integrationTest tasks
+  grep -q "id 'java-library'" ${KAMEHOUSE_MODULE}/build.gradle
+}
+
+getGradleTasksFromModuleOnwards() {
+  local RESUME_FROM_MODULE=$1
+  local GRADLE_TASK=$2
+  local FOUND_RESUME_MODULE=false
+  local GRADLE_TASKS=""
+  for KAMEHOUSE_MODULE in `getKameHouseModulesFromGradleSettings`; do
+    if [ "${KAMEHOUSE_MODULE}" == "${RESUME_FROM_MODULE}" ]; then
+      FOUND_RESUME_MODULE=true
+    fi
+    if ${FOUND_RESUME_MODULE} && isKameHouseJavaModule ${KAMEHOUSE_MODULE}; then
+      GRADLE_TASKS="${GRADLE_TASKS} :${KAMEHOUSE_MODULE}:${GRADLE_TASK}"
+    fi
+  done
+  if [ -z "${GRADLE_TASKS}" ]; then
+    log.error "Module ${RESUME_FROM_MODULE} not found in the gradle settings file"
+    exitProcess ${EXIT_INVALID_ARG}
+  fi
+  echo "${GRADLE_TASKS}"
 }
 
 cdToKameHouseModule() {

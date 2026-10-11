@@ -1,0 +1,459 @@
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.quality.Checkstyle
+import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.Sync
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.bundling.War
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.language.jvm.tasks.ProcessResources
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
+import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
+import org.gradle.testing.jacoco.tasks.JacocoReport
+
+/*
+ * Shared configuration for every java/war module. It is the gradle translation of the
+ * <dependencies>, <build> and <profiles> sections that the modules inherit from the
+ * kamehouse parent pom.xml.
+ *
+ * Module build scripts only set the per module options as project extra properties before
+ * applying this script:
+ *
+ *   ext['kamehouse.packaging'] = 'war'                // jar (default) or war
+ *   ext['kamehouse.finalName'] = 'kame-house-admin'  // <finalName> of the module
+ *   ext['kamehouse.jacoco'] = true                    // jacoco coverage verification
+ *   ext['kamehouse.dependencies'] = [[config, notation], ...]  // module dependencies
+ */
+
+def versions = rootProject.ext.kamehouseVersions
+def versionOf = { String name -> versions[name] }
+
+def profile = rootProject.ext.kamehouseProfile
+def packaging = project.ext.has('kamehouse.packaging') ? project.ext.get('kamehouse.packaging') : 'jar'
+def finalName = project.ext.has('kamehouse.finalName') ? project.ext.get('kamehouse.finalName') : null
+def jacocoEnabled = !project.ext.has('kamehouse.jacoco') || project.ext.get('kamehouse.jacoco')
+
+def sourceSets = project.extensions.getByType(SourceSetContainer)
+def mainSourceSet = sourceSets.getByName('main')
+def testSourceSet = sourceSets.getByName('test')
+
+/*
+ * Maven "provided" scope: on the compile and test classpath, but not packaged in the artifacts.
+ * A separate configuration is needed because the gradle "compileOnly" configuration is not part
+ * of the test runtime classpath, and the war task only packages the runtime classpath.
+ */
+def provided = configurations.create('provided') {
+  canBeConsumed = false
+  canBeResolved = true
+}
+/** Same as provided but without transitives. */
+def providedDirect = configurations.create('providedDirect') {
+  canBeConsumed = false
+  canBeResolved = true
+  transitive = false
+  extendsFrom provided
+}
+configurations.getByName(JavaPlugin.COMPILE_ONLY_CONFIGURATION_NAME).extendsFrom(provided)
+configurations.getByName(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME).extendsFrom(provided)
+configurations.getByName(JavaPlugin.TEST_RUNTIME_ONLY_CONFIGURATION_NAME).extendsFrom(provided)
+
+/* ------------------------------------------------------------------------------------------- *
+ * Java compilation: maven-compiler-plugin source/target/encoding
+ *
+ * The compilation uses a Java 21 toolchain and compiles with --release 21, so the build, the tests
+ * and the SonarCloud analysis all run on JDK 21 and produce Java 21 artifacts.
+ * ------------------------------------------------------------------------------------------- */
+tasks.withType(JavaCompile).configureEach {
+  options.release = versionOf('java.target.version').toInteger()
+  options.encoding = versionOf('project.build.sourceEncoding')
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
+if (finalName) {
+  base {
+    archivesName = finalName
+  }
+  // maven <finalName> doesn't add the version to the jar file name
+  tasks.named('jar', Jar) {
+    archiveVersion = ''
+  }
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Resource filtering. The maven profiles (prod by default, ci and docker) are replaced by the
+ * -PkamehouseProfile=<prod|ci|docker> property, or by the KAMEHOUSE_PROFILE environment variable.
+ * ------------------------------------------------------------------------------------------- */
+/*
+ * Tokens defined by the selected maven profile (prod by default). Used by the processResources
+ * task and by the kamehouse-cmd assembly.
+ */
+def profileFilterTokens = [:]
+['kamehouse.properties', 'hibernate.properties', 'jdbc.properties'].each { filterName ->
+  def filterFile = rootProject.file("${versionOf('filters.dir')}/${profile}/${filterName}")
+  if (filterFile.exists()) {
+    def properties = new Properties()
+    filterFile.withInputStream { properties.load(it) }
+    properties.each { key, value -> profileFilterTokens[key.toString()] = value.toString() }
+  }
+}
+project.ext['kamehouse.profileFilterTokens'] = profileFilterTokens
+
+def filterTokens = [:]
+// maven-resources-plugin resolves the ${...} tokens from the system properties first (-D on the
+// command line) and from the filter files of the selected profile if they are not defined as a
+// system property. This precedence is used by the deploy scripts to override the values of the
+// profile filter files (ie. filter.jdbc.password or filter.kamehouse-server.mac)
+profileFilterTokens.each { key, value -> filterTokens[key] = value }
+System.getProperties().each { key, value -> filterTokens[key.toString()] = value.toString() }
+
+// maven-resources-plugin replaces the ${...} tokens with the property values, and leaves the
+// tokens without a value untouched
+def tokenPattern = ~/\$\{([^}]+)}/
+def tokenFilter = { String line ->
+  def result = new StringBuilder()
+  def matcher = tokenPattern.matcher(line)
+  def lastMatchEnd = 0
+  while (matcher.find()) {
+    def value = filterTokens[matcher.group(1)]
+    result.append(line, lastMatchEnd, matcher.start())
+    result.append(value != null ? value : matcher.group(0))
+    lastMatchEnd = matcher.end()
+  }
+  result.append(line.substring(lastMatchEnd))
+  result.toString()
+}
+
+tasks.named('processResources', ProcessResources) {
+  inputs.property('kamehouseProfile', profile)
+  inputs.property('kamehouseFilterTokens', filterTokens)
+  filter(tokenFilter)
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Tests. The maven-surefire-plugin runs everything but the classes ending with IntegrationTest,
+ * and the maven-failsafe-plugin is configured to run exactly those classes.
+ * ------------------------------------------------------------------------------------------- */
+tasks.named('test', Test) {
+  useJUnitPlatform()
+  exclude '**/*IntegrationTest.class'
+  testLogging {
+    exceptionFormat = TestExceptionFormat.FULL
+  }
+}
+
+def integrationTest = tasks.register('integrationTest', Test) {
+  group = 'verification'
+  description = 'Runs the integration tests (maven-failsafe-plugin includes **/*IntegrationTest).'
+  testClassesDirs = testSourceSet.output.classesDirs
+  classpath = testSourceSet.runtimeClasspath
+  useJUnitPlatform()
+  include '**/*IntegrationTest.class'
+  shouldRunAfter tasks.named('test', Test)
+  testLogging {
+    exceptionFormat = TestExceptionFormat.FULL
+  }
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * The maven build compiles the classes and copies the resources to the same target/classes folder,
+ * and it runs the tests with that folder in the classpath. The jakarta persistence provider only
+ * scans the classpath folder that contains the META-INF/persistence.xml file to find the @Entity
+ * annotated classes, so the tests run with the main and test classes and resources merged.
+ * ------------------------------------------------------------------------------------------- */
+def mergedTestClasses = tasks.register('mergedTestClasses', Sync) {
+  group = 'build'
+  description = 'Merges the main and test classes with their resources (like maven target/classes).'
+  into layout.buildDirectory.dir('mergedTestClasses')
+  // the test resources are added last so they overwrite the main ones, like maven does with the
+  // target/test-classes folder before the target/classes folder in the test classpath
+  duplicatesStrategy = DuplicatesStrategy.INCLUDE
+  from mainSourceSet.output
+  from testSourceSet.output
+}
+
+def mergedTestRuntimeClasspath = files(mergedTestClasses) + configurations.getByName('testRuntimeClasspath')
+
+tasks.named('test', Test) {
+  classpath = mergedTestRuntimeClasspath
+}
+
+tasks.named('integrationTest', Test) {
+  classpath = mergedTestRuntimeClasspath
+  /*
+   * maven-failsafe-plugin runs the integration tests with "failsafe:integration-test" (report the
+   * errors without failing the build) or with "failsafe:integration-test failsafe:verify" (fail the
+   * build on errors). The deploy scripts select the behavior with the -c option.
+   */
+  ignoreFailures = providers.gradleProperty('kamehouseIgnoreIntegrationTestFailures').isPresent()
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Checkstyle: google_checks.xml, resolved from the checkstyle jar like in the maven build
+ * ------------------------------------------------------------------------------------------- */
+checkstyle {
+  // maven-checkstyle-plugin: failOnViolation=true, failsOnError=true, consoleOutput=true
+  // (consoleOutput/failsOnError do not exist anymore in gradle 8)
+  toolVersion = versionOf('checkstyle.puppycrawl.version')
+}
+
+def checkstyleConfiguration = configurations.getByName('checkstyle')
+def extractGoogleChecks = tasks.register('extractGoogleChecks', Copy) {
+  from { zipTree(checkstyleConfiguration.find { it.name.startsWith('checkstyle-') }) }
+  include 'google_checks.xml'
+  into layout.buildDirectory.dir('checkstyle')
+}
+
+tasks.withType(Checkstyle).configureEach {
+  dependsOn extractGoogleChecks
+  configFile = layout.buildDirectory.file('checkstyle/google_checks.xml').get().asFile
+  // maven-checkstyle-plugin: failOnViolation=true, violationSeverity=warning
+  maxWarnings = 0
+}
+
+// maven-checkstyle-plugin doesn't include the test sources in the analysis
+tasks.named('checkstyleTest', Checkstyle) {
+  enabled = false
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Spotbugs: static code analysis
+ * ------------------------------------------------------------------------------------------- */
+// The spotbugs tool is pinned to the version used by the spotbugs-maven-plugin, that doesn't
+// work with the tool resolution of the gradle plugin
+def spotbugsTool = "com.github.spotbugs:spotbugs:${versionOf('spotbugs.tool.version')}"
+dependencies {
+  add 'spotbugs', spotbugsTool
+}
+configurations.named('spotbugs') {
+  resolutionStrategy {
+    force spotbugsTool
+  }
+}
+
+// spotbugs-maven-plugin doesn't analyze the test classes (includeTests=false by default)
+tasks.named('spotbugsTest') {
+  enabled = false
+}
+
+// findings that are not reported, ie. the spotbugs 4.8 detector for the private constructors that
+// throw an exception on purpose
+tasks.named('spotbugsMain') {
+  excludeFilter = rootProject.file('spotbugs/excludeFilter.xml')
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Jacoco: code coverage report and verification
+ * ------------------------------------------------------------------------------------------- */
+if (jacocoEnabled) {
+  tasks.named('jacocoTestReport', JacocoReport) {
+    classDirectories.setFrom(files(mainSourceSet.output))
+  }
+  tasks.named('jacocoTestCoverageVerification', JacocoCoverageVerification) {
+    classDirectories.setFrom(files(mainSourceSet.output))
+    violationRules {
+      rule {
+        // jacoco-maven-plugin: BUNDLE element, LINE >= 0.80 and BRANCH >= 0.60
+        limit {
+          counter = 'LINE'
+          value = 'COVEREDRATIO'
+          minimum = new BigDecimal('0.80')
+        }
+        limit {
+          counter = 'BRANCH'
+          value = 'COVEREDRATIO'
+          minimum = new BigDecimal('0.60')
+        }
+      }
+    }
+  }
+  tasks.named('check') {
+    dependsOn tasks.named('jacocoTestReport'), tasks.named('jacocoTestCoverageVerification')
+  }
+}
+
+// The maven build used the same jacoco agent for surefire and failsafe. A different destination
+// file is used here so that the unit test coverage is not overwritten by the integration test one.
+tasks.named('integrationTest', Test) {
+  extensions.getByType(JacocoTaskExtension).destinationFile =
+    layout.buildDirectory.file('jacoco/integrationTest.exec').get().asFile
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Dependencies inherited from the kamehouse parent pom.xml
+ * ------------------------------------------------------------------------------------------- */
+def moduleDependencies = project.ext.has('kamehouse.dependencies') ?
+  project.ext.get('kamehouse.dependencies') : []
+
+/** Adds a dependency to a configuration, applying the maven exclusions. */
+def dep = { String configurationName, String notation, Map exclusions = null ->
+  def dependency = dependencies.add(configurationName, notation)
+  if (dependency == null) {
+    throw new GradleException("Unable to add the dependency ${notation} to ${configurationName}")
+  }
+  if (exclusions) {
+    dependency.exclude(exclusions)
+  }
+  dependency
+}
+
+dependencies {
+  // ------------------------------------------------------------------------------------------- //
+  // compile scope
+  // ------------------------------------------------------------------------------------------- //
+  dep 'api', "be.jedi:jvncsender:${versionOf('jvncsender.version')}"
+  dep 'api', "com.google.code.findbugs:findbugs:${versionOf('findbugs.version')}"
+  dep 'api', "org.json:json:${versionOf('json.version')}"
+  dep 'api', "org.bouncycastle:bcpkix-jdk15on:${versionOf('bouncy.castle.version')}"
+  dep 'api', "net.i2p.crypto:eddsa:${versionOf('eddsa.version')}"
+  dep 'api', "org.jsoup:jsoup:${versionOf('jsoup.version')}"
+  dep 'api', "org.quartz-scheduler:quartz:${versionOf('quartz.version')}"
+
+  dep 'api', "jakarta.xml.bind:jakarta.xml.bind-api:${versionOf('jakarta.xml.bind.version')}"
+  dep 'api', "jakarta.annotation:jakarta.annotation-api:${versionOf('jakarta.annotation.version')}"
+  dep 'api', "jakarta.websocket:jakarta.websocket-api:${versionOf('jakarta.websocket.version')}"
+  dep 'api', "javax.servlet.jsp.jstl:jstl-api:${versionOf('jstl.version')}"
+  dep 'api', "org.glassfish.jaxb:jaxb-runtime:${versionOf('glassfish.jaxb.version')}"
+
+  dep 'api', "commons-cli:commons-cli:${versionOf('commons.cli.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "commons-io:commons-io:${versionOf('commons.io.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.apache.commons:commons-lang3:${versionOf('commons.lang3.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.apache.commons:commons-text:${versionOf('commons.text.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.apache.httpcomponents:httpclient:${versionOf('httpclient.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.apache.sshd:sshd-core:${versionOf('sshd.plugin.version')}"
+
+  // Hibernate/JPA
+  dep 'api', "org.hibernate.orm:hibernate-core:${versionOf('hibernate.version')}"
+  dep 'api', "jakarta.persistence:jakarta.persistence-api:${versionOf('jakarta.persistence.version')}"
+  dep 'api', "org.hibernate.orm:hibernate-c3p0:${versionOf('hibernate.version')}"
+  dep 'api', "org.hsqldb:hsqldb:${versionOf('hsql.version')}"
+  dep 'api', "org.mariadb.jdbc:mariadb-java-client:${versionOf('mariadb.java.client.version')}"
+
+  // Spring
+  dep 'api', "org.springframework:spring-core:${versionOf('spring.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.springframework:spring-context:${versionOf('spring.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.springframework:spring-context-support:${versionOf('spring.version')}"
+  dep 'api', "org.springframework:spring-web:${versionOf('spring.version')}"
+  dep 'api', "org.springframework:spring-webmvc:${versionOf('spring.version')}"
+  dep 'api', "org.springframework:spring-orm:${versionOf('spring.version')}"
+  dep 'api', "org.springframework:spring-messaging:${versionOf('spring.version')}"
+  dep 'api', "org.springframework:spring-websocket:${versionOf('spring.version')}"
+
+  // Spring Security
+  dep 'api', "org.springframework.security:spring-security-web:${versionOf('spring.security.version')}"
+  dep 'api', "org.springframework.security:spring-security-config:${versionOf('spring.security.version')}"
+  dep 'api', "org.springframework.security:spring-security-messaging:${versionOf('spring.security.version')}"
+
+  // Spring Session
+  dep 'api', "org.springframework.session:spring-session-core:${versionOf('spring.session.version')}"
+  dep 'api', "org.springframework.session:spring-session-jdbc:${versionOf('spring.session.version')}"
+
+  // Jackson
+  dep 'api', "com.fasterxml.jackson.core:jackson-core:${versionOf('jackson.version')}"
+  dep 'api', "com.fasterxml.jackson.core:jackson-databind:${versionOf('jackson.version')}"
+
+  // Logging
+  dep 'api', "ch.qos.logback:logback-classic:${versionOf('logback.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.slf4j:slf4j-api:${versionOf('slf4j.version')}", rootProject.ext.commonsLoggingExclusion
+  dep 'api', "org.slf4j:jcl-over-slf4j:${versionOf('slf4j.version')}", rootProject.ext.commonsLoggingExclusion
+
+  // Cache. Ehcache brings an incompatible jaxb-runtime version
+  dep 'api', "org.ehcache:ehcache:${versionOf('ehcache.version')}",
+      [group: 'org.glassfish.jaxb', module: 'jaxb-runtime']
+
+  // Declared as a dependency (instead of a plugin) in the parent pom.xml. It is not used at
+  // runtime, but it is kept so the resolved dependencies don't change
+  dep 'api', "org.sonarsource.scanner.maven:sonar-maven-plugin:${versionOf('sonar.plugin.version')}"
+
+  // ------------------------------------------------------------------------------------------- //
+  // provided scope (maven "provided": compile and test classpath, not packaged)
+  // ------------------------------------------------------------------------------------------- //
+  add 'provided', "jakarta.servlet:jakarta.servlet-api:${versionOf('jakarta.servlet.version')}"
+  add 'provided', "jakarta.websocket:jakarta.websocket-client-api:${versionOf('jakarta.websocket.version')}"
+  add 'provided', "jakarta.servlet.jsp:jakarta.servlet.jsp-api:${versionOf('jakarta.servlet.jsp.version')}"
+
+  // ------------------------------------------------------------------------------------------- //
+  // test scope
+  // ------------------------------------------------------------------------------------------- //
+  dep 'testImplementation', "org.hamcrest:hamcrest:${versionOf('hamcrest.version')}"
+  dep 'testImplementation', "org.junit.jupiter:junit-jupiter-engine:${versionOf('junit.jupiter.version')}"
+  dep 'testImplementation', "org.junit.jupiter:junit-jupiter-api:${versionOf('junit.jupiter.version')}",
+      [group: 'org.hamcrest', module: 'hamcrest-core']
+  dep 'testImplementation', "org.junit.jupiter:junit-jupiter-params:${versionOf('junit.jupiter.version')}"
+  // mockito-inline was discontinued after 5.2.0. Since mockito 5 the inline mock maker is the
+  // default of mockito-core
+  dep 'testImplementation', "org.mockito:mockito-core:${versionOf('mockito.version')}"
+  dep 'testImplementation', "org.springframework:spring-test:${versionOf('spring.version')}"
+  dep 'testImplementation', "org.springframework.security:spring-security-test:${versionOf('spring.security.version')}"
+
+  // ------------------------------------------------------------------------------------------- //
+  // module specific dependencies
+  // ------------------------------------------------------------------------------------------- //
+  moduleDependencies.each { moduleDependency ->
+    add moduleDependency[0], moduleDependency[1]
+  }
+
+  // The junit 5.10 gradle module metadata does not declare apiguardian-api in the runtime variant,
+  // but maven adds it to the test classpath from the pom.xml
+  add 'testImplementation', "org.apiguardian:apiguardian-api:${versionOf('apiguardian.version')}"
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Dependency conflict resolution. Maven resolves a version conflict with the version of the
+ * dependency that is the nearest in the tree, and gradle resolves it with the highest version.
+ * These are the versions maven resolves, pinned to keep the same classpath.
+ * ------------------------------------------------------------------------------------------- */
+configurations.configureEach {
+  resolutionStrategy {
+    // org.hibernate.orm:hibernate-core requires jaxb-runtime 4.0.2 (depth 2) and the parent
+    // pom.xml declares jaxb-runtime 2.3.1 (depth 1). Maven keeps 2.3.1 with the javax jaxb-api
+    force "org.glassfish.jaxb:jaxb-runtime:${versionOf('glassfish.jaxb.version')}"
+    // org.hibernate.orm:hibernate-core and org.mockito:mockito-inline require different byte-buddy
+    // versions. Maven kept the hibernate one (1.12.18), but the mockito inline mock maker needs
+    // byte-buddy 1.14+ to mock classes when the build runs on jdk 21, so the newer one is pinned
+    force "net.bytebuddy:byte-buddy:${versionOf('byte.buddy.version')}"
+  }
+}
+
+/* ------------------------------------------------------------------------------------------- *
+ * Packaging
+ * ------------------------------------------------------------------------------------------- */
+if (packaging == 'war') {
+  def projectConfigurations = configurations
+  def moduleJarVersion = project.version.toString()
+  def runtimeClasspath = projectConfigurations.getByName('runtimeClasspath')
+  // FileCollection.filter is lazy, the classpath is not resolved while configuring the project
+  def moduleJars = runtimeClasspath.filter {
+    it.name.startsWith('kamehouse-') && it.name.endsWith('.jar')
+  }
+
+  tasks.named('war', War) {
+    // maven-war-plugin: failOnMissingWebXml=false is the default behavior in gradle 8
+    if (finalName) {
+      archiveFileName = "${finalName}.war"
+    }
+    // maven-war-plugin also packages the compile scoped transitives of the provided dependencies
+    from({
+      def directFiles = projectConfigurations.getByName('providedDirect').files
+      projectConfigurations.getByName('provided').files.findAll { !directFiles.contains(it) }
+    }) {
+      into 'WEB-INF/lib'
+    }
+    // maven-war-plugin names the kamehouse module jars with the version in the WEB-INF/lib folder.
+    // Setting the war classpath removes the classes from the war, so they are added explicitly
+    classpath = runtimeClasspath.minus(moduleJars)
+    from(mainSourceSet.output) {
+      into 'WEB-INF/classes'
+    }
+    from(moduleJars) {
+      into 'WEB-INF/lib'
+      rename { String name -> name[0..-5] + "-${moduleJarVersion}.jar" }
+    }
+  }
+}

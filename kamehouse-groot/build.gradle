@@ -1,0 +1,14 @@
+plugins {
+  id 'java-library'
+  id 'checkstyle'
+  id 'jacoco'
+  id 'com.github.spotbugs'
+}
+
+ext['kamehouse.finalName'] = 'kame-house-groot'
+ext['kamehouse.jacoco'] = false
+ext['kamehouse.dependencies'] = [
+  ['testImplementation', project(':kamehouse-commons-test')]
+]
+
+apply from: rootProject.file('gradle/kamehouse-java-module.gradle')

@@ -251,8 +251,7 @@ generateBuildInfo() {
 }
 
 getKameHouseBuildVersion() {
-  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
+  local KAMEHOUSE_RELEASE_VERSION=`getKameHouseReleaseVersion`
   local GIT_COMMIT_HASH=`git rev-parse HEAD`
   GIT_COMMIT_HASH=`echo ${GIT_COMMIT_HASH:0:9}`
   local BUILD_VERSION="${GIT_COMMIT_HASH}"
@@ -260,6 +259,11 @@ getKameHouseBuildVersion() {
     BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
   fi
   echo "${BUILD_VERSION}"
+}
+
+getKameHouseReleaseVersion() {
+  local GRADLE_PROJECT_VERSION=`./gradlew --quiet --console=plain printVersion 2>/dev/null | tr -d "\r" | grep -E "^[0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT$" | head -1 | sed -e "s/-KAMEHOUSE-SNAPSHOT$//"`
+  echo "${GRADLE_PROJECT_VERSION}"
 }
 
 logKameHouseShellStatus() {

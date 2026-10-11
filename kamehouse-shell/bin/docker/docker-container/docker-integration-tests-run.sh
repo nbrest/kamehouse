@@ -23,7 +23,8 @@ mainProcess() {
 
   BUILD_LOG=`tail -n 150 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
   BUILD_LOG_OUTPUT=`cat /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
-  echo -e "${BUILD_LOG}" | grep "BUILD SUCCESS" > /dev/null
+  # gradle prints BUILD SUCCESSFUL when the build succeeds, and BUILD FAILED when it fails
+  echo -e "${BUILD_LOG}" | grep "BUILD SUCCESSFUL" > /dev/null
   BUILD_LOG_RESULT=$?
   
   echo -e "${BUILD_LOG_OUTPUT}"

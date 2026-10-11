@@ -127,8 +127,7 @@ clearTempFiles() {
     return
   fi
   log.info "Clearing up temp files"
-  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/apache-maven/bin/mvn clean"
-  rm -rf /home/${KAMEHOUSE_USER}/.m2/repository/com/nicobrest 
+  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./gradlew clean --console=plain"
 }
 
 createSamplePlaylists() {

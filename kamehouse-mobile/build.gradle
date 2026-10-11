@@ -1,0 +1,7 @@
+/*
+ * KameHouse kamehouse-mobile: Ionic/Cordova mobile application (node/typescript), no java sources to compile.
+ * The maven pom.xml only declares the module (packaging pom).
+ */
+plugins {
+  id 'base'
+}

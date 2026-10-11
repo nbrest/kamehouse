@@ -11,11 +11,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: 17
+          # gradle, the tests, the sonar analysis and the compilation all run on jdk 21. The code
+          # is compiled with --release 21 (java.target.version in build.gradle), so the artifacts
+          # are java 21
+          java-version: 21
           java-package: jdk
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
@@ -23,14 +26,18 @@ jobs:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
+      - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=nbrest_kamehouse -Dsonar.organization=nbrest
+        # The sonarqube plugin is only applied when the build runs with -Psonar. The
+        # sonar.organization and sonar.host.url properties are in the gradle.properties file
+        run: ./gradlew clean build sonar -Psonar --no-daemon --console=plain -Dsonar.projectKey=nbrest_kamehouse

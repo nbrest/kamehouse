@@ -1,12 +1,16 @@
 getKameHouseBuildVersion() {
-  local KAMEHOUSE_RELEASE_VERSION=`grep -e "<version>.*1-KAMEHOUSE-SNAPSHOT</version>" pom.xml | awk '{print $1}'`
-  KAMEHOUSE_RELEASE_VERSION=`echo ${KAMEHOUSE_RELEASE_VERSION:9:7}`
+  local KAMEHOUSE_RELEASE_VERSION=`getKameHouseReleaseVersion`
   setGitCommitHash
   local BUILD_VERSION="${GIT_COMMIT_HASH}"
   if [ -n "${KAMEHOUSE_RELEASE_VERSION}" ]; then
     BUILD_VERSION=${KAMEHOUSE_RELEASE_VERSION}"-"${BUILD_VERSION}
   fi
   echo "${BUILD_VERSION}"
+}
+
+getKameHouseReleaseVersion() {
+  local GRADLE_PROJECT_VERSION=`${GRADLE_WRAPPER} --quiet --console=plain printVersion 2>/dev/null | tr -d "\r" | grep -E "^[0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT$" | head -1 | sed -e "s/-KAMEHOUSE-SNAPSHOT$//"`
+  echo "${GRADLE_PROJECT_VERSION}"
 }
 
 setKameHouseBuildVersion() {
@@ -178,30 +182,30 @@ buildFrontendCode() {
 }
 
 buildKameHouseBackend() {
-  RUN_MAVEN_COMMAND=false
+  RUN_BUILD_COMMAND=false
   if ${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}; then
-    RUN_MAVEN_COMMAND=true
+    RUN_BUILD_COMMAND=true
   fi
   if ${DEPLOY_KAMEHOUSE_CMD}; then
-    RUN_MAVEN_COMMAND=true
+    RUN_BUILD_COMMAND=true
   fi
   if [ "${MODULE_SHORT}" == "mobile" ] ||
      [ "${MODULE_SHORT}" == "groot" ] ||
      [ "${MODULE_SHORT}" == "shell" ] ||
      [ "${MODULE_SHORT}" == "ui" ]; then
-    RUN_MAVEN_COMMAND=false
+    RUN_BUILD_COMMAND=false
   fi
-  if ! ${RUN_MAVEN_COMMAND}; then
+  if ! ${RUN_BUILD_COMMAND}; then
     if ! ${CI_BUILD}; then
-      log.debug "RUN_MAVEN_COMMAND is false so skip running maven command"
+      log.debug "RUN_BUILD_COMMAND is false so skip running the build command"
       return
     fi
   fi
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
-  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with profile ${COL_PURPLE}${MAVEN_PROFILE}${COL_DEFAULT_LOG}"
+  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with build profile ${COL_PURPLE}${BUILD_PROFILE}${COL_DEFAULT_LOG}"
   exportBuildInfoToCommonsCore
-  buildMavenCommand
-  executeMavenCommand
+  buildGradleCommand
+  executeGradleCommand
   cleanLogsInGitRepoFolder
 }
 
@@ -211,44 +215,46 @@ exportBuildInfoToCommonsCore() {
   cp -f ./build-info.json ./kamehouse-commons-core/src/main/resources/
 }
 
-buildMavenCommand() {
-  MAVEN_COMMAND="mvn clean install -Dstyle.color=always -P ${MAVEN_PROFILE}"
+buildGradleCommand() {
+  local GRADLE_LIFECYCLE_TASK="build"
+  local GRADLE_COMMON_ARGS="--console=plain -PkamehouseProfile=${BUILD_PROFILE}"
+
+  if ${INTEGRATION_TESTS}; then
+    GRADLE_LIFECYCLE_TASK="integrationTest"
+    if ${CONTINUE_INTEGRATION_TESTS_ON_ERRORS}; then
+      GRADLE_COMMON_ARGS="${GRADLE_COMMON_ARGS} -PkamehouseIgnoreIntegrationTestFailures=true"
+    fi
+  fi
+
+  GRADLE_COMMAND="${GRADLE_WRAPPER} clean ${GRADLE_LIFECYCLE_TASK} ${GRADLE_COMMON_ARGS}"
 
   if ${FAST_BUILD}; then
     log.info "Executing fast build. Skipping checkstyle, findbugs and tests"
-    MAVEN_COMMAND="${MAVEN_COMMAND} -Dmaven.test.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true"
-  fi
-
-  if ${INTEGRATION_TESTS}; then
-    if ${CONTINUE_INTEGRATION_TESTS_ON_ERRORS}; then
-      MAVEN_COMMAND="mvn clean test-compile failsafe:integration-test -Dstyle.color=always -P ${MAVEN_PROFILE}"
-    else
-      MAVEN_COMMAND="mvn clean test-compile failsafe:integration-test failsafe:verify -Dstyle.color=always -P ${MAVEN_PROFILE}"
-    fi
+    GRADLE_COMMAND="${GRADLE_COMMAND} ${GRADLE_SKIP_CHECKS_ARGS}"
   fi
 
   if [ -n "${MODULE}" ]; then
     log.info "Building module ${COL_PURPLE}${MODULE}"
     if ${RESUME_BUILD}; then
       log.info "Resuming from last build"
-      MAVEN_COMMAND="${MAVEN_COMMAND} -rf :${MODULE}"
+      GRADLE_COMMAND="${GRADLE_COMMAND} `getGradleTasksFromModuleOnwards ${MODULE} ${GRADLE_LIFECYCLE_TASK}`"
     else
-      MAVEN_COMMAND="${MAVEN_COMMAND} -pl :${MODULE} -am"
+      GRADLE_COMMAND="${GRADLE_COMMAND} :${MODULE}:${GRADLE_LIFECYCLE_TASK}"
     fi
   else
     log.info "Building all modules"
   fi
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.kamehouse-server.mac=${KAMEHOUSE_SERVER_MAC} "
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.kamehouse-server.broadcast=${KAMEHOUSE_SERVER_BROADCAST} "
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.playlists.path=${PLAYLISTS_PATH} "
-  MAVEN_COMMAND="${MAVEN_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE} "
+  GRADLE_COMMAND="${GRADLE_COMMAND} -Dfilter.kamehouse-server.mac=${KAMEHOUSE_SERVER_MAC} "
+  GRADLE_COMMAND="${GRADLE_COMMAND} -Dfilter.kamehouse-server.broadcast=${KAMEHOUSE_SERVER_BROADCAST} "
+  GRADLE_COMMAND="${GRADLE_COMMAND} -Dfilter.playlists.path=${PLAYLISTS_PATH} "
+  GRADLE_COMMAND="${GRADLE_COMMAND} -Dfilter.jdbc.password=${MARIADB_PASS_KAMEHOUSE} "
 }
 
-executeMavenCommand() {
-  local MAVEN_COMMAND_MASKED="${MAVEN_COMMAND}"
-  MAVEN_COMMAND_MASKED="`sed 's#filter.jdbc.password=.* #filter.jdbc.password=**** #' <<<"${MAVEN_COMMAND_MASKED}"`"
-  log.info "${MAVEN_COMMAND_MASKED}"
-  ${MAVEN_COMMAND}
+executeGradleCommand() {
+  local GRADLE_COMMAND_MASKED="${GRADLE_COMMAND}"
+  GRADLE_COMMAND_MASKED="`sed 's#filter\.jdbc\.password=[^ ]*#filter.jdbc.password=****#g' <<<"${GRADLE_COMMAND_MASKED}"`"
+  log.info "${GRADLE_COMMAND_MASKED}"
+  ${GRADLE_COMMAND}
   checkCommandStatus "$?" "An error occurred building the project ${PROJECT_DIR}"
 }
 
@@ -265,6 +271,7 @@ buildKameHouseMobile() {
   syncStaticFilesOnMobile
   cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
+  setGradleForAndroidInPath
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home-for-mobile.sh
   prepareCordovaProject
   setMobileKeys
@@ -272,6 +279,7 @@ buildKameHouseMobile() {
   updateConfigWithGitHash
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
+  restoreGradlePathForJavaBuild
   resetMobileAppConfig
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile
@@ -297,6 +305,29 @@ prepareCordovaProject() {
 # runs from root directory of kamehouse project
 syncStaticFilesOnMobile() {
   ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c
+}
+
+setGradleForAndroidInPath() {
+  local GRADLE_BASE_DIR="${HOME}/.gradle/wrapper/dists/gradle-${GRADLE_ANDROID_VERSION}-all"
+  local GRADLE_DIR=""
+  if [ -d "${GRADLE_BASE_DIR}" ]; then
+    GRADLE_DIR=$(find "${GRADLE_BASE_DIR}" -name "gradle-${GRADLE_ANDROID_VERSION}" -type d 2>/dev/null | xargs -I{} ls -dt {} 2>/dev/null | head -1)
+  fi
+  if [ -n "${GRADLE_DIR}" ] && [ -d "${GRADLE_DIR}/bin" ]; then
+    export PATH="${GRADLE_DIR}/bin:${PATH}"
+    GRADLE_ANDROID_PATH_ADDED="${GRADLE_DIR}/bin"
+    log.debug "Using gradle for android from dir: ${GRADLE_ANDROID_PATH_ADDED}"
+    return
+  fi
+  log.error "Unable to find gradle for android distribution"
+}
+
+restoreGradlePathForJavaBuild() {
+  log.debug "Removing gradle for android from PATH"
+  if [ -n "${GRADLE_ANDROID_PATH_ADDED}" ]; then
+    export PATH=$(echo "${PATH}" | sed -e "s#${GRADLE_ANDROID_PATH_ADDED}:##" -e "s#:${GRADLE_ANDROID_PATH_ADDED}##")
+    GRADLE_ANDROID_PATH_ADDED=""
+  fi
 }
 
 setMobileKeys() {

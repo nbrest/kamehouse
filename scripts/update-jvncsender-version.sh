@@ -14,14 +14,22 @@ mainProcess() {
 }
 
 updateJvncSenderVersion() {
-  rm -rfv ./local-maven-repo/be/jedi/jvncsender
+  rm -rfv ./local-dependencies-repository/be/jedi/jvncsender
   rm -rfv ${HOME}/temp/jvncsender
   mkdir -pv ${HOME}/temp/jvncsender
+  # jvncsender is built separately from the kamehouse project, so it is resolved from the 
+  # local dependencies repository of the machine that builds it
   cp -v ${HOME}/.m2/repository/be/jedi/jvncsender/${RELEASE_VERSION}-SNAPSHOT/jvncsender-${RELEASE_VERSION}-SNAPSHOT-jar-with-dependencies.jar ${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.jar
   cp ./scripts/jvncsender.pom.xml ${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.pom.xml
   sed -i "s+RELEASE_VERSION+${RELEASE_VERSION}+g" ${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.pom.xml
 
-  mvn deploy:deploy-file -Dstyle.color=always -DgroupId=be.jedi -DartifactId=jvncsender -Dversion=${RELEASE_VERSION} -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.jar -DpomFile=${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.pom.xml
+  # the kamehouse project resolves be.jedi:jvncsender from the local-dependencies-repository of
+  # this project (see settings.gradle), with the jar and the pom of the release version
+  local JVNCSENDER_LOCAL_DEPENDENCIES_REPOSITORY_DIR="./local-dependencies-repository/be/jedi/jvncsender/${RELEASE_VERSION}"
+  mkdir -pv ${JVNCSENDER_LOCAL_DEPENDENCIES_REPOSITORY_DIR}
+  cp -v ${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.jar ${JVNCSENDER_LOCAL_DEPENDENCIES_REPOSITORY_DIR}/
+  cp -v ${HOME}/temp/jvncsender/jvncsender-${RELEASE_VERSION}.pom.xml ${JVNCSENDER_LOCAL_DEPENDENCIES_REPOSITORY_DIR}/
+  log.info "Remember to update the jvncsender.version property of build.gradle with ${RELEASE_VERSION}"
 
   rm -rfv ${HOME}/temp/jvncsender
 }

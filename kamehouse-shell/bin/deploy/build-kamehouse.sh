@@ -22,12 +22,12 @@ mainProcess() {
   buildKameHouseBackend
   buildKameHouseMobile
   deleteGitRepoBuildInfoFiles
-  cleanUpMavenRepository
+  cleanUpKameHouseBuildArtifacts
 }
 
 parseArguments() {
   parseKameHouseModule "$@"
-  parseMavenProfile "$@"
+  parseBuildProfile "$@"
 
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -64,7 +64,7 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForKameHouseModule
-  setEnvForMavenProfile
+  setEnvForBuildProfile
 }
 
 printHelpOptions() {
@@ -72,7 +72,7 @@ printHelpOptions() {
   addHelpOption "-f" "fast build. Skip checkstyle, findbugs and tests"
   addHelpOption "-i" "integration tests: run integration tests only"
   printKameHouseModuleOption "build"
-  printMavenProfileOption
+  printBuildProfileOption
   addHelpOption "-r" "resume build. Continue where it failed in the last build. ${COL_YELLOW}Use with -m"
 }
 

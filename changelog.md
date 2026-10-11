@@ -7,6 +7,8 @@
 
 #### v11.05
 
+- Moved project from maven to gradle
+- Upgraded java version from 17 to 21
 
 #### v11.04
 

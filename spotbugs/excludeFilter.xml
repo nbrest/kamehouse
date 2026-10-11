@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Spotbugs findings that are not reported by the build.
+
+  CT_CONSTRUCTOR_THROW is reported by the spotbugs 4.8 detector for the private constructors that
+  throw an exception on purpose, the ones of the utility classes like StringUtils or DateUtils.
+  The maven build used spotbugs 4.7.3, which didn't have this detector.
+-->
+<FindBugsFilter>
+  <Match>
+    <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+  </Match>
+</FindBugsFilter>

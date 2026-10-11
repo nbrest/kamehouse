@@ -23,6 +23,7 @@ kamehouse-groot/dist
 # Directories 
 # ##################
 **/build/
+.gradle/
 /bin/
 **/target/
 

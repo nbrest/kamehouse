@@ -55,7 +55,7 @@ getHttpdContentRoot() {
 
 parseArguments() {
   parseKameHouseModule "$@"
-  parseMavenProfile "$@"
+  parseBuildProfile "$@"
 
   local OPTIONS=("$@")
   for i in "${!OPTIONS[@]}"; do
@@ -77,12 +77,12 @@ parseArguments() {
 
 setEnvFromArguments() {
   setEnvForKameHouseModule
-  setEnvForMavenProfile
+  setEnvForBuildProfile
 }
 
 printHelpOptions() {
   printKameHouseModuleOption "deploy"
-  printMavenProfileOption
+  printBuildProfileOption
 }
 
 main "$@"

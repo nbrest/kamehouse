@@ -1,0 +1,9 @@
+{
+  "permission": {
+    "bash": "allow",
+    "edit": "allow",
+    "read": "allow",
+    "doom_loop": "deny",
+    "external_directory": "deny"
+  }
+}

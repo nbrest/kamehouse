@@ -16,7 +16,7 @@ deployKameHouseProject() {
   buildKameHouseMobile
   deployKameHouseMobile
   deleteGitRepoBuildInfoFiles
-  cleanUpMavenRepository
+  cleanUpKameHouseBuildArtifacts
   checkForDeploymentErrors
 }
 
@@ -185,12 +185,12 @@ deployToTomcat() {
 
   local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
-    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/target/*.war 2>/dev/null`
+    local KAMEHOUSE_MODULE_WAR=`ls -1 ${KAMEHOUSE_MODULE}/build/libs/*.war 2>/dev/null`
     if [ -n "${KAMEHOUSE_MODULE_WAR}" ]; then
       log.info "Deploying ${KAMEHOUSE_MODULE} in ${COL_PURPLE}${DEPLOYMENT_DIR}"
       cp -v ${KAMEHOUSE_MODULE_WAR} ${DEPLOYMENT_DIR}
       checkCommandStatus "$?" "An error occurred copying ${KAMEHOUSE_MODULE_WAR} to the deployment directory ${DEPLOYMENT_DIR}"
-      rm -rf ${KAMEHOUSE_MODULE}/target/
+      rm -rf ${KAMEHOUSE_MODULE}/build/
     fi
   done
 
@@ -220,7 +220,7 @@ deployKameHouseCmd() {
   log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
   mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
   rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
-  unzip -o -q kamehouse-cmd/target/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
+  unzip -o -q kamehouse-cmd/build/distributions/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
   mv ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bt ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/bin/kamehouse-cmd.bat
   cp -f ./build-info.json ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/
   chmod -R 700 ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd

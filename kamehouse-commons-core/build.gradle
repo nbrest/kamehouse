@@ -1,0 +1,17 @@
+/*
+ * Only abstract classes, interfaces and model objects and exceptional utils that are required by
+ * the other classes in the library. Try to limit this library to the bare minimum. Only put
+ * functionality here if adding it to kamehouse-commons module causes some compilation/build
+ * issues. Otherwise, add it there.
+ */
+plugins {
+  id 'java-library'
+  id 'checkstyle'
+  id 'jacoco'
+  id 'com.github.spotbugs'
+}
+
+ext['kamehouse.finalName'] = 'kamehouse-commons-core'
+ext['kamehouse.jacoco'] = true
+
+apply from: rootProject.file('gradle/kamehouse-java-module.gradle')

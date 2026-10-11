@@ -2,7 +2,9 @@
 
 log.info "Setting JAVA_HOME for mobile build"
 
-export JAVA_HOME="C:\Program Files\Java\jdk-11.0.12"
+if [ -d "/c/Program Files/Java/jdk-11.0.12" ]; then
+  export JAVA_HOME="C:\Program Files\Java\jdk-11.0.12"
+fi
 
 if [ -d "/usr/lib/jvm/java-11-openjdk-armhf" ]; then
   export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-armhf

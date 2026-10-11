@@ -1,0 +1,107 @@
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.bundling.Zip
+
+/*
+ * KameHouse command line utility. The jar is installed together with its dependencies in the
+ * lib folder, and is also distributed as a bundle zip.
+ */
+plugins {
+  id 'java-library'
+  id 'checkstyle'
+  id 'jacoco'
+  id 'com.github.spotbugs'
+}
+
+def versions = rootProject.ext.kamehouseVersions
+
+ext['kamehouse.jacoco'] = true
+ext['kamehouse.dependencies'] = [
+  // maven overrides the provided scope of the parent pom.xml with runtime scope
+  ['runtimeOnly', "jakarta.servlet:jakarta.servlet-api:${versions['jakarta.servlet.version']}"],
+  ['api', project(':kamehouse-commons')],
+  ['testImplementation', project(':kamehouse-commons-test')]
+]
+
+apply from: rootProject.file('gradle/kamehouse-java-module.gradle')
+
+/*
+ * maven names the jars of the kamehouse modules with the version, both in the manifest classpath
+ * and in the bundle lib folder
+ */
+def projectVersion = project.version.toString()
+def moduleJarRename = { String name ->
+  if (name.startsWith('kamehouse-') && name.endsWith('.jar') && !name.endsWith("-${projectVersion}.jar")) {
+    return name[0..-5] + "-${projectVersion}.jar"
+  }
+  return name
+}
+
+/** maven-jar-plugin: executable jar with the main class and the classpath in the manifest. */
+tasks.named('jar', Jar) {
+  manifest.attributes([
+    'Main-Class': 'com.nicobrest.kamehouse.cmd.config.MainApp',
+    'Class-Path': '.'
+  ])
+  doFirst {
+    def classPath = (['.'] + configurations.runtimeClasspath.files.collect { moduleJarRename(it.name) })
+      .sort()
+      .join(' ')
+    manifest.attributes(['Class-Path': classPath])
+  }
+}
+
+/** maven-dependency-plugin: extract dependencies to the ./lib/ folder. */
+def copyDependencies = tasks.register('copyDependencies', Sync) {
+  group = 'build'
+  description = 'Extracts the dependencies to the lib folder (maven-dependency-plugin).'
+  from configurations.runtimeClasspath
+  into layout.buildDirectory.dir('lib')
+}
+
+/** maven-assembly-plugin: kamehouse-cmd-bundle.zip with the bin scripts and the lib folder. */
+def profileFilterTokens = ext['kamehouse.profileFilterTokens']
+def tokenPattern = ~/\$\{([^}]+)}/
+def scriptFilter = { String line ->
+  def result = new StringBuilder()
+  def matcher = tokenPattern.matcher(line)
+  def lastMatchEnd = 0
+  while (matcher.find()) {
+    def value = profileFilterTokens[matcher.group(1)]
+    result.append(line, lastMatchEnd, matcher.start())
+    result.append(value != null ? value : matcher.group(0))
+    lastMatchEnd = matcher.end()
+  }
+  result.append(line.substring(lastMatchEnd))
+  result.toString()
+}
+
+def jarTask = tasks.named('jar', Jar)
+def bundle = tasks.register('bundle', Zip) {
+  group = 'distribution'
+  description = 'Assembles the kamehouse-cmd bundle zip (maven-assembly-plugin).'
+  dependsOn copyDependencies
+  archiveFileName = 'kamehouse-cmd-bundle.zip'
+  destinationDirectory = layout.buildDirectory.dir('distributions')
+  into('kamehouse-cmd') {
+    into('lib') {
+      from(configurations.runtimeClasspath) {
+        rename(moduleJarRename)
+      }
+      from(jarTask)
+    }
+    into('bin') {
+      // the bat script has no profile tokens, so it is copied keeping the CRLF line endings
+      from('scripts') {
+        include 'kamehouse-cmd*.bt'
+      }
+      from('scripts') {
+        include 'kamehouse-cmd*.sh'
+        filter(scriptFilter)
+      }
+    }
+  }
+}
+
+tasks.named('assemble') {
+  dependsOn bundle
+}

@@ -54,7 +54,14 @@ The desktop app is built with `python` using `pyqt5` to render the ui components
 
 Follow the readme on each module to see the functionality done by each of them
 
-The project uses **Maven** for building and deployment.
+The project uses **Gradle** for building and deployment. The gradle wrapper of the project
+downloads the gradle distribution, so there is nothing to install to build it:
+
+```sh
+./gradlew build
+```
+
+The kamehouse shell scripts build and deploy the project with the gradle wrapper too.
 
 The test coverage is done with **jacoco**. **spotbugs** and **sonarqube** are used for code quality
 and **checkstyle** for coding style.

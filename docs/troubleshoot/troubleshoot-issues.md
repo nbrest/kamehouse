@@ -257,11 +257,20 @@ ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.99.1"
 
 *********************
 
-## Add jar to local maven repository (deprecated)
+## Add jar to the local-dependencies-repository repository (deprecated)
 
+- The kamehouse project resolves the jars that are not published to maven central from the
+  local-dependencies-repository of the project (see settings.gradle). To add one, copy the
+  jar and its pom to the repository layout `local-dependencies-repository/<group path>/<artifact>/<version>/`.
+  [update-jvncsender-version.sh](/scripts/update-jvncsender-version.sh) does exactly that for the
+  jvncsender jar
 - From the root of the project
 ```sh
-mvn deploy:deploy-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Durl=file:./local-maven-repo/ -DrepositoryId=local-maven-repo -DupdateReleaseInfo=true -Dfile=./lib/ojdbc6.jar
+VERSION=11.2.0.4
+REPO_DIR=./local-dependencies-repository/com/oracle/ojdbc6/${VERSION}
+mkdir -p ${REPO_DIR}
+cp ./lib/ojdbc6.jar ${REPO_DIR}/ojdbc6-${VERSION}.jar
+cp ./lib/ojdbc6.pom.xml ${REPO_DIR}/ojdbc6-${VERSION}.pom
 ```
 
 *********************

@@ -22,7 +22,6 @@ This module handles the following functionality:
 # Android build requirements on a windows host:
 
 - Install java jdk for mobile
-- Install gradle
 - Install node
 - Install cordova
 
@@ -49,9 +48,9 @@ npm install -g cordova
 
 # Android build requirements on a linux host (Ubuntu):
 
-- Install gradle 
+- Install java for mobile build
 ```sh
-sudo apt-get install gradle
+sudo apt-get install openjdk-11-jdk
 ```
 
 - Install node. See [install docs](/docs/installation/installation.md)

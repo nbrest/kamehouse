@@ -1,0 +1,45 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+    mavenCentral()
+  }
+}
+
+rootProject.name = 'kamehouse'
+
+include(
+  'kamehouse-commons-core',
+  'kamehouse-commons-test',
+  'kamehouse-commons',
+  'kamehouse-admin',
+  'kamehouse-auth',
+  'kamehouse-cmd',
+  'kamehouse-desktop',
+  'kamehouse-groot',
+  'kamehouse-media',
+  'kamehouse-mobile',
+  'kamehouse-shell',
+  'kamehouse-snape',
+  'kamehouse-tennisworld',
+  'kamehouse-testmodule',
+  'kamehouse-ui',
+  'kamehouse-vlcrc'
+)
+
+dependencyResolutionManagement {
+  repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+  repositories {
+    // Local repository with kamehouse specific artifacts (ie. jvncsender)
+    maven {
+      name = 'localDependenciesRepository'
+      url = uri("file://${rootDir}/local-dependencies-repository")
+      metadataSources {
+        mavenPom()
+        artifact()
+      }
+    }
+    mavenCentral()
+  }
+}

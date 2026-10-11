@@ -1,0 +1,129 @@
+plugins {
+  id 'com.github.spotbugs' version '6.2.7' apply false
+  id 'org.sonarqube' version '7.5.0.8588' apply false
+}
+
+allprojects {
+  group = 'com.nicobrest'
+  version = '11.04.1-KAMEHOUSE-SNAPSHOT'
+}
+
+/*
+ * Central place for every version/property that was defined in the Maven parent pom.xml.
+ * Shared with the modules through rootProject.ext.kamehouseVersions.
+ *
+ * Dates in the comments are kept from the original pom.xml.
+ */
+ext.kamehouseVersions = [
+  'filters.dir'                      : 'src/main/filters',
+  'java.target.version'              : '21',
+  'kamehouse.version'                : '11.04.1-KAMEHOUSE-SNAPSHOT',
+  'project.build.sourceEncoding'     : 'UTF-8',
+  'sonar.organization'               : 'nbrest',
+  'sonar.host.url'                   : 'https://sonarcloud.io',
+
+  // Maven plugin versions (kept for reference, Gradle uses its own plugin coordinates)
+  'assembly.plugin.version'          : '3.6.0',
+  'compiler.plugin.version'          : '3.11.0',
+  'dependency.plugin.version'        : '3.6.0',
+  'failsafe.plugin.version'          : '3.1.2',
+  'jar.plugin.version'               : '3.3.0',
+  'surefire.plugin.version'          : '3.1.2',
+  'war.plugin.version'               : '3.4.0',
+
+  // Dependency versions
+  'bouncy.castle.version'           : '1.70',            // 2021/12
+  'commons.cli.version'              : '1.5.0',          // 2021/10
+  'commons.io.version'               : '2.13.0',         // 2023/06
+  'commons.lang3.version'            : '3.12.0',         // 2021/03
+  'commons.text.version'             : '1.10.0',         // 2022/09
+  'eddsa.version'                    : '0.3.0',          // 2018/05
+  'ehcache.version'                  : '3.10.8',         // 2022/11
+  'findbugs.version'                 : '3.0.1',          // 2015/03 (discontinued)
+  'glassfish.jaxb.version'           : '2.3.1',          // 2018/03 (upgrading further breaks build)
+  // spotbugs tool of the gradle plugin. The maven build used the spotbugs-maven-plugin 4.7.3.5
+  // with the tool 4.7.3, but 4.7.3 can't read the jdk 21 class files that the build runs with
+  'spotbugs.tool.version'            : '4.8.6',
+  'hamcrest.version'                 : '2.2',            // 2019/10
+  // Transitive versions maven resolves, pinned to reproduce the maven conflict resolution
+  'apiguardian.version'              : '1.1.2',          // transitive of junit-jupiter-api
+  'byte.buddy.version'               : '1.14.11',        // transitive of hibernate-core and mockito. Needs 1.14+ for the inline mock maker on jdk 21
+  'hibernate.version'                : '6.2.6.Final',    // 2023/06
+  'hsql.version'                     : '2.7.2',          // 2023/05
+  'httpclient.version'               : '4.5.13',         // 2020/10
+  'jackson.version'                  : '2.15.2',         // 2023/05
+  'jakarta.annotation.version'       : '2.1.1',          // 2022/06
+  'jakarta.persistence.version'      : '3.1.0',          // 2022/06
+  'jakarta.servlet.version'          : '6.0.0',          // 2022/06
+  'jakarta.servlet.jsp.version'      : '3.1.1',          // 2023/02
+  'jakarta.websocket.version'        : '2.1.1',          // 2023/06
+  'jakarta.xml.bind.version'         : '4.0.0',          // 2022/04
+  'json.version'                     : '20230618',       // 2023/06
+  'jsoup.version'                    : '1.16.1',         // 2023/04
+  'jstl.version'                     : '1.2',            // 2011/06
+  'junit.jupiter.version'            : '5.10.0-RC2',     // 2023/07
+  'jvncsender.version'               : '1.08',           // 2024/02
+  'logback.version'                  : '1.4.8',          // 2023/06
+  'mariadb.java.client.version'      : '3.1.4',          // 2023/05
+  'mockito.version'                  : '5.11.0',         // 2024/10. Needs 5.3+ to mock on jdk 21
+  'quartz.version'                   : '2.5.0-rc1',      // 2023/04
+  'slf4j.version'                    : '2.0.7',          // 2023/03
+  'spring.version'                   : '6.0.11',         // 2023/07
+  'spring.security.version'          : '6.1.1',          // 2023/06
+  'spring.session.version'           : '3.1.1',          // 2023/06
+  'sshd.plugin.version'              : '2.10.0',         // 2023/05
+
+  // Tool versions
+  'checkstyle.puppycrawl.version'    : '10.12.1',
+  'jacoco.version'                   : '0.8.10',
+  'sonar.plugin.version'             : '3.10.0.2594',
+  'spotbugs.version'                 : '4.7.3.5',        // spotbugs-maven-plugin version, kept for reference
+]
+
+/*
+ * Resource filtering profiles. Equivalent to the maven <profiles> (prod is the default one).
+ * Select with -PkamehouseProfile=ci / -PkamehouseProfile=docker, or the KAMEHOUSE_PROFILE env var.
+ */
+ext.kamehouseProfile = (findProperty('kamehouseProfile') ?: System.getenv('KAMEHOUSE_PROFILE') ?: 'prod')
+
+if (!(ext.kamehouseProfile in ['prod', 'ci', 'docker'])) {
+  throw new GradleException(
+    "Invalid kamehouseProfile '${ext.kamehouseProfile}'. Valid profiles are: prod, ci, docker")
+}
+
+ext.commonsLoggingExclusion = [group: 'commons-logging', module: 'commons-logging']
+
+tasks.register('printVersions') {
+  group = 'help'
+  description = 'Prints the project version, the java version and the selected build profile.'
+  doLast {
+    println "kamehouse version : ${project.version}"
+    println "java version      : ${rootProject.ext.kamehouseVersions['java.target.version']}"
+    println "build profile     : ${rootProject.ext.kamehouseProfile}"
+    println "project dir       : ${rootDir}"
+  }
+}
+
+/*
+ * Prints only the project version, in a single line and without any other gradle output. Replaces the
+ * kamehouse-shell parsing of the version of the maven parent pom.xml.
+ */
+tasks.register('printVersion') {
+  group = 'help'
+  description = 'Prints the project version, ie. 11.04.1-KAMEHOUSE-SNAPSHOT.'
+  doLast {
+    println project.version
+  }
+}
+
+/*
+ * Sonar analysis. Replaces the org.sonarsource.scanner.maven:sonar-maven-plugin invocation of the
+ * CI pipeline:
+ *
+ *   ./gradlew build sonar -Psonar -Dsonar.projectKey=nbrest_kamehouse
+ *
+ * The sonar.organization and sonar.host.url properties are defined in gradle.properties
+ */
+if (providers.gradleProperty('sonar').isPresent()) {
+  apply plugin: 'org.sonarqube'
+}

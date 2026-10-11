@@ -32,6 +32,6 @@
 export RELEASE_VERSION=X.XX
 ./scripts/update-jvncsender-version.sh -v ${RELEASE_VERSION}
 ```
-- Update jvncsender version in kamehouse parent pom.xml
+- Update jvncsender version in kamehouse gradle file
 
 - Then commit the changes
