@@ -273,10 +273,10 @@ buildKameHouseMobile() {
   setLinuxBuildEnv
   setGradleForAndroidInPath
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home-for-mobile.sh
+  updateConfigWithGitHash
   prepareCordovaProject
   setMobileKeys
   setBuildInfoOnMobile
-  updateConfigWithGitHash
   buildCordovaProject
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
   restoreGradlePathForJavaBuild
@@ -308,11 +308,7 @@ syncStaticFilesOnMobile() {
 }
 
 setGradleForAndroidInPath() {
-  local GRADLE_BASE_DIR="${HOME}/.gradle/wrapper/dists/gradle-${GRADLE_ANDROID_VERSION}-all"
-  local GRADLE_DIR=""
-  if [ -d "${GRADLE_BASE_DIR}" ]; then
-    GRADLE_DIR=$(find "${GRADLE_BASE_DIR}" -name "gradle-${GRADLE_ANDROID_VERSION}" -type d 2>/dev/null | xargs -I{} ls -dt {} 2>/dev/null | head -1)
-  fi
+  local GRADLE_DIR=$(find "${HOME}/.gradle/wrapper/dists" -maxdepth 3 -type d -path "*/gradle-${GRADLE_ANDROID_VERSION}-*/gradle-${GRADLE_ANDROID_VERSION}" 2>/dev/null | xargs -I{} ls -dt {} 2>/dev/null | head -1)
   if [ -n "${GRADLE_DIR}" ] && [ -d "${GRADLE_DIR}/bin" ]; then
     export PATH="${GRADLE_DIR}/bin:${PATH}"
     GRADLE_ANDROID_PATH_ADDED="${GRADLE_DIR}/bin"

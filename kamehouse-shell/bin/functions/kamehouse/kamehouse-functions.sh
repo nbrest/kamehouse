@@ -50,7 +50,7 @@ BUILD_PROFILE="${DEFAULT_BUILD_PROFILE}"
 GRADLE_WRAPPER="./gradlew"
 GRADLE_SKIP_CHECKS_ARGS="-x test -x integrationTest -x checkstyleMain -x checkstyleTest -x spotbugsMain -x spotbugsTest -x jacocoTestReport -x jacocoTestCoverageVerification"
 
-GRADLE_ANDROID_VERSION="7.1.1"
+GRADLE_ANDROID_VERSION="8.7"
 GRADLE_ANDROID_PATH_ADDED=""
 
 KAMEHOUSE_SERVER=""

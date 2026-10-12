@@ -306,3 +306,13 @@ PubkeyAcceptedKeyTypes ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed255
 ```sh
 cordova platform add android
 ```
+
+### Cordova plugins missing from the apk after upgrading cordova-android
+- Symptoms: the mobile app builds successfully, but cordova plugin functionality fails. For example reading/writing `kamehouse-mobile-config.json` fails with an empty error message in the app logs. Inspecting the built `app-debug.apk` shows `assets/www/cordova.js` present but `assets/www/cordova_plugins.js` missing, and no plugin classes in the platform.
+- Cause: cordova only installs a plugin into a platform if the `plugins/<plugin-id>` folder doesn't already exist. When a platform is regenerated (`cordova platform rm android` + `cordova platform add android@13.0.0`), the new platform has no installed plugins, but the stale gitignored `plugins/` folder makes cordova skip re installing them, so they never get copied into the new platform.
+- Fix: remove the stale generated folders and rebuild so the platforms and plugins are regenerated consistently:
+```sh
+rm -rf kamehouse-mobile/plugins kamehouse-mobile/platforms
+build-kamehouse.sh -m mobile
+```
+- Don't delete `plugins/` without also deleting `platforms/` (or vice versa). If `plugins/` is removed while a platform keeps its plugin files, `cordova build` fails with `... already exists!` while trying to re install the plugin.

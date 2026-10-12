@@ -33,10 +33,10 @@ npm install -g cordova
 
 - Install SDKs:
   - Android Studio > Projects > More Actions > Sdk Manager
-  - Sdk Platforms > Install Android 8.1 onwards (until v33 currently)
+  - Sdk Platforms > Install Android 8.1 onwards (until v34 currently)
   - Sdk Tools >
   - Tick "Show Package Details"
-  - Install Android SDK Build-Tools 30.0.3 onwards (until 33.0.2)
+  - Install Android SDK Build-Tools 30.0.3 onwards (until 34.0.0)
   - Install Android SDK Command line tools latest (currently 9.0)
   - Install Android SDK Platform Tools (currently 33.0.0)
 
@@ -50,7 +50,7 @@ npm install -g cordova
 
 - Install java for mobile build
 ```sh
-sudo apt-get install openjdk-11-jdk
+sudo apt-get install openjdk-21-jdk
 ```
 
 - Install node. See [install docs](/docs/installation/installation.md)
@@ -67,10 +67,10 @@ sudo npm install -g cordova
 
 - Install SDKs:
   - Android Studio > Projects > More Actions > Sdk Manager
-  - Sdk Platforms > Install Android 8.1 onwards (until v33 currently)
+  - Sdk Platforms > Install Android 8.1 onwards (until v34 currently)
   - Sdk Tools >
   - Tick "Show Package Details"
-  - Install Android SDK Build-Tools 30.0.3 onwards (until 33.0.2)
+  - Install Android SDK Build-Tools 30.0.3 onwards (until 34.0.0)
   - Install Android SDK Command line tools latest (currently 9.0)
   - Install Android SDK Platform Tools (currently 33.0.0)
 

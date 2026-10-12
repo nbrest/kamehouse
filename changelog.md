@@ -7,6 +7,7 @@
 
 #### v11.05
 
+- Updated kamehouse-mobile android build to use java 21 and gradle 8
 - Moved project from maven to gradle
 - Upgraded java version from 17 to 21
 
