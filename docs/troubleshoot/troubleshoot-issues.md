@@ -316,3 +316,32 @@ rm -rf kamehouse-mobile/plugins kamehouse-mobile/platforms
 build-kamehouse.sh -m mobile
 ```
 - Don't delete `plugins/` without also deleting `platforms/` (or vice versa). If `plugins/` is removed while a platform keeps its plugin files, `cordova build` fails with `... already exists!` while trying to re install the plugin.
+
+### Get a working clean slate of the kamehouse-mobile folder
+- Use this to recover a corrupted or stale `kamehouse-mobile` project, for example after upgrading cordova-android, or when the build fails with errors like:
+  - `The specified project directory '.../kamehouse-mobile/platforms/android/tools' does not exist.`
+  - `ENOENT: no such file or directory, open '.../kamehouse-mobile/platforms/android/app/src/main/res/values/themes.xml'`
+- Cause: `cordova prepare` only restores platforms and plugins that are missing. It never regenerates an existing `platforms/` or `plugins/` folder, so generated folders left over from a previous cordova-android version survive rebuilds. This is especially common in a persistent CI workspace that is not wiped between builds.
+- Fix: from the root of the kamehouse project, run the reset script to remove the generated cordova folders so they are recreated from `package.json`:
+```sh
+kamehouse-shell/bin/mobile/kamehouse-mobile-cordova-reset.sh
+```
+- The reset script removes `kamehouse-mobile/platforms`, `kamehouse-mobile/plugins` and `kamehouse-mobile/node_modules`. Then rebuild as usual:
+```sh
+build-kamehouse.sh -m mobile
+```
+- `build-kamehouse.sh -m mobile` runs `npm install`, `cordova prepare` and `cordova build android`, which recreate `platforms/{android,browser,ios}` and re install the plugins declared in `package.json`.
+- Equivalently, the folders can be removed manually before rebuilding:
+```sh
+cd kamehouse-mobile
+rm -rf platforms plugins node_modules
+npm install
+```
+- Or the platforms and plugins can be removed and added explicitly with cordova, instead of deleting the folders:
+```sh
+cd kamehouse-mobile
+cordova platform rm android browser ios
+cordova plugin rm cordova-plugin-advanced-http cordova-plugin-file
+cordova platform add android browser ios
+cordova plugin add cordova-plugin-advanced-http cordova-plugin-file
+```
