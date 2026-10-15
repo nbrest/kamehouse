@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -78,6 +79,7 @@ public class SchedulerConfig {
    * Scheduler bean.
    */
   @Bean
+  @Primary
   public Scheduler scheduler(SchedulerFactoryBean schedulerFactoryBean) throws SchedulerException {
     logger.info("Setting up the Scheduler");
     Scheduler scheduler = schedulerFactoryBean.getScheduler();

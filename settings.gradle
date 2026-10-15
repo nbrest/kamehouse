@@ -8,10 +8,10 @@ pluginManagement {
 }
 
 plugins {
-  // Enables automatic download of missing JDK toolchains (ie. Java 21) from the Foojay
-  // Disco API. Without this, the Java 21 toolchain configured in the modules fails to
+  // Enables automatic download of missing JDK toolchains from the Foojay
+  // Disco API. Without this, the Java toolchain configured in the modules fails to
   // resolve on machines that only have an older JDK installed.
-  id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+  id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
 rootProject.name = 'kamehouse'

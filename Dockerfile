@@ -5,7 +5,7 @@
 ARG TOMCAT_VERSION=10.1.11
 ARG DOCKER_IMAGE_BASE
 
-FROM tomcat:${TOMCAT_VERSION}-jdk17 AS tomcat_source
+FROM tomcat:${TOMCAT_VERSION}-jdk25 AS tomcat_source
 
 FROM ${DOCKER_IMAGE_BASE}
 

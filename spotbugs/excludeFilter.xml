@@ -2,12 +2,23 @@
 <!--
   Spotbugs findings that are not reported by the build.
 
-  CT_CONSTRUCTOR_THROW is reported by the spotbugs 4.8 detector for the private constructors that
+  CT_CONSTRUCTOR_THROW is reported by the spotbugs 4.8+ detector for the private constructors that
   throw an exception on purpose, the ones of the utility classes like StringUtils or DateUtils.
   The maven build used spotbugs 4.7.3, which didn't have this detector.
+
+  The US_USELESS_SUPPRESSION_ON_METHOD and US_USELESS_SUPPRESSION_ON_FIELD detectors report the
+  @SuppressFBWarnings annotations that the spotbugs tool 4.9.8 considers unnecessary, ie. the
+  EI_EXPOSE_REP2 ones that the new tool no longer reports on the service dependencies. The
+  annotations are kept in the code on purpose, so these findings are not reported by the build.
 -->
 <FindBugsFilter>
   <Match>
     <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+  </Match>
+  <Match>
+    <Bug pattern="US_USELESS_SUPPRESSION_ON_METHOD"/>
+  </Match>
+  <Match>
+    <Bug pattern="US_USELESS_SUPPRESSION_ON_FIELD"/>
   </Match>
 </FindBugsFilter>
