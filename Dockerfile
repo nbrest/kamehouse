@@ -2,7 +2,7 @@
 # RUN: docker-run-kamehouse.sh : runs a temporary container from an image built from this file
 
 # !!!!! When updating versions here, also update in /docs/versions/versions.md
-ARG TOMCAT_VERSION=10.1.11
+ARG TOMCAT_VERSION=10.1
 ARG DOCKER_IMAGE_BASE
 
 FROM tomcat:${TOMCAT_VERSION}-jdk25 AS tomcat_source
