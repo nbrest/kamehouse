@@ -8,7 +8,7 @@ setJavaHome() {
   LOG_INFO=$2
   local JAVA_VERSION="${KAMEHOUSE_JAVA_VERSION:-25}"
   setJavaHomeLogger "Current JAVA_HOME=${JAVA_HOME} OVERRIDE=${OVERRIDE} JAVA_VERSION=${JAVA_VERSION}" "${LOG_INFO}"
-  if [[ "${OVERRIDE}" == "--skip-override" && -n "${JAVA_HOME}" ]]; then
+  if [[ "${OVERRIDE}" == "--skip-override" && -n "${JAVA_HOME}" ]] && matchesJavaVersion "${JAVA_VERSION}" "${JAVA_HOME}"; then
     setJavaHomeLogger "Using already set JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
     return
   fi
@@ -55,6 +55,11 @@ setJavaHome() {
   fi
 
   setJavaHomeLogger "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
+  if [ -n "${JAVA_HOME}" ] && [ "${JAVA_HOME:0:1}" != "C" ] && ! matchesJavaVersion "${JAVA_VERSION}" "${JAVA_HOME}"; then
+    if [ "${LOG_INFO}" != "--skip-log" ]; then
+      log.warn "Could not resolve JAVA_HOME to Java ${JAVA_VERSION}. Still pointing to ${JAVA_HOME}"
+    fi
+  fi
 }
 
 matchesJavaVersion() {
