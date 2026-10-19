@@ -15,6 +15,10 @@
     <br>
     <input id="backend-skip-ssl-check-checkbox" class="backend-skip-ssl-check-checkbox" type="checkbox" name="backend-skip-ssl-check-checkbox" onchange="kameHouse.extension.mobile.configManager.updateMobileConfigFromView()"/>
     <br><br>
+    <label for="ztv-lockscreen-checkbox">ZTV Lock Screen</label>
+    <br>
+    <input id="ztv-lockscreen-checkbox" class="ztv-lockscreen-checkbox" type="checkbox" name="ztv-lockscreen-checkbox" onchange="kameHouse.extension.mobile.core.toggleZtvLockscreen(this.checked)"/>
+    <br><br>
     <div id="backend-username-password" class="backend-username-password">
       <label for="backend-username-input">Username</label>
       <br>
@@ -25,10 +29,6 @@
       <input id="backend-password-input" class="form-input-kh" type="password" name="password" oninput="kameHouse.extension.mobile.configManager.updateMobileConfigFromView()"/>
       <br>
     </div>
-    <label for="ztv-lockscreen-checkbox">ZTV Lock Screen</label>
-    <br>
-    <input id="ztv-lockscreen-checkbox" class="ztv-lockscreen-checkbox" type="checkbox" name="ztv-lockscreen-checkbox" onchange="kameHouse.extension.mobile.core.toggleZtvLockscreen(this.checked)"/>
-    <br><br>
     <button id="backend-login-btn" class="form-submit-btn-kh w-100-pc-kh" onclick="kameHouse.extension.mobile.core.login()">Login</button>
     <button id="backend-logout-btn" class="form-submit-btn-kh w-100-pc-kh hidden-kh" onclick="kameHouse.extension.mobile.core.logout()">Logout</button>
   </form>
