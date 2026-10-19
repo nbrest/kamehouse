@@ -19,15 +19,17 @@ setJavaHome() {
      export JAVA_HOME="C:\Program Files\Java\jdk-${JAVA_VERSION}"
   fi
 
-  if [ -d "/usr/lib/jvm/default-java" ]; then
+  # /usr/lib/jvm/default-java is an unversioned symlink that can point to any java version
+  # (ie. java 17 on raspbian bookworm), so only use it when it is actually JAVA_VERSION
+  if matchesJavaVersion "${JAVA_VERSION}" "/usr/lib/jvm/default-java"; then
     export JAVA_HOME=/usr/lib/jvm/default-java
   fi
-  
-  if [ -d "/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-armhf" ]; then
+
+  if matchesJavaVersion "${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-armhf"; then
     export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-armhf
   fi
 
-  if [ -d "/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-arm64" ]; then
+  if matchesJavaVersion "${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-arm64"; then
     export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-arm64
   fi
 
@@ -48,11 +50,23 @@ setJavaHome() {
     export JAVA_HOME=${GRADLE_JAVA_HOME}
   fi
 
-  if [ -d "/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64" ]; then
+  if matchesJavaVersion "${JAVA_VERSION}" "/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64"; then
     export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
   fi
 
   setJavaHomeLogger "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
+}
+
+matchesJavaVersion() {
+  local JAVA_VERSION=$1
+  local CANDIDATE_JAVA_HOME=$2
+  if [ ! -x "${CANDIDATE_JAVA_HOME}/bin/java" ]; then
+    return 1
+  fi
+  if "${CANDIDATE_JAVA_HOME}/bin/java" -version 2>&1 | grep -Eq "version \"${JAVA_VERSION}"; then
+    return 0
+  fi
+  return 1
 }
 
 setJavaHomeLogger() {
