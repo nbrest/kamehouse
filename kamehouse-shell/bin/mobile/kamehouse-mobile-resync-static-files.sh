@@ -80,8 +80,8 @@ exportBatcave() {
     return
   fi
   mkdir -p ${EXPORT_BATCAVE_DIR}
+  ${HOME}/programs/kamehouse-batcave/shell/bin/deploy/deploy-batcave.sh -m ui
   if [ -d "${SOURCE_FILES_BATCAVE_DIR}" ]; then
-    ${HOME}/programs/kamehouse-batcave/shell/bin/deploy/deploy-batcave.sh -m ui
     cd ${SOURCE_FILES_BATCAVE_DIR}
     log.info "Copying all files from ${SOURCE_FILES_BATCAVE_DIR} to ${EXPORT_BATCAVE_DIR}"
     cd ${EXPORT_BATCAVE_DIR}
