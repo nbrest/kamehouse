@@ -33,6 +33,8 @@ installBaseApps() {
   apt-get install -y curl
   apt-get install -y git
   apt-get install -y iputils-ping
+  apt-get install -y openjdk-17-jdk
+  apt-get install -y openjdk-21-jdk
   apt-get install -y openjdk-25-jdk
   apt-get install -y mariadb-server
   apt-get install -y net-tools
