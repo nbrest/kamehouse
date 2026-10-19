@@ -13,7 +13,6 @@ initScriptEnv() {
 
 mainProcess() {
   setKameHouseRootProjectDir
-  # the whole build runs on JDK 21
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
   log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
   log.trace "SONAR_TOKEN=${SONAR_TOKEN}"

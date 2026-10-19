@@ -7,10 +7,10 @@
 
 | Tech                  | Version |
 |-----------------------|---------|
-| Java JDK              | 21      |
+| Java JDK              | 25      |
 | Java JDK Mobile build | 21      |
 | Node                  | 20.10.0 |
-| Gradle                | 8.7     |
+| Gradle                | 9.1.0   |
 | Gradle Mobile build   | 8.7     |
 | Tomcat                | 10      |
 | MariaDB               | 10      |

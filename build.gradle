@@ -1,5 +1,5 @@
 plugins {
-  id 'com.github.spotbugs' version '6.2.7' apply false
+  id 'com.github.spotbugs' version '6.5.13' apply false
   id 'org.sonarqube' version '7.5.0.8588' apply false
 }
 
@@ -16,7 +16,7 @@ allprojects {
  */
 ext.kamehouseVersions = [
   'filters.dir'                      : 'src/main/filters',
-  'java.target.version'              : '21',
+  'java.target.version'              : '25',
   'kamehouse.version'                : '11.04.1-KAMEHOUSE-SNAPSHOT',
   'project.build.sourceEncoding'     : 'UTF-8',
   'sonar.organization'               : 'nbrest',
@@ -41,13 +41,12 @@ ext.kamehouseVersions = [
   'ehcache.version'                  : '3.10.8',         // 2022/11
   'findbugs.version'                 : '3.0.1',          // 2015/03 (discontinued)
   'glassfish.jaxb.version'           : '2.3.1',          // 2018/03 (upgrading further breaks build)
-  // spotbugs tool of the gradle plugin. The maven build used the spotbugs-maven-plugin 4.7.3.5
-  // with the tool 4.7.3, but 4.7.3 can't read the jdk 21 class files that the build runs with
-  'spotbugs.tool.version'            : '4.8.6',
+
+  'spotbugs.tool.version'            : '4.9.8',
   'hamcrest.version'                 : '2.2',            // 2019/10
   // Transitive versions maven resolves, pinned to reproduce the maven conflict resolution
   'apiguardian.version'              : '1.1.2',          // transitive of junit-jupiter-api
-  'byte.buddy.version'               : '1.14.11',        // transitive of hibernate-core and mockito. Needs 1.14+ for the inline mock maker on jdk 21
+  'byte.buddy.version'               : '1.17.7', 
   'hibernate.version'                : '6.2.6.Final',    // 2023/06
   'hsql.version'                     : '2.7.2',          // 2023/05
   'httpclient.version'               : '4.5.13',         // 2020/10
@@ -62,20 +61,21 @@ ext.kamehouseVersions = [
   'jsoup.version'                    : '1.16.1',         // 2023/04
   'jstl.version'                     : '1.2',            // 2011/06
   'junit.jupiter.version'            : '5.10.0-RC2',     // 2023/07
+  'junit.platform.version'           : '1.10.0-RC2',     // 2023/07
   'jvncsender.version'               : '1.08',           // 2024/02
   'logback.version'                  : '1.4.8',          // 2023/06
   'mariadb.java.client.version'      : '3.1.4',          // 2023/05
-  'mockito.version'                  : '5.11.0',         // 2024/10. Needs 5.3+ to mock on jdk 21
+  'mockito.version'                  : '5.20.0',         // 2025/09
   'quartz.version'                   : '2.5.0-rc1',      // 2023/04
   'slf4j.version'                    : '2.0.7',          // 2023/03
-  'spring.version'                   : '6.0.11',         // 2023/07
-  'spring.security.version'          : '6.1.1',          // 2023/06
-  'spring.session.version'           : '3.1.1',          // 2023/06
+  'spring.version'                   : '6.2.19',         // 2026
+  'spring.security.version'          : '6.5.11',         // 2026
+  'spring.session.version'           : '3.5.7',          // 2026
   'sshd.plugin.version'              : '2.10.0',         // 2023/05
 
   // Tool versions
   'checkstyle.puppycrawl.version'    : '10.12.1',
-  'jacoco.version'                   : '0.8.10',
+  'jacoco.version'                   : '0.8.14',
   'sonar.plugin.version'             : '3.10.0.2594',
   'spotbugs.version'                 : '4.7.3.5',        // spotbugs-maven-plugin version, kept for reference
 ]

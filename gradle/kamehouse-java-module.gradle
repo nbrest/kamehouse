@@ -62,17 +62,19 @@ configurations.getByName(JavaPlugin.TEST_RUNTIME_ONLY_CONFIGURATION_NAME).extend
 /* ------------------------------------------------------------------------------------------- *
  * Java compilation: maven-compiler-plugin source/target/encoding
  *
- * The compilation uses a Java 21 toolchain and compiles with --release 21, so the build, the tests
- * and the SonarCloud analysis all run on JDK 21 and produce Java 21 artifacts.
+
  * ------------------------------------------------------------------------------------------- */
 tasks.withType(JavaCompile).configureEach {
   options.release = versionOf('java.target.version').toInteger()
   options.encoding = versionOf('project.build.sourceEncoding')
+  // Spring 6.2 removed the LocalVariableTableParameterNameDiscoverer, so the method parameter names
+  // have to be in the class files for the component and autowiring scans
+  options.compilerArgs.add('-parameters')
 }
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(25)
   }
 }
 
@@ -251,6 +253,10 @@ tasks.named('spotbugsMain') {
 /* ------------------------------------------------------------------------------------------- *
  * Jacoco: code coverage report and verification
  * ------------------------------------------------------------------------------------------- */
+jacoco {
+  toolVersion = versionOf('jacoco.version')
+}
+
 if (jacocoEnabled) {
   tasks.named('jacocoTestReport', JacocoReport) {
     classDirectories.setFrom(files(mainSourceSet.output))
@@ -386,6 +392,8 @@ dependencies {
   dep 'testImplementation', "org.junit.jupiter:junit-jupiter-api:${versionOf('junit.jupiter.version')}",
       [group: 'org.hamcrest', module: 'hamcrest-core']
   dep 'testImplementation', "org.junit.jupiter:junit-jupiter-params:${versionOf('junit.jupiter.version')}"
+  // Gradle 9 doesn't provide the junit platform launcher on the test runtime classpath anymore
+  dep 'testRuntimeOnly', "org.junit.platform:junit-platform-launcher:${versionOf('junit.platform.version')}"
   // mockito-inline was discontinued after 5.2.0. Since mockito 5 the inline mock maker is the
   // default of mockito-core
   dep 'testImplementation', "org.mockito:mockito-core:${versionOf('mockito.version')}"
@@ -416,7 +424,7 @@ configurations.configureEach {
     force "org.glassfish.jaxb:jaxb-runtime:${versionOf('glassfish.jaxb.version')}"
     // org.hibernate.orm:hibernate-core and org.mockito:mockito-inline require different byte-buddy
     // versions. Maven kept the hibernate one (1.12.18), but the mockito inline mock maker needs
-    // byte-buddy 1.14+ to mock classes when the build runs on jdk 21, so the newer one is pinned
+    // byte-buddy 1.17.5+ to mock classes when the build runs on jdk 25, so the newer one is pinned
     force "net.bytebuddy:byte-buddy:${versionOf('byte.buddy.version')}"
   }
 }
