@@ -25,9 +25,10 @@ sourceSets {
   }
   test {
     java {
-      // the lock screen tests live next to the plugin's helper, tests in src/test/java are also picked up
-      srcDirs = [project.file(pluginAndroidSrcDir), 'src/test/java']
-      // only compile unit tests from the plugin dir, the android classes are built by cordova
+      // the tests live in src/test/java so the test and main source directories stay disjoint.
+      // Sharing the plugin dir with main made the sonar scanner index the plugin's helper twice.
+      srcDirs = ['src/test/java']
+      // only compile unit tests, the android classes are built by cordova
       include '**/*Test.java'
     }
   }
@@ -58,6 +59,8 @@ dependencies {
   testImplementation "org.junit.jupiter:junit-jupiter-engine:${versions['junit.jupiter.version']}"
   testImplementation "org.junit.jupiter:junit-jupiter-params:${versions['junit.jupiter.version']}"
   testImplementation "org.apiguardian:apiguardian-api:${versions['apiguardian.version']}"
+  // Gradle 9 doesn't provide the junit platform launcher on the test runtime classpath anymore
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher:${versions['junit.platform.version']}"
 }
 
 jacoco {
