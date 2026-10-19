@@ -302,18 +302,26 @@ PubkeyAcceptedKeyTypes ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed255
 
 ### No platform defined for cordova project
 - If the error is: No platforms added to this project. Please use `cordova platform add <platform>`
-- This is usually resolved by re running `deploy-kamehouse.sh -m mobile` or I can manually try to add the platforms with
+- This is usually resolved by re running `build-kamehouse.sh -m mobile`, which regenerates the `platforms/` and `plugins/` folders from `package.json`.
+- If adding a platform manually, always pin the exact version declared in `package.json` devDependencies. Otherwise cordova fetches the latest platform and rewrites `package.json` (for example upgrading cordova-android from `13.0.0` to the latest):
 ```sh
-cordova platform add android
+cd kamehouse-mobile
+cordova platform add android@13.0.0
 ```
 
 ### Cordova plugins missing from the apk after upgrading cordova-android
 - Symptoms: the mobile app builds successfully, but cordova plugin functionality fails. For example reading/writing `kamehouse-mobile-config.json` fails with an empty error message in the app logs. Inspecting the built `app-debug.apk` shows `assets/www/cordova.js` present but `assets/www/cordova_plugins.js` missing, and no plugin classes in the platform.
-- Cause: cordova only installs a plugin into a platform if the `plugins/<plugin-id>` folder doesn't already exist. When a platform is regenerated (`cordova platform rm android` + `cordova platform add android@13.0.0`), the new platform has no installed plugins, but the stale gitignored `plugins/` folder makes cordova skip re installing them, so they never get copied into the new platform.
-- Fix: remove the stale generated folders and rebuild so the platforms and plugins are regenerated consistently:
+- Cause: cordova only installs a plugin into a platform if the `plugins/<plugin-id>` folder doesn't already exist. The `plugins/` folder is a gitignored snapshot of the installed plugins, so when a plugin's source changes or a platform is regenerated, the stale `plugins/` folder makes cordova skip re installing it, and the plugin is never copied into the platform.
+- Fix: `build-kamehouse.sh -m mobile` now removes the generated `platforms/` and `plugins/` folders and runs `cordova prepare` before building, so they are regenerated consistently from `package.json` on every build. Just rebuild:
+```sh
+build-kamehouse.sh -m mobile
+```
+- The same can be done manually from the root of the kamehouse project:
 ```sh
 rm -rf kamehouse-mobile/plugins kamehouse-mobile/platforms
-build-kamehouse.sh -m mobile
+cd kamehouse-mobile
+npm install
+cordova prepare
 ```
 - Don't delete `plugins/` without also deleting `platforms/` (or vice versa). If `plugins/` is removed while a platform keeps its plugin files, `cordova build` fails with `... already exists!` while trying to re install the plugin.
 
@@ -330,18 +338,12 @@ kamehouse-shell/bin/mobile/kamehouse-mobile-cordova-reset.sh
 ```sh
 build-kamehouse.sh -m mobile
 ```
-- `build-kamehouse.sh -m mobile` runs `npm install`, `cordova prepare` and `cordova build android`, which recreate `platforms/{android,browser,ios}` and re install the plugins declared in `package.json`.
+- `build-kamehouse.sh -m mobile` runs `npm install`, removes the generated `platforms/` and `plugins/` folders, runs `cordova prepare` and `cordova build android`, which recreate `platforms/{android,browser,ios}` and re install the plugins declared in `package.json`.
 - Equivalently, the folders can be removed manually before rebuilding:
 ```sh
 cd kamehouse-mobile
 rm -rf platforms plugins node_modules
 npm install
+cordova prepare
 ```
-- Or the platforms and plugins can be removed and added explicitly with cordova, instead of deleting the folders:
-```sh
-cd kamehouse-mobile
-cordova platform rm android browser ios
-cordova plugin rm cordova-plugin-advanced-http cordova-plugin-file
-cordova platform add android browser ios
-cordova plugin add cordova-plugin-advanced-http cordova-plugin-file
-```
+- Avoid using `cordova platform rm` followed by `cordova platform add` to refresh a platform. `cordova platform rm` runs `npm uninstall <platform> --save`, which removes the platform from `package.json` devDependencies. The subsequent `cordova platform add <platform>` then finds no pinned version, fetches the latest published platform and rewrites `package.json` (for example upgrading cordova-android from `13.0.0` to the latest). Remove the `platforms/` and `plugins/` folders instead and let `cordova prepare` restore the pinned versions.

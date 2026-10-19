@@ -235,6 +235,120 @@ class KameHouseMobileCore {
   }
 
   /**
+   * Start the ZTV lock screen applet with the selected backend server config.
+   */
+  startZtvLockscreen() {
+    const ztvLockscreen = this.#getZtvLockscreen();
+    if (kameHouse.core.isEmpty(ztvLockscreen)) {
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("ZTV lock screen is only available in the mobile app"), 2000);
+      return;
+    }
+    const selectedBackendServer = this.getSelectedBackendServer();
+    if (kameHouse.core.isEmpty(selectedBackendServer) || kameHouse.core.isEmpty(selectedBackendServer.url)) {
+      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("Select a backend server first"), 2000);
+      return;
+    }
+    const config = {
+      url: selectedBackendServer.url,
+      username: selectedBackendServer.username,
+      password: selectedBackendServer.password,
+      skipSslCheck: selectedBackendServer.skipSslCheck,
+      host: "localhost"
+    };
+    kameHouse.logger.info("Starting ZTV lock screen applet", null);
+    ztvLockscreen.start(config,
+      () => {
+        kameHouse.logger.info("ZTV lock screen applet started", null);
+        this.refreshZtvLockscreenView();
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getSuccessModalHtml("ZTV lock screen started"), 1000);
+      },
+      (error) => {
+        const message = "Error starting ZTV lock screen applet: " + error;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        this.refreshZtvLockscreenView();
+        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(message), 3000);
+      }
+    );
+  }
+
+  /**
+   * Stop the ZTV lock screen applet.
+   */
+  stopZtvLockscreen() {
+    const ztvLockscreen = this.#getZtvLockscreen();
+    if (kameHouse.core.isEmpty(ztvLockscreen)) {
+      return;
+    }
+    kameHouse.logger.info("Stopping ZTV lock screen applet", null);
+    ztvLockscreen.stop(
+      () => {
+        kameHouse.logger.info("ZTV lock screen applet stopped", null);
+        this.refreshZtvLockscreenView();
+      },
+      (error) => {
+        const message = "Error stopping ZTV lock screen applet: " + error;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
+        this.refreshZtvLockscreenView();
+      }
+    );
+  }
+
+  /**
+   * Toggle the ZTV lock screen applet from the settings view.
+   */
+  toggleZtvLockscreen(enabled) {
+    if (enabled) {
+      this.startZtvLockscreen();
+    } else {
+      this.stopZtvLockscreen();
+    }
+  }
+
+  /**
+   * Refresh the ZTV lock screen checkbox view from the applet state.
+   */
+  refreshZtvLockscreenView() {
+    const ztvLockscreen = this.#getZtvLockscreen();
+    const checkboxes = Array.from(document.getElementsByClassName("ztv-lockscreen-checkbox")) as HTMLInputElement[];
+    if (checkboxes.length == 0) {
+      return;
+    }
+    if (kameHouse.core.isEmpty(ztvLockscreen)) {
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+        checkbox.disabled = true;
+      });
+      return;
+    }
+    checkboxes.forEach((checkbox) => { checkbox.disabled = false; });
+    ztvLockscreen.isRunning(
+      (running) => {
+        const isRunning = running == true || running == 1;
+        checkboxes.forEach((checkbox) => { checkbox.checked = isRunning; });
+      },
+      () => {
+        checkboxes.forEach((checkbox) => { checkbox.checked = false; });
+      }
+    );
+  }
+
+  /**
+   * Get the ZTV lock screen cordova plugin.
+   */
+  #getZtvLockscreen() {
+    try {
+      if (!kameHouse.core.isEmpty(kameHouse.cordova)
+          && !kameHouse.core.isEmpty(kameHouse.cordova.plugin)
+          && !kameHouse.core.isEmpty(kameHouse.cordova.plugin.ztvLockscreen)) {
+        return kameHouse.cordova.plugin.ztvLockscreen;
+      }
+    } catch (error) {
+      kameHouse.logger.debug("ZTV lock screen cordova plugin not available", null);
+    }
+    return null;
+  }
+
+  /**
    * Set mobile app build info in debug mode.
    */
   async setMobileBuildInfo() { 
@@ -838,6 +952,8 @@ class KameHouseMobileConfigManager {
       kameHouse.util.dom.classListRemoveById('backend-login-btn', "hidden-kh");
       kameHouse.util.dom.classListAddById('backend-logout-btn', "hidden-kh");
     }
+
+    kameHouse.extension.mobile.core.refreshZtvLockscreenView();
   }
 
   /**
@@ -1526,12 +1642,14 @@ class MockLocalhostServer {
  class CordovaMock {
 
   plugin = {
-    http: null
+    http: null,
+    ztvLockscreen: null
   };
   InAppBrowser = null;
  
   constructor() {
     this.plugin.http = new CordovaHttpPluginMock();
+    this.plugin.ztvLockscreen = new CordovaZtvLockscreenMock();
     this.InAppBrowser = new CordovaInAppBrowserMock();
   }
 
@@ -1658,6 +1776,39 @@ class CordovaHttpPluginMock {
   }
 
 } // CordovaHttpPluginMock
+
+/**
+ * Mock of the ZTV lock screen cordova plugin used when testing in a browser.
+ * 
+ * @author nbrest
+ */
+class CordovaZtvLockscreenMock {
+
+  /**
+   * Start the ZTV lock screen applet mock.
+   */
+  start(config, successCallback, errorCallback) {
+    kameHouse.logger.trace("Called start on ZTV lock screen mock with config: " + kameHouse.json.stringify(config, null, null), null);
+    successCallback();
+  }
+
+  /**
+   * Stop the ZTV lock screen applet mock.
+   */
+  stop(successCallback, errorCallback) {
+    kameHouse.logger.trace("Called stop on ZTV lock screen mock", null);
+    successCallback();
+  }
+
+  /**
+   * Check if the ZTV lock screen applet mock is running.
+   */
+  isRunning(successCallback, errorCallback) {
+    kameHouse.logger.trace("Called isRunning on ZTV lock screen mock", null);
+    successCallback(false);
+  }
+
+} // CordovaZtvLockscreenMock
 
 /**
  * Mock of an InAppBrowser.

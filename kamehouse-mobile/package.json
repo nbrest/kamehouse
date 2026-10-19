@@ -31,11 +31,13 @@
       "cordova-plugin-advanced-http": {
         "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
       },
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "kamehouse-ztv-lockscreen": {}
     }
   },
   "dependencies": {
     "@types/jquery": "^3.5.30",
+    "kamehouse-ztv-lockscreen": "file:src/main/cordova-plugins/kamehouse-ztv-lockscreen",
     "typescript": "^5.7.2"
   }
 }

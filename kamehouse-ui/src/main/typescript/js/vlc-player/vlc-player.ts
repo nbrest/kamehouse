@@ -45,6 +45,7 @@ class VlcPlayer {
         () => {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
             this.loadStateFromApiRound();
+            kameHouse.extension.mobile.core.refreshZtvLockscreenView();
           });
         }
       );
@@ -800,7 +801,37 @@ class VlcPlayerMainViewUpdater {
       mediaName.filename = this.#vlcPlayer.getVlcRcStatus().information.meta.filename;
       mediaName.title = this.#vlcPlayer.getVlcRcStatus().information.meta.title;
     }
-    kameHouse.util.dom.setHtmlById("media-title", mediaName.filename);
+    kameHouse.util.dom.setHtmlById("media-title", this.#formatMediaTitle(mediaName.filename));
+  }
+
+  /**
+   * Format the media title to match kamehouse desktop style: remove file extensions, replace _ and
+   * - with spaces and capitalize the first letter of each word.
+   */
+  #formatMediaTitle(filename) {
+    if (kameHouse.core.isEmpty(filename)) {
+      return filename;
+    }
+    let result = filename;
+    result = result.replace(/-/g, ' ');
+    result = result.replace(/_/g, ' ');
+    result = result.replace(/\.(mp3|MP3|wav|WAV|m4a|M4A|flac|FLAC|ogg|OGG|mp4|MP4|avi|AVI|mkv|MKV)$/, ' ');
+    result = result.trim().replace(/ +/g, ' ');
+    let formatted = "";
+    let capitalizeNext = true;
+    for (let i = 0; i < result.length; i++) {
+      const c = result.charAt(i);
+      if (/\s/.test(c)) {
+        capitalizeNext = true;
+        formatted += c;
+      } else if (capitalizeNext) {
+        formatted += c.toUpperCase();
+        capitalizeNext = false;
+      } else {
+        formatted += c.toLowerCase();
+      }
+    }
+    return formatted;
   }
 
   /** Reset the media title. */
@@ -809,7 +840,7 @@ class VlcPlayerMainViewUpdater {
       filename: "No media loaded",
       title: "No media loaded"
     };
-    kameHouse.util.dom.setHtmlById("media-title", mediaName.filename);
+    kameHouse.util.dom.setHtmlById("media-title", this.#formatMediaTitle(mediaName.filename));
   }
 
   /** Update subtitle delay. */

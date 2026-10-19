@@ -284,6 +284,21 @@ buildKameHouseMobile() {
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile
   cleanLogsInGitRepoFolder
+  runKameHouseMobileTests
+}
+
+runKameHouseMobileTests() {
+  if ${FAST_BUILD}; then
+    log.info "Fast build. Skipping kamehouse-mobile java unit tests"
+    return
+  fi
+  if ${INTEGRATION_TESTS}; then
+    log.debug "Running integration tests. Skipping kamehouse-mobile java unit tests"
+    return
+  fi
+  log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} java unit tests"
+  ${GRADLE_WRAPPER} :kamehouse-mobile:check --console=plain -PkamehouseProfile=${BUILD_PROFILE}
+  checkCommandStatus "$?" "An error occurred running kamehouse-mobile java unit tests"
 }
 
 setLinuxBuildEnv() {
@@ -297,10 +312,11 @@ setLinuxBuildEnv() {
 }
 
 prepareCordovaProject() {
-  log.debug "npm install ; cordova clean ; cordova prepare"
+  log.debug "npm install ; remove cordova platforms and plugins ; cordova prepare"
   npm install
-  cordova clean
+  rm -rf platforms plugins
   cordova prepare
+  checkCommandStatus "$?" "An error occurred preparing the cordova project for kamehouse-mobile"
 }
 
 # runs from root directory of kamehouse project

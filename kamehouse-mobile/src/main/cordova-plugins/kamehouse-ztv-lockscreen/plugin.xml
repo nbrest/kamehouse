@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="kamehouse-ztv-lockscreen"
+        version="1.0.0">
+
+  <name>KameHouse ZTV Lock Screen</name>
+  <description>
+    KameHouse ZTV lock screen applet. Shows the current ZTV playing item and media
+    controls (previous, play/pause, next, close) in an android lock screen notification.
+  </description>
+  <license>Apache 2.0</license>
+
+  <js-module src="www/ztv-lockscreen.js" name="ztvLockscreen">
+    <clobbers target="cordova.plugin.ztvLockscreen" />
+  </js-module>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="ZtvLockscreen">
+        <param name="android-package" value="com.nicobrest.kamehouse.mobile.ztv.lockscreen.ZtvLockscreenPlugin" />
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+      <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+      <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <service
+          android:name="com.nicobrest.kamehouse.mobile.ztv.lockscreen.ZtvLockscreenService"
+          android:exported="false"
+          android:foregroundServiceType="mediaPlayback" />
+    </config-file>
+
+    <resource-file src="src/android/res/drawable/ic_ztv.xml" target="res/drawable/ic_ztv.xml" />
+
+    <source-file src="src/android/ZtvLockscreenPlugin.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
+    <source-file src="src/android/ZtvLockscreenService.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
+    <source-file src="src/android/ZtvLockscreenHelper.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
+  </platform>
+</plugin>

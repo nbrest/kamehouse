@@ -99,7 +99,8 @@ sudo npm install typescript -g
     sudo apt-get install -y python3-click
     sudo apt-get install -y python3-google-api-python-client 
     sudo apt-get install -y python3-google-auth-httplib2 
-    sudo apt-get install -y python3-google-auth-oauthlib    
+    sudo apt-get install -y python3-google-auth-oauthlib
+    sudo apt-get install -y python3-googleapi
     sudo apt-get install -y python3-loguru
     sudo apt-get install -y python3-requests
     sudo apt-get install -y python3-websocket

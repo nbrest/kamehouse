@@ -1,0 +1,20 @@
+{
+  "name": "kamehouse-ztv-lockscreen",
+  "version": "1.0.0",
+  "description": "KameHouse ZTV lock screen applet. Shows the current ZTV playing item and media controls in an android lock screen notification.",
+  "cordova": {
+    "id": "kamehouse-ztv-lockscreen",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "kamehouse",
+    "ztv",
+    "lockscreen"
+  ],
+  "author": "nbrest",
+  "license": "Apache-2.0"
+}

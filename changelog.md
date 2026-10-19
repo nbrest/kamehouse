@@ -7,6 +7,7 @@
 
 #### v11.05
 
+- Added lockscreen notification on android with ztv player status and controls
 - Updated kamehouse-mobile android build to use java 21 and gradle 8
 - Moved project from maven to gradle
 - Upgraded java version from 17 to 21

@@ -1,7 +1,96 @@
 /*
- * KameHouse kamehouse-mobile: Ionic/Cordova mobile application (node/typescript), no java sources to compile.
- * The maven pom.xml only declares the module (packaging pom).
+ * KameHouse kamehouse-mobile: Ionic/Cordova mobile application (node/typescript).
+ *
+ * The KameHouse ZTV lock screen Cordova plugin (src/main/cordova-plugins/kamehouse-ztv-lockscreen)
+ * has its pure logic extracted in ZtvLockscreenHelper.java, without android dependencies, so it
+ * can be unit tested on a plain JVM and verified with jacoco like the other java modules.
+ * The android specific classes of the plugin are compiled by the cordova android build.
  */
 plugins {
   id 'base'
+  id 'java-library'
+  id 'jacoco'
+}
+
+def versions = rootProject.ext.kamehouseVersions
+def pluginAndroidSrcDir = 'src/main/cordova-plugins/kamehouse-ztv-lockscreen/src/android'
+
+sourceSets {
+  main {
+    java {
+      srcDirs = [project.file(pluginAndroidSrcDir)]
+      // only the pure java helper is compiled/tested here, the android classes are built by cordova
+      include '**/ZtvLockscreenHelper.java'
+    }
+  }
+  test {
+    java {
+      // the lock screen tests live next to the plugin's helper, tests in src/test/java are also picked up
+      srcDirs = [project.file(pluginAndroidSrcDir), 'src/test/java']
+      // only compile unit tests from the plugin dir, the android classes are built by cordova
+      include '**/*Test.java'
+    }
+  }
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(versions['java.target.version'].toInteger())
+  }
+}
+
+tasks.withType(JavaCompile).configureEach {
+  options.release = versions['java.target.version'].toInteger()
+  options.encoding = versions['project.build.sourceEncoding']
+}
+
+tasks.named('test', Test) {
+  useJUnitPlatform()
+  testLogging {
+    exceptionFormat = 'full'
+  }
+}
+
+dependencies {
+  implementation "org.json:json:${versions['json.version']}"
+
+  testImplementation "org.junit.jupiter:junit-jupiter-api:${versions['junit.jupiter.version']}"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine:${versions['junit.jupiter.version']}"
+  testImplementation "org.junit.jupiter:junit-jupiter-params:${versions['junit.jupiter.version']}"
+  testImplementation "org.apiguardian:apiguardian-api:${versions['apiguardian.version']}"
+}
+
+jacoco {
+  toolVersion = versions['jacoco.version']
+}
+
+tasks.named('jacocoTestReport', JacocoReport) {
+  dependsOn tasks.named('test')
+  reports {
+    xml.required = true
+    html.required = true
+  }
+}
+
+tasks.named('jacocoTestCoverageVerification', JacocoCoverageVerification) {
+  dependsOn tasks.named('test')
+  violationRules {
+    rule {
+      // same thresholds as the other kamehouse java modules: LINE >= 0.80 and BRANCH >= 0.60
+      limit {
+        counter = 'LINE'
+        value = 'COVEREDRATIO'
+        minimum = new BigDecimal('0.80')
+      }
+      limit {
+        counter = 'BRANCH'
+        value = 'COVEREDRATIO'
+        minimum = new BigDecimal('0.60')
+      }
+    }
+  }
+}
+
+tasks.named('check') {
+  dependsOn tasks.named('jacocoTestReport'), tasks.named('jacocoTestCoverageVerification')
 }
