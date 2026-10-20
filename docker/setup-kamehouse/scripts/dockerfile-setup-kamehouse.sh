@@ -65,6 +65,7 @@ setupGitRepo() {
   suCmd "git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse"
   git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse
   cd /home/${KAMEHOUSE_USER}/git/kamehouse 
+  git remote set-url origin https://github.com/nbrest/kamehouse.git
   git clean -d -x -f
   git reset --hard
   log.info "Checking out git branch for tag ${DOCKER_IMAGE_TAG}"

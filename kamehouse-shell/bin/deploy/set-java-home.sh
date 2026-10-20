@@ -54,6 +54,17 @@ setJavaHome() {
     export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
   fi
 
+  # First run on a machine without the expected java version: download it before the build, so
+  # the deploy doesn't run with a stale JDK while gradle downloads the expected one mid-build.
+  # Only on the deploy/build path (--override). Interactive shells and tomcat startup pass
+  # --skip-override, so they never trigger a download.
+  if [[ "${OVERRIDE}" == "--override" ]] && ! matchesJavaVersion "${JAVA_VERSION}" "${JAVA_HOME}"; then
+    downloadJavaVersion "${JAVA_VERSION}" "${LOG_INFO}"
+    if matchesJavaVersion "${JAVA_VERSION}" "${HOME}/.gradle/jdks/kamehouse-jdk-${JAVA_VERSION}"; then
+      export JAVA_HOME="${HOME}/.gradle/jdks/kamehouse-jdk-${JAVA_VERSION}"
+    fi
+  fi
+
   setJavaHomeLogger "JAVA_HOME=${JAVA_HOME}" "${LOG_INFO}"
   if [ -n "${JAVA_HOME}" ] && [ "${JAVA_HOME:0:1}" != "C" ] && ! matchesJavaVersion "${JAVA_VERSION}" "${JAVA_HOME}"; then
     if [ "${LOG_INFO}" != "--skip-log" ]; then
@@ -72,6 +83,102 @@ matchesJavaVersion() {
     return 0
   fi
   return 1
+}
+
+# Downloads the expected JDK version from the Adoptium (Temurin) API into
+# ~/.gradle/jdks/kamehouse-jdk-${JAVA_VERSION}, the same directory the ~/.gradle/jdks fallback of
+# setJavaHome scans, so both this script and gradle's own toolchain auto-detection pick it up.
+downloadJavaVersion() {
+  local JAVA_VERSION=$1
+  local LOG_INFO=$2
+  local DOWNLOAD_DIR="${HOME}/.gradle/jdks/kamehouse-jdk-${JAVA_VERSION}"
+  if matchesJavaVersion "${JAVA_VERSION}" "${DOWNLOAD_DIR}"; then
+    setJavaHomeLogger "JDK ${JAVA_VERSION} already downloaded in ${DOWNLOAD_DIR}" "${LOG_INFO}"
+    return
+  fi
+  local OS_ARCH
+  OS_ARCH=$(getAdoptiumArch)
+  if [ -z "${OS_ARCH}" ]; then
+    setJavaHomeLogger "Unable to determine the OS architecture to download JDK ${JAVA_VERSION}" "${LOG_INFO}"
+    return
+  fi
+  if ! command -v curl > /dev/null; then
+    setJavaHomeLogger "curl not available. Skipping download of JDK ${JAVA_VERSION}" "${LOG_INFO}"
+    return
+  fi
+  local DOWNLOAD_URL="https://api.adoptium.net/v3/binary/latest/${JAVA_VERSION}/ga/$(getAdoptiumOs)/${OS_ARCH}/jdk/hotspot/normal/eclipse"
+  local TMP_DIR=$(mktemp -d)
+  setJavaHomeLogger "Downloading JDK ${JAVA_VERSION} from ${DOWNLOAD_URL}" "${LOG_INFO}"
+  if ! curl -fL --connect-timeout 10 --max-time 600 -o "${TMP_DIR}/jdk-download" "${DOWNLOAD_URL}" 2> /dev/null; then
+    setJavaHomeLogger "Failed to download JDK ${JAVA_VERSION} from ${DOWNLOAD_URL}" "${LOG_INFO}"
+    rm -rf "${TMP_DIR}"
+    return
+  fi
+  mkdir -p "${TMP_DIR}/extract"
+  local EXTRACT_OK=false
+  if unzip -q "${TMP_DIR}/jdk-download" -d "${TMP_DIR}/extract" 2> /dev/null; then
+    EXTRACT_OK=true
+  elif tar -xf "${TMP_DIR}/jdk-download" -C "${TMP_DIR}/extract" 2> /dev/null; then
+    EXTRACT_OK=true
+  fi
+  if ! ${EXTRACT_OK}; then
+    setJavaHomeLogger "Failed to extract the JDK ${JAVA_VERSION} archive" "${LOG_INFO}"
+    rm -rf "${TMP_DIR}"
+    return
+  fi
+  # both the zip and the tar.gz archives contain a single top level jdk-${JAVA_VERSION}* directory
+  local EXTRACTED_JDK=$(find "${TMP_DIR}/extract" -maxdepth 1 -mindepth 1 -type d -name "jdk-${JAVA_VERSION}*" | head -1)
+  if [ -z "${EXTRACTED_JDK}" ]; then
+    EXTRACTED_JDK=$(find "${TMP_DIR}/extract" -maxdepth 1 -mindepth 1 -type d | head -1)
+  fi
+  if [ -z "${EXTRACTED_JDK}" ] || { [ ! -f "${EXTRACTED_JDK}/bin/java" ] && [ ! -f "${EXTRACTED_JDK}/bin/java.exe" ]; }; then
+    setJavaHomeLogger "Extracted JDK ${JAVA_VERSION} archive doesn't contain a valid bin/java" "${LOG_INFO}"
+    rm -rf "${TMP_DIR}"
+    return
+  fi
+  rm -rf "${DOWNLOAD_DIR}"
+  mkdir -p "${HOME}/.gradle/jdks"
+  mv "${EXTRACTED_JDK}" "${DOWNLOAD_DIR}"
+  rm -rf "${TMP_DIR}"
+  if matchesJavaVersion "${JAVA_VERSION}" "${DOWNLOAD_DIR}"; then
+    setJavaHomeLogger "Downloaded JDK ${JAVA_VERSION} to ${DOWNLOAD_DIR}" "${LOG_INFO}"
+  else
+    setJavaHomeLogger "Downloaded JDK ${JAVA_VERSION} to ${DOWNLOAD_DIR} but it doesn't match the expected version" "${LOG_INFO}"
+  fi
+}
+
+getAdoptiumOs() {
+  case "$(uname -s)" in
+    Linux*)
+      echo "linux"
+      ;;
+    Darwin*)
+      echo "mac"
+      ;;
+    MINGW*|MSYS*|CYGWIN*)
+      echo "windows"
+      ;;
+    *)
+      echo ""
+      ;;
+  esac
+}
+
+getAdoptiumArch() {
+  case "$(uname -m)" in
+    x86_64|amd64)
+      echo "x64"
+      ;;
+    aarch64|arm64)
+      echo "aarch64"
+      ;;
+    arm*|armv7l)
+      echo "arm"
+      ;;
+    *)
+      echo ""
+      ;;
+  esac
 }
 
 setJavaHomeLogger() {
