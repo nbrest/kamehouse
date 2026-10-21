@@ -189,6 +189,18 @@ KameHouse should run fine without admin permissions, but you can configure windo
 
 - If needed, also configure windows terminal app to run `Msys2`, `PowerShell` and `Console` profiles as administrator
 
+### The shell scripts don't detect the windows host
+- Symptoms: the host os is detected as a mac host, so the windows specific actions in the shell scripts are never executed. For example `is-linux-host.sh` returns 0 (success) on a windows host, and the `powershell.exe` based scripts don't do anything
+- Cause: the host os detection was only recognizing the wsl kernels, and not the msys2 (`MSYS_NT`), git bash (`MINGW64_NT`) and cygwin (`CYGWIN_NT`) hosts
+- Fix: update the kamehouse shell with `kamehouse-shell/bin/shell/install-kamehouse-shell.sh`. The detection is done in the `setHostOs` function in `kamehouse-shell/bin/functions/minimal-functions.sh`. A windows host is detected with the `cmd.exe` in the `PATH`, and a mac host with the `sw_vers` command. The `uname -s` kernel name is only used as a fallback, for the hosts with a customized `PATH`
+- The host os can also be forced manually, by setting the following variables in `.bashrc`:
+```
+export USE_ENV_TO_DETERMINE_OS=true
+export IS_LIN_HOST=false
+export IS_WIN_HOST=true
+export IS_MAC_HOST=false
+```
+
 *********************
 
 ## Add key to existing jks keystore:
@@ -347,3 +359,12 @@ npm install
 cordova prepare
 ```
 - Avoid using `cordova platform rm` followed by `cordova platform add` to refresh a platform. `cordova platform rm` runs `npm uninstall <platform> --save`, which removes the platform from `package.json` devDependencies. The subsequent `cordova platform add <platform>` then finds no pinned version, fetches the latest published platform and rewrites `package.json` (for example upgrading cordova-android from `13.0.0` to the latest). Remove the `platforms/` and `plugins/` folders instead and let `cordova prepare` restore the pinned versions.
+
+### 'npm' is not recognized as an internal or external command (windows)
+- Symptoms: the kamehouse-mobile build fails on windows with `CordovaError: Error: Command failed with exit code 1: npm install file:src/main/cordova-plugins/kamehouse-ztv-lockscreen --no-save` followed by `'npm' is not recognized as an internal or external command, operable program or batch file.` The same error also shows up for the `tsc` command of `npm run build` in the kamehouse-ui and kamehouse-mobile builds.
+- Cause: the windows `cmd.exe` is not able to search a `PATH` longer than 8192 characters. When the `PATH` is longer than that, `cmd.exe` fails to resolve *any* command by name, not just `npm`. The kamehouse shell and the kamehouse batcave add every one of their script directories to the `PATH`, and on windows that makes the `PATH` longer than the limit. The windows tools that shell out to `cmd.exe` (`npm`, `cordova`) are the ones that fail. On linux there is no `cmd.exe`, so the build works there.
+- Fix: the build trims the `PATH` before running `npm` and `cordova`, removing the kamehouse script directories from it. The trimmed `PATH` is logged with `Trimmed the PATH from <length> to <length> characters`. If the build is still failing, check the length of the `PATH`:
+```sh
+echo ${#PATH}
+```
+- The same problem affects any other windows tool that shells out to `cmd.exe` from a shell with a long `PATH`.

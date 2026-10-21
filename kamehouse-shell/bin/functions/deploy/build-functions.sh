@@ -166,19 +166,15 @@ buildMobileBackendJson() {
 
 buildFrontendCode() {
   log.debug "npm install ; npm run build ; npm run scan"
+  trimPathForCmdExe
   npm install
+  checkCommandStatus "$?" "An error occurred installing the npm dependencies"
 
   npm run build
-  if [ "$?" != "0" ]; then
-    log.warn "npm run build failed, running manually tsc"
-    tsc
-  fi  
-  
+  checkCommandStatus "$?" "An error occurred building the frontend code"
+
   npm run scan
-  if [ "$?" != "0" ]; then
-    log.warn "npm run scan failed, running manually tsc --build --force --verbose --pretty"
-    tsc --build --force --verbose --pretty
-  fi  
+  checkCommandStatus "$?" "An error occurred scanning the frontend code"
 }
 
 buildKameHouseBackend() {
@@ -313,6 +309,7 @@ setLinuxBuildEnv() {
 
 prepareCordovaProject() {
   log.debug "npm install ; remove cordova platforms and plugins ; cordova prepare"
+  trimPathForCmdExe
   npm install
   rm -rf platforms plugins
   cordova prepare
@@ -355,6 +352,7 @@ setBuildInfoOnMobile() {
 
 buildCordovaProject() {
   log.info "Executing: ${COL_PURPLE}cordova build android"
+  trimPathForCmdExe
   cordova build android
   checkCommandStatus "$?" "An error occurred building kamehouse-mobile"
 

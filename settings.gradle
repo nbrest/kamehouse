@@ -41,7 +41,7 @@ dependencyResolutionManagement {
     // Local repository with kamehouse specific artifacts (ie. jvncsender)
     maven {
       name = 'localDependenciesRepository'
-      url = uri("file://${rootDir}/local-dependencies-repository")
+      url = rootDir.toPath().resolve("local-dependencies-repository").toUri()
       metadataSources {
         mavenPom()
         artifact()

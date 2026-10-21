@@ -53,6 +53,15 @@ GRADLE_SKIP_CHECKS_ARGS="-x test -x integrationTest -x checkstyleMain -x checkst
 GRADLE_ANDROID_VERSION="8.7"
 GRADLE_ANDROID_PATH_ADDED=""
 
+# The maximum length of the PATH that the windows cmd.exe is able to search for a command. When
+# the PATH is longer than that, cmd.exe fails to resolve any command by name, and the windows
+# tools that shell out to cmd.exe (npm, cordova) fail with
+# "'npm' is not recognized as an internal or external command".
+WINDOWS_CMD_EXE_MAX_PATH_LENGTH=8192
+# The msys bash PATH is translated to a windows PATH when a windows process is spawned, and the
+# translated PATH is slightly longer than the bash one.
+WINDOWS_CMD_EXE_PATH_LENGTH_MARGIN=512
+
 KAMEHOUSE_SERVER=""
 
 TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,vlcrc"
@@ -454,6 +463,36 @@ getHttpdContentRoot() {
   else
     echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
   fi
+}
+
+# Trims the PATH, so the windows cmd.exe is able to search it for a command.
+# The kamehouse shell and the kamehouse batcave add every script directory to the PATH, and on
+# windows the PATH ends up longer than the cmd.exe limit. When that happens, cmd.exe is not able
+# to resolve any command by name, and the windows tools that shell out to it (npm, cordova) fail
+# with "'npm' is not recognized as an internal or external command".
+# The kamehouse script directories are the ones removed from the PATH, because they are not
+# needed to run the windows native tools, and they are the ones that make the PATH too long.
+trimPathForCmdExe() {
+  # the cmd.exe PATH search limit only applies to the windows hosts
+  if [ "${IS_WIN_HOST}" != "true" ]; then
+    return
+  fi
+  if ! command -v cmd.exe > /dev/null 2>&1; then
+    return
+  fi
+  local MAX_PATH_LENGTH=$(( ${WINDOWS_CMD_EXE_MAX_PATH_LENGTH} - ${WINDOWS_CMD_EXE_PATH_LENGTH_MARGIN} ))
+  if [ ${#PATH} -le ${MAX_PATH_LENGTH} ]; then
+    log.debug "PATH length ${#PATH} is within the cmd.exe limit of ${WINDOWS_CMD_EXE_MAX_PATH_LENGTH}. Not trimming it"
+    return
+  fi
+  local TRIMMED_PATH=$(echo "${PATH}" | tr ':' '\n' | grep -v -E "kamehouse-(shell|batcave)" | tr '\n' ':')
+  TRIMMED_PATH=${TRIMMED_PATH%:}
+  if [ ${#TRIMMED_PATH} -gt ${MAX_PATH_LENGTH} ]; then
+    log.warn "PATH length ${#TRIMMED_PATH} is still longer than the cmd.exe limit of ${WINDOWS_CMD_EXE_MAX_PATH_LENGTH}. The windows native tools might not find their commands"
+  else
+    log.info "Trimmed the PATH from ${#PATH} to ${#TRIMMED_PATH} characters, so the windows cmd.exe is able to search it"
+  fi
+  export PATH="${TRIMMED_PATH}"
 }
 
 setKameHouseRootProjectDir() {

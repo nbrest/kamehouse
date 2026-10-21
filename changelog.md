@@ -11,6 +11,8 @@
 - Updated kamehouse-mobile android build to use java 21 and gradle 8
 - Moved project from maven to gradle 9
 - Upgraded java version from 17 to 25
+- Fixed windows host os detection in the kamehouse shell scripts
+- Fixed the kamehouse-mobile and kamehouse-ui builds on windows
 
 #### v11.04
 

@@ -105,12 +105,52 @@ checkCommandStatus() {
   fi
 }
 
+# Detects a windows host, that is able to run the windows native tools.
+# The cmd.exe is the reliable marker of a windows host. It's available in the msys2, git bash
+# and cygwin hosts, and in the wsl through the windows interop.
+isWindowsHost() {
+  # the cmd.exe in the PATH is the most reliable marker
+  if command -v cmd.exe > /dev/null 2>&1; then
+    log.debug "Detected windows host with the cmd.exe in the PATH"
+    return 0
+  fi
+  # the msys2, git bash and cygwin kernels are windows only
+  case "`uname -s 2> /dev/null`" in
+    MSYS*|MINGW*|CYGWIN*|Windows_NT*)
+      log.debug "Detected windows host with uname -s '`uname -s`'"
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+# Detects a mac host. The sw_vers command and the SystemVersion.plist file are only available
+# in macos.
+isMacHost() {
+  # the sw_vers command is the most reliable marker
+  if command -v sw_vers > /dev/null 2>&1; then
+    log.debug "Detected mac host with the sw_vers command"
+    return 0
+  fi
+  # the darwin kernel is macos only
+  if [ "`uname -s 2> /dev/null`" == "Darwin" ]; then
+    log.debug "Detected mac host with uname -s '`uname -s`'"
+    return 0
+  fi
+  # the system version file is the fallback, for the hosts with a customized PATH
+  if [ -f "/System/Library/CoreServices/SystemVersion.plist" ]; then
+    log.debug "Detected mac host with the system version file"
+    return 0
+  fi
+  return 1
+}
+
 setHostOs() {
   if [ "${USE_ENV_TO_DETERMINE_OS}" == "true" ]; then
     log.debug "Using env to determine os"
     log.debug "IS_LIN_HOST=${IS_LIN_HOST}"
     log.debug "IS_WIN_HOST=${IS_WIN_HOST}"
-    log.debug "IS_MAC_HOST=${IS_WIN_HOST}"
+    log.debug "IS_MAC_HOST=${IS_MAC_HOST}"
     return
   fi
 
@@ -119,20 +159,24 @@ setHostOs() {
   export IS_WIN_HOST=false
   export IS_MAC_HOST=false
 
-  local UNAME_S=`uname -s`
-  local UNAME_R=`uname -r`
-  if [ "${UNAME_S}" != "Linux" ]; then
+  # The mac host is checked first, because the macos markers are exclusive. A windows host
+  # with a wine installation has a cmd.exe, but never a sw_vers command.
+  if isMacHost; then
     export IS_LIN_HOST=false
-    if [[ ${UNAME_R} == *"Microsoft"* ]]; then
-      # Windows host
-      export IS_WIN_HOST=true
-      export IS_MAC_HOST=false
-    else
-      # Assume Mac host
-      export IS_WIN_HOST=false
-      export IS_MAC_HOST=true
-    fi
+    export IS_WIN_HOST=false
+    export IS_MAC_HOST=true
+    return
   fi
+
+  # The windows hosts are the msys2, the git bash, the cygwin and the wsl
+  if isWindowsHost; then
+    export IS_LIN_HOST=false
+    export IS_WIN_HOST=true
+    export IS_MAC_HOST=false
+    return
+  fi
+
+  log.debug "Detected linux host"
 }
 
 # Import functions external to kamehouse shell
