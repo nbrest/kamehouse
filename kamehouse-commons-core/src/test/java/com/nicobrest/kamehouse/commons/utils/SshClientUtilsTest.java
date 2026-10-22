@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
@@ -13,6 +14,7 @@ import com.nicobrest.kamehouse.commons.model.kamehousecommand.TestDaemonCommand;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.channel.ChannelShell;
@@ -82,8 +84,9 @@ class SshClientUtilsTest {
         authFutureMock, openFutureMock, outputStreamMock, channelShellMock, channelExecMock);
     when(SshClient.setUpDefaultClient()).thenReturn(sshClientMock);
     when(sshClientMock.connect(any(), any(), anyInt())).thenReturn(connectFutureMock);
-    when(connectFutureMock.verify(anyLong(), any())).thenReturn(connectFutureMock1);
-    when(connectFutureMock.verify(anyLong(), any(), any())).thenReturn(connectFutureMock1);
+    when(connectFutureMock.verify(anyLong(), any(TimeUnit.class))).thenReturn(connectFutureMock1);
+    when(connectFutureMock.verify(anyLong(), any(TimeUnit.class), isNull()))
+        .thenReturn(connectFutureMock1);
     when(connectFutureMock1.getSession()).thenReturn(clientSessionMock);
     when(clientSessionMock.auth()).thenReturn(authFutureMock);
     when(clientSessionMock.createShellChannel(any(), any())).thenReturn(channelShellMock);

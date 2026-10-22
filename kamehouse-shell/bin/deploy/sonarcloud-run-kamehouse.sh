@@ -15,7 +15,6 @@ mainProcess() {
   setKameHouseRootProjectDir
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
   log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
-  log.trace "SONAR_TOKEN=${SONAR_TOKEN}"
   # the sonarqube plugin is only applied when the build runs with -Psonar
   ${GRADLE_WRAPPER} clean build sonar -Psonar --console=plain \
     -Dsonar.projectKey=nbrest_kamehouse \

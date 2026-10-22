@@ -197,7 +197,8 @@ tasks.named('integrationTest', Test) {
 }
 
 /* ------------------------------------------------------------------------------------------- *
- * Checkstyle: google_checks.xml, resolved from the checkstyle jar like in the maven build
+ * Checkstyle: google_checks.xml pinned in the checkstyle folder to keep the rule set stable
+ * when the checkstyle tool is upgraded
  * ------------------------------------------------------------------------------------------- */
 checkstyle {
   // maven-checkstyle-plugin: failOnViolation=true, failsOnError=true, consoleOutput=true
@@ -205,16 +206,8 @@ checkstyle {
   toolVersion = versionOf('checkstyle.puppycrawl.version')
 }
 
-def checkstyleConfiguration = configurations.getByName('checkstyle')
-def extractGoogleChecks = tasks.register('extractGoogleChecks', Copy) {
-  from { zipTree(checkstyleConfiguration.find { it.name.startsWith('checkstyle-') }) }
-  include 'google_checks.xml'
-  into layout.buildDirectory.dir('checkstyle')
-}
-
 tasks.withType(Checkstyle).configureEach {
-  dependsOn extractGoogleChecks
-  configFile = layout.buildDirectory.file('checkstyle/google_checks.xml').get().asFile
+  configFile = rootProject.file('checkstyle/google_checks.xml')
   // maven-checkstyle-plugin: failOnViolation=true, violationSeverity=warning
   maxWarnings = 0
 }
@@ -314,7 +307,7 @@ dependencies {
   // compile scope
   // ------------------------------------------------------------------------------------------- //
   dep 'api', "be.jedi:jvncsender:${versionOf('jvncsender.version')}"
-  dep 'api', "com.google.code.findbugs:findbugs:${versionOf('findbugs.version')}"
+  dep 'api', "com.github.spotbugs:spotbugs-annotations:${versionOf('spotbugs.tool.version')}"
   dep 'api', "org.json:json:${versionOf('json.version')}"
   dep 'api', "org.bouncycastle:bcpkix-jdk15on:${versionOf('bouncy.castle.version')}"
   dep 'api', "net.i2p.crypto:eddsa:${versionOf('eddsa.version')}"
@@ -324,7 +317,6 @@ dependencies {
   dep 'api', "jakarta.xml.bind:jakarta.xml.bind-api:${versionOf('jakarta.xml.bind.version')}"
   dep 'api', "jakarta.annotation:jakarta.annotation-api:${versionOf('jakarta.annotation.version')}"
   dep 'api', "jakarta.websocket:jakarta.websocket-api:${versionOf('jakarta.websocket.version')}"
-  dep 'api', "javax.servlet.jsp.jstl:jstl-api:${versionOf('jstl.version')}"
   dep 'api', "org.glassfish.jaxb:jaxb-runtime:${versionOf('glassfish.jaxb.version')}"
 
   dep 'api', "commons-cli:commons-cli:${versionOf('commons.cli.version')}", rootProject.ext.commonsLoggingExclusion
@@ -372,10 +364,6 @@ dependencies {
   // Cache. Ehcache brings an incompatible jaxb-runtime version
   dep 'api', "org.ehcache:ehcache:${versionOf('ehcache.version')}",
       [group: 'org.glassfish.jaxb', module: 'jaxb-runtime']
-
-  // Declared as a dependency (instead of a plugin) in the parent pom.xml. It is not used at
-  // runtime, but it is kept so the resolved dependencies don't change
-  dep 'api', "org.sonarsource.scanner.maven:sonar-maven-plugin:${versionOf('sonar.plugin.version')}"
 
   // ------------------------------------------------------------------------------------------- //
   // provided scope (maven "provided": compile and test classpath, not packaged)

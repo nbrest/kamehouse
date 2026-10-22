@@ -11,73 +11,54 @@ allprojects {
 /*
  * Central place for every version/property that was defined in the Maven parent pom.xml.
  * Shared with the modules through rootProject.ext.kamehouseVersions.
- *
- * Dates in the comments are kept from the original pom.xml.
  */
 ext.kamehouseVersions = [
   'filters.dir'                      : 'src/main/filters',
   'java.target.version'              : '25',
-  'kamehouse.version'                : '11.04.1-KAMEHOUSE-SNAPSHOT',
   'project.build.sourceEncoding'     : 'UTF-8',
-  'sonar.organization'               : 'nbrest',
-  'sonar.host.url'                   : 'https://sonarcloud.io',
-
-  // Maven plugin versions (kept for reference, Gradle uses its own plugin coordinates)
-  'assembly.plugin.version'          : '3.6.0',
-  'compiler.plugin.version'          : '3.11.0',
-  'dependency.plugin.version'        : '3.6.0',
-  'failsafe.plugin.version'          : '3.1.2',
-  'jar.plugin.version'               : '3.3.0',
-  'surefire.plugin.version'          : '3.1.2',
-  'war.plugin.version'               : '3.4.0',
 
   // Dependency versions
-  'bouncy.castle.version'           : '1.70',            // 2021/12
-  'commons.cli.version'              : '1.5.0',          // 2021/10
-  'commons.io.version'               : '2.13.0',         // 2023/06
-  'commons.lang3.version'            : '3.12.0',         // 2021/03
-  'commons.text.version'             : '1.10.0',         // 2022/09
-  'eddsa.version'                    : '0.3.0',          // 2018/05
-  'ehcache.version'                  : '3.10.8',         // 2022/11
-  'findbugs.version'                 : '3.0.1',          // 2015/03 (discontinued)
-  'glassfish.jaxb.version'           : '2.3.1',          // 2018/03 (upgrading further breaks build)
-
-  'spotbugs.tool.version'            : '4.9.8',
-  'hamcrest.version'                 : '2.2',            // 2019/10
+  'bouncy.castle.version'           : '1.70',
+  'commons.cli.version'              : '1.11.0',
+  'commons.io.version'               : '2.22.0',
+  'commons.lang3.version'            : '3.21.0',
+  'commons.text.version'             : '1.15.0',
+  'eddsa.version'                    : '0.3.0',
+  'ehcache.version'                  : '3.12.0',
+  'glassfish.jaxb.version'           : '2.3.1', // upgrading further breaks build
+  'spotbugs.tool.version'            : '4.10.5',
+  'hamcrest.version'                 : '3.0',
   // Transitive versions maven resolves, pinned to reproduce the maven conflict resolution
-  'apiguardian.version'              : '1.1.2',          // transitive of junit-jupiter-api
-  'byte.buddy.version'               : '1.17.7', 
-  'hibernate.version'                : '6.2.6.Final',    // 2023/06
-  'hsql.version'                     : '2.7.2',          // 2023/05
-  'httpclient.version'               : '4.5.13',         // 2020/10
-  'jackson.version'                  : '2.15.2',         // 2023/05
-  'jakarta.annotation.version'       : '2.1.1',          // 2022/06
-  'jakarta.persistence.version'      : '3.1.0',          // 2022/06
-  'jakarta.servlet.version'          : '6.0.0',          // 2022/06
-  'jakarta.servlet.jsp.version'      : '3.1.1',          // 2023/02
-  'jakarta.websocket.version'        : '2.1.1',          // 2023/06
-  'jakarta.xml.bind.version'         : '4.0.0',          // 2022/04
-  'json.version'                     : '20230618',       // 2023/06
-  'jsoup.version'                    : '1.16.1',         // 2023/04
-  'jstl.version'                     : '1.2',            // 2011/06
-  'junit.jupiter.version'            : '5.10.0-RC2',     // 2023/07
-  'junit.platform.version'           : '1.10.0-RC2',     // 2023/07
-  'jvncsender.version'               : '1.08',           // 2024/02
-  'logback.version'                  : '1.4.8',          // 2023/06
-  'mariadb.java.client.version'      : '3.1.4',          // 2023/05
-  'mockito.version'                  : '5.20.0',         // 2025/09
-  'quartz.version'                   : '2.5.0-rc1',      // 2023/04
-  'slf4j.version'                    : '2.0.7',          // 2023/03
-  'spring.version'                   : '6.2.19',         // 2026
-  'spring.security.version'          : '6.5.11',         // 2026
-  'spring.session.version'           : '3.5.7',          // 2026
-  'sshd.plugin.version'              : '2.10.0',         // 2023/05
+  'apiguardian.version'              : '1.1.2', // transitive of junit-jupiter-api
+  'byte.buddy.version'               : '1.18.15',
+  'hibernate.version'                : '6.6.59.Final',
+  'hsql.version'                     : '2.7.4',
+  'httpclient.version'               : '4.5.14',
+  'jackson.version'                  : '2.22.4',
+  'jakarta.annotation.version'       : '3.0.0',
+  'jakarta.persistence.version'      : '3.1.0',
+  'jakarta.servlet.version'          : '6.0.0',
+  'jakarta.servlet.jsp.version'      : '3.1.1',
+  'jakarta.websocket.version'        : '2.1.1',
+  'jakarta.xml.bind.version'         : '4.0.5',
+  'json.version'                     : '20260814',
+  'jsoup.version'                    : '1.23.2',
+  'junit.jupiter.version'            : '6.1.3',
+  'junit.platform.version'           : '6.1.3',
+  'jvncsender.version'               : '1.08',
+  'logback.version'                  : '1.4.14',
+  'mariadb.java.client.version'      : '4.0.0',
+  'mockito.version'                  : '5.24.0',
+  'quartz.version'                   : '2.5.2',
+  'slf4j.version'                    : '2.0.20',
+  'spring.version'                   : '6.2.19',
+  'spring.security.version'          : '6.5.11',
+  'spring.session.version'           : '3.5.7',
+  'sshd.plugin.version'              : '2.20.0',
 
   // Tool versions
-  'checkstyle.puppycrawl.version'    : '10.12.1',
-  'jacoco.version'                   : '0.8.14',
-  'sonar.plugin.version'             : '3.10.0.2594',
-  'spotbugs.version'                 : '4.7.3.5',        // spotbugs-maven-plugin version, kept for reference
+  'checkstyle.puppycrawl.version'    : '14.3.0',
+  'jacoco.version'                   : '0.8.15'
 ]
 
 /*

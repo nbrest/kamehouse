@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.tennisworld.model;
 
 /**
  * TennisWorld session type.
+ *
  * <p>
  * <b>IMPORTANT:</b> This enum is mapped to columns in tables in the database on
  * {@link BookingRequest} and {@link BookingScheduleConfig} tables. So deleting or updating the

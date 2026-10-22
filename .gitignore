@@ -24,6 +24,7 @@ kamehouse-groot/dist
 # ##################
 **/build/
 .gradle/
+.sonar/
 /bin/
 **/target/
 

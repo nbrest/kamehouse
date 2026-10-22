@@ -518,8 +518,11 @@ public class ActiveCarrotBookingService extends BookingService {
    */
   private String getSelectedSessionDatePath(
       Document sessionTypePage, String selectedSessionTypeId, String date) {
-    Elements sessionsForTheSelectedSessionType =
-        sessionTypePage.getElementById(selectedSessionTypeId).getElementsByTag("a");
+    Element sessionTypeElement = sessionTypePage.getElementById(selectedSessionTypeId);
+    if (sessionTypeElement == null) {
+      throw new KameHouseBadRequestException("Unable to get the selected session type element");
+    }
+    Elements sessionsForTheSelectedSessionType = sessionTypeElement.getElementsByTag("a");
     String selectedSessionDatePath = null;
     for (Element sessionForTheSelectedSessionType : sessionsForTheSelectedSessionType) {
       String href = sessionForTheSelectedSessionType.attr("href");
@@ -562,8 +565,9 @@ public class ActiveCarrotBookingService extends BookingService {
   private String getSelectedSessionPath(Document sessionDatePage, String bookingTime) {
     Elements listView = sessionDatePage.getElementsByAttributeValue(ATTR_DATA_ROLE, "listview");
     String selectedSessionPath = null;
-    if (listView != null) {
-      Elements sessionsForTheSelectedSessionDate = listView.first().getElementsByTag("a");
+    Element firstListView = listView == null ? null : listView.first();
+    if (firstListView != null) {
+      Elements sessionsForTheSelectedSessionDate = firstListView.getElementsByTag("a");
       for (Element sessionForTheSelectedSessionDate : sessionsForTheSelectedSessionDate) {
         String sessionHref = sessionForTheSelectedSessionDate.attr("href");
         String sessionTime = sessionForTheSelectedSessionDate.text();
@@ -605,8 +609,11 @@ public class ActiveCarrotBookingService extends BookingService {
    * Get the site facility group id from the session page.
    */
   private String getSiteFacilityGroupId(Document sessionPage) {
-    String siteFacilityGroupId =
-        sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY).attr(ATTR_SITE_FACILITYGROUP_ID);
+    Element facilityOverlay = sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY);
+    if (facilityOverlay == null) {
+      throw new KameHouseBadRequestException("Unable to get the siteFacilityGroupId");
+    }
+    String siteFacilityGroupId = facilityOverlay.attr(ATTR_SITE_FACILITYGROUP_ID);
     logger.debug("siteFacilityGroupId:{}", siteFacilityGroupId);
     if (siteFacilityGroupId == null) {
       throw new KameHouseBadRequestException("Unable to get the siteFacilityGroupId");
@@ -618,8 +625,11 @@ public class ActiveCarrotBookingService extends BookingService {
    * Get the booking time from the session page.
    */
   private String getBookingTime(Document sessionPage) {
-    String bookingTime =
-        sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY).attr(ATTR_BOOKING_TIME);
+    Element facilityOverlay = sessionPage.getElementById(ID_BOOK_NOW_OVERLAY_FACILITY);
+    if (facilityOverlay == null) {
+      throw new KameHouseBadRequestException("Unable to get the bookingTime");
+    }
+    String bookingTime = facilityOverlay.attr(ATTR_BOOKING_TIME);
     logger.debug("bookingTime:{}", bookingTime);
     if (bookingTime == null) {
       throw new KameHouseBadRequestException("Unable to get the bookingTime");
@@ -755,9 +765,10 @@ public class ActiveCarrotBookingService extends BookingService {
    */
   private List<String> getErrorStackMessages(Document page) {
     List<String> errors = new ArrayList<>();
-    if (page != null && page.getElementById(ID_ERROR_STACK) != null) {
-      Elements errorMessages = page.getElementById(ID_ERROR_STACK).getElementsByTag("p");
-      if (errorMessages != null && !errorMessages.isEmpty()) {
+    Element errorStack = page == null ? null : page.getElementById(ID_ERROR_STACK);
+    if (errorStack != null) {
+      Elements errorMessages = errorStack.getElementsByTag("p");
+      if (!errorMessages.isEmpty()) {
         addErrorMessagesToList(errorMessages, errors);
       }
     }

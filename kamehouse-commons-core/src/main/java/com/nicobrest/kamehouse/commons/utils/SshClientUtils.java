@@ -88,8 +88,8 @@ public class SshClientUtils {
     }
     KameHouseShellScript kameHouseShellScript = (KameHouseShellScript) kameHouseCommand;
     kameHouseShellScript.init();
-    KameHouseCommandResult kameHouseCommandResult = kameHouseShellScript.initResult();
-    String command = kameHouseShellScript.getCommand();
+    final KameHouseCommandResult kameHouseCommandResult = kameHouseShellScript.initResult();
+    final String command = kameHouseShellScript.getCommand();
     LOGGER.debug("Command to execute {}", kameHouseShellScript);
     SshClient client = SshClient.setUpDefaultClient();
     client.start();

@@ -113,7 +113,6 @@ updateReleaseVersionInBuildGradle() {
 
   log.info "Updating release version in build.gradle"
   sed -i -e "s+^\(  version = \)'${PREVIOUS_VERSION_IN_BUILD_GRADLE}'$+\1'${RELEASE_VERSION_IN_BUILD_GRADLE}'+" \
-    -e "s+^\(  'kamehouse.version' *: *\)'${PREVIOUS_VERSION_IN_BUILD_GRADLE}',$+\1'${RELEASE_VERSION_IN_BUILD_GRADLE}',+" \
     build.gradle
   checkCommandStatus "$?"
 }
