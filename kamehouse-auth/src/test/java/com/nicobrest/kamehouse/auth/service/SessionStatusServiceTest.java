@@ -1,6 +1,7 @@
 package com.nicobrest.kamehouse.auth.service;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
@@ -64,7 +65,7 @@ class SessionStatusServiceTest {
    */
   @Test
   void getSessionStatusTest() {
-    SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
+    SessionStatusService sessionStatusServiceSpy = spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
@@ -81,7 +82,7 @@ class SessionStatusServiceTest {
    */
   @Test
   void getSessionStatusNullHttpSessionTest() {
-    SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
+    SessionStatusService sessionStatusServiceSpy = spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     KameHouseUser kameHouseUserMock = new KameHouseUser();
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
@@ -97,7 +98,7 @@ class SessionStatusServiceTest {
    */
   @Test
   void getSessionStatusUserNotFoundTest() {
-    SessionStatusService sessionStatusServiceSpy = Mockito.spy(sessionStatusService);
+    SessionStatusService sessionStatusServiceSpy = spy(sessionStatusService);
     when(sessionStatusServiceSpy.getAuthentication()).thenReturn(authentication);
     when(kameHouseUserAuthenticationService.loadUserByUsername("anonymousUser"))
         .thenThrow(new UsernameNotFoundException("User not found"));
