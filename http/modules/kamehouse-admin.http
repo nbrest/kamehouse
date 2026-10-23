@@ -1,5 +1,6 @@
 ### Kamehouse Admin - Users: List all users
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Kamehouse Admin - Users: Get user by username
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/username/{{username}}
@@ -70,9 +71,11 @@ Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Kamehouse Admin - Users: Get user by invalid ID (Expect 404)
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Kamehouse Admin - Users: Invalid create request (Expect 400)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
@@ -91,6 +94,7 @@ Content-Type: application/json
 
 ### Kamehouse Admin - Users: Update non-existent user ID (Expect 404)
 PUT {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
@@ -113,78 +117,114 @@ Content-Type: application/json
 
 ### Kamehouse Admin - Users: Delete non-existent user ID (Expect 404)
 DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 
 ### Power Management - Reboot
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/reboot-REMOVE-ME-BUT-THIS-WILL-REBOOT-THE-SERVER!
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Power Management - Get Shutdown status
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/shutdown
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Power Management - Schedule Shutdown (delay = 5400s)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/shutdown?delay=5400
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Power Management - Cancel Shutdown
 DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/shutdown
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Power Management - Get Suspend status
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/suspend
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Power Management - Schedule Suspend (delay = 5400s)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/suspend?delay=5400
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Power Management - Cancel Suspend
 DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/suspend
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Power Management - Wake-on-LAN (MAC & Broadcast)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?mac=8C:04:BA:A6:F2:B1&broadcast=192.168.0.255
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Power Management - Wake-on-LAN (Server name)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=media.server
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Power Management - Wake-on-LAN (Invalid server - Expect 400)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=invalidServer
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 
 ### Screen - Lock
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/screen/lock
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Screen - Unlock
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/screen/unlock
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### Screen - Wake Up
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/screen/wake-up
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 
 ### System State - HTTPD (GET)
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/httpd
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### System State - HTTPD (POST)
 POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/httpd
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### System State - Uptime
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/uptime
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### System State - Free memory
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/free
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 ### System State - Disk Free (df)
 GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/df
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 
 ### Commons - Set log level to TRACE
 PUT {{SERVER}}/kame-house-admin/api/{{apiVersion}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Power Management - Wake-on-LAN (MAC & Broadcast)
+POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?mac=8C:04:BA:A6:F2:B1&broadcast=192.168.0.255
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+### Power Management - Wake-on-LAN (Server name)
+POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=media.server
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+### Power Management - Wake-on-LAN (Invalid server - Expect 400)
+POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=invalidServer
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json

@@ -1,0 +1,222 @@
+### Test Module - Dragonball Servlet - Get all users
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/servlet/test-module/dragonball/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball Servlet - Get user by username
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/servlet/test-module/dragonball/users?username=goku
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball Servlet - Create user
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/servlet/test-module/dragonball/users?username={{$randomUserName}}&email={{$randomEmail}}&age={{$randomInt}}&powerLevel={{$randomInt}}&stamina={{$randomInt}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball Servlet - Update user
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/servlet/test-module/dragonball/users?id={{id}}&username={{$randomUserName}}&email={{$randomEmail}}&age={{$randomInt}}&powerLevel={{$randomInt}}&stamina={{$randomInt}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball Servlet - Delete user
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/servlet/test-module/dragonball/users?id={{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball Servlet - Create user manual
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/servlet/test-module/dragonball/users?username={{$randomUserName}}&email=goku@dbz.com&age={{$randomInt}}&powerLevel={{$randomInt}}&stamina={{$randomInt}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Test Module - Dragonball API - Get all users
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Exception test
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users?action=KameHouseNotFoundException
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Get user by username
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/username/{{username}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Get users by email
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/emails?email={{email}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Get user by ID
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Create new user
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "username": "{{$randomUserName}}",
+    "email": "{{$randomEmail}}",
+    "age": {{$randomInt}},
+    "powerLevel": {{$randomInt}},
+    "stamina": {{$randomInt}}
+}
+
+### Test Module - Dragonball API - Update user by ID
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "id": {{id}},
+    "username": "{{$randomUserName}}",
+    "email": "{{$randomEmail}}",
+    "age": {{$randomInt}},
+    "powerLevel": {{$randomInt}},
+    "stamina": {{$randomInt}}
+}
+
+### Test Module - Dragonball API - Delete user by ID
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Get user by invalid username (Expect 404)
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/username/{{invalidUsername}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Get users by invalid email (Expect 404)
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/emails?email={{invalidEmail}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Get user by invalid ID (Expect 404)
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Module - Dragonball API - Invalid create request (Expect 400)
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "age": {{$randomInt}},
+    "powerLevel": {{$randomInt}},
+    "stamina": {{$randomInt}}
+}
+
+### Test Module - Dragonball API - Update non-existent user ID (Expect 404)
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "id": {{invalidId}},
+    "username": "{{$randomUserName}}",
+    "email": "{{$randomEmail}}",
+    "age": {{$randomInt}},
+    "powerLevel": {{$randomInt}},
+    "stamina": {{$randomInt}}
+}
+
+### Test Module - Dragonball API - Delete non-existent user ID (Expect 404)
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/dragonball/users/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Test Scheduler - Sample job (GET)
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/test-scheduler/sample-job
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Scheduler - Sample job (POST)
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/test-scheduler/sample-job
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Scheduler - Sample job (POST with delay)
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/test-scheduler/sample-job?delay=5400
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Test Scheduler - Sample job (DELETE)
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/test-module/test-scheduler/sample-job
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Commons - Log level debug
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/debug
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Log level trace
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Request logger payload
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/request-logger/payload?logPayload=false
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Request logger headers
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/request-logger/headers?logHeaders=false
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Request logger client-info
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/request-logger/client-info?logClientInfo=false
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Request logger query-string
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/request-logger/query-string?logQueryString=false
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Get log levels
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Get log level for package
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level?package=com.nicobrest.kamehouse
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Set log level TRACE for package
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level?level=TRACE&package=com.nicobrest.kamehouse
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Set log level INFO for package
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level?level=INFO&package=com.nicobrest.kamehouse
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Clear log levels
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Ehcache get all
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/ehcache
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Ehcache get by name
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/ehcache?name={{name}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Ehcache clear all
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/ehcache
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Ehcache clear by name
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/ehcache?name={{name}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Ehcache get invalid cache (Expect 404)
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/ehcache?name=invalid-cache
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Ehcache clear invalid cache
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/ehcache?name=vlcPlayer
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Scheduler jobs get all
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/scheduler/jobs
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Scheduler jobs trigger
+POST {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/scheduler/jobs?name={{name}}&group={{group}}&delay=100
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Scheduler jobs delete
+DELETE {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/scheduler/jobs?name={{name}}&group={{group}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Module status
+GET {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/module/status
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Commons - Set log level to TRACE
+PUT {{SERVER}}/kame-house-testmodule/api/{{apiVersion}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}

@@ -1,0 +1,152 @@
+### Vlcrc - Get playlist for localhost
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/playlist
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc - Get status for localhost
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/status
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc - Send command fullscreen
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "name":"fullscreen"
+}
+
+### Vlcrc - Send command pl_next
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "name":"pl_next"
+}
+
+### Vlcrc - Send command pl_previous
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "name":"pl_previous"
+}
+
+### Vlcrc - Send command in_play invalid file
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+  "name":"in_play",
+  "input":"file:///C:/Invalid/Path/Avengers Endgame.mp4"
+}
+
+### Vlcrc - Send invalid command
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "name":"fullscreen-INVALID"
+}
+
+
+### Vlcrc Players - Get all
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc Players - Get by hostname
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/hostname/{{hostname}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc Players - Get by ID
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc Players - Create
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "hostname": "{{$randomLastName}}",
+    "port": {{$randomInt}},
+    "username": "{{$randomUserName}}",
+    "password": "{{$randomPassword}}"
+}
+
+### Vlcrc Players - Update
+PUT {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "id": {{id}},
+    "hostname": "{{$randomLastName}}",
+    "port": {{$randomInt}},
+    "username": "{{$randomUserName}}",
+    "password": "{{$randomPassword}}"
+}
+
+### Vlcrc Players - Delete
+DELETE {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc Players - Get by invalid hostname (Expect 404)
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/hostname/{{invalidHostname}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc Players - Get by invalid ID (Expect 404)
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc Players - Invalid create (Expect 400)
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "username": "{{$randomUserName}}",
+    "password": "{{$randomPassword}}"
+}
+
+### Vlcrc Players - Update non-existent (Expect 404)
+PUT {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "id": {{invalidId}},
+    "hostname": "{{$randomLastName}}",
+    "port": {{$randomInt}},
+    "username": "{{$randomUserName}}",
+    "password": "{{$randomPassword}}"
+}
+
+### Vlcrc Players - Delete non-existent (Expect 404)
+DELETE {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{invalidId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Vlcrc - Get VLC process
+GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc - Start VLC without files (Expect error)
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc - Start VLC with invalid file
+POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process?file=%2Finvalid%2Ffile%2FVideos%2Favengers.m3u
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Vlcrc - Stop VLC
+DELETE {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Commons - Set log level to TRACE
+PUT {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}

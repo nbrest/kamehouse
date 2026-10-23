@@ -1,29 +1,42 @@
 ### Groot Admin - Get Shell Scripts
 GET {{SERVER_GROOT}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Groot Admin - Execute Shell Script (no script param - Expect 400)
 GET {{SERVER_GROOT}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Groot Admin - Execute Shell Script (vlc-start.sh)
 GET {{SERVER_GROOT}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=vlc/vlc-start.sh&args=-f%20C:/Users/nbrest/git/kamehouse-video-playlists/playlists/video-streaming-sftp-lan/anime/captain_tsubasa_movies/captain_tsubasa_movies.m3u&isDaemon=true
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 ### Groot Admin - Execute Shell Script (docker-integration-tests-run.sh)
 GET {{SERVER_GROOT_DOCKER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=docker/docker-integration-tests-run.sh
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 
 ### Groot Auth - Login
 POST {{SERVER_GROOT}}/kame-house-groot/api/v1/auth/login.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/x-www-form-urlencoded
 
 username={{USERNAME}}&password={{PASSWORD}}
 
 ### Groot Auth - Logout
 GET {{SERVER_GROOT}}/kame-house-groot/api/v1/auth/logout.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 
 ### Groot Commons - Session Status
 GET {{SERVER_GROOT}}/kame-house-groot/api/v1/commons/session/status.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 
 ### Groot Test - Test endpoint
 GET {{SERVER_GROOT}}/kame-house-groot/api/v1/test/test.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Groot Test - Test endpoint
+GET {{SERVER_GROOT}}/kame-house-groot/api/v1/test/test.php
+Authorization: Basic {{USERNAME}} {{PASSWORD}}

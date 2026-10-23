@@ -1,0 +1,44 @@
+### UI - Login Success
+POST {{SERVER}}/kame-house/login
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### UI - Login Failed
+POST {{SERVER}}/kame-house/login
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### UI - Logout
+POST {{SERVER}}/kame-house/logout
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### UI Sample - Dragonball Model and View (with name)
+GET {{SERVER}}/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=kakarotto
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### UI Sample - Dragonball Model and View
+GET {{SERVER}}/kame-house/api/v1/ui/sample/dragonball/model-and-view
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### UI Session - Status
+GET {{SERVER}}/kame-house/api/{{apiVersion}}/ui/session/status
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### UI Static - Home
+GET {{SERVER}}/kame-house/
+
+### UI Static - Not found
+GET {{SERVER}}/kame-house/not-found-page
+
+
+### Commons - Set log level to TRACE
+PUT {{SERVER}}/kame-house/api/{{apiVersion}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Error - PUT test
+PUT {{SERVER}}/kame-house/api/{{apiVersion}}/com
+
+### Error - GET test
+GET {{SERVER}}/kame-house/goku

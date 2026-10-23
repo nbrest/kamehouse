@@ -5,3 +5,171 @@ Authorization: Basic {{USERNAME}} {{PASSWORD}}
 ### Tennis World - Get booking request by ID
 GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Get booking requests
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Get booking request by ID
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Create booking request
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+}
+
+### Tennis World - Update booking request
+PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+}
+
+### Tennis World - Delete booking request
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Tennis World - Get booking responses
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Get booking response by ID
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Create booking response
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+}
+
+### Tennis World - Update booking response
+PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+}
+
+### Tennis World - Delete booking response
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Tennis World - Get booking schedule configs
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Get booking schedule config by ID
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Create booking schedule config
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "tennisWorldUser" : {
+        "email": "{{tennisWorldUser}}"
+    },
+    "sessionType": "CARD",
+    "bookingDate": "2024-01-01",
+    "bookingTime": "18:00"
+}
+
+### Tennis World - Update booking schedule config
+PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "id": {{id}},
+    "username": "{{$randomUserName}}",
+    "email": "{{$randomEmail}}",
+    "age": {{$randomInt}}
+}
+
+### Tennis World - Delete booking schedule config
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Tennis World - Book court
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/bookings
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "username": "{{tennisWorldUser}}",
+    "password": "{{tennisWorldPassword}}",
+    "date": "2024-01-01",
+    "time": "18:00",
+    "court": "1"
+}
+
+### Tennis World - Book class
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/bookings
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "username": "{{tennisWorldUser}}",
+    "password": "{{tennisWorldPassword}}",
+    "date": "2024-01-01",
+    "time": "18:00",
+    "class": "ADULTS"
+}
+
+### Tennis World - Scheduled bookings
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/scheduled-bookings
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+
+### Tennis World - Get users
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Get user by ID
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Create user
+POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "email": "{{$randomEmail}}",
+    "password": "{{$randomPassword}}"
+}
+
+### Tennis World - Update user
+PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+    "id": {{id}},
+    "username": "{{$randomUserName}}",
+    "email": "{{$randomEmail}}",
+    "age": {{$randomInt}}
+}
+
+### Tennis World - Delete user
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+
+### Commons - Set log level to TRACE
+PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
