@@ -22,7 +22,8 @@ public class GetPlaylistContentKameHouseCommand extends KameHouseShellScript {
   public GetPlaylistContentKameHouseCommand(String playlistFilename) {
     super();
     InputValidator.validateForbiddenCharsForShell(playlistFilename);
-    this.playlistFilename = playlistFilename.replace("\\", "/");
+    this.playlistFilename = playlistFilename == null
+        ? null : playlistFilename.replace("\\", "/");
   }
 
   @Override

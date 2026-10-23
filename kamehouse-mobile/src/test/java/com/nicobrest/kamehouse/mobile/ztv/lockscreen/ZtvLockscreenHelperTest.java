@@ -160,10 +160,10 @@ class ZtvLockscreenHelperTest {
         + "\"information\":{\"meta\":{\"filename\":\"my_song.mp3\"}}"
         + "}";
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
-    assertEquals("playing", status.getPlaybackState());
-    assertEquals("my_song.mp3", status.getTitle());
-    assertEquals(12, status.getCurrentTime());
-    assertEquals(300, status.getTotalTime());
+    assertEquals("playing", status.playbackState());
+    assertEquals("my_song.mp3", status.title());
+    assertEquals(12, status.currentTime());
+    assertEquals(300, status.totalTime());
   }
 
   @Test
@@ -173,47 +173,47 @@ class ZtvLockscreenHelperTest {
         + "\"information\":{\"meta\":{\"title\":\"Only Title\"}}"
         + "}";
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
-    assertEquals("paused", status.getPlaybackState());
-    assertEquals("Only Title", status.getTitle());
+    assertEquals("paused", status.playbackState());
+    assertEquals("Only Title", status.title());
   }
 
   @Test
   void parseStatusFallsBackToTitleWhenFilenameEmpty() {
     String response = "{\"information\":{\"meta\":{\"filename\":\"\",\"title\":\"Fallback\"}}}";
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
-    assertEquals("Fallback", status.getTitle());
+    assertEquals("Fallback", status.title());
   }
 
   @Test
   void parseStatusFallsBackToTitleWhenFilenameIsNullString() {
     String response = "{\"information\":{\"meta\":{\"filename\":\"null\",\"title\":\"Fallback\"}}}";
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
-    assertEquals("Fallback", status.getTitle());
+    assertEquals("Fallback", status.title());
   }
 
   @Test
   void parseStatusWithoutInformation() {
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus("{\"state\":\"stopped\"}");
-    assertEquals("stopped", status.getPlaybackState());
-    assertNull(status.getTitle());
-    assertEquals(0, status.getCurrentTime());
-    assertEquals(0, status.getTotalTime());
+    assertEquals("stopped", status.playbackState());
+    assertNull(status.title());
+    assertEquals(0, status.currentTime());
+    assertEquals(0, status.totalTime());
   }
 
   @Test
   void parseStatusWithoutMeta() {
     ZtvLockscreenHelper.ZtvStatus status =
         ZtvLockscreenHelper.parseStatus("{\"information\":{}}");
-    assertNull(status.getTitle());
+    assertNull(status.title());
   }
 
   @Test
   void parseStatusInvalidJsonReturnsStopped() {
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus("not a json");
-    assertEquals("stopped", status.getPlaybackState());
-    assertNull(status.getTitle());
-    assertEquals(0, status.getCurrentTime());
-    assertEquals(0, status.getTotalTime());
+    assertEquals("stopped", status.playbackState());
+    assertNull(status.title());
+    assertEquals(0, status.currentTime());
+    assertEquals(0, status.totalTime());
   }
 
   @Test

@@ -19,7 +19,6 @@ import org.json.JSONObject;
  */
 public class ZtvLockscreenPlugin extends CordovaPlugin {
 
-  private static final String TAG = "ZtvLockscreenPlugin";
   private static final int PERMISSION_REQUEST_CODE = 8472;
 
   private CallbackContext pendingStartCallbackContext = null;

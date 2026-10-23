@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/media")
 public class PlaylistController extends AbstractController {
 
-  private PlaylistService playlistService;
+  private final PlaylistService playlistService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

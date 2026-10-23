@@ -170,37 +170,6 @@ public final class ZtvLockscreenHelper {
   /**
    * Immutable snapshot of the ztv player status.
    */
-  public static final class ZtvStatus {
-
-    private final String playbackState;
-    private final String title;
-    private final int currentTime;
-    private final int totalTime;
-
-    /**
-     * Create a ztv status snapshot.
-     */
-    public ZtvStatus(String playbackState, String title, int currentTime, int totalTime) {
-      this.playbackState = playbackState;
-      this.title = title;
-      this.currentTime = currentTime;
-      this.totalTime = totalTime;
-    }
-
-    public String getPlaybackState() {
-      return playbackState;
-    }
-
-    public String getTitle() {
-      return title;
-    }
-
-    public int getCurrentTime() {
-      return currentTime;
-    }
-
-    public int getTotalTime() {
-      return totalTime;
-    }
+  public record ZtvStatus(String playbackState, String title, int currentTime, int totalTime) {
   }
 }

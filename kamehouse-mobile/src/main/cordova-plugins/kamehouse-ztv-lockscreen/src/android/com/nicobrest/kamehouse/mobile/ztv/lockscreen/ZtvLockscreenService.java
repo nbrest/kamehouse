@@ -22,22 +22,23 @@ import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -74,6 +75,7 @@ public class ZtvLockscreenService extends Service {
   private static final long POLL_INTERVAL_SECONDS = 2;
   private static final int CONNECT_TIMEOUT_MS = 5000;
   private static final int READ_TIMEOUT_MS = 5000;
+  private static final String STATE_PLAYING = ZtvLockscreenHelper.STATE_PLAYING;
 
   private static volatile boolean running = false;
 
@@ -97,6 +99,10 @@ public class ZtvLockscreenService extends Service {
     return running;
   }
 
+  private static void setRunning(boolean value) {
+    running = value;
+  }
+
   @Override
   public IBinder onBind(Intent intent) {
     return null;
@@ -105,7 +111,7 @@ public class ZtvLockscreenService extends Service {
   @Override
   public void onCreate() {
     super.onCreate();
-    running = true;
+    setRunning(true);
     createNotificationChannel();
     createMediaSession();
     loadArtworkBitmap();
@@ -135,7 +141,7 @@ public class ZtvLockscreenService extends Service {
   @Override
   public void onDestroy() {
     Log.d(TAG, "Stopping ZTV lock screen service");
-    running = false;
+    setRunning(false);
     stopPolling();
     if (mediaSession != null) {
       mediaSession.setActive(false);
@@ -180,7 +186,7 @@ public class ZtvLockscreenService extends Service {
    * Create the media session that provides the lock screen media controls.
    */
   private void createMediaSession() {
-    mediaSession = new MediaSession(this, "ZtvLockscreen");
+    mediaSession = new MediaSession(this, TAG);
     mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS
         | MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
     mediaSession.setCallback(new MediaSession.Callback() {
@@ -217,12 +223,7 @@ public class ZtvLockscreenService extends Service {
       @Override
       public void onSeekTo(long pos) {
         final long positionMs = pos;
-        runInBackground(new Runnable() {
-          @Override
-          public void run() {
-            sendCommandWithValue("seek", String.valueOf(positionMs / 1000L));
-          }
-        });
+        runInBackground(() -> sendCommandWithValue("seek", String.valueOf(positionMs / 1000L)));
       }
     });
     PendingIntent sessionActivity = openAppPendingIntent();
@@ -238,26 +239,24 @@ public class ZtvLockscreenService extends Service {
    * source image, falling back to the app icon.
    */
   private void loadArtworkBitmap() {
-    try {
-      InputStream bannerStream = null;
-      try {
-        bannerStream = getAssets().open(ARTWORK_ASSET_PATH);
-        artworkBitmap = BitmapFactory.decodeStream(bannerStream);
-      } catch (Exception e) {
-        Log.d(TAG, "Error loading kamehouse artwork from assets: " + e.getMessage());
-      } finally {
-        if (bannerStream != null) {
-          bannerStream.close();
-        }
+    artworkBitmap = loadArtworkFromAssets();
+    if (artworkBitmap == null) {
+      ApplicationInfo appInfo = getApplicationInfo();
+      if (appInfo != null && appInfo.icon != 0) {
+        artworkBitmap = BitmapFactory.decodeResource(getResources(), appInfo.icon);
       }
-      if (artworkBitmap == null) {
-        ApplicationInfo appInfo = getApplicationInfo();
-        if (appInfo != null && appInfo.icon != 0) {
-          artworkBitmap = BitmapFactory.decodeResource(getResources(), appInfo.icon);
-        }
-      }
-    } catch (Exception e) {
-      Log.d(TAG, "Error loading kamehouse artwork: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Load the kamehouse banner from the bundled assets.
+   */
+  private Bitmap loadArtworkFromAssets() {
+    try (InputStream bannerStream = getAssets().open(ARTWORK_ASSET_PATH)) {
+      return BitmapFactory.decodeStream(bannerStream);
+    } catch (IOException e) {
+      Log.d(TAG, "Error loading kamehouse artwork from assets: " + e.getMessage());
+      return null;
     }
   }
 
@@ -280,12 +279,8 @@ public class ZtvLockscreenService extends Service {
       scheduler = Executors.newSingleThreadScheduledExecutor();
     }
     if (pollTask == null || pollTask.isCancelled()) {
-      pollTask = scheduler.scheduleWithFixedDelay(new Runnable() {
-        @Override
-        public void run() {
-          pollStatus();
-        }
-      }, 0, POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
+      pollTask = scheduler.scheduleWithFixedDelay(this::pollStatus, 0, POLL_INTERVAL_SECONDS,
+          TimeUnit.SECONDS);
     }
   }
 
@@ -311,7 +306,8 @@ public class ZtvLockscreenService extends Service {
       execCloseZtv();
       return;
     }
-    String command = ZtvLockscreenHelper.getCommandForAction(action, "playing".equals(playbackState));
+    String command = ZtvLockscreenHelper.getCommandForAction(action,
+        STATE_PLAYING.equals(playbackState));
     if (command != null) {
       execCommand(command);
     }
@@ -321,24 +317,14 @@ public class ZtvLockscreenService extends Service {
    * Execute a ztv command and refresh the status afterwards.
    */
   private void execCommand(final String command) {
-    runInBackground(new Runnable() {
-      @Override
-      public void run() {
-        sendCommand(command);
-      }
-    });
+    runInBackground(() -> sendCommand(command));
   }
 
   /**
    * Close the ztv player process, same as the close button on the ztv player page, and refresh afterwards.
    */
   private void execCloseZtv() {
-    runInBackground(new Runnable() {
-      @Override
-      public void run() {
-        closeZtvProcess();
-      }
-    });
+    runInBackground(this::closeZtvProcess);
   }
 
   /**
@@ -348,17 +334,15 @@ public class ZtvLockscreenService extends Service {
     if (scheduler == null || scheduler.isShutdown()) {
       scheduler = Executors.newSingleThreadScheduledExecutor();
     }
-    scheduler.execute(new Runnable() {
-      @Override
-      public void run() {
-        task.run();
-        try {
-          Thread.sleep(600);
-        } catch (InterruptedException e) {
-          Thread.currentThread().interrupt();
-        }
-        pollStatus();
+    scheduler.execute(() -> {
+      task.run();
+      try {
+        Thread.sleep(600);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        Log.d(TAG, "Interrupted while refreshing ztv notification", e);
       }
+      pollStatus();
     });
   }
 
@@ -385,10 +369,10 @@ public class ZtvLockscreenService extends Service {
    */
   private void parseStatus(String response) {
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
-    playbackState = status.getPlaybackState();
-    title = status.getTitle();
-    currentTime = status.getCurrentTime();
-    totalTime = status.getTotalTime();
+    playbackState = status.playbackState();
+    title = status.title();
+    currentTime = status.currentTime();
+    totalTime = status.totalTime();
   }
 
   /**
@@ -452,7 +436,7 @@ public class ZtvLockscreenService extends Service {
     PlaybackState.Builder stateBuilder = new PlaybackState.Builder();
     stateBuilder.setActions(actions);
     stateBuilder.setState(getPlaybackStateCode(), currentTime * 1000L,
-        "playing".equals(playbackState) ? 1.0f : 0.0f, SystemClock.elapsedRealtime());
+        STATE_PLAYING.equals(playbackState) ? 1.0f : 0.0f, SystemClock.elapsedRealtime());
     stateBuilder.addCustomAction(new PlaybackState.CustomAction.Builder(
         ACTION_CLOSE, "Close ZTV", android.R.drawable.ic_lock_power_off).build());
     mediaSession.setPlaybackState(stateBuilder.build());
@@ -472,7 +456,7 @@ public class ZtvLockscreenService extends Service {
    * Map the ztv playback state to an android playback state.
    */
   private int getPlaybackStateCode() {
-    if ("playing".equals(playbackState)) {
+    if (STATE_PLAYING.equals(playbackState)) {
       return PlaybackState.STATE_PLAYING;
     }
     if ("paused".equals(playbackState)) {
@@ -489,7 +473,7 @@ public class ZtvLockscreenService extends Service {
         ? ZtvLockscreenHelper.NO_MEDIA_TITLE : ZtvLockscreenHelper.formatMediaTitle(title);
     String displayTime = ZtvLockscreenHelper.formatTime(currentTime) + " / "
         + ZtvLockscreenHelper.formatTime(totalTime);
-    boolean isPlaying = "playing".equals(playbackState);
+    boolean isPlaying = STATE_PLAYING.equals(playbackState);
 
     Notification.Builder builder;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -557,7 +541,7 @@ public class ZtvLockscreenService extends Service {
   /**
    * Execute an http GET request against the backend.
    */
-  private String httpGet(String requestUrl) throws Exception {
+  private String httpGet(String requestUrl) throws IOException {
     HttpURLConnection connection = openConnection(requestUrl);
     connection.setRequestMethod("GET");
     try {
@@ -573,14 +557,14 @@ public class ZtvLockscreenService extends Service {
   /**
    * Execute an http POST request against the backend.
    */
-  private void httpPost(String requestUrl, String body) throws Exception {
+  private void httpPost(String requestUrl, String body) throws IOException {
     HttpURLConnection connection = openConnection(requestUrl);
     connection.setRequestMethod("POST");
     connection.setDoOutput(true);
     connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
     try {
       OutputStream outputStream = connection.getOutputStream();
-      outputStream.write(body.getBytes(Charset.forName("UTF-8")));
+      outputStream.write(body.getBytes(StandardCharsets.UTF_8));
       outputStream.flush();
       outputStream.close();
       connection.getResponseCode();
@@ -592,7 +576,7 @@ public class ZtvLockscreenService extends Service {
   /**
    * Execute an http DELETE request against the backend.
    */
-  private void httpDelete(String requestUrl) throws Exception {
+  private void httpDelete(String requestUrl) throws IOException {
     HttpURLConnection connection = openConnection(requestUrl);
     connection.setRequestMethod("DELETE");
     try {
@@ -605,7 +589,7 @@ public class ZtvLockscreenService extends Service {
   /**
    * Open an http connection with the configured credentials.
    */
-  private HttpURLConnection openConnection(String requestUrl) throws Exception {
+  private HttpURLConnection openConnection(String requestUrl) throws IOException {
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setConnectTimeout(CONNECT_TIMEOUT_MS);
@@ -613,11 +597,11 @@ public class ZtvLockscreenService extends Service {
     connection.setRequestProperty("Accept", "application/json");
     if (username != null && !username.isEmpty()) {
       String credentials = username + ":" + (password == null ? "" : password);
-      String basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes(Charset.forName("UTF-8")), Base64.NO_WRAP);
+      String basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
       connection.setRequestProperty("Authorization", basicAuth);
     }
-    if (skipSslCheck && connection instanceof HttpsURLConnection) {
-      disableSslCheck((HttpsURLConnection) connection);
+    if (skipSslCheck && connection instanceof HttpsURLConnection httpsConnection) {
+      disableSslCheck(httpsConnection);
     }
     return connection;
   }
@@ -625,15 +609,17 @@ public class ZtvLockscreenService extends Service {
   /**
    * Disable ssl verification for self signed certificates.
    */
-  private void disableSslCheck(HttpsURLConnection connection) throws Exception {
-    TrustManager[] trustAllCerts = new TrustManager[] {
+  private void disableSslCheck(HttpsURLConnection connection) throws IOException {
+    TrustManager[] trustAllCerts = {
         new X509TrustManager() {
           @Override
-          public void checkClientTrusted(X509Certificate[] chain, String authType) {
+          public void checkClientTrusted(X509Certificate[] chain, String authType) { // NOSONAR
+            // Trust all certificates, only used when skipSslCheck is explicitly enabled.
           }
 
           @Override
-          public void checkServerTrusted(X509Certificate[] chain, String authType) {
+          public void checkServerTrusted(X509Certificate[] chain, String authType) { // NOSONAR
+            // Trust all certificates, only used when skipSslCheck is explicitly enabled.
           }
 
           @Override
@@ -642,26 +628,25 @@ public class ZtvLockscreenService extends Service {
           }
         }
     };
-    SSLContext sslContext = SSLContext.getInstance("TLS");
-    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-    connection.setSSLSocketFactory(sslContext.getSocketFactory());
-    connection.setHostnameVerifier(new HostnameVerifier() {
-      @Override
-      public boolean verify(String hostname, SSLSession session) {
-        return true;
-      }
-    });
+    try {
+      SSLContext sslContext = SSLContext.getInstance("TLS");
+      sslContext.init(null, trustAllCerts, new SecureRandom());
+      connection.setSSLSocketFactory(sslContext.getSocketFactory());
+    } catch (GeneralSecurityException e) {
+      throw new IOException("Error disabling ssl check", e);
+    }
+    connection.setHostnameVerifier((hostname, session) -> true); // NOSONAR
   }
 
   /**
    * Read an input stream into a string.
    */
-  private String readStream(InputStream inputStream) throws Exception {
+  private String readStream(InputStream inputStream) throws IOException {
     if (inputStream == null) {
       return "";
     }
     StringBuilder response = new StringBuilder();
-    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
     try {
       String line;
       while ((line = reader.readLine()) != null) {

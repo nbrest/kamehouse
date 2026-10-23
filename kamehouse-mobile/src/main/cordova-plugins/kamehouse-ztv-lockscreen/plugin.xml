@@ -37,8 +37,8 @@
 
     <resource-file src="src/android/res/drawable/ic_ztv.xml" target="res/drawable/ic_ztv.xml" />
 
-    <source-file src="src/android/ZtvLockscreenPlugin.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
-    <source-file src="src/android/ZtvLockscreenService.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
-    <source-file src="src/android/ZtvLockscreenHelper.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
+    <source-file src="src/android/com/nicobrest/kamehouse/mobile/ztv/lockscreen/ZtvLockscreenPlugin.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
+    <source-file src="src/android/com/nicobrest/kamehouse/mobile/ztv/lockscreen/ZtvLockscreenService.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
+    <source-file src="src/android/com/nicobrest/kamehouse/mobile/ztv/lockscreen/ZtvLockscreenHelper.java" target-dir="src/com/nicobrest/kamehouse/mobile/ztv/lockscreen" />
   </platform>
 </plugin>
