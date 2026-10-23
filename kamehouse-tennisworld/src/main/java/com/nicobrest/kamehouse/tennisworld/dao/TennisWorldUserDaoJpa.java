@@ -31,9 +31,9 @@ public class TennisWorldUserDaoJpa extends AbstractCrudDaoJpa<TennisWorldUser>
 
   @Override
   public TennisWorldUser getByEmail(String email) {
-    logger.trace("Get TennisWorldUser: {}", email);
+    STATIC_LOGGER.trace("Get TennisWorldUser: {}", email);
     TennisWorldUser tennisWorldUser = findByEmail(TennisWorldUser.class, email);
-    logger.trace("Get TennisWorldUser: {} response {}", email, tennisWorldUser);
+    STATIC_LOGGER.trace("Get TennisWorldUser: {} response {}", email, tennisWorldUser);
     return tennisWorldUser;
   }
 }

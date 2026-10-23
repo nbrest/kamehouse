@@ -10,7 +10,7 @@ import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDto;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingRequestDtoTranslator;
-import java.util.Calendar;
+import java.time.Month;
 import java.util.LinkedList;
 
 /**
@@ -77,7 +77,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
 
   private void initSingleTestData() {
     singleTestData = new BookingRequest();
-    singleTestData.setDate(DateUtils.getDate(2020, Calendar.JULY, 28));
+    singleTestData.setDate(DateUtils.getDate(2020, Month.JULY, 28));
     singleTestData.setTime("18:45");
     singleTestData.setDuration("60");
     singleTestData.setPassword("goku-son");
@@ -105,7 +105,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
     testDataList.add(cardioTennisBookingRequest);
 
     BookingRequest sessionRequest2 = new BookingRequest();
-    sessionRequest2.setDate(DateUtils.getDate(2021, Calendar.JULY, 30));
+    sessionRequest2.setDate(DateUtils.getDate(2021, Month.JULY, 30));
     sessionRequest2.setTime("06:30");
     sessionRequest2.setDuration("45");
     sessionRequest2.setPassword("goku-son");
@@ -126,7 +126,7 @@ public class BookingRequestTestUtils extends AbstractTestUtils<BookingRequest, B
 
   private void initSessionRequest() {
     cardioTennisBookingRequest = new BookingRequest();
-    cardioTennisBookingRequest.setDate(DateUtils.getDate(2021, Calendar.JULY, 30));
+    cardioTennisBookingRequest.setDate(DateUtils.getDate(2021, Month.JULY, 30));
     cardioTennisBookingRequest.setTime("06:30");
     cardioTennisBookingRequest.setDuration("45");
     cardioTennisBookingRequest.setPassword("goku-son");

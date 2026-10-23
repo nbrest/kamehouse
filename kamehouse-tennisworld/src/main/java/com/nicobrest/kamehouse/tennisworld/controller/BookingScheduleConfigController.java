@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookingScheduleConfigController extends
     AbstractCrudController<BookingScheduleConfig, BookingScheduleConfigDto> {
 
-  private BookingScheduleConfigService bookingScheduleConfigService;
+  private final BookingScheduleConfigService bookingScheduleConfigService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-import static jakarta.persistence.TemporalType.DATE;
-
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
@@ -17,10 +15,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
 import jakarta.persistence.UniqueConstraint;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -86,8 +83,7 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
    */
   @Column(name = "booking_date", unique = false, nullable = false)
   @ColumnDefault(value = "'1984-10-15'")
-  @Temporal(DATE)
-  private Date bookingDate;
+  private LocalDate bookingDate;
 
   /**
    * Number of days ahead to execute the booking (For cardio sessions should be 14). The schedule
@@ -166,23 +162,15 @@ public class BookingScheduleConfig implements Identifiable, Serializable {
   /**
    * Get booking date.
    */
-  public Date getBookingDate() {
-    if (bookingDate != null) {
-      return (Date) bookingDate.clone();
-    } else {
-      return null;
-    }
+  public LocalDate getBookingDate() {
+    return bookingDate;
   }
 
   /**
    * Set booking date.
    */
-  public void setBookingDate(Date bookingDate) {
-    if (bookingDate != null) {
-      this.bookingDate = (Date) bookingDate.clone();
-    } else {
-      this.bookingDate = null;
-    }
+  public void setBookingDate(LocalDate bookingDate) {
+    this.bookingDate = bookingDate;
   }
 
   public Integer getBookAheadDays() {

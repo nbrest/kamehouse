@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
@@ -23,8 +24,9 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUt
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import org.apache.commons.codec.Charsets;
 import org.apache.http.HttpRequest;
@@ -87,14 +89,14 @@ class AbstractBookingServiceTest {
   @BeforeEach
   void init() throws Exception {
     bookingRequestTestUtils.initTestData();
+    MockitoAnnotations.openMocks(this);
     SampleBookingService bookingService = new SampleBookingService(bookingScheduleConfigService,
         bookingRequestService, bookingResponseService);
-    sampleBookingService = Mockito.spy(bookingService);
+    sampleBookingService = spy(bookingService);
     SampleBookingService.setSleepMs(0);
     bookingResponseTestUtils.initTestData();
     bookingScheduleConfigTestUtils.initTestData();
 
-    MockitoAnnotations.openMocks(this);
     Mockito.reset(httpClientMock);
     Mockito.reset(httpResponseMock);
 
@@ -118,6 +120,7 @@ class AbstractBookingServiceTest {
 
     dateUtilsMock = Mockito.mockStatic(DateUtils.class);
     when(DateUtils.getCurrentDate()).thenCallRealMethod();
+    when(DateUtils.getCurrentLocalDate()).thenCallRealMethod();
     when(DateUtils.getTwoWeeksFrom(any())).thenCallRealMethod();
     when(DateUtils.getDate(any(), any(), any())).thenCallRealMethod();
     when(DateUtils.getDate(any(), any(), any(), any(), any(), any())).thenCallRealMethod();
@@ -188,11 +191,11 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookRecurringScheduledSessionSuccessTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    LocalDateTime currentDate = DateUtils.getDate(2021, Month.JULY, 11, 23, 30, 15);
+    LocalDate bookingDate = DateUtils.getDate(2021, Month.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
-    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+    when(DateUtils.getDay(any(LocalDate.class))).thenReturn(DateUtils.Day.MONDAY);
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
@@ -223,13 +226,13 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookOneOffScheduledSessionSuccessTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    LocalDateTime currentDate = DateUtils.getDate(2021, Month.JULY, 11, 23, 30, 15);
+    LocalDate bookingDate = DateUtils.getDate(2021, Month.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
     when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
     when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
-    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+    when(DateUtils.getDay(any(LocalDate.class))).thenReturn(DateUtils.Day.MONDAY);
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();
     expected.getRequest().setScheduled(true);
@@ -259,13 +262,13 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookOneOffScheduledSessionErrorTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 30, 15);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    LocalDateTime currentDate = DateUtils.getDate(2021, Month.JULY, 11, 23, 30, 15);
+    LocalDate bookingDate = DateUtils.getDate(2021, Month.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
     when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
     when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
-    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+    when(DateUtils.getDay(any(LocalDate.class))).thenReturn(DateUtils.Day.MONDAY);
     when(bookingResponseService.readAll()).thenReturn(null);
 
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
@@ -297,13 +300,13 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookOneOffScheduledSessionValidDateBeforeSessionTimeTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 0, 15, 30);
-    Date bookingDate = DateUtils.getDate(2021, Calendar.JULY, 26);
+    LocalDateTime currentDate = DateUtils.getDate(2021, Month.JULY, 11, 0, 15, 30);
+    LocalDate bookingDate = DateUtils.getDate(2021, Month.JULY, 26);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     when(DateUtils.getDateFromToday(any())).thenReturn(bookingDate);
     when(DateUtils.isOnOrAfter(any(), any())).thenReturn(true);
     when(DateUtils.getDaysBetweenDates(any(), any())).thenReturn(14L);
-    when(DateUtils.getDay(any(Date.class))).thenReturn(DateUtils.Day.MONDAY);
+    when(DateUtils.getDay(any(LocalDate.class))).thenReturn(DateUtils.Day.MONDAY);
 
     BookingResponse expected = bookingResponseTestUtils.getTestDataList().get(2);
     expected.getRequest().setScheduled(true);
@@ -331,7 +334,7 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookAlreadySuccessfullyBookedSessionTest() {
-    Date currentDate = DateUtils.getDate(2020, Calendar.JULY, 28, 20, 15, 30);
+    LocalDateTime currentDate = DateUtils.getDate(2020, Month.JULY, 28, 20, 15, 30);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
     BookingResponse successfulBookingResponse = bookingResponseTestUtils.getSingleTestData();
     successfulBookingResponse.getRequest().setScheduled(true);
@@ -343,7 +346,7 @@ class AbstractBookingServiceTest {
         bookingScheduleConfigTestUtils.getSingleTestData();
     bookingScheduleConfig.setEnabled(true);
     bookingScheduleConfig.setTime("18:45");
-    bookingScheduleConfig.setBookingDate(DateUtils.getCurrentDate());
+    bookingScheduleConfig.setBookingDate(currentDate.toLocalDate());
     bookingScheduleConfig.setBookAheadDays(0);
     when(bookingScheduleConfigService.readAll()).thenReturn(List.of(bookingScheduleConfig));
 
@@ -388,7 +391,7 @@ class AbstractBookingServiceTest {
    */
   @Test
   void bookInvalidScheduledSessionTest() {
-    Date currentDate = DateUtils.getDate(2021, Calendar.JULY, 11, 23, 59, 59);
+    LocalDateTime currentDate = DateUtils.getDate(2021, Month.JULY, 11, 23, 59, 59);
     when(DateUtils.getCurrentDate()).thenReturn(currentDate);
 
     BookingResponse expected = bookingResponseTestUtils.getSingleTestData();

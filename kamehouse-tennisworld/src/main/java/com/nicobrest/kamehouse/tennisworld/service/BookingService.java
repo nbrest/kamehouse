@@ -18,8 +18,8 @@ import com.nicobrest.kamehouse.tennisworld.model.perfectgym.RequestBody;
 import com.nicobrest.kamehouse.tennisworld.model.scheduler.job.ScheduledBookingJob;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
@@ -51,9 +51,9 @@ public abstract class BookingService {
   private static int sleepMs = 500;
   private static int retrySleepMs = 5000;
 
-  private BookingScheduleConfigService bookingScheduleConfigService;
-  private BookingRequestService bookingRequestService;
-  private BookingResponseService bookingResponseService;
+  private final BookingScheduleConfigService bookingScheduleConfigService;
+  private final BookingRequestService bookingRequestService;
+  private final BookingResponseService bookingResponseService;
 
   /**
    * Autowired constructor.
@@ -165,7 +165,7 @@ public abstract class BookingService {
   protected static void sleep() {
     try {
       Thread.sleep(sleepMs);
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       Thread.currentThread().interrupt();
     }
   }
@@ -176,7 +176,7 @@ public abstract class BookingService {
   protected static void retrySleep() {
     try {
       Thread.sleep(retrySleepMs);
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       Thread.currentThread().interrupt();
     }
   }
@@ -317,7 +317,7 @@ public abstract class BookingService {
        * One-off scheduledBookingDate is set in the config. Check if the one-off booking should be
        * executed today.
        */
-      Date scheduledBookingDate = bookingScheduleConfig.getBookingDate();
+      LocalDate scheduledBookingDate = bookingScheduleConfig.getBookingDate();
       if (isValidBookingDate(scheduledBookingDate)
           && scheduledBookingDateMatchesBookAheadDays(bookingScheduleConfig)) {
         logger.debug("One-off scheduled booking date '{}' set and should be executed today",
@@ -330,7 +330,7 @@ public abstract class BookingService {
        * executed today.
        */
       int bookAheadDays = bookingScheduleConfig.getBookAheadDays();
-      Date calculatedBookingDate = DateUtils.getDateFromToday(bookAheadDays);
+      LocalDate calculatedBookingDate = DateUtils.getDateFromToday(bookAheadDays);
       DateUtils.Day configDay = bookingScheduleConfig.getDay();
       DateUtils.Day bookingDateDay = DateUtils.getDay(calculatedBookingDate);
       if (configDay == bookingDateDay) {
@@ -410,8 +410,8 @@ public abstract class BookingService {
   /**
    * Returns true if the bookingDate is on or after the current date.
    */
-  private boolean isValidBookingDate(Date bookingDate) {
-    return DateUtils.isOnOrAfter(DateUtils.getCurrentDate(), bookingDate);
+  private boolean isValidBookingDate(LocalDate bookingDate) {
+    return DateUtils.isOnOrAfter(DateUtils.getCurrentLocalDate(), bookingDate);
   }
 
   /**
@@ -419,8 +419,9 @@ public abstract class BookingService {
    */
   private boolean scheduledBookingDateMatchesBookAheadDays(
       BookingScheduleConfig bookingScheduleConfig) {
-    Date bookingDate = bookingScheduleConfig.getBookingDate();
-    long daysToBookingDate = DateUtils.getDaysBetweenDates(DateUtils.getCurrentDate(), bookingDate);
+    LocalDate bookingDate = bookingScheduleConfig.getBookingDate();
+    long daysToBookingDate =
+        DateUtils.getDaysBetweenDates(DateUtils.getCurrentLocalDate(), bookingDate);
     return daysToBookingDate == bookingScheduleConfig.getBookAheadDays();
   }
 
@@ -492,7 +493,7 @@ public abstract class BookingService {
   /**
    * Get the bookingDate calculated from the schedule config.
    */
-  private Date getBookingDateFromBookingScheduleConfig(
+  private LocalDate getBookingDateFromBookingScheduleConfig(
       BookingScheduleConfig bookingScheduleConfig) {
     if (bookingScheduleConfig.getBookingDate() != null) {
       return bookingScheduleConfig.getBookingDate();

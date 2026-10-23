@@ -24,7 +24,7 @@ public class TennisWorldUserService
     extends AbstractCrudService<TennisWorldUser, TennisWorldUserDto> {
 
   private static final TennisWorldUserDtoTranslator TRANSLATOR = new TennisWorldUserDtoTranslator();
-  private TennisWorldUserDao tennisWorldUserDao;
+  private final TennisWorldUserDao tennisWorldUserDao;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

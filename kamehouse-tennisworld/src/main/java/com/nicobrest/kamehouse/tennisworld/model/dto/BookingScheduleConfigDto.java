@@ -8,7 +8,7 @@ import com.nicobrest.kamehouse.tennisworld.model.Site;
 import com.nicobrest.kamehouse.tennisworld.model.TennisWorldUser;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -26,7 +26,7 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
   private Site site;
   private DateUtils.Day day;
   private String time;
-  private Date bookingDate;
+  private LocalDate bookingDate;
   private Integer bookAheadDays;
   private Boolean enabled;
   private String duration;
@@ -87,21 +87,15 @@ public class BookingScheduleConfigDto implements Identifiable, Serializable {
   /**
    * Get booking date.
    */
-  public Date getBookingDate() {
-    if (bookingDate != null) {
-      return (Date) bookingDate.clone();
-    } else {
-      return null;
-    }
+  public LocalDate getBookingDate() {
+    return bookingDate;
   }
 
   /**
    * Set booking date.
    */
-  public void setBookingDate(Date bookingDate) {
-    if (bookingDate != null) {
-      this.bookingDate = (Date) bookingDate.clone();
-    }
+  public void setBookingDate(LocalDate bookingDate) {
+    this.bookingDate = bookingDate;
   }
 
   public Integer getBookAheadDays() {

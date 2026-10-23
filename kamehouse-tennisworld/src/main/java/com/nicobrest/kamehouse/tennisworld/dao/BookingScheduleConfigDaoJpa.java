@@ -4,8 +4,8 @@ import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingScheduleConfig;
 import jakarta.persistence.EntityManagerFactory;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +26,8 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
   /**
    * Get default booking date.
    */
-  public static Date getDefaultBookingDate() {
-    return DateUtils.getDate(1984, Calendar.OCTOBER, 15);
+  public static LocalDate getDefaultBookingDate() {
+    return DateUtils.getDate(1984, Month.OCTOBER, 15);
   }
 
   @Override
@@ -94,7 +94,7 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
    */
   private void setDefaultBookingDate(BookingScheduleConfig entity) {
     if (entity.getBookingDate() == null) {
-      logger.trace("Setting default booking date for entity {}", entity);
+      STATIC_LOGGER.trace("Setting default booking date for entity {}", entity);
       entity.setBookingDate(getDefaultBookingDate());
     }
   }
@@ -104,13 +104,13 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
    * other layers, if the value is the default, it should be treated as null.
    */
   private void unsetDefaultBookingDate(BookingScheduleConfig entity) {
-    Date bookingDate = entity.getBookingDate();
+    LocalDate bookingDate = entity.getBookingDate();
     if (bookingDate == null) {
       return;
     }
     String formattedBookingDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, bookingDate);
     if (DEFAULT_BOOKING_DATE_STR.equals(formattedBookingDate)) {
-      logger.trace("Removing default booking date for entity {}", entity);
+      STATIC_LOGGER.trace("Removing default booking date for entity {}", entity);
       entity.setBookingDate(null);
     }
   }

@@ -22,7 +22,7 @@ public class BookingResponseService
 
   private static final BookingResponseDtoTranslator TRANSLATOR =
       new BookingResponseDtoTranslator();
-  private CrudDao<BookingResponse> bookingResponseDao;
+  private final CrudDao<BookingResponse> bookingResponseDao;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

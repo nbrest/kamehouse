@@ -18,8 +18,8 @@ public enum Site {
   ALBERT_RESERVE("Tennis World - Albert Reserve", "Tennis World Albert Reserve"),
   MELBOURNE_PARK("Tennis World - Melbourne Park", "Tennis World Melbourne");
 
-  private String activeCarrotName;
-  private String perfectGymName;
+  private final String activeCarrotName;
+  private final String perfectGymName;
 
   Site(String activeCarrotName, String perfectGymName) {
     this.activeCarrotName = activeCarrotName;

@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TennisWorldUserController extends
     AbstractCrudController<TennisWorldUser, TennisWorldUserDto> {
 
-  private TennisWorldUserService tennisWorldUserService;
+  private final TennisWorldUserService tennisWorldUserService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

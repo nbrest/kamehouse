@@ -1,7 +1,5 @@
 package com.nicobrest.kamehouse.tennisworld.model;
 
-import static jakarta.persistence.TemporalType.DATE;
-
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.model.PasswordEntity;
@@ -16,10 +14,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
 import jakarta.persistence.Transient;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.CreationTimestamp;
@@ -51,8 +49,7 @@ public class BookingRequest implements PasswordEntity<String>, Identifiable, Ser
    * Format yyyy-mm-dd.
    */
   @Column(name = "date", unique = false, nullable = false)
-  @Temporal(DATE)
-  private Date date;
+  private LocalDate date;
 
   /**
    * Format: HH:MM 24hs : 07:15, 11:30, 20:15, etc.
@@ -82,7 +79,7 @@ public class BookingRequest implements PasswordEntity<String>, Identifiable, Ser
 
   @CreationTimestamp
   @Column(name = "creation_date", unique = false, nullable = false)
-  private Date creationDate = DateUtils.getCurrentDate();
+  private LocalDateTime creationDate = DateUtils.getCurrentDate();
 
   @Column(name = "scheduled", unique = false, nullable = false)
   private boolean scheduled = false;
@@ -120,23 +117,15 @@ public class BookingRequest implements PasswordEntity<String>, Identifiable, Ser
   /**
    * Get booking date.
    */
-  public Date getDate() {
-    if (date != null) {
-      return (Date) date.clone();
-    } else {
-      return null;
-    }
+  public LocalDate getDate() {
+    return date;
   }
 
   /**
    * Set booking date.
    */
-  public void setDate(Date date) {
-    if (date != null) {
-      this.date = (Date) date.clone();
-    } else {
-      this.date = null;
-    }
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
   public String getTime() {
@@ -192,23 +181,15 @@ public class BookingRequest implements PasswordEntity<String>, Identifiable, Ser
   /**
    * Get date.
    */
-  public Date getCreationDate() {
-    if (creationDate != null) {
-      return (Date) creationDate.clone();
-    } else {
-      return null;
-    }
+  public LocalDateTime getCreationDate() {
+    return creationDate;
   }
 
   /**
    * Set date.
    */
-  public void setCreationDate(Date creationDate) {
-    if (creationDate != null) {
-      this.creationDate = (Date) creationDate.clone();
-    } else {
-      this.creationDate = null;
-    }
+  public void setCreationDate(LocalDateTime creationDate) {
+    this.creationDate = creationDate;
   }
 
   public boolean isScheduled() {

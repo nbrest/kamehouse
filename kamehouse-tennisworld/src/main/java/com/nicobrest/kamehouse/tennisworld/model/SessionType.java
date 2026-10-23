@@ -40,8 +40,8 @@ public enum SessionType {
   UNKNOWN("Unknown session type",
       "Unknown session type");
 
-  private String activeCarrotName;
-  private String perfectGymName;
+  private final String activeCarrotName;
+  private final String perfectGymName;
 
   SessionType(String activeCarrotName, String perfectGymName) {
     this.activeCarrotName = activeCarrotName;

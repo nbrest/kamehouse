@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/tennis-world")
 public class BookingController extends AbstractController {
 
-  private BookingService bookingService;
+  private final BookingService bookingService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -47,13 +47,13 @@ public class BookingController extends AbstractController {
     BookingResponse bookingResponse = bookingService.book(bookingRequest);
     switch (bookingResponse.getStatus()) {
       case ERROR:
-        if (logger.isErrorEnabled()) {
-          logger.error("Response {}", StringUtils.sanitize(bookingResponse));
+        if (STATIC_LOGGER.isErrorEnabled()) {
+          STATIC_LOGGER.error("Response {}", StringUtils.sanitize(bookingResponse));
         }
         return new ResponseEntity<>(bookingResponse, HttpStatus.BAD_REQUEST);
       case INTERNAL_ERROR:
-        if (logger.isErrorEnabled()) {
-          logger.error("Response {}", StringUtils.sanitize(bookingResponse));
+        if (STATIC_LOGGER.isErrorEnabled()) {
+          STATIC_LOGGER.error("Response {}", StringUtils.sanitize(bookingResponse));
         }
         return new ResponseEntity<>(bookingResponse, HttpStatus.INTERNAL_SERVER_ERROR);
       default:

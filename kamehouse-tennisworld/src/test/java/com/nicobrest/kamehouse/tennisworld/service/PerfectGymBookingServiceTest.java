@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.service;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.EncryptionUtils;
@@ -78,15 +79,15 @@ class PerfectGymBookingServiceTest {
   @BeforeEach
   void init() throws Exception {
     bookingRequestTestUtils.initTestData();
+    MockitoAnnotations.openMocks(this);
     PerfectGymBookingService perfectGymBookingService = new PerfectGymBookingService(
         bookingScheduleConfigService, bookingRequestService, bookingResponseService);
-    perfectGymBookingServiceSpy = Mockito.spy(perfectGymBookingService);
+    perfectGymBookingServiceSpy = spy(perfectGymBookingService);
     PerfectGymBookingService.setSleepMs(0);
     PerfectGymBookingService.setRetrySleepMs(0);
     bookingResponseTestUtils.initTestData();
     bookingScheduleConfigTestUtils.initTestData();
 
-    MockitoAnnotations.openMocks(this);
     Mockito.reset(httpClientMock);
     Mockito.reset(httpResponseMock);
 

@@ -9,7 +9,7 @@ import com.nicobrest.kamehouse.tennisworld.model.BookingResponse;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.dto.BookingResponseDto;
 import com.nicobrest.kamehouse.tennisworld.service.BookingService;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
    * Update response with request data.
    */
   public static void updateResponseWithRequestData(
-      BookingResponse response, Date date, String time, SessionType sessionType, String duration) {
+      BookingResponse response, LocalDate date, String time, SessionType sessionType, String duration) {
     response.getRequest().setDate(date);
     response.getRequest().setDuration(duration);
     response.getRequest().setTime(time);

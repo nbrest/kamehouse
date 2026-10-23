@@ -2,13 +2,15 @@ package com.nicobrest.kamehouse.tennisworld.model.dto;
 
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import com.nicobrest.kamehouse.commons.dao.Identifiable;
+import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import com.nicobrest.kamehouse.tennisworld.model.SessionType;
 import com.nicobrest.kamehouse.tennisworld.model.Site;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -25,14 +27,14 @@ public class BookingRequestDto implements Identifiable, Serializable {
   private String username;
   @Masked
   private String password;
-  private Date date;
+  private LocalDate date;
   private String time;
   private Site site;
   private SessionType sessionType;
   private String duration;
   private BookingRequest.CardDetails cardDetails;
   private boolean dryRun = false;
-  private Date creationDate = new Date();
+  private LocalDateTime creationDate = DateUtils.getCurrentDate();
   private boolean scheduled = false;
   private Integer courtNumber = 0;
   private Integer retries;
@@ -66,23 +68,15 @@ public class BookingRequestDto implements Identifiable, Serializable {
   /**
    * Get booking date.
    */
-  public Date getDate() {
-    if (date != null) {
-      return (Date) date.clone();
-    } else {
-      return null;
-    }
+  public LocalDate getDate() {
+    return date;
   }
 
   /**
    * Set booking date.
    */
-  public void setDate(Date date) {
-    if (date != null) {
-      this.date = (Date) date.clone();
-    } else {
-      this.date = null;
-    }
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
   public String getTime() {
@@ -138,23 +132,15 @@ public class BookingRequestDto implements Identifiable, Serializable {
   /**
    * Get date.
    */
-  public Date getCreationDate() {
-    if (creationDate != null) {
-      return (Date) creationDate.clone();
-    } else {
-      return null;
-    }
+  public LocalDateTime getCreationDate() {
+    return creationDate;
   }
 
   /**
    * Set date.
    */
-  public void setCreationDate(Date creationDate) {
-    if (creationDate != null) {
-      this.creationDate = (Date) creationDate.clone();
-    } else {
-      this.creationDate = null;
-    }
+  public void setCreationDate(LocalDateTime creationDate) {
+    this.creationDate = creationDate;
   }
 
   public boolean isScheduled() {

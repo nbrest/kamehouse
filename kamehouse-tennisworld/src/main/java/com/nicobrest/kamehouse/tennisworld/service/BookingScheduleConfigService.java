@@ -31,8 +31,8 @@ public class BookingScheduleConfigService
   private static final Pattern TIME_PATTERN = Pattern.compile("\\d{2}:\\d{2}");
   private static final Pattern DURATION_PATTERN = Pattern.compile("\\d{1,3}");
 
-  private CrudDao<BookingScheduleConfig> bookingScheduleConfigDao;
-  private TennisWorldUserService tennisWorldUserService;
+  private final CrudDao<BookingScheduleConfig> bookingScheduleConfigDao;
+  private final TennisWorldUserService tennisWorldUserService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -98,7 +98,7 @@ public class BookingScheduleConfigService
     try {
       TennisWorldUser tennisWorldUser = tennisWorldUserService.getByEmail(email);
       dto.setTennisWorldUser(tennisWorldUser);
-    } catch (KameHouseNotFoundException e) {
+    } catch (KameHouseNotFoundException _) {
       throw new KameHouseInvalidDataException("User not found for email: " + email);
     }
   }

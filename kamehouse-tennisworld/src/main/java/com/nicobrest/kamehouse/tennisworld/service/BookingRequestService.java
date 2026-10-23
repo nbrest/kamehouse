@@ -25,7 +25,7 @@ public class BookingRequestService extends AbstractCrudService<BookingRequest, B
   private static final Pattern TIME_PATTERN = Pattern.compile("\\d{2}:\\d{2}");
   private static final Pattern DURATION_PATTERN = Pattern.compile("\\d{1,3}");
 
-  private CrudDao<BookingRequest> bookingRequestDao;
+  private final CrudDao<BookingRequest> bookingRequestDao;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
