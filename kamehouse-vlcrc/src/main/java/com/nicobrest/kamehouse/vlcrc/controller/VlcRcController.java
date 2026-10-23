@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/vlc-rc/players")
 public class VlcRcController extends AbstractKameHouseCommandController {
 
-  private VlcRcService vlcRcService;
+  private final VlcRcService vlcRcService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

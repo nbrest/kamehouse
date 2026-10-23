@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/vlc-rc")
 public class VlcPlayerController extends AbstractCrudController<VlcPlayer, VlcPlayerDto> {
 
-  private VlcPlayerService vlcPlayerService;
+  private final VlcPlayerService vlcPlayerService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

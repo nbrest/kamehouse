@@ -28,8 +28,8 @@ public class VlcRcWebSocketController {
 
   private static final String LOCALHOST = "localhost";
 
-  private SimpMessagingTemplate messagingTemplate;
-  private VlcRcService vlcRcService;
+  private final SimpMessagingTemplate messagingTemplate;
+  private final VlcRcService vlcRcService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

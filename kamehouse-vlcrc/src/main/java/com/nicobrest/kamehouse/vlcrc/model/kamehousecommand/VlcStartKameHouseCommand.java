@@ -19,7 +19,7 @@ public class VlcStartKameHouseCommand extends KameHouseShellScript {
   public VlcStartKameHouseCommand(String filename) {
     super();
     InputValidator.validateForbiddenCharsForShell(filename);
-    this.filename = filename.replace("\\", "/");
+    this.filename = filename == null ? null : filename.replace("\\", "/");
   }
 
   @Override

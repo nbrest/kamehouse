@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.utils.HttpClientUtils;
 import com.nicobrest.kamehouse.vlcrc.testutils.VlcPlayerTestUtils;
@@ -52,7 +53,7 @@ class VlcPlayerTest {
   @BeforeEach
   void init() throws Exception {
     vlcPlayerTestUtils.initTestData();
-    vlcPlayer = Mockito.spy(vlcPlayerTestUtils.getSingleTestData());
+    vlcPlayer = spy(vlcPlayerTestUtils.getSingleTestData());
     vlcRcStatusTestUtils.initTestData();
     expectedVlcRcStatus = vlcRcStatusTestUtils.getSingleTestData();
     vlcRcPlaylistTestUtils.initTestData();

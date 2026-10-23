@@ -21,7 +21,7 @@ public class VlcRcService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private VlcPlayerService vlcPlayerService;
+  private final VlcPlayerService vlcPlayerService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

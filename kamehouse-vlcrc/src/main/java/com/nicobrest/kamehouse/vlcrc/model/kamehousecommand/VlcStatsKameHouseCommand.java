@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class VlcStatsKameHouseCommand extends KameHouseShellScript {
 
-  private boolean updateStats;
+  private final boolean updateStats;
 
   public VlcStatsKameHouseCommand(boolean updateStats) {
     this.updateStats = updateStats;

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class VlcPlayerService extends AbstractCrudService<VlcPlayer, VlcPlayerDto> {
 
   private static final VlcPlayerDtoTranslator TRANSLATOR = new VlcPlayerDtoTranslator();
-  private VlcPlayerDao vlcPlayerDao;
+  private final VlcPlayerDao vlcPlayerDao;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

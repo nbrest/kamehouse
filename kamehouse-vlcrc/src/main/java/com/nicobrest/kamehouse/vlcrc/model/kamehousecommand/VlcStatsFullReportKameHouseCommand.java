@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class VlcStatsFullReportKameHouseCommand extends KameHouseShellScript {
 
-  private boolean updateStats;
+  private final boolean updateStats;
 
   public VlcStatsFullReportKameHouseCommand(boolean updateStats) {
     this.updateStats = updateStats;

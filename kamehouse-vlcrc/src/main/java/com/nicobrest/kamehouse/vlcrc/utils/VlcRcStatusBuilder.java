@@ -297,7 +297,7 @@ public class VlcRcStatusBuilder {
     audio.setLanguage(JsonUtils.getText(jsonNode, LANGUAGE_CC));
     audio.setType(JsonUtils.getText(jsonNode, TYPE_CC));
     audio.setName(name);
-    audio.setNumber(name.replaceAll("[^0-9]", ""));
+    audio.setNumber(name.replaceAll("\\D", ""));
     audio.setBitrate(JsonUtils.getText(jsonNode, "Bitrate"));
     audio.setChannels(JsonUtils.getText(jsonNode, "Channels"));
     audio.setSampleRate(JsonUtils.getText(jsonNode, "Sample_rate"));
@@ -315,7 +315,7 @@ public class VlcRcStatusBuilder {
     subtitle.setType(JsonUtils.getText(jsonNode, TYPE_CC));
     subtitle.setDescription(JsonUtils.getText(jsonNode, DESCRIPTION_CC));
     subtitle.setName(name);
-    subtitle.setNumber(name.replaceAll("[^0-9]", ""));
+    subtitle.setNumber(name.replaceAll("\\D", ""));
     information.addSubtitle(subtitle);
   }
 }

@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.vlcrc.controller;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;
@@ -87,7 +88,7 @@ class VlcRcWebSocketControllerTest {
    */
   @Test
   void getVlcRcStatusKameHouseNotFoundExceptionTest() {
-    Mockito.doThrow(new KameHouseNotFoundException("Entity not found"))
+    doThrow(new KameHouseNotFoundException("Entity not found"))
         .when(vlcRcServiceMock)
         .getVlcRcStatus("localhost");
     VlcRcStatus emptyVlcRcStatus = new VlcRcStatus();
@@ -130,7 +131,7 @@ class VlcRcWebSocketControllerTest {
    */
   @Test
   void getVlcRcPlaylistKameHouseNotFoundExceptionTest() {
-    Mockito.doThrow(new KameHouseNotFoundException("Entity not found"))
+    doThrow(new KameHouseNotFoundException("Entity not found"))
         .when(vlcRcServiceMock)
         .getVlcRcStatus("localhost");
     List<VlcRcPlaylistItem> emptyList = new ArrayList<>();
