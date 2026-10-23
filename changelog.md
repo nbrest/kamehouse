@@ -7,6 +7,7 @@
 
 #### v11.05
 
+- Added AGENTS.md - Turned to the dark side
 - Added lockscreen notification on android with ztv player status and controls
 - Updated kamehouse-mobile android build to use java 21 and gradle 8
 - Moved project from maven to gradle 9
