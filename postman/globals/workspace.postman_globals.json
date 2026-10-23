@@ -1,0 +1,91 @@
+{
+	"id": "a7916064-d14e-411c-817b-85812401cf25",
+	"values": [
+		{
+			"key": "API_VERSION",
+			"value": "v1",
+			"enabled": true
+		},
+		{
+			"key": "INVALID_ID",
+			"value": "999888777666555444",
+			"enabled": true
+		},
+		{
+			"key": "INVALID_USERNAME",
+			"value": "ZZZXXXCCCVVVBBBNNNMMM",
+			"enabled": true
+		},
+		{
+			"key": "INVALID_EMAIL",
+			"value": "ZZZXXXCCCVVVBBBNNNMMM@dragonball.com",
+			"enabled": true
+		},
+		{
+			"key": "INVALID_PATH",
+			"value": "/invalid/path",
+			"enabled": true
+		},
+		{
+			"key": "INVALID_HOSTNAME",
+			"value": "ZZZ-XXX-CCC-VVV-BBB-NNN-MMM",
+			"enabled": true
+		},
+		{
+			"key": "username",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "currentDate",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "tennisWorldUser",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "tennisWorldPassword",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "tennisWorldToken",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "futureDate",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "cpBookFacilitySessionId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2026-04-29T17:55:00.006Z",
+	"_postman_exported_using": "Postman/11.72.3"
+}
