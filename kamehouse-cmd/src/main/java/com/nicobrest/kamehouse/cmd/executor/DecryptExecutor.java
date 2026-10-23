@@ -24,6 +24,7 @@ public class DecryptExecutor implements Executor {
   private static final String STDOUT = "stdout";
 
   @Override
+  @SuppressWarnings("java:S106")
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");

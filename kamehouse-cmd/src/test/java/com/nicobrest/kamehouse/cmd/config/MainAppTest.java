@@ -51,7 +51,7 @@ class MainAppTest {
    */
   @Test
   void decryptSuccessfulTest() throws IOException {
-    String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.dec"};
+    String[] args = {"-o", "decrypt", "-if", "in.enc", "-of", "out.dec"};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
     });
@@ -67,7 +67,7 @@ class MainAppTest {
    */
   @Test
   void encryptSuccessfulTest() throws IOException {
-    String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc", "-v"};
+    String[] args = {"-o", "encrypt", "-if", "in.txt", "-of", "out.enc", "-v"};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
     });
@@ -83,7 +83,7 @@ class MainAppTest {
    */
   @Test
   void jVncSenderTextTest() {
-    String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
+    String[] args = {"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
         "-password", "", "-text", "<ESC>"};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
@@ -95,7 +95,7 @@ class MainAppTest {
    */
   @Test
   void jVncSenderMouseClickTest() {
-    String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
+    String[] args = {"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
         "-password", "", "-mouseClick", "LEFT,100,100,1"};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
@@ -107,7 +107,7 @@ class MainAppTest {
    */
   @Test
   void jVncSenderNoTextOrMouseClickTest() {
-    String[] args = new String[]{"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
+    String[] args = {"-o", "jvncsender", "-host", "invalid-server", "-port", "5900",
         "-password", ""};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);
@@ -119,7 +119,7 @@ class MainAppTest {
    */
   @Test
   void wolTest() {
-    String[] args = new String[]{"-o", "wol", "-mac", "AA:BB:CC:DD:EE:FF", "-broadcast",
+    String[] args = {"-o", "wol", "-mac", "AA:BB:CC:DD:EE:FF", "-broadcast",
         "192.168.29.255"};
     Assertions.assertDoesNotThrow(() -> {
       MainApp.main(args);

@@ -21,11 +21,11 @@ public class KameHouseCmdExecutor {
   private final Logger logger = LoggerFactory.getLogger(KameHouseCmdExecutor.class);
   private static final String TRACE = "TRACE";
 
-  private LogLevelManagerService logLevelManagerService;
-  private DecryptExecutor decryptExecutor;
-  private EncryptExecutor encryptExecutor;
-  private JvncSenderExecutor jvncSenderExecutor;
-  private WolExecutor wolExecutor;
+  private final LogLevelManagerService logLevelManagerService;
+  private final DecryptExecutor decryptExecutor;
+  private final EncryptExecutor encryptExecutor;
+  private final JvncSenderExecutor jvncSenderExecutor;
+  private final WolExecutor wolExecutor;
 
   /**
    * Autowired constructor.

@@ -45,7 +45,7 @@ public class CmdArgumentHandler {
     ROOT_OPTIONS.add(new Option("h", "help", false, "Show help"));
     ROOT_OPTIONS.add(
         new Option("o", "operation", true, "Operation to execute: " + VALID_OPERATIONS));
-    ROOT_OPTIONS.stream().forEach(ROOT_OPTIONS_GROUP::addOption);
+    ROOT_OPTIONS.forEach(ROOT_OPTIONS_GROUP::addOption);
     ROOT_OPTIONS_GROUP.setRequired(true);
     ALL_OPTIONS.addOptionGroup(ROOT_OPTIONS_GROUP);
 
@@ -145,7 +145,7 @@ public class CmdArgumentHandler {
     String operationArgument = commandLine.getOptionValue("o").toUpperCase(Locale.getDefault());
     try {
       operation = Operation.valueOf(operationArgument);
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException _) {
       logger.error("Invalid operation {}. Valid values: {}", operationArgument, VALID_OPERATIONS);
       help();
     }
@@ -194,8 +194,7 @@ public class CmdArgumentHandler {
    * Parse operation options.
    */
   private void parseOperation(List<String> operationOptions) {
-    operationOptions.stream()
-        .forEach(
+    operationOptions.forEach(
             option -> {
               if (!hasArgument(option)) {
                 logger.error("Argument {} is missing", option);

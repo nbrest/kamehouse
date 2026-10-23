@@ -35,7 +35,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void encryptSuccessfulTest() {
-    String[] args = new String[]{"-o", "encrypt", "-if", "in.txt", "-of", "out.enc"};
+    String[] args = {"-o", "encrypt", "-if", "in.txt", "-of", "out.enc"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertEquals(Operation.ENCRYPT, cmdArgumentHandler.getOperation());
@@ -48,7 +48,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void encryptErrorTest() {
-    String[] args = new String[]{"-o", "encrypt", "-if", "in.txt"};
+    String[] args = {"-o", "encrypt", "-if", "in.txt"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertEquals(Operation.ENCRYPT, cmdArgumentHandler.getOperation());
@@ -61,7 +61,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void decryptSuccessfulTest() {
-    String[] args = new String[]{"-o", "decrypt", "-if", "in.enc", "-of", "out.txt"};
+    String[] args = {"-o", "decrypt", "-if", "in.enc", "-of", "out.txt"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertEquals(Operation.DECRYPT, cmdArgumentHandler.getOperation());
@@ -75,7 +75,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void jvncSenderTextSuccessfulTest() {
-    String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
+    String[] args = {"-o", "jvncsender", "-host", "goku-server", "-password",
         "gokupass", "-port", "5900", "-text", "madamadadane"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -91,7 +91,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void jvncSenderMouseClickSuccessfulTest() {
-    String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
+    String[] args = {"-o", "jvncsender", "-host", "goku-server", "-password",
         "gokupass", "-port", "5900", "-mouseClick", "LEFT,100,100,1"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -107,7 +107,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void jvncSenderNoTextOrMouseClickErrorTest() {
-    String[] args = new String[]{"-o", "jvncsender", "-host", "goku-server", "-password",
+    String[] args = {"-o", "jvncsender", "-host", "goku-server", "-password",
         "gokupass", "-port", "5900"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -123,7 +123,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void wolSuccessfulTest() {
-    String[] args = new String[]{"-o", "wol", "-mac", "aa:bb:cc:dd:ee", "-broadcast",
+    String[] args = {"-o", "wol", "-mac", "aa:bb:cc:dd:ee", "-broadcast",
         "192.168.29.255"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
@@ -137,7 +137,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void helpTest() {
-    String[] args = new String[]{"-h"};
+    String[] args = {"-h"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertNull(cmdArgumentHandler.getOperation());
@@ -150,7 +150,7 @@ class CmdArgumentHandlerTest {
    */
   @Test
   void invalidOperationTest() {
-    String[] args = new String[]{"-o", "dinner-out"};
+    String[] args = {"-o", "dinner-out"};
     CmdArgumentHandler cmdArgumentHandler = new CmdArgumentHandler(args);
     assertNotNull(cmdArgumentHandler);
     assertNull(cmdArgumentHandler.getOperation());

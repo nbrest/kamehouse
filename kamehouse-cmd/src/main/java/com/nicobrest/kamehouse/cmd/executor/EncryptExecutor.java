@@ -22,6 +22,7 @@ public class EncryptExecutor implements Executor {
   private final Logger logger = LoggerFactory.getLogger(EncryptExecutor.class);
 
   @Override
+  @SuppressWarnings("java:S106")
   public void execute(CmdArgumentHandler cmdArgumentHandler) {
     String inputFileName = cmdArgumentHandler.getArgument("if");
     String outputFileName = cmdArgumentHandler.getArgument("of");
