@@ -369,10 +369,10 @@ public class ZtvLockscreenService extends Service {
    */
   private void parseStatus(String response) {
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
-    playbackState = status.playbackState();
-    title = status.title();
-    currentTime = status.currentTime();
-    totalTime = status.totalTime();
+    playbackState = status.getPlaybackState();
+    title = status.getTitle();
+    currentTime = status.getCurrentTime();
+    totalTime = status.getTotalTime();
   }
 
   /**
@@ -589,6 +589,7 @@ public class ZtvLockscreenService extends Service {
   /**
    * Open an http connection with the configured credentials.
    */
+  @SuppressWarnings("java:S6201")
   private HttpURLConnection openConnection(String requestUrl) throws IOException {
     URL url = new URL(requestUrl);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -600,8 +601,8 @@ public class ZtvLockscreenService extends Service {
       String basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
       connection.setRequestProperty("Authorization", basicAuth);
     }
-    if (skipSslCheck && connection instanceof HttpsURLConnection httpsConnection) {
-      disableSslCheck(httpsConnection);
+    if (skipSslCheck && connection instanceof HttpsURLConnection) {
+      disableSslCheck((HttpsURLConnection) connection);
     }
     return connection;
   }

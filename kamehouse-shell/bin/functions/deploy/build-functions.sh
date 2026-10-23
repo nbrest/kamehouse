@@ -322,7 +322,14 @@ syncStaticFilesOnMobile() {
 }
 
 setGradleForAndroidInPath() {
-  local GRADLE_DIR=$(find "${HOME}/.gradle/wrapper/dists" -maxdepth 3 -type d -path "*/gradle-${GRADLE_ANDROID_VERSION}-*/gradle-${GRADLE_ANDROID_VERSION}" 2>/dev/null | xargs -I{} ls -dt {} 2>/dev/null | head -1)
+  local GRADLE_DIR=$(findGradleDistribution "${GRADLE_ANDROID_VERSION}")
+  if [ -z "${GRADLE_DIR}" ]; then
+    local GRADLE_WRAPPER_VERSION=$(grep -E '^distributionUrl=' "${PROJECT_DIR}/gradle/wrapper/gradle-wrapper.properties" | sed -E 's#.*gradle-([0-9.]+)-(bin|all)\.zip#\1#')
+    if [ -n "${GRADLE_WRAPPER_VERSION}" ]; then
+      log.debug "Gradle ${GRADLE_ANDROID_VERSION} distribution not found. Using gradle ${GRADLE_WRAPPER_VERSION} to install the cordova android gradle wrapper"
+      GRADLE_DIR=$(findGradleDistribution "${GRADLE_WRAPPER_VERSION}")
+    fi
+  fi
   if [ -n "${GRADLE_DIR}" ] && [ -d "${GRADLE_DIR}/bin" ]; then
     export PATH="${GRADLE_DIR}/bin:${PATH}"
     GRADLE_ANDROID_PATH_ADDED="${GRADLE_DIR}/bin"
@@ -330,6 +337,11 @@ setGradleForAndroidInPath() {
     return
   fi
   log.error "Unable to find gradle for android distribution"
+}
+
+findGradleDistribution() {
+  local GRADLE_VERSION=$1
+  find "${HOME}/.gradle/wrapper/dists" -maxdepth 3 -type d -path "*/gradle-${GRADLE_VERSION}-*/gradle-${GRADLE_VERSION}" 2>/dev/null | xargs -I{} ls -dt {} 2>/dev/null | head -1
 }
 
 restoreGradlePathForJavaBuild() {
