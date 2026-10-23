@@ -17,7 +17,7 @@ public class JspViewResolverController extends AbstractController {
   /** View resolver for the jsp app pages. */
   @GetMapping(path = "/jsp/**")
   public String jsp(HttpServletRequest request, HttpServletResponse response) {
-    logger.debug("/jsp/** (GET) with path: {}", request.getServletPath());
+    STATIC_LOGGER.debug("/jsp/** (GET) with path: {}", request.getServletPath());
     if (request.getServletPath().endsWith("/")) {
       return request.getServletPath() + "index";
     } else {

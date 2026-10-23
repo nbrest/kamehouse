@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TestWebSocketController {
 
-  private TestWebSocketService testWebSocketService;
+  private final TestWebSocketService testWebSocketService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

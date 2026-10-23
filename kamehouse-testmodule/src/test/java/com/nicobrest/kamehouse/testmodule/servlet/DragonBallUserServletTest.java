@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
@@ -16,7 +17,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -49,7 +49,7 @@ class DragonBallUserServletTest {
   void init() {
     initTestData();
     MockitoAnnotations.openMocks(this);
-    dragonBallUserServlet = Mockito.spy(new DragonBallUserServlet());
+    dragonBallUserServlet = spy(new DragonBallUserServlet());
     doNothing().when(dragonBallUserServlet).authorize(any(),any());
   }
 

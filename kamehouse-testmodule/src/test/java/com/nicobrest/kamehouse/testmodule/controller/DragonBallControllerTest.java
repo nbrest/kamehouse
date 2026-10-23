@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.controller;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
 import com.nicobrest.kamehouse.commons.controller.AbstractCrudControllerTest;
@@ -20,7 +21,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import jakarta.servlet.ServletException;
@@ -137,7 +137,7 @@ class DragonBallControllerTest
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseNotFoundException(""))
+          doThrow(new KameHouseNotFoundException(""))
               .when(dragonBallUserServiceMock)
               .getByUsername(DragonBallUserTestUtils.INVALID_USERNAME);
 

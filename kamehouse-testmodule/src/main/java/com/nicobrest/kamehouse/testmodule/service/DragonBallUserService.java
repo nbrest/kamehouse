@@ -27,7 +27,7 @@ public class DragonBallUserService extends AbstractCrudService<DragonBallUser, D
   private static final String GET_DRAGONBALLUSER = "Get DragonBallUser: {}";
   private static final String GET_DRAGONBALLUSER_RESPONSE = "Get DragonBallUser: {} response {}";
 
-  private DragonBallUserDao dragonBallUserDao;
+  private final DragonBallUserDao dragonBallUserDao;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

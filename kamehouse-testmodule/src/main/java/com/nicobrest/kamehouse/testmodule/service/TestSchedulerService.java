@@ -27,9 +27,9 @@ public class TestSchedulerService {
       + "trigger will never fire";
   private static final String SAMPLE_JOB_TRIGGER = "sampleJobTrigger";
 
-  private Scheduler scheduler;
+  private final Scheduler scheduler;
   private JobDetail sampleJobDetail;
-  private Trigger sampleTrigger;
+  private final Trigger sampleTrigger;
 
   /**
    * Autowired constructor.

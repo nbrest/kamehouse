@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.testmodule.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Test WebSocket response message.
@@ -11,7 +11,7 @@ import java.util.Date;
 public class TestWebSocketResponseMessage {
 
   private String message;
-  private Date date = null;
+  private LocalDateTime date = null;
 
   public String getMessage() {
     return message;
@@ -21,12 +21,12 @@ public class TestWebSocketResponseMessage {
     this.message = message;
   }
 
-  public Date getDate() {
-    return (date != null ? (Date) date.clone() : null);
+  public LocalDateTime getDate() {
+    return date;
   }
 
-  public void setDate(Date date) {
-    this.date = (date != null ? (Date) date.clone() : null);
+  public void setDate(LocalDateTime date) {
+    this.date = date;
   }
 
   @Override

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
@@ -80,7 +81,7 @@ class TestSchedulerControllerTest
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseServerErrorException(""))
+          doThrow(new KameHouseServerErrorException(""))
               .when(testSchedulerService)
               .cancelScheduledSampleJob();
 

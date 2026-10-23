@@ -28,8 +28,8 @@ public class DragonBallUserDaoInMemory implements DragonBallUserDao {
   private static final String DBUSER_WITH_USERNAME = "DragonBallUser with username ";
   private static final String NOT_FOUND_IN_REPOSITORY = " was not found in the repository.";
 
-  private DragonBallUser gohanDragonBallUser;
-  private DragonBallUser gotenDragonBallUser;
+  private final DragonBallUser gohanDragonBallUser;
+  private final DragonBallUser gotenDragonBallUser;
 
   /**
    * Autowired constructor.

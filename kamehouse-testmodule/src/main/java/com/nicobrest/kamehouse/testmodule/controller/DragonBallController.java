@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DragonBallController extends
     AbstractCrudController<DragonBallUser, DragonBallUserDto> {
 
-  private DragonBallUserService dragonBallUserService;
+  private final DragonBallUserService dragonBallUserService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -73,6 +73,9 @@ public class DragonBallController extends
       @RequestParam(value = "action", required = false, defaultValue = "goku") String action) {
     // switch to test parameters and exception handlers
     String actionSanitized = StringUtils.sanitize(action);
+    if (actionSanitized == null) {
+      actionSanitized = "";
+    }
     switch (actionSanitized) {
       case "KameHouseNotFoundException":
         throw new KameHouseNotFoundException("*** KameHouseNotFoundException in getUsers ***");

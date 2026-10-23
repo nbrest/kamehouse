@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.testmodule.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -58,7 +58,7 @@ class JspViewResolverControllerTest extends AbstractControllerTest<ModelAndView,
   /** Tests test module jsp view generated from the source url. */
   private void jspUrlTest(String sourceUrl, String expectedView) {
     HttpServletRequestWrapper request =
-        Mockito.spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
+        spy(new HttpServletRequestWrapper(new MockHttpServletRequest()));
     when(request.getServletPath()).thenReturn(sourceUrl);
 
     String testModuleJspView = jspViewResolverController.jsp(request, response);

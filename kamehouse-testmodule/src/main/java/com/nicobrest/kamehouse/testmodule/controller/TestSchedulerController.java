@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/test-module/test-scheduler")
 public class TestSchedulerController extends AbstractController {
 
-  private TestSchedulerService testSchedulerService;
+  private final TestSchedulerService testSchedulerService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

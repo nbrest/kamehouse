@@ -102,18 +102,18 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   @Override
   @Cacheable(value = DRAGONBALL_USER_BY_USERNAME_CACHE)
   public DragonBallUser getByUsername(String username) {
-    logger.trace(GET_DRAGONBALLUSER, username);
+    STATIC_LOGGER.trace(GET_DRAGONBALLUSER, username);
     DragonBallUser dragonBallUser = findByUsername(DragonBallUser.class, username);
-    logger.trace(GET_DRAGONBALLUSER_RESPONSE, username, dragonBallUser);
+    STATIC_LOGGER.trace(GET_DRAGONBALLUSER_RESPONSE, username, dragonBallUser);
     return dragonBallUser;
   }
 
   @Override
   @Cacheable(value = DRAGONBALL_USER_BY_EMAIL_CACHE)
   public DragonBallUser getByEmail(String email) {
-    logger.trace(GET_DRAGONBALLUSER, email);
+    STATIC_LOGGER.trace(GET_DRAGONBALLUSER, email);
     DragonBallUser dragonBallUser = findByEmail(DragonBallUser.class, email);
-    logger.trace(GET_DRAGONBALLUSER_RESPONSE, email, dragonBallUser);
+    STATIC_LOGGER.trace(GET_DRAGONBALLUSER_RESPONSE, email, dragonBallUser);
     return dragonBallUser;
   }
 }
