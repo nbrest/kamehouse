@@ -20,7 +20,7 @@ import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDtoTranslator;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCmdKameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.MouseClickJvncSenderKameHouseCommand;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.TextJvncSenderKameHouseCommand;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
@@ -109,7 +109,7 @@ class CommonsCoreModelTest {
     kameHouseUserDto1.setLastName("son");
     kameHouseUserDto1.setId(1L);
     kameHouseUserDto1.setEnabled(true);
-    kameHouseUserDto1.setLastLogin(new Date());
+    kameHouseUserDto1.setLastLogin(LocalDateTime.now());
     new KameHouseUserDtoTranslator().buildEntity(kameHouseUserDto1);
 
     KameHouseUserDto kameHouseUserDto2 = new KameHouseUserDto();
@@ -161,7 +161,7 @@ class CommonsCoreModelTest {
     kameHouseUser1.setLastName("son");
     kameHouseUser1.setId(1L);
     kameHouseUser1.setEnabled(true);
-    kameHouseUser1.setLastLogin(new Date());
+    kameHouseUser1.setLastLogin(LocalDateTime.now());
     kameHouseUser1.addAuthority(new KameHouseRole());
     kameHouseUser1.removeAuthority(new KameHouseRole());
     new KameHouseUserDtoTranslator().buildDto(kameHouseUser1);

@@ -4,10 +4,19 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.nicobrest.kamehouse.commons.annotations.Masked.MaskedUtils;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,18 +34,34 @@ public class JsonUtils {
       "{\"message\": \"Error: Unable to convert object to json string.\"}";
   private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
   private static final String FIELD_MASK = "****";
-  private static final ObjectMapper MAPPER = new ObjectMapper();
   private static final String DATE_FORMAT = "yyyy-MM-dd' 'HH:mm:ss";
+  private static final ObjectMapper MAPPER = createMapper();
 
   private JsonUtils() {
     throw new IllegalStateException("Utility class");
+  }
+
+  private static ObjectMapper createMapper() {
+    JavaTimeModule javaTimeModule = new JavaTimeModule();
+    javaTimeModule.addSerializer(LocalDateTime.class,
+        new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    javaTimeModule.addDeserializer(LocalDateTime.class,
+        new LocalDateTimeDeserializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    javaTimeModule.addSerializer(LocalDate.class,
+        new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
+    javaTimeModule.addDeserializer(LocalDate.class,
+        new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(javaTimeModule);
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    return mapper;
   }
 
   /**
    * Converts an object to a JSON byte array.
    */
   public static byte[] toJsonByteArray(Object object) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = createMapper();
     mapper.setSerializationInclusion(Include.NON_NULL);
     return mapper.writeValueAsBytes(object);
   }
@@ -48,11 +73,11 @@ public class JsonUtils {
     if (objectString == null) {
       return null;
     }
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = createMapper();
     mapper.setSerializationInclusion(Include.NON_NULL);
     try {
       return mapper.readTree(objectString);
-    } catch (IOException e) {
+    } catch (IOException _) {
       LOGGER.warn("Unable to map '{}' to a json object", objectString);
       return null;
     }
@@ -205,7 +230,7 @@ public class JsonUtils {
     }
     try {
       new JSONObject(text);
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       return false;
     }
     return true;
@@ -220,7 +245,7 @@ public class JsonUtils {
     }
     try {
       new JSONArray(text);
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       return false;
     }
     return true;

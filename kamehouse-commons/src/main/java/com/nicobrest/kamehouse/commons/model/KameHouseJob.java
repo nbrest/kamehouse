@@ -2,8 +2,8 @@ package com.nicobrest.kamehouse.commons.model;
 
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -151,7 +151,7 @@ public class KameHouseJob {
 
     private Key key;
     private String description;
-    private Date nextRun;
+    private LocalDateTime nextRun;
     private int priority;
 
     @SuppressFBWarnings(value = "EI_EXPOSE_REP")
@@ -172,12 +172,12 @@ public class KameHouseJob {
       this.description = description;
     }
 
-    public Date getNextRun() {
-      return (nextRun != null ? (Date) nextRun.clone() : null);
+    public LocalDateTime getNextRun() {
+      return nextRun;
     }
 
-    public void setNextRun(Date nextRun) {
-      this.nextRun = (nextRun != null ? (Date) nextRun.clone() : null);
+    public void setNextRun(LocalDateTime nextRun) {
+      this.nextRun = nextRun;
     }
 
     public int getPriority() {

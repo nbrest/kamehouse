@@ -232,14 +232,14 @@ class EncryptionUtilsTest {
     try {
       X509Certificate cert = EncryptionUtils.getKameHouseCertificate();
       assertNotNull(cert);
-    } catch (KameHouseInvalidDataException e) {
+    } catch (KameHouseInvalidDataException _) {
       System.out.println("Can't find kamehouse certificate. Expected exception thrown");
     }
 
     try {
       PrivateKey key = EncryptionUtils.getKameHousePrivateKey();
       assertNotNull(key);
-    } catch (KameHouseInvalidDataException e) {
+    } catch (KameHouseInvalidDataException _) {
       System.out.println("Can't find kamehouse private key. Expected exception thrown");
     }
   }

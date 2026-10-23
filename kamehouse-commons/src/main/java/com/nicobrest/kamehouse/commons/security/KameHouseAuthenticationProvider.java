@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KameHouseAuthenticationProvider implements AuthenticationProvider {
 
-  private KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
+  private final KameHouseUserAuthenticationService kameHouseUserAuthenticationService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

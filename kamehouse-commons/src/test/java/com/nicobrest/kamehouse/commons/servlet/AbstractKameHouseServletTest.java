@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseConflictException;
@@ -28,7 +29,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -73,7 +73,7 @@ class AbstractKameHouseServletTest {
   @BeforeEach
   void init() {
     MockitoAnnotations.openMocks(this);
-    sampleKameHouseServlet = Mockito.spy(new SampleKameHouseServlet());
+    sampleKameHouseServlet = spy(new SampleKameHouseServlet());
     doReturn(sessionRepository).when(sampleKameHouseServlet).getSessionRepository(any());
     doReturn(session).when(sessionRepository).findById(any());
     doReturn(securityContext).when(session).getAttribute(any());

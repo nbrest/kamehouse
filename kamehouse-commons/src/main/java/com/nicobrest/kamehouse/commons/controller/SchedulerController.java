@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/commons/scheduler")
 public class SchedulerController extends AbstractController {
 
-  private SchedulerService schedulerService;
+  private final SchedulerService schedulerService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

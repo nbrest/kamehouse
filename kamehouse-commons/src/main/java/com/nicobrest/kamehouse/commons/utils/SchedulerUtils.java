@@ -1,6 +1,6 @@
 package com.nicobrest.kamehouse.commons.utils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobDetail;
 import org.quartz.ScheduleBuilder;
@@ -22,8 +22,8 @@ public class SchedulerUtils {
   /** Creates a trigger for the specified delay in seconds and JobDetail. */
   public static Trigger getTrigger(
       int delay, JobDetail jobDetail, String triggerName, String triggerDescription) {
-    Date currentDate = DateUtils.getCurrentDate();
-    Date scheduleDate = DateUtils.addSeconds(currentDate, delay);
+    LocalDateTime currentDate = DateUtils.getCurrentDate();
+    LocalDateTime scheduleDate = DateUtils.addSeconds(currentDate, delay);
     String cronExpression = DateUtils.toCronExpression(scheduleDate);
     ScheduleBuilder<?> scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
     return TriggerBuilder.newTrigger()

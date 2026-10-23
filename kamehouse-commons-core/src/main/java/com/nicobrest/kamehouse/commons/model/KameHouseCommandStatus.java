@@ -9,7 +9,7 @@ public enum KameHouseCommandStatus {
   RUNNING("running")
   ;
 
-  private String status;
+  private final String status;
 
   KameHouseCommandStatus(String status) {
     this.status = status;

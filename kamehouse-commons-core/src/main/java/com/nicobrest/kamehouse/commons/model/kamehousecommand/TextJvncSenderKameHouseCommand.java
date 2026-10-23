@@ -10,7 +10,7 @@ import com.nicobrest.kamehouse.jvncsender.VncServer;
  */
 public class TextJvncSenderKameHouseCommand extends JvncSenderKameHouseCommand {
 
-  private String text;
+  private final String text;
 
   /**
    * Setup jvncsender text kamehouse command.

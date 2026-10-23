@@ -106,7 +106,7 @@ public abstract class AbstractCrudDaoJpaTest
   @Test
   void createConflictExceptionTest() {
     if (!hasUniqueConstraints()) {
-      logger.info("Skipping createConflictExceptionTest");
+      STATIC_LOGGER.info("Skipping createConflictExceptionTest");
       return;
     }
     assertThrows(

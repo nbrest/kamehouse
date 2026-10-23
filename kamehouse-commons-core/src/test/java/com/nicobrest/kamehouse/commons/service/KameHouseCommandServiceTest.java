@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.commons.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;
@@ -50,7 +51,7 @@ class KameHouseCommandServiceTest {
     propertiesUtils = Mockito.mockStatic(PropertiesUtils.class);
     processUtils = Mockito.mockStatic(ProcessUtils.class);
     dockerUtils = Mockito.mockStatic(DockerUtils.class);
-    kameHouseCommandService = Mockito.spy(new KameHouseCommandService());
+    kameHouseCommandService = spy(new KameHouseCommandService());
     when(ProcessUtils.waitFor(any(), any())).thenReturn(true);
     when(PropertiesUtils.isWindowsHost()).thenReturn(true);
     when(DockerUtils.getHostname()).thenReturn("kamehouse-server");

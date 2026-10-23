@@ -63,13 +63,13 @@ public class EncryptionUtils {
   static {
     try {
       kamehousePrivateKey = getKameHousePrivateKey();
-    } catch (KameHouseInvalidDataException e) {
+    } catch (KameHouseInvalidDataException _) {
       kamehousePrivateKey = null;
     }
 
     try {
       kamehouseCertificate = getKameHouseCertificate();
-    } catch (KameHouseInvalidDataException e) {
+    } catch (KameHouseInvalidDataException _) {
       kamehouseCertificate = null;
     }
   }

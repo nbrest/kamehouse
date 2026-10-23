@@ -14,7 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -53,7 +53,7 @@ public class KameHouseUser implements PasswordEntity<String>, Identifiable, User
   private String lastName;
 
   @Column(name = "last_login")
-  private Date lastLogin;
+  private LocalDateTime lastLogin;
 
   /* Spring Security related fields
    *
@@ -133,23 +133,15 @@ public class KameHouseUser implements PasswordEntity<String>, Identifiable, User
   /**
    * Get last login date.
    */
-  public Date getLastLogin() {
-    if (lastLogin != null) {
-      return (Date) lastLogin.clone();
-    } else {
-      return null;
-    }
+  public LocalDateTime getLastLogin() {
+    return lastLogin;
   }
 
   /**
    * Set last login date.
    */
-  public void setLastLogin(Date lastLogin) {
-    if (lastLogin != null) {
-      this.lastLogin = (Date) lastLogin.clone();
-    } else {
-      this.lastLogin = null;
-    }
+  public void setLastLogin(LocalDateTime lastLogin) {
+    this.lastLogin = lastLogin;
   }
 
   @Override

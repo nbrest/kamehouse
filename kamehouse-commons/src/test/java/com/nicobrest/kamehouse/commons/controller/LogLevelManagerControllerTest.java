@@ -213,7 +213,7 @@ class LogLevelManagerControllerTest extends AbstractControllerTest<List<String>,
   }
 
   /**
-   * Assert that two lists of strings are equal. TODO: Make this generic and put it in a test
+   * Assert that two lists of strings are equal. This should be made generic and moved to a test
    * utility class.
    */
   private void assertEqualsStringList(List<String> expected, List<String> returned) {

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class GetKameHouseSecretKameHouseCommand extends KameHouseShellScript {
 
-  private String secretKey;
+  private final String secretKey;
 
   /**
    * Sets the command line for each operation required for this KameHouseCommand.

@@ -32,7 +32,7 @@ public class SchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private ApplicationContext applicationContext;
+  private final ApplicationContext applicationContext;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

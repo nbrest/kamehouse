@@ -81,7 +81,7 @@ public abstract class JvncSenderKameHouseCommand extends KameHouseCmdKameHouseCo
         vncServerPass = FileUtils.EMPTY_FILE_CONTENT;
       }
       return vncServerPass;
-    } catch (KameHouseInvalidDataException e) {
+    } catch (KameHouseInvalidDataException _) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }
   }

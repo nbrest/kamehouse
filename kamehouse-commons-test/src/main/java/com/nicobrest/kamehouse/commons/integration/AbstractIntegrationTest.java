@@ -14,7 +14,7 @@ public abstract class AbstractIntegrationTest {
   protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private String protocol;
-  private String hostname;
+  private final String hostname;
   private String port;
 
   /**

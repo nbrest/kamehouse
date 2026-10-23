@@ -132,10 +132,10 @@ public class KameHouseCommandResult {
     COLOR_MAPPINGS.forEach(
         (bashColor, htmlColor) -> htmlOutput[0] = htmlOutput[0].replaceAll(bashColor, htmlColor));
     // Remove the special character added in my bash color mappings
-    htmlOutput[0] = htmlOutput[0].replaceAll("", "");
-    htmlOutput[0] = htmlOutput[0].replaceAll("\\x1B", "");
-    htmlOutput[0] = htmlOutput[0].replaceAll("\\x1b", "");
-    htmlOutput[0] = htmlOutput[0].replaceAll("</span>ain]", "[main]");
+    htmlOutput[0] = htmlOutput[0].replace("\u001B", "");
+    htmlOutput[0] = htmlOutput[0].replace("\\x1B", "");
+    htmlOutput[0] = htmlOutput[0].replace("\\x1b", "");
+    htmlOutput[0] = htmlOutput[0].replace("</span>ain]", "[main]");
     return htmlOutput[0];
   }
 

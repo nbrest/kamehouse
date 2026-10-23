@@ -355,6 +355,7 @@ dependencies {
   // Jackson
   dep 'api', "com.fasterxml.jackson.core:jackson-core:${versionOf('jackson.version')}"
   dep 'api', "com.fasterxml.jackson.core:jackson-databind:${versionOf('jackson.version')}"
+  dep 'api', "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versionOf('jackson.version')}"
 
   // Logging
   dep 'api', "ch.qos.logback:logback-classic:${versionOf('logback.version')}", rootProject.ext.commonsLoggingExclusion

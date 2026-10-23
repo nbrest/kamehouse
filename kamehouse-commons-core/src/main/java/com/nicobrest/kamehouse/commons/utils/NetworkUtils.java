@@ -72,7 +72,7 @@ public class NetworkUtils {
         macAddressBytes[i] = (byte) Integer.parseInt(hex[i], 16);
       }
       return macAddressBytes;
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       throw new KameHouseBadRequestException("Invalid MAC address " + macAddress);
     }
   }

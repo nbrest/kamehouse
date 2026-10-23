@@ -107,7 +107,7 @@ public abstract class AbstractControllerTest<E, D> {
    */
   protected static <T> T getResponseBody(MockHttpServletResponse response, Class<T> clazz)
       throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     return mapper.readValue(response.getContentAsString(),
         mapper.getTypeFactory().constructType(clazz));
   }
@@ -117,7 +117,7 @@ public abstract class AbstractControllerTest<E, D> {
    */
   protected static <T> List<T> getResponseBodyList(MockHttpServletResponse response, Class<T> clazz)
       throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     return mapper.readValue(response.getContentAsString(),
         mapper.getTypeFactory().constructCollectionType(List.class, clazz));
   }

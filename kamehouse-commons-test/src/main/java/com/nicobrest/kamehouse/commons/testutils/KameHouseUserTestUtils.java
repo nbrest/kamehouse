@@ -8,7 +8,8 @@ import com.nicobrest.kamehouse.commons.model.KameHouseRole;
 import com.nicobrest.kamehouse.commons.model.KameHouseUser;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseRoleDto;
 import com.nicobrest.kamehouse.commons.model.dto.KameHouseUserDto;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -97,7 +98,7 @@ public class KameHouseUserTestUtils extends AbstractTestUtils<KameHouseUser, Kam
     testDataDto.setAccountNonLocked(true);
     testDataDto.setCredentialsNonExpired(true);
     testDataDto.setEnabled(true);
-    testDataDto.setLastLogin(new Date());
+    testDataDto.setLastLogin(LocalDateTime.now(ZoneId.systemDefault()));
     KameHouseRoleDto kameHouseRoleDto = new KameHouseRoleDto();
     kameHouseRoleDto.setId(null);
     kameHouseRoleDto.setName("ROLE_KAMISAMA");

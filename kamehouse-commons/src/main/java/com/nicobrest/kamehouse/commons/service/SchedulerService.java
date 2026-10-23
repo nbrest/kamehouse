@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.model.KameHouseJob;
 import com.nicobrest.kamehouse.commons.utils.SchedulerUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class SchedulerService {
       "Based on configured schedule, the given " + "trigger will never fire";
   private static final String TRIGGER = "-trigger";
 
-  private Scheduler scheduler;
+  private final Scheduler scheduler;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -111,7 +112,9 @@ public class SchedulerService {
                 new KameHouseJob.Key(trigger.getKey().getGroup(), trigger.getKey().getName());
             schedule.setKey(triggerKey);
             schedule.setDescription(trigger.getDescription());
-            schedule.setNextRun(trigger.getNextFireTime());
+            schedule.setNextRun(trigger.getNextFireTime() == null ? null
+                : trigger.getNextFireTime().toInstant().atZone(ZoneId.systemDefault())
+                    .toLocalDateTime());
             schedule.setPriority(trigger.getPriority());
 
             schedules.add(schedule);

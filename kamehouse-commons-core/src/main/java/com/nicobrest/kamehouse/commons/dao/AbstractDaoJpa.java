@@ -36,7 +36,6 @@ public abstract class AbstractDaoJpa<E> {
   private static final String ILLEGAL_ARGUMENT =
       "IllegalArgumentException. There was an error in the input of the request. Message: ";
   protected static final Logger STATIC_LOGGER = LoggerFactory.getLogger(AbstractDaoJpa.class);
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   private EntityManagerFactory entityManagerFactory;
 
@@ -63,7 +62,7 @@ public abstract class AbstractDaoJpa<E> {
     EntityManager em = getEntityManager();
     List<E> entitiesList = null;
     try {
-      logger.debug("findAll all {} maxRows: {}, sortColumn: {}, sortAscending: {}",
+      STATIC_LOGGER.debug("findAll all {} maxRows: {}, sortColumn: {}, sortAscending: {}",
           clazz.getSimpleName(), maxRows, sortColumn, sortAscending);
       em.getTransaction().begin();
       CriteriaQuery<E> criteriaQuery = em.getCriteriaBuilder().createQuery(clazz);
@@ -81,7 +80,7 @@ public abstract class AbstractDaoJpa<E> {
       }
       entitiesList = typedQuery.getResultList();
       em.getTransaction().commit();
-      logger.trace("findAll {} response {}", clazz.getSimpleName(), entitiesList);
+      STATIC_LOGGER.trace("findAll {} response {}", clazz.getSimpleName(), entitiesList);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
@@ -99,7 +98,7 @@ public abstract class AbstractDaoJpa<E> {
     EntityManager em = getEntityManager();
     E entity = null;
     try {
-      logger.debug("findById {}", id);
+      STATIC_LOGGER.debug("findById {}", id);
       em.getTransaction().begin();
       /*
        * find: returns the entity from the EntityManager if its already in memory.
@@ -111,10 +110,10 @@ public abstract class AbstractDaoJpa<E> {
       em.getTransaction().commit();
       if (entity == null) {
         String warnMessage = clazz.getSimpleName() + WITH_ID + id + NOT_FOUND_IN_REPOSITORY;
-        logger.warn(warnMessage);
+        STATIC_LOGGER.warn(warnMessage);
         throw new KameHouseNotFoundException(warnMessage);
       }
-      logger.trace("findById {} response {}", id, entity);
+      STATIC_LOGGER.trace("findById {} response {}", id, entity);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
@@ -146,7 +145,7 @@ public abstract class AbstractDaoJpa<E> {
     EntityManager em = getEntityManager();
     E entity = null;
     try {
-      logger.debug("findByAttribute {} {}", attributeName, attributeValue);
+      STATIC_LOGGER.debug("findByAttribute {} {}", attributeName, attributeValue);
       em.getTransaction().begin();
       String parameterName = "p" + attributeName;
       Query query =
@@ -160,7 +159,8 @@ public abstract class AbstractDaoJpa<E> {
       query.setParameter(parameterName, attributeValue);
       entity = (E) query.getSingleResult();
       em.getTransaction().commit();
-      logger.trace("findByAttribute {} {} response {}", attributeName, attributeValue, entity);
+      STATIC_LOGGER.trace("findByAttribute {} {} response {}", attributeName, attributeValue,
+          entity);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
@@ -191,20 +191,20 @@ public abstract class AbstractDaoJpa<E> {
   protected void updateEntityInRepository(Class<E> clazz, E entity, Long entityId) {
     EntityManager em = getEntityManager();
     try {
-      logger.trace("updateEntityInRepository {}", clazz.getSimpleName());
+      STATIC_LOGGER.trace("updateEntityInRepository {}", clazz.getSimpleName());
       em.getTransaction().begin();
       E persistedEntity = em.find(clazz, entityId);
       if (persistedEntity != null) {
         updateEntityValues(persistedEntity, entity);
-        em.merge(persistedEntity);
+        persistedEntity = em.merge(persistedEntity);
       }
       em.getTransaction().commit();
       if (persistedEntity == null) {
         String warnMessage = clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY;
-        logger.warn(warnMessage);
+        STATIC_LOGGER.warn(warnMessage);
         throw new KameHouseNotFoundException(warnMessage);
       }
-      logger.trace("updateEntityInRepository {} completed successfully", entity);
+      STATIC_LOGGER.trace("updateEntityInRepository {} completed successfully", entity);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
@@ -226,7 +226,7 @@ public abstract class AbstractDaoJpa<E> {
     EntityManager em = getEntityManager();
     E entityToRemove = null;
     try {
-      logger.debug("deleteEntityFromRepository {}", entityId);
+      STATIC_LOGGER.debug("deleteEntityFromRepository {}", entityId);
       em.getTransaction().begin();
       entityToRemove = em.find(clazz, entityId);
       if (entityToRemove != null) {
@@ -235,10 +235,10 @@ public abstract class AbstractDaoJpa<E> {
       em.getTransaction().commit();
       if (entityToRemove == null) {
         String warnMessage = clazz.getSimpleName() + WITH_ID + entityId + NOT_FOUND_IN_REPOSITORY;
-        logger.warn(warnMessage);
+        STATIC_LOGGER.warn(warnMessage);
         throw new KameHouseNotFoundException(warnMessage);
       }
-      logger.trace("deleteEntityFromRepository {} response {}", entityId, entityToRemove);
+      STATIC_LOGGER.trace("deleteEntityFromRepository {} response {}", entityId, entityToRemove);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {
@@ -256,11 +256,11 @@ public abstract class AbstractDaoJpa<E> {
     E addedEntity = null;
     EntityManager em = getEntityManager();
     try {
-      logger.debug("addEntityToRepository {}", entity.getClass().getSimpleName());
+      STATIC_LOGGER.debug("addEntityToRepository {}", entity.getClass().getSimpleName());
       em.getTransaction().begin();
       addedEntity = addFunction.apply(em, entity);
       em.getTransaction().commit();
-      logger.trace("addEntityToRepository {} response {}", entity, addedEntity);
+      STATIC_LOGGER.trace("addEntityToRepository {} response {}", entity, addedEntity);
     } catch (PersistenceException pe) {
       handlePersistentException(pe);
     } catch (IllegalArgumentException e) {

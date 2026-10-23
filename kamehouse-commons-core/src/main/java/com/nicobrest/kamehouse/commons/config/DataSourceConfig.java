@@ -20,7 +20,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 @PropertySource("classpath:jdbc.properties")
 public class DataSourceConfig {
 
-  private Environment env;
+  private final Environment env;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

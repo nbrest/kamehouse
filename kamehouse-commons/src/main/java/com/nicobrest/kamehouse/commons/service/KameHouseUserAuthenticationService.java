@@ -22,8 +22,8 @@ public class KameHouseUserAuthenticationService implements UserDetailsService {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private KameHouseUserAuthenticationDao kameHouseUserAuthenticationDao;
-  private KameHouseUser anonymousUser;
+  private final KameHouseUserAuthenticationDao kameHouseUserAuthenticationDao;
+  private final KameHouseUser anonymousUser;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

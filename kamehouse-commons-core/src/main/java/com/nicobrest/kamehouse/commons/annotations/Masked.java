@@ -76,7 +76,7 @@ public @interface Masked {
             Object fieldValue = field.get(object);
             populateMaskedFieldsList(fieldValue, maskedFields, parentNode + field.getName());
             field.setAccessible(currentAccessibility);
-          } catch (IllegalAccessException e) {
+          } catch (IllegalAccessException _) {
             LOGGER.trace("Error accessing object field to get masked fields. Field: {}",
                 field.getName());
           }

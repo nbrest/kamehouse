@@ -156,7 +156,7 @@ class AbstractCrudControllerUnitTest {
    */
   @Test
   void generatePutResponseEntityTest() {
-    ResponseEntity<Void> responseEntity = TestEntityCrudController.generatePutResponseEntity();
+    ResponseEntity<Void> responseEntity = TestEntityCrudController.generatePutResponseEntityForTest();
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
   }
@@ -195,7 +195,7 @@ class AbstractCrudControllerUnitTest {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
-          TestEntityCrudController.validatePathAndRequestBodyIds(null, null);
+          TestEntityCrudController.validatePathAndRequestBodyIdsForTest(null, null);
         });
   }
 
@@ -207,7 +207,7 @@ class AbstractCrudControllerUnitTest {
     assertThrows(
         KameHouseBadRequestException.class,
         () -> {
-          TestEntityCrudController.validatePathAndRequestBodyIds(1L, 2L);
+          TestEntityCrudController.validatePathAndRequestBodyIdsForTest(1L, 2L);
         });
   }
 

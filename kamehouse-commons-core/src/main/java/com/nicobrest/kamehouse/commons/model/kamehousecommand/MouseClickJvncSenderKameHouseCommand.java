@@ -10,10 +10,10 @@ import com.nicobrest.kamehouse.jvncsender.VncServer;
  */
 public class MouseClickJvncSenderKameHouseCommand extends JvncSenderKameHouseCommand {
 
-  private MouseButton mouseButton;
-  private Integer positionX;
-  private Integer positionY;
-  private Integer clickCount;
+  private final MouseButton mouseButton;
+  private final Integer positionX;
+  private final Integer positionY;
+  private final Integer clickCount;
 
   /**
    * Setup jvncsender left mouse click kamehouse command.

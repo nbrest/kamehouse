@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
  */
 public abstract class AbstractKameHouseCommandController extends AbstractController {
 
-  private KameHouseCommandService kameHouseCommandService;
+  private final KameHouseCommandService kameHouseCommandService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -30,7 +30,7 @@ public abstract class AbstractKameHouseCommandController extends AbstractControl
    */
   public ResponseEntity<List<KameHouseCommandResult>> execKameHouseCommands(
       List<KameHouseCommand> kameHouseCommands) {
-    logger.trace("Executing command {}", kameHouseCommands);
+    STATIC_LOGGER.trace("Executing command {}", kameHouseCommands);
     List<KameHouseCommandResult> kameHouseCommandResults = kameHouseCommandService.execute(
         kameHouseCommands);
     return generateResponseEntity(kameHouseCommandResults);

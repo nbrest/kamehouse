@@ -22,19 +22,20 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public Long create(E entity) {
-    logger.debug("Create {}", getEntityClass().getSimpleName());
+    STATIC_LOGGER.debug("Create {}", getEntityClass().getSimpleName());
     persistEntityInRepository(entity);
     Identifiable identifiableEntity = (Identifiable) entity;
     Long createdId = identifiableEntity.getId();
-    logger.trace("Create {} {} response {}", getEntityClass().getSimpleName(), entity, createdId);
+    STATIC_LOGGER.trace("Create {} {} response {}", getEntityClass().getSimpleName(), entity,
+        createdId);
     return createdId;
   }
 
   @Override
   public E read(Long id) {
-    logger.debug("Read {} {}", getEntityClass().getSimpleName(), id);
+    STATIC_LOGGER.debug("Read {} {}", getEntityClass().getSimpleName(), id);
     E entity = findById(getEntityClass(), id);
-    logger.trace("Read {} {} response {}", getEntityClass().getSimpleName(), id, entity);
+    STATIC_LOGGER.trace("Read {} {} response {}", getEntityClass().getSimpleName(), id, entity);
     return entity;
   }
 
@@ -45,28 +46,30 @@ public abstract class AbstractCrudDaoJpa<E> extends AbstractDaoJpa<E> implements
 
   @Override
   public List<E> readAll(Integer maxRows, String sortColumn, Boolean sortAscending) {
-    logger.debug("Read all {} maxRows: {}, sortColumn: {}, sortAscending: {}",
+    STATIC_LOGGER.debug("Read all {} maxRows: {}, sortColumn: {}, sortAscending: {}",
         getEntityClass().getSimpleName(), maxRows, sortColumn, sortAscending);
     List<E> returnedEntities = findAll(getEntityClass(), maxRows, sortColumn, sortAscending);
-    logger.trace("ReadAll {} response {}", getEntityClass().getSimpleName(), returnedEntities);
+    STATIC_LOGGER.trace("ReadAll {} response {}", getEntityClass().getSimpleName(),
+        returnedEntities);
     return returnedEntities;
   }
 
   @Override
   public void update(E entity) {
-    logger.debug("Update {}", getEntityClass().getSimpleName());
+    STATIC_LOGGER.debug("Update {}", getEntityClass().getSimpleName());
     Identifiable identifiableEntity = (Identifiable) entity;
     updateEntityInRepository(getEntityClass(), entity, identifiableEntity.getId());
-    if (logger.isTraceEnabled()) {
-      logger.trace("Update {} completed successfully", StringUtils.sanitize(entity));
+    if (STATIC_LOGGER.isTraceEnabled()) {
+      STATIC_LOGGER.trace("Update {} completed successfully", StringUtils.sanitize(entity));
     }
   }
 
   @Override
   public E delete(Long id) {
-    logger.debug("Delete {} {}", getEntityClass().getSimpleName(), id);
+    STATIC_LOGGER.debug("Delete {} {}", getEntityClass().getSimpleName(), id);
     E deletedEntity = deleteEntityFromRepository(getEntityClass(), id);
-    logger.trace("Delete {} {} response {}", getEntityClass().getSimpleName(), id, deletedEntity);
+    STATIC_LOGGER.trace("Delete {} {} response {}", getEntityClass().getSimpleName(), id,
+        deletedEntity);
     return deletedEntity;
   }
 }

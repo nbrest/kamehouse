@@ -30,10 +30,6 @@ public abstract class AbstractKameHouseCommandControllerTest
   @Mock
   protected KameHouseCommandService kameHouseCommandService;
 
-  protected AbstractKameHouseCommandControllerTest() {
-    kameHouseCommandControllerTestSetup();
-  }
-
   /**
    * Setup test data and mocks for KameHouseCommand controller tests.
    */
@@ -42,9 +38,16 @@ public abstract class AbstractKameHouseCommandControllerTest
     testUtils.initTestData();
     kameHouseCommandResults = testUtils.getTestDataList();
 
-    MockitoAnnotations.openMocks(this);
-    Mockito.reset(kameHouseCommandService);
-    when(kameHouseCommandService.execute(any(List.class)))
+    KameHouseCommandService commandService = kameHouseCommandService;
+    if (commandService == null) {
+      MockitoAnnotations.openMocks(this);
+      commandService = kameHouseCommandService;
+    }
+    if (commandService == null) {
+      throw new IllegalStateException("kameHouseCommandService mock was not initialized");
+    }
+    Mockito.reset(commandService);
+    when(commandService.execute(any(List.class)))
         .thenReturn(kameHouseCommandResults);
   }
 

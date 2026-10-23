@@ -6,7 +6,7 @@ import com.nicobrest.kamehouse.commons.dao.Identifiable;
 import com.nicobrest.kamehouse.commons.utils.JsonUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -27,7 +27,7 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   private String email;
   private String firstName;
   private String lastName;
-  private Date lastLogin;
+  private LocalDateTime lastLogin;
   @Masked
   @JsonManagedReference
   private Set<KameHouseRoleDto> authorities;
@@ -89,21 +89,15 @@ public class KameHouseUserDto implements Identifiable, Serializable {
   /**
    * Get last login date.
    */
-  public Date getLastLogin() {
-    if (lastLogin != null) {
-      return (Date) lastLogin.clone();
-    } else {
-      return null;
-    }
+  public LocalDateTime getLastLogin() {
+    return lastLogin;
   }
 
   /**
    * Set last login date.
    */
-  public void setLastLogin(Date lastLogin) {
-    if (lastLogin != null) {
-      this.lastLogin = (Date) lastLogin.clone();
-    }
+  public void setLastLogin(LocalDateTime lastLogin) {
+    this.lastLogin = lastLogin;
   }
 
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")

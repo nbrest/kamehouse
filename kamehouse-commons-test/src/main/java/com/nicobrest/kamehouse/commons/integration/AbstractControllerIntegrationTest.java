@@ -59,7 +59,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
     if (login) {
       try {
         login();
-      } catch (IOException e) {
+      } catch (IOException _) {
         logger.info("Error logging in to {}", getLoginUrl());
         throw new KameHouseException("Error logging in to " + getLoginUrl());
       }
@@ -136,7 +136,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
    */
   public static <T> T getResponseBody(HttpResponse response, Class<T> clazz)
       throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     String responseBodyString = new String(response.getEntity().getContent().readAllBytes(),
         Charsets.UTF_8);
     T responseBody;
@@ -164,7 +164,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
    */
   public static <T> List<T> getResponseBodyList(String responseString, Class<T> clazz)
       throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
     return mapper.readValue(responseString,
         mapper.getTypeFactory().constructCollectionType(List.class, clazz));
   }

@@ -87,7 +87,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
   /**
    * Expose generatePutResponseEntity in abstract class for unit testing.
    */
-  public static ResponseEntity<Void> generatePutResponseEntity() {
+  public static ResponseEntity<Void> generatePutResponseEntityForTest() {
     return AbstractController.generatePutResponseEntity();
   }
 
@@ -117,7 +117,7 @@ public class TestEntityCrudController extends AbstractCrudController<TestEntity,
   /**
    * Expose validatePathAndRequestBodyIds in abstract class for unit testing.
    */
-  public static void validatePathAndRequestBodyIds(Long pathId, Long requestBodyId) {
+  public static void validatePathAndRequestBodyIdsForTest(Long pathId, Long requestBodyId) {
     AbstractController.validatePathAndRequestBodyIds(pathId, requestBodyId);
   }
 }

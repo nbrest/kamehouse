@@ -1,16 +1,16 @@
 package com.nicobrest.kamehouse.commons.utils;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Instant;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,31 +38,16 @@ public class DateUtils {
   /**
    * Add the specified amount of seconds to the date.
    */
-  public static Date addSeconds(Date date, int seconds) {
-    return org.apache.commons.lang3.time.DateUtils.addSeconds(date, seconds);
+  public static LocalDateTime addSeconds(LocalDateTime date, int seconds) {
+    return date.plusSeconds(seconds);
   }
 
   /**
-   * Generate a cron expression from a Date.
+   * Generate a cron expression from a date.
    */
-  public static String toCronExpression(Date date) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(date);
-    calendar.set(Calendar.MILLISECOND, 0);
-    return toCronExpression(calendar);
-  }
-
-  /**
-   * Generate a cron expression from a Calendar.
-   */
-  public static String toCronExpression(Calendar calendar) {
-    int seconds = calendar.get(Calendar.SECOND);
-    int minutes = calendar.get(Calendar.MINUTE);
-    int hours = calendar.get(Calendar.HOUR_OF_DAY);
-    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-    int month = calendar.get(Calendar.MONTH) + 1;
-    int year = calendar.get(Calendar.YEAR);
-    return toCronExpression(seconds, minutes, hours, dayOfMonth, month, "?", year);
+  public static String toCronExpression(LocalDateTime date) {
+    return toCronExpression(date.getSecond(), date.getMinute(), date.getHour(),
+        date.getDayOfMonth(), date.getMonthValue(), "?", date.getYear());
   }
 
   /**
@@ -85,49 +70,46 @@ public class DateUtils {
   }
 
   /**
-   * Get the current date with hours set to 00:00.
+   * Get the current date and time.
    */
-  public static Date getCurrentDate() {
-    return new Date();
+  public static LocalDateTime getCurrentDate() {
+    return LocalDateTime.now(ZoneId.systemDefault());
   }
 
   /**
-   * Get a Date in the future with the specified days from today.
+   * Get the current local date.
    */
-  public static Date getDateFromToday(Integer daysFromToday) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.DAY_OF_MONTH, daysFromToday);
-    return calendar.getTime();
+  public static LocalDate getCurrentLocalDate() {
+    return LocalDate.now(ZoneId.systemDefault());
+  }
+
+  /**
+   * Get a date in the future with the specified days from today.
+   */
+  public static LocalDate getDateFromToday(Integer daysFromToday) {
+    return LocalDate.now(ZoneId.systemDefault()).plusDays(daysFromToday);
   }
 
   /**
    * Get the date for two weeks from the specified date. Used for scheduled cardio bookings.
    */
-  public static Date getTwoWeeksFrom(Date date) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(date);
-    calendar.add(Calendar.DAY_OF_MONTH, 14);
-    return calendar.getTime();
+  public static LocalDate getTwoWeeksFrom(LocalDate date) {
+    return date.plusDays(14);
   }
 
   /**
-   * Get the date from the specified parameters. Pass the month as Calendar.OCTOBER for October for
-   * example. The months start from 0 in the Calendar class, so october would be 9 instead of 10.
+   * Get the date from the specified parameters.
    */
-  public static Date getDate(Integer year, Integer month, Integer day) {
-    return getDate(year, month, day, 0, 0, 0);
+  public static LocalDate getDate(Integer year, Month month, Integer day) {
+    return LocalDate.of(year, month, day);
   }
 
   /**
-   * Get the date from the specified parameters. Pass the month as Calendar.OCTOBER for October for
-   * example. The months start from 0 in the Calendar class, so october would be 9 instead of 10.
+   * Get the date and time from the specified parameters.
    */
-  public static Date getDate(
-      Integer year, Integer month, Integer day, Integer hours, Integer minutes, Integer seconds) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(year, month, day, hours, minutes, seconds);
-    calendar.set(Calendar.MILLISECOND, 0);
-    return calendar.getTime();
+  public static LocalDateTime getDate(
+      Integer year, Month month, Integer day, Integer hours, Integer minutes, Integer seconds) {
+    return LocalDateTime.of(year, month, day, hours, minutes, seconds);
   }
 
   /**
@@ -140,47 +122,31 @@ public class DateUtils {
   /**
    * Get the specified date in the specified format pattern. Ej yyyy-MM-dd.
    */
-  public static String getFormattedDate(String pattern, Date date) {
+  public static String getFormattedDate(String pattern, TemporalAccessor date) {
     if (date == null) {
       return null;
     }
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-    return simpleDateFormat.format(date);
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
+    return dateTimeFormatter.format(date);
   }
 
   /**
-   * Get the current day of the week. Compare the int response with Calendar.SUNDAY to check if it's
-   * a sunday. SUNDAY = 1 MONDAY = 2 TUESDAY = 3 WEDNESDAY = 4 THURSDAY = 5 FRIDAY = 6 SATURDAY = 7
+   * Get the current day of the week. SUNDAY = 1 MONDAY = 2 TUESDAY = 3 WEDNESDAY = 4 THURSDAY = 5
+   * FRIDAY = 6 SATURDAY = 7
    */
   public static int getCurrentDayOfWeek() {
-    Calendar calendar = Calendar.getInstance();
-    return calendar.get(Calendar.DAY_OF_WEEK);
+    return toCalendarDayOfWeek(LocalDate.now(ZoneId.systemDefault()).getDayOfWeek());
+  }
+
+  private static int toCalendarDayOfWeek(DayOfWeek dayOfWeek) {
+    return DayOfWeek.SUNDAY.equals(dayOfWeek) ? 1 : dayOfWeek.getValue() + 1;
   }
 
   /**
-   * Get the day of the week as a string from an int. Pass the value as Calendar.SUNDAY for example
-   * to get the string Sunday. Expects values 1 to 7.
+   * Get the day of the week as a string from an int. Expects values 1 to 7.
    */
   public static String getDayOfWeek(Integer dayOfWeek) {
-    switch (dayOfWeek) {
-      case Calendar.SUNDAY:
-        return Day.SUNDAY.getValue();
-      case Calendar.MONDAY:
-        return Day.MONDAY.getValue();
-      case Calendar.TUESDAY:
-        return Day.TUESDAY.getValue();
-      case Calendar.WEDNESDAY:
-        return Day.WEDNESDAY.getValue();
-      case Calendar.THURSDAY:
-        return Day.THURSDAY.getValue();
-      case Calendar.FRIDAY:
-        return Day.FRIDAY.getValue();
-      case Calendar.SATURDAY:
-        return Day.SATURDAY.getValue();
-      default:
-        break;
-    }
-    throw new IllegalArgumentException("Invalid dayOfWeek int parameter passed. Expected 1 to 7");
+    return getDay(dayOfWeek).getValue();
   }
 
   /**
@@ -189,35 +155,22 @@ public class DateUtils {
    * Monday this week to Monday next weeks). If the difference is 2 weeks, then it returns 13 days
    * in between dates. (Ej Monday this week to monday 2 weeks from now)
    */
-  public static long getDaysBetweenDates(Date date1, Date date2) {
+  public static long getDaysBetweenDates(LocalDate date1, LocalDate date2) {
     if (date1 == null || date2 == null) {
       throw new KameHouseInvalidDataException("Dates to compare can't be null");
     }
-    LocalDateTime dateTime1 =
-        getLocalDateTime(date1).withHour(0).withMinute(0).withSecond(0).withNano(0);
-    LocalDateTime dateTime2 =
-        getLocalDateTime(date2).withHour(0).withMinute(0).withSecond(0).withNano(0);
-    long daysBetween = Duration.between(dateTime1, dateTime2).toDays();
+    long daysBetween = ChronoUnit.DAYS.between(date1, date2);
     return Math.abs(daysBetween);
   }
 
   /**
    * Returns true if afterDate is equal or after to beforeDate (ignoring timestamps).
    */
-  public static boolean isOnOrAfter(Date beforeDate, Date afterDate) {
+  public static boolean isOnOrAfter(LocalDate beforeDate, LocalDate afterDate) {
     if (beforeDate == null || afterDate == null) {
       throw new KameHouseInvalidDataException("beforeDate and afterDate can't be null");
     }
-    long daysBetween =
-        Duration.between(getLocalDateTime(beforeDate), getLocalDateTime(afterDate)).toDays();
-    return daysBetween >= 0;
-  }
-
-  /**
-   * Convert a Date to LocalDateTime.
-   */
-  public static LocalDateTime getLocalDateTime(Date date) {
-    return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return !beforeDate.isAfter(afterDate);
   }
 
   /**
@@ -250,8 +203,8 @@ public class DateUtils {
       return result;
     } catch (DateTimeParseException e) {
       LOGGER.error(
-          "Error parsing time for input {}, inFormat {}, outFormat {} and lowerCaseOut {},", input,
-          inFormat, outFormat, lowerCaseOut, e);
+          "Error parsing time for input {}, inFormat {}, outFormat {} and lowerCaseOut {},",
+          input, inFormat, outFormat, lowerCaseOut, e);
       throw new KameHouseInvalidDataException("Unable to parse input time " + input);
     }
   }
@@ -273,10 +226,10 @@ public class DateUtils {
       LOGGER.warn("Unexpected build date pattern found with input: {}", inputDate);
       return inputDate;
     }
-    Month month = null;
+    String month;
     try {
       String monthField = inputDate.substring(4, 7).toUpperCase(Locale.getDefault());
-      month = Month.valueOf(monthField);
+      month = MonthValue.valueOf(monthField).getNumber();
     } catch (IllegalArgumentException e) {
       LOGGER.error("Error parsing month from input: {}", inputDate, e);
       return inputDate;
@@ -284,7 +237,7 @@ public class DateUtils {
     String day = inputDate.substring(8, 10);
     String year = inputDate.substring(inputDate.length() - 4);
     String time = inputDate.substring(11, 19);
-    return year + "-" + month.getNumber() + "-" + day + " " + time;
+    return year + "-" + month + "-" + day + " " + time;
   }
 
   /**
@@ -293,7 +246,7 @@ public class DateUtils {
   public static LocalTime getLocalTime(String input, String inFormat) {
     try {
       return LocalTime.parse(input, DateTimeFormatter.ofPattern(inFormat));
-    } catch (DateTimeParseException e) {
+    } catch (DateTimeParseException _) {
       return LocalTime.parse(input.toLowerCase(Locale.getDefault()),
           DateTimeFormatter.ofPattern(inFormat));
     }
@@ -302,38 +255,21 @@ public class DateUtils {
   /**
    * Return the day of the week as {@link Day} for the specified date.
    */
-  public static Day getDay(Date date) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(date);
-    calendar.set(Calendar.MILLISECOND, 0);
-    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-    return getDay(dayOfWeek);
+  public static Day getDay(LocalDate date) {
+    if (date == null) {
+      return null;
+    }
+    return getDay(toCalendarDayOfWeek(date.getDayOfWeek()));
   }
 
   /**
-   * Get the day of the week as a string from an int. Pass the value as Calendar.SUNDAY for example
-   * to get the string Sunday. Expects values 1 to 7.
+   * Get the day of the week as a string from an int. Expects values 1 to 7.
    */
   public static Day getDay(Integer dayOfWeek) {
-    switch (dayOfWeek) {
-      case Calendar.SUNDAY:
-        return Day.SUNDAY;
-      case Calendar.MONDAY:
-        return Day.MONDAY;
-      case Calendar.TUESDAY:
-        return Day.TUESDAY;
-      case Calendar.WEDNESDAY:
-        return Day.WEDNESDAY;
-      case Calendar.THURSDAY:
-        return Day.THURSDAY;
-      case Calendar.FRIDAY:
-        return Day.FRIDAY;
-      case Calendar.SATURDAY:
-        return Day.SATURDAY;
-      default:
-        break;
+    if (dayOfWeek == null || dayOfWeek < 1 || dayOfWeek > 7) {
+      throw new IllegalArgumentException("Invalid dayOfWeek int parameter passed. Expected 1 to 7");
     }
-    throw new IllegalArgumentException("Invalid dayOfWeek int parameter passed. Expected 1 to 7");
+    return Day.values()[dayOfWeek - 1];
   }
 
   /**
@@ -348,8 +284,8 @@ public class DateUtils {
     FRIDAY("Friday", 6),
     SATURDAY("Saturday", 7);
 
-    private String value;
-    private int number;
+    private final String value;
+    private final int number;
 
     Day(String value, int number) {
       this.value = value;
@@ -366,9 +302,9 @@ public class DateUtils {
   }
 
   /**
-   * Month translated from MMM to it's numeric 2 digit value.
+   * Month translated from MMM to its numeric 2 digit value.
    */
-  public enum Month {
+  public enum MonthValue {
     JAN("01"),
     FEB("02"),
     MAR("03"),
@@ -382,9 +318,9 @@ public class DateUtils {
     NOV("11"),
     DEC("12");
 
-    private String number;
+    private final String number;
 
-    Month(String value) {
+    MonthValue(String value) {
       this.number = value;
     }
 

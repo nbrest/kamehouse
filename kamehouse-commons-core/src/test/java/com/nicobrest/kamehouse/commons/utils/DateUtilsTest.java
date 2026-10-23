@@ -1,23 +1,21 @@
 package com.nicobrest.kamehouse.commons.utils;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseInvalidDataException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils.Day;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * DateUtils tests.
@@ -26,20 +24,13 @@ import org.slf4j.LoggerFactory;
  */
 class DateUtilsTest {
 
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
-
   /**
    * Tests the several methods to get a cron expression.
    */
   @Test
   void toCronExpressionTest() {
-    Date date = new GregorianCalendar(2020, Calendar.OCTOBER, 15).getTime();
+    LocalDateTime date = LocalDateTime.of(2020, Month.OCTOBER, 15, 0, 0);
     String output = DateUtils.toCronExpression(date);
-    assertEquals("0 0 0 15 10 ? 2020", output);
-
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(date);
-    output = DateUtils.toCronExpression(calendar);
     assertEquals("0 0 0 15 10 ? 2020", output);
 
     output = DateUtils.toCronExpression(20, 30, 10, 15, 10, "?", 1984);
@@ -51,13 +42,9 @@ class DateUtilsTest {
    */
   @Test
   void addSecondsTest() {
-    Date date = new GregorianCalendar(2020, Calendar.OCTOBER, 15).getTime();
-    Date output = DateUtils.addSeconds(date, 60);
-    // format: Xxx Xxx 99 99:99:99 XXXX 9999
-    String expectedDateRegex =
-        "[A-Za-z]{3} [A-Za-z]{3} \\d{1,2} \\d{2}:\\d{2}:\\d{2} " + "[A-Za-z]+ \\d{4}";
-    Assertions.assertTrue(
-        output.toString().matches(expectedDateRegex), "Date doesn't match expected format");
+    LocalDateTime date = LocalDateTime.of(2020, Month.OCTOBER, 15, 0, 0);
+    LocalDateTime output = DateUtils.addSeconds(date, 60);
+    assertEquals(date.plusMinutes(1), output);
   }
 
   /**
@@ -69,11 +56,20 @@ class DateUtilsTest {
   }
 
   /**
+   * Test getCurrentLocalDate.
+   */
+  @Test
+  void getCurrentLocalDateTest() {
+    assertNotNull(DateUtils.getCurrentLocalDate());
+  }
+
+  /**
    * Test getTwoWeeksFrom.
    */
   @Test
   void getTwoWeeksFromTest() {
-    assertNotNull(DateUtils.getTwoWeeksFrom(new Date()));
+    LocalDate date = LocalDate.now();
+    assertEquals(date.plusDays(14), DateUtils.getTwoWeeksFrom(date));
   }
 
   /**
@@ -89,13 +85,11 @@ class DateUtilsTest {
    */
   @Test
   void getDateTest() {
-    Date date = DateUtils.getDate(1984, Calendar.OCTOBER, 15);
-    assertTrue(
-        date.toString().startsWith("Mon Oct 15 00:00:00"), "Date doesn't match the expected value");
+    LocalDate date = DateUtils.getDate(1984, Month.OCTOBER, 15);
+    assertEquals(LocalDate.of(1984, Month.OCTOBER, 15), date);
 
-    date = DateUtils.getDate(1984, Calendar.OCTOBER, 15, 9, 10, 11);
-    assertTrue(
-        date.toString().startsWith("Mon Oct 15 09:10:11"), "Date doesn't match the expected value");
+    LocalDateTime dateTime = DateUtils.getDate(1984, Month.OCTOBER, 15, 9, 10, 11);
+    assertEquals(LocalDateTime.of(1984, Month.OCTOBER, 15, 9, 10, 11), dateTime);
   }
 
   /**
@@ -108,7 +102,10 @@ class DateUtilsTest {
     String formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD);
     assertTrue(formattedDate.matches(expectedDateRegex), "Date doesn't match expected format");
 
-    formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, new Date());
+    formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, LocalDate.now());
+    assertTrue(formattedDate.matches(expectedDateRegex), "Date doesn't match expected format");
+
+    formattedDate = DateUtils.getFormattedDate(DateUtils.YYYY_MM_DD, LocalDateTime.now());
     assertTrue(formattedDate.matches(expectedDateRegex), "Date doesn't match expected format");
 
     assertTrue(DateUtils.getFormattedDate(DateUtils.HH_MM_24HS).matches("[0-9]{2}:[0-9]{2}"));
@@ -129,20 +126,13 @@ class DateUtilsTest {
    */
   @Test
   void getDayOfWeekTest() {
-    String dayOfWeek = DateUtils.getDayOfWeek(Calendar.SUNDAY);
-    assertEquals("Sunday", dayOfWeek);
-    dayOfWeek = DateUtils.getDayOfWeek(Calendar.MONDAY);
-    assertEquals("Monday", dayOfWeek);
-    dayOfWeek = DateUtils.getDayOfWeek(Calendar.TUESDAY);
-    assertEquals("Tuesday", dayOfWeek);
-    dayOfWeek = DateUtils.getDayOfWeek(Calendar.WEDNESDAY);
-    assertEquals("Wednesday", dayOfWeek);
-    dayOfWeek = DateUtils.getDayOfWeek(Calendar.THURSDAY);
-    assertEquals("Thursday", dayOfWeek);
-    dayOfWeek = DateUtils.getDayOfWeek(Calendar.FRIDAY);
-    assertEquals("Friday", dayOfWeek);
-    dayOfWeek = DateUtils.getDayOfWeek(Calendar.SATURDAY);
-    assertEquals("Saturday", dayOfWeek);
+    assertEquals("Sunday", DateUtils.getDayOfWeek(1));
+    assertEquals("Monday", DateUtils.getDayOfWeek(2));
+    assertEquals("Tuesday", DateUtils.getDayOfWeek(3));
+    assertEquals("Wednesday", DateUtils.getDayOfWeek(4));
+    assertEquals("Thursday", DateUtils.getDayOfWeek(5));
+    assertEquals("Friday", DateUtils.getDayOfWeek(6));
+    assertEquals("Saturday", DateUtils.getDayOfWeek(7));
   }
 
   /**
@@ -150,7 +140,8 @@ class DateUtilsTest {
    */
   @Test
   void getDaysBetweenDatesTest() {
-    assertEquals(0, DateUtils.getDaysBetweenDates(new Date(), new Date()));
+    LocalDate date = LocalDate.now();
+    assertEquals(0, DateUtils.getDaysBetweenDates(date, date));
   }
 
   /**
@@ -158,7 +149,8 @@ class DateUtilsTest {
    */
   @Test
   void isOnOrAfterTest() {
-    assertEquals(true, DateUtils.isOnOrAfter(new Date(), new Date()));
+    LocalDate date = LocalDate.now();
+    assertEquals(true, DateUtils.isOnOrAfter(date, date));
   }
 
   /**
@@ -176,15 +168,10 @@ class DateUtilsTest {
   })
   void convertTimeTest(String input, String expected, String inFormat, String outFormat,
       String lowerCaseOutStr) {
-    try {
+    assertDoesNotThrow(() -> {
       boolean lowerCaseOut = Boolean.parseBoolean(lowerCaseOutStr);
       assertEquals(expected, DateUtils.convertTime(input, inFormat, outFormat, lowerCaseOut));
-    } catch (KameHouseInvalidDataException e) {
-      logger.error(
-          "Error executing convertTimeTest for input {}, expected {}, inFormat {}, outFormat {}, lowerCaseOutStr {}",
-          input, expected, inFormat, outFormat, lowerCaseOutStr, e);
-      fail("Error executing convertTimeTest");
-    }
+    });
   }
 
   /**
@@ -204,7 +191,7 @@ class DateUtilsTest {
    */
   @Test
   void isOnOrAfterExceptionTest() {
-    Date date = new Date();
+    LocalDate date = LocalDate.now();
     assertThrows(
         KameHouseInvalidDataException.class,
         () -> {
@@ -213,19 +200,12 @@ class DateUtilsTest {
   }
 
   /**
-   * Test getLocalDateTime.
+   * Test getDay from LocalDate.
    */
   @Test
-  void getLocalDateTimeTest() {
-    assertNotNull(DateUtils.getLocalDateTime(new Date()));
-  }
-
-  /**
-   * Test getDay from Date.
-   */
-  @Test
-  void getDayFromDateTest() {
-    assertNotNull(DateUtils.getDay(new Date()));
+  void getDayFromLocalDateTest() {
+    assertNotNull(DateUtils.getDay(LocalDate.now()));
+    assertNull(DateUtils.getDay((LocalDate) null));
   }
 
   /**

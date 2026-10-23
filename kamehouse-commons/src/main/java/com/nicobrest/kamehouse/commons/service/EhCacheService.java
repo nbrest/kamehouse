@@ -21,7 +21,7 @@ public class EhCacheService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private KameHouseCacheManager kameHouseCacheManager;
+  private final KameHouseCacheManager kameHouseCacheManager;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

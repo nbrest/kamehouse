@@ -229,7 +229,7 @@ public class DockerUtils {
         throw new KameHouseServerErrorException("Invalid value for docker host auth");
       }
       return basicAuthDecoded.split(":");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException _) {
       throw new KameHouseServerErrorException("Unable to decode docker host auth");
     }
   }

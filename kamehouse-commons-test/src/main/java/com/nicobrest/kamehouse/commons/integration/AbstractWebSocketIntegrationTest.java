@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.commons.integration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +64,9 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
     setProtocol("ws://");
     try {
       stompSession = getStompSession();
-    } catch (ExecutionException e) {
+    } catch (ExecutionException _) {
       logger.error("Error getting the stomp session");
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       Thread.currentThread().interrupt();
     }
   }
@@ -105,7 +106,7 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
       } else {
         logger.info("Received all expected messages from the websocket");
       }
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       Thread.currentThread().interrupt();
     }
   }
@@ -147,7 +148,9 @@ public abstract class AbstractWebSocketIntegrationTest extends AbstractIntegrati
     transports.add(new RestTemplateXhrTransport());
     SockJsClient client = new SockJsClient(transports);
     WebSocketStompClient stompClient = new WebSocketStompClient(client);
-    stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+    MappingJackson2MessageConverter messageConverter = new MappingJackson2MessageConverter();
+    messageConverter.setObjectMapper(new ObjectMapper().findAndRegisterModules());
+    stompClient.setMessageConverter(messageConverter);
     return stompClient;
   }
 

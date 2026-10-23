@@ -35,7 +35,7 @@ public class LogLevelManagerService {
   protected static final Map<String, String> KAMEHOUSE_PACKAGES_LOG_LEVEL;
   protected static final Map<String, String> EXTERNAL_PACKAGES_LOG_LEVEL;
 
-  private CustomRequestLoggingFilter customRequestLoggingFilter;
+  private final CustomRequestLoggingFilter customRequestLoggingFilter;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

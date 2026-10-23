@@ -308,14 +308,6 @@ class AbstractCrudDaoJpaUnitTest {
   }
 
   /**
-   * TODO: private methods tests: test them through other public/protected methods
-   *  - addEntityToRepository handlePersistentException
-   *  - handlePersistentException NoResultException and KameHouseServerErrorException
-   *  - handleIllegalArgumentException
-   *  after adding the previous tests, check the coverage and see if these are covered already
-   */
-
-  /**
    * Setup test data in the hsql db.
    */
   private void setupTestData() {

@@ -14,7 +14,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nicobrest.kamehouse.commons.annotations.Masked;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -105,10 +107,10 @@ class JsonUtilsTest {
   /**
    * Tests toJsonString with masked annotated fields with nested fields and lists.
    */
-  //TODO Fix JsonUtils.toJsonString() to handle Masked fields on lists and maps. I expect name, password
-  // passwordSub and passwordSubSub to be hidden at all levels. The current fix is to annotate the
-  // list or map with Masked and mask the entire list, when some property in an object of the list
-  // needs to be hidden
+  // Known limitation: JsonUtils.toJsonString() does not handle Masked fields on lists and maps.
+  // Name, password, passwordSub and passwordSubSub should be hidden at all levels. The current fix
+  // is to annotate the list or map with Masked and mask the entire list, when some property in an
+  // object of the list needs to be hidden
   @Test
   void toJsonStringMaskedAnnotatedNestedFieldsTest() {
     TestClass testClass = new TestClass();
@@ -355,7 +357,8 @@ class JsonUtilsTest {
   @Test
   void toJsonDateObjectTest() {
     TestDateClass testDateClass = new TestDateClass();
-    testDateClass.setDateField(DateUtils.getDate(1984, Calendar.OCTOBER, 15, 10, 11, 12));
+    testDateClass.setDateField(Date.from(LocalDateTime.of(1984, Month.OCTOBER, 15, 10, 11, 12)
+        .atZone(ZoneId.systemDefault()).toInstant()));
     testDateClass.setId(1);
     String expected = "{\"id\":1,\"dateField\":\"1984-10-15 10:11:12\"}";
 

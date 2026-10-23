@@ -177,7 +177,7 @@ public abstract class AbstractKameHouseServlet extends HttpServlet {
         try {
           byte[] decodedSessionId = Base64.getDecoder().decode(cookie.getValue());
           sessionId = new String(decodedSessionId, StandardCharsets.UTF_8);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException _) {
           logger.trace("Unable to parse sessionId cookie");
           throw new KameHouseForbiddenException(UNAUTHORIZED);
         }

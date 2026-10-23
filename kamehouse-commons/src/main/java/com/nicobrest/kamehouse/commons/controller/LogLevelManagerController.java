@@ -25,7 +25,7 @@ public class LogLevelManagerController extends AbstractController {
 
   private static final String DEFAULT_PACKAGE = "com.nicobrest.kamehouse";
 
-  private LogLevelManagerService logLevelManagerService;
+  private final LogLevelManagerService logLevelManagerService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -40,7 +40,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<KameHouseGenericResponse> logPayload(
       @RequestParam(value = "logPayload", required = true) Boolean logPayload) {
     String message = "Setting request logger to log payload to: " + logPayload;
-    logger.info(message);
+    STATIC_LOGGER.info(message);
     logLevelManagerService.setIncludePayload(logPayload);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(message);
@@ -54,7 +54,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<KameHouseGenericResponse> logHeaders(
       @RequestParam(value = "logHeaders", required = true) Boolean logHeaders) {
     String message = "Setting request logger to log headers to: " + logHeaders;
-    logger.info(message);
+    STATIC_LOGGER.info(message);
     logLevelManagerService.setIncludeHeaders(logHeaders);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(message);
@@ -68,7 +68,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<KameHouseGenericResponse> logClientInfo(
       @RequestParam(value = "logClientInfo", required = true) Boolean logClientInfo) {
     String message = "Setting request logger to log the client info to: " + logClientInfo;
-    logger.info(message);
+    STATIC_LOGGER.info(message);
     logLevelManagerService.setIncludeClientInfo(logClientInfo);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(message);
@@ -82,7 +82,7 @@ public class LogLevelManagerController extends AbstractController {
   public ResponseEntity<KameHouseGenericResponse> logQueryString(
       @RequestParam(value = "logQueryString", required = true) Boolean logQueryString) {
     String message = "Setting request logger to log the query string to: " + logQueryString;
-    logger.info(message);
+    STATIC_LOGGER.info(message);
     logLevelManagerService.setIncludeQueryString(logQueryString);
     KameHouseGenericResponse response = new KameHouseGenericResponse();
     response.setMessage(message);
@@ -111,7 +111,7 @@ public class LogLevelManagerController extends AbstractController {
     String levelSanitized = StringUtils.sanitize(level);
     String packageNameSanitized = StringUtils.sanitize(packageName);
     if (packageNameSanitized == null) {
-      logger.info("Using default package {}", DEFAULT_PACKAGE);
+      STATIC_LOGGER.info("Using default package {}", DEFAULT_PACKAGE);
       packageNameSanitized = DEFAULT_PACKAGE;
     }
     logLevelManagerService.validateLogLevel(levelSanitized);
