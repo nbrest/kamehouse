@@ -1,15 +1,18 @@
 package com.nicobrest.kamehouse.admin.integration;
 
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.KameHouseGenericResponse;
 import org.apache.http.HttpResponse;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  * Integration tests for the PowerManagementController class.
@@ -27,12 +30,19 @@ class PowerManagementControllerIntegrationTest extends AbstractControllerIntegra
     return "kame-house-admin";
   }
 
-  @Test
+  @ParameterizedTest
   @Order(1)
-  void shutdownTest() throws Exception {
-    logger.info("Running shutdownTest");
+  @CsvSource({
+      "/shutdown?delay=999999, true",
+      "/suspend?delay=999999, true",
+      "/wol?server=kamehouse-server, true",
+      "/reboot, false"
+  })
+  void postTest(String endpoint, boolean enabled) throws Exception {
+    assumeTrue(enabled, "Enabling this will reboot the system running the test!");
+    logger.info("Running postTest for {}", endpoint);
 
-    HttpResponse response = post(getWebappUrl() + API_URL + "/shutdown?delay=999999");
+    HttpResponse response = post(getWebappUrl() + API_URL + endpoint);
 
     verifySuccessfulCreatedResponse(response, KameHouseGenericResponse.class);
   }
@@ -58,16 +68,6 @@ class PowerManagementControllerIntegrationTest extends AbstractControllerIntegra
   }
 
   @Test
-  @Order(4)
-  void suspendTest() throws Exception {
-    logger.info("Running suspendTest");
-
-    HttpResponse response = post(getWebappUrl() + API_URL + "/suspend?delay=999999");
-
-    verifySuccessfulCreatedResponse(response, KameHouseGenericResponse.class);
-  }
-
-  @Test
   @Order(5)
   void suspendStatusTest() throws Exception {
     logger.info("Running suspendStatusTest");
@@ -87,25 +87,5 @@ class PowerManagementControllerIntegrationTest extends AbstractControllerIntegra
     verifySuccessfulResponse(response, KameHouseGenericResponse.class);
   }
 
-  @Test
-  @Order(7)
-  @Disabled("Enabling this will reboot the system running the test!")
-  void rebootTest() throws Exception {
-    logger.info("Running rebootTest");
-
-    HttpResponse response = post(getWebappUrl() + API_URL + "/reboot");
-
-    verifySuccessfulCreatedResponse(response, KameHouseGenericResponse.class);
-  }
-
-  @Test
-  @Order(8)
-  void wolTest() throws Exception {
-    logger.info("Running wolTest");
-
-    HttpResponse response = post(getWebappUrl() + API_URL + "/wol?server=kamehouse-server");
-
-    verifySuccessfulCreatedResponse(response, KameHouseGenericResponse.class);
-  }
 }
 

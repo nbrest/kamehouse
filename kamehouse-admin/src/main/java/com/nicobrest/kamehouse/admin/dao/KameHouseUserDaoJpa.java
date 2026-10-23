@@ -52,9 +52,9 @@ public class KameHouseUserDaoJpa extends AbstractCrudDaoJpa<KameHouseUser>
 
   @Override
   public KameHouseUser loadUserByUsername(String username) {
-    logger.trace("loadUserByUsername {}", username);
+    STATIC_LOGGER.trace("loadUserByUsername {}", username);
     KameHouseUser kameHouseUser = findByUsername(KameHouseUser.class, username);
-    logger.trace("loadUserByUsername {} response {}", username, kameHouseUser);
+    STATIC_LOGGER.trace("loadUserByUsername {} response {}", username, kameHouseUser);
     return kameHouseUser;
   }
 }

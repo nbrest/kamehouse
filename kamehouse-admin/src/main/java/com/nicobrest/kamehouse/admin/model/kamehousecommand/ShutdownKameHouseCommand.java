@@ -17,11 +17,11 @@ public class ShutdownKameHouseCommand extends KameHouseShellScript {
    * Sets the command line for each operation required for this KameHouseCommand.
    */
   public ShutdownKameHouseCommand(int shutdownDelaySeconds) {
-    super();
     if (shutdownDelaySeconds < 0) {
       throw new KameHouseInvalidCommandException(
           "Invalid time for shutdown command " + shutdownDelaySeconds);
     }
+    super();
     this.shutdownDelaySeconds = shutdownDelaySeconds;
   }
 

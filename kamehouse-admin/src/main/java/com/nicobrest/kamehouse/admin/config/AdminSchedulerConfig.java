@@ -25,7 +25,7 @@ public class AdminSchedulerConfig {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private Scheduler scheduler;
+  private final Scheduler scheduler;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

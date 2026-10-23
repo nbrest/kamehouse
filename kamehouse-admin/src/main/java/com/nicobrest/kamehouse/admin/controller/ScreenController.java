@@ -119,7 +119,7 @@ public class ScreenController extends AbstractKameHouseCommandController {
         unlockScreenPass = FileUtils.EMPTY_FILE_CONTENT;
       }
       return unlockScreenPass;
-    } catch (KameHouseInvalidDataException e) {
+    } catch (KameHouseInvalidDataException _) {
       return FileUtils.EMPTY_FILE_CONTENT;
     }
   }

@@ -33,7 +33,7 @@ public class PowerManagementService {
   private static final String SHUTDOWN_TRIGGER = "shutdownTrigger";
   private static final String SUSPEND_TRIGGER = "suspendTrigger";
 
-  private Scheduler scheduler;
+  private final Scheduler scheduler;
   private JobDetail shutdownJobDetail;
   private JobDetail suspendJobDetail;
 

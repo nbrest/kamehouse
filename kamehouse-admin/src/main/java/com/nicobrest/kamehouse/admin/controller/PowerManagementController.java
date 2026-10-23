@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/admin/power-management")
 public class PowerManagementController extends AbstractKameHouseCommandController {
 
-  private PowerManagementService powerManagementService;
+  private final PowerManagementService powerManagementService;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 import com.nicobrest.kamehouse.admin.config.AdminSchedulerConfig;
 import com.nicobrest.kamehouse.commons.exception.KameHouseBadRequestException;
@@ -11,6 +12,8 @@ import com.nicobrest.kamehouse.commons.exception.KameHouseException;
 import com.nicobrest.kamehouse.commons.exception.KameHouseServerErrorException;
 import com.nicobrest.kamehouse.commons.utils.DateUtils;
 import java.net.UnknownHostException;
+import java.time.ZoneId;
+import java.util.Date;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,9 +48,9 @@ class PowerManagementServiceTest {
 
   @BeforeEach
   void before() {
+    MockitoAnnotations.openMocks(this);
     powerManagementService = new PowerManagementService(scheduler, shutdownJobDetail,
         suspendJobDetail);
-    MockitoAnnotations.openMocks(this);
   }
 
   /**
@@ -210,8 +213,9 @@ class PowerManagementServiceTest {
   void getShutdownStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setShutdownJobDetail(
         new AdminSchedulerConfig(scheduler).shutdownJobDetail());
-    Trigger trigger = Mockito.mock(Trigger.class);
-    when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
+    Trigger trigger = mock(Trigger.class);
+    when(trigger.getNextFireTime()).thenReturn(Date.from(
+        DateUtils.getCurrentDate().atZone(ZoneId.systemDefault()).toInstant()));
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class))).thenReturn(trigger);
 
     String status = powerManagementService.getShutdownStatus();
@@ -364,8 +368,9 @@ class PowerManagementServiceTest {
   void getSuspendStatusSuccessScheduledTest() throws SchedulerException {
     powerManagementService.setSuspendJobDetail(
         new AdminSchedulerConfig(scheduler).suspendJobDetail());
-    Trigger trigger = Mockito.mock(Trigger.class);
-    when(trigger.getNextFireTime()).thenReturn(DateUtils.getCurrentDate());
+    Trigger trigger = mock(Trigger.class);
+    when(trigger.getNextFireTime()).thenReturn(Date.from(
+        DateUtils.getCurrentDate().atZone(ZoneId.systemDefault()).toInstant()));
     when(scheduler.getTrigger(Mockito.any(TriggerKey.class))).thenReturn(trigger);
 
     String status = powerManagementService.getSuspendStatus();

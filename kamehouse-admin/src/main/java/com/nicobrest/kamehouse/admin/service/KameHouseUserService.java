@@ -28,8 +28,8 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
     implements UserDetailsService {
 
   private static final KameHouseUserDtoTranslator TRANSLATOR = new KameHouseUserDtoTranslator();
-  private KameHouseUserDao kameHouseUserDao;
-  private KameHouseUser anonymousUser;
+  private final KameHouseUserDao kameHouseUserDao;
+  private final KameHouseUser anonymousUser;
 
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
@@ -66,7 +66,7 @@ public class KameHouseUserService extends AbstractCrudService<KameHouseUser, Kam
   @SuppressFBWarnings(value = "EI_EXPOSE_REP")
   public KameHouseUser loadUserByUsername(String username) {
     logger.trace("loadUserByUsername {}", username);
-    if (username.equals("anonymousUser")) {
+    if ("anonymousUser".equals(username)) {
       logger.trace("loadUserByUsername {} response {}", username, anonymousUser);
       return anonymousUser;
     }

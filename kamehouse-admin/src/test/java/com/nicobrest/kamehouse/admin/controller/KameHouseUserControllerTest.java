@@ -2,6 +2,7 @@ package com.nicobrest.kamehouse.admin.controller;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import com.nicobrest.kamehouse.admin.service.KameHouseUserService;
 import com.nicobrest.kamehouse.commons.controller.AbstractController;
@@ -16,7 +17,6 @@ import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -87,7 +87,7 @@ class KameHouseUserControllerTest
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseNotFoundException(""))
+          doThrow(new KameHouseNotFoundException(""))
               .when(kameHouseUserServiceMock)
               .loadUserByUsername(KameHouseUserTestUtils.INVALID_USERNAME);
 

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import com.nicobrest.kamehouse.admin.service.PowerManagementService;
 import com.nicobrest.kamehouse.commons.controller.AbstractKameHouseCommandControllerTest;
@@ -72,7 +73,7 @@ class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTe
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified"))
+          doThrow(new KameHouseBadRequestException("Invalid delay specified"))
               .when(powerManagementService)
               .scheduleShutdown(59);
 
@@ -104,7 +105,7 @@ class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTe
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseServerErrorException(""))
+          doThrow(new KameHouseServerErrorException(""))
               .when(powerManagementService)
               .cancelScheduledShutdown();
 
@@ -151,7 +152,7 @@ class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTe
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseBadRequestException("Invalid delay specified"))
+          doThrow(new KameHouseBadRequestException("Invalid delay specified"))
               .when(powerManagementService)
               .scheduleSuspend(-1);
 
@@ -183,7 +184,7 @@ class PowerManagementControllerTest extends AbstractKameHouseCommandControllerTe
     assertThrows(
         ServletException.class,
         () -> {
-          Mockito.doThrow(new KameHouseServerErrorException(""))
+          doThrow(new KameHouseServerErrorException(""))
               .when(powerManagementService)
               .cancelScheduledSuspend();
 
