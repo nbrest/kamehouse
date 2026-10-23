@@ -1,0 +1,11 @@
+### Media Video - Get all playlists
+GET {{SERVER}}/kame-house-media/api/{{apiVersion}}/media/video/playlists
+
+### Media Video - Get specific playlist
+GET {{SERVER}}/kame-house-media/api/{{apiVersion}}/media/video/playlist?path={{path}}
+
+### Media Video - Get invalid playlist path (Expect 404)
+GET {{SERVER}}/kame-house-media/api/{{apiVersion}}/media/video/playlist?path={{invalidPath}}
+
+### Media Commons - Set log level to TRACE
+PUT {{SERVER}}/kame-house-media/api/{{apiVersion}}/commons/log-level/trace

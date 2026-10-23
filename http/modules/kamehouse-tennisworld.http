@@ -1,0 +1,7 @@
+### Tennis World - Get booking requests
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Tennis World - Get booking request by ID
+GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}

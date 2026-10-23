@@ -1,0 +1,27 @@
+{
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "apiVersion": "v1",
+      "invalidId": "999888777666555444",
+      "invalidUsername": "ZZZXXXCCCVVVBBBNNNMMM",
+      "invalidEmail": "ZZZXXXCCCVVVBBBNNNMMM@dragonball.com",
+      "invalidPath": "/invalid/path",
+      "invalidHostname": "ZZZ-XXX-CCC-VVV-BBB-NNN-MMM"
+    },
+    "localhost-dev-tomcat": {
+      "SERVER": "http://localhost:9989",
+      "USERNAME": "seiya",
+      "PASSWORD": "ikki"
+    },
+    "localhost-dev-docker": {
+      "SERVER": "http://localhost:6080",
+      "USERNAME": "seiya",
+      "PASSWORD": "ikki"
+    },
+    "localhost-prod-https": {
+      "SERVER": "https://localhost",
+      "USERNAME": "seiya",
+      "PASSWORD": "ikki"
+    }
+  }
+}
