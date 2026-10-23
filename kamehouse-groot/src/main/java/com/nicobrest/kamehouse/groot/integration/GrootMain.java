@@ -16,6 +16,9 @@ public class GrootMain {
    * GRoot main method.
    */
   public static void main(String[] args) {
+    if (args.length > 0) {
+      logger.debug("Ignoring command line arguments: {}", (Object) args);
+    }
     logger.info("GRoot APIs are built on PHP. Only the integration tests are built in Java");
   }
 }

@@ -25,7 +25,7 @@ public abstract class AbstractGrootIntegrationTest extends AbstractControllerInt
     logger.info("Base url for httpd integration tests: {}", getWebappUrl());
     try {
       login();
-    } catch (IOException e) {
+    } catch (IOException _) {
       logger.info("Error logging in to {}", getLoginUrl());
       throw new KameHouseException("Error logging in to " + getLoginUrl());
     }
