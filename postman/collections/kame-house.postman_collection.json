@@ -2316,6 +2316,95 @@
       ]
     },
     {
+      "name": "kamehouse-auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic {{USERNAME}}:{{PASSWORD}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{SERVER}}/kame-house-auth/login",
+              "host": [
+                "{{SERVER}}"
+              ],
+              "path": [
+                "kame-house-auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "login-failed",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{SERVER}}/kame-house-auth/login",
+              "host": [
+                "{{SERVER}}"
+              ],
+              "path": [
+                "kame-house-auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{SERVER}}/kame-house-auth/logout",
+              "host": [
+                "{{SERVER}}"
+              ],
+              "path": [
+                "kame-house-auth",
+                "logout"
+              ]
+            }
+          }
+        },
+        {
+          "name": "session-status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic {{USERNAME}}:{{PASSWORD}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{SERVER}}/kame-house-auth/api/v1/auth/session/status",
+              "host": [
+                "{{SERVER}}"
+              ],
+              "path": [
+                "kame-house-auth",
+                "api",
+                "v1",
+                "auth",
+                "session",
+                "status"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
       "name": "kamehouse-groot",
       "item": [
         {
@@ -11490,95 +11579,6 @@
             }
           },
           "response": []
-        }
-      ]
-    },
-    {
-      "name": "kamehouse-auth",
-      "item": [
-        {
-          "name": "login",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Basic {{USERNAME}}:{{PASSWORD}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{SERVER}}/kame-house-auth/login",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house-auth",
-                "login"
-              ]
-            }
-          }
-        },
-        {
-          "name": "login-failed",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{SERVER}}/kame-house-auth/login",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house-auth",
-                "login"
-              ]
-            }
-          }
-        },
-        {
-          "name": "logout",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{SERVER}}/kame-house-auth/logout",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house-auth",
-                "logout"
-              ]
-            }
-          }
-        },
-        {
-          "name": "session-status",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Basic {{USERNAME}}:{{PASSWORD}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{SERVER}}/kame-house-auth/api/v1/auth/session/status",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house-auth",
-                "api",
-                "v1",
-                "auth",
-                "session",
-                "status"
-              ]
-            }
-          }
         }
       ]
     }
