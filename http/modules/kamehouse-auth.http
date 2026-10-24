@@ -1,0 +1,15 @@
+### Auth - Login
+POST {{SERVER}}/kame-house-auth/login
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+### Auth - Login Failed
+POST {{SERVER}}/kame-house-auth/login
+
+
+### Auth - Logout
+POST {{SERVER}}/kame-house-auth/logout
+
+
+### Auth - Session Status
+GET {{SERVER}}/kame-house-auth/api/v1/auth/session/status
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
