@@ -1,8 +1,8 @@
 package com.nicobrest.kamehouse.admin.controller;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.admin.service.KameHouseUserService;
 import com.nicobrest.kamehouse.commons.controller.AbstractController;

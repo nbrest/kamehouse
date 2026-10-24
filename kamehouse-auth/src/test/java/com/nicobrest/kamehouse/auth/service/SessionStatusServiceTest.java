@@ -1,14 +1,14 @@
 package com.nicobrest.kamehouse.auth.service;
 
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.commons.model.KameHouseUser;
-import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import com.nicobrest.kamehouse.auth.model.SessionStatus;
 import com.nicobrest.kamehouse.auth.testutils.SessionStatusTestUtils;
-import java.util.List;
+import com.nicobrest.kamehouse.commons.model.KameHouseUser;
+import com.nicobrest.kamehouse.commons.service.KameHouseUserAuthenticationService;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

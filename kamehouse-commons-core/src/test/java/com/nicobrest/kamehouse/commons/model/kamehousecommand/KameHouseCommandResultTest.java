@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * KameHouseCommandResult test
+ * KameHouseCommandResult test.
  *
  * @author nbrest
  */

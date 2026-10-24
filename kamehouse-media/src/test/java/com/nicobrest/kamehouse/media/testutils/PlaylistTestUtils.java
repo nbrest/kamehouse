@@ -62,6 +62,9 @@ public class PlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     }
   }
 
+  /**
+   * Set Linux paths.
+   */
   public void setLinuxPaths() {
     for (Playlist playlist : testDataList) {
       playlist.setPath(setLinuxPath(playlist.getPath()));
@@ -69,6 +72,9 @@ public class PlaylistTestUtils extends AbstractTestUtils<Playlist, Object>
     }
   }
 
+  /**
+   * Set Windows paths.
+   */
   public void setWindowsPaths() {
     for (Playlist playlist : testDataList) {
       playlist.setPath(setWindowsPath(playlist.getPath()));

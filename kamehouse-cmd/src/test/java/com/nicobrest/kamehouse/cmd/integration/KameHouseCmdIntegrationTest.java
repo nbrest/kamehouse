@@ -68,7 +68,7 @@ class KameHouseCmdIntegrationTest {
    * Execute jvncsender text operation to an invalid host.
    */
   @Test
-  void jVncSenderTextTest() throws IOException, InterruptedException {
+  void jvncSenderTextTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderTextCommand();
     execute(command, List.of(0, 255));
 
@@ -79,7 +79,7 @@ class KameHouseCmdIntegrationTest {
    * Execute jvncsender mouse click operation to an invalid host.
    */
   @Test
-  void jVncSenderMouseClickTest() throws IOException, InterruptedException {
+  void jvncSenderMouseClickTest() throws IOException, InterruptedException {
     List<String> command = getJvncSenderMouseClickCommand();
     execute(command, List.of(0, 255));
 

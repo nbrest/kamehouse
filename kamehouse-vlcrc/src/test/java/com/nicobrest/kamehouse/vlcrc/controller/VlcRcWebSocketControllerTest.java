@@ -1,9 +1,9 @@
 package com.nicobrest.kamehouse.vlcrc.controller;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
 
 import com.nicobrest.kamehouse.commons.exception.KameHouseNotFoundException;
 import com.nicobrest.kamehouse.vlcrc.model.VlcRcPlaylistItem;

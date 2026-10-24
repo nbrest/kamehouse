@@ -6,10 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.nicobrest.kamehouse.auth.testutils.SessionStatusTestUtils;
-import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import com.nicobrest.kamehouse.auth.model.SessionStatus;
 import com.nicobrest.kamehouse.auth.service.SessionStatusService;
+import com.nicobrest.kamehouse.auth.testutils.SessionStatusTestUtils;
+import com.nicobrest.kamehouse.commons.controller.AbstractControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

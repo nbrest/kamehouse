@@ -2,8 +2,8 @@ package com.nicobrest.kamehouse.commons.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import com.nicobrest.kamehouse.commons.model.KameHouseCommandStatus;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommand;

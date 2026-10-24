@@ -2,10 +2,10 @@ package com.nicobrest.kamehouse.auth.testutils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.nicobrest.kamehouse.auth.model.SessionStatus;
 import com.nicobrest.kamehouse.commons.testutils.AbstractTestUtils;
 import com.nicobrest.kamehouse.commons.testutils.TestUtils;
 import com.nicobrest.kamehouse.commons.utils.PropertiesUtils;
-import com.nicobrest.kamehouse.auth.model.SessionStatus;
 import java.util.List;
 
 /**

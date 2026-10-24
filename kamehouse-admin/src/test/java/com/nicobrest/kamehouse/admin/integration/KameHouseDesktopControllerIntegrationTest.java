@@ -2,10 +2,9 @@ package com.nicobrest.kamehouse.admin.integration;
 
 import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.commons.model.kamehousecommand.KameHouseCommandResult;
+import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 /**
  * Integration tests for the KameHouseDesktopController class.

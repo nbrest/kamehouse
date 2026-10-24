@@ -1,7 +1,7 @@
 package com.nicobrest.kamehouse.auth.integration;
 
-import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import com.nicobrest.kamehouse.auth.model.SessionStatus;
+import com.nicobrest.kamehouse.commons.integration.AbstractControllerIntegrationTest;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.Test;
 

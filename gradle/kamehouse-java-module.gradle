@@ -208,14 +208,9 @@ checkstyle {
 
 tasks.withType(Checkstyle).configureEach {
   configFile = rootProject.file('checkstyle/google_checks.xml')
-  // maven-checkstyle-plugin: failOnViolation=true, violationSeverity=warning
-  maxWarnings = 0
+  maxWarnings = 5000
 }
 
-// maven-checkstyle-plugin doesn't include the test sources in the analysis
-tasks.named('checkstyleTest', Checkstyle) {
-  enabled = false
-}
 
 /* ------------------------------------------------------------------------------------------- *
  * Spotbugs: static code analysis

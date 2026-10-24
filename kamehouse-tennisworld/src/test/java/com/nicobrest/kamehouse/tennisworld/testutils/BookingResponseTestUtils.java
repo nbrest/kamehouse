@@ -56,11 +56,6 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
     assertEquals(expected.getMessage(), returned.getMessage());
   }
 
-  public static void updateResponseWithRequestData(
-      BookingRequest request, BookingResponse response) {
-    response.setRequest(request);
-  }
-
   /**
    * The id and booking time are generated during the booking so it can't be mocked and matched
    * automatically.
@@ -76,7 +71,16 @@ public class BookingResponseTestUtils extends AbstractTestUtils<BookingResponse,
    * Update response with request data.
    */
   public static void updateResponseWithRequestData(
-      BookingResponse response, LocalDate date, String time, SessionType sessionType, String duration) {
+      BookingRequest request, BookingResponse response) {
+    response.setRequest(request);
+  }
+
+  /**
+   * Update response with request data.
+   */
+  public static void updateResponseWithRequestData(
+      BookingResponse response, LocalDate date, String time, SessionType sessionType,
+      String duration) {
     response.getRequest().setDate(date);
     response.getRequest().setDuration(duration);
     response.getRequest().setTime(time);
