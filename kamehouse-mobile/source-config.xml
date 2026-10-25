@@ -13,7 +13,7 @@
     <platform name="android">
       <preference name="ErrorUrl" value="https://localhost/kame-house/error/404.html" />
       <preference name="LoadingDialog" value="KameHouse,KameHouse" />
-      <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/kame-house/img/dbz/db-4-star.png" />
+      <preference name="AndroidWindowSplashScreenAnimatedIcon" value="www/kame-house/img/dbz/db-4-star_small.png" />
       <preference name="AndroidWindowSplashScreenBackground" value="#303030ff" />      
       <preference name="AndroidPersistentFileLocation" value="Internal" />
       <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
