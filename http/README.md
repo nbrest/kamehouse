@@ -124,3 +124,8 @@ before running real Tennis World booking requests.
 
 The authentication login/logout/authorize requests use `# @noRedirect`,
 because httpyac follows redirects by default while Postman does not.
+
+## VSCode
+
+- Install anweber httpYac plugin to execute these requests via vscode
+- In editor settings configure the plugin httpyac to allow selecting the environment from the status bar at the bottom
