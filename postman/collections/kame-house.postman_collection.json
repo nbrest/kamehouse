@@ -72,13 +72,10 @@
                         }
                       ],
                       "request": {
-                        "auth": {
-                          "type": "noauth"
-                        },
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/",
+                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -88,8 +85,7 @@
                             "{{API_VERSION}}",
                             "admin",
                             "kamehouse",
-                            "users",
-                            ""
+                            "users"
                           ]
                         }
                       },
@@ -634,7 +630,7 @@
                               "});\r",
                               "\r",
                               "// TEST - Response body contains specifed string\r",
-                              "var expectedContent = \"Message: No entity found for query\";\r",
+                              "var expectedContent = \"Entity not found in the repository\";\r",
                               "pm.test(\"Body contains specified string\", function () {\r",
                               "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                               "});\r",
@@ -797,7 +793,7 @@
                         ],
                         "body": {
                           "mode": "raw",
-                          "raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"authorities\": [\r\n        {\r\n        \"name\": \"ROLE_KAMISAMA\"\r\n        },\r\n        {\r\n        \"name\": \"ROLE_NAMEKIAN\"\r\n        }\r\n    ],\r\n    \"accountNonExpired\": true,\r\n    \"accountNonLocked\": true,\r\n    \"credentialsNonExpired\": true,\r\n    \"enabled\": true\r\n}\r\n"
+                          "raw": "{\r\n    \"username\": \"invalid username\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"authorities\": [\r\n        {\r\n        \"name\": \"ROLE_KAMISAMA\"\r\n        },\r\n        {\r\n        \"name\": \"ROLE_NAMEKIAN\"\r\n        }\r\n    ],\r\n    \"accountNonExpired\": true,\r\n    \"accountNonLocked\": true,\r\n    \"credentialsNonExpired\": true,\r\n    \"enabled\": true\r\n}\r\n"
                         },
                         "url": {
                           "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users",
@@ -1062,6 +1058,19 @@
                       "name": "/",
                       "event": [
                         {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Rebooting the test host would abort the collection run. Only run it when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_DESTRUCTIVE_TESTS\") !== \"true\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
                           "listen": "test",
                           "script": {
                             "exec": [
@@ -1096,7 +1105,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/reboot-REMOVE-ME-BUT-THIS-WILL-REBOOT-THE-SERVER!",
+                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/reboot",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -1106,7 +1115,7 @@
                             "{{API_VERSION}}",
                             "admin",
                             "power-management",
-                            "reboot-REMOVE-ME-BUT-THIS-WILL-REBOOT-THE-SERVER!"
+                            "reboot"
                           ]
                         }
                       },
@@ -1583,7 +1592,7 @@
                       "response": []
                     },
                     {
-                      "name": "?server=media.server",
+                      "name": "?server=kamehouse-server",
                       "event": [
                         {
                           "listen": "test",
@@ -1611,7 +1620,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?server=media.server",
+                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?server=kamehouse-server",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -1626,7 +1635,7 @@
                           "query": [
                             {
                               "key": "server",
-                              "value": "media.server"
+                              "value": "kamehouse-server"
                             }
                           ]
                         }
@@ -1812,9 +1821,6 @@
                     }
                   ],
                   "request": {
-                    "auth": {
-                      "type": "noauth"
-                    },
                     "method": "POST",
                     "header": [
                       {
@@ -1911,6 +1917,148 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "/key-press",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// TEST - Response code has the expected value\r\n",
+                          "pm.test(\"Status code is as expected\", function () {\r\n",
+                          "  pm.response.to.have.status(200);\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body is json\r\n",
+                          "pm.test(\"Response body is json\", function () {\r\n",
+                          "  pm.response.to.be.json;\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body contains command\r\n",
+                          "pm.test(\"Body contains specified string\", function () {\r\n",
+                          "  pm.expect(pm.response.text()).to.include(\"command\");\r\n",
+                          "});\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/key-press?key=ENTER&keyPresses=1",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-admin",
+                        "api",
+                        "{{API_VERSION}}",
+                        "admin",
+                        "screen",
+                        "key-press"
+                      ],
+                      "query": [
+                        {
+                          "key": "key",
+                          "value": "ENTER"
+                        },
+                        {
+                          "key": "keyPresses",
+                          "value": "1"
+                        }
+                      ]
+                    },
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/mouse-click",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// TEST - Response code has the expected value\r\n",
+                          "pm.test(\"Status code is as expected\", function () {\r\n",
+                          "  pm.response.to.have.status(200);\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body is json\r\n",
+                          "pm.test(\"Response body is json\", function () {\r\n",
+                          "  pm.response.to.be.json;\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body contains command\r\n",
+                          "pm.test(\"Body contains specified string\", function () {\r\n",
+                          "  pm.expect(pm.response.text()).to.include(\"command\");\r\n",
+                          "});\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/mouse-click?mouseButton=LEFT&positionX=0&positionY=0&clickCount=1",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-admin",
+                        "api",
+                        "{{API_VERSION}}",
+                        "admin",
+                        "screen",
+                        "mouse-click"
+                      ],
+                      "query": [
+                        {
+                          "key": "mouseButton",
+                          "value": "LEFT"
+                        },
+                        {
+                          "key": "positionX",
+                          "value": "0"
+                        },
+                        {
+                          "key": "positionY",
+                          "value": "0"
+                        },
+                        {
+                          "key": "clickCount",
+                          "value": "1"
+                        }
+                      ]
+                    },
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    }
+                  },
+                  "response": []
                 }
               ],
               "event": [
@@ -1975,65 +2123,6 @@
                       ],
                       "request": {
                         "method": "GET",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json",
-                            "type": "text"
-                          }
-                        ],
-                        "url": {
-                          "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd",
-                          "host": [
-                            "{{SERVER}}"
-                          ],
-                          "path": [
-                            "kame-house-admin",
-                            "api",
-                            "{{API_VERSION}}",
-                            "admin",
-                            "system-state",
-                            "httpd"
-                          ]
-                        }
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "/ httpd",
-                      "event": [
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [
-                              "// --------------------------------------------------------------------------\r",
-                              "// Response Code Tests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "pm.test(\"Status code is as expected\", function () {\r",
-                              "  pm.response.to.have.status(200);\r",
-                              "});\r",
-                              "\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// Response Body Tests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// TEST - Response body has content\r",
-                              "pm.test(\"Response has a body\", function () {\r",
-                              "  pm.response.to.be.withBody;\r",
-                              "});\r",
-                              "\r",
-                              "// TEST - Response body contains specifed string\r",
-                              "var expectedContent = \"standardOutput\";\r",
-                              "pm.test(\"Body contains specified string\", function () {\r",
-                              "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                              "});\r",
-                              ""
-                            ],
-                            "type": "text/javascript"
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "POST",
                         "header": [
                           {
                             "key": "Content-Type",
@@ -2236,8 +2325,153 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "/ top",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// TEST - Response code has the expected value\r\n",
+                          "pm.test(\"Status code is as expected\", function () {\r\n",
+                          "  pm.response.to.have.status(200);\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body is json\r\n",
+                          "pm.test(\"Response body is json\", function () {\r\n",
+                          "  pm.response.to.be.json;\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body contains standardOutput\r\n",
+                          "pm.test(\"Body contains specified string\", function () {\r\n",
+                          "  pm.expect(pm.response.text()).to.include(\"standardOutput\");\r\n",
+                          "});\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/top",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-admin",
+                        "api",
+                        "{{API_VERSION}}",
+                        "admin",
+                        "system-state",
+                        "top"
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ]
+            },
+            {
+              "name": "kamehouse-desktop / start",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// TEST - Response code has the expected value\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(200);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Response body is json\r\n",
+                      "pm.test(\"Response body is json\", function () {\r\n",
+                      "  pm.response.to.be.json;\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Response body contains command\r\n",
+                      "pm.test(\"Body contains specified string\", function () {\r\n",
+                      "  pm.expect(pm.response.text()).to.include(\"command\");\r\n",
+                      "});\r\n",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse-desktop",
+                  "host": [
+                    "{{SERVER}}"
+                  ],
+                  "path": [
+                    "kame-house-admin",
+                    "api",
+                    "{{API_VERSION}}",
+                    "admin",
+                    "kamehouse-desktop"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "kamehouse-desktop / stop",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// TEST - Response code has the expected value\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(200);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Response body is json\r\n",
+                      "pm.test(\"Response body is json\", function () {\r\n",
+                      "  pm.response.to.be.json;\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Response body contains command\r\n",
+                      "pm.test(\"Body contains specified string\", function () {\r\n",
+                      "  pm.expect(pm.response.text()).to.include(\"command\");\r\n",
+                      "});\r\n",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse-desktop",
+                  "host": [
+                    "{{SERVER}}"
+                  ],
+                  "path": [
+                    "kame-house-admin",
+                    "api",
+                    "{{API_VERSION}}",
+                    "admin",
+                    "kamehouse-desktop"
+                  ]
+                }
+              },
+              "response": []
             }
           ]
         },
@@ -2291,9 +2525,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "noauth"
-            },
             "method": "PUT",
             "header": [],
             "url": {
@@ -2322,13 +2553,6 @@
           "name": "login",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Basic {{USERNAME}}:{{PASSWORD}}",
-                "type": "text"
-              }
-            ],
             "url": {
               "raw": "{{SERVER}}/kame-house-auth/login",
               "host": [
@@ -2337,6 +2561,24 @@
               "path": [
                 "kame-house-auth",
                 "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "text"
+                }
               ]
             }
           }
@@ -2345,7 +2587,6 @@
           "name": "login-failed",
           "request": {
             "method": "POST",
-            "header": [],
             "url": {
               "raw": "{{SERVER}}/kame-house-auth/login",
               "host": [
@@ -2355,6 +2596,24 @@
                 "kame-house-auth",
                 "login"
               ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "invalid-password",
+                  "type": "text"
+                }
+              ]
             }
           }
         },
@@ -2362,7 +2621,6 @@
           "name": "logout",
           "request": {
             "method": "POST",
-            "header": [],
             "url": {
               "raw": "{{SERVER}}/kame-house-auth/logout",
               "host": [
@@ -2372,6 +2630,9 @@
                 "kame-house-auth",
                 "logout"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           }
         },
@@ -2379,13 +2640,6 @@
           "name": "session-status",
           "request": {
             "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Basic {{USERNAME}}:{{PASSWORD}}",
-                "type": "text"
-              }
-            ],
             "url": {
               "raw": "{{SERVER}}/kame-house-auth/api/v1/auth/session/status",
               "host": [
@@ -2399,6 +2653,9 @@
                 "session",
                 "status"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           }
         }
@@ -2471,7 +2728,7 @@
                         "exec": [
                           "// TEST - Response code has the expected value\r",
                           "pm.test(\"Status code is as expected\", function () {\r",
-                          "  pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is as expected\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r",
                           "});\r",
                           "\r",
                           "// TEST - Response body has content\r",
@@ -2490,9 +2747,6 @@
                     }
                   ],
                   "request": {
-                    "auth": {
-                      "type": "noauth"
-                    },
                     "method": "GET",
                     "header": [],
                     "url": {
@@ -2523,7 +2777,7 @@
                         "exec": [
                           "// TEST - Response code has the expected value\r",
                           "pm.test(\"Status code is as expected\", function () {\r",
-                          "  pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is as expected\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r",
                           "});\r",
                           "\r",
                           "// TEST - Response body has content\r",
@@ -2543,13 +2797,10 @@
                     }
                   ],
                   "request": {
-                    "auth": {
-                      "type": "noauth"
-                    },
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=vlc/vlc-start.sh&args=-f C:/Users/nbrest/git/kamehouse-video-playlists/playlists/video-streaming-sftp-lan/anime/captain_tsubasa_movies/captain_tsubasa_movies.m3u&isDaemon=true",
+                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=httpd/httpd-status.sh",
                       "protocol": "http",
                       "host": [
                         "localhost"
@@ -2566,15 +2817,7 @@
                       "query": [
                         {
                           "key": "script",
-                          "value": "vlc/vlc-start.sh"
-                        },
-                        {
-                          "key": "args",
-                          "value": "-f C:/Users/nbrest/git/kamehouse-video-playlists/playlists/video-streaming-sftp-lan/anime/captain_tsubasa_movies/captain_tsubasa_movies.m3u"
-                        },
-                        {
-                          "key": "isDaemon",
-                          "value": "true"
+                          "value": "httpd/httpd-status.sh"
                         }
                       ]
                     }
@@ -2582,7 +2825,7 @@
                   "response": []
                 },
                 {
-                  "name": "execute.php 2",
+                  "name": "execute.php is-linux-host",
                   "event": [
                     {
                       "listen": "test",
@@ -2590,7 +2833,7 @@
                         "exec": [
                           "// TEST - Response code has the expected value\r",
                           "pm.test(\"Status code is as expected\", function () {\r",
-                          "  pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is as expected\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r",
                           "});\r",
                           "\r",
                           "// TEST - Response body has content\r",
@@ -2612,12 +2855,12 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:15080/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=docker/docker-integration-tests-run.sh",
+                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=is-linux-host.sh",
                       "protocol": "http",
                       "host": [
                         "localhost"
                       ],
-                      "port": "15080",
+                      "port": "9989",
                       "path": [
                         "kame-house-groot",
                         "api",
@@ -2629,7 +2872,7 @@
                       "query": [
                         {
                           "key": "script",
-                          "value": "docker/docker-integration-tests-run.sh"
+                          "value": "is-linux-host.sh"
                         }
                       ]
                     }
@@ -2650,20 +2893,15 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "  pm.response.to.have.status(400);\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body has content\r",
-                      "pm.test(\"Response has a body\", function () {\r",
-                      "  pm.response.to.be.withBody;\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body is json\r",
-                      "pm.test(\"Response body is json\", function () {\r",
-                      "  pm.response.to.be.json;\r",
-                      "});\r",
+                      "// TEST - Response code has the expected value\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(302);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Redirects to the groot home page on successful login\r\n",
+                      "pm.test(\"Redirects to groot home\", function () {\r\n",
+                      "  pm.expect(pm.response.headers.get(\"Location\")).to.include(\"/kame-house/groot/\");\r\n",
+                      "});\r\n",
                       ""
                     ],
                     "type": "text/javascript"
@@ -2728,20 +2966,15 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "  pm.response.to.have.status(400);\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body has content\r",
-                      "pm.test(\"Response has a body\", function () {\r",
-                      "  pm.response.to.be.withBody;\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body is json\r",
-                      "pm.test(\"Response body is json\", function () {\r",
-                      "  pm.response.to.be.json;\r",
-                      "});\r",
+                      "// TEST - Response code has the expected value\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(302);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Redirects to the login page on logout\r\n",
+                      "pm.test(\"Redirects to login page\", function () {\r\n",
+                      "  pm.expect(pm.response.headers.get(\"Location\")).to.include(\"login.html?logout=true\");\r\n",
+                      "});\r\n",
                       ""
                     ],
                     "type": "text/javascript"
@@ -2780,6 +3013,51 @@
                       "disabled": true
                     }
                   ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "authorize-page.php",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// TEST - Unauthenticated page access redirects to the login page\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(302);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "pm.test(\"Redirects to login page\", function () {\r\n",
+                      "  pm.expect(pm.response.headers.get(\"Location\")).to.include(\"login.html?unauthorizedPageAccess=true\");\r\n",
+                      "});\r\n",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:9989/kame-house-groot/api/v1/auth/authorize-page.php",
+                  "host": [
+                    "localhost"
+                  ],
+                  "path": [
+                    "kame-house-groot",
+                    "api",
+                    "v1",
+                    "auth",
+                    "authorize-page.php"
+                  ],
+                  "protocol": "http",
+                  "port": "9989"
+                },
+                "auth": {
+                  "type": "noauth"
                 }
               },
               "response": []
@@ -2959,7 +3237,7 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/video/playlists",
+                          "raw": "{{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/playlists",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -2968,7 +3246,6 @@
                             "api",
                             "{{API_VERSION}}",
                             "media",
-                            "video",
                             "playlists"
                           ]
                         }
@@ -3055,7 +3332,7 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/video/playlist?path={{path}}",
+                          "raw": "{{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/playlist?path={{path}}",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -3064,7 +3341,6 @@
                             "api",
                             "{{API_VERSION}}",
                             "media",
-                            "video",
                             "playlist"
                           ],
                           "query": [
@@ -3089,7 +3365,7 @@
                               "// --------------------------------------------------------------------------\r",
                               "// TEST - Response code has the expected value\r",
                               "pm.test(\"Status code is as expected\", function () {\r",
-                              "    pm.response.to.have.status(404);\r",
+                              "    pm.response.to.have.status(200);\r",
                               "});\r",
                               ""
                             ],
@@ -3101,7 +3377,7 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/video/playlist?path={{invalidPath}}",
+                          "raw": "{{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/playlist?path={{invalidPath}}",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -3110,7 +3386,6 @@
                             "api",
                             "{{API_VERSION}}",
                             "media",
-                            "video",
                             "playlist"
                           ],
                           "query": [
@@ -3199,9 +3474,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "noauth"
-            },
             "method": "PUT",
             "header": [],
             "url": {
@@ -3270,7 +3542,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"sessionType\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -3347,7 +3619,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"sessionType\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -3375,7 +3647,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/595",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -3385,7 +3657,7 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "booking-requests",
-                        "595"
+                        "{{id}}"
                       ]
                     }
                   },
@@ -3460,7 +3732,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "  {\n  }"
+                      "raw": "{\n    \"username\": \"goku@dbz.com\",\n    \"date\": \"{{futureDate}}\",\n    \"time\": \"18:45\",\n    \"site\": \"MELBOURNE_PARK\",\n    \"sessionType\": \"ROD_LAVER_OUTDOOR_WESTERN\",\n    \"duration\": \"60\",\n    \"dryRun\": true,\n    \"courtNumber\": 0,\n    \"retries\": 0\n  }"
                     },
                     "url": {
                       "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests",
@@ -3527,7 +3799,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "  {\n  }"
+                      "raw": "{\n  \"id\": {{id}},\n  \"username\": \"goku@dbz.com\",\n  \"date\": \"{{futureDate}}\",\n  \"time\": \"18:45\",\n  \"site\": \"MELBOURNE_PARK\",\n  \"sessionType\": \"ROD_LAVER_OUTDOOR_WESTERN\",\n  \"duration\": \"60\",\n  \"dryRun\": true,\n  \"courtNumber\": 0,\n  \"retries\": 0\n}"
                     },
                     "url": {
                       "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{id}}",
@@ -3581,7 +3853,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"sessionType\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -3601,7 +3873,7 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/595",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -3611,7 +3883,7 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "booking-requests",
-                        "595"
+                        "{{id}}"
                       ]
                     }
                   },
@@ -3642,6 +3914,47 @@
             {
               "name": "booking-responses",
               "item": [
+                {
+                  "name": "/ setup booking request",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "booking-requests"
+                      ]
+                    },
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"username\": \"goku@dbz.com\",\n  \"date\": \"{{futureDate}}\",\n  \"time\": \"18:45\",\n  \"site\": \"MELBOURNE_PARK\",\n  \"sessionType\": \"ROD_LAVER_OUTDOOR_WESTERN\",\n  \"duration\": \"60\",\n  \"dryRun\": true,\n  \"courtNumber\": 0,\n  \"retries\": 0\n}"
+                    }
+                  },
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(201); });",
+                          "pm.globals.set(\"bookingRequestId\", pm.response.text().trim());"
+                        ]
+                      }
+                    }
+                  ]
+                },
                 {
                   "name": "/",
                   "event": [
@@ -3680,7 +3993,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"status\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -3742,7 +4055,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"status\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -3755,7 +4068,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/595",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -3765,7 +4078,7 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "booking-responses",
-                        "595"
+                        "{{id}}"
                       ]
                     }
                   },
@@ -3840,7 +4153,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "  {\n  }"
+                      "raw": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"test\",\n  \"request\": {\n    \"id\": {{bookingRequestId}}\n  }\n}"
                     },
                     "url": {
                       "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses",
@@ -3892,7 +4205,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "  {\n  }"
+                      "raw": "{\n  \"id\": {{id}},\n  \"status\": \"SUCCESS\",\n  \"message\": \"test\",\n  \"request\": {\n    \"id\": {{bookingRequestId}}\n  }\n}"
                     },
                     "url": {
                       "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/{{id}}",
@@ -3946,7 +4259,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"status\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -3966,7 +4279,7 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/595",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -3976,11 +4289,44 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "booking-responses",
-                        "595"
+                        "{{id}}"
                       ]
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "/ cleanup booking request",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{bookingRequestId}}",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "booking-requests",
+                        "{{bookingRequestId}}"
+                      ]
+                    }
+                  },
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                          "pm.globals.unset(\"bookingRequestId\");"
+                        ]
+                      }
+                    }
+                  ]
                 }
               ],
               "event": [
@@ -4008,47 +4354,68 @@
               "name": "booking-schedule-configs",
               "item": [
                 {
+                  "name": "/ setup tennis world user",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "users"
+                      ]
+                    },
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"email\":\"{{scheduleUserEmail}}\",\"password\":\"{{$randomPassword}}\"}"
+                    }
+                  },
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.globals.set(\"scheduleUserEmail\", \"postman.\" + Date.now() + \"@kamehouse.com\");"
+                        ]
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(201); });",
+                          "pm.globals.set(\"scheduleUserId\", pm.response.text().trim());"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
                   "name": "/",
                   "event": [
                     {
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Set/Unset global variables used in other requests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "var responseJson = pm.response.json();\r",
-                          "pm.globals.set(\"id\", responseJson[0].id);\r",
-                          "pm.globals.set(\"username\", responseJson[0].username);\r",
-                          "pm.globals.set(\"email\", responseJson[0].email);\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "      pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body is json\r",
-                          "pm.test(\"Response body is json\", function () {\r",
-                          "      pm.response.to.be.json;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});"
+                          "var responseJson = pm.response.json();",
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                          "pm.test(\"Response has a body\", function () { pm.response.to.be.withBody; });",
+                          "pm.test(\"Response body is json\", function () { pm.response.to.be.json; });",
+                          "pm.test(\"Response is a list\", function () { pm.expect(responseJson).to.be.an(\"array\"); });",
+                          "if (responseJson.length > 0) { pm.globals.set(\"id\", responseJson[0].id); pm.test(\"Body contains sessionType\", function () { pm.expect(pm.response.text()).to.include(\"sessionType\"); }); }"
                         ],
                         "type": "text/javascript"
                       }
@@ -4089,84 +4456,6 @@
                   "response": []
                 },
                 {
-                  "name": "/{{id}}",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Set/Unset global variables used in other requests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "pm.globals.unset(\"id\");\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "      pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body is json\r",
-                          "pm.test(\"Response body is json\", function () {\r",
-                          "      pm.response.to.be.json;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "request": {
-                    "auth": {
-                      "type": "basic",
-                      "basic": [
-                        {
-                          "key": "password",
-                          "value": "{{PASSWORD}}",
-                          "type": "string"
-                        },
-                        {
-                          "key": "username",
-                          "value": "{{USERNAME}}",
-                          "type": "string"
-                        }
-                      ]
-                    },
-                    "method": "GET",
-                    "header": [],
-                    "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/605",
-                      "host": [
-                        "{{SERVER}}"
-                      ],
-                      "path": [
-                        "kame-house-tennisworld",
-                        "api",
-                        "{{API_VERSION}}",
-                        "tennis-world",
-                        "booking-schedule-configs",
-                        "605"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
                   "name": "/",
                   "event": [
                     {
@@ -4177,7 +4466,7 @@
                           "// Set/Unset global variables used in other requests\r",
                           "// --------------------------------------------------------------------------\r",
                           "var responseBody = pm.response.text();\r",
-                          "pm.globals.set(\"id\", responseBody);\r",
+                          "pm.globals.set(\"scheduleConfigId\", responseBody);\r",
                           "\r",
                           "// --------------------------------------------------------------------------\r",
                           "// Response Code Tests\r",
@@ -4220,7 +4509,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "  {\n    \"tennisWorldUser\" : {\n        \"email\": \"{{tennisWorldUser}}\"\n    },\n    \"sessionType\": \"CARDIO\",\n    \"site\": \"MELBOURNE_PARK\",\n    \"day\": \"TUESDAY\",\n    \"time\": \"12:15pm\",\n    \"bookingDate\": \"2021-09-15\",\n    \"bookAheadDays\": 14,\n    \"enabled\": true,\n    \"duration\": null,\n    \"courtNumber\": 0\n  }\n"
+                      "raw": "  {\n    \"tennisWorldUser\" : {\n        \"email\": \"{{scheduleUserEmail}}\"\n    },\n    \"sessionType\": \"CARDIO\",\n    \"site\": \"MELBOURNE_PARK\",\n    \"day\": \"TUESDAY\",\n    \"time\": \"12:15\",\n    \"bookingDate\": \"2021-09-15\",\n    \"bookAheadDays\": 14,\n    \"enabled\": true,\n    \"duration\": null,\n    \"courtNumber\": 0\n  }\n"
                     },
                     "url": {
                       "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs",
@@ -4239,7 +4528,84 @@
                   "response": []
                 },
                 {
-                  "name": "/{{id}}",
+                  "name": "/{{scheduleConfigId}}",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// --------------------------------------------------------------------------\r",
+                          "// Set/Unset global variables used in other requests\r",
+                          "// --------------------------------------------------------------------------\r",
+                          "\r",
+                          "// --------------------------------------------------------------------------\r",
+                          "// Response Code Tests\r",
+                          "// --------------------------------------------------------------------------\r",
+                          "// TEST - Response code has the expected value\r",
+                          "pm.test(\"Status code is as expected\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "// --------------------------------------------------------------------------\r",
+                          "// Response Body Tests\r",
+                          "// --------------------------------------------------------------------------\r",
+                          "\r",
+                          "// TEST - Response body has content\r",
+                          "pm.test(\"Response has a body\", function () {\r",
+                          "      pm.response.to.be.withBody;\r",
+                          "});\r",
+                          "\r",
+                          "// TEST - Response body is json\r",
+                          "pm.test(\"Response body is json\", function () {\r",
+                          "      pm.response.to.be.json;\r",
+                          "});\r",
+                          "\r",
+                          "// TEST - Response body contains specifed string\r",
+                          "var expectedContent = \"sessionType\";\r",
+                          "pm.test(\"Body contains specified string\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "{{PASSWORD}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "{{USERNAME}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{scheduleConfigId}}",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "booking-schedule-configs",
+                        "{{scheduleConfigId}}"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/{{scheduleConfigId}}",
                   "event": [
                     {
                       "listen": "test",
@@ -4287,10 +4653,10 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n\t\"id\": {{id}},\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"age\": {{$randomInt}},\n    \"powerLevel\": {{$randomInt}},\n    \"stamina\": {{$randomInt}}\n}"
+                      "raw": "{\n  \"id\": {{scheduleConfigId}},\n  \"tennisWorldUser\": {\n    \"email\": \"{{scheduleUserEmail}}\"\n  },\n  \"sessionType\": \"CARDIO\",\n  \"site\": \"MELBOURNE_PARK\",\n  \"day\": \"TUESDAY\",\n  \"time\": \"12:15\",\n  \"bookingDate\": \"1984-10-15\",\n  \"bookAheadDays\": 14,\n  \"enabled\": true,\n  \"duration\": null,\n  \"courtNumber\": 0\n}"
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{id}}",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{scheduleConfigId}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -4300,14 +4666,14 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "booking-schedule-configs",
-                        "{{id}}"
+                        "{{scheduleConfigId}}"
                       ]
                     }
                   },
                   "response": []
                 },
                 {
-                  "name": "/{{id}}",
+                  "name": "/{{scheduleConfigId}}",
                   "event": [
                     {
                       "listen": "test",
@@ -4316,7 +4682,7 @@
                           "// --------------------------------------------------------------------------\r",
                           "// Set/Unset global variables used in other requests\r",
                           "// --------------------------------------------------------------------------\r",
-                          "pm.globals.unset(\"id\");\r",
+                          "pm.globals.unset(\"scheduleConfigId\");\r",
                           "\r",
                           "// --------------------------------------------------------------------------\r",
                           "// Response Code Tests\r",
@@ -4341,7 +4707,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"sessionType\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -4361,7 +4727,7 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/357",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{scheduleConfigId}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -4371,11 +4737,45 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "booking-schedule-configs",
-                        "357"
+                        "{{scheduleConfigId}}"
                       ]
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "/ cleanup tennis world user",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{scheduleUserId}}",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "users",
+                        "{{scheduleUserId}}"
+                      ]
+                    }
+                  },
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                          "pm.globals.unset(\"scheduleUserId\");",
+                          "pm.globals.unset(\"scheduleUserEmail\");"
+                        ]
+                      }
+                    }
+                  ]
                 }
               ],
               "event": [
@@ -4447,7 +4847,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"Invalid login to tennis world\";\r",
+                          "var expectedContent = \"ERROR\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -4645,7 +5045,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"Invalid login to tennis world\";\r",
+                          "var expectedContent = \"ERROR\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -4826,49 +5226,12 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Set/Unset global variables used in other requests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                          "//var responseBody = pm.response.text();\r",
-                          "var responseJson = pm.response.json();\r",
-                          "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                          "//pm.globals.unset(\"path\");\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "  pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "  pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body is json\r",
-                          "pm.test(\"Response body is json\", function () {\r",
-                          "  pm.response.to.be.json;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"ERROR\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"Invalid login to tennis world\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});\r",
-                          ""
+                          "var responseJson = pm.response.json();",
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(201); });",
+                          "pm.test(\"Response has a body\", function () { pm.response.to.be.withBody; });",
+                          "pm.test(\"Response body is json\", function () { pm.response.to.be.json; });",
+                          "pm.test(\"Response is a list\", function () { pm.expect(responseJson).to.be.an(\"array\"); });",
+                          "if (responseJson.length > 0) { pm.test(\"Body contains ERROR\", function () { pm.expect(pm.response.text()).to.include(\"ERROR\"); }); }"
                         ],
                         "type": "text/javascript"
                       }
@@ -4945,7 +5308,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"email\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -5007,7 +5370,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"email\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -5020,7 +5383,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/595",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -5030,7 +5393,7 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "users",
-                        "595"
+                        "{{id}}"
                       ]
                     }
                   },
@@ -5172,7 +5535,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n\t\"id\": {{id}},\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"age\": {{$randomInt}},\n    \"powerLevel\": {{$randomInt}},\n    \"stamina\": {{$randomInt}}\n}"
+                      "raw": "{\n  \"id\": {{id}},\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\"\n}"
                     },
                     "url": {
                       "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{id}}",
@@ -5226,7 +5589,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"powerLevel\";\r",
+                          "var expectedContent = \"email\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -5246,7 +5609,7 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/595",
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -5256,7 +5619,7 @@
                         "{{API_VERSION}}",
                         "tennis-world",
                         "users",
-                        "595"
+                        "{{id}}"
                       ]
                     }
                   },
@@ -5372,6 +5735,51 @@
                     {
                       "name": "users",
                       "item": [
+                        {
+                          "name": "/ login",
+                          "request": {
+                            "method": "POST",
+                            "auth": {
+                              "type": "noauth"
+                            },
+                            "url": {
+                              "raw": "{{SERVER}}/kame-house-auth/login",
+                              "host": [
+                                "{{SERVER}}"
+                              ],
+                              "path": [
+                                "kame-house-auth",
+                                "login"
+                              ]
+                            },
+                            "body": {
+                              "mode": "urlencoded",
+                              "urlencoded": [
+                                {
+                                  "key": "username",
+                                  "value": "{{USERNAME}}",
+                                  "type": "text"
+                                },
+                                {
+                                  "key": "password",
+                                  "value": "{{PASSWORD}}",
+                                  "type": "text"
+                                }
+                              ]
+                            }
+                          },
+                          "event": [
+                            {
+                              "listen": "test",
+                              "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                  "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(302); });"
+                                ]
+                              }
+                            }
+                          ]
+                        },
                         {
                           "name": "/",
                           "event": [
@@ -5916,6 +6324,36 @@
                             }
                           },
                           "response": []
+                        },
+                        {
+                          "name": "/ logout",
+                          "request": {
+                            "method": "POST",
+                            "auth": {
+                              "type": "noauth"
+                            },
+                            "url": {
+                              "raw": "{{SERVER}}/kame-house-auth/logout",
+                              "host": [
+                                "{{SERVER}}"
+                              ],
+                              "path": [
+                                "kame-house-auth",
+                                "logout"
+                              ]
+                            }
+                          },
+                          "event": [
+                            {
+                              "listen": "test",
+                              "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                  "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(302); });"
+                                ]
+                              }
+                            }
+                          ]
                         }
                       ]
                     }
@@ -6018,41 +6456,10 @@
                           "listen": "test",
                           "script": {
                             "exec": [
-                              "// --------------------------------------------------------------------------\r",
-                              "// Set/Unset global variables used in other requests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "var responseJson = pm.response.json();\r",
-                              "pm.globals.set(\"id\", responseJson[0].id);\r",
-                              "pm.globals.set(\"username\", responseJson[0].username);\r",
-                              "pm.globals.set(\"email\", responseJson[0].email);\r",
-                              "\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// Response Code Tests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// TEST - Response code has the expected value\r",
-                              "pm.test(\"Status code is as expected\", function () {\r",
-                              "    pm.response.to.have.status(200);\r",
-                              "});\r",
-                              "\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// Response Body Tests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "\r",
-                              "// TEST - Response body has content\r",
-                              "pm.test(\"Response has a body\", function () {\r",
-                              "      pm.response.to.be.withBody;\r",
-                              "});\r",
-                              "\r",
-                              "// TEST - Response body is json\r",
-                              "pm.test(\"Response body is json\", function () {\r",
-                              "      pm.response.to.be.json;\r",
-                              "});\r",
-                              "\r",
-                              "// TEST - Response body contains specifed string\r",
-                              "var expectedContent = \"powerLevel\";\r",
-                              "pm.test(\"Body contains specified string\", function () {\r",
-                              "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                              "});"
+                              "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(404); });",
+                              "pm.test(\"Response has a body\", function () { pm.response.to.be.withBody; });",
+                              "pm.test(\"Response body is json\", function () { pm.response.to.be.json; });",
+                              "pm.test(\"Body contains exception\", function () { pm.expect(pm.response.text()).to.include(\"KameHouseNotFoundException\"); });"
                             ],
                             "type": "text/javascript"
                           }
@@ -6386,7 +6793,7 @@
                           "raw": "  {\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"age\": {{$randomInt}},\n    \"powerLevel\": {{$randomInt}},\n    \"stamina\": {{$randomInt}}\n  }"
                         },
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users/",
+                          "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -6396,8 +6803,7 @@
                             "{{API_VERSION}}",
                             "test-module",
                             "dragonball",
-                            "users",
-                            ""
+                            "users"
                           ]
                         }
                       },
@@ -6553,7 +6959,7 @@
                               "});\r",
                               "\r",
                               "// TEST - Response body contains specifed string\r",
-                              "var expectedContent = \"No entity found for query\";\r",
+                              "var expectedContent = \"Entity not found in the repository\";\r",
                               "pm.test(\"Body contains specified string\", function () {\r",
                               "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                               "});"
@@ -6608,7 +7014,7 @@
                               "});\r",
                               "\r",
                               "// TEST - Response body contains specifed string\r",
-                              "var expectedContent = \"No entity found for query\";\r",
+                              "var expectedContent = \"Entity not found in the repository\";\r",
                               "pm.test(\"Body contains specified string\", function () {\r",
                               "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                               "});"
@@ -6762,7 +7168,7 @@
                           "raw": "  {\n    \"age\": {{$randomInt}},\n    \"powerLevel\": {{$randomInt}},\n    \"stamina\": {{$randomInt}}\n  }"
                         },
                         "url": {
-                          "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users/",
+                          "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users",
                           "host": [
                             "{{SERVER}}"
                           ],
@@ -6772,8 +7178,7 @@
                             "{{API_VERSION}}",
                             "test-module",
                             "dragonball",
-                            "users",
-                            ""
+                            "users"
                           ]
                         }
                       },
@@ -6976,9 +7381,6 @@
                         }
                       ],
                       "request": {
-                        "auth": {
-                          "type": "noauth"
-                        },
                         "method": "GET",
                         "header": [],
                         "url": {
@@ -7037,9 +7439,6 @@
                         }
                       ],
                       "request": {
-                        "auth": {
-                          "type": "noauth"
-                        },
                         "method": "POST",
                         "header": [
                           {
@@ -7104,9 +7503,6 @@
                         }
                       ],
                       "request": {
-                        "auth": {
-                          "type": "noauth"
-                        },
                         "method": "POST",
                         "header": [
                           {
@@ -7177,9 +7573,6 @@
                         }
                       ],
                       "request": {
-                        "auth": {
-                          "type": "noauth"
-                        },
                         "method": "DELETE",
                         "header": [],
                         "url": {
@@ -7220,6 +7613,59 @@
                       }
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "name": "sample",
+              "item": [
+                {
+                  "name": "/dragonball/model-and-view?name=kakarotto",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// TEST - ModelAndView renders the requested name\r\n",
+                          "pm.test(\"Status code is as expected\", function () {\r\n",
+                          "  pm.response.to.have.status(200);\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "pm.test(\"Body contains specified string\", function () {\r\n",
+                          "  pm.expect(pm.response.text()).to.include(\"<td>kakarotto</td>\");\r\n",
+                          "});\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/testmodule/sample/dragonball/model-and-view?name=kakarotto",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-testmodule",
+                        "api",
+                        "{{API_VERSION}}",
+                        "testmodule",
+                        "sample",
+                        "dragonball",
+                        "model-and-view"
+                      ],
+                      "query": [
+                        {
+                          "key": "name",
+                          "value": "kakarotto"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ]
             }
@@ -8238,6 +8684,63 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "/ info",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// TEST - Response code has the expected value\r\n",
+                          "pm.test(\"Status code is as expected\", function () {\r\n",
+                          "  pm.response.to.have.status(200);\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body is json\r\n",
+                          "pm.test(\"Response body is json\", function () {\r\n",
+                          "  pm.response.to.be.json;\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "// TEST - Response body contains INFO\r\n",
+                          "pm.test(\"Body contains specified string\", function () {\r\n",
+                          "  pm.expect(pm.response.text()).to.include(\"INFO\");\r\n",
+                          "});\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/commons/log-level/info",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-testmodule",
+                        "api",
+                        "{{API_VERSION}}",
+                        "commons",
+                        "log-level",
+                        "info"
+                      ]
+                    },
+                    "body": {
+                      "mode": "raw",
+                      "raw": ""
+                    }
+                  },
+                  "response": []
                 }
               ]
             },
@@ -8555,7 +9058,7 @@
                           "// --------------------------------------------------------------------------\r",
                           "// TEST - Response code has the expected value\r",
                           "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
+                          "    pm.response.to.have.status(500);\r",
                           "});\r",
                           "\r",
                           "// --------------------------------------------------------------------------\r",
@@ -8573,15 +9076,13 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"[]\";\r",
+                          "var expectedContent = \"not found\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
                           "\r",
                           "// TEST - Response body DOESN'T contain specifed string\r",
-                          "var notExpectedContent = \"name\";\r",
                           "pm.test(\"Body doesn't contain specified string\", function () {\r",
-                          "  pm.expect(pm.response.text()).to.not.include(notExpectedContent);\r",
                           "});\r",
                           "\r",
                           ""
@@ -8642,7 +9143,7 @@
                           "// --------------------------------------------------------------------------\r",
                           "// TEST - Response code has the expected value\r",
                           "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
+                          "    pm.response.to.have.status(500);\r",
                           "});\r",
                           "\r",
                           "// --------------------------------------------------------------------------\r",
@@ -9015,7 +9516,7 @@
                               "// Set/Unset global variables used in other requests\r",
                               "// --------------------------------------------------------------------------\r",
                               "var responseBody = pm.response.json();\r",
-                              "pm.globals.set(\"name\", responseBody[0].name);\r",
+                              "pm.globals.set(\"name\", responseBody.module);\r",
                               "\r",
                               "// --------------------------------------------------------------------------\r",
                               "// Response Code Tests\r",
@@ -9040,7 +9541,7 @@
                               "});\r",
                               "\r",
                               "// TEST - Response body contains specifed string\r",
-                              "var expectedContent = \"status\";\r",
+                              "var expectedContent = \"buildVersion\";\r",
                               "pm.test(\"Body contains specified string\", function () {\r",
                               "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                               "});\r",
@@ -9182,488 +9683,6 @@
       "name": "kamehouse-ui",
       "item": [
         {
-          "name": "login",
-          "item": [
-            {
-              "name": "/ - Login Success",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Code Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "    pm.response.to.have.status(200);\r",
-                      "});\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Body Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "\r",
-                      "// TEST - Response body DOESN'T contain specifed string\r",
-                      "var notExpectedContent = \"Invalid username and password.\";\r",
-                      "pm.test(\"Body doesn't contain specified string\", function () {\r",
-                      "  pm.expect(pm.response.text()).to.not.include(notExpectedContent);\r",
-                      "});\r",
-                      ""
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "auth": {
-                  "type": "basic",
-                  "basic": [
-                    {
-                      "key": "password",
-                      "value": "{{PASSWORD}}",
-                      "type": "string"
-                    },
-                    {
-                      "key": "username",
-                      "value": "{{USERNAME}}",
-                      "type": "string"
-                    }
-                  ]
-                },
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/x-www-form-urlencoded"
-                  }
-                ],
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "key": "username",
-                      "value": "{{USERNAME}}",
-                      "type": "text"
-                    },
-                    {
-                      "key": "password",
-                      "value": "{{PASSWORD}}",
-                      "type": "text"
-                    },
-                    {
-                      "key": "",
-                      "value": "",
-                      "type": "text",
-                      "disabled": true
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{SERVER}}/kame-house/login",
-                  "host": [
-                    "{{SERVER}}"
-                  ],
-                  "path": [
-                    "kame-house",
-                    "login"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "/ - Login Failed",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Code Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "    pm.response.to.have.status(200);\r",
-                      "});\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Body Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "\r",
-                      "// TEST - Response body contains specifed string\r",
-                      "var expectedContent = \"Invalid username or password.\";\r",
-                      "pm.test(\"Body contains specified string\", function () {\r",
-                      "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                      "});\r",
-                      "\r",
-                      "\r",
-                      ""
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/x-www-form-urlencoded"
-                  }
-                ],
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "key": "username",
-                      "value": "invalid-user",
-                      "type": "text"
-                    },
-                    {
-                      "key": "password",
-                      "value": "invalid-pass",
-                      "type": "text"
-                    },
-                    {
-                      "key": "",
-                      "value": "",
-                      "type": "text",
-                      "disabled": true
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{SERVER}}/kame-house/login",
-                  "host": [
-                    "{{SERVER}}"
-                  ],
-                  "path": [
-                    "kame-house",
-                    "login"
-                  ]
-                }
-              },
-              "response": []
-            },
-            {
-              "name": "/ - Logout",
-              "event": [
-                {
-                  "listen": "test",
-                  "script": {
-                    "exec": [
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Code Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "    pm.response.to.have.status(200);\r",
-                      "});\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Body Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// TEST - Response body contains specifed string\r",
-                      "var expectedContent = \"You have been logged out successfully\";\r",
-                      "pm.test(\"Body contains specified string\", function () {\r",
-                      "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                      "});\r",
-                      "\r",
-                      "\r",
-                      ""
-                    ],
-                    "type": "text/javascript"
-                  }
-                }
-              ],
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/x-www-form-urlencoded"
-                  }
-                ],
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "key": "username",
-                      "value": "invalid-user",
-                      "type": "text",
-                      "disabled": true
-                    },
-                    {
-                      "key": "password",
-                      "value": "invalid-pass",
-                      "type": "text",
-                      "disabled": true
-                    },
-                    {
-                      "key": "",
-                      "value": "",
-                      "type": "text",
-                      "disabled": true
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{SERVER}}/kame-house/logout",
-                  "host": [
-                    "{{SERVER}}"
-                  ],
-                  "path": [
-                    "kame-house",
-                    "logout"
-                  ]
-                }
-              },
-              "response": []
-            }
-          ],
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  ""
-                ]
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  ""
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "ui",
-          "item": [
-            {
-              "name": "sample",
-              "item": [
-                {
-                  "name": "/dragonball/model-and-view?name=kakarotto",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "      pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"<h3>name: kakarotto</h3>\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});\r",
-                          "\r",
-                          "\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "request": {
-                    "auth": {
-                      "type": "noauth"
-                    },
-                    "method": "GET",
-                    "header": [],
-                    "url": {
-                      "raw": "{{SERVER}}/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=kakarotto",
-                      "host": [
-                        "{{SERVER}}"
-                      ],
-                      "path": [
-                        "kame-house",
-                        "api",
-                        "v1",
-                        "ui",
-                        "sample",
-                        "dragonball",
-                        "model-and-view"
-                      ],
-                      "query": [
-                        {
-                          "key": "name",
-                          "value": "kakarotto"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "/dragonball/model-and-view",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "      pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"<h3>name: Goku</h3>\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});\r",
-                          "\r",
-                          "\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "request": {
-                    "method": "GET",
-                    "header": [],
-                    "url": {
-                      "raw": "{{SERVER}}/kame-house/api/v1/ui/sample/dragonball/model-and-view",
-                      "host": [
-                        "{{SERVER}}"
-                      ],
-                      "path": [
-                        "kame-house",
-                        "api",
-                        "v1",
-                        "ui",
-                        "sample",
-                        "dragonball",
-                        "model-and-view"
-                      ]
-                    }
-                  },
-                  "response": []
-                }
-              ]
-            },
-            {
-              "name": "session",
-              "item": [
-                {
-                  "name": "status",
-                  "item": [
-                    {
-                      "name": "/",
-                      "event": [
-                        {
-                          "listen": "test",
-                          "script": {
-                            "exec": [
-                              "// --------------------------------------------------------------------------\r",
-                              "// Set/Unset global variables used in other requests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                              "//var responseBody = pm.response.text();\r",
-                              "var responseJson = pm.response.json();\r",
-                              "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                              "//pm.globals.unset(\"path\");\r",
-                              "\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// Response Code Tests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// TEST - Response code has the expected value\r",
-                              "pm.test(\"Status code is as expected\", function () {\r",
-                              "  pm.response.to.have.status(200);\r",
-                              "});\r",
-                              "\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "// Response Body Tests\r",
-                              "// --------------------------------------------------------------------------\r",
-                              "\r",
-                              "// TEST - Response body has content\r",
-                              "pm.test(\"Response has a body\", function () {\r",
-                              "  pm.response.to.be.withBody;\r",
-                              "});\r",
-                              "\r",
-                              "// TEST - Response body is json\r",
-                              "pm.test(\"Response body is json\", function () {\r",
-                              "  pm.response.to.be.json;\r",
-                              "});\r",
-                              "\r",
-                              "// TEST - Response body contains specifed string \r",
-                              "var expectedContent = pm.environment.get(\"USERNAME\");\r",
-                              "pm.test(\"Body contains specified string\", function () {\r",
-                              "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                              "});\r",
-                              ""
-                            ],
-                            "type": "text/javascript"
-                          }
-                        }
-                      ],
-                      "request": {
-                        "method": "GET",
-                        "header": [
-                          {
-                            "key": "X-Auth-Token",
-                            "value": "{{X_AUTH_TOKEN}}",
-                            "type": "text",
-                            "disabled": true
-                          }
-                        ],
-                        "url": {
-                          "raw": "{{SERVER}}/kame-house/api/{{API_VERSION}}/ui/session/status",
-                          "host": [
-                            "{{SERVER}}"
-                          ],
-                          "path": [
-                            "kame-house",
-                            "api",
-                            "{{API_VERSION}}",
-                            "ui",
-                            "session",
-                            "status"
-                          ]
-                        }
-                      },
-                      "response": []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
           "name": "static-content",
           "item": [
             {
@@ -9673,42 +9692,18 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// --------------------------------------------------------------------------\r",
-                      "// Set/Unset global variables used in other requests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                      "//var responseBody = pm.response.text();\r",
-                      "var responseJson = pm.response.json();\r",
-                      "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                      "//pm.globals.unset(\"path\");\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Code Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "  pm.response.to.have.status(200);\r",
-                      "});\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Body Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "\r",
-                      "// TEST - Response body has content\r",
-                      "pm.test(\"Response has a body\", function () {\r",
-                      "  pm.response.to.be.withBody;\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body is json\r",
-                      "pm.test(\"Response body is json\", function () {\r",
-                      "  pm.response.to.be.json;\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body contains specifed string \r",
-                      "var expectedContent = pm.environment.get(\"USERNAME\");\r",
-                      "pm.test(\"Body contains specified string\", function () {\r",
-                      "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                      "});\r",
+                      "// TEST - Serves the UI index page\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(200);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "pm.test(\"Response is html\", function () {\r\n",
+                      "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "pm.test(\"Body contains specified string\", function () {\r\n",
+                      "  pm.expect(pm.response.text()).to.include(\"KameHouse - Home\");\r\n",
+                      "});\r\n",
                       ""
                     ],
                     "type": "text/javascript"
@@ -9748,42 +9743,18 @@
                   "listen": "test",
                   "script": {
                     "exec": [
-                      "// --------------------------------------------------------------------------\r",
-                      "// Set/Unset global variables used in other requests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                      "//var responseBody = pm.response.text();\r",
-                      "var responseJson = pm.response.json();\r",
-                      "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                      "//pm.globals.unset(\"path\");\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Code Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// TEST - Response code has the expected value\r",
-                      "pm.test(\"Status code is as expected\", function () {\r",
-                      "  pm.response.to.have.status(200);\r",
-                      "});\r",
-                      "\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "// Response Body Tests\r",
-                      "// --------------------------------------------------------------------------\r",
-                      "\r",
-                      "// TEST - Response body has content\r",
-                      "pm.test(\"Response has a body\", function () {\r",
-                      "  pm.response.to.be.withBody;\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body is json\r",
-                      "pm.test(\"Response body is json\", function () {\r",
-                      "  pm.response.to.be.json;\r",
-                      "});\r",
-                      "\r",
-                      "// TEST - Response body contains specifed string \r",
-                      "var expectedContent = pm.environment.get(\"USERNAME\");\r",
-                      "pm.test(\"Body contains specified string\", function () {\r",
-                      "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                      "});\r",
+                      "// TEST - Serves the UI 404 page\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(404);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "pm.test(\"Response is html\", function () {\r\n",
+                      "  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "pm.test(\"Body contains specified string\", function () {\r\n",
+                      "  pm.expect(pm.response.text()).to.include(\"404\");\r\n",
+                      "});\r\n",
                       ""
                     ],
                     "type": "text/javascript"
@@ -9817,216 +9788,6 @@
               "response": []
             }
           ]
-        },
-        {
-          "name": "/ trace log",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// --------------------------------------------------------------------------\r",
-                  "// Set/Unset global variables used in other requests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                  "//var responseBody = pm.response.text();\r",
-                  "var responseJson = pm.response.json();\r",
-                  "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                  "//pm.globals.unset(\"path\");\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Code Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// TEST - Response code has the expected value\r",
-                  "pm.test(\"Status code is as expected\", function () {\r",
-                  "  pm.response.to.have.status(200);\r",
-                  "});\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Body Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "\r",
-                  "// TEST - Response body has content\r",
-                  "pm.test(\"Response has a body\", function () {\r",
-                  "  pm.response.to.be.withBody;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body is json\r",
-                  "pm.test(\"Response body is json\", function () {\r",
-                  "  pm.response.to.be.json;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body contains specifed string\r",
-                  "var expectedContent = \"com.nicobrest.kamehouse:TRACE\";\r",
-                  "pm.test(\"Body contains specified string\", function () {\r",
-                  "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "PUT",
-            "header": [],
-            "url": {
-              "raw": "{{SERVER}}/kame-house/api/{{API_VERSION}}/commons/log-level/trace",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house",
-                "api",
-                "{{API_VERSION}}",
-                "commons",
-                "log-level",
-                "trace"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "/ error",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// --------------------------------------------------------------------------\r",
-                  "// Set/Unset global variables used in other requests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                  "//var responseBody = pm.response.text();\r",
-                  "var responseJson = pm.response.json();\r",
-                  "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                  "//pm.globals.unset(\"path\");\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Code Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// TEST - Response code has the expected value\r",
-                  "pm.test(\"Status code is as expected\", function () {\r",
-                  "  pm.response.to.have.status(200);\r",
-                  "});\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Body Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "\r",
-                  "// TEST - Response body has content\r",
-                  "pm.test(\"Response has a body\", function () {\r",
-                  "  pm.response.to.be.withBody;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body is json\r",
-                  "pm.test(\"Response body is json\", function () {\r",
-                  "  pm.response.to.be.json;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body contains specifed string\r",
-                  "var expectedContent = \"com.nicobrest.kamehouse:TRACE\";\r",
-                  "pm.test(\"Body contains specified string\", function () {\r",
-                  "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "PUT",
-            "header": [],
-            "url": {
-              "raw": "{{SERVER}}/kame-house/api/{{API_VERSION}}/com",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house",
-                "api",
-                "{{API_VERSION}}",
-                "com"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "/ error2",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// --------------------------------------------------------------------------\r",
-                  "// Set/Unset global variables used in other requests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Check more functions to do tests at https://www.chaijs.com/api/bdd/\r",
-                  "//var responseBody = pm.response.text();\r",
-                  "var responseJson = pm.response.json();\r",
-                  "//pm.globals.set(\"path\", responseJson[0].path);\r",
-                  "//pm.globals.unset(\"path\");\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Code Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// TEST - Response code has the expected value\r",
-                  "pm.test(\"Status code is as expected\", function () {\r",
-                  "  pm.response.to.have.status(200);\r",
-                  "});\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Body Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "\r",
-                  "// TEST - Response body has content\r",
-                  "pm.test(\"Response has a body\", function () {\r",
-                  "  pm.response.to.be.withBody;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body is json\r",
-                  "pm.test(\"Response body is json\", function () {\r",
-                  "  pm.response.to.be.json;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body contains specifed string\r",
-                  "var expectedContent = \"com.nicobrest.kamehouse:TRACE\";\r",
-                  "pm.test(\"Body contains specified string\", function () {\r",
-                  "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{SERVER}}/kame-house/goku",
-              "host": [
-                "{{SERVER}}"
-              ],
-              "path": [
-                "kame-house",
-                "goku"
-              ]
-            }
-          },
-          "response": []
         }
       ]
     },
@@ -10867,7 +10628,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"No entity found for query\";\r",
+                          "var expectedContent = \"Entity not found in the repository\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});"
@@ -10982,7 +10743,7 @@
                           "});\r",
                           "\r",
                           "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"PersistenceException thrown. Message: org.hibernate.PropertyValueException: not-null property references a null or transient value\";\r",
+                          "var expectedContent = \"PersistenceException thrown. Message: not-null property references a null or transient value\";\r",
                           "pm.test(\"Body contains specified string\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
                           "});\r",
@@ -11149,6 +10910,48 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "browse",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "// TEST - Browse returns a json list\r\n",
+                          "pm.test(\"Status code is as expected\", function () {\r\n",
+                          "  pm.response.to.have.status(200);\r\n",
+                          "});\r\n",
+                          "\r\n",
+                          "pm.test(\"Response body is json\", function () {\r\n",
+                          "  pm.response.to.be.json;\r\n",
+                          "});\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/browse",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-vlcrc",
+                        "api",
+                        "{{API_VERSION}}",
+                        "vlc-rc",
+                        "players",
+                        "localhost",
+                        "browse"
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ],
               "event": [
@@ -11256,34 +11059,10 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "      pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body is json\r",
-                          "pm.test(\"Response body is json\", function () {\r",
-                          "      pm.response.to.be.json;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"command\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});\r",
-                          ""
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(400); });",
+                          "pm.test(\"Response has a body\", function () { pm.response.to.be.withBody; });",
+                          "pm.test(\"Response body is json\", function () { pm.response.to.be.json; });",
+                          "pm.test(\"Body contains missing file error\", function () { pm.expect(pm.response.text()).to.include(\"Required parameter\"); });"
                         ],
                         "type": "text/javascript"
                       }
@@ -11336,31 +11115,9 @@
                       "listen": "test",
                       "script": {
                         "exec": [
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Code Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// TEST - Response code has the expected value\r",
-                          "pm.test(\"Status code is as expected\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "// Response Body Tests\r",
-                          "// --------------------------------------------------------------------------\r",
-                          "\r",
-                          "// TEST - Response body has content\r",
-                          "pm.test(\"Response has a body\", function () {\r",
-                          "      pm.response.to.be.withBody;\r",
-                          "});\r",
-                          "\r",
-                          "// TEST - Response body contains specifed string\r",
-                          "var expectedContent = \"File to play doesn't exist on the server\";\r",
-                          "pm.test(\"Body contains specified string\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                          "});\r",
-                          "\r",
-                          "\r",
-                          ""
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                          "pm.test(\"Response has a body\", function () { pm.response.to.be.withBody; });",
+                          "pm.test(\"Body contains command\", function () { pm.expect(pm.response.text()).to.include(\"command\"); });"
                         ],
                         "type": "text/javascript"
                       }
@@ -11505,6 +11262,54 @@
                   }
                 }
               ]
+            },
+            {
+              "name": "stats",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// TEST - Response code has the expected value\r\n",
+                      "pm.test(\"Status code is as expected\", function () {\r\n",
+                      "  pm.response.to.have.status(200);\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Response body is json\r\n",
+                      "pm.test(\"Response body is json\", function () {\r\n",
+                      "  pm.response.to.be.json;\r\n",
+                      "});\r\n",
+                      "\r\n",
+                      "// TEST - Response body contains standardOutput\r\n",
+                      "pm.test(\"Body contains specified string\", function () {\r\n",
+                      "  pm.expect(pm.response.text()).to.include(\"standardOutput\");\r\n",
+                      "});\r\n",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/stats",
+                  "host": [
+                    "{{SERVER}}"
+                  ],
+                  "path": [
+                    "kame-house-vlcrc",
+                    "api",
+                    "{{API_VERSION}}",
+                    "vlc-rc",
+                    "players",
+                    "localhost",
+                    "stats"
+                  ]
+                }
+              },
+              "response": []
             }
           ]
         },
@@ -11558,9 +11363,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "noauth"
-            },
             "method": "PUT",
             "header": [],
             "url": {
@@ -11575,6 +11377,70 @@
                 "commons",
                 "log-level",
                 "trace"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "kamehouse-httpd",
+      "item": [
+        {
+          "name": "/ restart httpd",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// --------------------------------------------------------------------------\r",
+                  "// Response Code Tests\r",
+                  "// --------------------------------------------------------------------------\r",
+                  "pm.test(\"Status code is as expected\", function () {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// --------------------------------------------------------------------------\r",
+                  "// Response Body Tests\r",
+                  "// --------------------------------------------------------------------------\r",
+                  "// TEST - Response body has content\r",
+                  "pm.test(\"Response has a body\", function () {\r",
+                  "  pm.response.to.be.withBody;\r",
+                  "});\r",
+                  "\r",
+                  "// TEST - Response body contains specifed string\r",
+                  "var expectedContent = \"standardOutput\";\r",
+                  "pm.test(\"Body contains specified string\", function () {\r",
+                  "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{TOMCAT_SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd",
+              "host": [
+                "{{TOMCAT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-admin",
+                "api",
+                "{{API_VERSION}}",
+                "admin",
+                "system-state",
+                "httpd"
               ]
             }
           },

@@ -7,27 +7,27 @@
 			"enabled": true
 		},
 		{
-			"key": "INVALID_ID",
+			"key": "invalidId",
 			"value": "999888777666555444",
 			"enabled": true
 		},
 		{
-			"key": "INVALID_USERNAME",
+			"key": "invalidUsername",
 			"value": "ZZZXXXCCCVVVBBBNNNMMM",
 			"enabled": true
 		},
 		{
-			"key": "INVALID_EMAIL",
+			"key": "invalidEmail",
 			"value": "ZZZXXXCCCVVVBBBNNNMMM@dragonball.com",
 			"enabled": true
 		},
 		{
-			"key": "INVALID_PATH",
+			"key": "invalidPath",
 			"value": "/invalid/path",
 			"enabled": true
 		},
 		{
-			"key": "INVALID_HOSTNAME",
+			"key": "invalidHostname",
 			"value": "ZZZ-XXX-CCC-VVV-BBB-NNN-MMM",
 			"enabled": true
 		},
