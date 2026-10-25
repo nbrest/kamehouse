@@ -240,12 +240,13 @@ class KameHouseMobileCore {
   startZtvLockscreen() {
     const ztvLockscreen = this.#getZtvLockscreen();
     if (kameHouse.core.isEmpty(ztvLockscreen)) {
-      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("ZTV lock screen is only available in the mobile app"), 2000);
+      kameHouse.logger.debug("ZTV lock screen cordova plugin not available", null);
       return;
     }
     const selectedBackendServer = this.getSelectedBackendServer();
     if (kameHouse.core.isEmpty(selectedBackendServer) || kameHouse.core.isEmpty(selectedBackendServer.url)) {
-      kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml("Select a backend server first"), 2000);
+      const message = "Couldn't find a backend server to start the ZTV lock screen applet. Select a backend server first";
+      kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       return;
     }
     const config = {
@@ -259,14 +260,33 @@ class KameHouseMobileCore {
     ztvLockscreen.start(config,
       () => {
         kameHouse.logger.info("ZTV lock screen applet started", null);
-        this.refreshZtvLockscreenView();
-        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getSuccessModalHtml("ZTV lock screen started"), 1000);
       },
       (error) => {
         const message = "Error starting ZTV lock screen applet: " + error;
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        this.refreshZtvLockscreenView();
-        kameHouse.plugin.modal.basicModal.openAutoCloseable(this.#getErrorModalHtml(message), 3000);
+      }
+    );
+  }
+
+  /**
+   * Check if the ZTV lock screen applet is running and start it if it's not.
+   */
+  keepAliveZtvLockscreen() {
+    const ztvLockscreen = this.#getZtvLockscreen();
+    if (kameHouse.core.isEmpty(ztvLockscreen)) {
+      return;
+    }
+    ztvLockscreen.isRunning(
+      (running) => {
+        const isRunning = running == true || running == 1;
+        if (!isRunning) {
+          kameHouse.logger.info("ZTV lock screen applet is not running. Starting it", null);
+          this.startZtvLockscreen();
+        }
+      },
+      (error) => {
+        const message = "Error checking ZTV lock screen applet status: " + error;
+        kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
       }
     );
   }
@@ -283,51 +303,10 @@ class KameHouseMobileCore {
     ztvLockscreen.stop(
       () => {
         kameHouse.logger.info("ZTV lock screen applet stopped", null);
-        this.refreshZtvLockscreenView();
       },
       (error) => {
         const message = "Error stopping ZTV lock screen applet: " + error;
         kameHouse.logger.error(message, kameHouse.logger.getRedText(message));
-        this.refreshZtvLockscreenView();
-      }
-    );
-  }
-
-  /**
-   * Toggle the ZTV lock screen applet from the settings view.
-   */
-  toggleZtvLockscreen(enabled) {
-    if (enabled) {
-      this.startZtvLockscreen();
-    } else {
-      this.stopZtvLockscreen();
-    }
-  }
-
-  /**
-   * Refresh the ZTV lock screen checkbox view from the applet state.
-   */
-  refreshZtvLockscreenView() {
-    const ztvLockscreen = this.#getZtvLockscreen();
-    const checkboxes = Array.from(document.getElementsByClassName("ztv-lockscreen-checkbox")) as HTMLInputElement[];
-    if (checkboxes.length == 0) {
-      return;
-    }
-    if (kameHouse.core.isEmpty(ztvLockscreen)) {
-      checkboxes.forEach((checkbox) => {
-        checkbox.checked = false;
-        checkbox.disabled = true;
-      });
-      return;
-    }
-    checkboxes.forEach((checkbox) => { checkbox.disabled = false; });
-    ztvLockscreen.isRunning(
-      (running) => {
-        const isRunning = running == true || running == 1;
-        checkboxes.forEach((checkbox) => { checkbox.checked = isRunning; });
-      },
-      () => {
-        checkboxes.forEach((checkbox) => { checkbox.checked = false; });
       }
     );
   }
@@ -952,8 +931,6 @@ class KameHouseMobileConfigManager {
       kameHouse.util.dom.classListRemoveById('backend-login-btn', "hidden-kh");
       kameHouse.util.dom.classListAddById('backend-logout-btn', "hidden-kh");
     }
-
-    kameHouse.extension.mobile.core.refreshZtvLockscreenView();
   }
 
   /**

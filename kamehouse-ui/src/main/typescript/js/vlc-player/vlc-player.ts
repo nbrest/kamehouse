@@ -45,7 +45,7 @@ class VlcPlayer {
         () => {
           kameHouse.util.module.waitForModules(["kameHouseMobile"], () => {
             this.loadStateFromApiRound();
-            kameHouse.extension.mobile.core.refreshZtvLockscreenView();
+            kameHouse.extension.mobile.core.startZtvLockscreen();
           });
         }
       );
@@ -522,6 +522,7 @@ class VlcPlayer {
     this.#synchronizer.connectVlcRcStatus();
     this.#synchronizer.connectPlaylist();
     this.#synchronizer.keepAliveWebSocketsLoop();
+    this.#synchronizer.keepAliveZtvLockscreenLoop();
     this.#synchronizer.syncLoopsHealthCheck();
   }
 
@@ -875,7 +876,6 @@ class VlcPlayerMainViewUpdater {
   /** Update track dropdown list. */
   #updateTrackDropdown(trackConfig: VlcTrackConfig, currentTracks: VlcStreamTrack[]) {
     if (!this.#isTracksListUpdated(trackConfig.getTracks(), currentTracks) && !trackConfig.getUpdateDropdown()) {
-      kameHouse.logger.trace(trackConfig.getType() + " tracks not changed.", null);
       return;
     }
     kameHouse.logger.trace(trackConfig.getType() + " tracks changed. Updating dropdown.", null);
@@ -1073,8 +1073,10 @@ class VlcPlayerSynchronizer {
   #syncLoopsConfig = {
     isRunningKeepAliveWebSocketLoop : false,
     isRunningSyncVlcPlayerHttpLoop : false,
+    isRunningKeepAliveZtvLockscreenLoop : false,
     keepAliveWebSocketLoopCount : 0,
-    syncVlcPlayerHttpLoopCount : 0
+    syncVlcPlayerHttpLoopCount : 0,
+    keepAliveZtvLockscreenLoopCount : 0
   };
 
   constructor(vlcPlayer) {
@@ -1141,6 +1143,21 @@ class VlcPlayerSynchronizer {
   }
 
   /** 
+   * Start infinite loop to keep alive the ZTV lock screen notification.
+   * Break the loop setting isRunningKeepAliveZtvLockscreenLoop to false.
+   */
+  keepAliveZtvLockscreenLoop() {
+    if (!this.#isZtvLockscreenAvailable()) {
+      return;
+    }
+    const config = {
+      keepAliveLoopWaitMs : 5000,
+      syncLoopStartDelayMs : 5000
+    };
+    this.#syncLoopExecution(config, "keepAliveZtvLockscreenLoop", async (config) => {await this.#keepAliveZtvLockscreenLoopRun(config)}, "isRunningKeepAliveZtvLockscreenLoop", "keepAliveZtvLockscreenLoopCount");
+  }
+
+  /** 
    * Start infinite loop to sync falling back to http calls when the websockets are disconnected.
    * Break the loop setting isRunningSyncVlcPlayerHttpLoop to false.
    */
@@ -1159,6 +1176,7 @@ class VlcPlayerSynchronizer {
     kameHouse.logger.info(message, kameHouse.logger.getGreenText(message));
     this.#syncLoopsConfig.isRunningKeepAliveWebSocketLoop = false;
     this.#syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop = false;
+    this.#syncLoopsConfig.isRunningKeepAliveZtvLockscreenLoop = false;
     this.#vlcRcStatusWebSocket.disconnect();
     this.#playlistWebSocket.disconnect(); 
   }
@@ -1174,6 +1192,7 @@ class VlcPlayerSynchronizer {
     this.#playlistWebSocket.disconnect();
     this.#restartSyncVlcPlayerHttpLoop(this.#getRestartLoopConfig());
     this.#restartKeepAliveWebSocketsLoop(this.#getRestartLoopConfig());
+    this.#restartKeepAliveZtvLockscreenLoop(this.#getRestartLoopConfig());
   }
 
   /**
@@ -1279,6 +1298,28 @@ class VlcPlayerSynchronizer {
   }
 
   /**
+   * Keep alive ZTV lock screen notification loop run.
+   */
+  async #keepAliveZtvLockscreenLoopRun(config) {
+    kameHouse.logger.trace("keepAliveZtvLockscreenLoop", null);
+    if (this.#isZtvLockscreenAvailable()) {
+      kameHouse.extension.mobile.core.keepAliveZtvLockscreen();
+    }
+    await kameHouse.core.sleep(config.keepAliveLoopWaitMs);
+    if (config.keepAliveLoopWaitMs < -10000) { // fix sonar bug
+      this.#syncLoopsConfig.isRunningKeepAliveZtvLockscreenLoop = false;
+    }
+  }
+
+  /**
+   * Check if the ZTV lock screen applet is available.
+   */
+  #isZtvLockscreenAvailable() {
+    return !kameHouse.core.isEmpty(kameHouse.extension.mobile)
+      && !kameHouse.core.isEmpty(kameHouse.extension.mobile.core);
+  }
+
+  /**
    * Http fallback sync loop run.
    */
   async #syncVlcPlayerHttpLoopRun(config) {
@@ -1326,9 +1367,11 @@ class VlcPlayerSynchronizer {
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
     kameHouse.logger.trace("isRunningKeepAliveWebSocketLoop: " + this.#syncLoopsConfig.isRunningKeepAliveWebSocketLoop, null);
     kameHouse.logger.trace("isRunningSyncVlcPlayerHttpLoop: " + this.#syncLoopsConfig.isRunningSyncVlcPlayerHttpLoop, null);
+    kameHouse.logger.trace("isRunningKeepAliveZtvLockscreenLoop: " + this.#syncLoopsConfig.isRunningKeepAliveZtvLockscreenLoop, null);
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
     kameHouse.logger.trace("keepAliveWebSocketLoopCount: " + this.#syncLoopsConfig.keepAliveWebSocketLoopCount, null);
     kameHouse.logger.trace("syncVlcPlayerHttpLoopCount: " + this.#syncLoopsConfig.syncVlcPlayerHttpLoopCount, null);        
+    kameHouse.logger.trace("keepAliveZtvLockscreenLoopCount: " + this.#syncLoopsConfig.keepAliveZtvLockscreenLoopCount, null);
     kameHouse.logger.trace(separator, kameHouse.logger.getRedText(separator));
   }
 
@@ -1342,6 +1385,9 @@ class VlcPlayerSynchronizer {
     }
     if (this.#syncLoopsConfig.syncVlcPlayerHttpLoopCount <= 0) {
       this.#restartSyncVlcPlayerHttpLoop(this.#getRestartLoopConfig());
+    }
+    if (this.#isZtvLockscreenAvailable() && this.#syncLoopsConfig.keepAliveZtvLockscreenLoopCount <= 0) {
+      this.#restartKeepAliveZtvLockscreenLoop(this.#getRestartLoopConfig());
     }
   }
 
@@ -1393,6 +1439,19 @@ class VlcPlayerSynchronizer {
     firstRestartConfig.restartLoopDelayMs = 5000;
     this.#restartSyncLoopExecution(firstRestartConfig, "keepAliveWebSocketLoop", () => {this.keepAliveWebSocketsLoop()}, "keepAliveWebSocketLoopCount");
     this.#restartSyncLoopExecution(config, "keepAliveWebSocketLoop", () => {this.keepAliveWebSocketsLoop()}, "keepAliveWebSocketLoopCount");
+  }
+
+  /**
+   * Restart keep alive ZTV lock screen loop.
+   */
+  #restartKeepAliveZtvLockscreenLoop(config) {
+    if (!this.#isZtvLockscreenAvailable()) {
+      return;
+    }
+    const firstRestartConfig = this.#getRestartLoopConfig();
+    firstRestartConfig.restartLoopDelayMs = 5000;
+    this.#restartSyncLoopExecution(firstRestartConfig, "keepAliveZtvLockscreenLoop", () => {this.keepAliveZtvLockscreenLoop()}, "keepAliveZtvLockscreenLoopCount");
+    this.#restartSyncLoopExecution(config, "keepAliveZtvLockscreenLoop", () => {this.keepAliveZtvLockscreenLoop()}, "keepAliveZtvLockscreenLoopCount");
   }
   
   /**
