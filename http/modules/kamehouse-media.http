@@ -1,20 +1,157 @@
-### Media Video - Get all playlists
-GET {{SERVER}}/kame-house-media/api/{{apiVersion}}/media/video/playlists
+# kamehouse-media requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-media / media / video / playlists / /
+GET {{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/playlists
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Media Video - Get specific playlist
-GET {{SERVER}}/kame-house-media/api/{{apiVersion}}/media/video/playlist?path={{path}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseJson = response.parsedBody;
+$global.path = encodeURI(responseJson[0].path);
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "category";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-media / media / video / playlist / ?path={{path}}
+GET {{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/playlist?path={{$global.path}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Media Video - Get invalid playlist path (Expect 404)
-GET {{SERVER}}/kame-house-media/api/{{apiVersion}}/media/video/playlist?path={{invalidPath}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.path;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "category";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body has files
+var responseJson = response.parsedBody;
+test("Response body has files", () => {
+    assert.ok(responseJson.files.length >= 1);
+});
+}}
+
+### kamehouse-media / media / video / playlist / ?path={{invalidPath}}
+GET {{SERVER}}/kame-house-media/api/{{API_VERSION}}/media/playlist?path={{invalidPath}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Media Commons - Set log level to TRACE
-PUT {{SERVER}}/kame-house-media/api/{{apiVersion}}/commons/log-level/trace
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+}}
+
+### kamehouse-media / / trace log
+PUT {{SERVER}}/kame-house-media/api/{{API_VERSION}}/commons/log-level/trace
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+// Check more functions to do tests at https://www.chaijs.com/api/bdd/
+//var responseBody = response.body;
+var responseJson = response.parsedBody;
+//$global.path = responseJson[0].path;
+//delete $global.path;
 
-### Media Commons - Set log level to TRACE
-PUT {{SERVER}}/kame-house-media/api/{{apiVersion}}/commons/log-level/trace
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "com.nicobrest.kamehouse:TRACE";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}

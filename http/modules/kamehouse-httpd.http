@@ -1,0 +1,40 @@
+# kamehouse-httpd requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-httpd / / restart httpd
+POST {{TOMCAT_SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "standardOutput";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}

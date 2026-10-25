@@ -1,175 +1,1014 @@
-### Tennis World - Get booking requests
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests
+# kamehouse-tennisworld requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-requests / /
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Tennis World - Get booking request by ID
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseJson = response.parsedBody;
+$global.id = responseJson[0].id;
+$global.username = responseJson[0].username;
+$global.email = responseJson[0].email;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "sessionType";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-requests / /{{id}}
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Tennis World - Get booking requests
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
 
-### Tennis World - Get booking request by ID
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
 
-### Tennis World - Create booking request
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "sessionType";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-requests / /
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json;charset=UTF-8
+
+{
+    "username": "goku@dbz.com",
+    "date": "{{$global.futureDate}}",
+    "time": "18:45",
+    "site": "MELBOURNE_PARK",
+    "sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+    "duration": "60",
+    "dryRun": true,
+    "courtNumber": 0,
+    "retries": 0
+  }
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+$global.id = responseBody;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 201);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-requests / /{{id}}
+PUT {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
+  "id": {{$global.id}},
+  "username": "goku@dbz.com",
+  "date": "{{$global.futureDate}}",
+  "time": "18:45",
+  "site": "MELBOURNE_PARK",
+  "sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+  "duration": "60",
+  "dryRun": true,
+  "courtNumber": 0,
+  "retries": 0
 }
 
-### Tennis World - Update booking request
-PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-requests / /{{id}}
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{$global.id}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "sessionType";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / / setup booking request
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
+  "username": "goku@dbz.com",
+  "date": "{{$global.futureDate}}",
+  "time": "18:45",
+  "site": "MELBOURNE_PARK",
+  "sessionType": "ROD_LAVER_OUTDOOR_WESTERN",
+  "duration": "60",
+  "dryRun": true,
+  "courtNumber": 0,
+  "retries": 0
 }
 
-### Tennis World - Delete booking request
-DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-requests/{{id}}
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 201); });
+$global.bookingRequestId = response.body.trim();
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / /
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseJson = response.parsedBody;
+$global.id = responseJson[0].id;
+$global.username = responseJson[0].username;
+$global.email = responseJson[0].email;
 
-### Tennis World - Get booking responses
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "status";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / /{{id}}
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Tennis World - Get booking response by ID
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses/{{id}}
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
 
-### Tennis World - Create booking response
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "status";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / /
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
+Content-Type: application/json;charset=UTF-8
 
 {
+  "status": "SUCCESS",
+  "message": "test",
+  "request": {
+    "id": {{$global.bookingRequestId}}
+  }
 }
 
-### Tennis World - Update booking response
-PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+$global.id = responseBody;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 201);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / /{{id}}
+PUT {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
+  "id": {{$global.id}},
+  "status": "SUCCESS",
+  "message": "test",
+  "request": {
+    "id": {{$global.bookingRequestId}}
+  }
 }
 
-### Tennis World - Delete booking response
-DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-responses/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / /{{id}}
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-responses/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
 
-### Tennis World - Get booking schedule configs
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "status";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-responses / / cleanup booking request
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-requests/{{$global.bookingRequestId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Tennis World - Get booking schedule config by ID
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs/{{id}}
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+delete $global.bookingRequestId;
+}}
 
-### Tennis World - Create booking schedule config
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / / setup tennis world user
+{{
+$global.scheduleUserEmail = "postman." + Date.now() + "@kamehouse.com";
+}}
+
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-{
+{"email":"{{$global.scheduleUserEmail}}","password":"{{$random.alphanumeric(12)}}"}
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 201); });
+$global.scheduleUserId = response.body.trim();
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / /
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+var responseJson = response.parsedBody;
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+test("Response has a body", () => { assert.ok(response.body != null && response.body !== ''); });
+test("Response body is json", () => { assert.doesNotThrow(() => JSON.parse(response.body)); });
+test("Response is a list", () => { assert.ok(Array.isArray(responseJson)); });
+if (responseJson.length > 0) { $global.id = responseJson[0].id; test("Body contains sessionType", () => { assert.ok(response.body.includes("sessionType")); }); }
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / /
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json;charset=UTF-8
+
+  {
     "tennisWorldUser" : {
-        "email": "{{tennisWorldUser}}"
+        "email": "{{$global.scheduleUserEmail}}"
     },
-    "sessionType": "CARD",
-    "bookingDate": "2024-01-01",
-    "bookingTime": "18:00"
-}
+    "sessionType": "CARDIO",
+    "site": "MELBOURNE_PARK",
+    "day": "TUESDAY",
+    "time": "12:15",
+    "bookingDate": "2021-09-15",
+    "bookAheadDays": 14,
+    "enabled": true,
+    "duration": null,
+    "courtNumber": 0
+  }
 
-### Tennis World - Update booking schedule config
-PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs/{{id}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+$global.scheduleConfigId = responseBody;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 201);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / /{{scheduleConfigId}}
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{$global.scheduleConfigId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "sessionType";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / /{{scheduleConfigId}}
+PUT {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{$global.scheduleConfigId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "id": {{id}},
-    "username": "{{$randomUserName}}",
-    "email": "{{$randomEmail}}",
-    "age": {{$randomInt}}
+  "id": {{$global.scheduleConfigId}},
+  "tennisWorldUser": {
+    "email": "{{$global.scheduleUserEmail}}"
+  },
+  "sessionType": "CARDIO",
+  "site": "MELBOURNE_PARK",
+  "day": "TUESDAY",
+  "time": "12:15",
+  "bookingDate": "1984-10-15",
+  "bookAheadDays": 14,
+  "enabled": true,
+  "duration": null,
+  "courtNumber": 0
 }
 
-### Tennis World - Delete booking schedule config
-DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/booking-schedule-configs/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / /{{scheduleConfigId}}
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/booking-schedule-configs/{{$global.scheduleConfigId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.scheduleConfigId;
 
-### Tennis World - Book court
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/bookings
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "sessionType";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / booking-schedule-configs / / cleanup tennis world user
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{$global.scheduleUserId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
 
-{
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+delete $global.scheduleUserId;
+delete $global.scheduleUserEmail;
+}}
+
+### kamehouse-tennisworld / tennis-world / bookings / / Book Court
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/bookings
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+  {
     "username": "{{tennisWorldUser}}",
     "password": "{{tennisWorldPassword}}",
-    "date": "2024-01-01",
-    "time": "18:00",
-    "court": "1"
-}
+    "date": "{{$global.futureDate}}",
+    "time": "00:00",
+    "site": "MELBOURNE_PARK",
+    "sessionType": "NTC_CLAY_COURTS",
+    "duration": "60",
+    "courtNumber": 0,
+    "cardDetails": {
+        "name": "NICOLAS BREST",
+        "number": "1111111111111111",
+        "expiryDate": "10/2099",
+        "cvv": "999"
+    },
+    "dryRun": false,
+    "retries": 2
+  }
 
-### Tennis World - Book class
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/bookings
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+// Check more functions to do tests at https://www.chaijs.com/api/bdd/
+//var responseBody = response.body;
+var responseJson = response.parsedBody;
+//$global.path = responseJson[0].path;
+//delete $global.path;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 400);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "ERROR";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "ERROR";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / bookings / / Book Class
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/bookings
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
 
-{
+  {
     "username": "{{tennisWorldUser}}",
     "password": "{{tennisWorldPassword}}",
-    "date": "2024-01-01",
-    "time": "18:00",
-    "class": "ADULTS"
-}
+    "date": "{{$global.futureDate}}",
+    "time": "13:00",
+    "site": "MELBOURNE_PARK",
+    "sessionType": "CARDIO",
+    "duration": "45",
+    "courtNumber": 19,
+    "cardDetails": {
+        "name": "NICOLAS BREST",
+        "number": "1111111111111111",
+        "expiryDate": "10/2099",
+        "cvv": "999"
+    },
+    "dryRun": false
+  }
 
-### Tennis World - Scheduled bookings
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/scheduled-bookings
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+// Check more functions to do tests at https://www.chaijs.com/api/bdd/
+//var responseBody = response.body;
+var responseJson = response.parsedBody;
+//$global.path = responseJson[0].path;
+//delete $global.path;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 400);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "ERROR";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "ERROR";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / scheduled-bookings / /
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/scheduled-bookings
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
 
+{{
+const assert = require('assert');
+var responseJson = response.parsedBody;
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 201); });
+test("Response has a body", () => { assert.ok(response.body != null && response.body !== ''); });
+test("Response body is json", () => { assert.doesNotThrow(() => JSON.parse(response.body)); });
+test("Response is a list", () => { assert.ok(Array.isArray(responseJson)); });
+if (responseJson.length > 0) { test("Body contains ERROR", () => { assert.ok(response.body.includes("ERROR")); }); }
+}}
 
-### Tennis World - Get users
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users
+### kamehouse-tennisworld / tennis-world / users / /
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Tennis World - Get user by ID
-GET {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseJson = response.parsedBody;
+$global.id = responseJson[0].id;
+$global.username = responseJson[0].username;
+$global.email = responseJson[0].email;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "email";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / users / /{{id}}
+GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Tennis World - Create user
-POST {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "email";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / users / /
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json;charset=UTF-8
+
+  {
+    "email": "{{$random.email}}",
+    "password": "{{$random.alphanumeric(12)}}"
+  }
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+$global.id = responseBody;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 201);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-tennisworld / tennis-world / users / /{{id}}
+PUT {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "email": "{{$randomEmail}}",
-    "password": "{{$randomPassword}}"
+  "id": {{$global.id}},
+  "email": "{{$random.email}}",
+  "password": "{{$random.alphanumeric(12)}}"
 }
 
-### Tennis World - Update user
-PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-tennisworld / tennis-world / users / /{{id}}
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
 
-{
-    "id": {{id}},
-    "username": "{{$randomUserName}}",
-    "email": "{{$randomEmail}}",
-    "age": {{$randomInt}}
-}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
 
-### Tennis World - Delete user
-DELETE {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/tennis-world/users/{{id}}
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "email";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-tennisworld / / trace log
+PUT {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/commons/log-level/trace
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+// Check more functions to do tests at https://www.chaijs.com/api/bdd/
+//var responseBody = response.body;
+var responseJson = response.parsedBody;
+//$global.path = responseJson[0].path;
+//delete $global.path;
 
-### Commons - Set log level to TRACE
-PUT {{SERVER}}/kame-house-tennisworld/api/{{apiVersion}}/commons/log-level/trace
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "com.nicobrest.kamehouse:TRACE";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}

@@ -1,44 +1,63 @@
-### UI - Login Success
-POST {{SERVER}}/kame-house/login
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+# kamehouse-ui requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
 
-### UI - Login Failed
-POST {{SERVER}}/kame-house/login
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
 
-### UI - Logout
-POST {{SERVER}}/kame-house/logout
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-
-
-### UI Sample - Dragonball Model and View (with name)
-GET {{SERVER}}/kame-house/api/v1/ui/sample/dragonball/model-and-view?name=kakarotto
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-
-### UI Sample - Dragonball Model and View
-GET {{SERVER}}/kame-house/api/v1/ui/sample/dragonball/model-and-view
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-
-
-### UI Session - Status
-GET {{SERVER}}/kame-house/api/{{apiVersion}}/ui/session/status
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-
-
-### UI Static - Home
+### kamehouse-ui / static-content / / home
 GET {{SERVER}}/kame-house/
 
-### UI Static - Not found
+{{
+const assert = require('assert');
+// TEST - Serves the UI index page
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+test("Response is html", () => {
+
+  assert.ok(response.headers['content-type'].includes("text/html"));
+
+});
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("KameHouse - Home"));
+
+});
+}}
+
+### kamehouse-ui / static-content / / not found
 GET {{SERVER}}/kame-house/not-found-page
 
+{{
+const assert = require('assert');
+// TEST - Serves the UI 404 page
 
-### Commons - Set log level to TRACE
-PUT {{SERVER}}/kame-house/api/{{apiVersion}}/commons/log-level/trace
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+test("Status code is as expected", () => {
 
+  assert.strictEqual(response.statusCode, 404);
 
-### Error - PUT test
-PUT {{SERVER}}/kame-house/api/{{apiVersion}}/com
+});
 
-### Error - GET test
-GET {{SERVER}}/kame-house/goku
+test("Response is html", () => {
+
+  assert.ok(response.headers['content-type'].includes("text/html"));
+
+});
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("404"));
+
+});
+}}

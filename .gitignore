@@ -102,3 +102,4 @@ local.properties
 # Node
 ##########
 **/node_modules/
+http-client.private.env.json

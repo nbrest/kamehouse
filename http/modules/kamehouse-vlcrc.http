@@ -1,40 +1,143 @@
-### Vlcrc - Get playlist for localhost
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/playlist
+# kamehouse-vlcrc requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / playlist / /
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/playlist
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc - Get status for localhost
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/status
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / status / /
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/status
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc - Send command fullscreen
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / commands / / - fullscreen
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "name":"fullscreen"
+	"name":"fullscreen"
 }
 
-### Vlcrc - Send command pl_next
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.ok([200,201,404].includes(response.statusCode));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / commands / / - pl_next
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "name":"pl_next"
+	"name":"pl_next"
 }
 
-### Vlcrc - Send command pl_previous
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.ok([200,201,404].includes(response.statusCode));
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / commands / / - pl_previous
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "name":"pl_previous"
+	"name":"pl_previous"
 }
 
-### Vlcrc - Send command in_play invalid file
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.ok([200,201,404].includes(response.statusCode));
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / commands / / - in_play invalid file
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
@@ -43,110 +146,620 @@ Content-Type: application/json
   "input":"file:///C:/Invalid/Path/Avengers Endgame.mp4"
 }
 
-### Vlcrc - Send invalid command
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/localhost/commands
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.ok([200,201,404].includes(response.statusCode));
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / {{hostname}} - localhost / commands / / - invalid cmd
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "name":"fullscreen-INVALID"
+	"name":"fullscreen-INVALID"
 }
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.ok([200,201,404].includes(response.statusCode));
+});
+}}
 
-### Vlcrc Players - Get all
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players
+### kamehouse-vlcrc / vlc-rc / players / /
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc Players - Get by hostname
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/hostname/{{hostname}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseJson = response.parsedBody;
+$global.id = responseJson[0].id;
+$global.hostname = responseJson[0].hostname;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "hostname";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /hostname/{{hostname}}
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/hostname/{{$global.hostname}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc Players - Get by ID
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.hostname;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "hostname";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /{{id}}
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc Players - Create
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "hostname";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-{
-    "hostname": "{{$randomLastName}}",
-    "port": {{$randomInt}},
-    "username": "{{$randomUserName}}",
-    "password": "{{$randomPassword}}"
-}
+  {
+    "hostname": "{{$random.alphabetic(8)}}",
+    "port": {{$random.integer(0, 999)}},
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}"
+  }
 
-### Vlcrc Players - Update
-PUT {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+$global.id = responseBody;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 201);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /{{id}}
+PUT {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-{
-    "id": {{id}},
-    "hostname": "{{$randomLastName}}",
-    "port": {{$randomInt}},
-    "username": "{{$randomUserName}}",
-    "password": "{{$randomPassword}}"
-}
+  {
+    "id": {{$global.id}},
+    "hostname": "{{$random.alphabetic(8)}}",
+    "port": {{$random.integer(0, 999)}},
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}"
+  }
 
-### Vlcrc Players - Delete
-DELETE {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /{{id}}
+DELETE {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc Players - Get by invalid hostname (Expect 404)
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/hostname/{{invalidHostname}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "hostname";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /hostname/{{invalidHostname}}
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/hostname/{{invalidHostname}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc Players - Get by invalid ID (Expect 404)
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{invalidId}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Entity not found in the repository";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /{{invalidId}}
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{invalidId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc Players - Invalid create (Expect 400)
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "was not found in the repository";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / / - Invalid Create
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-{
-    "username": "{{$randomUserName}}",
-    "password": "{{$randomPassword}}"
-}
+  {
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}"
+  }
 
-### Vlcrc Players - Update non-existent (Expect 404)
-PUT {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{invalidId}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 500);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "PersistenceException thrown. Message: not-null property references a null or transient value";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /{{invalidId}}
+PUT {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{invalidId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-{
+  {
     "id": {{invalidId}},
-    "hostname": "{{$randomLastName}}",
-    "port": {{$randomInt}},
-    "username": "{{$randomUserName}}",
-    "password": "{{$randomPassword}}"
-}
+    "hostname": "{{$random.alphabetic(8)}}",
+    "port": {{$random.integer(0, 999)}},
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}"
+  }
 
-### Vlcrc Players - Delete non-existent (Expect 404)
-DELETE {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/players/{{invalidId}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "was not found in the repository";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / /{{invalidId}}
+DELETE {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{invalidId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
 
-### Vlcrc - Get VLC process
-GET {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "was not found in the repository.";
+test("Passwords are hidden", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / players / browse
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/browse
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc - Start VLC without files (Expect error)
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process
+{{
+const assert = require('assert');
+// TEST - Browse returns a json list
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / vlc-process / /
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc - Start VLC with invalid file
-POST {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process?file=%2Finvalid%2Ffile%2FVideos%2Favengers.m3u
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "command";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / vlc-process / / - Start vlc without files
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 400); });
+test("Response has a body", () => { assert.ok(response.body != null && response.body !== ''); });
+test("Response body is json", () => { assert.doesNotThrow(() => JSON.parse(response.body)); });
+test("Body contains missing file error", () => { assert.ok(response.body.includes("Required parameter")); });
+}}
+
+### kamehouse-vlcrc / vlc-rc / vlc-process / ?file=invalid-file
+POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process?file=%2Finvalid%2Ffile%2FVideos%2Favengers.m3u
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+test("Response has a body", () => { assert.ok(response.body != null && response.body !== ''); });
+test("Body contains command", () => { assert.ok(response.body.includes("command")); });
+}}
+
+### kamehouse-vlcrc / vlc-rc / vlc-process / /
+DELETE {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Vlcrc - Stop VLC
-DELETE {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/vlc-rc/vlc-process
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "command";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-vlcrc / vlc-rc / stats
+GET {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/stats
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
 
-### Commons - Set log level to TRACE
-PUT {{SERVER}}/kame-house-vlcrc/api/{{apiVersion}}/commons/log-level/trace
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+// TEST - Response body is json
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+
+// TEST - Response body contains standardOutput
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("standardOutput"));
+
+});
+}}
+
+### kamehouse-vlcrc / / trace log
+PUT {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/commons/log-level/trace
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+// Check more functions to do tests at https://www.chaijs.com/api/bdd/
+//var responseBody = response.body;
+var responseJson = response.parsedBody;
+//$global.path = responseJson[0].path;
+//delete $global.path;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "com.nicobrest.kamehouse:TRACE";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}

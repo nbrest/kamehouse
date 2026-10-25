@@ -1,42 +1,214 @@
-### Groot Admin - Get Shell Scripts
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php
+# kamehouse-groot requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-groot / admin / kamehouse-shell / scripts.php
+GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Groot Admin - Execute Shell Script (no script param - Expect 400)
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-groot / admin / kamehouse-shell / execute.php no script
+GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Groot Admin - Execute Shell Script (vlc-start.sh)
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=vlc/vlc-start.sh&args=-f%20C:/Users/nbrest/git/kamehouse-video-playlists/playlists/video-streaming-sftp-lan/anime/captain_tsubasa_movies/captain_tsubasa_movies.m3u&isDaemon=true
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+});
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-groot / admin / kamehouse-shell / execute.php httpd-status
+GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=httpd/httpd-status.sh
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Groot Admin - Execute Shell Script (docker-integration-tests-run.sh)
-GET {{SERVER_GROOT_DOCKER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=docker/docker-integration-tests-run.sh
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+});
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-groot / admin / kamehouse-shell / execute.php is-linux-host
+GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=is-linux-host.sh
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+});
 
-### Groot Auth - Login
-POST {{SERVER_GROOT}}/kame-house-groot/api/v1/auth/login.php
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-groot / auth / login.php
+# @noRedirect
+POST {{SERVER}}/kame-house-groot/api/v1/auth/login.php
 Content-Type: application/x-www-form-urlencoded
 
 username={{USERNAME}}&password={{PASSWORD}}
 
-### Groot Auth - Logout
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/auth/logout.php
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 302);
+
+});
+
+// TEST - Redirects to the groot home page on successful login
+
+test("Redirects to groot home", () => {
+
+  assert.ok(response.headers['location'].includes("/kame-house/groot/"));
+
+});
+}}
+
+### kamehouse-groot / auth / logout.php
+# @noRedirect
+GET {{SERVER}}/kame-house-groot/api/v1/auth/logout.php
+
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 302);
+
+});
+
+// TEST - Redirects to the login page on logout
+
+test("Redirects to login page", () => {
+
+  assert.ok(response.headers['location'].includes("login.html?logout=true"));
+
+});
+}}
+
+### kamehouse-groot / auth / authorize-page.php
+# @noRedirect
+GET {{SERVER}}/kame-house-groot/api/v1/auth/authorize-page.php
+
+{{
+const assert = require('assert');
+// TEST - Unauthenticated page access redirects to the login page
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 302);
+
+});
+
+test("Redirects to login page", () => {
+
+  assert.ok(response.headers['location'].includes("login.html?unauthorizedPageAccess=true"));
+
+});
+}}
+
+### kamehouse-groot / commons / session / status.php
+GET {{SERVER}}/kame-house-groot/api/v1/commons/session/status.php
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
 
-### Groot Commons - Session Status
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/commons/session/status.php
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+}}
+
+### kamehouse-groot / test / test.php
+GET {{SERVER}}/kame-house-groot/api/v1/test/test.php
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
 
-### Groot Test - Test endpoint
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/test/test.php
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-
-
-### Groot Test - Test endpoint
-GET {{SERVER_GROOT}}/kame-house-groot/api/v1/test/test.php
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+}}

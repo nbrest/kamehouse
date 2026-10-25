@@ -1,32 +1,172 @@
-### Kamehouse Admin - Users: List all users
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/
+# kamehouse-admin requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Kamehouse Admin - Users: Get user by username
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/username/{{username}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseJson = response.parsedBody;
+$global.id = responseJson[0].id;
+$global.username = responseJson[0].username;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "ROLE_KAMISAMA";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "\"password\":null,";
+test("Passwords are hidden", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /username/{{username}}
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/username/{{$global.username}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Kamehouse Admin - Users: Get user by ID
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.username;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "username";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "\"password\":null,";
+test("Passwords are hidden", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /{{id}}
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Kamehouse Admin - Users: Create new user
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "username";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "\"password\":null,";
+test("Passwords are hidden", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "username": "user_{{$randomInt}}",
-    "password": "pass_{{$randomInt}}",
-    "email": "user_{{$randomInt}}@example.com",
-    "firstName": "Goku",
-    "lastName": "Son",
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}",
+    "email": "{{$random.email}}",
+    "firstName": "{{$random.alphabetic(8)}}",
+    "lastName": "{{$random.alphabetic(8)}}",
     "authorities": [
         {
-            "name": "ROLE_KAMISAMA"
+        "name": "ROLE_KAMISAMA"
         },
         {
-            "name": "ROLE_NAMEKIAN"
+        "name": "ROLE_NAMEKIAN"
         }
     ],
     "accountNonExpired": true,
@@ -35,24 +175,51 @@ Content-Type: application/json
     "enabled": true
 }
 
-### Kamehouse Admin - Users: Update user by ID
-PUT {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{id}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+$global.id = responseBody;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 201);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /{{id}}
+PUT {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "id": {{id}},
-    "username": "user_{{$randomInt}}",
-    "password": "pass_{{$randomInt}}",
-    "email": "user_{{$randomInt}}@example.com",
-    "firstName": "Gohan",
-    "lastName": "Son",
+	"id": {{$global.id}},
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}",
+    "email": "{{$random.email}}",
+    "firstName": "{{$random.alphabetic(8)}}",
+    "lastName": "{{$random.alphabetic(8)}}",
     "authorities": [
         {
-            "name": "ROLE_ADMIN"
+        "name": "ROLE_ADMIN"
         },
         {
-            "name": "ROLE_GUEST"
+        "name": "ROLE_GUEST"
         }
     ],
     "accountNonExpired": true,
@@ -61,29 +228,144 @@ Content-Type: application/json
     "enabled": true
 }
 
-### Kamehouse Admin - Users: Delete user by ID
-DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{id}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /{{id}}
+DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/{{$global.id}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Kamehouse Admin - Users: Get user by invalid username (Expect 404)
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/username/{{invalidUsername}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+delete $global.id;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "username";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "\"password\":null,";
+test("Passwords are hidden", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /username/{{invalidUsername}}
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/username/{{invalidUsername}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Kamehouse Admin - Users: Get user by invalid ID (Expect 404)
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{invalidId}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Entity not found in the repository";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /{{invalidId}}
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/{{invalidId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
-### Kamehouse Admin - Users: Invalid create request (Expect 400)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "was not found in the repository";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / / - Invalid Create
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "firstName": "Invalid",
-    "lastName": "User",
+    "username": "invalid username",
+    "password": "{{$random.alphanumeric(12)}}",
+    "email": "{{$random.email}}",
+    "firstName": "{{$random.alphabetic(8)}}",
+    "lastName": "{{$random.alphabetic(8)}}",
     "authorities": [
         {
-            "name": "ROLE_KAMISAMA"
+        "name": "ROLE_KAMISAMA"
+        },
+        {
+        "name": "ROLE_NAMEKIAN"
         }
     ],
     "accountNonExpired": true,
@@ -92,21 +374,56 @@ Content-Type: application/json
     "enabled": true
 }
 
-### Kamehouse Admin - Users: Update non-existent user ID (Expect 404)
-PUT {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{invalidId}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+var responseBody = response.body;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 400);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Invalid username format";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /{{invalidId}}
+PUT {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/{{invalidId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
 {
-    "id": {{invalidId}},
-    "username": "nonexistent",
-    "password": "password",
-    "email": "test@example.com",
-    "firstName": "Test",
-    "lastName": "User",
+	"id": {{invalidId}},
+    "username": "{{$random.alphabetic(10)}}",
+    "password": "{{$random.alphanumeric(12)}}",
+    "email": "{{$random.email}}",
+    "firstName": "{{$random.alphabetic(8)}}",
+    "lastName": "{{$random.alphabetic(8)}}",
     "authorities": [
         {
-            "name": "ROLE_ADMIN"
+        "name": "ROLE_ADMIN"
+        },
+        {
+        "name": "ROLE_GUEST"
         }
     ],
     "accountNonExpired": true,
@@ -115,116 +432,753 @@ Content-Type: application/json
     "enabled": true
 }
 
-### Kamehouse Admin - Users: Delete non-existent user ID (Expect 404)
-DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/kamehouse/users/{{invalidId}}
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body contains specifed string
+var expectedContent = "was not found in the repository";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / kamehouse / users / /{{invalidId}}
+DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse/users/{{invalidId}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 404);
+});
 
-### Power Management - Reboot
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/reboot-REMOVE-ME-BUT-THIS-WILL-REBOOT-THE-SERVER!
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
 
-### Power Management - Get Shutdown status
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/shutdown
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
 
-### Power Management - Schedule Shutdown (delay = 5400s)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/shutdown?delay=5400
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
+// TEST - Response body contains specifed string
+var expectedContent = "was not found in the repository.";
+test("Passwords are hidden", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
 
-### Power Management - Cancel Shutdown
-DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/shutdown
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+### kamehouse-admin / admin / power-management / reboot / /
+{{
+// Rebooting the test host would abort the collection run. Only run it when explicitly enabled.
 
-### Power Management - Get Suspend status
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/suspend
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+if (RUN_DESTRUCTIVE_TESTS !== "true") {
 
-### Power Management - Schedule Suspend (delay = 5400s)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/suspend?delay=5400
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
+  exports.$cancel = true;
 
-### Power Management - Cancel Suspend
-DELETE {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/suspend
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+}
+}}
 
-### Power Management - Wake-on-LAN (MAC & Broadcast)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?mac=8C:04:BA:A6:F2:B1&broadcast=192.168.0.255
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
-
-### Power Management - Wake-on-LAN (Server name)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=media.server
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
-
-### Power Management - Wake-on-LAN (Invalid server - Expect 400)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=invalidServer
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
-
-
-### Screen - Lock
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/screen/lock
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
-
-### Screen - Unlock
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/screen/unlock
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
-
-### Screen - Wake Up
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/screen/wake-up
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
-Content-Type: application/json
-
-
-### System State - HTTPD (GET)
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/httpd
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/reboot
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-### System State - HTTPD (POST)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/httpd
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+}}
+
+### kamehouse-admin / admin / power-management / shutdown / /
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/shutdown
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Shutdown not scheduled";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / power-management / shutdown / ?delay=5400
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/shutdown?delay=5400
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-### System State - Uptime
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/uptime
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Scheduled shutdown at the specified delay of 5400 seconds";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / power-management / shutdown / /
+DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/shutdown
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Shutdown cancelled";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / power-management / suspend / /
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/suspend
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+    assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Suspend not scheduled";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / power-management / suspend / ?delay=5400
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/suspend?delay=5400
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-### System State - Free memory
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/free
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Scheduled suspend at the specified delay of 5400 seconds";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / power-management / suspend / /
+DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/suspend
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Suspend cancelled";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / power-management / wol / ?mac=MAC&broadcast=BROADCAST
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?mac=8C:04:BA:A6:F2:B1&broadcast=192.168.0.255
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-### System State - Disk Free (df)
-GET {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/system-state/df
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 201);
+});
+}}
+
+### kamehouse-admin / admin / power-management / wol / ?server=kamehouse-server
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?server=kamehouse-server
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 201);
+});
+}}
 
-### Commons - Set log level to TRACE
-PUT {{SERVER}}/kame-house-admin/api/{{apiVersion}}/commons/log-level/trace
+### kamehouse-admin / admin / power-management / wol / ?server=invalidServer
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?server=invalidServer
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
 
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 400);
+});
 
-### Power Management - Wake-on-LAN (MAC & Broadcast)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?mac=8C:04:BA:A6:F2:B1&broadcast=192.168.0.255
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "Invalid server specified invalidServer";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / screen / /lock
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/lock
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-### Power Management - Wake-on-LAN (Server name)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=media.server
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "command";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / screen / /unlock
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/unlock
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
 
-### Power Management - Wake-on-LAN (Invalid server - Expect 400)
-POST {{SERVER}}/kame-house-admin/api/{{apiVersion}}/admin/power-management/wol?server=invalidServer
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "command";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / screen / /wake-up
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/wake-up
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+      assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+      assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "command";
+test("Body contains specified string", () => {
+    assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / screen / /key-press
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/key-press?key=ENTER&keyPresses=1
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+// TEST - Response body is json
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+
+// TEST - Response body contains command
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("command"));
+
+});
+}}
+
+### kamehouse-admin / admin / screen / /mouse-click
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/mouse-click?mouseButton=LEFT&positionX=0&positionY=0&clickCount=1
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+// TEST - Response body is json
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+
+// TEST - Response body contains command
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("command"));
+
+});
+}}
+
+### kamehouse-admin / admin / system-state / httpd / / httpd
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "standardOutput";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / system-state / / uptime
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/uptime
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "standardOutput";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / system-state / / free
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/free
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "standardOutput";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / system-state / / df
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/df
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "standardOutput";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}
+
+### kamehouse-admin / admin / system-state / / top
+GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/top
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+// TEST - Response body is json
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+
+// TEST - Response body contains standardOutput
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("standardOutput"));
+
+});
+}}
+
+### kamehouse-admin / admin / kamehouse-desktop / start
+POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse-desktop
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+// TEST - Response body is json
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+
+// TEST - Response body contains command
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("command"));
+
+});
+}}
+
+### kamehouse-admin / admin / kamehouse-desktop / stop
+DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse-desktop
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// TEST - Response code has the expected value
+
+test("Status code is as expected", () => {
+
+  assert.strictEqual(response.statusCode, 200);
+
+});
+
+// TEST - Response body is json
+
+test("Response body is json", () => {
+
+  assert.doesNotThrow(() => JSON.parse(response.body));
+
+});
+
+// TEST - Response body contains command
+
+test("Body contains specified string", () => {
+
+  assert.ok(response.body.includes("command"));
+
+});
+}}
+
+### kamehouse-admin / / trace log
+PUT {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/commons/log-level/trace
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+// --------------------------------------------------------------------------
+// Set/Unset global variables used in other requests
+// --------------------------------------------------------------------------
+// Check more functions to do tests at https://www.chaijs.com/api/bdd/
+//var responseBody = response.body;
+var responseJson = response.parsedBody;
+//$global.path = responseJson[0].path;
+//delete $global.path;
+
+// --------------------------------------------------------------------------
+// Response Code Tests
+// --------------------------------------------------------------------------
+// TEST - Response code has the expected value
+test("Status code is as expected", () => {
+  assert.strictEqual(response.statusCode, 200);
+});
+
+// --------------------------------------------------------------------------
+// Response Body Tests
+// --------------------------------------------------------------------------
+
+// TEST - Response body has content
+test("Response has a body", () => {
+  assert.ok(response.body != null && response.body !== '');
+});
+
+// TEST - Response body is json
+test("Response body is json", () => {
+  assert.doesNotThrow(() => JSON.parse(response.body));
+});
+
+// TEST - Response body contains specifed string
+var expectedContent = "com.nicobrest.kamehouse:TRACE";
+test("Body contains specified string", () => {
+  assert.ok(response.body.includes(expectedContent));
+});
+}}

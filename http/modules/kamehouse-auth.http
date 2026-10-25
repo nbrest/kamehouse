@@ -1,15 +1,32 @@
-### Auth - Login
+# kamehouse-auth requests generated from postman/collections/kame-house.postman_collection.json
+# Environment variables: ../http-client.env.json
+
+{{
+  $global.currentDate = new Date().toISOString().slice(0, 10);
+  const daysFromToday = 2;
+  const today = new Date();
+  const futureDateTemp = new Date(today);
+  futureDateTemp.setDate(futureDateTemp.getDate() + daysFromToday);
+  $global.futureDate = futureDateTemp.toISOString().slice(0, 10);
+}}
+
+### kamehouse-auth / login
+# @noRedirect
 POST {{SERVER}}/kame-house-auth/login
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/x-www-form-urlencoded
 
-### Auth - Login Failed
+username={{USERNAME}}&password={{PASSWORD}}
+
+### kamehouse-auth / login-failed
+# @noRedirect
 POST {{SERVER}}/kame-house-auth/login
+Content-Type: application/x-www-form-urlencoded
 
+username={{USERNAME}}&password=invalid-password
 
-### Auth - Logout
+### kamehouse-auth / logout
+# @noRedirect
 POST {{SERVER}}/kame-house-auth/logout
 
-
-### Auth - Session Status
+### kamehouse-auth / session-status
 GET {{SERVER}}/kame-house-auth/api/v1/auth/session/status
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
