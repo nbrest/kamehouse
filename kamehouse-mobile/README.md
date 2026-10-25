@@ -133,6 +133,7 @@ kamehouse-mobile-run-browser.sh
 - Execute `deploy-kamehouse-dev.sh -m mobile` script to build the mobile app and upload it to the `Downloads` folder in the device 
 - Use `kamehouse-mobile-upload-apk-to-device.sh` script instead of  `deploy-kamehouse-dev.sh` if I need to pass a custom ip and port for the android device to upload to rather than the default
 - Update the app on the mobile device
+- Upload the public key to the android user in SSH/SFTP Server - Terminal users config to upload without password prompt
 
 ## Install from google drive
 - The kamehouse build script uploads the APK to google drive. Install it on the mobile devices straight from google drive
