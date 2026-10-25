@@ -30,8 +30,8 @@ public final class ZtvLockscreenHelper {
   }
 
   /**
-   * Format the media title to match kamehouse desktop style: remove file extensions, replace _ and
-   * - with spaces and capitalize the first letter of each word.
+   * Format the media title to match kamehouse desktop style: remove file extensions, replace _,
+   * - and . with spaces and capitalize the first letter of each word.
    */
   public static String formatMediaTitle(String filename) {
     if (filename == null || filename.isEmpty()) {
@@ -42,6 +42,7 @@ public final class ZtvLockscreenHelper {
     result = result.replace('_', ' ');
     result = result.replaceAll(
         "\\.(mp3|MP3|wav|WAV|m4a|M4A|flac|FLAC|ogg|OGG|mp4|MP4|avi|AVI|mkv|MKV)$", " ");
+    result = result.replace('.', ' ');
     result = result.trim().replaceAll(" +", " ");
     StringBuilder builder = new StringBuilder();
     boolean capitalizeNext = true;

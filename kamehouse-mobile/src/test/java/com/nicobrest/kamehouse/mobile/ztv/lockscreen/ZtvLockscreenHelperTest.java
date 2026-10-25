@@ -33,8 +33,8 @@ class ZtvLockscreenHelperTest {
   }
 
   @Test
-  void formatMediaTitleOnlyStripsExtensionNotDots() {
-    assertEquals("My.cool.song", ZtvLockscreenHelper.formatMediaTitle("my.cool.song.wav"));
+  void formatMediaTitleReplacesDots() {
+    assertEquals("My Cool Song", ZtvLockscreenHelper.formatMediaTitle("my.cool.song.wav"));
   }
 
   @Test

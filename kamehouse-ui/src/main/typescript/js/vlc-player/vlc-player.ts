@@ -806,8 +806,8 @@ class VlcPlayerMainViewUpdater {
   }
 
   /**
-   * Format the media title to match kamehouse desktop style: remove file extensions, replace _ and
-   * - with spaces and capitalize the first letter of each word.
+   * Format the media title to match kamehouse desktop style: remove file extensions, replace _,
+   * - and . with spaces and capitalize the first letter of each word.
    */
   #formatMediaTitle(filename) {
     if (kameHouse.core.isEmpty(filename)) {
@@ -817,6 +817,7 @@ class VlcPlayerMainViewUpdater {
     result = result.replace(/-/g, ' ');
     result = result.replace(/_/g, ' ');
     result = result.replace(/\.(mp3|MP3|wav|WAV|m4a|M4A|flac|FLAC|ogg|OGG|mp4|MP4|avi|AVI|mkv|MKV)$/, ' ');
+    result = result.replace(/\./g, ' ');
     result = result.trim().replace(/ +/g, ' ');
     let formatted = "";
     let capitalizeNext = true;
