@@ -8,6 +8,7 @@
 #### v11.05
 
 - Added AGENTS.md - Turned to the dark side
+- Added opencode commands to run full validation and postman collection
 - Added postman collection with all apis for local dev testing
 - Added .http request files for vscode plugin Rest Client by Humao for local dev testing
 - Added lockscreen notification on android with ztv player status and controls

@@ -4,9 +4,9 @@ Instructions for AI coding tools working on the KameHouse repository.
 
 ## Quick rules
 - **Local dev only:** Use `*-dev.sh` scripts. Never use non-dev scripts unless explicitly asked for production. Examples: `tomcat-status-dev.sh`, `tomcat-startup-dev.sh`, `tomcat-stop-dev.sh`, `tomcat-restart-dev.sh`, `deploy-kamehouse-dev.sh`.
-- **Shell changes:** After editing `kamehouse-shell/`, run `deploy-kamehouse-dev.sh -m shell` from repo root and test the installed copy.
+- **Shell changes:** Any shell script added or modified must use the `kamehouse-shell` framework and structure (source `common-functions.sh`, override `mainProcess`/`parseArguments`/`printHelpOptions` as needed, and call `main "$@"`; use `kamehouse-shell/bin/base-script.sh` as the template). After editing `kamehouse-shell/`, run `deploy-kamehouse-dev.sh -m shell` from repo root and test the installed copy.
 - **Build tool:** Use Gradle wrapper `./gradlew` (not system Gradle). `deploy-kamehouse-dev.sh` does a fast build by default (skips tests/checkstyle/SpotBugs/JaCoCo). Run full `build-kamehouse.sh` or `./gradlew` for validation.
-- **Integration tests:** Never run in foreground (ESC keypress can abort/affect terminal). Run detached/background. Need encrypted secrets loaded (`INTEGRATION_TESTS_CRED`, MariaDB creds).
+- **Integration tests:** Never run in foreground (ESC keypress can abort/affect terminal). Always run detached/background through `kamehouse-shell/bin/test/run-with-keyboard-sink.sh` (installed: `${HOME}/programs/kamehouse-shell/bin/test/run-with-keyboard-sink.sh`), which discards test-injected VNC keystrokes instead of letting them reach opencode. Need encrypted secrets loaded (`INTEGRATION_TESTS_CRED`, MariaDB creds).
 - **Safety:** Don't commit generated artifacts, APKs, `platforms/`/`plugins/`, logs, decrypted secrets/keys. Don't commit automatically unless explicitly asked. Don't print/decrypt/modify secrets.
 - **Repo layout:** Dev repo `${HOME}/workspace/kamehouse`, prod `${HOME}/git/kamehouse`. Installed scripts in `${HOME}/programs/kamehouse-shell/bin`. Config/secrets in `${HOME}/.kamehouse/`. Get secrets via `get-kamehouse-secret.sh -s NAME`. `PROJECT_DIR` defaults to prod path but build/deploy run from CWD; Docker maps host repo to `/home/goku/git/kamehouse` in container.
 - When I request `run full validation of changes` it means: run unit tests, deploy the code to tomcat-dev, run integration tests, run `build-kamehouse.sh` for test coverage, checkstyle and spotbuts, run mobile build with `build-kamehouse.sh -m mobile` and run sonar with `sonarcloud-run-kamehouse.sh`. If any of these fail, the code is not good enough to be committed
@@ -38,10 +38,16 @@ build-kamehouse.sh -r -m <module>       # resume failed build
 ```sh
 build-kamehouse.sh -i                    # host repo
 build-kamehouse.sh -i -p docker          # inside Docker dev container at /home/goku/git/kamehouse
-# detached (required to avoid ESC keypress issues):
-nohup build-kamehouse.sh -i -p docker > /tmp/kamehouse-integration.log 2>&1 &
+# detached through the keyboard sink (required to avoid ESC keypress issues):
+LOG=/tmp/kamehouse-integration.log
+STATUSFILE=/tmp/kamehouse-integration.status
+nohup setsid bash -c '
+  kamehouse-shell/bin/test/run-with-keyboard-sink.sh -- build-kamehouse.sh -i -p docker > "$1" 2>&1
+  echo $? > "$2"
+' _ "$LOG" "$STATUSFILE" </dev/null >/dev/null 2>&1 &
+echo $!
 ```
-Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Run against Docker profile in container or dev Tomcat at `${HOME}/programs/apache-tomcat-dev`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/logs/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts CI container and runs tests on latest committed changes only (not working tree).
+Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Always wrap the integration test command with `run-with-keyboard-sink.sh`; never run it directly. Run against Docker profile in container or dev Tomcat at `${HOME}/programs/apache-tomcat-dev`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/logs/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts CI container and runs tests on latest committed changes only (not working tree).
 
 ## Deploy
 ```sh
