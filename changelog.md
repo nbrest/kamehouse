@@ -13,6 +13,7 @@
 - Added shell script to run the postman collection
 - Added .http collection consistency check and run steps to full validation
 - Added ci-docker profiles to the postman and .http collections
+- Added colored live status display to the keyboard sink
 - Added postman and .http collection runs with retries to the ci docker integration tests
 - Added newman and httpyac installation to the ci tests
 - Fixed content type of tennisworld booking requests in the .http collection
