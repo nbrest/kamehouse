@@ -5989,6 +5989,96 @@
                           ]
                         },
                         {
+                          "name": "/ setup dragonball user",
+                          "request": {
+                            "auth": {
+                              "type": "basic",
+                              "basic": [
+                                {
+                                  "key": "password",
+                                  "value": "{{PASSWORD}}",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "username",
+                                  "value": "{{USERNAME}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": ""
+                            },
+                            "url": {
+                              "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?username={{servletDragonBallUsername}}&email={{servletDragonBallEmail}}&age={{$randomInt}}&powerLevel={{$randomInt}}&stamina={{$randomInt}}",
+                              "host": [
+                                "{{SERVER}}"
+                              ],
+                              "path": [
+                                "kame-house-testmodule",
+                                "api",
+                                "{{API_VERSION}}",
+                                "servlet",
+                                "test-module",
+                                "dragonball",
+                                "users"
+                              ],
+                              "query": [
+                                {
+                                  "key": "username",
+                                  "value": "{{servletDragonBallUsername}}"
+                                },
+                                {
+                                  "key": "email",
+                                  "value": "{{servletDragonBallEmail}}"
+                                },
+                                {
+                                  "key": "age",
+                                  "value": "{{$randomInt}}"
+                                },
+                                {
+                                  "key": "powerLevel",
+                                  "value": "{{$randomInt}}"
+                                },
+                                {
+                                  "key": "stamina",
+                                  "value": "{{$randomInt}}"
+                                }
+                              ]
+                            }
+                          },
+                          "event": [
+                            {
+                              "listen": "prerequest",
+                              "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                  "pm.globals.set(\"servletDragonBallUsername\", \"dragonball.\" + Date.now());",
+                                  "pm.globals.set(\"servletDragonBallEmail\", pm.globals.get(\"servletDragonBallUsername\") + \"@kamehouse.com\");"
+                                ]
+                              }
+                            },
+                            {
+                              "listen": "test",
+                              "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                  "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                                  "pm.globals.set(\"servletDragonBallUserId\", pm.response.text().trim());"
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
                           "name": "/",
                           "event": [
                             {
@@ -6072,7 +6162,7 @@
                           "response": []
                         },
                         {
-                          "name": "/ ?username=goku",
+                          "name": "/ ?username",
                           "event": [
                             {
                               "listen": "test",
@@ -6137,7 +6227,7 @@
                             "method": "GET",
                             "header": [],
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?username=goku",
+                              "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?username={{servletDragonBallUsername}}",
                               "host": [
                                 "{{SERVER}}"
                               ],
@@ -6153,7 +6243,7 @@
                               "query": [
                                 {
                                   "key": "username",
-                                  "value": "goku"
+                                  "value": "{{servletDragonBallUsername}}"
                                 }
                               ]
                             }
@@ -6458,6 +6548,63 @@
                             }
                           },
                           "response": []
+                        },
+                        {
+                          "name": "/ cleanup dragonball user",
+                          "request": {
+                            "auth": {
+                              "type": "basic",
+                              "basic": [
+                                {
+                                  "key": "password",
+                                  "value": "{{PASSWORD}}",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "username",
+                                  "value": "{{USERNAME}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "DELETE",
+                            "header": [],
+                            "url": {
+                              "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?id={{servletDragonBallUserId}}",
+                              "host": [
+                                "{{SERVER}}"
+                              ],
+                              "path": [
+                                "kame-house-testmodule",
+                                "api",
+                                "{{API_VERSION}}",
+                                "servlet",
+                                "test-module",
+                                "dragonball",
+                                "users"
+                              ],
+                              "query": [
+                                {
+                                  "key": "id",
+                                  "value": "{{servletDragonBallUserId}}"
+                                }
+                              ]
+                            }
+                          },
+                          "event": [
+                            {
+                              "listen": "test",
+                              "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                  "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                                  "pm.globals.unset(\"servletDragonBallUserId\");",
+                                  "pm.globals.unset(\"servletDragonBallUsername\");",
+                                  "pm.globals.unset(\"servletDragonBallEmail\");"
+                                ]
+                              }
+                            }
+                          ]
                         },
                         {
                           "name": "/ manual",

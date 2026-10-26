@@ -22,6 +22,22 @@ const assert = require('assert');
 test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 302); });
 }}
 
+### kamehouse-testmodule / test-module / servlet / dragonball / users / / setup dragonball user
+{{
+$global.servletDragonBallUsername = "dragonball." + Date.now();
+$global.servletDragonBallEmail = $global.servletDragonBallUsername + "@kamehouse.com";
+}}
+
+POST {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?username={{$global.servletDragonBallUsername}}&email={{$global.servletDragonBallEmail}}&age={{$random.integer(0, 999)}}&powerLevel={{$random.integer(0, 999)}}&stamina={{$random.integer(0, 999)}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+$global.servletDragonBallUserId = response.body.trim();
+}}
+
 ### kamehouse-testmodule / test-module / servlet / dragonball / users / /
 GET {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
@@ -65,8 +81,8 @@ test("Body contains specified string", () => {
 });
 }}
 
-### kamehouse-testmodule / test-module / servlet / dragonball / users / / ?username=goku
-GET {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?username=goku
+### kamehouse-testmodule / test-module / servlet / dragonball / users / / ?username
+GET {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?username={{$global.servletDragonBallUsername}}
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 {{
@@ -206,6 +222,18 @@ var expectedContent = "powerLevel";
 test("Body contains specified string", () => {
     assert.ok(response.body.includes(expectedContent));
 });
+}}
+
+### kamehouse-testmodule / test-module / servlet / dragonball / users / / cleanup dragonball user
+DELETE {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/servlet/test-module/dragonball/users?id={{$global.servletDragonBallUserId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+delete $global.servletDragonBallUserId;
+delete $global.servletDragonBallUsername;
+delete $global.servletDragonBallEmail;
 }}
 
 ### kamehouse-testmodule / test-module / servlet / dragonball / users / / manual
