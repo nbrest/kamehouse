@@ -16,7 +16,10 @@ import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Process;
 import android.os.SystemClock;
 import android.util.Base64;
 import android.util.Log;
@@ -44,7 +47,7 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * Foreground service that shows the current ZTV playing item and media controls
- * (previous, play/pause, stop, next, close) in an android lock screen notification.
+ * (previous, play/pause, stop, next, close ztv, close app) in an android lock screen notification.
  *
  * The service polls the kamehouse-vlcrc status api on its own so that the
  * notification keeps working while the phone is locked and the app runs in the
@@ -60,6 +63,7 @@ public class ZtvLockscreenService extends Service {
   public static final String ACTION_PLAY = ZtvLockscreenHelper.ACTION_PLAY;
   public static final String ACTION_NEXT = ZtvLockscreenHelper.ACTION_NEXT;
   public static final String ACTION_CLOSE = ZtvLockscreenHelper.ACTION_CLOSE;
+  public static final String ACTION_CLOSE_APP = ZtvLockscreenHelper.ACTION_CLOSE_APP;
 
   public static final String EXTRA_URL = "url";
   public static final String EXTRA_USERNAME = "username";
@@ -73,6 +77,7 @@ public class ZtvLockscreenService extends Service {
       "www/kame-house/img/mobile-lockscreen/mobile-lockscreen-background.jpg";
   private static final int NOTIFICATION_ID = 9821;
   private static final long POLL_INTERVAL_SECONDS = 2;
+  private static final long CLOSE_APP_DELAY_MS = 300;
   private static final int CONNECT_TIMEOUT_MS = 5000;
   private static final int READ_TIMEOUT_MS = 5000;
   private static final String STATE_PLAYING = ZtvLockscreenHelper.STATE_PLAYING;
@@ -306,6 +311,10 @@ public class ZtvLockscreenService extends Service {
       execCloseZtv();
       return;
     }
+    if (ACTION_CLOSE_APP.equals(action)) {
+      closeAppAndNotification();
+      return;
+    }
     String command = ZtvLockscreenHelper.getCommandForAction(action,
         STATE_PLAYING.equals(playbackState));
     if (command != null) {
@@ -325,6 +334,23 @@ public class ZtvLockscreenService extends Service {
    */
   private void execCloseZtv() {
     runInBackground(this::closeZtvProcess);
+  }
+
+  /**
+   * Close the kamehouse mobile app and remove the lock screen notification.
+   */
+  private void closeAppAndNotification() {
+    Log.d(TAG, "Closing kamehouse mobile app and notification");
+    stopPolling();
+    if (mediaSession != null) {
+      mediaSession.setActive(false);
+      mediaSession.release();
+      mediaSession = null;
+    }
+    stopForeground(STOP_FOREGROUND_REMOVE);
+    stopSelf();
+    new Handler(Looper.getMainLooper()).postDelayed(
+        () -> Process.killProcess(Process.myPid()), CLOSE_APP_DELAY_MS);
   }
 
   /**
@@ -439,6 +465,8 @@ public class ZtvLockscreenService extends Service {
         STATE_PLAYING.equals(playbackState) ? 1.0f : 0.0f, SystemClock.elapsedRealtime());
     stateBuilder.addCustomAction(new PlaybackState.CustomAction.Builder(
         ACTION_CLOSE, "Close ZTV", android.R.drawable.ic_lock_power_off).build());
+    stateBuilder.addCustomAction(new PlaybackState.CustomAction.Builder(
+        ACTION_CLOSE_APP, "Close app", com.nicobrest.kamehouse.R.drawable.ic_ztv_close).build());
     mediaSession.setPlaybackState(stateBuilder.build());
 
     String displayTitle = (title == null || title.isEmpty())
@@ -502,6 +530,9 @@ public class ZtvLockscreenService extends Service {
         android.R.drawable.ic_media_next, "Next", actionPendingIntent(ACTION_NEXT)).build());
     builder.addAction(new Notification.Action.Builder(
         android.R.drawable.ic_lock_power_off, "Close ZTV", actionPendingIntent(ACTION_CLOSE)).build());
+    builder.addAction(new Notification.Action.Builder(
+        com.nicobrest.kamehouse.R.drawable.ic_ztv_close, "Close app",
+        actionPendingIntent(ACTION_CLOSE_APP)).build());
     if (mediaSession != null) {
       builder.setStyle(new Notification.MediaStyle()
           .setMediaSession(mediaSession.getSessionToken())

@@ -114,6 +114,7 @@ class ZtvLockscreenHelperTest {
   @Test
   void getCommandForActionUnknown() {
     assertNull(ZtvLockscreenHelper.getCommandForAction(ZtvLockscreenHelper.ACTION_CLOSE, false));
+    assertNull(ZtvLockscreenHelper.getCommandForAction(ZtvLockscreenHelper.ACTION_CLOSE_APP, false));
     assertNull(ZtvLockscreenHelper.getCommandForAction("unknown", false));
   }
 
@@ -222,6 +223,8 @@ class ZtvLockscreenHelperTest {
     assertEquals("com.nicobrest.kamehouse.mobile.ztv.lockscreen.PLAY", ZtvLockscreenHelper.ACTION_PLAY);
     assertEquals("com.nicobrest.kamehouse.mobile.ztv.lockscreen.NEXT", ZtvLockscreenHelper.ACTION_NEXT);
     assertEquals("com.nicobrest.kamehouse.mobile.ztv.lockscreen.CLOSE", ZtvLockscreenHelper.ACTION_CLOSE);
+    assertEquals("com.nicobrest.kamehouse.mobile.ztv.lockscreen.CLOSE_APP",
+        ZtvLockscreenHelper.ACTION_CLOSE_APP);
     assertEquals("No media playing", ZtvLockscreenHelper.NO_MEDIA_TITLE);
   }
 }

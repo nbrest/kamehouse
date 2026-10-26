@@ -17,6 +17,7 @@ public final class ZtvLockscreenHelper {
   public static final String ACTION_PLAY = "com.nicobrest.kamehouse.mobile.ztv.lockscreen.PLAY";
   public static final String ACTION_NEXT = "com.nicobrest.kamehouse.mobile.ztv.lockscreen.NEXT";
   public static final String ACTION_CLOSE = "com.nicobrest.kamehouse.mobile.ztv.lockscreen.CLOSE";
+  public static final String ACTION_CLOSE_APP = "com.nicobrest.kamehouse.mobile.ztv.lockscreen.CLOSE_APP";
 
   public static final String STATE_PLAYING = "playing";
   public static final String STATE_PAUSED = "paused";

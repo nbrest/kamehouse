@@ -12,6 +12,7 @@
 - Added postman collection with all apis for local dev testing
 - Added .http request files for local dev testing
 - Added lockscreen notification on android with ztv player status and controls
+- Added separate close app button to the ztv lock screen notification
 - Updated kamehouse-mobile android build to use java 21 and gradle 8
 - Moved project from maven to gradle 9
 - Upgraded java version from 17 to 25
