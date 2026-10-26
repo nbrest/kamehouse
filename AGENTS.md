@@ -49,6 +49,8 @@ echo $!
 ```
 Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Always wrap the integration test command with `run-with-keyboard-sink.sh`; never run it directly. Run against Docker profile in container or dev Tomcat at `${HOME}/programs/apache-tomcat-dev`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/logs/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts CI container and runs tests on latest committed changes only (not working tree).
 
+**API collections:** Native runners are `kamehouse-shell/bin/test/kamehouse-postman-run.sh` and `kamehouse-shell/bin/test/kamehouse-http-run.sh` (the latter skips reboot/shutdown unless `-d`). The opencode commands `kamehouse-postman-run-all` and `kamehouse-http-run-all` wrap them with `run-with-keyboard-sink.sh` because the admin screen requests inject VNC keystrokes.
+
 ## Deploy
 ```sh
 # Dev (current working copy)

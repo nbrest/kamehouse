@@ -9,6 +9,9 @@
 
 - Added AGENTS.md - Turned to the dark side
 - Added opencode commands to run full validation and postman collection
+- Added opencode command and shell script to run the .http collection
+- Added shell script to run the postman collection
+- Added .http collection consistency check and run steps to full validation
 - Added postman collection with all apis for local dev testing
 - Added .http request files for local dev testing
 - Added lockscreen notification on android with ztv player status and controls

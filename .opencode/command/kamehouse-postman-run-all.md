@@ -7,7 +7,7 @@ Run the entire KameHouse Postman collection against the local dev environment. U
 
 The admin screen tests inject VNC keystrokes (ESC, ENTER, unlock password, and mouse clicks) into the active desktop window. Always run newman through `kamehouse-shell/bin/test/run-with-keyboard-sink.sh`. It opens a full-screen keyboard-sink terminal, focuses it for the duration of the run, and restores the previously active window afterwards. Test-injected keystrokes are discarded by the sink instead of reaching opencode.
 
-Do not run newman directly, and do not type into opencode while the sink has focus.
+The native newman command is wrapped by `kamehouse-shell/bin/test/kamehouse-postman-run.sh`. That script can also be run directly when the keyboard sink is not needed. Do not run newman directly from this command, and do not type into opencode while the sink has focus.
 
 ## Launch
 
@@ -25,15 +25,8 @@ if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
 fi
 rm -f "$LOG" "$PIDFILE" "$STATUSFILE"
 nohup setsid bash -c '
-  kamehouse-shell/bin/test/run-with-keyboard-sink.sh -- npx newman run \
-    postman/collections/kame-house.postman_collection.json \
-    -e postman/environments/localhost-9989-dev-tomcat.postman_environment.json \
-    -g postman/globals/workspace.postman_globals.json \
-    --ignore-redirects \
-    --bail \
-    --reporters cli \
-    --timeout-request 60000 \
-    --color off > "$1" 2>&1
+  kamehouse-shell/bin/test/run-with-keyboard-sink.sh -- \
+    kamehouse-shell/bin/test/kamehouse-postman-run.sh > "$1" 2>&1
   echo $? > "$2"
 ' _ "$LOG" "$STATUSFILE" </dev/null >/dev/null 2>&1 &
 echo $! > "$PIDFILE"

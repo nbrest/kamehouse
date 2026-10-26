@@ -515,6 +515,16 @@ test("Response has a body", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / shutdown / /
+{{
+// Scheduling or cancelling a host shutdown would abort the collection run. Only run it when explicitly enabled.
+
+if (RUN_DESTRUCTIVE_TESTS !== "true") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/shutdown
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -550,6 +560,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / shutdown / ?delay=5400
+{{
+// Scheduling or cancelling a host shutdown would abort the collection run. Only run it when explicitly enabled.
+
+if (RUN_DESTRUCTIVE_TESTS !== "true") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/shutdown?delay=5400
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -582,6 +602,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / shutdown / /
+{{
+// Scheduling or cancelling a host shutdown would abort the collection run. Only run it when explicitly enabled.
+
+if (RUN_DESTRUCTIVE_TESTS !== "true") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/shutdown
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 

@@ -61,6 +61,16 @@ npx newman run postman/collections/kame-house.postman_collection.json \
   --ignore-redirects --reporters cli --timeout-request 60000
 ```
 
+From the repository root, the kamehouse-shell wrapper runs the same command with `--bail`:
+
+```sh
+kamehouse-shell/bin/test/kamehouse-postman-run.sh
+```
+
+The opencode command `kamehouse-postman-run-all` wraps that script with
+`run-with-keyboard-sink.sh`, because the admin screen requests inject VNC keystrokes into the
+active desktop window.
+
 Run a single folder (use the top-level folder name):
 
 ```sh

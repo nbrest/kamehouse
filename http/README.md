@@ -66,8 +66,25 @@ npm run send:prod-https
 
 These scripts run the full collection: they create, update and delete test
 entities and send system/VLC commands. Use them against a dev environment and
-review the requests before pointing them at production. The reboot request is
-skipped by default; see below to enable it.
+review the requests before pointing them at production. The reboot and shutdown
+requests are skipped by default; see below to enable them.
+
+From the repository root, the kamehouse-shell wrapper runs the `dev-tomcat`
+collection with `--bail` and forces the destructive requests to be skipped:
+
+```sh
+kamehouse-shell/bin/test/kamehouse-http-run.sh
+```
+
+Pass `-d` to also run the `reboot` and `shutdown` requests:
+
+```sh
+kamehouse-shell/bin/test/kamehouse-http-run.sh -d
+```
+
+The opencode command `kamehouse-http-run-all` wraps the same script with
+`run-with-keyboard-sink.sh`, because the admin screen requests inject VNC
+keystrokes into the active desktop window.
 
 Run one file, or one request in a file:
 
@@ -88,11 +105,18 @@ npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat --all \
   --var USERNAME=seiya --var PASSWORD=ikki
 ```
 
-The reboot request is skipped unless destructive tests are explicitly enabled:
+The `reboot` and `shutdown` requests are skipped unless destructive tests are
+explicitly enabled. To run them one at a time:
 
 ```sh
 npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
   --name "kamehouse-admin / admin / power-management / reboot / /" \
+  --var RUN_DESTRUCTIVE_TESTS=true
+```
+
+```sh
+npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
+  --name "kamehouse-admin / admin / power-management / shutdown / /" \
   --var RUN_DESTRUCTIVE_TESTS=true
 ```
 
