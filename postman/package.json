@@ -1,0 +1,9 @@
+{
+  "name": "kamehouse-postman",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kamehouse Postman collection runner",
+  "devDependencies": {
+    "newman": "6.2.3"
+  }
+}

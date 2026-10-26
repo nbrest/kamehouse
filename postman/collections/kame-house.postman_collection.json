@@ -1130,6 +1130,19 @@
                       "name": "/",
                       "event": [
                         {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Scheduling or cancelling a host shutdown would abort the collection run. Only run it when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_DESTRUCTIVE_TESTS\") !== \"true\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
                           "listen": "test",
                           "script": {
                             "exec": [
@@ -1191,6 +1204,19 @@
                     {
                       "name": "?delay=5400",
                       "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Scheduling or cancelling a host shutdown would abort the collection run. Only run it when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_DESTRUCTIVE_TESTS\") !== \"true\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
                         {
                           "listen": "test",
                           "script": {
@@ -1261,6 +1287,19 @@
                     {
                       "name": "/",
                       "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Scheduling or cancelling a host shutdown would abort the collection run. Only run it when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_DESTRUCTIVE_TESTS\") !== \"true\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
                         {
                           "listen": "test",
                           "script": {
@@ -1345,6 +1384,19 @@
                       "name": "/",
                       "event": [
                         {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_SYSTEM_POWER_TESTS\") === \"false\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
                           "listen": "test",
                           "script": {
                             "exec": [
@@ -1406,6 +1458,19 @@
                     {
                       "name": "?delay=5400",
                       "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_SYSTEM_POWER_TESTS\") === \"false\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
                         {
                           "listen": "test",
                           "script": {
@@ -1476,6 +1541,19 @@
                     {
                       "name": "/",
                       "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_SYSTEM_POWER_TESTS\") === \"false\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
                         {
                           "listen": "test",
                           "script": {
@@ -1786,6 +1864,19 @@
                   "name": "/unlock",
                   "event": [
                     {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
                       "listen": "test",
                       "script": {
                         "exec": [
@@ -1853,6 +1944,19 @@
                 {
                   "name": "/wake-up",
                   "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
                     {
                       "listen": "test",
                       "script": {
@@ -1922,6 +2026,19 @@
                   "name": "/key-press",
                   "event": [
                     {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
                       "listen": "test",
                       "script": {
                         "exec": [
@@ -1988,6 +2105,19 @@
                 {
                   "name": "/mouse-click",
                   "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
                     {
                       "listen": "test",
                       "script": {
@@ -2701,12 +2831,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php",
-                      "protocol": "http",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php",
                       "host": [
-                        "localhost"
+                        "{{SERVER}}"
                       ],
-                      "port": "9989",
                       "path": [
                         "kame-house-groot",
                         "api",
@@ -2750,12 +2878,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php",
-                      "protocol": "http",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php",
                       "host": [
-                        "localhost"
+                        "{{SERVER}}"
                       ],
-                      "port": "9989",
                       "path": [
                         "kame-house-groot",
                         "api",
@@ -2800,12 +2926,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=httpd/httpd-status.sh",
-                      "protocol": "http",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=httpd/httpd-status.sh",
                       "host": [
-                        "localhost"
+                        "{{SERVER}}"
                       ],
-                      "port": "9989",
                       "path": [
                         "kame-house-groot",
                         "api",
@@ -2855,12 +2979,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9989/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=is-linux-host.sh",
-                      "protocol": "http",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=is-linux-host.sh",
                       "host": [
-                        "localhost"
+                        "{{SERVER}}"
                       ],
-                      "port": "9989",
                       "path": [
                         "kame-house-groot",
                         "api",
@@ -2930,12 +3052,10 @@
                   ]
                 },
                 "url": {
-                  "raw": "http://localhost:9989/kame-house-groot/api/v1/auth/login.php",
-                  "protocol": "http",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/login.php",
                   "host": [
-                    "localhost"
+                    "{{SERVER}}"
                   ],
-                  "port": "9989",
                   "path": [
                     "kame-house-groot",
                     "api",
@@ -2988,12 +3108,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9989/kame-house-groot/api/v1/auth/logout.php",
-                  "protocol": "http",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/logout.php",
                   "host": [
-                    "localhost"
+                    "{{SERVER}}"
                   ],
-                  "port": "9989",
                   "path": [
                     "kame-house-groot",
                     "api",
@@ -3042,9 +3160,9 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9989/kame-house-groot/api/v1/auth/authorize-page.php",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/authorize-page.php",
                   "host": [
-                    "localhost"
+                    "{{SERVER}}"
                   ],
                   "path": [
                     "kame-house-groot",
@@ -3052,9 +3170,7 @@
                     "v1",
                     "auth",
                     "authorize-page.php"
-                  ],
-                  "protocol": "http",
-                  "port": "9989"
+                  ]
                 },
                 "auth": {
                   "type": "noauth"
@@ -3101,12 +3217,10 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "http://localhost:9989/kame-house-groot/api/v1/commons/session/status.php",
-                      "protocol": "http",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/commons/session/status.php",
                       "host": [
-                        "localhost"
+                        "{{SERVER}}"
                       ],
-                      "port": "9989",
                       "path": [
                         "kame-house-groot",
                         "api",
@@ -3153,12 +3267,10 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:9989/kame-house-groot/api/v1/test/test.php",
-                  "protocol": "http",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/test/test.php",
                   "host": [
-                    "localhost"
+                    "{{SERVER}}"
                   ],
-                  "port": "9989",
                   "path": [
                     "kame-house-groot",
                     "api",
@@ -4874,7 +4986,13 @@
                       ]
                     },
                     "method": "POST",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
                     "body": {
                       "mode": "raw",
                       "raw": "  {\r\n    \"username\": \"{{tennisWorldUser}}\",\r\n    \"password\": \"{{tennisWorldPassword}}\",\r\n    \"date\": \"{{futureDate}}\",\r\n    \"time\": \"00:00\",\r\n    \"site\": \"MELBOURNE_PARK\",\r\n    \"sessionType\": \"NTC_CLAY_COURTS\",\r\n    \"duration\": \"60\",\r\n    \"courtNumber\": 0,\r\n    \"cardDetails\": {\r\n        \"name\": \"NICOLAS BREST\",\r\n        \"number\": \"1111111111111111\",\r\n        \"expiryDate\": \"10/2099\",\r\n        \"cvv\": \"999\"\r\n    },\r\n    \"dryRun\": false,\r\n    \"retries\": 2\r\n  }",
@@ -5068,7 +5186,13 @@
                   ],
                   "request": {
                     "method": "POST",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
                     "body": {
                       "mode": "raw",
                       "raw": "  {\r\n    \"username\": \"{{tennisWorldUser}}\",\r\n    \"password\": \"{{tennisWorldPassword}}\",\r\n    \"date\": \"{{futureDate}}\",\r\n    \"time\": \"13:00\",\r\n    \"site\": \"MELBOURNE_PARK\",\r\n    \"sessionType\": \"CARDIO\",\r\n    \"duration\": \"45\",\r\n    \"courtNumber\": 19,   \r\n    \"cardDetails\": {\r\n        \"name\": \"NICOLAS BREST\",\r\n        \"number\": \"1111111111111111\",\r\n        \"expiryDate\": \"10/2099\",\r\n        \"cvv\": \"999\"\r\n    },\r\n    \"dryRun\": false\r\n  }",

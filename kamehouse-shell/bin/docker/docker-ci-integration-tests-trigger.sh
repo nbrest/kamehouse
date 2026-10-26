@@ -16,44 +16,70 @@ initScriptConfig() {
 }
 
 initScriptEnv() {
+  USE_CURRENT_DIR=true
   INTEGRATION_TESTS_SUCCESS_MESSAGE="SUCCESS EXECUTING INTEGRATION TESTS"
   SCRIPT="docker/docker-container/docker-integration-tests-run.sh"
+  API_COLLECTION_PROFILE="ci-docker"
   RETRIES=5
   NUM_MAIN_PROCESS_RETRIES=""
   NUM_TOMCAT_STARTUP_RETRIES=""
   NUM_LOGIN_RETRIES=""
   NUM_INTEGRATION_TESTS_RETRIES=""
+  NUM_POSTMAN_TESTS_RETRIES=""
+  NUM_HTTP_TESTS_RETRIES=""
   CONTAINER_STARTUP_SUCCESSFUL=false
   INTEGRATION_TESTS_SUCCESSFUL=false
+  POSTMAN_TESTS_SUCCESSFUL=false
+  HTTP_TESTS_SUCCESSFUL=false
   MAIN_PROCESS_SUCCESSFUL=false
 }
 
 mainProcess() {
-  log.info "Running kamehouse integration tests on a ci docker container"
+  setKameHouseRootProjectDir
+  installApiCollectionTools
+  log.info "Running kamehouse integration tests and api collections on a ci docker container"
   mainProcessLoop
   if ${MAIN_PROCESS_SUCCESSFUL}; then
     log.info "All done!"
     exitSuccessfully
   else
-    log.error "Finished with errors. Integration tests didn't complete successfully"
+    log.error "Finished with errors. Integration and api collection tests didn't complete successfully"
     exitProcess ${EXIT_ERROR}
   fi
+}
+
+installApiCollectionTools() {
+  if ! command -v npm > /dev/null; then
+    log.error "npm is required to install the api collection tools"
+    exitProcess ${EXIT_ERROR}
+  fi
+  log.info "Installing api collection tools"
+  npm ci --prefix "${PROJECT_DIR}/http" --no-audit --no-fund
+  checkCommandStatus "$?" "An error occurred installing the .http collection tools"
+  npm ci --prefix "${PROJECT_DIR}/postman" --no-audit --no-fund
+  checkCommandStatus "$?" "An error occurred installing the Postman collection tools"
 }
 
 mainProcessLoop() {
   NUM_MAIN_PROCESS_RETRIES=$((RETRIES))
   while [ ${NUM_MAIN_PROCESS_RETRIES} -gt 0 ]; do
     log.info "Retries left to do the main process: ${COL_RED}${NUM_MAIN_PROCESS_RETRIES}"
+    INTEGRATION_TESTS_SUCCESSFUL=false
+    POSTMAN_TESTS_SUCCESSFUL=false
+    HTTP_TESTS_SUCCESSFUL=false
     startCiDockerContainerLoop
     if ${CONTAINER_STARTUP_SUCCESSFUL}; then
       executeIntegrationTestsLoop
-      stopCiDockerContainer
       if ${INTEGRATION_TESTS_SUCCESSFUL}; then
-        log.info "Integration tests executed successfully!"
+        executeApiCollectionTests
+      fi
+      stopCiDockerContainer
+      if ${INTEGRATION_TESTS_SUCCESSFUL} && ${POSTMAN_TESTS_SUCCESSFUL} && ${HTTP_TESTS_SUCCESSFUL}; then
+        log.info "Integration and api collection tests executed successfully!"
         MAIN_PROCESS_SUCCESSFUL=true
         NUM_MAIN_PROCESS_RETRIES=0
       else
-        log.error "Error executing integration tests"
+        log.error "Error executing integration or api collection tests"
         MAIN_PROCESS_SUCCESSFUL=false
       fi
     else
@@ -68,6 +94,87 @@ mainProcessLoop() {
       sleep ${SECONDS}
     fi
   done
+}
+
+executeApiCollectionTests() {
+  executePostmanTestsLoop
+  executeHttpTestsLoop
+}
+
+executePostmanTestsLoop() {
+  log.info "Executing the Postman collection against the ci docker container"
+  NUM_POSTMAN_TESTS_RETRIES=$((RETRIES))
+  while [ ${NUM_POSTMAN_TESTS_RETRIES} -gt 0 ]; do
+    log.info "Retries left to execute postman tests: ${COL_RED}${NUM_POSTMAN_TESTS_RETRIES}"
+    waitForHttpdRecovery
+    executePostmanTests
+    : $((NUM_POSTMAN_TESTS_RETRIES--))
+    if [ ${NUM_POSTMAN_TESTS_RETRIES} -gt 0 ]; then
+      local SECONDS=60
+      log.info "Sleeping ${SECONDS} seconds until next retry"
+      sleep ${SECONDS}
+    fi
+  done
+}
+
+executePostmanTests() {
+  "${PROJECT_DIR}/kamehouse-shell/bin/test/kamehouse-postman-run.sh" -p "${API_COLLECTION_PROFILE}"
+  if [ "$?" == "0" ]; then
+    NUM_POSTMAN_TESTS_RETRIES=0
+    POSTMAN_TESTS_SUCCESSFUL=true
+    log.info "Postman collection executed successfully!"
+  else
+    POSTMAN_TESTS_SUCCESSFUL=false
+    log.error "Error executing the Postman collection"
+  fi
+}
+
+executeHttpTestsLoop() {
+  log.info "Executing the .http collection against the ci docker container"
+  NUM_HTTP_TESTS_RETRIES=$((RETRIES))
+  while [ ${NUM_HTTP_TESTS_RETRIES} -gt 0 ]; do
+    log.info "Retries left to execute .http tests: ${COL_RED}${NUM_HTTP_TESTS_RETRIES}"
+    waitForHttpdRecovery
+    executeHttpTests
+    : $((NUM_HTTP_TESTS_RETRIES--))
+    if [ ${NUM_HTTP_TESTS_RETRIES} -gt 0 ]; then
+      local SECONDS=60
+      log.info "Sleeping ${SECONDS} seconds until next retry"
+      sleep ${SECONDS}
+    fi
+  done
+}
+
+executeHttpTests() {
+  "${PROJECT_DIR}/kamehouse-shell/bin/test/kamehouse-http-run.sh" -p "${API_COLLECTION_PROFILE}"
+  if [ "$?" == "0" ]; then
+    NUM_HTTP_TESTS_RETRIES=0
+    HTTP_TESTS_SUCCESSFUL=true
+    log.info ".http collection executed successfully!"
+  else
+    HTTP_TESTS_SUCCESSFUL=false
+    log.error "Error executing the .http collection"
+  fi
+}
+
+waitForHttpdRecovery() {
+  log.info "Waiting for apache httpd to recover after the collection run"
+  local NUM_HTTPD_RECOVERY_RETRIES=7
+  local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house/admin/server-management"
+  while [ ${NUM_HTTPD_RECOVERY_RETRIES} -gt 0 ]; do
+    local HTTP_CODE=`curl --connect-timeout 10 --max-time 60 -k --silent --output /dev/null --write-out "%{http_code}" --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
+    if [ "${HTTP_CODE}" == "200" ]; then
+      log.info "Apache httpd is available again"
+      return
+    fi
+    : $((NUM_HTTPD_RECOVERY_RETRIES--))
+    if [ ${NUM_HTTPD_RECOVERY_RETRIES} -gt 0 ]; then
+      local SECONDS=15
+      log.info "Apache httpd is not available yet. Retries left: ${COL_RED}${NUM_HTTPD_RECOVERY_RETRIES}"
+      sleep ${SECONDS}
+    fi
+  done
+  log.error "Apache httpd did not recover after the collection run"
 }
 
 startCiDockerContainerLoop() {

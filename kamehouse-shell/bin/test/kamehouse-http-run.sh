@@ -7,16 +7,30 @@ initScriptEnv() {
   # Run the collection from the current directory, which must be the kamehouse repo root
   USE_CURRENT_DIR=true
   HTTP_DIR="http"
+  PROFILE="dev-tomcat"
   RUN_DESTRUCTIVE_TESTS=false
 }
 
 mainProcess() {
   setKameHouseRootProjectDir
-  log.info "Running the KameHouse .http collection against the local dev environment"
+  validateProfile
+  log.info "Running the KameHouse .http collection against profile ${COL_PURPLE}${PROFILE}"
   cd "${HTTP_DIR}"
   checkCommandStatus "$?" "Error changing to directory ${HTTP_DIR}"
-  npm run send:dev-tomcat -- --bail --no-color --var RUN_DESTRUCTIVE_TESTS="${RUN_DESTRUCTIVE_TESTS}"
+  npm run "send:${PROFILE}" -- --bail --no-color --var RUN_DESTRUCTIVE_TESTS="${RUN_DESTRUCTIVE_TESTS}"
   checkCommandStatus "$?" "Error running the KameHouse .http collection"
+}
+
+validateProfile() {
+  case "${PROFILE}" in
+    dev-tomcat|dev-docker|prod-https|ci-docker)
+      ;;
+    *)
+      log.error "Option -p ${PROFILE} has an invalid value"
+      printHelp
+      exitProcess ${EXIT_INVALID_ARG}
+      ;;
+  esac
 }
 
 parseArguments() {
@@ -26,9 +40,13 @@ parseArguments() {
     if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
       continue
     fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
     case "${CURRENT_OPTION}" in
       -d|--destructive)
         RUN_DESTRUCTIVE_TESTS=true
+        ;;
+      -p|--profile)
+        PROFILE="${CURRENT_OPTION_ARG}"
         ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
@@ -39,6 +57,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-d --destructive" "also run the reboot and shutdown requests"
+  addHelpOption "-p --profile [dev-tomcat|dev-docker|prod-https|ci-docker]" "environment to run the collection against. Default is dev-tomcat"
 }
 
 main "$@"

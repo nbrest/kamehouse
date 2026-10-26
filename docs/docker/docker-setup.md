@@ -148,5 +148,5 @@ This will revert the ownership of files back to the host user
 - `docker-upgrade-containers.sh` pulls the latest version of kamehouse, stops the existing running containers and cleans up the old images
 - `docker-cleanup-kamehouse.sh` cleans up old untagged kamehouse images
 - `docker-server-key-remove.sh` removes an outdated key from the known hosts file so the ssh command doesn't fail next time
-- `docker-ci-integration-tests-trigger.sh` starts a ci docker container and runs all integration tests inside it
+- `docker-ci-integration-tests-trigger.sh` starts a ci docker container, installs the API collection tools and runs all integration tests plus the Postman and `.http` collections against it
 - `docker-reinit-container.sh` re initializes the container data from the host or resets to inital docker setup. Also synchronizes ssh keys between host and container which is necessary to execute passwordless ssh commands on the host from the webapps in the container when using the docker container to control a remote host

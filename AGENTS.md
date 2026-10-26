@@ -47,9 +47,9 @@ nohup setsid bash -c '
 ' _ "$LOG" "$STATUSFILE" </dev/null >/dev/null 2>&1 &
 echo $!
 ```
-Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Always wrap the integration test command with `run-with-keyboard-sink.sh`; never run it directly. Run against Docker profile in container or dev Tomcat at `${HOME}/programs/apache-tomcat-dev`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/logs/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts CI container and runs tests on latest committed changes only (not working tree).
+Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Always wrap the integration test command with `run-with-keyboard-sink.sh`; never run it directly. Run against Docker profile in container or dev Tomcat at `${HOME}/programs/apache-tomcat-dev`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/logs/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts the CI container and runs integration tests plus the Postman and `.http` collections on latest committed changes only (not working tree).
 
-**API collections:** Native runners are `kamehouse-shell/bin/test/kamehouse-postman-run.sh` and `kamehouse-shell/bin/test/kamehouse-http-run.sh` (the latter skips reboot/shutdown unless `-d`). The opencode commands `kamehouse-postman-run-all` and `kamehouse-http-run-all` wrap them with `run-with-keyboard-sink.sh` because the admin screen requests inject VNC keystrokes.
+**API collections:** Native runners are `kamehouse-shell/bin/test/kamehouse-postman-run.sh` and `kamehouse-shell/bin/test/kamehouse-http-run.sh` (the latter skips reboot/shutdown unless `-d`). Both support `-p [dev-tomcat|dev-docker|prod-https|ci-docker]`; CI uses `ci-docker` and sets `RUN_SYSTEM_POWER_TESTS=false`/`RUN_SCREEN_TESTS=false` for the headless container. CI installs newman and httpyac with `npm ci --prefix postman` and `npm ci --prefix http`. The opencode commands `kamehouse-postman-run-all` and `kamehouse-http-run-all` wrap the runners with `run-with-keyboard-sink.sh` because the admin screen requests inject VNC keystrokes.
 
 ## Deploy
 ```sh

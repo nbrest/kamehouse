@@ -12,6 +12,10 @@
 - Added opencode command and shell script to run the .http collection
 - Added shell script to run the postman collection
 - Added .http collection consistency check and run steps to full validation
+- Added ci-docker profiles to the postman and .http collections
+- Added postman and .http collection runs with retries to the ci docker integration tests
+- Added newman and httpyac installation to the ci tests
+- Fixed content type of tennisworld booking requests in the .http collection
 - Added postman collection with all apis for local dev testing
 - Added .http request files for local dev testing
 - Added lockscreen notification on android with ztv player status and controls

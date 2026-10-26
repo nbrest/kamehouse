@@ -29,15 +29,16 @@ were previously in `.vscode/settings.json`:
 | --- | --- | --- |
 | `localhost-dev-tomcat` | `http://localhost:9989` | `http://localhost:9980` |
 | `localhost-dev-docker` | `http://localhost:6080` | `http://localhost:6080` |
+| `localhost-ci-docker` | `http://localhost:15080` | `http://localhost:15090` |
 | `localhost-prod-https` | `https://localhost` | `https://localhost` |
 
 The common values (`API_VERSION`, `invalid*`, etc.) and the public test
 credentials (`seiya` / `ikki`) are duplicated in each environment because
 httpyac does not support the JetBrains `$shared` section.
 
-The Postman collection hardcodes `http://localhost:9989` for the Groot
-requests. These files use `{{SERVER}}` instead so the same requests work with
-the Tomcat, Docker and production environments.
+Both the Postman collection and these files use `{{SERVER}}` for the Groot
+requests, so the same requests work with the Tomcat, Docker, CI and production
+environments.
 
 To override values locally, create `http-client.private.env.json`, which is
 ignored by git and is loaded on top of the public file:
@@ -61,6 +62,7 @@ Run every module in Postman collection order:
 cd http
 npm run send:dev-tomcat
 npm run send:dev-docker
+npm run send:ci-docker
 npm run send:prod-https
 ```
 
@@ -74,6 +76,14 @@ collection with `--bail` and forces the destructive requests to be skipped:
 
 ```sh
 kamehouse-shell/bin/test/kamehouse-http-run.sh
+```
+
+Use `-p` to select another environment:
+
+```sh
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p dev-docker
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p ci-docker
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p prod-https
 ```
 
 Pass `-d` to also run the `reboot` and `shutdown` requests:
@@ -106,7 +116,11 @@ npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat --all \
 ```
 
 The `reboot` and `shutdown` requests are skipped unless destructive tests are
-explicitly enabled. To run them one at a time:
+explicitly enabled. The `suspend` requests are skipped when
+`RUN_SYSTEM_POWER_TESTS=false`, and the VNC screen requests are skipped when
+`RUN_SCREEN_TESTS=false`. The `ci-docker` environment sets both variables to
+`false` because the CI container is headless and cannot schedule host power
+actions. To run destructive requests one at a time:
 
 ```sh
 npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
@@ -118,6 +132,13 @@ npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
 npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
   --name "kamehouse-admin / admin / power-management / shutdown / /" \
   --var RUN_DESTRUCTIVE_TESTS=true
+```
+
+The `ci-docker` environment targets the ports published by
+`docker-run-kamehouse.sh -p ci`: Apache on `15080` and Tomcat on `15090`.
+
+```sh
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p ci-docker
 ```
 
 The `kamehouse-httpd` module contains the HTTPD restart request from the

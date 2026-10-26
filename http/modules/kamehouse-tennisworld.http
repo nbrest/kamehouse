@@ -637,6 +637,7 @@ delete $global.scheduleUserEmail;
 ### kamehouse-tennisworld / tennis-world / bookings / / Book Court
 POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/bookings
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
 
   {
     "username": "{{tennisWorldUser}}",
@@ -706,6 +707,7 @@ test("Body contains specified string", () => {
 ### kamehouse-tennisworld / tennis-world / bookings / / Book Class
 POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/bookings
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
 
   {
     "username": "{{tennisWorldUser}}",

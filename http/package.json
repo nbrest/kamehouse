@@ -6,6 +6,7 @@
   "scripts": {
     "send:dev-tomcat": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost-dev-tomcat --all",
     "send:dev-docker": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost-dev-docker --all",
+    "send:ci-docker": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost-ci-docker --all",
     "send:prod-https": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost-prod-https --all"
   },
   "devDependencies": {

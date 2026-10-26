@@ -26,7 +26,7 @@ runFullContinuousIntegrationBuild() {
   checkCommandStatus "$?" "An error occurred building kamehouse"
 
   ${HOME}/programs/kamehouse-shell/bin/docker/docker-ci-integration-tests-trigger.sh
-  checkCommandStatus "$?" "An error occurred running the integration tests"
+  checkCommandStatus "$?" "An error occurred running the integration and api collection tests"
 
   ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -m mobile -c
   checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile"

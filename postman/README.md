@@ -14,7 +14,7 @@ Postman collection and environments to exercise the KameHouse REST APIs.
 ## Requirements
 
 - Node.js 18+ and npm.
-- Newman 6.x (Postman's CLI runner). It does not need to be installed globally: `npx` can run it.
+- Newman 6.x (Postman's CLI runner). Install the pinned local version with `npm ci --prefix postman`.
 - A running KameHouse instance and the credentials for it.
 
 Check what is available:
@@ -25,13 +25,15 @@ npm --version
 npx newman --version
 ```
 
-Install Newman globally if you prefer not to download it on every `npx` invocation:
+Install Newman locally from the repository root:
 
 ```sh
-npm install -g newman@6
+npm ci --prefix postman
 ```
 
-No other tooling is required. `jq` is optional, only useful to inspect the JSON files.
+The kamehouse-shell wrapper uses `postman/node_modules/.bin/newman` when it is
+installed and falls back to `npx --yes newman` otherwise. No other tooling is
+required. `jq` is optional, only useful to inspect the JSON files.
 
 ## Environments
 
@@ -39,11 +41,17 @@ No other tooling is required. `jq` is optional, only useful to inspect the JSON 
 | --- | --- | --- |
 | `localhost-9989-dev-tomcat.postman_environment.json` | `localhost:9989` | Local dev Apache Httpd, proxied to Tomcat on `localhost:9980` |
 | `localhost-6080-dev-docker.postman_environment.json` | `localhost:6080` | Docker dev container |
+| `localhost-15080-ci-docker.postman_environment.json` | `localhost:15080` | CI Docker container |
 | `localhost-443-prod-httpd.postman_environment.json` | `https://localhost` | Local production-style Apache Httpd |
 
 Each environment defines `SERVER`, `USERNAME` and `PASSWORD`. Dev defaults are `seiya` / `ikki`.
-The dev Tomcat environment also defines `TOMCAT_SERVER=localhost:9980` for the one request that
-must bypass the Apache proxy (see `kamehouse-httpd` below).
+The dev Tomcat and CI environments also define `TOMCAT_SERVER` for the one request that must
+bypass the Apache proxy (see `kamehouse-httpd` below).
+
+The `ci-docker` environment targets the ports published by `docker-run-kamehouse.sh -p ci`:
+Apache on `15080` and Tomcat on `15090`. It sets `RUN_DESTRUCTIVE_TESTS=false`,
+`RUN_SYSTEM_POWER_TESTS=false` and `RUN_SCREEN_TESTS=false` to skip reboot/shutdown, suspend
+and VNC screen requests. The CI container is headless and cannot schedule host power actions.
 
 The collection pre-request script sets `currentDate` and `futureDate` automatically.
 
@@ -65,6 +73,14 @@ From the repository root, the kamehouse-shell wrapper runs the same command with
 
 ```sh
 kamehouse-shell/bin/test/kamehouse-postman-run.sh
+```
+
+Use `-p` to select another environment:
+
+```sh
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p dev-docker
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p ci-docker
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p prod-https
 ```
 
 The opencode command `kamehouse-postman-run-all` wraps that script with
@@ -107,7 +123,8 @@ Useful options:
 
 - `kamehouse-ui` and `kamehouse-groot` need Apache Httpd serving the UI/Groot content. The dev
   environment points `SERVER` at Apache on port 9989, which proxies API calls to Tomcat on 9980.
-  `kamehouse-ui` only checks the static UI pages; the UI module has no REST controllers.
+  The CI environment points `SERVER` at Apache on port 15080. `kamehouse-ui` only checks the
+  static UI pages; the UI module has no REST controllers.
 - `kamehouse-groot` covers every PHP endpoint under `kamehouse-groot/src/main/php/kame-house-groot/api/v1`.
   The PHP files under `.../api/v1/kamehouse` are shared includes, not endpoints.
 - `kamehouse-testmodule`: the servlet subfolder logs in through `/kame-house-auth/login` to obtain
@@ -118,9 +135,10 @@ Useful options:
 - `kamehouse-vlcrc`: player status, playlist and command tests expect a local VLC player with its
   HTTP interface. The `vlc-process` requests start/stop that player.
 - `kamehouse-httpd`: restarts Apache Httpd through `TOMCAT_SERVER` so stopping Apache does not kill
-  the request. It runs last and briefly makes port 9989 unavailable.
-- The `reboot` request is skipped by default because rebooting the host would abort the run. Set
-  `RUN_DESTRUCTIVE_TESTS=true` only when you really want to execute it.
+  the request. It runs last and briefly makes the environment's `SERVER` port unavailable.
+- The `reboot` and `shutdown` requests are skipped unless `RUN_DESTRUCTIVE_TESTS=true`. The
+  `suspend` requests are skipped when `RUN_SYSTEM_POWER_TESTS=false`, and VNC screen requests are
+  skipped when `RUN_SCREEN_TESTS=false`; the `ci-docker` environment sets both to `false`.
 
 ## Security notes
 

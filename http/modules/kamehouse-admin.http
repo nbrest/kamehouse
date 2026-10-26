@@ -643,6 +643,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / suspend / /
+{{
+// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SYSTEM_POWER_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 GET {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/suspend
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -678,6 +688,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / suspend / ?delay=5400
+{{
+// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SYSTEM_POWER_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/suspend?delay=5400
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -710,6 +730,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / suspend / /
+{{
+// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SYSTEM_POWER_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/suspend
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -832,6 +862,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / screen / /unlock
+{{
+// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SCREEN_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/unlock
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -864,6 +904,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / screen / /wake-up
+{{
+// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SCREEN_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/wake-up
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -896,6 +946,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / screen / /key-press
+{{
+// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SCREEN_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/key-press?key=ENTER&keyPresses=1
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -928,6 +988,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / screen / /mouse-click
+{{
+// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+
+if (RUN_SCREEN_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/mouse-click?mouseButton=LEFT&positionX=0&positionY=0&clickCount=1
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
