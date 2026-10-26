@@ -787,6 +787,24 @@ test("Response is a list", () => { assert.ok(Array.isArray(responseJson)); });
 if (responseJson.length > 0) { test("Body contains ERROR", () => { assert.ok(response.body.includes("ERROR")); }); }
 }}
 
+### kamehouse-tennisworld / tennis-world / users / / setup tennis world user
+{{
+$global.usersTestUserEmail = "postman." + Date.now() + "@kamehouse.com";
+}}
+
+POST {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{"email":"{{$global.usersTestUserEmail}}","password":"{{$random.alphanumeric(12)}}"}
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 201); });
+test("Response has a body", () => { assert.ok(response.body != null && response.body !== ''); });
+$global.usersTestUserId = response.body.trim();
+}}
+
 ### kamehouse-tennisworld / tennis-world / users / /
 GET {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
@@ -969,6 +987,17 @@ var expectedContent = "email";
 test("Body contains specified string", () => {
     assert.ok(response.body.includes(expectedContent));
 });
+}}
+
+### kamehouse-tennisworld / tennis-world / users / / cleanup tennis world user
+DELETE {{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{$global.usersTestUserId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+delete $global.usersTestUserId;
+delete $global.usersTestUserEmail;
 }}
 
 ### kamehouse-tennisworld / / trace log

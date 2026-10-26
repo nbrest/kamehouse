@@ -5395,6 +5395,56 @@
               "name": "users",
               "item": [
                 {
+                  "name": "/ setup tennis world user",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "users"
+                      ]
+                    },
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"email\":\"{{usersTestUserEmail}}\",\"password\":\"{{$randomPassword}}\"}"
+                    }
+                  },
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.globals.set(\"usersTestUserEmail\", \"postman.\" + Date.now() + \"@kamehouse.com\");"
+                        ]
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(201); });",
+                          "pm.globals.set(\"usersTestUserId\", pm.response.text().trim());"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
                   "name": "/",
                   "event": [
                     {
@@ -5748,6 +5798,40 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "/ cleanup tennis world user",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{SERVER}}/kame-house-tennisworld/api/{{API_VERSION}}/tennis-world/users/{{usersTestUserId}}",
+                      "host": [
+                        "{{SERVER}}"
+                      ],
+                      "path": [
+                        "kame-house-tennisworld",
+                        "api",
+                        "{{API_VERSION}}",
+                        "tennis-world",
+                        "users",
+                        "{{usersTestUserId}}"
+                      ]
+                    }
+                  },
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                          "pm.globals.unset(\"usersTestUserId\");",
+                          "pm.globals.unset(\"usersTestUserEmail\");"
+                        ]
+                      }
+                    }
+                  ]
                 }
               ],
               "event": [
