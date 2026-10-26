@@ -6723,6 +6723,59 @@
                   "name": "users",
                   "item": [
                     {
+                      "name": "/ setup dragonball user",
+                      "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": [
+                              "pm.globals.set(\"restDragonBallUsername\", \"dragonball.rest.\" + Date.now());",
+                              "pm.globals.set(\"restDragonBallEmail\", pm.globals.get(\"restDragonBallUsername\") + \"@kamehouse.com\");"
+                            ]
+                          }
+                        },
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": [
+                              "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(201); });",
+                              "pm.globals.set(\"restDragonBallUserId\", pm.response.text().trim());"
+                            ]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"username\": \"{{restDragonBallUsername}}\",\n  \"email\": \"{{restDragonBallEmail}}\",\n  \"age\": 22,\n  \"powerLevel\": 23,\n  \"stamina\": 24\n}"
+                        },
+                        "url": {
+                          "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users",
+                          "host": [
+                            "{{SERVER}}"
+                          ],
+                          "path": [
+                            "kame-house-testmodule",
+                            "api",
+                            "{{API_VERSION}}",
+                            "test-module",
+                            "dragonball",
+                            "users"
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
                       "name": "/",
                       "event": [
                         {
@@ -7658,6 +7711,47 @@
                             "dragonball",
                             "users",
                             "{{invalidId}}"
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "/ cleanup dragonball user",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "type": "text/javascript",
+                            "exec": [
+                              "pm.test(\"Status code is as expected\", function () { pm.response.to.have.status(200); });",
+                              "pm.globals.unset(\"restDragonBallUserId\");",
+                              "pm.globals.unset(\"restDragonBallUsername\");",
+                              "pm.globals.unset(\"restDragonBallEmail\");"
+                            ]
+                          }
+                        }
+                      ],
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "body": {
+                          "mode": "formdata",
+                          "formdata": []
+                        },
+                        "url": {
+                          "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users/{{restDragonBallUserId}}",
+                          "host": [
+                            "{{SERVER}}"
+                          ],
+                          "path": [
+                            "kame-house-testmodule",
+                            "api",
+                            "{{API_VERSION}}",
+                            "test-module",
+                            "dragonball",
+                            "users",
+                            "{{restDragonBallUserId}}"
                           ]
                         }
                       },

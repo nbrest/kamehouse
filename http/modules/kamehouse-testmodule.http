@@ -250,6 +250,30 @@ const assert = require('assert');
 test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 302); });
 }}
 
+### kamehouse-testmodule / test-module / dragonball / users / / setup dragonball user
+{{
+$global.restDragonBallUsername = "dragonball.rest." + Date.now();
+$global.restDragonBallEmail = $global.restDragonBallUsername + "@kamehouse.com";
+}}
+
+POST {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+Content-Type: application/json
+
+{
+  "username": "{{$global.restDragonBallUsername}}",
+  "email": "{{$global.restDragonBallEmail}}",
+  "age": 22,
+  "powerLevel": 23,
+  "stamina": 24
+}
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 201); });
+$global.restDragonBallUserId = response.body.trim();
+}}
+
 ### kamehouse-testmodule / test-module / dragonball / users / /
 GET {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
@@ -728,6 +752,18 @@ var expectedContent = "was not found in the repository.";
 test("Passwords are hidden", () => {
     assert.ok(response.body.includes(expectedContent));
 });
+}}
+
+### kamehouse-testmodule / test-module / dragonball / users / / cleanup dragonball user
+DELETE {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/test-module/dragonball/users/{{$global.restDragonBallUserId}}
+Authorization: Basic {{USERNAME}} {{PASSWORD}}
+
+{{
+const assert = require('assert');
+test("Status code is as expected", () => { assert.strictEqual(response.statusCode, 200); });
+delete $global.restDragonBallUserId;
+delete $global.restDragonBallUsername;
+delete $global.restDragonBallEmail;
 }}
 
 ### kamehouse-testmodule / test-module / test-scheduler / sample-job / /
