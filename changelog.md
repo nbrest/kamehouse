@@ -8,6 +8,7 @@
 #### v11.05
 
 - Added AGENTS.md - Turned to the dark side
+- Added ts code unit tests
 - Added opencode commands to run full validation and postman collection
 - Added opencode command and shell script to run the .http collection
 - Added shell script to run the postman collection

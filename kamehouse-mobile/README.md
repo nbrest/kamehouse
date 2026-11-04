@@ -137,3 +137,16 @@ kamehouse-mobile-run-browser.sh
 
 ## Install from google drive
 - The kamehouse build script uploads the APK to google drive. Install it on the mobile devices straight from google drive
+
+## Unit tests:
+
+Run TypeScript unit tests with [Vitest](https://vitest.dev/):
+
+```sh
+npm test
+```
+
+For watch mode:
+```sh
+npx vitest
+```

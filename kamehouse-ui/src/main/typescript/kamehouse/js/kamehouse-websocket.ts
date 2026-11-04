@@ -182,3 +182,5 @@ class KameHouseWebSocket {
     }
   }
 }
+
+(globalThis as any).KameHouseWebSocket = KameHouseWebSocket;

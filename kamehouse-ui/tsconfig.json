@@ -5,6 +5,7 @@
     "sourceMap": true,
     "allowJs": false,
     "target": "ES2023",
+    "skipLibCheck": true,
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "strict": false,

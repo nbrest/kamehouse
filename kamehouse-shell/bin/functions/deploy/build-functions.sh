@@ -44,15 +44,18 @@ buildKameHouseStatic() {
   fi
   if [[ -z "${MODULE}" ]]; then
     buildKameHouseUiStatic
+    runKameHouseUiTests
     return
   fi
   if [[ "${MODULE}" == "kamehouse-ui" ]]; then
     buildKameHouseUiStatic
+    runKameHouseUiTests
     return
   fi
   if [[ "${MODULE}" == "kamehouse-mobile" ]]; then
     buildKameHouseUiStatic
     buildKameHouseMobileStatic
+    runKameHouseMobileTypeScriptTests
     return
   fi
 }
@@ -178,6 +181,12 @@ buildFrontendCode() {
 }
 
 buildKameHouseBackend() {
+  if ${CI_BUILD}; then
+    if [ "${MODULE_SHORT}" == "ui" ] || [ "${MODULE}" == "kamehouse-ui" ]; then
+      runKameHouseUiTests
+      return
+    fi
+  fi
   RUN_BUILD_COMMAND=false
   if ${DEPLOY_KAMEHOUSE_TOMCAT_MODULES}; then
     RUN_BUILD_COMMAND=true
@@ -188,6 +197,7 @@ buildKameHouseBackend() {
   if [ "${MODULE_SHORT}" == "mobile" ] ||
      [ "${MODULE_SHORT}" == "groot" ] ||
      [ "${MODULE_SHORT}" == "shell" ] ||
+     [ "${MODULE_SHORT}" == "snape" ] ||
      [ "${MODULE_SHORT}" == "ui" ]; then
     RUN_BUILD_COMMAND=false
   fi
@@ -261,8 +271,9 @@ buildKameHouseMobile() {
   if ! ${DEPLOY_KAMEHOUSE_MOBILE}; then
     log.warn "DEPLOY_KAMEHOUSE_MOBILE is false so skip building kamehouse-mobile"
     return
-  fi    
+  fi
   log.info "${COL_PURPLE}Building kamehouse-mobile app"
+  runKameHouseMobileJavaTests
   setKameHouseMobileApkPath
   syncStaticFilesOnMobile
   cdToKameHouseModule "kamehouse-mobile"
@@ -280,10 +291,9 @@ buildKameHouseMobile() {
   cdToRootDirFromModule "kamehouse-mobile"
   deleteStaticFilesOnMobile
   cleanLogsInGitRepoFolder
-  runKameHouseMobileTests
 }
 
-runKameHouseMobileTests() {
+runKameHouseMobileJavaTests() {
   if ${FAST_BUILD}; then
     log.info "Fast build. Skipping kamehouse-mobile java unit tests"
     return
@@ -295,6 +305,72 @@ runKameHouseMobileTests() {
   log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} java unit tests"
   ${GRADLE_WRAPPER} :kamehouse-mobile:check --console=plain -PkamehouseProfile=${BUILD_PROFILE}
   checkCommandStatus "$?" "An error occurred running kamehouse-mobile java unit tests"
+}
+
+runKameHouseMobileTypeScriptTests() {
+  if ${FAST_BUILD}; then
+    log.info "Fast build. Skipping kamehouse-mobile typescript unit tests"
+    return
+  fi
+  if ${INTEGRATION_TESTS}; then
+    log.debug "Running integration tests. Skipping kamehouse-mobile typescript unit tests"
+    return
+  fi
+  cdToKameHouseModule "kamehouse-mobile"
+  log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} typescript unit tests with coverage"
+  local COV_LOG=$(mktemp)
+  local TEST_RC=0
+  if [ -f "./node_modules/.bin/vitest" ]; then
+    ./node_modules/.bin/vitest run --coverage 2>&1 | tee "${COV_LOG}"
+    TEST_RC=${PIPESTATUS[0]}
+  elif [ -f "node_modules/.bin/vitest" ]; then
+    node_modules/.bin/vitest run --coverage 2>&1 | tee "${COV_LOG}"
+    TEST_RC=${PIPESTATUS[0]}
+  else
+    npm test -- --coverage 2>&1 | tee "${COV_LOG}"
+    TEST_RC=${PIPESTATUS[0]}
+  fi
+  if [ ${TEST_RC} -ne 0 ] || grep -q "does not meet" "${COV_LOG}"; then
+    log.error "An error occurred running kamehouse-mobile typescript unit tests or coverage thresholds not met"
+    rm -f "${COV_LOG}"
+    cdToRootDirFromModule "kamehouse-mobile"
+    exit ${EXIT_ERROR}
+  fi
+  rm -f "${COV_LOG}"
+  cdToRootDirFromModule "kamehouse-mobile"
+}
+
+runKameHouseUiTests() {
+  if ${FAST_BUILD}; then
+    log.info "Fast build. Skipping kamehouse-ui typescript unit tests"
+    return
+  fi
+  if ${INTEGRATION_TESTS}; then
+    log.debug "Running integration tests. Skipping kamehouse-ui typescript unit tests"
+    return
+  fi
+  cdToKameHouseModule "kamehouse-ui"
+  log.info "Running ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} typescript unit tests with coverage"
+  local COV_LOG=$(mktemp)
+  local TEST_RC=0
+  if [ -f "./node_modules/.bin/vitest" ]; then
+    ./node_modules/.bin/vitest run --coverage 2>&1 | tee "${COV_LOG}"
+    TEST_RC=${PIPESTATUS[0]}
+  elif [ -f "node_modules/.bin/vitest" ]; then
+    node_modules/.bin/vitest run --coverage 2>&1 | tee "${COV_LOG}"
+    TEST_RC=${PIPESTATUS[0]}
+  else
+    npm test -- --coverage 2>&1 | tee "${COV_LOG}"
+    TEST_RC=${PIPESTATUS[0]}
+  fi
+  if [ ${TEST_RC} -ne 0 ] || grep -q "does not meet" "${COV_LOG}"; then
+    log.error "An error occurred running kamehouse-ui unit tests or coverage thresholds not met"
+    rm -f "${COV_LOG}"
+    cdToRootDirFromModule "kamehouse-ui"
+    exit ${EXIT_ERROR}
+  fi
+  rm -f "${COV_LOG}"
+  cdToRootDirFromModule "kamehouse-ui"
 }
 
 setLinuxBuildEnv() {

@@ -103,3 +103,8 @@ local.properties
 ##########
 **/node_modules/
 http-client.private.env.json
+
+# TypeScript/JS coverage
+kamehouse-ui/coverage/
+**/coverage/
+

@@ -1664,7 +1664,7 @@ class VlcPlayerPlaylist {
       backgroundImg: "/kame-house/img/other/double-" + direction + "-green.png",
       html: null,
       data: null,
-      click: (event, data) => this.#toggleExpandPlaylistFilenames()
+      click: (event, data) => this.toggleExpandPlaylistFilenames()
     });
   }
 
@@ -1742,7 +1742,7 @@ class VlcPlayerPlaylist {
   }
 
   /** Toggle expand or collapse filenames in the playlist */
-  #toggleExpandPlaylistFilenames() {
+  toggleExpandPlaylistFilenames() {
     if (kameHouse.core.isEmpty(this.#tbodyFilenames) || kameHouse.core.isEmpty(this.#tbodyFilenames.firstElementChild)) {
       return;
     }

@@ -165,3 +165,4 @@ class KameHouseHeader {
     }, username);
   }
 }
+(globalThis as any).KameHouseHeader = KameHouseHeader;

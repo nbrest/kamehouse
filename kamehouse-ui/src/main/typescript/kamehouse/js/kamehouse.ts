@@ -2038,7 +2038,7 @@ class KameHouseCore {
 
   /** Checks if a variable is undefined or null or an empty string "". */
   isEmpty(val) {
-    return val === undefined || val == null || val == "";
+    return val === undefined || val == null || val === "";
   }
 
   /** 
@@ -3324,3 +3324,6 @@ class SessionStatus {
 
 const kameHouse = new KameHouse();
 kameHouse.ready(() => {kameHouse.init();});
+if ((globalThis as any).__KAMEHOUSE_TEST_HOOK__) {
+  (globalThis as any).kameHouseInstance = kameHouse;
+}

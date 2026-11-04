@@ -9,7 +9,20 @@ This module handles the following functionality:
 
 * All the frontend code of kamehouse is in this module
 * Contains the views for the entire kamehouse webapp and integrates with all the other modules
- through their APIs
+  through their APIs
+
+## Unit tests:
+
+Run TypeScript unit tests with [Vitest](https://vitest.dev/):
+
+```sh
+npm test
+```
+
+For watch mode:
+```sh
+npx vitest
+```
 
 ## Icons source:
 

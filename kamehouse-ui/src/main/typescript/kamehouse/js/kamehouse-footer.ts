@@ -108,3 +108,5 @@ class KameHouseFooter {
       );
   }
 }
+
+(globalThis as any).KameHouseFooter = KameHouseFooter;
