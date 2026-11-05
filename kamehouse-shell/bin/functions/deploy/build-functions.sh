@@ -194,7 +194,8 @@ buildKameHouseBackend() {
   if ${DEPLOY_KAMEHOUSE_CMD}; then
     RUN_BUILD_COMMAND=true
   fi
-  if [ "${MODULE_SHORT}" == "mobile" ] ||
+  if [ "${MODULE_SHORT}" == "desktop" ] ||
+     [ "${MODULE_SHORT}" == "mobile" ] ||
      [ "${MODULE_SHORT}" == "groot" ] ||
      [ "${MODULE_SHORT}" == "shell" ] ||
      [ "${MODULE_SHORT}" == "snape" ] ||
@@ -338,6 +339,29 @@ runKameHouseMobileTypeScriptTests() {
   fi
   rm -f "${COV_LOG}"
   cdToRootDirFromModule "kamehouse-mobile"
+}
+
+runKameHouseDesktopTests() {
+  if [[ -n "${MODULE}" && "${MODULE}" != "kamehouse-desktop" ]]; then
+    return
+  fi
+  if ${FAST_BUILD}; then
+    log.info "Fast build. Skipping kamehouse-desktop python unit tests"
+    return
+  fi
+  if ${INTEGRATION_TESTS}; then
+    log.debug "Running integration tests. Skipping kamehouse-desktop python unit tests"
+    return
+  fi
+  cdToKameHouseModule "kamehouse-desktop"
+  log.info "Running ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} python unit tests with coverage"
+  local PYTHON_COMMAND="python3"
+  if ! command -v "${PYTHON_COMMAND}" > /dev/null 2>&1; then
+    PYTHON_COMMAND="python"
+  fi
+  ${PYTHON_COMMAND} src/test/python/run_tests.py
+  checkCommandStatus "$?" "An error occurred running kamehouse-desktop python unit tests or coverage thresholds not met"
+  cdToRootDirFromModule "kamehouse-desktop"
 }
 
 runKameHouseUiTests() {

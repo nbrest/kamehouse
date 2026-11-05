@@ -135,6 +135,16 @@ kamehouse-mobile-run-browser.sh
 - Update the app on the mobile device
 - Upload the public key to the android user in SSH/SFTP Server - Terminal users config to upload without password prompt
 
+## Upload APK to google drive
+
+- Copy the credentials from a server with working credentials to upload successfully:
+
+```sh
+SERVER_WITH_CREDENTIALS="192.168.99.99"
+mkdir -p ${HOME}/.kamehouse/data/snape/upload-kamehouse-mobile-to-gdrive/
+scp ${USER}$@${SERVER_WITH_CREDENTIALS}:/home/${USER}/.kamehouse/data/snape/upload-kamehouse-mobile-to-gdrive/* ${HOME}/.kamehouse/data/snape/upload-kamehouse-mobile-to-gdrive/
+```
+
 ## Install from google drive
 - The kamehouse build script uploads the APK to google drive. Install it on the mobile devices straight from google drive
 

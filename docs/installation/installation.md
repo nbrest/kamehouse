@@ -79,11 +79,13 @@ sudo npm install typescript -g
 ```sh
     pip install PyQt5
     pip install click
+    pip install coverage
     pip install google-api-python-client 
     pip install google-auth-httplib2 
     pip install google-auth-oauthlib
     pip install googleapi
     pip install loguru
+    pip install pytest 
     pip install requests
     pip install websocket
     pip install websocket-client
@@ -98,11 +100,13 @@ sudo npm install typescript -g
     sudo apt-get install -y python${PYTHON_VERSION}
     sudo apt-get install -y python3-pyqt5
     sudo apt-get install -y python3-click
+    sudo apt-get install -y python3-coverage
     sudo apt-get install -y python3-google-api-python-client 
     sudo apt-get install -y python3-google-auth-httplib2 
     sudo apt-get install -y python3-google-auth-oauthlib
     sudo apt-get install -y python3-googleapi
     sudo apt-get install -y python3-loguru
+    sudo apt-get install -y python3-pytest 
     sudo apt-get install -y python3-requests
     sudo apt-get install -y python3-websocket
     sudo apt-get install -y python3-websocket-client

@@ -55,6 +55,28 @@ Use groot server manager to:
 - Toggle keep alive scripts to fully turn off the desktop app
 - Get stats of kamehouse-desktop run like which and how many backgrounds it loaded successfully and unsuccessfully
 
+## Unit tests
+
+The python unit tests use `pytest` and `coverage`. See [the installation docs](/docs/installation/installation.md)
+
+Run the tests and the coverage check from the `kamehouse-desktop` directory:
+
+```sh
+cd kamehouse-desktop
+python3 src/test/python/run_tests.py
+```
+
+The runner executes the tests headlessly, prints the coverage report and fails if line coverage thresholds are not met
+
+To run only the tests without the coverage thresholds:
+
+```sh
+cd kamehouse-desktop
+QT_QPA_PLATFORM=offscreen python3 -m pytest src/test/python
+```
+
+The same tests and coverage check run automatically as part of `build-kamehouse.sh` (for a full build or with `-m desktop`).
+
 ## Multiple screens
 
 When running kamehouse-desktop on multiple screens, set `KAMEHOUSE_DESKTOP_SCREEN` in the script config file with the index of the screen to use. The index should be 0 or 1 or 2 etc depending on how many screens are connected

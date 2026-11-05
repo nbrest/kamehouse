@@ -19,6 +19,7 @@ mainProcess() {
   setKameHouseBuildVersion
   generateBuildInfo
   buildKameHouseStatic
+  runKameHouseDesktopTests
   buildKameHouseBackend
   buildKameHouseMobile
   deleteGitRepoBuildInfoFiles

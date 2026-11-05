@@ -108,3 +108,11 @@ http-client.private.env.json
 kamehouse-ui/coverage/
 **/coverage/
 
+##########
+# Python
+##########
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.coverage
+
