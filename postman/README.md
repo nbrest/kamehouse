@@ -39,16 +39,15 @@ required. `jq` is optional, only useful to inspect the JSON files.
 
 | Environment file | `SERVER` | Target |
 | --- | --- | --- |
-| `localhost-9989-dev-tomcat.postman_environment.json` | `localhost:9989` | Local dev Apache Httpd, proxied to Tomcat on `localhost:9980` |
-| `localhost-6080-dev-docker.postman_environment.json` | `localhost:6080` | Docker dev container |
-| `localhost-15080-ci-docker.postman_environment.json` | `localhost:15080` | CI Docker container |
-| `localhost-443-prod-httpd.postman_environment.json` | `https://localhost` | Local production-style Apache Httpd |
+| `localhost-80.postman_environment.json` | `localhost:80` | Local dev Apache Httpd, proxied to Tomcat on `localhost:9090` |
+| `localhost-6080-docker-dev.postman_environment.json` | `localhost:6080` | Docker dev container |
+| `localhost-15080-docker-ci.postman_environment.json` | `localhost:15080` | CI Docker container |
 
 Each environment defines `SERVER`, `USERNAME` and `PASSWORD`. Dev defaults are `seiya` / `ikki`.
 The dev Tomcat and CI environments also define `TOMCAT_SERVER` for the one request that must
 bypass the Apache proxy (see `kamehouse-httpd` below).
 
-The `ci-docker` environment targets the ports published by `docker-run-kamehouse.sh -p ci`:
+The `localhost-docker-ci` environment targets the ports published by `docker-run-kamehouse.sh -p ci`:
 Apache on `15080` and Tomcat on `15090`. It sets `RUN_DESTRUCTIVE_TESTS=false`,
 `RUN_SYSTEM_POWER_TESTS=false` and `RUN_SCREEN_TESTS=false` to skip reboot/shutdown, suspend
 and VNC screen requests. The CI container is headless and cannot schedule host power actions.
@@ -64,7 +63,7 @@ Run every folder against the local dev instance:
 
 ```sh
 npx newman run postman/collections/kame-house.postman_collection.json \
-  -e postman/environments/localhost-9989-dev-tomcat.postman_environment.json \
+  -e postman/environments/localhost-80.postman_environment.json \
   -g postman/globals/workspace.postman_globals.json \
   --ignore-redirects --reporters cli --timeout-request 60000
 ```
@@ -78,8 +77,8 @@ kamehouse-shell/bin/test/kamehouse-postman-run.sh
 Use `-p` to select another environment:
 
 ```sh
-kamehouse-shell/bin/test/kamehouse-postman-run.sh -p dev-docker
-kamehouse-shell/bin/test/kamehouse-postman-run.sh -p ci-docker
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p docker-dev
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p docker-ci
 kamehouse-shell/bin/test/kamehouse-postman-run.sh -p prod-https
 ```
 
@@ -91,7 +90,7 @@ Run a single folder (use the top-level folder name):
 
 ```sh
 npx newman run postman/collections/kame-house.postman_collection.json \
-  -e postman/environments/localhost-9989-dev-tomcat.postman_environment.json \
+  -e postman/environments/localhost-80.postman_environment.json \
   -g postman/globals/workspace.postman_globals.json \
   --folder kamehouse-admin \
   --ignore-redirects --reporters cli --timeout-request 60000
@@ -104,7 +103,7 @@ For unattended runs, redirect the output so terminal key presses cannot interfer
 
 ```sh
 nohup npx newman run postman/collections/kame-house.postman_collection.json \
-  -e postman/environments/localhost-9989-dev-tomcat.postman_environment.json \
+  -e postman/environments/localhost-80.postman_environment.json \
   -g postman/globals/workspace.postman_globals.json \
   --ignore-redirects --reporters cli --timeout-request 60000 \
   > /tmp/kamehouse-postman.log 2>&1 &
@@ -122,7 +121,7 @@ Useful options:
 ## Folder notes
 
 - `kamehouse-ui` and `kamehouse-groot` need Apache Httpd serving the UI/Groot content. The dev
-  environment points `SERVER` at Apache on port 9989, which proxies API calls to Tomcat on 9980.
+  environment points `SERVER` at Apache on port 80, which proxies API calls to Tomcat on 9090.
   The CI environment points `SERVER` at Apache on port 15080. `kamehouse-ui` only checks the
   static UI pages; the UI module has no REST controllers.
 - `kamehouse-groot` covers every PHP endpoint under `kamehouse-groot/src/main/php/kame-house-groot/api/v1`.
@@ -138,7 +137,7 @@ Useful options:
   the request. It runs last and briefly makes the environment's `SERVER` port unavailable.
 - The `reboot` and `shutdown` requests are skipped unless `RUN_DESTRUCTIVE_TESTS=true`. The
   `suspend` requests are skipped when `RUN_SYSTEM_POWER_TESTS=false`, and VNC screen requests are
-  skipped when `RUN_SCREEN_TESTS=false`; the `ci-docker` environment sets both to `false`.
+  skipped when `RUN_SCREEN_TESTS=false`; the `docker-ci` environment sets both to `false`.
 
 ## Security notes
 

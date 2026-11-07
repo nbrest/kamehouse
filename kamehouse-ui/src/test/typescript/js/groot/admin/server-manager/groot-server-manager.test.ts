@@ -248,11 +248,11 @@ describe('groot server-manager', () => {
   it('starts and stops modules', async () => {
     const { deploymentManager } = await importManagers();
     deploymentManager.startModule('admin');
-    expect(shellCalls['tomcat/start-kamehouse.sh'].args).toBe('-m admin ');
+    expect(shellCalls['tomcat/start-kamehouse.sh'].args).toBe('-m admin');
     shellCalls['tomcat/start-kamehouse.sh'].success();
 
     deploymentManager.stopModule('media');
-    expect(shellCalls['tomcat/stop-kamehouse.sh'].args).toBe('-m media ');
+    expect(shellCalls['tomcat/stop-kamehouse.sh'].args).toBe('-m media');
   });
 
   it('does not start or stop modules when a command is running', async () => {
@@ -283,7 +283,7 @@ describe('groot server-manager', () => {
     expect(shellCalls['deploy/deploy-kamehouse.sh'].args).toBe('-m admin');
     serverManagerFrom(mock).setCommandNotRunning();
     deploymentManager.undeployModule('admin');
-    expect(shellCalls['deploy/undeploy-kamehouse.sh'].args).toBe('-m admin ');
+    expect(shellCalls['deploy/undeploy-kamehouse.sh'].args).toBe('-m admin');
     serverManagerFrom(mock).setCommandNotRunning();
     deploymentManager.deployModuleAllServers('admin');
     expect(shellCalls['deploy/exec-kamehouse-all-servers.sh'].args).toBe('-s deploy/deploy-kamehouse.sh -a -m admin');
@@ -295,22 +295,6 @@ describe('groot server-manager', () => {
     expect(shellCalls['deploy/exec-kamehouse-all-servers.sh']).toBeDefined();
   });
 
-  it('uses dev scripts in a dev environment', async () => {
-    (global as any).location = { port: '9980' };
-    const { mock, deploymentManager } = await importManagers();
-    deploymentManager.deployModule('admin');
-    expect(shellCalls['deploy/deploy-kamehouse-dev.sh']).toBeDefined();
-
-    serverManagerFrom(mock).setCommandNotRunning();
-    deploymentManager.deployAllModules();
-    expect(shellCalls['deploy/deploy-kamehouse-dev.sh']).toBeDefined();
-
-    serverManagerFrom(mock).setCommandNotRunning();
-    deploymentManager.restartTomcat();
-    expect(shellCalls['tomcat/tomcat-restart-dev.sh'].args).toBe('');
-    expect(shellCalls['tomcat/kamehouse-tomcat-modules-status.sh'].args).toBe('-p 9980');
-  });
-
   it('uses the debug argument when restarting tomcat in debug mode', async () => {
     const { deploymentManager } = await importManagers();
     (global as any).document.getElementById('tomcat-debug-mode').checked = true;
@@ -318,20 +302,10 @@ describe('groot server-manager', () => {
     expect(shellCalls['tomcat/tomcat-restart.sh'].args).toBe('-d');
   });
 
-  it('detects dev environment on mobile', async () => {
-    const { mock, deploymentManager } = await importManagers();
-    mock.util.mobile.exec = vi.fn((desktop: any, mobile: any) => mobile());
-    mock.extension.mobile.core.getSelectedBackendServer = vi.fn(() => ({ name: 'kamehouse-cc' }));
+  it('gets the non tomcat module status without dev arguments', async () => {
+    const { deploymentManager } = await importManagers();
     deploymentManager.getNonTomcatModulesStatus('cmd');
-    expect(shellCalls['cmd/kamehouse-cmd-version.sh'].args).toBe('--dev-env');
-  });
-
-  it('warns when the mobile backend name is empty', async () => {
-    const { mock, deploymentManager } = await importManagers();
-    mock.util.mobile.exec = vi.fn((desktop: any, mobile: any) => mobile());
-    mock.extension.mobile.core.getSelectedBackendServer = vi.fn(() => null);
-    deploymentManager.getNonTomcatModulesStatus('cmd');
-    expect(mock.logger.warn).toHaveBeenCalledWith('Selected backend name is empty', null);
+    expect(shellCalls['cmd/kamehouse-cmd-version.sh'].args).toBe('');
   });
 
   it('loads the tail log manager wrapper and starts tailing', async () => {

@@ -23,7 +23,7 @@ mainProcess() {
 
 validateProfile() {
   case "${PROFILE}" in
-    dev-tomcat|dev-docker|prod-https|ci-docker)
+    dev-tomcat|docker-dev|prod-https|docker-ci)
       ;;
     *)
       log.error "Option -p ${PROFILE} has an invalid value"
@@ -57,7 +57,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-d --destructive" "also run the reboot and shutdown requests"
-  addHelpOption "-p --profile [dev-tomcat|dev-docker|prod-https|ci-docker]" "environment to run the collection against. Default is dev-tomcat"
+  addHelpOption "-p --profile [dev-tomcat|docker-dev|prod-https|docker-ci]" "environment to run the collection against. Default is dev-tomcat"
 }
 
 main "$@"

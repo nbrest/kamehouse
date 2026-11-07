@@ -13,7 +13,6 @@ initScriptEnv() {
   DEFAULT_LOG_LEVEL="trace"
   DEFAULT_NUM_LINES="30"
 
-  TOMCAT_DEV_LOG_DIR="programs/apache-tomcat-dev/logs"
   TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
 
   # Variables set by command line arguments
@@ -83,9 +82,6 @@ setTailLogParameters() {
   "tomcat")
     setTomcatLogFiles
     ;;
-  "tomcat-dev")
-    setTomcatDevLogFiles
-    ;;
   *.log)
     addFileToLogFiles "${HOME}/logs/${FILE_ARG}"
     ;;
@@ -119,14 +115,6 @@ setTomcatLogFiles() {
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/kameHouse.log"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
   addFileToLogFiles "${USER_HOME}/${TOMCAT_LOG_DIR}/catalina.${LOG_DATE}.log"
-}
-
-setTomcatDevLogFiles() {
-  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/catalina.out"
-  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/localhost.${LOG_DATE}.log"
-  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/kameHouse.log"
-  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/localhost_access_log.${LOG_DATE}.txt"
-  addFileToLogFiles "${USER_HOME}/${TOMCAT_DEV_LOG_DIR}/catalina.${LOG_DATE}.log"
 }
 
 addFileToLogFiles() {
@@ -194,7 +182,6 @@ setFileArg() {
     [ "${FILE_ARG}" != "desktop" ] &&
     [ "${FILE_ARG}" != "kamehouse" ] &&
     [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
-    [ "${FILE_ARG}" != "tomcat-dev" ] &&
     [ "${FILE_ARG}" != "tomcat" ]; then
     log.error "Option -f has an invalid value of ${FILE_ARG}. See help with -h for valid values"
     printHelp
@@ -242,7 +229,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|tomcat-dev|*.log]" "log file to tail" "r"
+  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|*.log]" "log file to tail" "r"
   addHelpOption "-l [trace|debug|info|warn|error]" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n [lines]" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   addHelpOption "-q" "quit after tailing once. Don't follow log"

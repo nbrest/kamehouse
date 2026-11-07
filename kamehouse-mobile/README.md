@@ -121,17 +121,17 @@ kamehouse-mobile-run-browser.sh
 # Development:
 
 ## Test in computer using browser
-- Setup local apache httpd to serve the mobile app frontend code on [http://localhost:9989/kame-house-mobile/settings.html](http://localhost:9989/kame-house-mobile/settings.html) and deploy the changes with `deploy-kamehouse-dev.sh -m mobile -s`
+- Setup local apache httpd to serve the mobile app frontend code on [http://localhost/kame-house-mobile/settings.html](http://localhost/kame-house-mobile/settings.html) and deploy the changes with `deploy-kamehouse.sh -m mobile` with `IS_DEV_ENV=true`
 - This is the fastest way to test ui changes to the mobile app or test my javascript logic that runs differently for native mobile app, but it won't be able to connect to the backend server to test any interaction with the backend. For interactions with the backend, I need to upload the apk to my phone and test from my phone. There's no way to test that from my dev laptop directly
-- Load the page with ?mockCordova=true&logLevel=trace parameter to mock cordova calls [http://localhost:9989/kame-house-mobile/settings.html?mockCordova=true&logLevel=trace](http://localhost:9989/kame-house-mobile/settings.html?mockCordova=true&logLevel=trace) 
-- I can add the url parameter mockCordova=true to any page I load in the browser and test the mobile functionality with mocked cordova for any page, not just the mobile settings page. For example [http://localhost:9989/kame-house/vlc-player.html?mockCordova=true](http://localhost:9989/kame-house/vlc-player.html?mockCordova=true)
+- Load the page with ?mockCordova=true&logLevel=trace parameter to mock cordova calls [http://localhost/kame-house-mobile/settings.html?mockCordova=true&logLevel=trace](http://localhost/kame-house-mobile/settings.html?mockCordova=true&logLevel=trace)
+- I can add the url parameter mockCordova=true to any page I load in the browser and test the mobile functionality with mocked cordova for any page, not just the mobile settings page. For example [http://localhost/kame-house/vlc-player.html?mockCordova=true](http://localhost/kame-house/vlc-player.html?mockCordova=true)
 - For changes that interact with cordova api, it's better to test it directly on the cordova server [http://localhost:8000/kame-house/index.html](http://localhost:8000/kame-house/index.html) but on every ui code change I need to restart the server so it's slower for changes that don't require cordova
 
 ## Upload APK to device
 - Start the SSH/SFTP Server - Terminal from googleplay on the phone
 - Set the `ANDROID_*` properties in `${HOME}/.kamehouse/config/kamehouse.cfg` to connect to your phone
-- Execute `deploy-kamehouse-dev.sh -m mobile` script to build the mobile app and upload it to the `Downloads` folder in the device 
-- Use `kamehouse-mobile-upload-apk-to-device.sh` script instead of  `deploy-kamehouse-dev.sh` if I need to pass a custom ip and port for the android device to upload to rather than the default
+- Execute `deploy-kamehouse.sh -m mobile` with `IS_DEV_ENV=true` to build the mobile app and upload it to the `Downloads` folder in the device
+- Use `kamehouse-mobile-upload-apk-to-device.sh` script instead of `deploy-kamehouse.sh` if I need to pass a custom ip and port for the android device to upload to rather than the default
 - Update the app on the mobile device
 - Upload the public key to the android user in SSH/SFTP Server - Terminal users config to upload without password prompt
 

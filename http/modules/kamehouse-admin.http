@@ -644,7 +644,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / power-management / suspend / /
 {{
-// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.
+// Power management actions are not supported by the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SYSTEM_POWER_TESTS === "false") {
 
@@ -689,7 +689,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / power-management / suspend / ?delay=5400
 {{
-// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.
+// Power management actions are not supported by the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SYSTEM_POWER_TESTS === "false") {
 
@@ -731,7 +731,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / power-management / suspend / /
 {{
-// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.
+// Power management actions are not supported by the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SYSTEM_POWER_TESTS === "false") {
 
@@ -863,7 +863,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / screen / /unlock
 {{
-// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SCREEN_TESTS === "false") {
 
@@ -905,7 +905,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / screen / /wake-up
 {{
-// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SCREEN_TESTS === "false") {
 
@@ -947,7 +947,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / screen / /key-press
 {{
-// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SCREEN_TESTS === "false") {
 
@@ -989,7 +989,7 @@ test("Body contains specified string", () => {
 
 ### kamehouse-admin / admin / screen / /mouse-click
 {{
-// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.
+// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.
 
 if (RUN_SCREEN_TESTS === "false") {
 

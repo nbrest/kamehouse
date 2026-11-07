@@ -33,52 +33,52 @@ Right click on toolbar > Customize
 ## Add start/stop/status tomcat and deploy kamehouse as external tools:
 
  File -> Settings and expand Tools and select External Tools.
-  ### `deploy-kamehouse-dev`
+  ### `deploy-kamehouse`
     - Windows:
-      - Name: deploy-kamehouse-dev
+      - Name: deploy-kamehouse
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh'"
       - Working directory: 
     - Linux:
-      - Name: deploy-kamehouse-dev
+      - Name: deploy-kamehouse
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
       - Working directory: 
 
   ### `start-tomcat`
     - Windows:
       - Name: start-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh'"
       - Working directory: 
     - Linux:
       - Name: start-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
       - Working directory: 
       
   ### `stop-tomcat`
     - Windows:
       - Name: stop-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop.sh'"
       - Working directory: 
     - Linux:
       - Name: stop-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop.sh
       - Working directory: 
 
   ### `status-tomcat`
     - Windows:
       - Name: status-tomcat
       - Program: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status-dev.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status.sh'"
       - Working directory: 
     - Linux:
       - Name: status-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status-dev.sh
+      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status.sh
       - Working directory: 
 
 ## Start tomcat: 
@@ -89,7 +89,7 @@ Right click on toolbar > Customize
 ## Tail logs: 
 
 ```sh
-tail-log.sh -f tomcat-dev
+tail-log.sh -f tomcat
 ```
 
 ## Setup remote debug:

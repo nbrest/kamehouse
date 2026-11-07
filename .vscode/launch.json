@@ -1,5 +1,5 @@
 {
-  // Launch configurations to debug on chrome/apache httpd on port 9989
+  // Launch configurations to debug on chrome/apache httpd on port 80
   // on windows (for linux update webRoot to linux paths)
   "version": "0.2.0",
   "configurations": [
@@ -7,21 +7,21 @@
       "name": "/kame-house ui",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:9989/kame-house/",
+      "url": "http://localhost/kame-house/",
       "webRoot": "C:\\Users\\nbrest\\workspace\\kamehouse\\kamehouse-ui\\src\\main"
     },
     {
       "name": "/kame-house-groot",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:9989/kame-house-groot/",
+      "url": "http://localhost/kame-house-groot/",
       "webRoot": "C:\\Users\\nbrest\\workspace\\kamehouse\\kamehouse-groot\\src\\main"
     },
     {
       "name": "/kame-house-mobile",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:9989/kame-house-mobile/settings.html?mockCordova=true",
+      "url": "http://localhost/kame-house-mobile/settings.html?mockCordova=true",
       "webRoot": "C:\\Users\\nbrest\\workspace\\kamehouse\\kamehouse-mobile\\www"
     },
     {

@@ -12,8 +12,8 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  log.info "Installing ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_DESKTOP_PATH}"
-  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_DESKTOP_SOURCE}${COL_MESSAGE} as the source of the scripts"
+  log.info "Installing ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_DESKTOP_PATH}"
+  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_DESKTOP_SOURCE}${COL_DEFAULT_LOG} as the source of the scripts"
   checkSourcePath
   installKameHouseDesktop
   fixPermissions

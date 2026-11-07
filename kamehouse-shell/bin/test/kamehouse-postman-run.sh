@@ -34,17 +34,14 @@ mainProcess() {
 
 setPostmanEnvironment() {
   case "${PROFILE}" in
-    dev-tomcat)
-      POSTMAN_ENVIRONMENT="postman/environments/localhost-9989-dev-tomcat.postman_environment.json"
+    localhost)
+      POSTMAN_ENVIRONMENT="postman/environments/localhost-80.postman_environment.json"
       ;;
-    dev-docker)
-      POSTMAN_ENVIRONMENT="postman/environments/localhost-6080-dev-docker.postman_environment.json"
+    localhost-docker-dev)
+      POSTMAN_ENVIRONMENT="postman/environments/localhost-6080-docker-dev.postman_environment.json"
       ;;
-    prod-https)
-      POSTMAN_ENVIRONMENT="postman/environments/localhost-443-prod-httpd.postman_environment.json"
-      ;;
-    ci-docker)
-      POSTMAN_ENVIRONMENT="postman/environments/localhost-15080-ci-docker.postman_environment.json"
+    localhost-docker-ci)
+      POSTMAN_ENVIRONMENT="postman/environments/localhost-15080-docker-ci.postman_environment.json"
       ;;
     *)
       log.error "Option -p ${PROFILE} has an invalid value"
@@ -74,7 +71,7 @@ parseArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-p --profile [dev-tomcat|dev-docker|prod-https|ci-docker]" "environment to run the collection against. Default is dev-tomcat"
+  addHelpOption "-p --profile [localhost|localhost-docker-dev|localhost-docker-ci]" "environment to run the collection against. Default is dev-tomcat"
 }
 
 main "$@"

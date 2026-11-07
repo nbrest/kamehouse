@@ -26,7 +26,7 @@ Run the full validation sequence for changes. Follow these steps in order. **Ret
    - Confirm the `reboot` and `shutdown` requests remain guarded by `RUN_DESTRUCTIVE_TESTS` so the automated `.http` runner skips them.
    - If there is any mismatch, STOP immediately, report the exact file/request, and update the `.http` files to match the API contract and Postman collection. Do not run the remaining steps until the collections are consistent.
 3. **Unit tests**: Run `./gradlew test` from repo root (retry up to 3x). Ensure all unit tests pass (*IntegrationTest excluded).
-4. **Deploy to tomcat-dev**: Run `deploy-kamehouse-dev.sh` from repo root (dev scripts only, retry up to 3x). Verify deployment succeeds. After deployment, wait for Tomcat to finish deploying webapps (check `tomcat-status-dev.sh`, tail `${HOME}/programs/apache-tomcat-dev/logs/catalina.out` for deployment completion/messages like "Deployment of web application archive" or context startup, or wait until contexts are ready). Do not proceed until webapps are deployed/started.
+4. **Deploy to local Tomcat**: Ensure `IS_DEV_ENV=true` in `${HOME}/.kamehouse/config/kamehouse.cfg`, then run `deploy-kamehouse.sh` from repo root (retry up to 3x). Verify deployment succeeds. After deployment, wait for Tomcat to finish deploying webapps (check `tomcat-status.sh`, tail `${HOME}/programs/apache-tomcat/logs/catalina.out` for deployment completion/messages like "Deployment of web application archive" or context startup, or wait until contexts are ready). Do not proceed until webapps are deployed/started.
 5. **Integration tests**: Ensure secrets are loaded. The integration tests exercise `ScreenController` and inject VNC keystrokes (ESC, ENTER, mouse clicks) into the active desktop window, so always run them through `kamehouse-shell/bin/test/run-with-keyboard-sink.sh`. This opens a full-screen keyboard-sink terminal, focuses it for the duration of the tests, and restores the previously active window afterwards. Use `-p docker` if running in a container (retry up to 3x if startup/deployment not ready). Launch detached and wait for the status file:
    ```sh
    LOG=/tmp/kamehouse-integration.log
@@ -58,10 +58,10 @@ Run the full validation sequence for changes. Follow these steps in order. **Ret
 ## Rules
 - API contract changes in the working copy must be reflected in both the Postman collection and the relevant `.http` collection(s).
 - The `.http` collection must stay consistent with the Postman collection and the API contract, including request order, methods, paths, parameters, bodies and expected statuses.
-- Use dev scripts only (`*-dev.sh`). Never use prod scripts.
+- Use `deploy-kamehouse.sh` with `IS_DEV_ENV=true`. Never deploy against a production config.
 - If any step fails, do NOT commit. Report which step failed and why.
-- For shell script changes, ensure `deploy-kamehouse-dev.sh -m shell` was done and tested.
-- Check tomcat-dev status/logs if deployment fails.
+- For shell script changes, ensure `deploy-kamehouse.sh -m shell` was done and tested with `IS_DEV_ENV=true`.
+- Check local Tomcat status/logs if deployment fails.
 - If the integration test, Postman or `.http` log contains `keyboard sink unavailable`, warn that test keystrokes may have reached the active window.
 
 $ARGUMENTS

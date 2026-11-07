@@ -214,10 +214,6 @@ class KeepAliveManager {
  */
 class DeploymentManager {
 
-  #DEV_PORTS = ["9980", "9989", "9949"];
-  #DEV_SERVERS = ["kamehouse-cc", "kamehouse-cc-kamino"];
-  #TOMCAT_DEV_PORT = "9980";
-
   #statusBallBlueImg = null;
   #statusBallRedImg = null;
   #statusBallGreenImg = null;
@@ -253,8 +249,7 @@ class DeploymentManager {
    * Get running/stopped status from all tomcat modules.
    */
   getTomcatModulesStatus() {
-    const scriptArgs = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('tomcat/kamehouse-tomcat-modules-status.sh', scriptArgs, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesRunningStatusImg(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('tomcat/kamehouse-tomcat-modules-status.sh', "", false, false, 60, (kameHouseCommandResult) => this.#displayTomcatModulesRunningStatusImg(kameHouseCommandResult), () => {});
   }
 
   /**
@@ -275,12 +270,8 @@ class DeploymentManager {
    */
   getNonTomcatModulesStatus(module) {
     kameHouse.logger.debug("Getting module " + module + " status", null);
-    let scriptArgs = "";
-    if (this.#isDevEnvironment()) {
-      scriptArgs = "--dev-env";
-    }
-    kameHouse.extension.kameHouseShell.execute(module + '/kamehouse-' + module + '-version.sh', scriptArgs, false, false, 60, 
-      (kameHouseCommandResult) => this.#displayNonTomcatModuleStatus(kameHouseCommandResult, module), 
+    kameHouse.extension.kameHouseShell.execute(module + '/kamehouse-' + module + '-version.sh', "", false, false, 60,
+      (kameHouseCommandResult) => this.#displayNonTomcatModuleStatus(kameHouseCommandResult, module),
       () => {
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-version-val", "Error getting data");  
         kameHouse.util.dom.setHtmlById("mst-" + module + "-build-date-val", "Error getting data");   
@@ -291,8 +282,7 @@ class DeploymentManager {
    * Get the tomcat process status.
    */
   getTomcatProcessStatus() {
-    const args = this.#getDevTomcatPortArgument();
-    kameHouse.extension.kameHouseShell.execute('tomcat/tomcat-status.sh', args, false, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
+    kameHouse.extension.kameHouseShell.execute('tomcat/tomcat-status.sh', "", false, false, 60, (kameHouseCommandResult) => this.#displayTomcatProcessStatus(kameHouseCommandResult), () => {});
   }
   
   /**
@@ -317,7 +307,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
+    const args = "-m " + module;
     kameHouse.extension.kameHouseShell.execute('tomcat/start-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
@@ -330,7 +320,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
+    const args = "-m " + module;
     kameHouse.extension.kameHouseShell.execute('tomcat/stop-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }  
 
@@ -377,12 +367,8 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    let script = 'deploy/deploy-kamehouse.sh';
     const args = "-m " + module;
-    if (this.#isDevEnvironment()) {
-      script = 'deploy/deploy-kamehouse-dev.sh';
-    }
-    kameHouse.extension.kameHouseShell.execute(script, args, false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('deploy/deploy-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -394,7 +380,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-m " + module + " " + this.#getDevTomcatPortArgument();
+    const args = "-m " + module;
     kameHouse.extension.kameHouseShell.execute('deploy/undeploy-kamehouse.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
@@ -420,12 +406,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    let script = 'deploy/deploy-kamehouse.sh';
-    const args = "";
-    if (this.#isDevEnvironment()) {
-      script = 'deploy/deploy-kamehouse-dev.sh';
-    }
-    kameHouse.extension.kameHouseShell.execute(script, args, false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('deploy/deploy-kamehouse.sh', "", false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
@@ -449,43 +430,8 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    let script = 'tomcat/tomcat-restart.sh';
-    if (this.#isDevEnvironment()) {
-      script = 'tomcat/tomcat-restart-dev.sh';
-    }
     const stringArgs = this.#getRestartTomcatParams();
-    kameHouse.extension.kameHouseShell.execute(script, stringArgs, false, false, 600, () => this.refreshServerView(), () => {});
-  }
-
-  /**
-   * Check if it's dev environment.
-   */
-  #isDevEnvironment() {
-    return kameHouse.util.mobile.exec(
-      () => {
-        const port = location.port;
-        return !kameHouse.core.isEmpty(port) && this.#DEV_PORTS.includes(port);
-      },
-      () => {
-        kameHouse.logger.trace("Checking if it's dev environment on mobile", null);
-        const selectedBackend = kameHouse.extension.mobile.core.getSelectedBackendServer();
-        if (kameHouse.core.isEmpty(selectedBackend) || kameHouse.core.isEmpty(selectedBackend.name)) {
-          kameHouse.logger.warn("Selected backend name is empty", null);
-          return false;
-        }
-        return this.#DEV_SERVERS.includes(selectedBackend.name);
-      }
-    );
-  }
-
-  /**
-   * Get dev tomcat port argument.
-   */
-  #getDevTomcatPortArgument() {
-    if (this.#isDevEnvironment()) {
-      return "-p " + this.#TOMCAT_DEV_PORT;
-    }
-    return "";
+    kameHouse.extension.kameHouseShell.execute('tomcat/tomcat-restart.sh', stringArgs, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**

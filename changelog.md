@@ -8,13 +8,14 @@
 #### v11.05
 
 - Added AGENTS.md - Turned to the dark side
+- Removed -dev.sh scripts and configuration
 - Added kamehouse-desktop python unit tests
 - Added kamehouse-ui and kamehouse-mobile typescript unit tests
 - Added opencode commands to run full validation and postman collection
 - Added opencode command and shell script to run the .http collection
 - Added shell script to run the postman collection
 - Added .http collection consistency check and run steps to full validation
-- Added ci-docker profiles to the postman and .http collections
+- Added docker-ci profiles to the postman and .http collections
 - Added colored live status display to the keyboard sink
 - Added postman and .http collection runs with retries to the ci docker integration tests
 - Added newman and httpyac installation to the ci tests

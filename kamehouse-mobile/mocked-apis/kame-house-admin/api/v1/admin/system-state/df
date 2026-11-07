@@ -8,7 +8,7 @@
             "Name           Used (GB)     Free (GB) Provider      Root                                               CurrentLocation",
             "----           ---------     --------- --------      ----                                               ---------------",
             "Alias                                  Alias                                                                           ",
-            "C                 256.66        138.38 FileSystem    C:\\                                 ...\\programs\\apache-tomcat-dev",
+            "C                 256.66        138.38 FileSystem    C:\\                                 ...\\programs\\apache-tomcat",
             "Cert                                   Certificate   \\                                                                 ",
             "D                 266.69        277.65 FileSystem    D:\\                                                               ",
             "Env                                    Environment                                                                     ",

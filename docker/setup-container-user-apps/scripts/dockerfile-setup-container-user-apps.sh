@@ -58,15 +58,13 @@ setupKameHouseUser() {
 setupHttpd() {
   log.info "Setting up httpd"
   mkdir -p /etc/apache2/conf
+  mkdir -p /var/www/kamehouse-webserver
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/conf/* /etc/apache2/conf
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/sites-available/* /etc/apache2/sites-available
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.key /etc/ssl/private/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/robots.txt /var/www/html/
-  chown ${KAMEHOUSE_USER}:users -R /var/www/html 
-
-  ln -s /var/www/html/ /var/www/kamehouse-webserver 
-  chown ${KAMEHOUSE_USER}:users -R /var/www/kamehouse-webserver 
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/robots.txt /var/www/kamehouse-webserver
+  chown ${KAMEHOUSE_USER}:users -R /var/www/kamehouse-webserver
 
   a2ensite default-ssl 
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
@@ -84,7 +82,7 @@ setupHttpd() {
   sed -i "s#APACHE_RUN_USER=www-data#APACHE_RUN_USER=${KAMEHOUSE_USER}#g" /etc/apache2/envvars
   sed -i "s#APACHE_RUN_GROUP=www-data#APACHE_RUN_GROUP=${KAMEHOUSE_USER}#g" /etc/apache2/envvars
 
-  rm /var/www/html/index.html 
+  rm -rf /var/www/html
 }
 
 setupKameHouseUserHome() {

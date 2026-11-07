@@ -1387,7 +1387,7 @@
                           "listen": "prerequest",
                           "script": {
                             "exec": [
-                              "// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                              "// Power management actions are not supported by the docker-ci environment. Only run them when explicitly enabled.\r\n",
                               "if (pm.environment.get(\"RUN_SYSTEM_POWER_TESTS\") === \"false\") {\r\n",
                               "  pm.execution.skipRequest();\r\n",
                               "}\r\n",
@@ -1462,7 +1462,7 @@
                           "listen": "prerequest",
                           "script": {
                             "exec": [
-                              "// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                              "// Power management actions are not supported by the docker-ci environment. Only run them when explicitly enabled.\r\n",
                               "if (pm.environment.get(\"RUN_SYSTEM_POWER_TESTS\") === \"false\") {\r\n",
                               "  pm.execution.skipRequest();\r\n",
                               "}\r\n",
@@ -1545,7 +1545,7 @@
                           "listen": "prerequest",
                           "script": {
                             "exec": [
-                              "// Power management actions are not supported by the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                              "// Power management actions are not supported by the docker-ci environment. Only run them when explicitly enabled.\r\n",
                               "if (pm.environment.get(\"RUN_SYSTEM_POWER_TESTS\") === \"false\") {\r\n",
                               "  pm.execution.skipRequest();\r\n",
                               "}\r\n",
@@ -1867,7 +1867,7 @@
                       "listen": "prerequest",
                       "script": {
                         "exec": [
-                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.\r\n",
                           "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
                           "  pm.execution.skipRequest();\r\n",
                           "}\r\n",
@@ -1948,7 +1948,7 @@
                       "listen": "prerequest",
                       "script": {
                         "exec": [
-                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.\r\n",
                           "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
                           "  pm.execution.skipRequest();\r\n",
                           "}\r\n",
@@ -2029,7 +2029,7 @@
                       "listen": "prerequest",
                       "script": {
                         "exec": [
-                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.\r\n",
                           "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
                           "  pm.execution.skipRequest();\r\n",
                           "}\r\n",
@@ -2109,7 +2109,7 @@
                       "listen": "prerequest",
                       "script": {
                         "exec": [
-                          "// VNC screen actions are not available in the ci-docker environment. Only run them when explicitly enabled.\r\n",
+                          "// VNC screen actions are not available in the docker-ci environment. Only run them when explicitly enabled.\r\n",
                           "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
                           "  pm.execution.skipRequest();\r\n",
                           "}\r\n",

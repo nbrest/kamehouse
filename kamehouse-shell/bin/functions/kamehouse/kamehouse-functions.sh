@@ -33,7 +33,7 @@ SFTP_COMMAND=""
 SFTP_EXIT_CODE=""
 GIT_COMMIT_HASH=
 SUDO_KAMEHOUSE_COMMAND=""
-IS_DEV_DEPLOYMENT="false"
+IS_DEV_ENV=false
 
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
@@ -66,12 +66,10 @@ KAMEHOUSE_SERVER=""
 
 TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,vlcrc"
 TOMCAT_DIR="${HOME}/programs/apache-tomcat"
-TOMCAT_DIR_DEV="${HOME}/programs/apache-tomcat-dev"
 
 DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
 TOMCAT_DEBUG_PORT=8000
-DEFAULT_TOMCAT_DEV_PORT=9980
 CMD_LINE_DEBUG_PORT=5001
 
 DEFAULT_HTTPD_PORT=443
@@ -519,6 +517,10 @@ checkValidRootKameHouseProject() {
 pullLatestKameHouseChanges() {
   if ${USE_CURRENT_DIR}; then
     log.trace "Using USE_CURRENT_DIR so skipping git pull kamehouse"
+    return
+  fi
+  if ${IS_DEV_ENV}; then
+    log.info "Running on a dev environment. Skipping git pull kamehouse to preserve the local working copy"
     return
   fi
   if [ "${IS_DOCKER_CONTAINER}" == "true" ] && [ "${DOCKER_PROFILE}" == "dev" ]; then

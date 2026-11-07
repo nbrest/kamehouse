@@ -27,10 +27,9 @@ were previously in `.vscode/settings.json`:
 
 | Environment | `SERVER` | `TOMCAT_SERVER` |
 | --- | --- | --- |
-| `localhost-dev-tomcat` | `http://localhost:9989` | `http://localhost:9980` |
-| `localhost-dev-docker` | `http://localhost:6080` | `http://localhost:6080` |
-| `localhost-ci-docker` | `http://localhost:15080` | `http://localhost:15090` |
-| `localhost-prod-https` | `https://localhost` | `https://localhost` |
+| `localhost` | `http://localhost:80` | `http://localhost:9090` |
+| `localhost-docker-dev` | `http://localhost:6080` | `http://localhost:6080` |
+| `localhost-docker-ci` | `http://localhost:15080` | `http://localhost:15090` |
 
 The common values (`API_VERSION`, `invalid*`, etc.) and the public test
 credentials (`seiya` / `ikki`) are duplicated in each environment because
@@ -45,7 +44,7 @@ ignored by git and is loaded on top of the public file:
 
 ```json
 {
-  "localhost-dev-tomcat": {
+  "localhost": {
     "USERNAME": "seiya",
     "PASSWORD": "ikki",
     "tennisWorldUser": "your-tennis-world-user",
@@ -61,8 +60,8 @@ Run every module in Postman collection order:
 ```sh
 cd http
 npm run send:dev-tomcat
-npm run send:dev-docker
-npm run send:ci-docker
+npm run send:docker-dev
+npm run send:docker-ci
 npm run send:prod-https
 ```
 
@@ -81,8 +80,8 @@ kamehouse-shell/bin/test/kamehouse-http-run.sh
 Use `-p` to select another environment:
 
 ```sh
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p dev-docker
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p ci-docker
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p docker-dev
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p docker-ci
 kamehouse-shell/bin/test/kamehouse-http-run.sh -p prod-https
 ```
 
@@ -99,9 +98,9 @@ keystrokes into the active desktop window.
 Run one file, or one request in a file:
 
 ```sh
-npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat --all
-npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat --name "kamehouse-admin / admin / system-state / / uptime"
-npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat --line <line-number>
+npx httpyac send modules/kamehouse-admin.http --env localhost --all
+npx httpyac send modules/kamehouse-admin.http --env localhost --name "kamehouse-admin / admin / system-state / / uptime"
+npx httpyac send modules/kamehouse-admin.http --env localhost --line <line-number>
 ```
 
 `--name` executes every request with that name. Some Postman request names
@@ -111,34 +110,34 @@ unique name when you only want one request.
 Override a variable for one run:
 
 ```sh
-npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat --all \
+npx httpyac send modules/kamehouse-admin.http --env localhost --all \
   --var USERNAME=seiya --var PASSWORD=ikki
 ```
 
 The `reboot` and `shutdown` requests are skipped unless destructive tests are
 explicitly enabled. The `suspend` requests are skipped when
 `RUN_SYSTEM_POWER_TESTS=false`, and the VNC screen requests are skipped when
-`RUN_SCREEN_TESTS=false`. The `ci-docker` environment sets both variables to
+`RUN_SCREEN_TESTS=false`. The `docker-ci` environment sets both variables to
 `false` because the CI container is headless and cannot schedule host power
 actions. To run destructive requests one at a time:
 
 ```sh
-npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
+npx httpyac send modules/kamehouse-admin.http --env localhost \
   --name "kamehouse-admin / admin / power-management / reboot / /" \
   --var RUN_DESTRUCTIVE_TESTS=true
 ```
 
 ```sh
-npx httpyac send modules/kamehouse-admin.http --env localhost-dev-tomcat \
+npx httpyac send modules/kamehouse-admin.http --env localhost \
   --name "kamehouse-admin / admin / power-management / shutdown / /" \
   --var RUN_DESTRUCTIVE_TESTS=true
 ```
 
-The `ci-docker` environment targets the ports published by
+The `docker-ci` environment targets the ports published by
 `docker-run-kamehouse.sh -p ci`: Apache on `15080` and Tomcat on `15090`.
 
 ```sh
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p ci-docker
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p docker-ci
 ```
 
 The `kamehouse-httpd` module contains the HTTPD restart request from the

@@ -17,6 +17,7 @@ LOG_LEVEL_NUMBER=3
 # Default color used in logs. Use this variable to return to default color if
 # I change the color of some words in the log entry.
 COL_DEFAULT_LOG=${COL_GREEN}
+COL_MESSAGE=${COL_DEFAULT_LOG}
 
 # Set to false to skip logging cmd args at start and end of script execution
 # Override LOG_CMD_ARGS variable in the function initKameHouseShellEnv in the shell scripts

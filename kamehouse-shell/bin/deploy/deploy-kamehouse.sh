@@ -23,10 +23,6 @@ mainProcess() {
   deployKameHouseProject
 }
 
-deployKameHouseMobileStatic() {
-  log.debug "Skipping deploy kamehouse-mobile static code to httpd server (only done on dev deployment)"
-}
-
 parseArguments() {
   parseKameHouseModule "$@"
   parseBuildProfile "$@"

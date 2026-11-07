@@ -1,4 +1,5 @@
 deployKameHouseProject() {
+  checkDevEnv
   displayDeployEnv  
   setKameHouseDeploymentParameters
   setKameHouseRootProjectDir
@@ -18,6 +19,19 @@ deployKameHouseProject() {
   deleteGitRepoBuildInfoFiles
   cleanUpKameHouseBuildArtifacts
   checkForDeploymentErrors
+}
+
+checkDevEnv() {
+  if ! ${IS_DEV_ENV}; then
+    return
+  fi
+  log.info "Deploying in a dev env"
+  if [ -d "${DEV_PROJECT_DIR}" ]; then
+    PROJECT_DIR="${DEV_PROJECT_DIR}"
+  else
+    log.warn "DEV_PROJECT_DIR ${DEV_PROJECT_DIR} not found. Using default project dir ${PROJECT_DIR}"
+  fi
+  LOG_LEVEL=TRACE
 }
 
 displayDeployEnv() {
@@ -202,11 +216,7 @@ deployToTomcat() {
   cat ./kamehouse-commons-core/src/main/resources/build-info.json
   echo -ne "${COL_NORMAL}"
   log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  local TAIL_LOG_FILE="tomcat"
-  if [[ ${DEPLOYMENT_DIR} =~ .*apache-tomcat-dev.* ]]; then
-    TAIL_LOG_FILE="tomcat-dev"
-  fi
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -f ${TAIL_LOG_FILE} -n 2000  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -f tomcat -n 2000  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
@@ -243,12 +253,16 @@ deployKameHouseMobile() {
     log.warn "DEPLOY_KAMEHOUSE_MOBILE is false so skip deploying kamehouse-mobile"
     return
   fi
-  if [ -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
-    uploadKameHouseMobileApkToGDrive
-    uploadKameHouseMobileApkToHttpdServer
-  else
+  if [ ! -f "${KAMEHOUSE_ANDROID_APK_PATH}" ]; then
     log.error "${KAMEHOUSE_ANDROID_APK_PATH} not found. Was the build successful?"
     EXIT_CODE=${EXIT_ERROR}
+    return
+  fi
+  uploadKameHouseMobileApkToGDrive
+  if ${IS_DEV_ENV}; then
+    ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-upload-apk-to-device.sh -s
+  else
+    uploadKameHouseMobileApkToHttpdServer
   fi
 }
 
@@ -325,6 +339,10 @@ deployKameHouseUiStatic() {
 }
 
 deployKameHouseMobileStatic() {
+  if ! ${IS_DEV_ENV}; then
+    log.debug "Skipping deploy kamehouse-mobile static code to httpd server (only done on dev environment)"
+    return
+  fi
   if [[ -n "${MODULE}" && "${MODULE}" != "kamehouse-mobile" ]]; then
     return
   fi

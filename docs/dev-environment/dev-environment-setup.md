@@ -22,26 +22,27 @@ Running with -s will install kamehouse shell completely but not the other module
 Running Without parameters it installs all kamehouse modules and the full changes to the shell.
 All the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
 
-# Tomcat Dev:
+# Tomcat:
 
-* Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat-dev*
-* Use the sample configuration in the folder `local-setup/tomcat-dev` to update the tomcat port and manager users
-* Start your local dev tomcat with `tomcat-startup-dev.sh`
-* Tail dev tomcat logs with `tail-log.sh -f tomcat-dev`
-* Stop your dev tomcat with `tomcat-stop-dev.sh`
+* Download tomcat from apache's website and extract it to *$HOME/programs/apache-tomcat*
+* Use the sample configuration in the folder `local-setup/tomcat` to update the tomcat port and manager users
+* Start your local tomcat with `tomcat-startup.sh`
+* Tail tomcat logs with `tail-log.sh -f tomcat`
+* Stop your local tomcat with `tomcat-stop.sh`
 
 # Apache Httpd:
 
 - Follow [installation-apache.md](/docs/installation/installation-apache.md) guide to install apache 
-- Follow [dev-environment-setup-apache.md](/docs/dev-environment/dev-environment-setup-apache.md) to configure apache for dev
+- Follow [dev-environment-setup-apache.md](/docs/dev-environment/dev-environment-setup-apache.md) to configure apache for local development
 - Start apache httpd with `httpd-startup.sh`
 - Tail apache httpd logs with `tail-log.sh -f apache`
 - Stop apache httdd with `httpd-stop.sh`
 
 # Deploy changes to dev environment:
 
-* Deploy your local working copy changes of each module with `deploy-kamehouse-dev.sh`
-- `deploy-kamehouse-dev.sh` can be used to deploy all modules, including `mobile` to my `dev` android device
+* Set `IS_DEV_ENV=true` in `${HOME}/.kamehouse/config/kamehouse.cfg`
+* Deploy your local working copy changes of each module with `deploy-kamehouse.sh`
+- With `IS_DEV_ENV=true`, `deploy-kamehouse.sh` deploys all modules, including `mobile` to my `dev` android device
 
 # Docker Dev environment:
 
