@@ -77,9 +77,8 @@ kamehouse-shell/bin/test/kamehouse-postman-run.sh
 Use `-p` to select another environment:
 
 ```sh
-kamehouse-shell/bin/test/kamehouse-postman-run.sh -p docker-dev
-kamehouse-shell/bin/test/kamehouse-postman-run.sh -p docker-ci
-kamehouse-shell/bin/test/kamehouse-postman-run.sh -p prod-https
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p localhost-docker-dev
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -p localhost-docker-ci
 ```
 
 The opencode command `kamehouse-postman-run-all` wraps that script with

@@ -7,7 +7,7 @@ initScriptEnv() {
   # Run the collection from the current directory, which must be the kamehouse repo root
   USE_CURRENT_DIR=true
   HTTP_DIR="http"
-  PROFILE="dev-tomcat"
+  PROFILE="localhost"
   RUN_DESTRUCTIVE_TESTS=false
 }
 
@@ -23,7 +23,7 @@ mainProcess() {
 
 validateProfile() {
   case "${PROFILE}" in
-    dev-tomcat|docker-dev|prod-https|docker-ci)
+    localhost|localhost-docker-dev|localhost-docker-ci)
       ;;
     *)
       log.error "Option -p ${PROFILE} has an invalid value"
@@ -57,7 +57,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-d --destructive" "also run the reboot and shutdown requests"
-  addHelpOption "-p --profile [dev-tomcat|docker-dev|prod-https|docker-ci]" "environment to run the collection against. Default is dev-tomcat"
+  addHelpOption "-p --profile [localhost|localhost-docker-dev|localhost-docker-ci]" "environment to run the collection against. Default is dev-tomcat"
 }
 
 main "$@"

@@ -59,10 +59,9 @@ Run every module in Postman collection order:
 
 ```sh
 cd http
-npm run send:dev-tomcat
-npm run send:docker-dev
-npm run send:docker-ci
-npm run send:prod-https
+npm run send:localhost
+npm run send:localhost-docker-dev
+npm run send:localhost-docker-ci
 ```
 
 These scripts run the full collection: they create, update and delete test
@@ -70,7 +69,7 @@ entities and send system/VLC commands. Use them against a dev environment and
 review the requests before pointing them at production. The reboot and shutdown
 requests are skipped by default; see below to enable them.
 
-From the repository root, the kamehouse-shell wrapper runs the `dev-tomcat`
+From the repository root, the kamehouse-shell wrapper runs the `localhost`
 collection with `--bail` and forces the destructive requests to be skipped:
 
 ```sh
@@ -80,9 +79,8 @@ kamehouse-shell/bin/test/kamehouse-http-run.sh
 Use `-p` to select another environment:
 
 ```sh
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p docker-dev
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p docker-ci
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p prod-https
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p localhost-docker-dev
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p localhost-docker-ci
 ```
 
 Pass `-d` to also run the `reboot` and `shutdown` requests:
@@ -117,7 +115,7 @@ npx httpyac send modules/kamehouse-admin.http --env localhost --all \
 The `reboot` and `shutdown` requests are skipped unless destructive tests are
 explicitly enabled. The `suspend` requests are skipped when
 `RUN_SYSTEM_POWER_TESTS=false`, and the VNC screen requests are skipped when
-`RUN_SCREEN_TESTS=false`. The `docker-ci` environment sets both variables to
+`RUN_SCREEN_TESTS=false`. The `localhost-docker-ci` environment sets both variables to
 `false` because the CI container is headless and cannot schedule host power
 actions. To run destructive requests one at a time:
 
@@ -137,7 +135,7 @@ The `docker-ci` environment targets the ports published by
 `docker-run-kamehouse.sh -p ci`: Apache on `15080` and Tomcat on `15090`.
 
 ```sh
-kamehouse-shell/bin/test/kamehouse-http-run.sh -p docker-ci
+kamehouse-shell/bin/test/kamehouse-http-run.sh -p localhost-docker-ci
 ```
 
 The `kamehouse-httpd` module contains the HTTPD restart request from the
