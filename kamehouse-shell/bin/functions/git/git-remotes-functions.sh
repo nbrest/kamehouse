@@ -30,8 +30,8 @@ addRemotes() {
   log.info "Adding remotes"
 
   # All (fetches from bitbucket, pushes to both bitbucket and github)
-  git remote add all git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
-  git remote set-url --add --push all git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
+  git remote add all git@ssh.bitbucket.org:nbrest/${REPOSITORY_NAME}.git
+  git remote set-url --add --push all git@ssh.bitbucket.org:nbrest/${REPOSITORY_NAME}.git
   if ${IS_GITHUB_REPOSITORY}; then 
     git remote set-url --add --push all git@github.com:nbrest/${REPOSITORY_NAME}.git
   fi
@@ -40,7 +40,7 @@ addRemotes() {
   if ${IS_GITHUB_REPOSITORY}; then
     git remote add origin git@github.com:nbrest/${REPOSITORY_NAME}.git
   else
-    git remote add origin git@bitbucket.org:nbrest/${REPOSITORY_NAME}.git
+    git remote add origin git@ssh.bitbucket.org:nbrest/${REPOSITORY_NAME}.git
   fi
 }
 
