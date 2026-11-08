@@ -64,6 +64,12 @@ parseArguments() {
   done    
 }
 
+setEnvFromArguments() {
+  if ${IS_DEV_ENV}; then
+    DEBUG_MODE=true
+  fi
+}
+
 printHelpOptions() {
   addHelpOption "-d" "debug. start tomcat in debug mode"
 }
