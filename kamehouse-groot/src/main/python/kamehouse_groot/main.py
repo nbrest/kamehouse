@@ -33,7 +33,7 @@ def create_base_app(
 ) -> FastAPI:
     """Create a FastAPI application with the shared service wiring.
 
-    Other web services built on kamehouse-groot, like kamehouse-batcave-groot,
+    Other web services built on kamehouse-groot, 
     reuse this factory with their own settings and container to share the
     exception handlers, lifespan and app state wiring.
     """

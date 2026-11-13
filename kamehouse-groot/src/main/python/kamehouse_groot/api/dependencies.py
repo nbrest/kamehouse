@@ -41,7 +41,7 @@ def build_container(
     """Build the application service container from the given settings.
 
     The optional services allow another web service built on kamehouse-groot,
-    like kamehouse-batcave-groot, to reuse this wiring with its own subclasses.
+    to reuse this wiring with its own subclasses.
     """
     settings = settings or get_settings()
     secret_service = SecretService(settings.resolved_secret_script)

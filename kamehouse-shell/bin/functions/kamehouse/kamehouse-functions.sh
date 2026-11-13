@@ -464,7 +464,7 @@ getHttpdContentRoot() {
 }
 
 # Trims the PATH, so the windows cmd.exe is able to search it for a command.
-# The kamehouse shell and the kamehouse batcave add every script directory to the PATH, and on
+# The kamehouse shell add every script directory to the PATH, and on
 # windows the PATH ends up longer than the cmd.exe limit. When that happens, cmd.exe is not able
 # to resolve any command by name, and the windows tools that shell out to it (npm, cordova) fail
 # with "'npm' is not recognized as an internal or external command".

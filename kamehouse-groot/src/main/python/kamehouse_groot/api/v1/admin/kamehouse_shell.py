@@ -15,7 +15,7 @@ from kamehouse_groot.utils.input_validator import is_valid_input_for_shell, pars
 def build_admin_shell_router(prefix: str, tags: list[str]) -> APIRouter:
     """Build the admin shell endpoints router for the given base path.
 
-    Other web services built on kamehouse-groot, like kamehouse-batcave-groot,
+    Other web services built on kamehouse-groot, 
     reuse this factory with their own prefix to expose the same endpoints
     backed by their own shell execution service.
     """

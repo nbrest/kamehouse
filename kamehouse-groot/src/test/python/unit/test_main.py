@@ -40,13 +40,13 @@ def test_create_base_app_with_custom_container(tmp_path) -> None:
     container = main.build_container(Settings(deploy_path=tmp_path))
     app = main.create_base_app(
         container=container,
-        title="KameHouse Batcave GRoot",
-        root_path="/kame-house-batcave-groot",
+        title="KameHouse Ext GRoot",
+        root_path="/kame-house-ext-groot",
     )
-    assert app.title == "KameHouse Batcave GRoot"
+    assert app.title == "KameHouse Ext GRoot"
     assert app.state.container is container
     route_paths = {getattr(route, "path", None) for route in app.routes}
-    assert "/kame-house-batcave-groot/docs" in route_paths
+    assert "/kame-house-ext-groot/docs" in route_paths
 
 
 def test_lifespan_closes_database(monkeypatch) -> None:
