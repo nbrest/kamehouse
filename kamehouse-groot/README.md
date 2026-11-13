@@ -219,7 +219,7 @@ curl -u seiya:ikki \
 
 ```json
 {
-  "command": "/home/kamehouse/programs/kamehouse-shell/bin/sudoers/www-data/exec-script.sh -s is-linux-host.sh",
+  "command": "/home/kamehouse/programs/kamehouse-shell/bin/groot/exec-script.sh -s is-linux-host.sh",
   "exitCode": 0,
   "pid": -1,
   "status": "completed",
@@ -358,7 +358,7 @@ Returns the legacy HTML test page with the request headers, `testFunction: mada 
 The service runs scripts through:
 
 ```sh
-${HOME}/programs/kamehouse-shell/bin/sudoers/www-data/exec-script.sh -s <script> [-a <args>] [--execute-on-docker-host] [--daemon]
+${HOME}/programs/kamehouse-shell/bin/groot/exec-script.sh -s <script> [-a <args>] [--execute-on-docker-host] [--daemon]
 ```
 
 The service runs as the kamehouse user, so it calls `exec-script.sh` directly

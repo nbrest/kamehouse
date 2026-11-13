@@ -57,7 +57,7 @@ def test_builds_full_command(tmp_path: Path) -> None:
     )
     command = executor.calls[0]["command"]
     assert command == [
-        str(tmp_path / "bin" / "sudoers" / "www-data" / "exec-script.sh"),
+        str(tmp_path / "bin" / "groot" / "exec-script.sh"),
         "-s",
         "tomcat/tomcat-status.sh",
         "-a",

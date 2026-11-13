@@ -26,7 +26,7 @@ class ShellExecutionService:
     def __init__(self, settings: Settings, executor: CommandExecutor) -> None:
         self._settings = settings
         self._executor = executor
-        self._exec_script = settings.shell_bin / "sudoers" / "www-data" / "exec-script.sh"
+        self._exec_script = settings.shell_bin / "groot" / "exec-script.sh"
 
     def execute(
         self,
