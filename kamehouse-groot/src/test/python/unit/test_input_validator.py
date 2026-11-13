@@ -43,7 +43,6 @@ def test_db_input_rejects_too_long_value() -> None:
 @pytest.mark.parametrize(
     "script",
     [
-        "sudoers/www-data/su.sh",
         "secrets/get-kamehouse-secret.sh",
         "secrets/encrypt-kamehouse-secrets.sh",
         "secrets/decrypt-kamehouse-secrets.sh",

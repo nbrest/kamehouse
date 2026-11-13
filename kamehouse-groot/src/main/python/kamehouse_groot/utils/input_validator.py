@@ -43,7 +43,6 @@ DB_FORBIDDEN_CHARS = (
 )
 
 FORBIDDEN_SCRIPT_PATTERNS = (
-    "www-data/su.sh",
     "get-kamehouse-secret.sh",
     "encrypt-kamehouse-secrets.sh",
     "decrypt-kamehouse-secrets.sh",

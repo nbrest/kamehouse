@@ -179,7 +179,7 @@ def test_execute_forbidden_script_returns_forbidden() -> None:
     with _client() as client:
         response = client.get(
             EXECUTE_PATH,
-            params={"script": "www-data/su.sh"},
+            params={"script": "get-kamehouse-secret.sh"},
             auth=(USERNAME, PASSWORD),
         )
     assert response.status_code == 403

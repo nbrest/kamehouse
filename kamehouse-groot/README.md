@@ -361,13 +361,12 @@ The service runs scripts through:
 ${HOME}/programs/kamehouse-shell/bin/sudoers/www-data/exec-script.sh -s <script> [-a <args>] [--execute-on-docker-host] [--daemon]
 ```
 
-The service runs as the kamehouse user, so it calls `exec-script.sh` directly instead of using the `www-data` `su.sh` wrapper.
+The service runs as the kamehouse user, so it calls `exec-script.sh` directly
 
 Behavior preserved from the original implementations:
 
 * Scripts are resolved relative to `${HOME}/programs/kamehouse-shell/bin`.
 * Input length and forbidden characters are validated.
-* Dangerous scripts are rejected: `su.sh`, secret scripts, SSH scripts and `kamehouse-cmd.sh decrypt`.
 * Foreground scripts time out after 300 seconds.
 * Daemon scripts are started detached, the service waits 5 seconds and returns `running`.
 * Daemon output is redirected to `~/logs/<script>.log`, for example `tomcat-status.sh` -> `~/logs/tomcat-status.log`.

@@ -175,7 +175,6 @@ updateUsername() {
   log.info "Updating username in kamehouse-shell scripts to ${COL_PURPLE}${USERNAME}"
 
   sed -i "s#USERHOME_LIN=\"/home/\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERHOME_LIN=\"/home/${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/deploy/set-userhome.sh"
-  sed -i "s#USERNAME=\"\${DEFAULT_KAMEHOUSE_USERNAME}\"#USERNAME=\"${USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/sudoers/www-data/su.sh"
   
   sed -i "s#DEFAULT_KAMEHOUSE_USERNAME=\"\"#DEFAULT_KAMEHOUSE_USERNAME=\"${DEFAULT_KAMEHOUSE_USERNAME}\"#g" "${KAMEHOUSE_SHELL_PATH}/bin/functions/kamehouse/kamehouse-functions.sh"
 
