@@ -59,12 +59,6 @@ sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite
 sudo chmod a+rx /var/log/apache2
 ```
 
-- Allow `www-data` user to access `${HOME}/logs` from kamehouse user
-```sh
-chmod a+rx ${HOME}
-chmod a+rx ${HOME}/logs
-```
-
 - Setup tail log script for apache logs
 ```sh
 mkdir -p ${HOME}/programs/apache-httpd

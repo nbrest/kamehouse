@@ -38,7 +38,6 @@ main() {
   fi
   buildKameHouseConfigDir
   setSudoersPermissions
-  installKameHouseGroot
   deployKameHouse
   log.info "Finished installing ${COL_PURPLE}kamehouse"
 }
@@ -114,12 +113,6 @@ setSudoersPermissions() {
   log.info "Setting sudoers permissions"
   local KAMEHOUSE_USER=`whoami`
   ${HOME}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
-}
-
-installKameHouseGroot() {
-  log.info "Installing ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
-  local KAMEHOUSE_USER=`whoami`
-  ${HOME}/programs/kamehouse-shell/bin/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER}
 }
 
 deployKameHouse() {

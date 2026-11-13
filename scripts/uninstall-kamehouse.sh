@@ -70,10 +70,6 @@ deleteKameHouseGroot() {
   if [ -d "${HOME}/programs/apache-httpd/www/kamehouse-webserver" ]; then
     rm -rf ${HOME}/programs/apache-httpd/www/kamehouse-webserver/kame-house-groot
   fi
-
-  if [ -f "/var/www/.kamehouse-server" ]; then
-    rm -rf /var/www/.kamehouse-server
-  fi  
 }
 
 deleteKameHouseGit() {

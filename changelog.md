@@ -7,16 +7,10 @@
 
 #### v11.05
 
-- Added batcave-tail-log.sh to tail batcave groot logs through the shared kamehouse tail-log.sh
-- Added restart and stop controls for the groot web service in the groot server manager
-- Removed all remaining php references from docs, configs, scripts and local setup
 - Added AGENTS.md - Turned to the dark side
+- Moved apache2 user back to default www-data
 - Moved all groot apis from php to a python web service and removed all php dependencies
-- Removed the PHP-compatible .php aliases from the groot python api
-- Updated kamehouse-groot log format to match the kamehouse java log format and the apache httpd access log format
-- Split tail-log.sh groot logs into -f groot for the application log and -f groot-access for the access log
-- Fixed kamehouse-groot python deployment to bootstrap the venv, pip and dependencies from scratch
-- Removed -dev.sh scripts and configuration
+- Removed dev setup with -dev.sh scripts
 - Added kamehouse-desktop python unit tests
 - Added kamehouse-ui and kamehouse-mobile typescript unit tests
 - Added opencode commands to run full validation and postman collection
@@ -27,11 +21,9 @@
 - Added colored live status display to the keyboard sink
 - Added postman and .http collection runs with retries to the ci docker integration tests
 - Added newman and httpyac installation to the ci tests
-- Fixed content type of tennisworld booking requests in the .http collection
 - Added postman collection with all apis for local dev testing
 - Added .http request files for local dev testing
 - Added lockscreen notification on android with ztv player status and controls
-- Added separate close app button to the ztv lock screen notification
 - Updated kamehouse-mobile android build to use java 21 and gradle 8
 - Moved project from maven to gradle 9
 - Upgraded java version from 17 to 25

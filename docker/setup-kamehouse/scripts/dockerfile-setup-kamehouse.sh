@@ -37,7 +37,6 @@ main() {
   clearTempFiles
   createSamplePlaylists
   configureSudoers
-  installGroot
   configureMariadb
   startMariadb
   setupKameHouseMariadb
@@ -142,11 +141,6 @@ createSamplePlaylists() {
 configureSudoers() {
   log.info "Setting up sudoers"
   ${HOME}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
-}
-
-installGroot() {
-  log.info "Installing groot"
-  ${HOME}/programs/kamehouse-shell/bin/groot/install-kamehouse-groot.sh -u ${KAMEHOUSE_USER} 
 }
 
 configureMariadb() {

@@ -420,7 +420,7 @@ OpenAPI documentation is available at:
 
 The Python service is installed by `deploy-kamehouse.sh` when the `groot` module is deployed. The deployment:
 
-1. Runs `kamehouse-shell/bin/groot/install-kamehouse-groot-python.sh`.
+1. Runs `kamehouse-shell/bin/groot/install-kamehouse-groot.sh`.
 2. Copies the Python sources to `${HOME}/programs/kamehouse-groot`.
 3. Installs `python3-venv` (or the equivalent OS package) when the Python `venv`/`ensurepip` modules are missing.
 4. Creates `${HOME}/programs/kamehouse-groot/venv` if needed or if its `pip` is missing.
@@ -439,8 +439,8 @@ IS_DEV_ENV=true deploy-kamehouse.sh -m groot
 Install or reinstall the Python service manually from the repository root:
 
 ```sh
-kamehouse-shell/bin/groot/install-kamehouse-groot-python.sh
-kamehouse-shell/bin/groot/install-kamehouse-groot-python.sh -f
+kamehouse-shell/bin/groot/install-kamehouse-groot.sh
+kamehouse-shell/bin/groot/install-kamehouse-groot.sh -f
 ```
 
 Use `-f` to force reinstalling the virtual environment dependencies. Use `-p` to install from the prod repository path `${HOME}/git/kamehouse` instead of the current directory.
@@ -612,7 +612,7 @@ tail-log.sh -f groot
 
 Common causes:
 
-* The virtual environment was not installed. Run `install-kamehouse-groot-python.sh`.
+* The virtual environment was not installed. Run `install-kamehouse-groot.sh`.
 * Port `9091` is already in use.
 * The MariaDB password secret cannot be read. Verify `get-kamehouse-secret.sh -s MARIADB_PASS_KAMEHOUSE`.
 * MariaDB is not running or the database user cannot connect.
@@ -639,7 +639,3 @@ The virtual environment installs FastAPI, Uvicorn, SQLAlchemy, `asyncmy`, `bcryp
 # Install:
 
 * [optional] Update `GROOT_API_BASIC_AUTH` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg` with base64 encoded user:pass to execute deploy/git pull on remote servers from groot
-
-## Linux:
-
-* Run `install-kamehouse-groot.sh -u kamehouseUsername` and `set-kamehouse-sudoers-permissions.sh -u kamehouseUsername` to allow `www-data` user to execute `kamehouse-shell` scripts from kamehouse-groot. These scripts are executed from `install-kamehouse.sh`

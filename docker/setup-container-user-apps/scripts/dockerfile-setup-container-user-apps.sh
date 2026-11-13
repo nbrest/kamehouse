@@ -78,8 +78,6 @@ setupHttpd() {
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/log/apache2
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lock/apache2
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lib/apache2
-  sed -i "s#APACHE_RUN_USER=www-data#APACHE_RUN_USER=${KAMEHOUSE_USER}#g" /etc/apache2/envvars
-  sed -i "s#APACHE_RUN_GROUP=www-data#APACHE_RUN_GROUP=${KAMEHOUSE_USER}#g" /etc/apache2/envvars
 
   rm -rf /var/www/html
 }

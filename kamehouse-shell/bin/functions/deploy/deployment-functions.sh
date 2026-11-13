@@ -146,7 +146,7 @@ deployKameHouseGroot() {
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
   log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_DEFAULT_LOG}"
-  ./kamehouse-shell/bin/groot/install-kamehouse-groot-python.sh
+  ./kamehouse-shell/bin/groot/install-kamehouse-groot.sh
   checkCommandStatus "$?" "An error occurred installing the kamehouse-groot service"
   restartKameHouseGroot
 
