@@ -20,8 +20,9 @@ mainProcess() {
   requestConfirmation
   checkCurrentReleaseBranch
   gitMergeMasterToReleaseBranch
-  checkUncommitedChangesInBuildGradle
+  checkUncommitedChangesInReleaseVersionFiles
   updateReleaseVersionInBuildGradle
+  updateReleaseVersionInGroot
   updateKameHouseMobileAppVersion
   gitCommitReleaseVersionUpdate 
   gitCheckoutMaster
@@ -97,14 +98,16 @@ gitMergeMasterToReleaseBranch() {
   checkCommandStatus "$?"
 }
 
-checkUncommitedChangesInBuildGradle() {
-  log.info "Checking build.gradle for uncommited changes"
-  git status | grep "build.gradle" &>/dev/null
-  local BUILD_GRADLE_MODIFIED_STATUS=$?
-  if [ "${BUILD_GRADLE_MODIFIED_STATUS}" == "0" ]; then
-    log.error "build.gradle has uncommited changes. Check them with 'git diff'. Commit or revert the changes before doing the release"
-    exitProcess ${EXIT_ERROR}
-  fi
+checkUncommitedChangesInReleaseVersionFiles() {
+  log.info "Checking release version files for uncommited changes"
+  local RELEASE_VERSION_FILES=("build.gradle" "kamehouse-groot/pyproject.toml")
+  for RELEASE_VERSION_FILE in "${RELEASE_VERSION_FILES[@]}"; do
+    git status --porcelain "${RELEASE_VERSION_FILE}" | grep -q .
+    if [ "$?" == "0" ]; then
+      log.error "${RELEASE_VERSION_FILE} has uncommited changes. Check them with 'git diff'. Commit or revert the changes before doing the release"
+      exitProcess ${EXIT_ERROR}
+    fi
+  done
 }
 
 updateReleaseVersionInBuildGradle() {
@@ -117,6 +120,16 @@ updateReleaseVersionInBuildGradle() {
   checkCommandStatus "$?"
 }
 
+updateReleaseVersionInGroot() {
+  local PREVIOUS_VERSION_IN_PYPROJECT="${PREVIOUS_RELEASE_VERSION}.1"
+  local RELEASE_VERSION_IN_PYPROJECT="${RELEASE_VERSION}.1"
+
+  log.info "Updating release version in kamehouse-groot/pyproject.toml"
+  sed -i -e "s+^version = \"${PREVIOUS_VERSION_IN_PYPROJECT}\"$+version = \"${RELEASE_VERSION_IN_PYPROJECT}\"+" \
+    kamehouse-groot/pyproject.toml
+  checkCommandStatus "$?"
+}
+
 updateKameHouseMobileAppVersion() {
   log.info "Updating kamehouse-mobile app version"
   local PREVIOUS_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${PREVIOUS_RELEASE_VERSION}.1"
@@ -126,9 +139,12 @@ updateKameHouseMobileAppVersion() {
 }
 
 gitCommitReleaseVersionUpdate() {
-  log.info "Commiting changes to release version in build.gradle and kamehouse-mobile"
+  log.info "Commiting changes to release version in build.gradle, pyproject.toml and kamehouse-mobile"
 
   git add build.gradle
+  checkCommandStatus "$?"
+
+  git add kamehouse-groot/pyproject.toml
   checkCommandStatus "$?"
 
   git add kamehouse-mobile/source-config.xml

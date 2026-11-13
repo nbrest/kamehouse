@@ -56,7 +56,7 @@ describe('groot tail-log-manager', () => {
     expect(mock.logger.trace).toHaveBeenCalledWith('Tailing log: catalina.out', null);
     expect(get).toHaveBeenCalledTimes(1);
     const call = get.mock.calls[0];
-    expect(call[1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php');
+    expect(call[1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/execute');
     expect(call[0].timeout).toBe(45);
     expect(call[3]).toEqual({ script: 'cat/cat-log.sh', args: '-f catalina.out -l ', executeOnDockerHost: 'false', isDaemon: 'false' });
 
@@ -65,6 +65,30 @@ describe('groot tail-log-manager', () => {
     expect(mock.util.dom.replaceWith).toHaveBeenCalled();
     expect(mock.util.collapsibleDiv.resize).toHaveBeenCalledWith('tail-log-output-wrapper');
     expect(callback).toHaveBeenCalledWith({ standardOutputHtml: ['line1', '  ', 'line2'] });
+  });
+
+  it('tails groot logs with the tail log script', async () => {
+    const { manager } = await importManager();
+
+    manager.tailLog('groot', 10, 'ALL', 'false', 'false', vi.fn());
+    manager.tailLog('groot', 10, 'INFO', 'false', 'false', vi.fn());
+
+    const allLogsCall = get.mock.calls[0];
+    expect(allLogsCall[1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/execute');
+    expect(allLogsCall[3]).toEqual({ script: 'tail/tail-log.sh', args: '-f groot -q -n 2000', executeOnDockerHost: 'false', isDaemon: 'false' });
+
+    const infoLogsCall = get.mock.calls[1];
+    expect(infoLogsCall[3]).toEqual({ script: 'tail/tail-log.sh', args: '-f groot -q -n 2000 -l INFO', executeOnDockerHost: 'false', isDaemon: 'false' });
+  });
+
+  it('tails keep-alive-groot logs with the cat log script', async () => {
+    const { manager } = await importManager();
+
+    manager.tailLog('keep-alive-groot.log', 10, 'ALL', 'false', 'false', vi.fn());
+
+    const call = get.mock.calls[0];
+    expect(call[1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/execute');
+    expect(call[3]).toEqual({ script: 'cat/cat-log.sh', args: '-f keep-alive-groot.log -l ALL', executeOnDockerHost: 'false', isDaemon: 'false' });
   });
 
   it('tails only the last lines when the output is long', async () => {

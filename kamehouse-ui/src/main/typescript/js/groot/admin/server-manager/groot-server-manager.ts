@@ -233,6 +233,7 @@ class DeploymentManager {
       this.hideUndeployedModules();
       this.getTomcatModulesStatus();
       this.getAllNonTomcatModulesStatus();
+      this.getGrootStatus();
       this.getTomcatProcessStatus();
     });
   }
@@ -279,6 +280,18 @@ class DeploymentManager {
   }
 
   /**
+   * Get kamehouse groot running status.
+   */
+  getGrootStatus() {
+    kameHouse.logger.debug("Getting groot running status", null);
+    kameHouse.extension.kameHouseShell.execute('groot/kamehouse-groot-status.sh', "", false, false, 60,
+      (kameHouseCommandResult) => this.#displayGrootRunningStatus(kameHouseCommandResult),
+      () => {
+        kameHouse.util.dom.setHtmlById("mst-groot-status-val", kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
+      });
+  }
+
+  /**
    * Get the tomcat process status.
    */
   getTomcatProcessStatus() {
@@ -295,6 +308,7 @@ class DeploymentManager {
     this.getTomcatProcessStatus();
     kameHouse.extension.tomcatModuleStatusManager.getAllModulesStatus();
     this.getAllNonTomcatModulesStatus();
+    this.getGrootStatus();
     kameHouse.extension.serverManager.completeCommandCallback();
   }
   
@@ -518,6 +532,26 @@ class DeploymentManager {
   }
 
   /**
+   * Render kamehouse groot running status.
+   */
+  #displayGrootRunningStatus(kameHouseCommandResult) {
+    const standardOutputHtml = kameHouseCommandResult.standardOutputHtml;
+    if (kameHouse.core.isEmpty(standardOutputHtml)) {
+      return;
+    }
+    standardOutputHtml.forEach((line) => {
+      if (kameHouse.core.isEmpty(line)) {
+        return;
+      }
+      if (line.includes("kamehouse-groot is not running")) {
+        kameHouse.util.dom.setHtmlById("mst-groot-status-val", kameHouse.util.dom.cloneNode(this.#statusBallRedImg, true));
+      } else if (line.includes("kamehouse-groot is running")) {
+        kameHouse.util.dom.setHtmlById("mst-groot-status-val", kameHouse.util.dom.cloneNode(this.#statusBallGreenImg, true));
+      }
+    });
+  }
+
+  /**
    * Render tomcat process status.
    */
   #displayTomcatProcessStatus(kameHouseCommandResult) {
@@ -577,6 +611,7 @@ class DeploymentManager {
    */
   #resetAllModulesStatus() {
     this.#resetModuleStatus("admin");
+    this.#resetModuleStatus("groot");
     this.#resetModuleStatus("media");
     this.#resetModuleStatus("tennisworld");
     this.#resetModuleStatus("testmodule");

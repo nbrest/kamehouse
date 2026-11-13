@@ -1,7 +1,7 @@
 /**
  * Chrome Extension to execute on fifa world cup 2022 ticket sale and resale home pages.
- * It loads the list of matches and posts the content to my localhost apache/php server.
- * The apache/php server then stores the content into a file and is processed by the
+ * It loads the list of matches and posts the content to my localhost local server.
+ * The local server then stores the content into a file and is processed by the
  * world-cup-tickets-check.sh script.
  * 
  * @author nbrest

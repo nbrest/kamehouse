@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  */
 class ScriptsIntegrationTest extends AbstractGrootIntegrationTest {
 
-  private static final String API_URL = "/api/v1/admin/kamehouse-shell/scripts.php";
+  private static final String API_URL = "/api/v1/admin/kamehouse-shell/scripts";
 
   /**
    * Test for groot kamehouse-shell scripts success response.

@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
  */
 class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
 
-  private static final String API_URL = "/api/v1/admin/kamehouse-shell/execute.php";
+  private static final String API_URL = "/api/v1/admin/kamehouse-shell/execute";
 
   /**
    * Test for groot kamehouse-shell execute with help parameter success response.

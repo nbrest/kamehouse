@@ -14,7 +14,7 @@ public abstract class AbstractGrootIntegrationTest extends AbstractControllerInt
 
   protected static final String RESPONSE_DOESNT_CONTAIN = "Response doesn't contain: ";
 
-  private static final String LOGIN_URL = "/kame-house-groot/api/v1/auth/login.php";
+  private static final String LOGIN_URL = "/kame-house-groot/api/v1/auth/login";
 
   /**
    * Init integration tests.

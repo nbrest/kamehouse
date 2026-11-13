@@ -123,8 +123,7 @@ Useful options:
   environment points `SERVER` at Apache on port 80, which proxies API calls to Tomcat on 9090.
   The CI environment points `SERVER` at Apache on port 15080. `kamehouse-ui` only checks the
   static UI pages; the UI module has no REST controllers.
-- `kamehouse-groot` covers every PHP endpoint under `kamehouse-groot/src/main/php/kame-house-groot/api/v1`.
-  The PHP files under `.../api/v1/kamehouse` are shared includes, not endpoints.
+- `kamehouse-groot` covers every endpoint under `kamehouse-groot/src/main/python/kamehouse_groot/api/v1`.
 - `kamehouse-testmodule`: the servlet subfolder logs in through `/kame-house-auth/login` to obtain
   the session cookie expected by the servlet endpoints, then logs out.
 - `kamehouse-tennisworld`: CRUD folders are self-contained (they create and delete their own users,
@@ -147,7 +146,7 @@ Useful options:
 
 The collection covers every client-facing REST mapping in the `admin`, `auth`, `media`,
 `tennisworld`, `testmodule`, `vlcrc` and `commons` controllers, the Spring Security
-`login`/`logout` endpoints, and all Groot PHP API endpoints. Commons endpoints are exercised through the `kamehouse-testmodule`
+`login`/`logout` endpoints, and all Groot API endpoints. Commons endpoints are exercised through the `kamehouse-testmodule`
 deployment because every webapp exposes the same commons controllers.
 
 The `testmodule` servlet endpoints are included too, even though they are servlets rather than REST

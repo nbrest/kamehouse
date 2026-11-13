@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  */
 class LogoutIntegrationTest extends AbstractGrootIntegrationTest {
 
-  private static final String API_URL = "/api/v1/auth/logout.php";
+  private static final String API_URL = "/api/v1/auth/logout";
 
   /**
    * Test for groot logout success response.

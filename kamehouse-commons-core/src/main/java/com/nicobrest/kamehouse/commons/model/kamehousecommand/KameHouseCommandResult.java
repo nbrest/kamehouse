@@ -141,7 +141,7 @@ public class KameHouseCommandResult {
 
   /**
    * Get color mappings between bash and html. Mappings updated here also need to be updated in
-   * kamehouse.php in groot.
+   * the groot bash colors utility.
    */
   private static Map<String, String> getColorMappings() {
     Map<String, String> colorMappings = new HashMap<>();

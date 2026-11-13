@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  */
 class TestEndpointIntegrationTest extends AbstractGrootIntegrationTest {
 
-  private static final String API_URL = "/api/v1/test/test.php";
+  private static final String API_URL = "/api/v1/test/test";
 
   /**
    * Test for groot test endpoint successful response.

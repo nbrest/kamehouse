@@ -19,6 +19,6 @@ public class GrootMain {
     if (args.length > 0) {
       logger.debug("Ignoring command line arguments: {}", (Object) args);
     }
-    logger.info("GRoot APIs are built on PHP. Only the integration tests are built in Java");
+    logger.info("GRoot APIs are built in Python. Only the integration tests are built in Java");
   }
 }

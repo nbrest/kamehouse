@@ -296,7 +296,7 @@ executeIntegrationTestsLoop() {
 }
 
 executeIntegrationTests() {
-  local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=${SCRIPT}"
+  local URL="http://localhost:${DOCKER_PORT_HTTP_CI}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=${SCRIPT}"
   log.info "Executing request to ${COL_PURPLE}${URL}"
   local CURL_RESPONSE=`curl --connect-timeout 10 --max-time 1200 -k --request GET "${URL}" --header "Authorization: Basic ${DOCKER_DEMO_GROOT_API_BASIC_AUTH}"`
   echo ${CURL_RESPONSE} | grep "${INTEGRATION_TESTS_SUCCESS_MESSAGE}" > /dev/null

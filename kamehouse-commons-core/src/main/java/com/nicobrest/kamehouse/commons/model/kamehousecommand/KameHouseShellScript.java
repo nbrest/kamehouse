@@ -44,7 +44,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   private static final String EXCEPTION_EXECUTING_PROCESS =
       "Error occurred while executing the process.";
   private static final String GROOT_EXECUTE_URL =
-      "/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?";
+      "/kame-house-groot/api/v1/admin/kamehouse-shell/execute?";
 
   @JsonIgnore
   private int sleepTime = 0;

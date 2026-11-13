@@ -15,6 +15,10 @@ initScriptEnv() {
 
   TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
 
+  # Groot log files. Override these variables to reuse this script for other groot deployments
+  GROOT_LOG_DIR="${GROOT_LOG_DIR:-${HOME}/programs/kamehouse-groot/logs}"
+  GROOT_LOG_PREFIX="${GROOT_LOG_PREFIX:-kamehouse-groot}"
+
   # Variables set by command line arguments
   FILE_ARG=""
   FOLLOW="-F"
@@ -76,6 +80,12 @@ setTailLogParameters() {
   "desktop")
     setKameHouseDesktopLogFiles
     ;;
+  "groot")
+    setKameHouseGrootLogFiles
+    ;;
+  "groot-access")
+    setKameHouseGrootAccessLogFiles
+    ;;
   "kamehouse")
     setKameHouseLogFiles
     ;;
@@ -107,6 +117,14 @@ setKameHouseLogFiles() {
 
 setKameHouseDesktopLogFiles() {
   addFileToLogFiles "${USER_HOME}/logs/kamehouse-desktop-startup.log"
+}
+
+setKameHouseGrootLogFiles() {
+  addFileToLogFiles "${GROOT_LOG_DIR}/${GROOT_LOG_PREFIX}.log"
+}
+
+setKameHouseGrootAccessLogFiles() {
+  addFileToLogFiles "${GROOT_LOG_DIR}/${GROOT_LOG_PREFIX}-access.log"
 }
 
 setTomcatLogFiles() {
@@ -180,6 +198,8 @@ setFileArg() {
     [ "${FILE_ARG}" != "cmd" ] &&
     [ "${FILE_ARG}" != "deploy" ] &&
     [ "${FILE_ARG}" != "desktop" ] &&
+    [ "${FILE_ARG}" != "groot" ] &&
+    [ "${FILE_ARG}" != "groot-access" ] &&
     [ "${FILE_ARG}" != "kamehouse" ] &&
     [[ ! "${FILE_ARG}" =~ ${LOGS_REGEX} ]] &&
     [ "${FILE_ARG}" != "tomcat" ]; then
@@ -229,7 +249,7 @@ setEnvFromArguments() {
 }
 
 printHelpOptions() {
-  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|kamehouse|tomcat|*.log]" "log file to tail" "r"
+  addHelpOption "-f [apache|apache-error|build|cmd|deploy|desktop|groot|groot-access|kamehouse|tomcat|*.log]" "log file to tail" "r"
   addHelpOption "-l [trace|debug|info|warn|error]" "log level to display. Default is ${DEFAULT_LOG_LEVEL}"
   addHelpOption "-n [lines]" "number of lines to log. Default is ${DEFAULT_NUM_LINES}"
   addHelpOption "-q" "quit after tailing once. Don't follow log"

@@ -66,7 +66,7 @@ class GrootHeader {
    */
   #loadSession() {
     kameHouse.logger.info("Loading groot session", null);
-    const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status.php';
+    const SESSION_STATUS_API = '/kame-house-groot/api/v1/commons/session/status';
     const config = kameHouse.http.getConfig();
     config.timeout = 15;
     kameHouse.http.get(config, SESSION_STATUS_API, null, null,
@@ -171,7 +171,7 @@ class GrootHeader {
       backgroundImg: "/kame-house/img/dbz/gohan.png",
       html: null,
       data: null,
-      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house-groot/api/v1/auth/logout.php", "/kame-house-mobile/settings.html")
+      click: (event, data) => kameHouse.util.mobile.windowLocation("/kame-house-groot/api/v1/auth/logout", "/kame-house-mobile/settings.html")
     });
   }
 

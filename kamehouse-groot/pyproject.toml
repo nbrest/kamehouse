@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kamehouse-groot"
+version = "11.04.1"
+description = "KameHouse GRoot web service"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115,<1.0",
+  "python-multipart>=0.0.18,<1.0",
+  "uvicorn[standard]>=0.32,<1.0",
+  "pydantic>=2.9,<3.0",
+  "pydantic-settings>=2.6,<3.0",
+  "SQLAlchemy[asyncio]>=2.0,<3.0",
+  "asyncmy>=0.2,<1.0",
+  "bcrypt>=4.2,<5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9.0",
+  "pytest-asyncio>=0.24,<1.0",
+  "httpx>=0.27,<1.0",
+  "coverage>=7.6,<8.0",
+]
+
+[project.scripts]
+kamehouse-groot = "kamehouse_groot.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src/main/python"}
+
+[tool.setuptools.packages.find]
+where = ["src/main/python"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["src/test/python"]
+markers = [
+  "integration: tests that hit a running kamehouse-groot service",
+]
+pythonpath = ["src/main/python"]
+
+[tool.coverage.run]
+branch = true
+source = ["kamehouse_groot"]
+omit = [
+  "*/__main__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false

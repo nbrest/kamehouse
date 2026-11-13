@@ -8,7 +8,7 @@ Run the full validation sequence for changes. Follow these steps in order. **Ret
 ## Steps
 1. **API contract sync check (conditional)**: Inspect the uncommitted working copy for API contract changes before running the expensive validation steps.
    - Check staged, unstaged, and untracked files: `git status --short --untracked-files=all` and `git diff HEAD --`.
-   - Look for changes to Java controllers, servlets, Spring Security login/logout handling, Groot PHP endpoints under `kamehouse-groot/src/main/php/kame-house-groot/api/v1/`, and request/response models that affect the HTTP contract.
+   - Look for changes to Java controllers, servlets, Spring Security login/logout handling, Groot endpoints under `kamehouse-groot/src/main/python/kamehouse_groot/api/v1/`, and request/response models that affect the HTTP contract.
    - Contract changes include adding, removing, renaming, or changing an endpoint's method, path, query/path/body parameters, authentication, response fields, or expected status codes.
    - If there are no API contract changes, continue to step 2.
    - If there are API contract changes, verify every affected endpoint is reflected in **both**:
@@ -22,7 +22,7 @@ Run the full validation sequence for changes. Follow these steps in order. **Ret
    - Confirm every API endpoint covered by the Postman collection is also covered by the `.http` collection.
    - Confirm every `.http` request also exists in the Postman collection, so no stale requests remain.
    - Confirm the module execution order matches the Postman top-level folder order: `kamehouse-admin`, `kamehouse-auth`, `kamehouse-groot`, `kamehouse-media`, `kamehouse-tennisworld`, `kamehouse-testmodule`, `kamehouse-ui`, `kamehouse-vlcrc`, `kamehouse-httpd`.
-   - Confirm all Groot PHP endpoints and testmodule servlet endpoints are covered, and the internal `ErrorController` `/errors` endpoint remains excluded.
+   - Confirm all Groot endpoints and testmodule servlet endpoints are covered, and the internal `ErrorController` `/errors` endpoint remains excluded.
    - Confirm the `reboot` and `shutdown` requests remain guarded by `RUN_DESTRUCTIVE_TESTS` so the automated `.http` runner skips them.
    - If there is any mismatch, STOP immediately, report the exact file/request, and update the `.http` files to match the API contract and Postman collection. Do not run the remaining steps until the collections are consistent.
 3. **Unit tests**: Run `./gradlew test` from repo root (retry up to 3x). Ensure all unit tests pass (*IntegrationTest excluded).

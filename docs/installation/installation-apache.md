@@ -18,22 +18,11 @@
 ### Windows:
 
 - Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/programs/apache-httpd`
-- Install php to `${HOME}/programs/php`
 - Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
   - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from [/local-setup/apache/win/conf/](/local-setup/apache/win/conf/)
   - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
-  - Edit `httpd.conf` and check that it points correctly to the php installation. Replace `nbrest` with your username
-  ```sh
-  LoadModule php7_module "C:/Users/[USERNAME]/programs/php/php7apache2_4.dll"
-  PHPiniDir "C:/Users/[USERNAME]/programs/php"
-  ```
   - Update `${HOME}/programs/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in SRVROOT
   - Update `${HOME}/programs/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
-
-- Enable mariadb extension on php. Update `php.ini`:
-  - Set with full path `extension_dir = "C:/Users/[USERNAME]/programs/php/ext"`
-  - Uncomment: `extension=mysqli`
-  - Uncomment: `extension=pdo_mysql`
 
 #### Run httpd through a startup script, not as a system service
 
@@ -50,12 +39,6 @@
 ### Linux:
 
 - Install apache httpd from the package manager
-- Install php from the package manager
-- Install php mariadb: 
-```sh
-sudo apt-get install php-mysql libapache2-mod-php
-```
-
 - Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
 ```sh
 # config apache
@@ -86,12 +69,4 @@ chmod a+rx ${HOME}/logs
 ```sh
 mkdir -p ${HOME}/programs/apache-httpd
 ln -s /var/log/apache2 ${HOME}/programs/apache-httpd/logs
-```
-
-## Update session expiry for kamehouse-groot sessions
-
-- Configure php session expiry for groot sessions in `php.ini`
-```sh
-session.cookie_lifetime = 2592000
-session.gc_maxlifetime = 2592000
 ```

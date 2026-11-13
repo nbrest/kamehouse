@@ -3,14 +3,35 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse functions/groot/groot-functions.sh
+
 initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
-mainProcess() {
-  local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-  local GROOT_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house-groot/build-info.json"
-  cat "${GROOT_VERSION_FILE}"
+mainProcessLin() {
+  local BUILD_INFO_FILE="${KAMEHOUSE_GROOT_PATH}/conf/build-info.json"
+  if [ -f "${BUILD_INFO_FILE}" ]; then
+    cat "${BUILD_INFO_FILE}"
+    return
+  fi
+  echo "kamehouse-groot version file not found"
+  exit ${EXIT_ERROR}
+}
+
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    case "${CURRENT_OPTION}" in
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;
+    esac
+  done
 }
 
 main "$@"

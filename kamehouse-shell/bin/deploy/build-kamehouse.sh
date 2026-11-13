@@ -20,6 +20,7 @@ mainProcess() {
   generateBuildInfo
   buildKameHouseStatic
   runKameHouseDesktopTests
+  runKameHouseGrootTests
   buildKameHouseBackend
   buildKameHouseMobile
   deleteGitRepoBuildInfoFiles

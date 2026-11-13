@@ -46,7 +46,7 @@ This application (forever under construction) contains the following modules:
 
 The main idea of this application is to keep improving and learning best practices of software development
 
-The backend functionality is built mostly with `java` and `bash` shell scripts. Part of the backend functionality is also built with `php` and `python`
+The backend functionality is built mostly with `java` and `bash` shell scripts. Part of the backend functionality is also built with `python`
 
 The frontend and mobile app is built in plain `javascript/typescript` mostly without using frameworks like vue, angular or react
 

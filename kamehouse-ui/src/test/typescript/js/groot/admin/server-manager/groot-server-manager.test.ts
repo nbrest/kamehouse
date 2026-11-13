@@ -211,6 +211,28 @@ describe('groot server-manager', () => {
     expect(mock.logger.info).toHaveBeenCalledWith('Loading DeploymentManager', null);
   });
 
+  it('displays groot running status', async () => {
+    const { mock } = await importManagers();
+    const call = shellCalls['groot/kamehouse-groot-status.sh'];
+    expect(call).toBeDefined();
+    expect(call.args).toBe('');
+    expect(call.onDocker).toBe(false);
+    expect(call.isDaemon).toBe(false);
+    expect(call.timeout).toBe(60);
+
+    call.success({ standardOutputHtml: ['', 'noise', 'kamehouse-groot is running with pid 123'] });
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-groot-status-val', imgs[2]);
+
+    call.success({ standardOutputHtml: ['kamehouse-groot is not running'] });
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-groot-status-val', imgs[1]);
+
+    call.success({ standardOutputHtml: null });
+    call.success({ standardOutputHtml: [] });
+
+    call.error();
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-groot-status-val', imgs[1]);
+  });
+
   it('displays non tomcat module status', async () => {
     const { mock } = await importManagers();
     const call = shellCalls['cmd/kamehouse-cmd-version.sh'];
@@ -243,6 +265,8 @@ describe('groot server-manager', () => {
     expect(mock.logger.info).toHaveBeenCalledWith('Refreshing server view', null);
     expect(mock.extension.tomcatModuleStatusManager.getAllModulesStatus).toHaveBeenCalled();
     expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-ui-status-val', imgs[0]);
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-groot-status-val', imgs[0]);
+    expect(shellCalls['groot/kamehouse-groot-status.sh']).toBeDefined();
   });
 
   it('starts and stops modules', async () => {

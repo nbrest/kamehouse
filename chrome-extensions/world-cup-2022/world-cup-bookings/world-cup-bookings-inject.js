@@ -22,12 +22,12 @@ function savePageData() {
 }
 
 function saveResaleHomePageData() {
-  const url = "http://localhost/world-cup-bookings/fifa-resale-home-processor.php";
+  const url = "http://localhost/world-cup-bookings/fifa-resale-home-processor";
   saveHomePageData(url, "RESALE")
 }
 
 function saveSaleHomePageData() {
-  const url = "http://localhost/world-cup-bookings/fifa-sale-home-processor.php";
+  const url = "http://localhost/world-cup-bookings/fifa-sale-home-processor";
   saveHomePageData(url, "SALE")
 }
 

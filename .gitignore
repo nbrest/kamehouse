@@ -115,4 +115,8 @@ kamehouse-ui/coverage/
 **/*.pyc
 **/.pytest_cache/
 **/.coverage
+**/coverage.json
+kamehouse-groot/.venv/
+**/*.egg-info/
+kamehouse-groot/build/
 

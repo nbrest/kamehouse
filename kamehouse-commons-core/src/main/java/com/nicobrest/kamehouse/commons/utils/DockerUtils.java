@@ -33,7 +33,7 @@ public class DockerUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(DockerUtils.class);
   private static final String WINDOWS_HOME_PREFIX = "C:\\Users\\";
   private static final String LINUX_HOME_PREFIX = "/home/";
-  private static final String GROOT_LOGIN_URL = "/kame-house-groot/api/v1/auth/login.php";
+  private static final String GROOT_LOGIN_URL = "/kame-house-groot/api/v1/auth/login";
 
   private DockerUtils() {
     throw new IllegalStateException("Utility class");

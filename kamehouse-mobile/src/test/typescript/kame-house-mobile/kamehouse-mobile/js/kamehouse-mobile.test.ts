@@ -837,7 +837,7 @@ describe('kamehouse-mobile', () => {
       );
 
       const grootCallback = vi.fn();
-      core.mobileHttpRequst('GET', {}, '/kame-house-groot/api/v1/commons/session/status.php', null, null, grootCallback, vi.fn());
+      core.mobileHttpRequst('GET', {}, '/kame-house-groot/api/v1/commons/session/status', null, null, grootCallback, vi.fn());
       expect(grootCallback).toHaveBeenCalledWith(
         expect.objectContaining({ username: 'seiya' }),
         200,

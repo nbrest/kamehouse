@@ -14,6 +14,7 @@ mainProcessLin() {
   loadKamehouseUserCfg
   checkEnv
   startTomcat
+  startGroot
   startKameHouseDesktop
   log.info "Finished kamehouse-startup-service.sh"
 }
@@ -48,6 +49,15 @@ startTomcat() {
   fi
   log.info "Starting tomcat"
   su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
+}
+
+startGroot() {
+  log.info "KAMEHOUSE_STARTUP_START_GROOT=${KAMEHOUSE_STARTUP_START_GROOT}"
+  if ! ${KAMEHOUSE_STARTUP_START_GROOT}; then
+    return
+  fi
+  log.info "Starting kamehouse-groot"
+  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/groot/kamehouse-groot-startup.sh
 }
 
 startKameHouseDesktop() {

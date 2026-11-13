@@ -10,6 +10,13 @@ getKameHouseBuildVersion() {
 
 getKameHouseReleaseVersion() {
   local GRADLE_PROJECT_VERSION=`${GRADLE_WRAPPER} --quiet --console=plain printVersion 2>/dev/null | tr -d "\r" | grep -E "^[0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT$" | head -1 | sed -e "s/-KAMEHOUSE-SNAPSHOT$//"`
+  if [ -z "${GRADLE_PROJECT_VERSION}" ] && [ -f "${PROJECT_DIR}/build.gradle" ]; then
+    log.debug "Could not read the project version from gradle. Falling back to parsing ${PROJECT_DIR}/build.gradle"
+    local BUILD_GRADLE_VERSION=`sed -n -E "s/^[[:space:]]*version[[:space:]]*=[[:space:]]*'([0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT)'[[:space:]]*$/\1/p" "${PROJECT_DIR}/build.gradle" | head -1`
+    if [[ "${BUILD_GRADLE_VERSION}" =~ ^[0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT$ ]]; then
+      GRADLE_PROJECT_VERSION=`echo "${BUILD_GRADLE_VERSION}" | sed -e "s/-KAMEHOUSE-SNAPSHOT$//"`
+    fi
+  fi
   echo "${GRADLE_PROJECT_VERSION}"
 }
 
@@ -346,22 +353,48 @@ runKameHouseDesktopTests() {
     return
   fi
   if ${FAST_BUILD}; then
-    log.info "Fast build. Skipping kamehouse-desktop python unit tests"
+    log.info "Fast build. Skipping kamehouse-desktop unit tests"
     return
   fi
   if ${INTEGRATION_TESTS}; then
-    log.debug "Running integration tests. Skipping kamehouse-desktop python unit tests"
+    log.debug "Running integration tests. Skipping kamehouse-desktop unit tests"
     return
   fi
   cdToKameHouseModule "kamehouse-desktop"
-  log.info "Running ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} python unit tests with coverage"
+  log.info "Running ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} unit tests with coverage"
   local PYTHON_COMMAND="python3"
   if ! command -v "${PYTHON_COMMAND}" > /dev/null 2>&1; then
     PYTHON_COMMAND="python"
   fi
   ${PYTHON_COMMAND} src/test/python/run_tests.py
-  checkCommandStatus "$?" "An error occurred running kamehouse-desktop python unit tests or coverage thresholds not met"
+  checkCommandStatus "$?" "An error occurred running kamehouse-desktop unit tests or coverage thresholds not met"
   cdToRootDirFromModule "kamehouse-desktop"
+}
+
+runKameHouseGrootTests() {
+  if [[ -n "${MODULE}" && "${MODULE}" != "kamehouse-groot" ]]; then
+    return
+  fi
+  if ${FAST_BUILD}; then
+    log.info "Fast build. Skipping kamehouse-groot tests"
+    return
+  fi
+  cdToKameHouseModule "kamehouse-groot"
+  local PYTHON_COMMAND="python3"
+  if ! command -v "${PYTHON_COMMAND}" > /dev/null 2>&1; then
+    PYTHON_COMMAND="python"
+  fi
+  if ${INTEGRATION_TESTS}; then
+    log.info "Running ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} integration tests"
+    ${PYTHON_COMMAND} src/test/python/run_tests.py --integration-only
+    checkCommandStatus "$?" "An error occurred running kamehouse-groot integration tests"
+    cdToRootDirFromModule "kamehouse-groot"
+    return
+  fi
+  log.info "Running ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} unit tests with coverage"
+  ${PYTHON_COMMAND} src/test/python/run_tests.py
+  checkCommandStatus "$?" "An error occurred running kamehouse-groot unit tests or coverage thresholds not met"
+  cdToRootDirFromModule "kamehouse-groot"
 }
 
 runKameHouseUiTests() {

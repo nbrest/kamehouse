@@ -52,7 +52,7 @@ class KameHouseMobileCore {
   login() {
     kameHouse.logger.info("Logging in to KameHouse Groot...", null);
     kameHouse.plugin.modal.loadingWheelModal.open("Logging in to KameHouse Groot...");
-    const LOGIN_URL = "/kame-house-groot/api/v1/auth/login.php";
+    const LOGIN_URL = "/kame-house-groot/api/v1/auth/login";
     const credentials = this.#getBackendCredentials();
     const loginData = {
       username : credentials.username,
@@ -1496,7 +1496,7 @@ class MockLocalhostServer {
   #isServerModificationRequest(httpMethod, url) {
     const ALLOWED_NON_GET_URLS = [
       "/kame-house-auth/login",
-      "/kame-house-groot/api/v1/auth/login.php",
+      "/kame-house-groot/api/v1/auth/login",
       "/kame-house-admin/api/v1/admin/power-management/wol",
       "/kame-house-tennisworld/api/v1/tennis-world/bookings",
       "/kame-house-tennisworld/api/v1/tennis-world/scheduled-bookings",
@@ -1655,7 +1655,7 @@ class CordovaHttpPluginMock {
     if (requestUrl.includes("/kame-house-auth/api/v1/auth/session/status")) {
       return this.#mockSessionStatus(successCallback);
     }
-    if (requestUrl.includes("/kame-house-groot/api/v1/commons/session/status.php")) {
+    if (requestUrl.includes("/kame-house-groot/api/v1/commons/session/status")) {
       return this.#mockGrootSessionStatus(successCallback);
     }
     const mockResponse = {

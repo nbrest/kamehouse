@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  */
 class SessionStatusIntegrationTest extends AbstractGrootIntegrationTest {
 
-  private static final String API_URL = "/api/v1/commons/session/status.php";
+  private static final String API_URL = "/api/v1/commons/session/status";
 
   /**
    * Test for groot session status success response.

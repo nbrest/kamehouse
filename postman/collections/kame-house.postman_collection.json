@@ -2801,7 +2801,7 @@
               "name": "kamehouse-shell",
               "item": [
                 {
-                  "name": "scripts.php",
+                  "name": "scripts",
                   "event": [
                     {
                       "listen": "test",
@@ -2831,7 +2831,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -2841,14 +2841,14 @@
                         "v1",
                         "admin",
                         "kamehouse-shell",
-                        "scripts.php"
+                        "scripts"
                       ]
                     }
                   },
                   "response": []
                 },
                 {
-                  "name": "execute.php no script",
+                  "name": "execute no script",
                   "event": [
                     {
                       "listen": "test",
@@ -2878,7 +2878,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -2888,14 +2888,14 @@
                         "v1",
                         "admin",
                         "kamehouse-shell",
-                        "execute.php"
+                        "execute"
                       ]
                     }
                   },
                   "response": []
                 },
                 {
-                  "name": "execute.php httpd-status",
+                  "name": "execute httpd-status",
                   "event": [
                     {
                       "listen": "test",
@@ -2926,7 +2926,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=httpd/httpd-status.sh",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=httpd/httpd-status.sh",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -2936,7 +2936,7 @@
                         "v1",
                         "admin",
                         "kamehouse-shell",
-                        "execute.php"
+                        "execute"
                       ],
                       "query": [
                         {
@@ -2949,7 +2949,7 @@
                   "response": []
                 },
                 {
-                  "name": "execute.php is-linux-host",
+                  "name": "execute is-linux-host",
                   "event": [
                     {
                       "listen": "test",
@@ -2979,7 +2979,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?script=is-linux-host.sh",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -2989,7 +2989,7 @@
                         "v1",
                         "admin",
                         "kamehouse-shell",
-                        "execute.php"
+                        "execute"
                       ],
                       "query": [
                         {
@@ -3009,7 +3009,7 @@
           "name": "auth",
           "item": [
             {
-              "name": "login.php",
+              "name": "login",
               "event": [
                 {
                   "listen": "test",
@@ -3052,7 +3052,7 @@
                   ]
                 },
                 "url": {
-                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/login.php",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/login",
                   "host": [
                     "{{SERVER}}"
                   ],
@@ -3061,7 +3061,7 @@
                     "api",
                     "v1",
                     "auth",
-                    "login.php"
+                    "login"
                   ],
                   "query": [
                     {
@@ -3080,7 +3080,7 @@
               "response": []
             },
             {
-              "name": "logout.php",
+              "name": "logout",
               "event": [
                 {
                   "listen": "test",
@@ -3108,7 +3108,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/logout.php",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/logout",
                   "host": [
                     "{{SERVER}}"
                   ],
@@ -3117,7 +3117,7 @@
                     "api",
                     "v1",
                     "auth",
-                    "logout.php"
+                    "logout"
                   ],
                   "query": [
                     {
@@ -3136,7 +3136,7 @@
               "response": []
             },
             {
-              "name": "authorize-page.php",
+              "name": "authorize-page",
               "event": [
                 {
                   "listen": "test",
@@ -3160,7 +3160,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/authorize-page.php",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/auth/authorize-page",
                   "host": [
                     "{{SERVER}}"
                   ],
@@ -3169,7 +3169,7 @@
                     "api",
                     "v1",
                     "auth",
-                    "authorize-page.php"
+                    "authorize-page"
                   ]
                 },
                 "auth": {
@@ -3187,7 +3187,7 @@
               "name": "session",
               "item": [
                 {
-                  "name": "status.php",
+                  "name": "status",
                   "event": [
                     {
                       "listen": "test",
@@ -3217,7 +3217,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-groot/api/v1/commons/session/status.php",
+                      "raw": "{{SERVER}}/kame-house-groot/api/v1/commons/session/status",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -3227,7 +3227,7 @@
                         "v1",
                         "commons",
                         "session",
-                        "status.php"
+                        "status"
                       ]
                     }
                   },
@@ -3241,7 +3241,7 @@
           "name": "test",
           "item": [
             {
-              "name": "test.php",
+              "name": "test",
               "event": [
                 {
                   "listen": "test",
@@ -3267,7 +3267,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{SERVER}}/kame-house-groot/api/v1/test/test.php",
+                  "raw": "{{SERVER}}/kame-house-groot/api/v1/test/test",
                   "host": [
                     "{{SERVER}}"
                   ],
@@ -3276,7 +3276,7 @@
                     "api",
                     "v1",
                     "test",
-                    "test.php"
+                    "test"
                   ]
                 }
               },
@@ -11891,6 +11891,579 @@
                 "system-state",
                 "httpd"
               ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "kamehouse-groot",
+      "item": [
+        {
+          "name": "execute is-linux-host",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Status is completed\", () => pm.expect(body.status).to.eql(\"completed\"));\r",
+                  "pm.test(\"Exit code is 0\", () => pm.expect(body.exitCode).to.eql(0));\r",
+                  "pm.test(\"Command is returned\", () => pm.expect(body.command).to.be.a(\"string\").and.not.empty);\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "admin",
+                "kamehouse-shell",
+                "execute"
+              ],
+              "query": [
+                {
+                  "key": "script",
+                  "value": "is-linux-host.sh"
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "execute unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", () => pm.response.to.have.status(401));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Error code is 401\", () => pm.expect(body.code).to.eql(401));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "admin",
+                "kamehouse-shell",
+                "execute"
+              ],
+              "query": [
+                {
+                  "key": "script",
+                  "value": "is-linux-host.sh"
+                }
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "execute invalid script",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", () => pm.response.to.have.status(400));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Error code is 400\", () => pm.expect(body.code).to.eql(400));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh%3Brm",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "admin",
+                "kamehouse-shell",
+                "execute"
+              ],
+              "query": [
+                {
+                  "key": "script",
+                  "value": "is-linux-host.sh%3Brm"
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "scripts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Response is an array\", () => pm.expect(body).to.be.an(\"array\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "admin",
+                "kamehouse-shell",
+                "scripts"
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "scripts unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", () => pm.response.to.have.status(401));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Error code is 401\", () => pm.expect(body.code).to.eql(401));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "admin",
+                "kamehouse-shell",
+                "scripts"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "execute isDaemon is-linux-host",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Status is running\", () => pm.expect(body.status).to.eql(\"running\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh&isDaemon=true",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "admin",
+                "kamehouse-shell",
+                "execute"
+              ],
+              "query": [
+                {
+                  "key": "script",
+                  "value": "is-linux-host.sh"
+                },
+                {
+                  "key": "isDaemon",
+                  "value": "true"
+                }
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "session status anonymous",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Anonymous user\", () => pm.expect(body.username).to.eql(\"anonymousUser\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/commons/session/status",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "commons",
+                "session",
+                "status"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "session status basic auth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+                  "const body = pm.response.json();\r",
+                  "pm.test(\"Authenticated user\", () => pm.expect(body.username).to.eql(pm.environment.get(\"USERNAME\")));\r",
+                  "pm.test(\"Roles is an array\", () => pm.expect(body.roles).to.be.an(\"array\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/commons/session/status",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "commons",
+                "session",
+                "status"
+              ]
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 302\", () => pm.response.to.have.status(302));\r",
+                  "pm.test(\"Redirects to groot home\", () => pm.expect(pm.response.headers.get(\"location\")).to.include(\"/kame-house/groot/\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "{{USERNAME}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "{{PASSWORD}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/auth/login",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 302\", () => pm.response.to.have.status(302));\r",
+                  "pm.test(\"Redirects to login page\", () => pm.expect(pm.response.headers.get(\"location\")).to.include(\"login.html?logout=true\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/auth/logout",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "auth",
+                "logout"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "authorize-page unauthorized",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 302\", () => pm.response.to.have.status(302));\r",
+                  "pm.test(\"Redirects to login page\", () => pm.expect(pm.response.headers.get(\"location\")).to.include(\"unauthorizedPageAccess=true\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/auth/authorize-page",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "auth",
+                "authorize-page"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": [],
+          "protocolProfileBehavior": {
+            "followRedirects": false
+          }
+        },
+        {
+          "name": "test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+                  "pm.test(\"Renders test page\", () => pm.expect(pm.response.text()).to.include(\"testFunction: mada mada dane\"));\r"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GROOT_SERVER}}/kame-house-groot/api/v1/test/test",
+              "host": [
+                "{{GROOT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-groot",
+                "api",
+                "v1",
+                "test",
+                "test"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
           "response": []

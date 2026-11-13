@@ -240,7 +240,7 @@ Then put `id_rsa.pkcs8` and `id_rsa.pub.pkcs8` in the directories pointed to by 
 
 ## Apache httpd VRUNTIME140.dll missing error on startup (windows):
 
-- If I get a `VRUNTIME140.dll missing` error when trying to load httpd.exe, I need to install Some microsoft Visual C++ runtime. Google it. For PHP 7.4+ I need version 2019 of the runtime. version 2015 still throws some errors
+- If I get a `VRUNTIME140.dll missing` error when trying to load httpd.exe, I need to install Some microsoft Visual C++ runtime. Google it.
 - Remember to run apache with a startup script and not as a service, as described in [installation-apache.md](/docs/installation/installation-apache.md)
 
 *********************

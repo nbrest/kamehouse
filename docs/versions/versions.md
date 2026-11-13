@@ -15,5 +15,4 @@
 | Tomcat                | 10      |
 | MariaDB               | 10      |
 | Apache Httpd          | 2.4     |
-| PHP                   | 8       |
 | Python                | 3.11    |

@@ -1,11 +1,11 @@
 /**
- * KameHouse Shell javascript interface through groot's kamehouse-shell/execute.php api.
+ * KameHouse Shell javascript interface through groot's kamehouse-shell/execute api.
  * 
  * @author nbrest
  */
 class KameHouseShell {
 
-  #executeAPI = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
+  #executeAPI = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute';
   #standardOutput = "Script output not set yet.";
 
   /**

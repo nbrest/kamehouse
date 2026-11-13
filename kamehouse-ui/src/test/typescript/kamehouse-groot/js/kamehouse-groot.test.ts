@@ -80,7 +80,7 @@ describe('kamehouse-groot', () => {
     const { mock } = await importGroot();
     expect(get).toHaveBeenCalledTimes(1);
     const call = get.mock.calls[0];
-    expect(call[1]).toBe('/kame-house-groot/api/v1/comons/session/status.php'.replace('comons', 'commons'));
+    expect(call[1]).toBe('/kame-house-groot/api/v1/comons/session/status'.replace('comons', 'commons'));
     expect(call[0].timeout).toBe(15);
 
     call[4]({ username: 'goku', server: 'server1' }, 200, '', {});
@@ -124,7 +124,7 @@ describe('kamehouse-groot', () => {
 
     expect(buttons.length).toBe(1);
     buttons[0].click({}, null);
-    expect(mock.util.mobile.windowLocation).toHaveBeenCalledWith('/kame-house-groot/api/v1/auth/logout.php', '/kame-house-mobile/settings.html');
+    expect(mock.util.mobile.windowLocation).toHaveBeenCalledWith('/kame-house-groot/api/v1/auth/logout', '/kame-house-mobile/settings.html');
     expect(mock.util.dom.setHtmlById).not.toHaveBeenCalledWith('footer-server-name', expect.anything());
   });
 

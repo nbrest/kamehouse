@@ -5,7 +5,10 @@
  */
 class TailLogManager {
 
-  #KAMEHOUSE_SHELL_EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php';
+  #KAMEHOUSE_SHELL_EXECUTE_API = '/kame-house-groot/api/v1/admin/kamehouse-shell/execute';
+  #CAT_LOG_SCRIPT = 'cat/cat-log.sh';
+  #TAIL_LOG_SCRIPT = 'tail/tail-log.sh';
+  #GROOT_LOGS = ['groot', 'groot-access'];
 
   /**
    * Load the extension.
@@ -27,9 +30,10 @@ class TailLogManager {
     if (kameHouse.core.isEmpty(logLevel)) {
       logLevel = "";
     }    
+    const isGrootLog = this.#GROOT_LOGS.includes(logFileName);
     const params = {
-      script: "cat/cat-log.sh",
-      args: "-f "  + logFileName + " -l " + logLevel,
+      script: this.getTailLogScript(logFileName),
+      args: isGrootLog ? this.#getGrootLogArgs(logFileName, logLevel) : "-f "  + logFileName + " -l " + logLevel,
       executeOnDockerHost: executeOnDockerHost,
       isDaemon: isDaemon
     };   
@@ -39,6 +43,20 @@ class TailLogManager {
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback),
       (responseBody, responseCode, responseDescription, responseHeaders) => this.#updateTailLogOutputError(responseBody, responseCode, responseDescription, responseHeaders, callback));
   }  
+
+  /** Get the script to execute to tail the specified log file */
+  getTailLogScript(logFileName) {
+    return this.#GROOT_LOGS.includes(logFileName) ? this.#TAIL_LOG_SCRIPT : this.#CAT_LOG_SCRIPT;
+  }
+
+  /** Get the tail log arguments for the groot logs */
+  #getGrootLogArgs(logFileName, logLevel) {
+    let args = "-f " + logFileName + " -q -n 2000";
+    if (!kameHouse.core.isEmpty(logLevel) && logLevel != "ALL") {
+      args += " -l " + logLevel;
+    }
+    return args;
+  }
 
   /** Update the script tail log output with the result of the script */
   #updateTailLogOutput(responseBody, responseCode, responseDescription, responseHeaders, numberOfLines, callback) {

@@ -6,7 +6,7 @@
 class KameHouseShellLoader {
 
   #execScriptPageUrl = "/kame-house/groot/admin/kamehouse-shell/exec-script.html";
-  #getScriptsApiUrl = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php';
+  #getScriptsApiUrl = '/kame-house-groot/api/v1/admin/kamehouse-shell/scripts';
 
   /**
    * Set exec-script page url.

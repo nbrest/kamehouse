@@ -7,7 +7,15 @@
 
 #### v11.05
 
+- Added batcave-tail-log.sh to tail batcave groot logs through the shared kamehouse tail-log.sh
+- Added restart and stop controls for the groot web service in the groot server manager
+- Removed all remaining php references from docs, configs, scripts and local setup
 - Added AGENTS.md - Turned to the dark side
+- Moved all groot apis from php to a python web service and removed all php dependencies
+- Removed the PHP-compatible .php aliases from the groot python api
+- Updated kamehouse-groot log format to match the kamehouse java log format and the apache httpd access log format
+- Split tail-log.sh groot logs into -f groot for the application log and -f groot-access for the access log
+- Fixed kamehouse-groot python deployment to bootstrap the venv, pip and dependencies from scratch
 - Removed -dev.sh scripts and configuration
 - Added kamehouse-desktop python unit tests
 - Added kamehouse-ui and kamehouse-mobile typescript unit tests

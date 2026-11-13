@@ -10,10 +10,8 @@ initKameHouseShellEnv() {
 initScriptEnv() {
   DELETE_ONLY=false
   SOURCE_FILES_KAMEHOUSE_DIR=""
-  SOURCE_FILES_GROOT_DIR=""
   SOURCE_FILES_BATCAVE_DIR=""
   EXPORT_KAMEHOUSE_DIR=""
-  EXPORT_GROOT_DIR=""
   EXPORT_BATCAVE_DIR=""
   EXPORT_MOCKED_APIS_DIR=""
   MOCKED_KAMEHOUSE_API_DIR=""
@@ -22,7 +20,6 @@ initScriptEnv() {
 mainProcess() {
   setGlobalVariables
   exportKameHouseUi
-  exportGroot
   exportBatcave
   exportMockedApis
 }
@@ -31,11 +28,9 @@ setGlobalVariables() {
   setKameHouseRootProjectDir
 
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/dist
-  SOURCE_FILES_GROOT_DIR=${PROJECT_DIR}/kamehouse-groot/src/main/php/kame-house-groot
   SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/dist/kame-house-batcave"
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
-  EXPORT_GROOT_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-groot
   EXPORT_BATCAVE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-batcave
   EXPORT_MOCKED_APIS_DIR=${PROJECT_DIR}/kamehouse-mobile/www
 
@@ -57,19 +52,6 @@ exportKameHouseUi() {
   log.info "Copying all files from ${SOURCE_FILES_KAMEHOUSE_DIR} to ${EXPORT_KAMEHOUSE_DIR}"
   cd ${EXPORT_KAMEHOUSE_DIR}
   cp -r ${SOURCE_FILES_KAMEHOUSE_DIR}/* .
-}
-
-exportGroot() {
-  log.info "Deleting existing files from target dir ${EXPORT_GROOT_DIR}"
-  rm -r -f ${EXPORT_GROOT_DIR}
-  if ${DELETE_ONLY}; then
-    log.debug "Running with -d. Skip resyncing groot files to mobile app"
-    return
-  fi
-  log.info "Copying all files from ${SOURCE_FILES_GROOT_DIR} to ${EXPORT_GROOT_DIR}"
-  mkdir -p ${EXPORT_GROOT_DIR}
-  cd ${EXPORT_GROOT_DIR}
-  cp -r ${SOURCE_FILES_GROOT_DIR}/* .
 }
 
 exportBatcave() {

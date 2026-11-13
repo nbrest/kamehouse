@@ -48,7 +48,7 @@ describe('groot kamehouse-shell-index', () => {
     expect(loader).toBeDefined();
     expect(mock.util.banner.setRandomAllBanner).toHaveBeenCalledWith(null);
     expect(get).toHaveBeenCalledTimes(1);
-    expect(get.mock.calls[0][1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/scripts.php');
+    expect(get.mock.calls[0][1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/scripts');
     expect(get.mock.calls[0][0].timeout).toBe(15);
 
     get.mock.calls[0][4](['abc.sh', 'Started executing x', 'Finished executing y'], 200, '', {});
@@ -86,11 +86,11 @@ describe('groot kamehouse-shell-index', () => {
     const loader = mock.extension.kameHouseShellLoader;
 
     loader.setExecScriptPageUrl('/custom/exec.html');
-    loader.setGetScriptsApiUrl('/custom/scripts.php');
+    loader.setGetScriptsApiUrl('/custom/scripts');
     get.mockClear();
     loader.load();
 
-    expect(get.mock.calls[0][1]).toBe('/custom/scripts.php');
+    expect(get.mock.calls[0][1]).toBe('/custom/scripts');
 
     get.mock.calls[0][4](['abc.sh'], 200, '', {});
     buttonOptions.click({}, { scriptName: 'abc.sh' });

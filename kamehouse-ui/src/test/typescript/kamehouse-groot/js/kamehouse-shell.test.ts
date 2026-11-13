@@ -62,7 +62,7 @@ describe('kamehouse-groot kamehouse-shell', () => {
 
     expect(get).toHaveBeenCalledTimes(1);
     const call = get.mock.calls[0];
-    expect(call[1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php');
+    expect(call[1]).toBe('/kame-house-groot/api/v1/admin/kamehouse-shell/execute');
     expect(call[3]).toEqual({ script: 'test.sh', args: null, executeOnDockerHost: 'false', isDaemon: 'false' });
     expect(call[0].timeout).toBeUndefined();
     expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('kamehouse-shell-output-executing', expect.anything());
@@ -121,8 +121,8 @@ describe('kamehouse-groot kamehouse-shell', () => {
 
   it('uses a custom execute api', async () => {
     const { shell } = await importShell();
-    shell.setExecuteApi('/custom/execute.php');
+    shell.setExecuteApi('/custom/execute');
     shell.execute('test.sh', null, 'false', 'false', null, vi.fn(), vi.fn());
-    expect(get.mock.calls[0][1]).toBe('/custom/execute.php');
+    expect(get.mock.calls[0][1]).toBe('/custom/execute');
   });
 });

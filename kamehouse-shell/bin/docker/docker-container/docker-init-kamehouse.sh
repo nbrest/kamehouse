@@ -26,11 +26,11 @@ mainProcessLin() {
   if [ "${BUILD_ON_STARTUP}" == "true" ]; then
     pullKameHouse
     deployKameHouse
-    startTomcat
   else
     checkKameHouseWar
-    startTomcat
   fi
+  startTomcat
+  startGroot
   configGitDevDir
   printEnv
   printStartupMessage
@@ -140,6 +140,12 @@ startTomcat() {
     log.info "Starting tomcat"
   fi
   sudo su - ${DOCKER_CONTAINER_USERNAME} -c "${START_TOMCAT_CMD}"
+}
+
+startGroot() {
+  local START_GROOT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/groot/kamehouse-groot-startup.sh"
+  log.info "Starting kamehouse-groot service"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "${START_GROOT_CMD}"
 }
 
 restartSshService() {

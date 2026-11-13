@@ -93,7 +93,7 @@ sendRequestToServer() {
   else
     BASIC_AUTH=${GROOT_API_BASIC_AUTH}
   fi
-  URL="${PROTOCOL}://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/execute.php?${URL_ENCODED_PARAMS}"
+  URL="${PROTOCOL}://${SERVER}:${PORT}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?${URL_ENCODED_PARAMS}"
 
   local EXEC_CURL_OUTPUT=`execCurlRequest "${URL}" "${BASIC_AUTH}" 2>&1`
   log.debug "${EXEC_CURL_OUTPUT}" --log-message-only

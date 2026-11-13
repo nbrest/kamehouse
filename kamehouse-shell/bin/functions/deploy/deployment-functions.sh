@@ -145,39 +145,26 @@ deployKameHouseGroot() {
     return
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
-  local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
-  rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-groot
-  mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-groot
-  cp -rf ./kamehouse-groot/src/main/php/kame-house-groot/* ${HTTPD_CONTENT_ROOT}/kame-house-groot/
-  cp -f ./build-info.json ${HTTPD_CONTENT_ROOT}/kame-house-groot/
-  checkCommandStatus "$?" "An error occurred deploying kamehouse groot"
+  log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_DEFAULT_LOG}"
+  ./kamehouse-shell/bin/groot/install-kamehouse-groot-python.sh
+  checkCommandStatus "$?" "An error occurred installing the kamehouse-groot service"
+  restartKameHouseGroot
 
-  local FILES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type f`
-  while read FILE; do
-    if [ -n "${FILE}" ]; then
-      chmod a+rx ${FILE}
-    fi
-  done <<< ${FILES}
-
-  local DIRECTORIES=`find ${HTTPD_CONTENT_ROOT}/kame-house-groot -name '.*' -prune -o -type d`
-  while read DIRECTORY; do
-    if [ -n "${DIRECTORY}" ]; then
-      chmod a+rx ${DIRECTORY}
-    fi
-  done <<< ${DIRECTORIES}
-
-  log.info "Deployed kamehouse-groot status"
-  log.info "ls -lh ${COL_CYAN_STD}${HTTPD_CONTENT_ROOT}/kame-house-groot"
-  ls -lh "${HTTPD_CONTENT_ROOT}/kame-house-groot"
-  log.info "${COL_YELLOW_STD}kamehouse-groot version:"
-  echo -ne "${COL_YELLOW_STD}     "
-  cat "${HTTPD_CONTENT_ROOT}/kame-house-groot/build-info.json"
-  echo -ne "${COL_NORMAL}"
   log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
     exitDeploymentSuccessfully
   fi
+}
+
+restartKameHouseGroot() {
+  if ! ${DEPLOYMENT_RESTART_GROOT}; then
+    log.info "DEPLOYMENT_RESTART_GROOT is false so skip restarting kamehouse-groot service"
+    return
+  fi
+  log.info "Restarting ${COL_PURPLE}kamehouse-groot service"
+  ${HOME}/programs/kamehouse-shell/bin/groot/kamehouse-groot-restart.sh
+  checkCommandStatus "$?" "An error occurred restarting the kamehouse-groot service"
 }
 
 deployKameHouseBackend() {

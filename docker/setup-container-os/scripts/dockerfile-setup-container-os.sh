@@ -39,7 +39,6 @@ installBaseApps() {
   apt-get install -y mariadb-server
   apt-get install -y net-tools
   apt-get install -y openssh-server
-  apt-get install -y php libapache2-mod-php php-mysql
   apt-get install -y picom
   apt-get install -y python3
   apt-get install -y python3-pyqt5

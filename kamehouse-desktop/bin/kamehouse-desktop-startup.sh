@@ -41,7 +41,7 @@ startKameHouseDesktop() {
   ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
   echo -ne "${COL_NORMAL}"
   cd ${HOME}/programs/kamehouse-desktop
-  python ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py &
+  python ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py >> "${PROCESS_LOG_FILE}" 2>&1 &
 }
 
 main "$@"
