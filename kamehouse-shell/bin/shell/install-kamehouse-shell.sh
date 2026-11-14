@@ -155,7 +155,7 @@ buildKameHouseHomeFolderDir() {
   mkdir -p ${HOME}/.kamehouse/var/tmp
   mkdir -p ${HOME}/.kamehouse/var/www/html
 
-  cp -vr local-setup/home-kamehouse/vscode/settings.json ${HOME}/.kamehouse/.vscode/
+  cp local-setup/home-kamehouse/vscode/settings.json ${HOME}/.kamehouse/.vscode/
 }
 
 installKamehouseConfig() {
