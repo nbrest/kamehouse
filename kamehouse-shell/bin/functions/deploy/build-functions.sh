@@ -215,7 +215,7 @@ buildKameHouseBackend() {
       return
     fi
   fi
-  source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
+  source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
   log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with build profile ${COL_PURPLE}${BUILD_PROFILE}${COL_DEFAULT_LOG}"
   exportBuildInfoToCommonsCore
   buildGradleCommand
@@ -287,13 +287,13 @@ buildKameHouseMobile() {
   cdToKameHouseModule "kamehouse-mobile"
   setLinuxBuildEnv
   setGradleForAndroidInPath
-  source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home-for-mobile.sh
+  source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-java-home-for-mobile.sh
   updateBuildVersionInMobileConfig
   prepareCordovaProject
   setMobileKeys
   setBuildInfoOnMobile
   buildCordovaProject
-  source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
+  source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
   restoreGradlePathForJavaBuild
   resetMobileAppConfig
   cdToRootDirFromModule "kamehouse-mobile"
@@ -451,7 +451,7 @@ prepareCordovaProject() {
 
 # runs from root directory of kamehouse project
 syncStaticFilesOnMobile() {
-  ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c
 }
 
 setGradleForAndroidInPath() {
@@ -506,7 +506,7 @@ buildCordovaProject() {
 }
 
 deleteStaticFilesOnMobile() {
-  ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c -d
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c -d
 }
 
 updateBuildVersionInMobileConfig() {

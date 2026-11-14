@@ -13,7 +13,7 @@ This module contains most of my shell scripts to automate some tasks setting up,
 - Run with `-s` to install kamehouse-shell only
 - Run with `-o` to install kamehouse-shell scripts only, without modifying the shell
 
-- Update the `kamehouse-shell` values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup for the shell scripts
+- Update the `kamehouse-shell` values in `${HOME}/.kamehouse/conf/kamehouse.cfg` to match your local network setup for the shell scripts
 
 ## Linux:
 
@@ -34,13 +34,13 @@ sudo usermod -a -G adm username
 
 ## Setup kamehouse-secrets:
 
-- KameHouse secrets are stored in the encrypted file `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc`
+- KameHouse secrets are stored in the encrypted file `${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc`
 
-- A template can be found in [.kamehouse-secrets.cfg](/docker/setup-kamehouse/keys/.kamehouse-secrets.cfg). Copy the template to `${HOME}/.kamehouse/config/keys/`. When kamehouse is installed using the installation script mentioned [here](/docs/installation/installation.md), the template and sample keys will be copied automatically to the required folder and then the values can be edited with kamehouse-shell scripts.
+- A template can be found in [.kamehouse-secrets.cfg](/docker/setup-kamehouse/secrets/.kamehouse-secrets.cfg). Copy the template to `${HOME}/.kamehouse/secrets/`. When kamehouse is installed using the installation script mentioned [here](/docs/installation/installation.md), the template and sample keys will be copied automatically to the required folder and then the values can be edited with kamehouse-shell scripts.
 
-- Use `encrypt-kamehouse-secrets.sh` to encrypt `.kamehouse/config/keys/.kamehouse-secrets.cfg` secrets file
+- Use `encrypt-kamehouse-secrets.sh` to encrypt `.kamehouse/secrets/.kamehouse-secrets.cfg` secrets file
 
-- Use `decrypt-kamehouse-secrets.sh` to decrypt `.kamehouse/config/keys/.kamehouse-secrets.cfg.enc` secrets file
+- Use `decrypt-kamehouse-secrets.sh` to decrypt `.kamehouse/secrets/.kamehouse-secrets.cfg.enc` secrets file
 
 --------------------------------------------------
 
@@ -66,13 +66,13 @@ sudo usermod -a -G adm username
 
 ### generate symmetric key kamehouse-secrets.key to encrypt the kamehouse secrets
 ```sh
-openssl rand 214 > ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key
+openssl rand 214 > ${HOME}/.kamehouse/secrets/kamehouse-secrets.key
 ```
 
 ### generate private/public keys to encrypt/decrypt the symmetric key:
 ```sh
-openssl genpkey -algorithm RSA -out ${HOME}/.kamehouse/config/keys/kamehouse.key -pkeyopt rsa_keygen_bits:2048
-openssl rsa -pubout -in ${HOME}/.kamehouse/config/keys/kamehouse.key -out ${HOME}/.kamehouse/config/keys/kamehouse.pub
+openssl genpkey -algorithm RSA -out ${HOME}/.kamehouse/secrets/kamehouse.key -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in ${HOME}/.kamehouse/secrets/kamehouse.key -out ${HOME}/.kamehouse/secrets/kamehouse.pub
 ```
 
 --------------------------------------------------
@@ -83,18 +83,18 @@ openssl rsa -pubout -in ${HOME}/.kamehouse/config/keys/kamehouse.key -out ${HOME
 
 ### encrypt .kamehouse-secrets.cfg with symmetric key kamehouse-secrets.key
 ```sh
-openssl enc -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key
+openssl enc -in ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg -out ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/secrets/kamehouse-secrets.key
 ```
 
 ### encrypt symmetric key kamehouse-secrets.key with public key kamehouse.pub:
 ```sh
-openssl pkeyutl -encrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.pub -pubin -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc
+openssl pkeyutl -encrypt -inkey ${HOME}/.kamehouse/secrets/kamehouse.pub -pubin -in ${HOME}/.kamehouse/secrets/kamehouse-secrets.key -out ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.enc
 ```
 
 ### delete decrypted kamehouse-secrets.key and .kamehouse-secrets.cfg
 ```sh
-rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key
-rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
+rm ${HOME}/.kamehouse/secrets/kamehouse-secrets.key
+rm ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg
 ```
 
 --------------------------------------------------
@@ -108,21 +108,21 @@ rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg
 ### decrypt symetric key with private key
 ```sh
 SUFFIX=$RANDOM
-openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/secrets/kamehouse.key -in ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.${SUFFIX}
 ```
 
 ### decrypt .kamehouse-secrets.cfg.enc with symetric key kamehouse-secrets.key
 ```sh
-openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX}
+openssl enc -d -in ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.${SUFFIX}
 ```
 
 ### load .kamehouse-secrets.cfg 
 ```sh
-source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX}
+source ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.${SUFFIX}
 ```
 
 ### delete .kamehouse-secrets.cfg and symmetric key kamehouse-secrets.key 
 ```sh
-rm ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.${SUFFIX} 
-rm ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.${SUFFIX} 
+rm ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.${SUFFIX} 
+rm ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.${SUFFIX} 
 ```

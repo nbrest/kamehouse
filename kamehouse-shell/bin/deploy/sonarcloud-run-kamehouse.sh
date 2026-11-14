@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -13,7 +13,7 @@ initScriptEnv() {
 
 mainProcess() {
   setKameHouseRootProjectDir
-  source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
+  source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
   log.info "Running sonarcloud scan. Run the kamehouse build before executing this script"
   # the sonarqube plugin is only applied when the build runs with -Psonar
   ${GRADLE_WRAPPER} clean build sonar -Psonar --console=plain \

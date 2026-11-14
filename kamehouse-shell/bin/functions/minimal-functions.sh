@@ -20,7 +20,7 @@ SCRIPT_START_TIME="$(date +%s)"
 # This config file can be used to override the default variable values defined in initScriptConfig() 
 # and also to override default values of script variables that can be modified by script command line parameters.
 SCRIPT_CONFIG_FILENAME=${SCRIPT_NAME_NO_EXT}.cfg
-SCRIPT_CONFIG_PATH=${HOME}/.kamehouse/config/shell
+SCRIPT_CONFIG_PATH=${HOME}/.kamehouse/conf/shell
 SCRIPT_CONFIG_FILE="${SCRIPT_CONFIG_PATH}/${SCRIPT_CONFIG_FILENAME}"
 
 # Stores the command line arguments from the script that sources this file.
@@ -33,7 +33,7 @@ INITIAL_DIR="`pwd`"
 # Set to false to skip logging the process output to ${PROCESS_LOG_FILE}
 # Override LOG_PROCESS_TO_FILE variable in the function initKameHouseShellEnv in the shell scripts
 LOG_PROCESS_TO_FILE=true
-PROCESS_LOG_DIR="${HOME}/logs"
+PROCESS_LOG_DIR="${HOME}/.kamehouse/var/log"
 
 # Create logs dir
 mkdir -p ${PROCESS_LOG_DIR}/old
@@ -50,7 +50,7 @@ EXIT_PROCESS_CANCELLED=4
 EXIT_INVALID_CONFIG=5
 
 # Default kamehouse-shell installation path
-KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell/bin
+KAMEHOUSE_SHELL_PATH=${HOME}/.kamehouse/opt/kamehouse-shell/bin
 
 # Default kamehouse-shell config template 
 SCRIPT_CONFIG_TEMPLATE_FILE="${KAMEHOUSE_SHELL_PATH}/../conf/kamehouse-shell-script-config-template.cfg"

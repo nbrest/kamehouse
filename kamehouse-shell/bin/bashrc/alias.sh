@@ -1,16 +1,16 @@
 # cd
-alias cd.git="cd ${HOME}/git"
-alias cd.git.kamehouse='cd ${HOME}/git/kamehouse'
+alias cd.git="cd ${HOME}/.kamehouse/git"
+alias cd.git.kamehouse='cd ${HOME}/.kamehouse/git/kamehouse'
 alias cd.kamehouse='cd ${HOME}/workspace/kamehouse'
-alias cd.logs='cd ${HOME}/logs'
-alias cd.programs="cd ${HOME}/programs"
-alias cd.tomcat="cd ${HOME}/programs/apache-tomcat"
-alias cd.shell="cd ${HOME}/programs/kamehouse-shell/bin"
-alias cd.webapps="cd ${HOME}/programs/apache-tomcat/webapps"
+alias cd.logs='cd ${HOME}/.kamehouse/var/log'
+alias cd.programs="cd ${HOME}/.kamehouse/opt"
+alias cd.tomcat="cd ${HOME}/.kamehouse/opt/apache-tomcat"
+alias cd.shell="cd ${HOME}/.kamehouse/opt/kamehouse-shell/bin"
+alias cd.webapps="cd ${HOME}/.kamehouse/opt/apache-tomcat/webapps"
 alias cd.workspace="cd ${HOME}/workspace"
 
 # edit
-alias edit.kamehouse.cfg="vim ${HOME}/.kamehouse/config/kamehouse.cfg"
+alias edit.kamehouse.cfg="vim ${HOME}/.kamehouse/conf/kamehouse.cfg"
 
 # reload
 alias reload.bashrc='source ${HOME}/.bashrc'

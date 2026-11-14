@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 source ${HOME}/my.scripts/.cred/.gmail
@@ -9,7 +9,7 @@ source ${HOME}/my.scripts/.cred/.telegram
 initScriptEnv() {
   VERBOSE=false
   DATA_DIR=${HOME}/my.scripts/data/world-cup-tickets-check
-  WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
+  WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/.kamehouse/var/www/html/kamehouse-kintoun/world-cup-bookings
   RESALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-resale-home-data.html"
   SALE_HOME_DATA_PAGE="${WWW_WORLD_CUP_BOOKINGS_PATH}/fifa-sale-home-data.html"
 }

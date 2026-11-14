@@ -29,8 +29,7 @@ public class PropertiesUtils {
   private static final Properties properties = new Properties();
   private static final String BUILD_VERSION_PROPERTY = "kamehouse.build.version";
   private static final String BUILD_DATE_PROPERTY = "kamehouse.build.date";
-  private static final String DOCKER_CONTAINER_ENV =
-      ".kamehouse/config/.kamehouse-docker-container-env";
+  private static final String DOCKER_CONTAINER_ENV = ".kamehouse/conf/.kamehouse-docker-container-env";
 
   static {
     loadAllPropertiesFiles();

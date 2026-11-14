@@ -253,7 +253,7 @@
 - Added support for music playlists on vlc
 - Updated default playlists path to .kamehouse/data/playlists
 - Added option to use visualization filter for audio playlists
-- Moved .kamehouse/ files to .kamehouse/config/
+- Moved .kamehouse/ files to .kamehouse/conf/
 - Moved scripts data to .kamehouse/data/
 - Added option to disable keep alive scripts in kamehouse.cfg
 - Allowed to login from mobile app to backend servers running groot only without tomcat

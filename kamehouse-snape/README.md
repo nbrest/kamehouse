@@ -10,7 +10,7 @@ This module contains most of my python scripts. Named after the best Slytherin w
 ## Install
 
 - Install with `deploy-kamehouse.sh -m snape` or `install-kamehouse-snape.sh` 
-- The deployment creates a shared python virtual environment at `${HOME}/programs/kamehouse-snape/venv` and installs the dependencies declared in `pyproject.toml` for all snape scripts
+- The deployment creates a shared python virtual environment at `${HOME}/.kamehouse/opt/kamehouse-snape/venv` and installs the dependencies declared in `pyproject.toml` for all snape scripts
 - Python 3.11 or newer with the `venv` and `ensurepip` modules is required. The installer installs the OS `venv` package when it's missing on Linux
 - Reinstall the virtual environment dependencies manually with `install-kamehouse-snape.sh -f`
 
@@ -23,7 +23,7 @@ This module contains most of my python scripts. Named after the best Slytherin w
 ## Configuration
 
 - The default values are in `snape/conf/default-kamehouse-snape.toml`
-- The user overrides are in `${HOME}/.kamehouse/config/kamehouse-snape.toml`
+- The user overrides are in `${HOME}/.kamehouse/conf/kamehouse-snape.toml`
 - Access the config from any snape script with:
 
 ```python

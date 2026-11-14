@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
@@ -8,14 +8,14 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  log.info "ls -lh ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}"
-  ls -lh ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}
+  log.info "ls -lh ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}"
+  ls -lh ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}
   
   log.info "Removing temp configs"
-  rm -f ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}
+  rm -f ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}
 
-  log.info "ls -lh ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}"
-  ls -lh ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}
+  log.info "ls -lh ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}"
+  ls -lh ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}
 }
 
 main "$@"

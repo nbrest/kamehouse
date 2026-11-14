@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 source ${HOME}/my.scripts/.cred/.gmail
@@ -10,8 +10,8 @@ initScriptEnv() {
   SCREEN_CAPTURE_EXE="C:\Users\nbrest\my.scripts\win\bat\screen-capture.exe"
   TESSERACT_EXE="C:\Program Files\Tesseract-OCR\tesseract.exe"
   TESSERACT_USER_WORDS="C:\Users\nbrest\my.scripts\conf\world-cup-bookings\eng.user-words"
-  WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/programs/apache-httpd/www/kamehouse-webserver/world-cup-bookings
-  WWW_WORLD_CUP_BOOKINGS_PATH_WIN="C:\Users\nbrest\programs\apache-httpd\www\kamehouse-webserver\world-cup-bookings\\"
+  WWW_WORLD_CUP_BOOKINGS_PATH=${HOME}/.kamehouse/var/www/html/kamehouse-kintoun/world-cup-bookings
+  WWW_WORLD_CUP_BOOKINGS_PATH_WIN="C:\Users\nbrest\.kamehouse\var\www\html\kamehouse-kintoun\world-cup-bookings\\"
   IMG_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/img
   IMG_WORLD_CUP_BOOKINGS_PATH_WIN="${WWW_WORLD_CUP_BOOKINGS_PATH_WIN}img\\"
   TXT_WORLD_CUP_BOOKINGS_PATH=${WWW_WORLD_CUP_BOOKINGS_PATH}/txt

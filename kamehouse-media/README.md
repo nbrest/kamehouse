@@ -5,7 +5,7 @@
 
 # Media Module:
 
-- Update the `kamehouse-media` values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local media setup
+- Update the `kamehouse-media` values in `${HOME}/.kamehouse/conf/kamehouse.cfg` to match your local media setup
 
 This module handles the following functionality:
 
@@ -21,11 +21,11 @@ This module handles the following functionality:
 
 - Generate the playlists for your files and put them in your own path inside your user's home
 
-- Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/config/kamehouse.cfg` with the path to the root directory that contains your playlists
+- Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/conf/kamehouse.cfg` with the path to the root directory that contains your playlists
 
-- **IMPORTANT**: When running kamehouse on a docker container controlling a host, the value of `PLAYLISTS_PATH` inside the docker container's `${HOME}/.kamehouse/config/kamehouse.cfg` must match the value on the host's `${HOME}/.kamehouse/config/kamehouse.cfg` for the playlists to be populated properly on the vlc UI running on the container
+- **IMPORTANT**: When running kamehouse on a docker container controlling a host, the value of `PLAYLISTS_PATH` inside the docker container's `${HOME}/.kamehouse/conf/kamehouse.cfg` must match the value on the host's `${HOME}/.kamehouse/conf/kamehouse.cfg` for the playlists to be populated properly on the vlc UI running on the container
 
-- This is a sample [kamehouse.cfg](/docker/setup-kamehouse/config/kamehouse.cfg) with all the possible configurations
+- This is a sample [kamehouse.cfg](/docker/setup-kamehouse/conf/kamehouse.cfg) with all the possible configurations
 
 ### Playlists folder structure
 

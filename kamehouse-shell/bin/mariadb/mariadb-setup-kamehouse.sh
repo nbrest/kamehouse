@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
+  PATH_SQL=${HOME}/.kamehouse/opt/kamehouse-shell/sql/mariadb
   REQUEST_CONFIRMATION_RX=^yes\|y$
   SKIP_CONFIRMATION=false
   ADD_DUMP_DATA=false

@@ -20,7 +20,7 @@ Install kamehouse-shell to use all the scripts mentioned below. From the root of
 Running with -o will install kamehouse shell scripts only. 
 Running with -s will install kamehouse shell completely but not the other modules. 
 Running Without parameters it installs all kamehouse modules and the full changes to the shell.
-All the scripts are available on the directory `${HOME}/programs/kamehouse-shell/bin`
+All the scripts are available on the directory `${HOME}/.kamehouse/opt/kamehouse-shell/bin`
 
 # Tomcat:
 
@@ -40,7 +40,7 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 # Deploy changes to dev environment:
 
-* Set `IS_DEV_ENV=true` in `${HOME}/.kamehouse/config/kamehouse.cfg`
+* Set `IS_DEV_ENV=true` in `${HOME}/.kamehouse/conf/kamehouse.cfg`
 * Deploy your local working copy changes of each module with `deploy-kamehouse.sh`
 - With `IS_DEV_ENV=true`, `deploy-kamehouse.sh` deploys all modules, including `mobile` to my `dev` android device
 
@@ -50,22 +50,22 @@ All the scripts are available on the directory `${HOME}/programs/kamehouse-shell
 
 - Install kamehouse-shell on the host to control the dev docker container as mentioned above
 
-- Start a docker container in dev mode with the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p dev`
+- Start a docker container in dev mode with the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p dev`
 
-- Execute `${HOME}/programs/kamehouse-shell/bin/docker/docker-reinit-container.sh -p dev` to sync the ssh keys and the configuration files of the host to the container using default password `gohan`
+- Execute `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-reinit-container.sh -p dev` to sync the ssh keys and the configuration files of the host to the container using default password `gohan`
 
-- Connnect through ssh to the container using the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
+- Connnect through ssh to the container using the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
   - Deploy your changes using `$cd {HOME}/git/kamehouse ; deploy-kamehouse.sh -c`
   - Tail tomcat and apache httpd logs using the `tail-log.sh` script
   - Test kamehouse-shell and kamehouse-cmd inside the container (or deploy them on the host and test on the host too)
 
-- Docker with dev profile will run with the directory `${HOME}/git/kamehouse` inside the container binded to the directory `${HOME}/workspace/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
+- Docker with dev profile will run with the directory `${HOME}/.kamehouse/git/kamehouse` inside the container binded to the directory `${HOME}/workspace/kamehouse` on the host. So all changes done in the host will be deployed on the container with the deployment script
 
 - To remote debug tomcat running in the dev container from your ide, follow the above intellij guide to setup remote debugging
 
 - Changes made to the UI in kamehouse-ui and kamehouse-groot require re deployments with `deploy-kamehouse.sh -m ui` and `deploy-kamehouse.sh -m groot`
 
-- Stop the dev docker container with the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p dev`
+- Stop the dev docker container with the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p dev`
 
 - By default docker dev runs standalone without controlling the host. So it won't control vlc running on the host or all the other commands that would normally be executed on the host. To enable kamehouse running in the container to control the host, add `-c` to the `docker-run-kamehouse.sh` script
 

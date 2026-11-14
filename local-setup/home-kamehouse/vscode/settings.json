@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    "opt/": true,
+    "git/": true,
+    "var/log/": true
+  }
+}

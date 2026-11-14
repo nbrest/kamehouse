@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -9,14 +9,14 @@ initKameHouseShellEnv() {
 
 initScriptEnv() {
   # Initial config
-  APACHE_LOG_DIR="programs/apache-httpd/logs"
+  APACHE_LOG_DIR=".kamehouse/var/log/apache2"
   DEFAULT_LOG_LEVEL="trace"
   DEFAULT_NUM_LINES="30"
 
   TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
 
   # Groot log files. Override these variables to reuse this script for other groot deployments
-  GROOT_LOG_DIR="${GROOT_LOG_DIR:-${HOME}/programs/kamehouse-groot/logs}"
+  GROOT_LOG_DIR="${GROOT_LOG_DIR:-${HOME}/.kamehouse/opt/kamehouse-groot/logs}"
   GROOT_LOG_PREFIX="${GROOT_LOG_PREFIX:-kamehouse-groot}"
 
   # Variables set by command line arguments
@@ -29,7 +29,7 @@ initScriptEnv() {
   # Global variables set during the process
   LOG_FILES=""
   NUM_LINES=""
-  TAIL_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/format-tail-log.awk
+  TAIL_LOG_AWK=${HOME}/.kamehouse/opt/kamehouse-shell/bin/awk/kamehouse/format-tail-log.awk
   USER_HOME=""
 }
 
@@ -93,7 +93,7 @@ setTailLogParameters() {
     setTomcatLogFiles
     ;;
   *.log)
-    addFileToLogFiles "${HOME}/logs/${FILE_ARG}"
+    addFileToLogFiles "${HOME}/.kamehouse/var/log/${FILE_ARG}"
     ;;
   *)
     ;;

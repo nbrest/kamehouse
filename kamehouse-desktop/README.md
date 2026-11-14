@@ -21,7 +21,7 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - Install with `deploy-kamehouse.sh -m desktop`
 - This module also depends on kamehouse-shell and kamehouse-snape being installed
-- The deployment creates an isolated python virtual environment at `${HOME}/programs/kamehouse-desktop/venv` and installs the dependencies declared in `pyproject.toml`
+- The deployment creates an isolated python virtual environment at `${HOME}/.kamehouse/opt/kamehouse-desktop/venv` and installs the dependencies declared in `pyproject.toml`
 - Python 3.11 or newer with the `venv` and `ensurepip` modules is required. The installer installs the OS `venv` package when it's missing on Linux
 - Reinstall the virtual environment dependencies manually with `kamehouse-shell/bin/desktop/install-kamehouse-desktop.sh -f`
 
@@ -41,7 +41,7 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - Log level can also be adjusted via configuration and trace logging can be enabled individually for each widget to troubleshoot issues
 
-- During the installation, the `kamehouse-desktop.toml` config file is deployed to `${HOME}/.kamehouse/config/kamehouse-desktop.toml` and it's values override the default settings
+- During the installation, the `kamehouse-desktop.toml` config file is deployed to `${HOME}/.kamehouse/conf/kamehouse-desktop.toml` and it's values override the default settings
 
 - The default settings can be found in the `default-kamehouse-desktop.toml` file
 

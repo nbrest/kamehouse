@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
@@ -10,9 +10,9 @@ initScriptEnv() {
 }
 
 mainProcessPre() {
-  source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home.sh --skip-override --log
-  source ${HOME}/programs/kamehouse-shell/bin/deploy/set-userhome.sh
-  TOMCAT_DIR="${HOME}/programs/apache-tomcat"
+  source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-java-home.sh --skip-override --log
+  source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-userhome.sh
+  TOMCAT_DIR="${HOME}/.kamehouse/opt/apache-tomcat"
   TOMCAT_LOG=${TOMCAT_DIR}/logs/catalina.out
   cd ${TOMCAT_DIR}
 }

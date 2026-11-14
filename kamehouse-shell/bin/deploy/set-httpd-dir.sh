@@ -1,4 +1,4 @@
-HTTPD_DIR="${HOME}/programs/apache-httpd"
+HTTPD_DIR="${HOME}/.kamehouse/opt/apache-httpd"
 
 setHttpDir() {
   if ${IS_LIN_HOST}; then

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
   PATCH_FILE="kamehouse.patch"
-  DEPLOYMENT_COMMAND="${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c "
-  GIT_PROJECT_DIR="${HOME}/git/kamehouse"
+  DEPLOYMENT_COMMAND="${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c "
+  GIT_PROJECT_DIR="${HOME}/.kamehouse/git/kamehouse"
 }
 
 mainProcess() {

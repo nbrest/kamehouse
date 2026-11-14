@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/desktop/desktop-functions.sh
@@ -12,7 +12,7 @@ initScriptConfig() {
 
 initScriptEnv() {
   USE_BANNERS_DIR=false
-  BANNERS_DIR=${HOME}/programs/kamehouse-desktop/lib/ui/img/banners
+  BANNERS_DIR=${HOME}/.kamehouse/opt/kamehouse-desktop/lib/ui/img/banners
   BACKGROUNDS=""
 }
 

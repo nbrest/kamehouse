@@ -140,7 +140,7 @@ createSamplePlaylists() {
 
 configureSudoers() {
   log.info "Setting up sudoers"
-  ${HOME}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
 }
 
 configureMariadb() {
@@ -164,7 +164,7 @@ startMariadb() {
 
 setupKameHouseMariadb() {
   log.info "Setting up kamehouse mariadb initial dump"
-  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USER}/docker/setup-kamehouse/keys/.kamehouse-secrets.cfg | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" 
+  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USER}/docker/setup-kamehouse/secrets/.kamehouse-secrets.cfg | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" 
   mariadb < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql 
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql

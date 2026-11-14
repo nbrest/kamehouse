@@ -20,7 +20,7 @@ class KameHouseDesktopCfg():
     def __init__(self):
         home_dir = Path.home()
         default_file = home_dir / 'programs/kamehouse-desktop/conf/default-kamehouse-desktop.toml'
-        user_file = home_dir / '.kamehouse/config/kamehouse-desktop.toml'
+        user_file = home_dir / '.kamehouse/conf/kamehouse-desktop.toml'
         
         self.config = {}
         

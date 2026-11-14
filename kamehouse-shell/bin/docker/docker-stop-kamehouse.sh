@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
@@ -23,7 +23,7 @@ mainProcess() {
     log.warn "No kamehouse container running detected for profile ${COL_PURPLE}${DOCKER_PROFILE}"
   fi
 
-  ${HOME}/programs/kamehouse-shell/bin/docker/docker-status-kamehouse.sh
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-status-kamehouse.sh
 }
 
 parseArguments() {

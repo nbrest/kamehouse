@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -26,12 +26,12 @@ initScriptEnv() {
 
 mainProcess() {
   setKameHouseRootProjectDir
-  log.info "Set ${COL_YELLOW}ANDROID_SFTP_IP, ANDROID_SFTP_PORT, ANDROID_SFTP_USERNAME, ANDROID_SFTP_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
+  log.info "Set ${COL_YELLOW}ANDROID_SFTP_IP, ANDROID_SFTP_PORT, ANDROID_SFTP_USERNAME, ANDROID_SFTP_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/conf/kamehouse.cfg"
   if ${SKIP_BUILD_MOBILE}; then
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
     log.info "Building kamehouse-mobile app first"
-    ${HOME}/programs/kamehouse-shell/bin/deploy/build-kamehouse.sh -m mobile
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/build-kamehouse.sh -m mobile
   fi
   uploadApkToDeviceSftp
 }
@@ -40,7 +40,7 @@ uploadApkToDeviceSftp() {
   setKameHouseMobileApkPath
   log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_DEFAULT_LOG} on the android phone before proceeding"
   log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
-  log.info "Check pass in sftp server mobile app and store it in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt when uploading from windows"
+  log.info "Check pass in sftp server mobile app and store it in ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt when uploading from windows"
 
   SFTP_PORT="${ANDROID_SFTP_PORT}" 
   SFTP_USER="${ANDROID_SFTP_USERNAME}"

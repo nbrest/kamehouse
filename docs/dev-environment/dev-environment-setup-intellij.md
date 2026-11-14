@@ -37,48 +37,48 @@ Right click on toolbar > Customize
     - Windows:
       - Name: deploy-kamehouse
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh'"
       - Working directory: 
     - Linux:
       - Name: deploy-kamehouse
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
+      - Arguments: ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
       - Working directory: 
 
   ### `start-tomcat`
     - Windows:
       - Name: start-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-startup.sh'"
       - Working directory: 
     - Linux:
       - Name: start-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
+      - Arguments: ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-startup.sh
       - Working directory: 
       
   ### `stop-tomcat`
     - Windows:
       - Name: stop-tomcat
       - Command: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-stop.sh'"
       - Working directory: 
     - Linux:
       - Name: stop-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop.sh
+      - Arguments: ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-stop.sh
       - Working directory: 
 
   ### `status-tomcat`
     - Windows:
       - Name: status-tomcat
       - Program: cmd.exe
-      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status.sh'"
+      - Arguments: /c "%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat -c '${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-status.sh'"
       - Working directory: 
     - Linux:
       - Name: status-tomcat
       - Program: env
-      - Arguments: ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-status.sh
+      - Arguments: ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-status.sh
       - Working directory: 
 
 ## Start tomcat: 

@@ -115,7 +115,7 @@ opkg install python3-pip
 
 * Install apache following [installation-apache.md](/docs/installation/installation-apache.md)
 
-* Once the above setup is complete, download and run the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, which will pull kamehouse from git into `${HOME}/git/kamehouse` and run the deployment script that will build and deploy all kamehouse modules
+* Once the above setup is complete, download and run the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, which will pull kamehouse from git into `${HOME}/.kamehouse/git/kamehouse` and run the deployment script that will build and deploy all kamehouse modules
 ```sh
 wget https://raw.githubusercontent.com/nbrest/kamehouse/refs/heads/dev/scripts/install-kamehouse.sh
 chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
@@ -124,26 +124,26 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh
 chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh -s
 ```
 
-* Update the values in `${HOME}/.kamehouse/config/kamehouse.cfg` to match your local network setup then rebuild kamehouse with `deploy-kamehouse.sh`
+* Update the values in `${HOME}/.kamehouse/conf/kamehouse.cfg` to match your local network setup then rebuild kamehouse with `deploy-kamehouse.sh`
 
 * Configure kamehouse secrets. See [kamehouse-shell](/kamehouse-shell/README.md) to configure kamehouse secrets on your local system to run kamehouse
 
 * Configure certificate and keystore used for encryption/decryption in kamehouse as mentioned in the section below `Create certificate and keystore:`
 
-* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
+* In **Windows**: Update root password in `MARIADB_PASS_ROOT_WIN` in `${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
-* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
+* [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
-* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/programs/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
+* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/.kamehouse/opt/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
 
 * Then start both tomcat and apache to access kamehouse at http://localhost/kame-house or https://localhost/kame-house
 
 * From a new bash terminal access KameHouse CMD module through `kamehouse-cmd.sh` and all other kamehouse-shell scripts
 
-* All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh`
+* All kamehouse-shell scripts should be in the path if the install script correctly updated `${HOME}/.barhrc` file to source `${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh`
 
 **WARNING**
-The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](/scripts/uninstall-kamehouse.sh) script
+The script [install-kamehouse.sh](/scripts/install-kamehouse.sh) will update your bash terminal settings. To revert your terminal unsource `${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh` from `${HOME}/.barhrc` and access the kamehouse-shell scripts from their full path or run the [uninstall-kamehouse.sh](/scripts/uninstall-kamehouse.sh) script
 
 * Follow the [Execution](/docs/execution/execution.md) guide to run kamehouse
 
@@ -166,18 +166,18 @@ cat kamehouse.crt >> kamehouse.pem
 openssl pkcs12 -export -in kamehouse.pem -out kamehouse.pkcs12
 keytool -list -keystore kamehouse.pkcs12
 
-mkdir -p ${HOME}/.kamehouse/config/keys/
-mv kamehouse.crt ${HOME}/.kamehouse/config/keys/
-mv kamehouse.pkcs12 ${HOME}/.kamehouse/config/keys/
+mkdir -p ${HOME}/.kamehouse/secrets/
+mv kamehouse.crt ${HOME}/.kamehouse/secrets/
+mv kamehouse.pkcs12 ${HOME}/.kamehouse/secrets/
 
 rm kamehouse-private.key 
 rm kamehouse.pem 
 rm kamehouse.csr
 ```
 
-Put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`. Default path is `${HOME}/.kamehouse/config/keys`
+Put `kamehouse.crt` and `kamehouse.pkcs12` in the directories pointed to by the properties with the same name in `commons.properties`. Default path is `${HOME}/.kamehouse/secrets`
 
-- After following these steps and the steps mentioned in [kamehouse-shell](/kamehouse-shell/README.md) to setup kamehouse secrets, the directory `${HOME}/.kamehouse/config/keys` should contain the following files:
+- After following these steps and the steps mentioned in [kamehouse-shell](/kamehouse-shell/README.md) to setup kamehouse secrets, the directory `${HOME}/.kamehouse/secrets` should contain the following files:
     - `kamehouse.crt`
     - `kamehouse.pkcs12`
     - `kamehouse-secrets.key.enc`

@@ -3,7 +3,7 @@
 FILE_TO_PLAY=""
 
 # Configure vlc application settings to log debug to this file
-VLC_LOG_FILE="${HOME}/logs/vlc.log"
+VLC_LOG_FILE="${HOME}/.kamehouse/var/log/vlc.log"
 
 VLC_DATA_PATH="${HOME}/.kamehouse/data/vlc"
 mkdir -p "${VLC_DATA_PATH}"

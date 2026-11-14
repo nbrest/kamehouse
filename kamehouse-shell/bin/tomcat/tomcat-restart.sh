@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
@@ -9,14 +9,14 @@ initScriptEnv() {
 }
 
 mainProcessPre() {
-  ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-stop.sh
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-stop.sh
   # check for processes running on port 9005 and 9090 and kill them
   log.info "Killing remaining tomcat processes"
   log.info "Searching for tomcat process"
 }
 
 mainProcessPost() {
-  ${HOME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh "${DEBUG_MODE}"
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-startup.sh "${DEBUG_MODE}"
 }
 
 mainProcessLin() {

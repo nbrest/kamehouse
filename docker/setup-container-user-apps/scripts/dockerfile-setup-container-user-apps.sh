@@ -58,13 +58,17 @@ setupKameHouseUser() {
 setupHttpd() {
   log.info "Setting up httpd"
   mkdir -p /etc/apache2/conf
-  mkdir -p /var/www/kamehouse-webserver
+  mkdir -p ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/conf/* /etc/apache2/conf
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/sites-available/* /etc/apache2/sites-available
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.key /etc/ssl/private/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/robots.txt /var/www/kamehouse-webserver
-  chown ${KAMEHOUSE_USER}:users -R /var/www/kamehouse-webserver
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/robots.txt ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun
+  chown ${KAMEHOUSE_USER}:users -R ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun
+
+  mkdir -p /var/www/
+  rm -rf /var/www/html
+  ln -s ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun /var/www/html
 
   a2ensite default-ssl 
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
@@ -73,13 +77,11 @@ setupHttpd() {
   fixPermissions
 
   chmod a+rx /var/log/apache2 
-  ln -s /var/log/apache2 /home/${KAMEHOUSE_USER}/programs/apache-httpd/logs   
+  ln -s /var/log/apache2 /home/${KAMEHOUSE_USER}/.kamehouse/var/log/apache2   
 
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/log/apache2
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lock/apache2
   chown -R ${KAMEHOUSE_USER}:${KAMEHOUSE_USER} /var/lib/apache2
-
-  rm -rf /var/www/html
 }
 
 setupKameHouseUserHome() {
@@ -87,9 +89,9 @@ setupKameHouseUserHome() {
   touch /home/${KAMEHOUSE_USER}/.env 
   echo "source /home/${KAMEHOUSE_USER}/.env" >> /home/${KAMEHOUSE_USER}/.bashrc
 
-  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/config/ 
-  touch /home/${KAMEHOUSE_USER}/.kamehouse/config/.kamehouse-docker-container-env 
-  echo "source /home/${KAMEHOUSE_USER}/.kamehouse/config/.kamehouse-docker-container-env" >> /home/${KAMEHOUSE_USER}/.bashrc
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/conf/ 
+  touch /home/${KAMEHOUSE_USER}/.kamehouse/conf/.kamehouse-docker-container-env 
+  echo "source /home/${KAMEHOUSE_USER}/.kamehouse/conf/.kamehouse-docker-container-env" >> /home/${KAMEHOUSE_USER}/.bashrc
 
   mkdir -p /home/${KAMEHOUSE_USER}/.ssh 
 

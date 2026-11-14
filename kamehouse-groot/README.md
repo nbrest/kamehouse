@@ -99,15 +99,15 @@ kamehouse-groot/
 * Python 3.11 or newer. The development environment is tested with Python 3.12.
 * Network access on the first install to download the Python dependencies into the virtual environment.
 * MariaDB with the KameHouse database and users.
-* `kamehouse-shell` installed at `${HOME}/programs/kamehouse-shell`.
+* `kamehouse-shell` installed at `${HOME}/.kamehouse/opt/kamehouse-shell`.
 * Encrypted KameHouse secrets, in particular `MARIADB_PASS_KAMEHOUSE`.
 
 ## Configuration
 
 The service reads its configuration from two TOML files, following the same pattern as `kamehouse-desktop`:
 
-* `${HOME}/programs/kamehouse-groot/conf/default-kamehouse-groot.toml` contains the default values deployed with the service.
-* `${HOME}/.kamehouse/config/kamehouse-groot.toml` contains the user overrides. The installer creates it from a commented template and values in this file override the defaults.
+* `${HOME}/.kamehouse/opt/kamehouse-groot/conf/default-kamehouse-groot.toml` contains the default values deployed with the service.
+* `${HOME}/.kamehouse/conf/kamehouse-groot.toml` contains the user overrides. The installer creates it from a commented template and values in this file override the defaults.
 
 The file locations are fixed. The service reads these TOML files on startup, so restart it after changing them.
 
@@ -118,18 +118,18 @@ The TOML keys are the lower-case setting names under the `[groot]` table:
 | `host` | `0.0.0.0` | Address where uvicorn listens |
 | `port` | `9091` | Port where uvicorn listens |
 | `log_level` | `INFO` | Log level |
-| `deploy_path` | `${HOME}/programs/kamehouse-groot` | Deployment directory with `logs/`, `run/` and `conf/` |
-| `user_home` | `${HOME}` | Home directory used to resolve `~/logs/<script>.log` |
+| `deploy_path` | `${HOME}/.kamehouse/opt/kamehouse-groot` | Deployment directory with `logs/`, `run/` and `conf/` |
+| `user_home` | `${HOME}` | Home directory used to resolve `${HOME}/.kamehouse/var/log/<script>.log` |
 | `db_host` | `127.0.0.1` | MariaDB host |
 | `db_port` | `3306` | MariaDB port |
 | `db_name` | `kamehouse` | MariaDB database |
 | `db_user` | `kamehouse` | MariaDB user |
 | `db_password_secret` | `MARIADB_PASS_KAMEHOUSE` | Secret key used to retrieve the database password |
-| `shell_bin` | `${HOME}/programs/kamehouse-shell/bin` | kamehouse-shell bin directory |
+| `shell_bin` | `${HOME}/.kamehouse/opt/kamehouse-shell/bin` | kamehouse-shell bin directory |
 | `secret_script` | `${shell_bin}/secrets/get-kamehouse-secret.sh` | Script used to read secrets |
 | `command_timeout_seconds` | `300` | Timeout for foreground scripts |
 | `daemon_wait_seconds` | `5` | Wait after starting a daemon script |
-| `use_script_log` | `true` | Redirect daemon output to `~/logs/<script>.log` |
+| `use_script_log` | `true` | Redirect daemon output to `${HOME}/.kamehouse/var/log/<script>.log` |
 | `session_cookie_name` | `kamehouse-groot-session` | Login session cookie name |
 | `session_dir` | `${deploy_path}/run/sessions` | Directory where login sessions are persisted. Set it to share sessions with another web service |
 | `session_max_age_seconds` | `2629746` | Login session lifetime in seconds, one month by default. Set it to `0` to disable expiry |
@@ -139,7 +139,7 @@ The TOML keys are the lower-case setting names under the `[groot]` table:
 The database password is not stored in configuration. The service runs:
 
 ```sh
-${HOME}/programs/kamehouse-shell/bin/secrets/get-kamehouse-secret.sh -s MARIADB_PASS_KAMEHOUSE
+${HOME}/.kamehouse/opt/kamehouse-shell/bin/secrets/get-kamehouse-secret.sh -s MARIADB_PASS_KAMEHOUSE
 ```
 
 The value is cached in memory for the lifetime of the process.
@@ -190,7 +190,7 @@ Other web services can build on `kamehouse-groot` instead of duplicating its wir
 * Build its app with `create_base_app(settings, title=..., root_path=...)`, reusing the exception handlers and lifespan.
 * Mount the shell endpoints with `build_admin_shell_router(prefix, tags)`.
 * Wire its services with `build_container(settings, shell_execution_service=..., session_service=...)`.
-* Share the login sessions with this service by pointing `session_dir` at `${HOME}/programs/kamehouse-groot/run/sessions` and constructing `SessionService(settings, cache_sessions=False)` so sessions created or deleted by either service are picked up on every request.
+* Share the login sessions with this service by pointing `session_dir` at `${HOME}/.kamehouse/opt/kamehouse-groot/run/sessions` and constructing `SessionService(settings, cache_sessions=False)` so sessions created or deleted by either service are picked up on every request.
 
 ## Endpoint contract
 
@@ -204,7 +204,7 @@ GET /kame-house-groot/api/v1/admin/kamehouse-shell/execute
 
 | Parameter | Required | Description |
 | --- | --- | --- |
-| `script` | yes | Script path relative to `${HOME}/programs/kamehouse-shell/bin` |
+| `script` | yes | Script path relative to `${HOME}/.kamehouse/opt/kamehouse-shell/bin` |
 | `args` | no | Arguments passed to the script |
 | `executeOnDockerHost` | no | `true` or `TRUE` to execute on the docker host |
 | `daemon` | no | `true` or `TRUE` to start the script detached |
@@ -276,7 +276,7 @@ Errors use the legacy JSON contract:
 GET /kame-house-groot/api/v1/admin/kamehouse-shell/scripts
 ```
 
-Admin authentication is required. The response is a JSON array of script paths relative to `${HOME}/programs/kamehouse-shell/bin`.
+Admin authentication is required. The response is a JSON array of script paths relative to `${HOME}/.kamehouse/opt/kamehouse-shell/bin`.
 
 Example:
 
@@ -345,7 +345,7 @@ Returns the current session status:
 
 Without a session or Basic credentials, `username` is `anonymousUser` and `roles` is empty. A valid Basic auth header creates a session and sets the session cookie. An invalid Basic auth header destroys the existing session.
 
-Docker flags are read from `${HOME}/.kamehouse/config/.kamehouse-docker-container-env`. Only the values `true` and `TRUE` are considered true.
+Docker flags are read from `${HOME}/.kamehouse/conf/.kamehouse-docker-container-env`. Only the values `true` and `TRUE` are considered true.
 
 ### Test page
 
@@ -360,18 +360,18 @@ Returns the legacy HTML test page with the request headers, `testFunction: mada 
 The service runs scripts through:
 
 ```sh
-${HOME}/programs/kamehouse-shell/bin/groot/exec-script.sh -s <script> [-a <args>] [--execute-on-docker-host] [--daemon]
+${HOME}/.kamehouse/opt/kamehouse-shell/bin/groot/exec-script.sh -s <script> [-a <args>] [--execute-on-docker-host] [--daemon]
 ```
 
 The service runs as the kamehouse user, so it calls `exec-script.sh` directly
 
 Behavior preserved from the original implementations:
 
-* Scripts are resolved relative to `${HOME}/programs/kamehouse-shell/bin`.
+* Scripts are resolved relative to `${HOME}/.kamehouse/opt/kamehouse-shell/bin`.
 * Input length and forbidden characters are validated.
 * Foreground scripts time out after 300 seconds.
 * Daemon scripts are started detached, the service waits 5 seconds and returns `running`.
-* Daemon output is redirected to `~/logs/<script>.log`, for example `tomcat-status.sh` -> `~/logs/tomcat-status.log`.
+* Daemon output is redirected to `${HOME}/.kamehouse/var/log/<script>.log`, for example `tomcat-status.sh` -> `${HOME}/.kamehouse/var/log/tomcat-status.log`.
 * ANSI color codes are converted to HTML for the `*Html` fields.
 
 ## Database
@@ -423,11 +423,11 @@ OpenAPI documentation is available at:
 The Python service is installed by `deploy-kamehouse.sh` when the `groot` module is deployed. The deployment:
 
 1. Runs `kamehouse-shell/bin/groot/install-kamehouse-groot.sh`.
-2. Copies the Python sources to `${HOME}/programs/kamehouse-groot`.
+2. Copies the Python sources to `${HOME}/.kamehouse/opt/kamehouse-groot`.
 3. Installs `python3-venv` (or the equivalent OS package) when the Python `venv`/`ensurepip` modules are missing.
-4. Creates `${HOME}/programs/kamehouse-groot/venv` if needed or if its `pip` is missing.
+4. Creates `${HOME}/.kamehouse/opt/kamehouse-groot/venv` if needed or if its `pip` is missing.
 5. Installs the package and its dependencies in editable mode.
-6. Generates `${HOME}/programs/kamehouse-groot/conf/build-info.json`.
+6. Generates `${HOME}/.kamehouse/opt/kamehouse-groot/conf/build-info.json`.
 7. Restarts the Python service when `DEPLOYMENT_RESTART_GROOT=true`.
 
 The deployment only requires Python 3.11 or newer to be installed. It bootstraps the virtual environment, `pip` and all Python dependencies from scratch. Installing the OS `venv` package requires `sudo` permissions on the server.
@@ -445,7 +445,7 @@ kamehouse-shell/bin/groot/install-kamehouse-groot.sh
 kamehouse-shell/bin/groot/install-kamehouse-groot.sh -f
 ```
 
-Use `-f` to force reinstalling the virtual environment dependencies. Use `-p` to install from the prod repository path `${HOME}/git/kamehouse` instead of the current directory.
+Use `-f` to force reinstalling the virtual environment dependencies. Use `-p` to install from the prod repository path `${HOME}/.kamehouse/git/kamehouse` instead of the current directory.
 
 ## Service management
 
@@ -457,18 +457,18 @@ kamehouse-groot-status.sh
 kamehouse-groot-version.sh
 ```
 
-The installed scripts are in `${HOME}/programs/kamehouse-shell/bin/groot`.
+The installed scripts are in `${HOME}/.kamehouse/opt/kamehouse-shell/bin/groot`.
 
 The service pid is stored in:
 
 ```
-${HOME}/programs/kamehouse-groot/run/kamehouse-groot.pid
+${HOME}/.kamehouse/opt/kamehouse-groot/run/kamehouse-groot.pid
 ```
 
 The deployment directory layout is:
 
 ```text
-${HOME}/programs/kamehouse-groot/
+${HOME}/.kamehouse/opt/kamehouse-groot/
   conf/build-info.json
   conf/default-kamehouse-groot.toml
   logs/kamehouse-groot.log
@@ -633,7 +633,7 @@ The script is in the forbidden list. Use a dedicated kamehouse-shell script inst
 
 ### Daemon output is missing
 
-Daemon output is written to `~/logs/<script>.log` when `use_script_log = true`. If the file doesn't exist, check that the kamehouse user can write to `${HOME}/logs`.
+Daemon output is written to `${HOME}/.kamehouse/var/log/<script>.log` when `use_script_log = true`. If the file doesn't exist, check that the kamehouse user can write to `${HOME}/.kamehouse/var/log`.
 
 ### First install requires network access
 
@@ -641,4 +641,4 @@ The virtual environment installs FastAPI, Uvicorn, SQLAlchemy, `asyncmy`, `bcryp
 
 # Install:
 
-* [optional] Update `GROOT_API_BASIC_AUTH` in `${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg` with base64 encoded user:pass to execute deploy/git pull on remote servers from groot
+* [optional] Update `GROOT_API_BASIC_AUTH` in `${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg` with base64 encoded user:pass to execute deploy/git pull on remote servers from groot

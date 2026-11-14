@@ -2,7 +2,7 @@
 
 # Returns kamehouse-shell scripts as csv as a relative path from kamehouse-shell
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/kamehouse/get-kamehouse-shell-path-content-functions.sh
@@ -12,7 +12,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  BASE_DIR=${HOME}/programs/kamehouse-shell/bin
+  BASE_DIR=${HOME}/.kamehouse/opt/kamehouse-shell/bin
 }
 
 mainProcess() {  

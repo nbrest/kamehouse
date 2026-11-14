@@ -11,12 +11,18 @@ data/**
 *.diff
 *.patch
 
+# Compiled frontend static code
+kamehouse-ui/dist
+kamehouse-groot/dist
+
 # ##################
 # Directories 
 # ##################
 **/build/
 /bin/
 **/target/
+.gradle/
+.sonar/
 
 # ##################
 # Compiled Files
@@ -92,3 +98,20 @@ local.properties
 # Node
 ##########
 **/node_modules/
+
+##########
+# Python
+##########
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.coverage
+**/coverage.json
+kamehouse-groot/.venv/
+kamehouse-desktop/.venv/
+kamehouse-snape/.venv/
+**/*.egg-info/
+kamehouse-groot/build/
+kamehouse-desktop/build/
+kamehouse-snape/build/
+

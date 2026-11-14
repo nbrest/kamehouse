@@ -133,7 +133,7 @@ restartKameHouseDesktop() {
     return
   fi
   log.info "Restarting ${COL_PURPLE}kamehouse-desktop"
-  ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh > /dev/null 2>&1 &
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh > /dev/null 2>&1 &
 }
 
 deployKameHouseGroot() {
@@ -163,7 +163,7 @@ restartKameHouseGroot() {
     return
   fi
   log.info "Restarting ${COL_PURPLE}kamehouse-groot service"
-  ${HOME}/programs/kamehouse-shell/bin/groot/kamehouse-groot-restart.sh
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/groot/kamehouse-groot-restart.sh
   checkCommandStatus "$?" "An error occurred restarting the kamehouse-groot service"
 }
 
@@ -227,7 +227,7 @@ deployKameHouseCmd() {
   ls -lh "${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd/lib/kamehouse-cmd"*.jar
   log.info "${COL_YELLOW_STD}kamehouse-cmd version:"
   echo -ne "${COL_YELLOW_STD}     "
-  cat ${HOME}/programs/kamehouse-cmd/lib/build-info.json
+  cat ${HOME}/.kamehouse/opt/kamehouse-cmd/lib/build-info.json
   echo -ne "${COL_NORMAL}"
   checkCommandStatus "$?" "An error occurred deploying kamehouse-cmd"
 }
@@ -247,7 +247,7 @@ deployKameHouseMobile() {
   fi
   uploadKameHouseMobileApkToGDrive
   if ${IS_DEV_ENV}; then
-    ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-upload-apk-to-device.sh -s
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-upload-apk-to-device.sh -s
   else
     uploadKameHouseMobileApkToHttpdServer
   fi
@@ -255,7 +255,7 @@ deployKameHouseMobile() {
 
 uploadKameHouseMobileApkToHttpdServer() {
   log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to downloads server"
-  log.info "Set ${COL_YELLOW}KAMEHOUSE_MOBILE_APP_SERVER_IP, KAMEHOUSE_MOBILE_APP_SERVER_PATH and KAMEHOUSE_MOBILE_APP_SERVER_USERNAME${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/config/kamehouse.cfg"
+  log.info "Set ${COL_YELLOW}KAMEHOUSE_MOBILE_APP_SERVER_IP, KAMEHOUSE_MOBILE_APP_SERVER_PATH and KAMEHOUSE_MOBILE_APP_SERVER_USERNAME${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/conf/kamehouse.cfg"
   SCP_SRC="${KAMEHOUSE_ANDROID_APK_PATH}"
   SCP_DEST="${KAMEHOUSE_MOBILE_APP_SERVER_USERNAME}@${KAMEHOUSE_MOBILE_APP_SERVER_IP}:${KAMEHOUSE_MOBILE_APP_SERVER_PATH}/kamehouse.apk"
   executeScpCommand
@@ -267,14 +267,14 @@ uploadKameHouseMobileApkToHttpdServer() {
   SSH_COMMAND="chmod a+rx ${KAMEHOUSE_MOBILE_APP_SERVER_PATH}/kamehouse.apk"
   executeSshCommand
   
-  SSH_COMMAND="\${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
+  SSH_COMMAND="\${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-update-apk-status-html.sh -b ${KAMEHOUSE_BUILD_VERSION}"
   executeSshCommand
 }
 
 uploadKameHouseMobileApkToGDrive() {
-  mkdir -p ${HOME}/temp
-  cp -f ${KAMEHOUSE_ANDROID_APK_PATH} ${HOME}/temp/kamehouse.apk
-  ${HOME}/programs/kamehouse-shell/bin/snape/snape.sh upload_kamehouse_mobile_to_gdrive
+  mkdir -p ${HOME}/.kamehouse/var/tmp
+  cp -f ${KAMEHOUSE_ANDROID_APK_PATH} ${HOME}/.kamehouse/var/tmp/kamehouse.apk
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/snape/snape.sh upload_kamehouse_mobile_to_gdrive
 }
 
 deployKameHouseStatic() {

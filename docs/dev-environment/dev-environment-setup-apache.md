@@ -5,17 +5,17 @@
 
 # Apache httpd dev environment setup:
 
-- Access kamehouse frontend through the port defined in `${HOME}/programs/apache-httpd/conf/kamehouse/vhost/*.conf`
+- Access kamehouse frontend through the port defined in `local-setup/apache/[lin|win]/conf/kamehouse/vhost/*.conf`
 
 ## Setup directories
 
 ### Linux
 ```sh
-  sudo mkdir -p /var/www/kamehouse-webserver
-  sudo chown ${USER}:users -R /var/www/kamehouse-webserver
+sudo mkdir -p ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun
+sudo chown ${USER}:users -R ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun
 ```
 
 ### Windows
 ```sh
-mkdir "%USERPROFILE%\programs\apache-httpd\www\kamehouse-webserver"
+mkdir -p "%USERPROFILE%\.kamehouse\var\www\html\kamehouse-kintoun"
 ```

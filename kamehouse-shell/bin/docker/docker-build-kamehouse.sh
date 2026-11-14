@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
 
 initScriptEnv() {
-  BUILDKIT_CFG=${HOME}/programs/kamehouse-shell/conf/${SCRIPT_NAME_NO_EXT}/buildkitd.toml
+  BUILDKIT_CFG=${HOME}/.kamehouse/opt/kamehouse-shell/conf/${SCRIPT_NAME_NO_EXT}/buildkitd.toml
   RUN_BUILD_STEP_FOR_RELEASE_TAG=false
   BUILD_DATE_KAMEHOUSE="0000-00-00"
   DOCKER_COMMAND="docker buildx build"
@@ -58,13 +58,13 @@ runDockerBuildCommand() {
 buildReleaseTag() {
   log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} locally"
   setupKameHouseShellForReleaseTag
-  ${HOME}/programs/kamehouse-shell/bin/docker/docker-build-kamehouse.sh -t ${DOCKER_IMAGE_TAG} -r -b
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-build-kamehouse.sh -t ${DOCKER_IMAGE_TAG} -r -b
   restoreKameHouseShell
 }
 
 setupKameHouseShellForReleaseTag() {
   log.info "Setting up kamehouse shell for release tag"
-  cd ${HOME}/git
+  cd ${HOME}/.kamehouse/git
   rm -r -f kamehouse-release-${DOCKER_IMAGE_TAG}
   git clone https://github.com/nbrest/kamehouse.git kamehouse-release-${DOCKER_IMAGE_TAG}
   cd kamehouse-release-${DOCKER_IMAGE_TAG}
@@ -76,7 +76,7 @@ setupKameHouseShellForReleaseTag() {
 
 restoreKameHouseShell() {
   log.info "Restoring kamehouse shell"
-  cd ${HOME}/git
+  cd ${HOME}/.kamehouse/git
   rm -r -f kamehouse-release-${DOCKER_IMAGE_TAG}
   cd kamehouse
   log.debug "Installing kamehouse-shell from `pwd`"

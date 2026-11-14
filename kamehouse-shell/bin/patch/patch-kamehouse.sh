@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
   PATCH_FILE="kamehouse.patch"
   APPLY_PATCH_ARGS=""
-  GIT_PROJECT_DIR="~/git/kamehouse"
+  GIT_PROJECT_DIR="~/.kamehouse/git/kamehouse"
 }
 
 mainProcess() {
@@ -47,7 +47,7 @@ applyPatchFile() {
     APPLY_PATCH_ARGS="${APPLY_PATCH_ARGS} -m ${MODULE_SHORT}"
   fi
 
-  SSH_COMMAND="~/programs/kamehouse-shell/bin/patch/apply-patch-kamehouse.sh ${APPLY_PATCH_ARGS}"
+  SSH_COMMAND="~/.kamehouse/opt/kamehouse-shell/bin/patch/apply-patch-kamehouse.sh ${APPLY_PATCH_ARGS}"
   executeSshCommand
 }
 

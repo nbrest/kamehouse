@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
@@ -131,25 +131,25 @@ reinitKameHouseFolder() {
   fi
   
   log.info "Copying kamehouse.cfg to docker"
-  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/kamehouse.cfg"
-  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/conf/kamehouse.cfg"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/conf/"
   runScpCommand
 
   log.info "Copying /keys to docker"
-  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/config/keys"
-  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
+  SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DOCKER_HOST_USERHOME}/.kamehouse/secrets"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/conf/"
   runScpCommand
 
   local REINIT_DATA_DUMP_FOLDER=false
   local DUMP_DATA_FOLDER_SRC=""
   if [ "${DATA_SOURCE}" == "docker-data" ]; then
     REINIT_DATA_DUMP_FOLDER=true
-    DUMP_DATA_FOLDER_SRC="${DOCKER_HOST_USERHOME}/.kamehouse/config/docker/mariadb"
+    DUMP_DATA_FOLDER_SRC="${DOCKER_HOST_USERHOME}/.kamehouse/conf/docker/mariadb"
   fi
 
   if [ "${DATA_SOURCE}" == "host-data" ]; then
     REINIT_DATA_DUMP_FOLDER=true
-    DUMP_DATA_FOLDER_SRC="${DOCKER_HOST_USERHOME}/.kamehouse/config/mariadb"
+    DUMP_DATA_FOLDER_SRC="${DOCKER_HOST_USERHOME}/.kamehouse/backup/db"
   fi  
   
   if ! ${REINIT_DATA_DUMP_FOLDER}; then
@@ -159,7 +159,7 @@ reinitKameHouseFolder() {
 
   log.info "Exporting mariadb data dump file from ${DUMP_DATA_FOLDER_SRC} to the container"
   SCP_SRC="scp://${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}/${DUMP_DATA_FOLDER_SRC}"
-  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/config/"
+  SCP_DEST="scp://${DOCKER_USERNAME}@localhost:${DOCKER_PORT_SSH}//home/${DOCKER_USERNAME}/.kamehouse/conf/"
   runScpCommand
 }
 
@@ -245,14 +245,14 @@ printHelpOptions() {
 
 printHelpFooter() {
   echo -e ""
-  echo -e "   > When executed without ${COL_CYAN_FNT}-d${COL_NORMAL}, the script resets the container folders but doesn't change the database dump folder or persisted data in the database. Use this to refresh the configuration files in the container without changing the database dump or data, for example when I change the docker host parameters in \${HOME}/.kamehouse/config/kamehouse.cfg"
+  echo -e "   > When executed without ${COL_CYAN_FNT}-d${COL_NORMAL}, the script resets the container folders but doesn't change the database dump folder or persisted data in the database. Use this to refresh the configuration files in the container without changing the database dump or data, for example when I change the docker host parameters in \${HOME}/.kamehouse/conf/kamehouse.cfg"
   echo -e ""  
   echo -e "   > When executed with ${COL_CYAN_FNT}-k${COL_NORMAL} and with ${COL_CYAN_FNT}-d${COL_NORMAL}, the script resets the container folders including the database dump files but doesn't reinit the persisted data in the database"
   echo -e "" 
   echo -e "   > When executed without ${COL_CYAN_FNT}-k${COL_NORMAL} and with ${COL_CYAN_FNT}-d [docker-defaults|docker-data|host-data]${COL_NORMAL} the script will also reset the database"
   echo -e "     * ${COL_CYAN_FNT}docker-defaults${COL_NORMAL}: resets the database dump files and data to docker initial defaults"
-  echo -e "     * ${COL_CYAN_FNT}docker-data${COL_NORMAL}: resets the database dump files and data to the host's ${COL_NORMAL_FNT}.kamehouse/config/docker/mariadb${COL_NORMAL} dump" 
-  echo -e "     * ${COL_CYAN_FNT}host-data${COL_NORMAL}: resets the database dump files and data to the host's ${COL_NORMAL_FNT}.kamehouse/config/mariadb${COL_NORMAL} dump"   
+  echo -e "     * ${COL_CYAN_FNT}docker-data${COL_NORMAL}: resets the database dump files and data to the host's ${COL_NORMAL_FNT}.kamehouse/conf/docker/mariadb${COL_NORMAL} dump" 
+  echo -e "     * ${COL_CYAN_FNT}host-data${COL_NORMAL}: resets the database dump files and data to the host's ${COL_NORMAL_FNT}.kamehouse/backup/db${COL_NORMAL} dump"   
   echo -e "" 
 }
 

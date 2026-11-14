@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/desktop/desktop-functions.sh
@@ -39,10 +39,10 @@ exportAppVariables() {
 startKameHouseDesktop() {
   log.info "Starting ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} version:"
   echo -ne "${COL_YELLOW_STD}     "
-  ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
   echo -ne "${COL_NORMAL}"
-  cd ${HOME}/programs/kamehouse-desktop
-  "${KAMEHOUSE_DESKTOP_PYTHON}" ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py >> "${PROCESS_LOG_FILE}" 2>&1 &
+  cd ${HOME}/.kamehouse/opt/kamehouse-desktop
+  "${KAMEHOUSE_DESKTOP_PYTHON}" ${HOME}/.kamehouse/opt/kamehouse-desktop/bin/kamehouse_desktop.py >> "${PROCESS_LOG_FILE}" 2>&1 &
 }
 
 main "$@"

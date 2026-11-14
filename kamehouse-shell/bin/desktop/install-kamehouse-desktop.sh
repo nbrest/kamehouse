@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/deploy/build-functions.sh
 importKamehouse functions/desktop/desktop-functions.sh
 
 initScriptEnv() {
-  TEMP_PATH=${HOME}/temp
+  TEMP_PATH=${HOME}/.kamehouse/var/tmp
   KAMEHOUSE_DESKTOP_SOURCE=`pwd`
   FORCE_INSTALL=false
   PYTHON_BIN=${PYTHON_BIN:-}
@@ -127,10 +127,10 @@ deploySourcesFromUiModule() {
 
 installKamehouseDesktopConfig() {
   log.info "Installing kamehouse-desktop.toml"
-  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-desktop.toml" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-desktop.toml${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/config/
-    cp docker/setup-kamehouse/config/kamehouse-desktop.toml ${HOME}/.kamehouse/config/kamehouse-desktop.toml
+  if [ ! -f "${HOME}/.kamehouse/conf/kamehouse-desktop.toml" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/conf/kamehouse-desktop.toml${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/conf/
+    cp docker/setup-kamehouse/conf/kamehouse-desktop.toml ${HOME}/.kamehouse/conf/kamehouse-desktop.toml
   else
     log.info "kamehouse-desktop.toml file exists. skipping"
   fi
@@ -236,7 +236,7 @@ parseArguments() {
         FORCE_INSTALL=true
         ;;
       -p)
-        KAMEHOUSE_DESKTOP_SOURCE=${HOME}/git/kamehouse
+        KAMEHOUSE_DESKTOP_SOURCE=${HOME}/.kamehouse/git/kamehouse
         ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"

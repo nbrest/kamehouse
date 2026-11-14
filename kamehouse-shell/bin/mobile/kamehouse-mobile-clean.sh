@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
   cdToRootDirFromModule "kamehouse-mobile"
   log.info "Removing all non kamehouse-mobile files from directory ${COL_PURPLE}$(pwd)"
-  ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c -d
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c -d
 }
 
 main "$@"

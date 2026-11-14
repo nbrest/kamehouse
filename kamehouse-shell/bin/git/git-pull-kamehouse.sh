@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/git/git-pull-functions.sh
 
 initScriptEnv() {
-  GIT_PROJECT_DIR=${HOME}/git/kamehouse
+  GIT_PROJECT_DIR=${HOME}/.kamehouse/git/kamehouse
   GIT_REMOTE=origin
 }
 

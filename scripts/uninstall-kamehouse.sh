@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
@@ -32,55 +32,47 @@ mainProcess() {
 
 revertBashRc() {
   log.info "Reverting ${HOME}/.bashrc"
-  sed -i "s#source \${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh##Ig" "${HOME}/.bashrc"
+  sed -i "s#source \${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh##Ig" "${HOME}/.bashrc"
 }
 
 deleteTomcatWebapps() {
   log.info "Deleting tomcat webapps"
-  rm -r -f ${HOME}/programs/apache-tomcat/webapps/kame-house*
+  rm -r -f ${HOME}/.kamehouse/opt/apache-tomcat/webapps/kame-house*
 }
 
 deleteKameHouseShell() {
   log.info "Deleting kamehouse shell scripts"
-  rm -r -f ${HOME}/programs/kamehouse-shell
+  rm -r -f ${HOME}/.kamehouse/opt/kamehouse-shell
 }
 
 deleteKameHouseCmd() {
   log.info "Deleting kamehouse cmd"
-  rm -r -f ${HOME}/programs/kamehouse-cmd
+  rm -r -f ${HOME}/.kamehouse/opt/kamehouse-cmd
 }
 
 deleteKameHouseUiStaticFiles() {
   log.info "Deleting kamehouse ui static files"
-  if [ -d "/var/www/kamehouse-webserver" ]; then
-    rm -rf /var/www/kamehouse-webserver/kame-house
-  fi
-  
-  if [ -d "${HOME}/programs/apache-httpd/www/kamehouse-webserver" ]; then
-    rm -rf ${HOME}/programs/apache-httpd/www/kamehouse-webserver/kame-house
+  if [ -d "${HOME}/.kamehouse/var/www/html/kamehouse-kintoun" ]; then
+    rm -rf ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun/kame-house
   fi
 }
 
 deleteKameHouseGroot() {
   log.info "Deleting kamehouse groot"
-  if [ -d "/var/www/kamehouse-webserver" ]; then
-    rm -rf /var/www/kamehouse-webserver/kame-house-groot
-  fi
-  
-  if [ -d "${HOME}/programs/apache-httpd/www/kamehouse-webserver" ]; then
-    rm -rf ${HOME}/programs/apache-httpd/www/kamehouse-webserver/kame-house-groot
+  if [ -d "${HOME}/.kamehouse/var/www/html/kamehouse-kintoun" ]; then
+    rm -rf ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun/kame-house-groot
   fi
 }
 
 deleteKameHouseGit() {
   log.info "Deleting kamehouse git repository"
-  rm -r -f ${HOME}/git/kamehouse
+  rm -r -f ${HOME}/.kamehouse/git/kamehouse
 }
 
 purgeConfigFiles() {
   if ${PURGE_CONFIG}; then
     log.info "Deleting all config files"
-    rm -r -f -v ${HOME}/.kamehouse/config/keys
+    rm -r -f -v ${HOME}/.kamehouse/secrets
   else
     log.info "Running without -p so skipping purging config files"
   fi

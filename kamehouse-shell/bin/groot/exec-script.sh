@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
@@ -12,8 +12,8 @@ initKameHouseShellEnv() {
 initScriptEnv() {
   SCRIPT=""
   SCRIPT_ARGS=""
-  BASE_PATH="${HOME}/programs/kamehouse-shell/bin"
-  REMOTE_BASE_PATH="\${HOME}/programs/kamehouse-shell/bin"
+  BASE_PATH="${HOME}/.kamehouse/opt/kamehouse-shell/bin"
+  REMOTE_BASE_PATH="\${HOME}/.kamehouse/opt/kamehouse-shell/bin"
   EXECUTE_ON_DOCKER_HOST=false
   IS_DAEMON=false
   IS_EXECUTABLE_ON_DOCKER_HOST=false

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 trap cleanupAfterRun INT
@@ -12,14 +12,14 @@ initScriptEnv() {
 mainProcess() {
   setKameHouseRootProjectDir
   buildKameHouseMobileStatic
-  ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c
   cdToKameHouseModule "kamehouse-mobile"
   cordova run browser
   cdToRootDirFromModule "kamehouse-mobile"
 }
 
 cleanupAfterRun() {
-  ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-clean.sh
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/mobile/kamehouse-mobile-clean.sh
   ctrlC
 }
 

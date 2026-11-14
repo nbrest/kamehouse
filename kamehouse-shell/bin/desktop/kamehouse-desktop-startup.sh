@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -10,7 +10,7 @@ initKameHouseShellEnv() {
 
 mainProcess() {
   # Execute the latest deployed version of kamehouse-desktop
-  ${HOME}/programs/kamehouse-desktop/bin/kamehouse-desktop-startup.sh "$@"
+  ${HOME}/.kamehouse/opt/kamehouse-desktop/bin/kamehouse-desktop-startup.sh "$@"
 }
 
 parseArguments() {

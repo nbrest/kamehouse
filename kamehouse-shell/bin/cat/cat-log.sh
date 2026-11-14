@@ -1,16 +1,16 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
   LOG_FILE_TO_CAT=""
   CAT_LOG_LEVEL=""
-  CAT_LOG_AWK=${HOME}/programs/kamehouse-shell/bin/awk/kamehouse/cat-log.awk
+  CAT_LOG_AWK=${HOME}/.kamehouse/opt/kamehouse-shell/bin/awk/kamehouse/cat-log.awk
 }
 
 mainProcess() {
-  cd ${HOME}/logs
+  cd ${HOME}/.kamehouse/var/log
   if [ -z "${CAT_LOG_LEVEL}" ]; then
     catLogFunction
   else
@@ -25,8 +25,8 @@ catLogFunction() {
     && [ "${LOG_FILE_TO_CAT}" != "tomcat" ]; then
     cat "${LOG_FILE_TO_CAT}"
   else
-    ${HOME}/programs/kamehouse-shell/bin/tail/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 2000
-    ${HOME}/programs/kamehouse-shell/bin/tail/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 30
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tail/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 2000
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/tail/tail-log.sh -f "${LOG_FILE_TO_CAT}" -q -n 30
   fi
 }
 

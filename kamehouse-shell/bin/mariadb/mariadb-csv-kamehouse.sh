@@ -4,7 +4,7 @@
 # - Start mariadb server with secure-file-priv="" (my.ini or my.conf)
 # - Make sure ${PATH_CSV} is writable by everyone in windows
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -12,8 +12,8 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  PATH_CSV=${HOME}/.kamehouse/config/mariadb/csv
-  PATH_SQL=${HOME}/programs/kamehouse-shell/sql/mariadb
+  PATH_CSV=${HOME}/.kamehouse/backup/db/csv
+  PATH_SQL=${HOME}/.kamehouse/opt/kamehouse-shell/sql/mariadb
   NUMBER_OF_BACKUPS=3
   OUT_FILE_BASE=""
   TMP_EXPORT_DIR=/tmp/kamehouse-csv-${USER}
@@ -43,7 +43,7 @@ executeExport() {
   if ${IS_LIN_HOST}; then
     OUT_FILE_BASE="${TMP_EXPORT_DIR}/"
   else
-    OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/config/mariadb/csv/"
+    OUT_FILE_BASE="C:/Users/"${USER}"/.kamehouse/backup/db/csv/"
   fi
   mariadb --force -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} --init-command="set @outFileBase = '${OUT_FILE_BASE}';" < ${PATH_SQL}/csv-kamehouse.sql
   if ${IS_LIN_HOST}; then

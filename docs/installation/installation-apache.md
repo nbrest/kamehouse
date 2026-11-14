@@ -17,12 +17,12 @@
 
 ### Windows:
 
-- Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/programs/apache-httpd`
+- Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/.kamehouse/opt/apache-httpd`
 - Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
-  - Replace all the files in `${HOME}/programs/apache-httpd/conf` with the ones from [/local-setup/apache/win/conf/](/local-setup/apache/win/conf/)
+  - Replace all the files in `${HOME}/.kamehouse/opt/apache-httpd/conf` with the ones from [/local-setup/apache/win/conf/](/local-setup/apache/win/conf/)
   - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
-  - Update `${HOME}/programs/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in SRVROOT
-  - Update `${HOME}/programs/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
+  - Update `${HOME}/.kamehouse/opt/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in HOME_KAMEHOUSE
+  - Update `${HOME}/.kamehouse/opt/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
 
 #### Run httpd through a startup script, not as a system service
 
@@ -50,8 +50,10 @@ sudo a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite
 
 - Make static content root dir for kamehouse:
 ```sh
-  sudo mkdir -p /var/www/kamehouse-webserver
-  sudo chown ${USER}:users -R /var/www/kamehouse-webserver
+mkdir -p ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun
+sudo mkdir -p /var/www/
+sudo rm -rf /var/www/html
+sudo ln -s ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun /var/www/html
 ```
 
 - Allow kamehouse user to read apache logs:
@@ -61,6 +63,6 @@ sudo chmod a+rx /var/log/apache2
 
 - Setup tail log script for apache logs
 ```sh
-mkdir -p ${HOME}/programs/apache-httpd
-ln -s /var/log/apache2 ${HOME}/programs/apache-httpd/logs
+mkdir -p ${HOME}/.kamehouse/var/log/
+ln -s /var/log/apache2 ${HOME}/.kamehouse/var/log/apache2
 ```

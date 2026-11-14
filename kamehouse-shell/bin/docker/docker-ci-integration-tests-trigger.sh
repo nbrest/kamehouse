@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
@@ -197,7 +197,7 @@ startCiDockerContainerLoop() {
 
 stopCiDockerContainer() {
   log.info "Stopping ci docker container"
-  ${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p ci
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p ci
   killCiContainerProcesses
 }
 
@@ -232,7 +232,7 @@ killProcessRunningOnPort() {
 
 startCiDockerContainer() {
   log.info "Starting ci docker container"
-  ${HOME}/programs/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p ci &
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p ci &
 }
 
 waitForTomcatStartup() {

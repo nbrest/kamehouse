@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
@@ -29,10 +29,10 @@ exportMariadbDataOnDocker() {
 
 copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
-  mkdir -p ${HOME}/.kamehouse/config/docker/
+  mkdir -p ${HOME}/.kamehouse/conf/docker/
   SCP_OPTIONS="-v -C -r -P ${DOCKER_PORT_SSH}"
-  SCP_SRC="${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/config/mariadb"
-  SCP_DEST="${HOME}/.kamehouse/config/docker/mariadb"
+  SCP_SRC="${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/backup/db"
+  SCP_DEST="${HOME}/.kamehouse/conf/docker/mariadb"
   executeScpCommand --skip-exit-code-check
 }
 

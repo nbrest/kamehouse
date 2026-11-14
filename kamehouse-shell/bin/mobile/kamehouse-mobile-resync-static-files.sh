@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -28,7 +28,7 @@ setGlobalVariables() {
   setKameHouseRootProjectDir
 
   SOURCE_FILES_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-ui/dist
-  SOURCE_FILES_BATCAVE_DIR="${HOME}/git/kamehouse-batcave/ui/dist/kame-house-batcave"
+  SOURCE_FILES_BATCAVE_DIR="${HOME}/.kamehouse/git/kamehouse-batcave/ui/dist/kame-house-batcave"
 
   EXPORT_KAMEHOUSE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house
   EXPORT_BATCAVE_DIR=${PROJECT_DIR}/kamehouse-mobile/www/kame-house-batcave
@@ -62,7 +62,7 @@ exportBatcave() {
     return
   fi
   mkdir -p ${EXPORT_BATCAVE_DIR}
-  ${HOME}/programs/kamehouse-batcave/shell/bin/deploy/deploy-batcave.sh -m ui
+  ${HOME}/.kamehouse/opt/kamehouse-batcave/shell/bin/deploy/deploy-batcave.sh -m ui
   if [ -d "${SOURCE_FILES_BATCAVE_DIR}" ]; then
     cd ${SOURCE_FILES_BATCAVE_DIR}
     log.info "Copying all files from ${SOURCE_FILES_BATCAVE_DIR} to ${EXPORT_BATCAVE_DIR}"

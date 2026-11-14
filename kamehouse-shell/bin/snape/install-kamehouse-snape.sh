@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/deploy/build-functions.sh
@@ -117,10 +117,10 @@ generateBuildInfo() {
 
 installKamehouseSnapeConfig() {
   log.info "Installing kamehouse-snape.toml"
-  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-snape.toml" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-snape.toml${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/config/
-    cp docker/setup-kamehouse/config/kamehouse-snape.toml ${HOME}/.kamehouse/config/kamehouse-snape.toml
+  if [ ! -f "${HOME}/.kamehouse/conf/kamehouse-snape.toml" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/conf/kamehouse-snape.toml${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/conf/
+    cp docker/setup-kamehouse/conf/kamehouse-snape.toml ${HOME}/.kamehouse/conf/kamehouse-snape.toml
   else
     log.info "kamehouse-snape.toml file exists. skipping"
   fi
@@ -226,7 +226,7 @@ parseArguments() {
         FORCE_INSTALL=true
         ;;
       -p)
-        KAMEHOUSE_SNAPE_SOURCE=${HOME}/git/kamehouse
+        KAMEHOUSE_SNAPE_SOURCE=${HOME}/.kamehouse/git/kamehouse
         ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"

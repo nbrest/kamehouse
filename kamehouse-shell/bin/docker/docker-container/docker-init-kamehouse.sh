@@ -3,7 +3,7 @@
 # This script runs inside the docker container, not on the host
 # Init script to execute every time a docker instance starts
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -48,7 +48,7 @@ loadEnv() {
   fi
   printEnv
 
-  local CONTAINER_ENV=/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/config/.kamehouse-docker-container-env
+  local CONTAINER_ENV=/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/conf/.kamehouse-docker-container-env
   echo "# Environment status at container startup on `date`" > "${CONTAINER_ENV}"
   echo "BUILD_ON_STARTUP=${BUILD_ON_STARTUP}" >> "${CONTAINER_ENV}"
   echo "DEBUG_MODE=${DEBUG_MODE}" >> "${CONTAINER_ENV}"

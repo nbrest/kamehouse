@@ -31,21 +31,22 @@ main() {
   log.info "Installing ${COL_PURPLE}kamehouse"
   gitCloneKameHouse
   checkPath
+  buildKameHouseHomeFolderDir
   installKameHouseShell
   if ${KAMEHOUSE_SHELL_ONLY}; then
     log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
     exit ${EXIT_SUCCESS}
   fi
-  buildKameHouseConfigDir
+  setupKameHouseSecrets
   setSudoersPermissions
   deployKameHouse
   log.info "Finished installing ${COL_PURPLE}kamehouse"
 }
 
 gitCloneKameHouse() {
-  log.info "Cloning kamehouse git repository into ${HOME}/git/kamehouse"
-  mkdir -p ${HOME}/git
-  cd ${HOME}/git
+  log.info "Cloning kamehouse git repository into ${HOME}/.kamehouse/git/kamehouse"
+  mkdir -p ${HOME}/.kamehouse/git
+  cd ${HOME}/.kamehouse/git
 
   if [ ! -d "./kamehouse" ]; then
     git clone https://github.com/nbrest/kamehouse.git
@@ -65,6 +66,54 @@ checkPath() {
   fi
 }
 
+buildKameHouseHomeFolderDir() {
+  log.info "Building kamehouse home folder dirs"
+  mkdir -p ${HOME}/.kamehouse/.vscode
+  mkdir -p ${HOME}/.kamehouse/backup/db
+  mkdir -p ${HOME}/.kamehouse/backup/docker
+  mkdir -p ${HOME}/.kamehouse/backup/local  
+  mkdir -p ${HOME}/.kamehouse/conf
+  mkdir -p ${HOME}/.kamehouse/data
+  mkdir -p ${HOME}/.kamehouse/opt
+  mkdir -p ${HOME}/.kamehouse/secrets
+  mkdir -p ${HOME}/.kamehouse/var/log
+  mkdir -p ${HOME}/.kamehouse/var/tmp
+  mkdir -p ${HOME}/.kamehouse/var/www/html
+
+  cp -vr local-setup/home-kamehouse/vscode ${HOME}/.kamehouse/.vscode 
+}
+
+setupKameHouseSecrets() {
+  if [ ! -f "${HOME}/.kamehouse/secrets/kamehouse.pkcs12" ]; then
+    log.info ".kamehouse/secrets/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/secrets/kamehouse.pkcs12
+  else
+    log.info ".kamehouse/secrets/kamehouse.pkcs12 file already exists. skipping"
+  fi  
+
+  if [ ! -f "${HOME}/.kamehouse/secrets/kamehouse.crt" ]; then
+    log.info ".kamehouse/secrets/kamehouse.crt file doesn't exist, creating one from the sample"
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/secrets/kamehouse.crt
+  else
+    log.info ".kamehouse/secrets/kamehouse.crt file already exists. skipping"
+  fi
+  
+  if [ ! -f "${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc" ]; then
+    log.info ".kamehouse/secrets/.kamehouse-secrets.cfg.enc file doesn't exist, creating one from the sample"
+    cp -v docker/setup-kamehouse/secrets/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/secrets/
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/secrets/kamehouse.key
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/secrets/kamehouse.pub
+    cp -v kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.enc
+  else
+    log.info ".kamehouse/secrets/.kamehouse-secrets.cfg.enc file already exists. skipping"
+  fi 
+
+  if [ -f "${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg" ]; then
+    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
+  fi 
+  chmod -R 700 ${HOME}/.kamehouse/secrets
+}
+
 installKameHouseShell() {
   chmod a+x kamehouse-shell/bin/shell/install-kamehouse-shell.sh
   if ${KAMEHOUSE_SHELL_SCRIPTS_ONLY}; then
@@ -74,49 +123,14 @@ installKameHouseShell() {
   fi  
 }
 
-buildKameHouseConfigDir() {
-  log.info "Building kamehouse config dirs"
-  mkdir -p ${HOME}/logs
-  mkdir -p ${HOME}/.kamehouse/config/keys
-
-  if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse.pkcs12" ]; then
-    log.info ".kamehouse/config/keys/kamehouse.pkcs12 file doesn't exist, creating one from the sample"
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pkcs12 ${HOME}/.kamehouse/config/keys/kamehouse.pkcs12
-  else
-    log.info ".kamehouse/config/keys/kamehouse.pkcs12 file already exists. skipping"
-  fi  
-
-  if [ ! -f "${HOME}/.kamehouse/config/keys/kamehouse.crt" ]; then
-    log.info ".kamehouse/config/keys/kamehouse.crt file doesn't exist, creating one from the sample"
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.crt ${HOME}/.kamehouse/config/keys/kamehouse.crt
-  else
-    log.info ".kamehouse/config/keys/kamehouse.crt file already exists. skipping"
-  fi
-  
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
-    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg.enc file doesn't exist, creating one from the sample"
-    cp -v docker/setup-kamehouse/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/config/keys/kamehouse.pub
-    cp -v kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc
-  else
-    log.info ".kamehouse/config/keys/.kamehouse-secrets.cfg.enc file already exists. skipping"
-  fi 
-
-  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
-  fi 
-  chmod -R 700 ${HOME}/.kamehouse/config
-}
-
 setSudoersPermissions() {
   log.info "Setting sudoers permissions"
   local KAMEHOUSE_USER=`whoami`
-  ${HOME}/programs/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-kamehouse-sudoers-permissions.sh -u ${KAMEHOUSE_USER}
 }
 
 deployKameHouse() {
-  ${HOME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
+  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh
 }
 
 log.info() {

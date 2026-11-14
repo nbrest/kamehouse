@@ -22,8 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents a command to execute as a system process via kamehouse-shell. It's a single operation
- * executed through the command line via kamehouse-shell. Most of the KameHouseCommands are
+ * Represents a command to execute as a system process via kamehouse-shell. It's
+ * a single operation
+ * executed through the command line via kamehouse-shell. Most of the
+ * KameHouseCommands are
  * kamehouse shell commands.
  *
  * @author nbrest
@@ -36,15 +38,12 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   private static final String WIN_BASH_BAT = "win/bat/bash.bat";
   private static final String WIN_BASH_SILENT_BAT = "win/bat/bash-silent.bat";
   private static final String WIN_BASH_SILENT_PREFIX = ". /etc/profile ; ";
-  private static final String WIN_BASH_SHELL_BASE = "${HOME}/programs/kamehouse-shell/bin/";
+  private static final String WIN_BASH_SHELL_BASE = "${HOME}/.kamehouse/opt/kamehouse-shell/bin/";
   private static final List<String> BASH_START = Arrays.asList("/bin/bash", "-c");
   private static final List<String> WINDOWS_CMD_START = Arrays.asList("cmd.exe", "/c", "start");
-  private static final List<String> WINDOWS_CMD_START_MIN =
-      Arrays.asList("cmd.exe", "/c", "start", "/min");
-  private static final String EXCEPTION_EXECUTING_PROCESS =
-      "Error occurred while executing the process.";
-  private static final String GROOT_EXECUTE_URL =
-      "/kame-house-groot/api/v1/admin/kamehouse-shell/execute?";
+  private static final List<String> WINDOWS_CMD_START_MIN = Arrays.asList("cmd.exe", "/c", "start", "/min");
+  private static final String EXCEPTION_EXECUTING_PROCESS = "Error occurred while executing the process.";
+  private static final String GROOT_EXECUTE_URL = "/kame-house-groot/api/v1/admin/kamehouse-shell/execute?";
 
   @JsonIgnore
   private int sleepTime = 0;
@@ -72,26 +71,37 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
-   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
+   * Get the kamehouse-shell script to execute relative
+   * to/programs/kamehouse-shell/bin.
    */
   protected abstract String getWindowsKameHouseShellScript();
 
   /**
-   * Get the kamehouse-shell script to execute relative to/programs/kamehouse-shell/bin.
+   * Get the kamehouse-shell script to execute relative
+   * to/programs/kamehouse-shell/bin.
    */
   protected abstract String getLinuxKameHouseShellScript();
 
   /**
    * Get the arguments to pass to the kamehouse-shell script.
    *
-   * <p>Avoid using quotes, escape characters such as \\ and other characters that could break the
-   * script execution in windows or even in linux. Though it's more unlikely they will break in
-   * linux. If I need to pass special characters to the scripts as arguments, consider encoding the
-   * arguments with either base64, base64url, urlencode or other encoding that will not break the
-   * execution on the shell or break while being transferred to a remote server via groot api. But
-   * if I do use some encoding, I need to validate the decoded string in the script before
-   * processing it. If I need to send something that has special characters like a password in
-   * kamehouse-cmd, it's probably best to send encoded</p>
+   * <p>
+   * Avoid using quotes, escape characters such as \\ and other characters that
+   * could break the
+   * script execution in windows or even in linux. Though it's more unlikely they
+   * will break in
+   * linux. If I need to pass special characters to the scripts as arguments,
+   * consider encoding the
+   * arguments with either base64, base64url, urlencode or other encoding that
+   * will not break the
+   * execution on the shell or break while being transferred to a remote server
+   * via groot api. But
+   * if I do use some encoding, I need to validate the decoded string in the
+   * script before
+   * processing it. If I need to send something that has special characters like a
+   * password in
+   * kamehouse-cmd, it's probably best to send encoded
+   * </p>
    */
   protected List<String> getWindowsKameHouseShellScriptArguments() {
     return Collections.emptyList();
@@ -100,7 +110,10 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   /**
    * Get the arguments to pass to the kamehouse-shell script.
    *
-   * <p>Same as for windows arguments. Avoid certain characters that can break the flow.</p>
+   * <p>
+   * Same as for windows arguments. Avoid certain characters that can break the
+   * flow.
+   * </p>
    */
   protected String getLinuxKameHouseShellScriptArguments() {
     return null;
@@ -242,9 +255,12 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
-   * Override in subclasses to add the cmd start prefix. This might be needed in some daemon
-   * processes like starting vlc so that it starts in the UI and not in the background. However,
-   * when adding the prefix, I won't get the kamehouse-shell scripts output returned.
+   * Override in subclasses to add the cmd start prefix. This might be needed in
+   * some daemon
+   * processes like starting vlc so that it starts in the UI and not in the
+   * background. However,
+   * when adding the prefix, I won't get the kamehouse-shell scripts output
+   * returned.
    */
   protected boolean shouldAddWindowsCmdStartPrefix() {
     return false;
@@ -342,7 +358,8 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
-   * Add cmd.exe start command prefix when not executing the windows command on docker host from
+   * Add cmd.exe start command prefix when not executing the windows command on
+   * docker host from
    * docker.
    */
   private void addWindowsCmdStartPrefix() {
@@ -384,7 +401,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   private boolean isCommandExecutedOnWindows() {
     return PropertiesUtils.isWindowsHost()
         || (DockerUtils.shouldExecuteOnDockerHost(executeOnDockerHost())
-        && DockerUtils.isWindowsDockerHost());
+            && DockerUtils.isWindowsDockerHost());
   }
 
   /**
@@ -408,17 +425,18 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   }
 
   /**
-   * Gets input and error streams from process and add them to the kamehouse command
+   * Gets input and error streams from process and add them to the kamehouse
+   * command
    * kameHouseCommandResult.
    */
   private void getStreamsFromProcess(Process process, KameHouseCommandResult kameHouseCommandResult)
       throws IOException {
     try (InputStream processInputStream = ProcessUtils.getInputStream(process);
-        BufferedReader processBufferedReader =
-            new BufferedReader(new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
+        BufferedReader processBufferedReader = new BufferedReader(
+            new InputStreamReader(processInputStream, StandardCharsets.UTF_8));
         InputStream processErrorStream = ProcessUtils.getErrorStream(process);
-        BufferedReader processErrorBufferedReader =
-            new BufferedReader(new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
+        BufferedReader processErrorBufferedReader = new BufferedReader(
+            new InputStreamReader(processErrorStream, StandardCharsets.UTF_8))) {
       // Read command standard kameHouseCommandResult stream
       List<String> processStandardOutputList = readStreamIntoList(processBufferedReader);
       kameHouseCommandResult.setStandardOutput(processStandardOutputList);

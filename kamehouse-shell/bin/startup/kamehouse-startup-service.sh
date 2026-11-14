@@ -21,9 +21,9 @@ mainProcessLin() {
 
 loadKamehouseUserCfg() {
   source "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
-  source /home/${KAMEHOUSE_USER}/.kamehouse/config/kamehouse.cfg
+  source /home/${KAMEHOUSE_USER}/.kamehouse/conf/kamehouse.cfg
   if [ "$?" != "0" ]; then
-    log.error "Error importing ~/.kamehouse/config/kamehouse.cfg" 
+    log.error "Error importing ~/.kamehouse/conf/kamehouse.cfg" 
     exit 99
   fi
 }

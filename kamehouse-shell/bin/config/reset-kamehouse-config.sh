@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
@@ -17,23 +17,23 @@ mainProcess() {
 
 moveCurrentConfigToTemp() {
   log.info "Moving current config to temp"
-  mkdir -p ${HOME}/temp
-  mv ${KAMEHOUSE_CFG} ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}
-  ls -lh ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}
+  mkdir -p ${HOME}/.kamehouse/var/tmp
+  mv ${KAMEHOUSE_CFG} ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}
+  ls -lh ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}
 }
 
 resetConfigFromTemplate() {
   log.info "Resetting kamehouse config from template"
-  cd ${HOME}/git/kamehouse
+  cd ${HOME}/.kamehouse/git/kamehouse
   git pull origin dev
   checkCommandStatus "$?" "An error occurred pulling kamehouse repo"
-  cp ./docker/setup-kamehouse/config/kamehouse.cfg ${KAMEHOUSE_CFG}
+  cp ./docker/setup-kamehouse/conf/kamehouse.cfg ${KAMEHOUSE_CFG}
   ls -lh ${KAMEHOUSE_CFG}
 }
 
 showOldConfigCommands() {
   log.info "See old config with:" 
-  log.info "  vim ${HOME}/temp/${KAMEHOUSE_CFG_TEMP}"
+  log.info "  vim ${HOME}/.kamehouse/var/tmp/${KAMEHOUSE_CFG_TEMP}"
   log.info "Remove old temp configs with:"
   log.info "  remove-temp-kamehouse-configs.sh"
 }

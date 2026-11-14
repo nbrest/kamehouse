@@ -16,7 +16,7 @@ The kamehouse docker container can be used stand alone or it can be used to cont
 - Most of the commands are sent from the container to the remote host via `ssh`
 - For `vnc` commands on the remote host, the docker container first tries to send the request directly through `vnc` and fallsback to `ssh` if the vnc command fails
 - If the remote host is a windows host, it needs to have pstools installed as described [here](/README.md) for certain commands to work
-- Set the properties in `${HOME}/.kamehouse/config/kamehouse.cfg` to control a remote host and execute the docker run script with `-c`
+- Set the properties in `${HOME}/.kamehouse/conf/kamehouse.cfg` to control a remote host and execute the docker run script with `-c`
 
 ## Install kamehouse shell scripts to control the kamehouse docker container
 
@@ -37,7 +37,7 @@ chmod a+x install-kamehouse.sh ; ./install-kamehouse.sh -o
 
 You can skip this step and directly run the image. If it doesn't find it locally, it will download it automatically from docker hub. If you do have the image locally already, this will pull the latest changes to the image from docker hub
 
-Execute the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-pull-kamehouse.sh`
+Execute the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-pull-kamehouse.sh`
 
 *********************
 
@@ -55,7 +55,7 @@ vegeta:trunks (guest)
 
 ## Run the image
 
-Execute the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p demo` 
+Execute the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-run-kamehouse.sh -p demo` 
 
 - Execute the script with `-h` to see all the profiles and options
 
@@ -67,7 +67,7 @@ After that, once the init script finishes deploying kamehouse to tomcat in the c
 
 You can also access kamehouse groot at [https://localhost:12443/kame-house/groot/](https://localhost:12443/kame-house/groot/) or [http://localhost:12080/kame-house/groot/](http://localhost:12080/kame-house/groot/) and login to groot with the admin user mentioned above
 
-You can also access the container through ssh using the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` 
+You can also access the container through ssh using the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ssh-kamehouse.sh -p demo` default password `gohan` 
 
 In the container console, you can run the following scripts:
 
@@ -80,16 +80,16 @@ In the container console, you can run the following scripts:
 
 ### Deploy workspace changes on docker dev:
 
-- In docker `dev` profile, `${HOME}/git/kamehouse` directory inside the docker container is mapped to the host's `${HOME}/workspace/kamehouse`
+- In docker `dev` profile, `${HOME}/.kamehouse/git/kamehouse` directory inside the docker container is mapped to the host's `${HOME}/workspace/kamehouse`
 - Log in to docker `dev` through ssh, then run:
 ```sh
-cd ${HOME}/git/kamehouse
+cd ${HOME}/.kamehouse/git/kamehouse
 deploy-kamehouse.sh -c
 ```
 
 ## Check the status
 
-- Check the status of the docker containers, images and volumes in the system with the command `${HOME}/programs/kamehouse-shell/bin/docker/docker-status-kamehouse.sh`
+- Check the status of the docker containers, images and volumes in the system with the command `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-status-kamehouse.sh`
 
 ```sh
 docker container list
@@ -101,7 +101,7 @@ docker volume ls
 
 ## Stopping the container
 
-Use the script `${HOME}/programs/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p demo`
+Use the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p demo`
 
 *********************
 
@@ -117,7 +117,7 @@ You can then run the image as mentioned above
 
 ## Sync ssh keys and configuration between host and container
 
-- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host specified in `${HOME}/.kamehouse/config/kamehouse.cfg` 
+- When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host specified in `${HOME}/.kamehouse/conf/kamehouse.cfg` 
 - Commands such as starting and stopping vlc player, shutdown, reboot, suspend will run on the host
 - By default in most profiles, the container is setup to execute the commands within the container only
 - The commands executed on the host are done through `ssh` from the docker container to the host

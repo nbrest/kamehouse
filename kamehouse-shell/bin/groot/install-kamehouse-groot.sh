@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/deploy/build-functions.sh
@@ -72,12 +72,12 @@ installSources() {
 }
 
 installKamehouseGrootConfig() {
-  local KAMEHOUSE_GROOT_CONFIG="${HOME}/.kamehouse/config/kamehouse-groot.toml"
+  local KAMEHOUSE_GROOT_CONFIG="${HOME}/.kamehouse/conf/kamehouse-groot.toml"
   log.info "Installing kamehouse-groot.toml"
   if [ ! -f "${KAMEHOUSE_GROOT_CONFIG}" ]; then
     log.info "${COL_PURPLE}${KAMEHOUSE_GROOT_CONFIG}${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p "${HOME}/.kamehouse/config/"
-    cp "${KAMEHOUSE_GROOT_SOURCE}/docker/setup-kamehouse/config/kamehouse-groot.toml" "${KAMEHOUSE_GROOT_CONFIG}"
+    mkdir -p "${HOME}/.kamehouse/conf/"
+    cp "${KAMEHOUSE_GROOT_SOURCE}/docker/setup-kamehouse/conf/kamehouse-groot.toml" "${KAMEHOUSE_GROOT_CONFIG}"
   else
     log.info "kamehouse-groot.toml file exists. skipping"
   fi

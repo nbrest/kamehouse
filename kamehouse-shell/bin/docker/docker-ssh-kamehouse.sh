@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 importKamehouse functions/docker/docker-functions.sh
@@ -17,7 +17,7 @@ mainProcess() {
   checkDockerScripsEnabled
   log.info "Executing ssh into docker container with profile ${COL_PURPLE}${DOCKER_PROFILE}"
   if ${REMOVE_SERVER_KEY}; then
-    ${HOME}/programs/kamehouse-shell/bin/docker/docker-server-key-remove.sh -p ${DOCKER_PROFILE}
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-server-key-remove.sh -p ${DOCKER_PROFILE}
   else
     log.warn "If I get an error that the server key changed, execute this script with ${COL_RED}docker-ssh-kamehouse.sh -p ${DOCKER_PROFILE} -r"
   fi

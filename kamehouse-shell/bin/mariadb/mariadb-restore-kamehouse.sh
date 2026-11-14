@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  MARIADB_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump/dump-kamehouse.sql
+  MARIADB_DUMP_FILE=${HOME}/.kamehouse/backup/db/dump/dump-kamehouse.sql
 }
 
 mainProcess() {

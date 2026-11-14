@@ -1,15 +1,15 @@
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 # Common kamehouse variables
 # DEFAULT_KAMEHOUSE_USERNAME gets set during install kamehouse-shell
 DEFAULT_KAMEHOUSE_USERNAME=""
 
-KAMEHOUSE_CFG="${HOME}/.kamehouse/config/kamehouse.cfg"
-KAMEHOUSE_DESKTOP_CFG="${HOME}/.kamehouse/config/kamehouse-desktop.toml"
+KAMEHOUSE_CFG="${HOME}/.kamehouse/conf/kamehouse.cfg"
+KAMEHOUSE_DESKTOP_CFG="${HOME}/.kamehouse/conf/kamehouse-desktop.toml"
 WIN_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat"
 PROJECT="kamehouse"
-PROJECT_DIR="${HOME}/git/${PROJECT}"
+PROJECT_DIR="${HOME}/.kamehouse/git/${PROJECT}"
 DEV_PROJECT_DIR="${HOME}/workspace/${PROJECT}"
 USE_CURRENT_DIR=false
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
@@ -65,7 +65,7 @@ WINDOWS_CMD_EXE_PATH_LENGTH_MARGIN=512
 KAMEHOUSE_SERVER=""
 
 TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,vlcrc"
-TOMCAT_DIR="${HOME}/programs/apache-tomcat"
+TOMCAT_DIR="${HOME}/.kamehouse/opt/apache-tomcat"
 
 DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}
@@ -76,7 +76,7 @@ DEFAULT_HTTPD_PORT=443
 HTTPD_PORT=${DEFAULT_HTTPD_PORT}
 
 KAMEHOUSE_BUILD_VERSION=""
-KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/programs"
+KAMEHOUSE_CMD_DEPLOY_PATH="${HOME}/.kamehouse/opt"
 
 # docker defaults
 IS_DOCKER_CONTAINER=false
@@ -106,7 +106,7 @@ KAMEHOUSE_SECRETS_LOADED=false
 # Common kamehouse functions
 # ---------------------------
 loadKamehouseCfg() {
-  source "${HOME}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
+  source "${HOME}/.kamehouse/opt/kamehouse-shell/conf/default-kamehouse.cfg"
   if [ ! -f "${KAMEHOUSE_CFG}" ]; then
     log.debug "${KAMEHOUSE_CFG} not found. Using default values"
     return
@@ -122,7 +122,7 @@ loadKamehouseCfg() {
 # Loads the environment variables set when running in a docker container
 # Look at the docker-init script to see what variables are set in the container env
 loadDockerContainerEnv() {
-  local CONTAINER_ENV_FILE=".kamehouse/config/.kamehouse-docker-container-env"
+  local CONTAINER_ENV_FILE=".kamehouse/conf/.kamehouse-docker-container-env"
   if [ ! -f "${HOME}/${CONTAINER_ENV_FILE}" ]; then
     log.trace "No ~/${CONTAINER_ENV_FILE}. Running outside a docker container"
     return
@@ -136,26 +136,26 @@ loadDockerContainerEnv() {
 }
 
 loadKamehouseSecrets() {
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
+  if [ ! -f "${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc" ]; then
     log.error "Can't find .kamehouse-secrets.cfg.enc file"
     exit 99
   fi  
   local SUFFIX=$RANDOM
-  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/config/keys/kamehouse.key -in ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.tmp.${SUFFIX}
-  openssl enc -d -in ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.tmp.${SUFFIX}
-  if [ ! -s "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX}" ]; then
+  openssl pkeyutl -decrypt -inkey ${HOME}/.kamehouse/secrets/kamehouse.key -in ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.enc -out ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.tmp.${SUFFIX}
+  openssl enc -d -in ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc -out ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.tmp.${SUFFIX} -pbkdf2 -aes256 -kfile ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.tmp.${SUFFIX}
+  if [ ! -s "${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.tmp.${SUFFIX}" ]; then
     log.error "Decrypted .kamehouse-secrets.cfg.tmp.${SUFFIX} is empty"
   else
-    source ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX}
+    source ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.tmp.${SUFFIX}
     if [ "$?" == "0" ]; then
       KAMEHOUSE_SECRETS_LOADED=true
-      log.trace "Loaded ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
+      log.trace "Loaded ~/.kamehouse/secrets/.kamehouse-secrets.cfg.enc"
     fi
   fi  
-  rm -f ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.tmp.${SUFFIX} 
-  rm -f ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.tmp.${SUFFIX}  
+  rm -f ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.tmp.${SUFFIX} 
+  rm -f ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.tmp.${SUFFIX}  
   if ! ${KAMEHOUSE_SECRETS_LOADED}; then
-    log.error "Error importing ~/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc"
+    log.error "Error importing ~/.kamehouse/secrets/.kamehouse-secrets.cfg.enc"
     exit 99
   fi
 }
@@ -361,7 +361,7 @@ executeSshCommand() {
   local SKIP_EXIT_CODE_CHECK=$1
   local SESSION_ID=$RANDOM
   if ${IS_REMOTE_LINUX_HOST}; then
-    SSH_COMMAND="source ~/programs/kamehouse-shell/bin/bashrc/bashrc.sh ; "${SSH_COMMAND}
+    SSH_COMMAND="source ~/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh ; "${SSH_COMMAND}
     log.info "SID:${SESSION_ID}: ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C \"${SSH_COMMAND}\""
     SSH_OUTPUT=`ssh -p ${SSH_PORT} ${SSH_OPTIONS} ${SSH_USER}@${SSH_SERVER} -C "${SSH_COMMAND}"`
     SSH_EXIT_CODE=$?
@@ -454,11 +454,7 @@ setSudoKameHouseCommand() {
 
 # Get kamehouse httpd content root directory
 getHttpdContentRoot() {
-  if ${IS_LIN_HOST}; then
-    echo "/var/www/kamehouse-webserver"  
-  else
-    echo "${HOME}/programs/apache-httpd/www/kamehouse-webserver"
-  fi
+  echo "${HOME}/.kamehouse/var/www/html/kamehouse-kintoun"
 }
 
 # Trims the PATH, so the windows cmd.exe is able to search it for a command.
@@ -496,7 +492,7 @@ setKameHouseRootProjectDir() {
   if ${USE_CURRENT_DIR}; then
     PROJECT_DIR=`pwd`
   fi
-  if [[ "${PROJECT_DIR}" == /var/www/kamehouse-webserver* ]]; then
+  if [[ "${PROJECT_DIR}" == ${HOME}/.kamehouse/var/www/html/kamehouse-kintoun* ]]; then
     PROJECT_DIR="${DEV_PROJECT_DIR}"
   fi
   cd ${PROJECT_DIR}

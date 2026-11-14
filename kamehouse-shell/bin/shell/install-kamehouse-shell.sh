@@ -20,8 +20,8 @@ COL_PURPLE_STD="\033[0;35m"
 COL_YELLOW_STD="\033[0;33m"
 COL_MESSAGE=${COL_GREEN}
 
-KAMEHOUSE_SHELL_PATH=${HOME}/programs/kamehouse-shell
-TEMP_PATH=${HOME}/temp
+KAMEHOUSE_SHELL_PATH=${HOME}/.kamehouse/opt/kamehouse-shell
+TEMP_PATH=${HOME}/.kamehouse/var/tmp
 
 KAMEHOUSE_SHELL_SOURCE=`pwd`
 INSTALL_SCRIPTS_ONLY=false
@@ -54,6 +54,7 @@ main() {
   generateKameHouseShellPathFile
   generateBuildInfo
   if ! ${INSTALL_SCRIPTS_ONLY}; then
+    buildKameHouseHomeFolderDir
     installKamehouseConfig
     installKameHouseSecrets
     updateBashRc
@@ -88,9 +89,9 @@ getDefaultKameHouseUsername() {
 }
 
 createDirs() {
-  mkdir -p ${HOME}/logs
-  mkdir -p ${HOME}/.kamehouse/config
-  mkdir -p ${HOME}/.kamehouse/server-config
+  mkdir -p ${HOME}/.kamehouse/var/log
+  mkdir -p ${HOME}/.kamehouse/conf
+  mkdir -p ${HOME}/.kamehouse/backup/local
   mkdir -p ${HOME}/.kamehouse/data
 }
 
@@ -140,12 +141,29 @@ fixPermissions() {
   done <<< ${DIRECTORIES}
 }
 
+buildKameHouseHomeFolderDir() {
+  log.info "Building kamehouse home folder dirs"
+  mkdir -p ${HOME}/.kamehouse/.vscode
+  mkdir -p ${HOME}/.kamehouse/backup/db
+  mkdir -p ${HOME}/.kamehouse/backup/docker
+  mkdir -p ${HOME}/.kamehouse/backup/local  
+  mkdir -p ${HOME}/.kamehouse/conf
+  mkdir -p ${HOME}/.kamehouse/data
+  mkdir -p ${HOME}/.kamehouse/opt
+  mkdir -p ${HOME}/.kamehouse/secrets
+  mkdir -p ${HOME}/.kamehouse/var/log
+  mkdir -p ${HOME}/.kamehouse/var/tmp
+  mkdir -p ${HOME}/.kamehouse/var/www/html
+
+  cp -vr local-setup/home-kamehouse/vscode ${HOME}/.kamehouse/.vscode 
+}
+
 installKamehouseConfig() {
   log.info "Installing kamehouse.cfg"
-  if [ ! -f "${HOME}/.kamehouse/config/kamehouse.cfg" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/config/
-    cp docker/setup-kamehouse/config/kamehouse.cfg ${HOME}/.kamehouse/config/kamehouse.cfg
+  if [ ! -f "${HOME}/.kamehouse/conf/kamehouse.cfg" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/conf/kamehouse.cfg${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/conf/
+    cp docker/setup-kamehouse/conf/kamehouse.cfg ${HOME}/.kamehouse/conf/kamehouse.cfg
   else
     log.info "kamehouse.cfg file exists. skipping"
   fi
@@ -153,21 +171,21 @@ installKamehouseConfig() {
 
 installKameHouseSecrets() {
   log.info "Installing .kamehouse-secrets.cfg.enc file"
-  if [ ! -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg.enc${COL_MESSAGE} not found. Creating it from template"
-    mkdir -p ${HOME}/.kamehouse/config/keys/
-    cp docker/setup-kamehouse/keys/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/config/keys/
-    cp kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/config/keys/kamehouse.key
-    cp kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/config/keys/kamehouse.pub
-    cp kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/config/keys/kamehouse-secrets.key.enc    
+  if [ ! -f "${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg.enc${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p ${HOME}/.kamehouse/secrets/
+    cp docker/setup-kamehouse/secrets/.kamehouse-secrets.cfg.enc ${HOME}/.kamehouse/secrets/
+    cp kamehouse-commons-core/src/test/resources/commons/keys/sample.key ${HOME}/.kamehouse/secrets/kamehouse.key
+    cp kamehouse-commons-core/src/test/resources/commons/keys/sample.pub ${HOME}/.kamehouse/secrets/kamehouse.pub
+    cp kamehouse-commons-core/src/test/resources/commons/keys/secrets.key.enc ${HOME}/.kamehouse/secrets/kamehouse-secrets.key.enc    
   else
     log.info ".kamehouse-secrets.cfg.enc file exists. skipping"
   fi
 
-  if [ -f "${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg" ]; then
-    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/config/keys/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
+  if [ -f "${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg" ]; then
+    log.info "WARNING!!!!!!!!!!!!!!!! Found decrypted ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg file. Encrypt it with encrypt-kamehouse-secrets.sh"
   fi
-  chmod -R 700 ${HOME}/.kamehouse/config
+  chmod -R 700 ${HOME}/.kamehouse/secrets
 }
 
 updateUsername() {
@@ -216,15 +234,15 @@ updateBashRc() {
   if [ ! -f "${HOME}/.bashrc" ]; then
     log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} not found. Creating one"
     echo "" > ${HOME}/.bashrc
-    echo "source \${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
+    echo "source \${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
   else 
     cat ${HOME}/.bashrc | grep "/programs/kamehouse-shell/bin/bashrc/bashrc.sh" > /dev/null
     if [ "$?" != "0" ]; then
       log.info "Adding bashrc/bashrc.sh to ${COL_PURPLE}${HOME}/.bashrc"
       echo "" >> ${HOME}/.bashrc
-      echo "source \${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
+      echo "source \${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
     else 
-      log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}${HOME}/programs/kamehouse-shell/bin/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
+      log.info "${COL_PURPLE}${HOME}/.bashrc${COL_MESSAGE} already sources ${COL_PURPLE}${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh${COL_MESSAGE}. No need to update"
     fi
   fi
 }
@@ -238,7 +256,7 @@ generateKameHouseShellPathFile() {
 
   echo "# This file is auto generated by kamehouse-shell install script. Don't modify it" > ${KAMEHOUSE_SHELL_PATH_FILE}
 
-  local KAMEHOUSE_SHELL_SCRIPTS_PATH=`getKameHouseShellPathContent "${HOME}/programs/kamehouse-shell/bin" "d"`
+  local KAMEHOUSE_SHELL_SCRIPTS_PATH=`getKameHouseShellPathContent "${HOME}/.kamehouse/opt/kamehouse-shell/bin" "d"`
   echo "KAMEHOUSE_SHELL_SCRIPTS_PATH=${KAMEHOUSE_SHELL_SCRIPTS_PATH}" >> ${KAMEHOUSE_SHELL_PATH_FILE}
 }
 
@@ -310,7 +328,7 @@ parseArguments() {
         LOG_LEVEL="${CURRENT_OPTION_ARG}"
         ;;
       -p)
-        KAMEHOUSE_SHELL_SOURCE=${HOME}/git/kamehouse
+        KAMEHOUSE_SHELL_SOURCE=${HOME}/.kamehouse/git/kamehouse
         ;;
       -?|-??*)
         log.error "Invalid argument ${CURRENT_OPTION}"

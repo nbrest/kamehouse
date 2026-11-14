@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initKameHouseShellEnv() {
@@ -8,7 +8,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  PATH_DUMP_FILE=${HOME}/.kamehouse/config/mariadb/dump 
+  PATH_DUMP_FILE=${HOME}/.kamehouse/backup/db/dump 
   NUMBER_OF_EXPORTS=3
   DUMP_FILENAME=dump-kamehouse.sql
   LOG_FILENAME=dump-kamehouse.log
@@ -24,7 +24,7 @@ mainProcess() {
 setupInitialDirectories() {
   log.info "Creating backup directories if they don't exist"
   mkdir -v -p ${PATH_DUMP_FILE}/old
-  chmod -R 700 ${HOME}/.kamehouse/config
+  chmod -R 700 ${HOME}/.kamehouse/backup
 }
 
 cyclePreviousBackups() {

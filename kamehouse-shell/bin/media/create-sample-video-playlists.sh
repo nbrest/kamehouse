@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${HOME}/programs/kamehouse-shell/bin/functions/common-functions.sh
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/common-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; fi
 
 mainProcess() {
@@ -14,14 +14,14 @@ createPlaylists() {
   log.info "Creating remote playlists"
   rm -r ${HOME}/.kamehouse/data/playlists
   mkdir -p ${HOME}/.kamehouse/data/playlists
-  cp -rvf ${HOME}/git/kamehouse/docker/setup-kamehouse/media/playlist/* ${HOME}/.kamehouse/data/playlists/
+  cp -rvf ${HOME}/.kamehouse/git/kamehouse/docker/setup-kamehouse/media/playlist/* ${HOME}/.kamehouse/data/playlists/
 }
 
 updateMediaFiles() {
   log.info "Updating media files"
   rm -r ${HOME}/docker/setup-kamehouse/media/video
   mkdir -p ${HOME}/docker/setup-kamehouse/media/video
-  cp -r ${HOME}/git/kamehouse/docker/setup-kamehouse/media/video ${HOME}/docker/setup-kamehouse/media/
+  cp -r ${HOME}/.kamehouse/git/kamehouse/docker/setup-kamehouse/media/video ${HOME}/docker/setup-kamehouse/media/
 }
 
 updatePlaylistsPath() {

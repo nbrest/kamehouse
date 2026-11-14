@@ -3,7 +3,7 @@
 
   When running with the chrome extension to overcome the browser validation page:
 
-  - Run apache httpd locally with kamehouse-webserver root
+  - Run apache httpd locally with kamehouse-kintoun root
   - Install world-cup-bookings chrome extension
   - Open chrome with 2 tabs:
     - https://fcfs-intl.fwc22.tickets.fifa.com/secure/selection/event/date/product/101397570845/lang/en
