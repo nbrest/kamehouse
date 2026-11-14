@@ -114,15 +114,9 @@ class ZtvPlayerWidget(QWidget):
         self.http_sync_thread.start()
 
     def setLogoRandomSrc(self):
-        random_src_count = kamehouse_desktop_cfg.getInt('ztv_player_logo_random_src', 'random_src_entries_count')
-        random_src = []
-        for i in range(1, random_src_count + 1):
-            random_src_entry_name = "random_src_" + str(i).zfill(2)
-            random_src_entry = kamehouse_desktop_cfg.get('ztv_player_logo_random_src', random_src_entry_name)
-            random_src.append(json.loads(random_src_entry))
-            if (self.log_trace):
-                logger.trace("Adding ztv_player_logo_random_src: " + random_src_entry_name)                
-        self.ztv_player_logo_random_src = random_src
+        self.ztv_player_logo_random_src = kamehouse_desktop_cfg.getList('ztv_player_logo_random_src', 'random_src')
+        if (self.log_trace):
+            logger.trace(f"Loaded {len(self.ztv_player_logo_random_src)} ztv_player_logo_random_src entries")
         if ((kamehouse_desktop_cfg.getBoolean('ztv_player_logo_widget', 'use_random_src')) or
             (kamehouse_desktop_cfg.getBoolean('ztv_player_off_logo_widget', 'use_random_src'))):
             timer = QTimer(self.window)
@@ -338,7 +332,7 @@ class ZtvPlayerHttpSync(QObject):
         protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'http_protocol')
         hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
         port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
-        url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/status"
+        url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/status"
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         verify_ssl = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'verify_ssl')
         try:
@@ -374,7 +368,7 @@ class ZtvPlayerWebsocket(QObject):
             protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'ws_protocol')
             hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
             port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
-            url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/ws/vlcrc/default"
+            url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-vlcrc/api/ws/vlcrc/default"
             if (self.log_trace):
                 logger.debug("Connecting websocket to: " + url)
             try:
@@ -450,7 +444,7 @@ class VlcPlayerFullScreenSetter(QObject):
         protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'http_protocol')
         hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
         port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
-        url = protocol + "://" + hostname + ":" + port + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands"
+        url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands"
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         verify_ssl = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'verify_ssl')
         requestBody = {

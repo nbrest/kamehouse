@@ -4,7 +4,7 @@ source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functi
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptConfig() {
-  # Kamehouse Destkop backgrounds folder relative to ${HOME} as set in kamehouse-desktop.cfg
+  # Kamehouse Destkop backgrounds folder relative to ${HOME} as set in kamehouse-desktop.toml
   BACKGROUNDS_FOLDER="/.kamehouse/data/desktop/backgrounds"
 }
 

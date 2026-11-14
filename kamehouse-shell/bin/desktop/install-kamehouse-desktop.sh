@@ -91,13 +91,13 @@ deploySourcesFromUiModule() {
 }
 
 installKamehouseDesktopConfig() {
-  log.info "Installing kamehouse-desktop.cfg"
-  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-desktop.cfg" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-desktop.cfg${COL_MESSAGE} not found. Creating it from template"
+  log.info "Installing kamehouse-desktop.toml"
+  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-desktop.toml" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-desktop.toml${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/config/
-    cp docker/setup-kamehouse/config/kamehouse-desktop.cfg ${HOME}/.kamehouse/config/kamehouse-desktop.cfg
+    cp docker/setup-kamehouse/config/kamehouse-desktop.toml ${HOME}/.kamehouse/config/kamehouse-desktop.toml
   else
-    log.info "kamehouse-desktop.cfg file exists. skipping"
+    log.info "kamehouse-desktop.toml file exists. skipping"
   fi
 }
 

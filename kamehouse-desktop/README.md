@@ -28,7 +28,7 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 ## Configure
 
-- Almost everything in the UI can be configured using the `kamehouse-desktop.cfg` configuration file. The source image for all logos and icons, the exact pixel position of each UI elemnt, the text styles and effects. 
+- Almost everything in the UI can be configured using the `kamehouse-desktop.toml` configuration file. The source image for all logos and icons, the exact pixel position of each UI elemnt, the text styles and effects. 
 
 - The default values place the UI elements properly for `1920x1080` screen resolutions but every value can be overriden for different screen sizes in the configuration file
 
@@ -38,9 +38,9 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - Log level can also be adjusted via configuration and trace logging can be enabled individually for each widget to troubleshoot issues
 
-- During the installation, the `kamehouse-desktop.cfg` config file is deployed to `${HOME}/.kamehouse/config/kamehouse-desktop.cfg` and it's values override the default settings
+- During the installation, the `kamehouse-desktop.toml` config file is deployed to `${HOME}/.kamehouse/config/kamehouse-desktop.toml` and it's values override the default settings
 
-- The default settings can be found in the `default-kamehouse-desktop.cfg` file
+- The default settings can be found in the `default-kamehouse-desktop.toml` file
 
 - The configuration file is loaded at startup so you need to restart the desktop app to pickup any changes to the configuration file
 

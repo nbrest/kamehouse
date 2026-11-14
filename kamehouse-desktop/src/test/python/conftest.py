@@ -1,7 +1,12 @@
 import os
 import sys
-from configparser import ConfigParser
 from pathlib import Path
+
+# Use built-in tomllib for Python 3.11+, fallback to tomli if necessary
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("OPENWEATHERMAP_API_KEY", "test-openweathermap-api-key")
@@ -27,8 +32,10 @@ def app():
 
 @pytest.fixture(autouse=True)
 def desktop_config(app):
-    config = ConfigParser()
-    config.read(DESKTOP_DIR / "conf" / "default-kamehouse-desktop.cfg")
+    config_file = DESKTOP_DIR / "conf" / "default-kamehouse-desktop.toml"
+    with open(config_file, "rb") as f:
+        config = tomllib.load(f)
+        
     original_config = kamehouse_desktop_cfg.config
     kamehouse_desktop_cfg.config = config
     yield config

@@ -11,12 +11,14 @@ def home_with_config(monkeypatch, tmp_path):
     config_dir = home / ".kamehouse" / "config"
     config_dir.mkdir(parents=True)
     (home / "programs" / "kamehouse-desktop" / "conf").mkdir(parents=True)
-    (config_dir / "kamehouse-desktop.cfg").write_text(
+    
+    # Updated to valid TOML: quoted strings and lowercase booleans
+    (config_dir / "kamehouse-desktop.toml").write_text(
         "[section]\n"
-        "text = value\n"
+        "text = \"value\"\n"
         "integer = 42\n"
         "float = 0.75\n"
-        "boolean_true = TRUE\n"
+        "boolean_true = true\n"
         "boolean_false = false\n"
     )
     monkeypatch.setattr(Path, "home", lambda: home)

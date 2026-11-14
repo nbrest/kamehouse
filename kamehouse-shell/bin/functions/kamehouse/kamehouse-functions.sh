@@ -6,7 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; 
 DEFAULT_KAMEHOUSE_USERNAME=""
 
 KAMEHOUSE_CFG="${HOME}/.kamehouse/config/kamehouse.cfg"
-KAMEHOUSE_DESKTOP_CFG="${HOME}/.kamehouse/config/kamehouse-desktop.cfg"
+KAMEHOUSE_DESKTOP_CFG="${HOME}/.kamehouse/config/kamehouse-desktop.toml"
 WIN_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/git/${PROJECT}"
@@ -719,7 +719,7 @@ updateKameHouseDesktopConfig() {
   local VALUE=$3
 
   if ! grep -q -i "^\[${SECTION}\]" "${KAMEHOUSE_DESKTOP_CFG}"; then
-    log.error "Section [${SECTION}] not found in kamehouse-desktop.cfg"
+    log.error "Section [${SECTION}] not found in kamehouse-desktop.toml"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
@@ -745,14 +745,14 @@ updateKameHouseDesktopConfig() {
 
   if [ $? -ne 0 ]; then
     rm -f "${KAMEHOUSE_DESKTOP_CFG}.tmp"
-    log.error "${KEY} not found under section [${SECTION}] in kamehouse-desktop.cfg"
+    log.error "${KEY} not found under section [${SECTION}] in kamehouse-desktop.toml"
     exitProcess ${EXIT_INVALID_ARG}
   fi
 
   mv "${KAMEHOUSE_DESKTOP_CFG}.tmp" "${KAMEHOUSE_DESKTOP_CFG}"
   
   if grep -A 15 -i "^\[${SECTION}\]" "${KAMEHOUSE_DESKTOP_CFG}" | grep -q -F "${KEY} = ${VALUE}"; then
-    log.info "Set '${KEY} = ${VALUE}' under [${SECTION}] in kamehouse-desktop.cfg"
+    log.info "Set '${KEY} = ${VALUE}' under [${SECTION}] in kamehouse-desktop.toml"
   else
     log.error "Verification failed of update of ${KEY} under [${SECTION}]"
     exitProcess ${EXIT_INVALID_ARG}

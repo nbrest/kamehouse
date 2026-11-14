@@ -162,21 +162,21 @@ def test_start_sound_wave_movie_skips_hidden(widget, desktop_config, monkeypatch
     widget.startSoundWaveMovie()
     assert FakeTimer.single_shots == []
 
-
 def test_set_logo_random_src(widget, desktop_config, monkeypatch):
     FakeTimer.instances = []
     monkeypatch.setattr(ztv_module, "QTimer", FakeTimer)
-    desktop_config["ztv_player_logo_random_src"]["random_src_entries_count"] = "2"
+    desktop_config["ztv_player_logo_random_src"]["random_src"] = [
+        {"img_src": "lib/ui/img/dbz/goku-chibi-smile-red.png", "pos_x": 210, "pos_y": 650, "width": 110, "height": 120},
+        {"img_src": "lib/ui/img/dbz/shenron-flying-goku.png", "pos_x": 0, "pos_y": 660, "width": 320, "height": 100}
+    ]
     widget.setLogoRandomSrc()
     assert len(widget.ztv_player_logo_random_src) == 2
     assert FakeTimer.instances[-1].started == 60000
-
     desktop_config["ztv_player_logo_widget"]["use_random_src"] = "false"
     desktop_config["ztv_player_off_logo_widget"]["use_random_src"] = "false"
     timer_count = len(FakeTimer.instances)
     widget.setLogoRandomSrc()
     assert len(FakeTimer.instances) == timer_count
-
 
 def test_set_random_logo(widget, desktop_config):
     desktop_config["ztv_player_logo_random_src"]["random_src_entries_count"] = "2"
