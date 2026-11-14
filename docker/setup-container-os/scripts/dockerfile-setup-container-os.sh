@@ -41,6 +41,7 @@ installBaseApps() {
   apt-get install -y openssh-server
   apt-get install -y picom
   apt-get install -y python3
+  apt-get install -y python3-venv
   apt-get install -y pip
   apt-get install -y screen
   apt-get install -y sudo

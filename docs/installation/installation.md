@@ -85,6 +85,7 @@ sudo npm install typescript -g
     sudo apt-get install -y picom
     sudo apt-get install -y xcompmgr
     sudo apt-get install -y python${PYTHON_VERSION}
+    sudo apt-get install -y python${PYTHON_VERSION}-venv
 ```
 
   - OpenWrt:
@@ -92,6 +93,7 @@ sudo npm install typescript -g
 opkg update
 opkg install python3
 opkg install python3-pip
+opkg install python3-venv
 ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
