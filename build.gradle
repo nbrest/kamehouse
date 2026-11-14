@@ -91,7 +91,7 @@ tasks.register('printVersions') {
  */
 tasks.register('printVersion') {
   group = 'help'
-  description = 'Prints the project version, ie. 11.04.1-KAMEHOUSE-SNAPSHOT.'
+  description = 'Prints the project version, ie. 99.99.1-KAMEHOUSE-SNAPSHOT.'
   doLast {
     println project.version
   }

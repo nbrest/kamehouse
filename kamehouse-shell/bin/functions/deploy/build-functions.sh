@@ -288,7 +288,7 @@ buildKameHouseMobile() {
   setLinuxBuildEnv
   setGradleForAndroidInPath
   source ${HOME}/programs/kamehouse-shell/bin/deploy/set-java-home-for-mobile.sh
-  updateConfigWithGitHash
+  updateBuildVersionInMobileConfig
   prepareCordovaProject
   setMobileKeys
   setBuildInfoOnMobile
@@ -509,11 +509,10 @@ deleteStaticFilesOnMobile() {
   ${HOME}/programs/kamehouse-shell/bin/mobile/kamehouse-mobile-resync-static-files.sh -c -d
 }
 
-updateConfigWithGitHash() {
-  log.info "Setting git commit hash on config.xml"
-  setGitCommitHash
+updateBuildVersionInMobileConfig() {
+  log.info "Setting mobile build version on config.xml"
   cp -f source-config.xml config.xml
-  sed -i "s#GIT_COMMIT_HASH#${GIT_COMMIT_HASH}#" config.xml
+  sed -i "s#KAMEHOUSE_BUILD_VERSION#${KAMEHOUSE_BUILD_VERSION}#" config.xml
   cat config.xml | grep "<widget id="
 }
 

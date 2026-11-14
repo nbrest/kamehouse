@@ -22,7 +22,6 @@ mainProcess() {
   gitMergeMasterToReleaseBranch
   checkUncommitedChangesInReleaseVersionFiles
   updateReleaseVersionInBuildGradle
-  updateKameHouseMobileAppVersion
   gitCommitReleaseVersionUpdate 
   gitCheckoutMaster
   gitMergeReleaseBranchToMaster
@@ -119,21 +118,10 @@ updateReleaseVersionInBuildGradle() {
   checkCommandStatus "$?"
 }
 
-updateKameHouseMobileAppVersion() {
-  log.info "Updating kamehouse-mobile app version"
-  local PREVIOUS_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${PREVIOUS_RELEASE_VERSION}.1"
-  local RELEASE_APP_VERSION="<widget id=\"com.nicobrest.kamehouse\" version=\"${RELEASE_VERSION}.1"
-
-  sed -i "s+${PREVIOUS_APP_VERSION}+${RELEASE_APP_VERSION}+g" kamehouse-mobile/source-config.xml
-}
-
 gitCommitReleaseVersionUpdate() {
   log.info "Commiting changes to release version in build.gradle and kamehouse-mobile"
 
   git add build.gradle
-  checkCommandStatus "$?"
-
-  git add kamehouse-mobile/source-config.xml
   checkCommandStatus "$?"
 
   git commit -m "Updated project files to release v${RELEASE_VERSION}"

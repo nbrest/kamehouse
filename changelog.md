@@ -15,6 +15,7 @@
 - Moved kamehouse-desktop.cfg to kamehouse-desktop.toml
 - Moved apache2 user back to default www-data
 - Moved all groot apis from php to a python web service and removed all php dependencies
+- Removed current build version from kamehouse-mobile source-config.xml
 - Removed dev setup with -dev.sh scripts
 - Added kamehouse-desktop python unit tests
 - Added kamehouse-ui and kamehouse-mobile typescript unit tests
