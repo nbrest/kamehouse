@@ -9,7 +9,7 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
-mainProcessLin() {
+mainProcess() {
   local BUILD_INFO_FILE="${KAMEHOUSE_GROOT_PATH}/conf/build-info.json"
   if [ -f "${BUILD_INFO_FILE}" ]; then
     cat "${BUILD_INFO_FILE}"

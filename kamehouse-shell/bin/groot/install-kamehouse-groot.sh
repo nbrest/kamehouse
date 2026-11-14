@@ -12,7 +12,7 @@ initScriptEnv() {
   PYTHON_BIN=${PYTHON_BIN:-}
 }
 
-mainProcessLin() {
+mainProcess() {
   log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_GROOT_PATH}"
   log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_GROOT_SOURCE}${COL_DEFAULT_LOG} as the source of the service"
   checkSourcePath
