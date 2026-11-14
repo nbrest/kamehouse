@@ -6,8 +6,8 @@ getKameHouseShellPathContent() {
     return
   fi
 
-  # List all directories
-  local PATH_CONTENT=$(find ${BASE_PATH} -name '.*' -prune -o -type ${TYPE})
+  # Removed -name '.*' -prune so it doesn't block paths containing .kamehouse
+  local PATH_CONTENT=$(find "${BASE_PATH}" -type "${TYPE}")
 
   # Filter bashrc
   PATH_CONTENT=$(echo "$PATH_CONTENT" | grep -v /bashrc)
@@ -30,8 +30,8 @@ getKameHouseShellPathContent() {
     PATH_CONTENT=$(echo "$PATH_CONTENT" | grep -v /win)  
   fi
 
-  # Filter .. directory
-  PATH_CONTENT=$(echo "$PATH_CONTENT" | grep -v '/\..*')
+  # Filter out only current (.) and parent (..) directory entries safely
+  PATH_CONTENT=$(echo "$PATH_CONTENT" | grep -vE '/\.\.?$')
 
   # Replace \n with :  
   PATH_CONTENT=$(echo "$PATH_CONTENT" | tr '\n' ':')
@@ -40,4 +40,4 @@ getKameHouseShellPathContent() {
   PATH_CONTENT=$(echo "$PATH_CONTENT" | sed '$s/.$//')
 
   echo "${PATH_CONTENT}"
-} 
+}
