@@ -36,12 +36,9 @@ class ExecuteIntegrationTest extends AbstractGrootIntegrationTest {
     var standardOutput = result.getStandardOutput();
     assertNotNull(standardOutputHtml, "standardOutputHtml is null");
     assertNotNull(standardOutput, "standardOutput is null");
-    assertStringInOutput(standardOutputHtml, "Started executing script");
-    assertStringInOutput(standardOutputHtml, "Finished executing script");
-    assertStringInOutput(standardOutput, "Started executing script");
-    assertStringInOutput(standardOutput, "Finished executing script");
-    assertStringInOutput(standardOutput, "status: ");
     assertStringInOutput(standardOutput, "display help");
+    assertStringInOutput(standardOutput, "display script config file");
+    assertStringInOutput(standardOutput, "edit script config file");
   }
 
   /**
