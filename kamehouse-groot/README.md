@@ -58,10 +58,11 @@ The service runs independently on port `9091` and talks to the MariaDB database 
 kamehouse-groot/
   pyproject.toml
   run.py
+  conf/default-kamehouse-groot.toml # default TOML configuration
   src/main/python/kamehouse_groot/
     __main__.py                  # uvicorn entrypoint
     main.py                      # FastAPI app factory and lifespan
-    config.py                    # GROOT_* settings
+    config.py                    # TOML settings
     logging_config.py            # file and console logging
     database.py                  # async MariaDB user/role queries
     api/
@@ -103,37 +104,37 @@ kamehouse-groot/
 
 ## Configuration
 
-The service reads `GROOT_*` environment variables:
+The service reads its configuration from two TOML files, following the same pattern as `kamehouse-desktop`:
 
-| Variable | Default | Description |
+* `${HOME}/programs/kamehouse-groot/conf/default-kamehouse-groot.toml` contains the default values deployed with the service.
+* `${HOME}/.kamehouse/config/kamehouse-groot.toml` contains the user overrides. The installer creates it from a commented template and values in this file override the defaults.
+
+The file locations are fixed. The service reads these TOML files on startup, so restart it after changing them.
+
+The TOML keys are the lower-case setting names under the `[groot]` table:
+
+| Key | Default | Description |
 | --- | --- | --- |
-| `GROOT_HOST` | `0.0.0.0` | Address where uvicorn listens |
-| `GROOT_PORT` | `9091` | Port where uvicorn listens |
-| `GROOT_LOG_LEVEL` | `INFO` | Log level |
-| `GROOT_DEPLOY_PATH` | `${HOME}/programs/kamehouse-groot` | Deployment directory with `logs/`, `run/` and `conf/` |
-| `GROOT_USER_HOME` | `${HOME}` | Home directory used to resolve `~/logs/<script>.log` |
-| `GROOT_DB_HOST` | `127.0.0.1` | MariaDB host |
-| `GROOT_DB_PORT` | `3306` | MariaDB port |
-| `GROOT_DB_NAME` | `kamehouse` | MariaDB database |
-| `GROOT_DB_USER` | `kamehouse` | MariaDB user |
-| `GROOT_DB_PASSWORD_SECRET` | `MARIADB_PASS_KAMEHOUSE` | Secret key used to retrieve the database password |
-| `GROOT_SHELL_BIN` | `${HOME}/programs/kamehouse-shell/bin` | kamehouse-shell bin directory |
-| `GROOT_SECRET_SCRIPT` | `${GROOT_SHELL_BIN}/secrets/get-kamehouse-secret.sh` | Script used to read secrets |
-| `GROOT_COMMAND_TIMEOUT_SECONDS` | `300` | Timeout for foreground scripts |
-| `GROOT_DAEMON_WAIT_SECONDS` | `5` | Wait after starting a daemon script |
-| `GROOT_USE_SCRIPT_LOG` | `true` | Redirect daemon output to `~/logs/<script>.log` |
-| `GROOT_SESSION_COOKIE_NAME` | `kamehouse-groot-session` | Login session cookie name |
-| `GROOT_SESSION_DIR` | `${GROOT_DEPLOY_PATH}/run/sessions` | Directory where login sessions are persisted. Set it to share sessions with another web service |
-| `GROOT_SESSION_MAX_AGE_SECONDS` | `2629746` | Login session lifetime in seconds, one month by default. Set it to `0` to disable expiry |
-| `GROOT_SCRIPTS_CSV` | `csv/csv-kamehouse-shell.sh` | Script run by the `scripts` endpoint, relative to `${GROOT_SHELL_BIN}` |
-| `GROOT_SERVICE_NAME` | `kamehouse-groot` | Name used for the log files, `<service_name>.log` and `<service_name>-access.log` |
-
-The startup script maps the kamehouse config values to the service environment:
-
-* `GROOT_BIND_IP` -> `GROOT_HOST`
-* `GROOT_BIND_PORT` -> `GROOT_PORT`
-
-Both variables are defined in `${HOME}/.kamehouse/config/kamehouse.cfg` and default to `0.0.0.0` and `9091`.
+| `host` | `0.0.0.0` | Address where uvicorn listens |
+| `port` | `9091` | Port where uvicorn listens |
+| `log_level` | `INFO` | Log level |
+| `deploy_path` | `${HOME}/programs/kamehouse-groot` | Deployment directory with `logs/`, `run/` and `conf/` |
+| `user_home` | `${HOME}` | Home directory used to resolve `~/logs/<script>.log` |
+| `db_host` | `127.0.0.1` | MariaDB host |
+| `db_port` | `3306` | MariaDB port |
+| `db_name` | `kamehouse` | MariaDB database |
+| `db_user` | `kamehouse` | MariaDB user |
+| `db_password_secret` | `MARIADB_PASS_KAMEHOUSE` | Secret key used to retrieve the database password |
+| `shell_bin` | `${HOME}/programs/kamehouse-shell/bin` | kamehouse-shell bin directory |
+| `secret_script` | `${shell_bin}/secrets/get-kamehouse-secret.sh` | Script used to read secrets |
+| `command_timeout_seconds` | `300` | Timeout for foreground scripts |
+| `daemon_wait_seconds` | `5` | Wait after starting a daemon script |
+| `use_script_log` | `true` | Redirect daemon output to `~/logs/<script>.log` |
+| `session_cookie_name` | `kamehouse-groot-session` | Login session cookie name |
+| `session_dir` | `${deploy_path}/run/sessions` | Directory where login sessions are persisted. Set it to share sessions with another web service |
+| `session_max_age_seconds` | `2629746` | Login session lifetime in seconds, one month by default. Set it to `0` to disable expiry |
+| `scripts_csv` | `csv/csv-kamehouse-shell.sh` | Script run by the `scripts` endpoint, relative to `${shell_bin}` |
+| `service_name` | `kamehouse-groot` | Name used for the log files, `<service_name>.log` and `<service_name>-access.log` |
 
 The database password is not stored in configuration. The service runs:
 
@@ -168,7 +169,7 @@ Password verification supports the bcrypt hash variants:
 
 The SQL queries are parameterized and the username and password are validated before querying the database.
 
-Sessions are stored in memory and persisted under `${GROOT_DEPLOY_PATH}/run/sessions` so they survive service restarts. Sessions and their cookie expire after `GROOT_SESSION_MAX_AGE_SECONDS`, which defaults to one month. Session tokens are validated before being used as file names. Another web service sharing the same sessions, sets `GROOT_SESSION_DIR` to this directory and reads the files on every request without the in-memory cache.
+Sessions are stored in memory and persisted under `${deploy_path}/run/sessions` so they survive service restarts. Sessions and their cookie expire after `session_max_age_seconds`, which defaults to one month. Session tokens are validated before being used as file names. Another web service sharing the same sessions, sets `session_dir` to this directory and reads the files on every request without the in-memory cache.
 
 ### Authentication errors
 
@@ -184,7 +185,7 @@ A `WWW-Authenticate: Basic` challenge is returned with `401` responses.
 
 Other web services can build on `kamehouse-groot` instead of duplicating its wiring:
 
-* Subclass `Settings` with its own `env_prefix`, `port`, `deploy_path`, `shell_bin`, `secret_script`, `session_dir`, `scripts_csv` and `service_name`.
+* Subclass `Settings` with its own config file names, `port`, `deploy_path`, `shell_bin`, `secret_script`, `session_dir`, `scripts_csv` and `service_name`.
 * Subclass `ShellExecutionService` and override `is_forbidden_script` to use its own forbidden script list.
 * Build its app with `create_base_app(settings, title=..., root_path=...)`, reusing the exception handlers and lifespan.
 * Mount the shell endpoints with `build_admin_shell_router(prefix, tags)`.
@@ -469,6 +470,7 @@ The deployment directory layout is:
 ```text
 ${HOME}/programs/kamehouse-groot/
   conf/build-info.json
+  conf/default-kamehouse-groot.toml
   logs/kamehouse-groot.log
   logs/kamehouse-groot-access.log
   logs/kamehouse-groot-startup.log
@@ -631,7 +633,7 @@ The script is in the forbidden list. Use a dedicated kamehouse-shell script inst
 
 ### Daemon output is missing
 
-Daemon output is written to `~/logs/<script>.log` when `GROOT_USE_SCRIPT_LOG=true`. If the file doesn't exist, check that the kamehouse user can write to `${HOME}/logs`.
+Daemon output is written to `~/logs/<script>.log` when `use_script_log = true`. If the file doesn't exist, check that the kamehouse user can write to `${HOME}/logs`.
 
 ### First install requires network access
 

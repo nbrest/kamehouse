@@ -1,0 +1,30 @@
+# kamehouse-groot configuration - user overrides
+# Values in this file override default-kamehouse-groot.toml.
+
+[groot]
+# host = "0.0.0.0"
+# port = 9091
+# log_level = "INFO"
+# deploy_path = "~/programs/kamehouse-groot"
+# user_home = "~"
+
+# db_host = "127.0.0.1"
+# db_port = 3306
+# db_name = "kamehouse"
+# db_user = "kamehouse"
+# db_password_secret = "MARIADB_PASS_KAMEHOUSE"
+
+# shell_bin = "~/programs/kamehouse-shell/bin"
+# secret_script = "~/programs/kamehouse-shell/bin/secrets/get-kamehouse-secret.sh"
+
+# scripts_csv = "csv/csv-kamehouse-shell.sh"
+
+# session_cookie_name = "kamehouse-groot-session"
+# session_dir = "~/programs/kamehouse-groot/run/sessions"
+# session_max_age_seconds = 2629746
+
+# command_timeout_seconds = 300
+# daemon_wait_seconds = 5
+# use_script_log = true
+
+# service_name = "kamehouse-groot"

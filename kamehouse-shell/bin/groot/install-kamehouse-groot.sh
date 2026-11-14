@@ -19,6 +19,7 @@ mainProcessLin() {
   resolvePythonBin
   checkPythonVersion
   installSources
+  installKamehouseGrootConfig
   installVirtualEnvironment
   generateGrootBuildInfo
   logKameHouseGrootStatus
@@ -65,8 +66,21 @@ installSources() {
   mkdir -p "${KAMEHOUSE_GROOT_PATH}" "${KAMEHOUSE_GROOT_LOG_DIR}" "${KAMEHOUSE_GROOT_PATH}/run" "${KAMEHOUSE_GROOT_PATH}/conf"
   rm -rf "${KAMEHOUSE_GROOT_PATH}/src"
   cp -rf "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/src" "${KAMEHOUSE_GROOT_PATH}/"
+  cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/conf/default-kamehouse-groot.toml" "${KAMEHOUSE_GROOT_PATH}/conf/"
   cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/pyproject.toml" "${KAMEHOUSE_GROOT_PATH}/"
   cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/README.md" "${KAMEHOUSE_GROOT_PATH}/"
+}
+
+installKamehouseGrootConfig() {
+  local KAMEHOUSE_GROOT_CONFIG="${HOME}/.kamehouse/config/kamehouse-groot.toml"
+  log.info "Installing kamehouse-groot.toml"
+  if [ ! -f "${KAMEHOUSE_GROOT_CONFIG}" ]; then
+    log.info "${COL_PURPLE}${KAMEHOUSE_GROOT_CONFIG}${COL_MESSAGE} not found. Creating it from template"
+    mkdir -p "${HOME}/.kamehouse/config/"
+    cp "${KAMEHOUSE_GROOT_SOURCE}/docker/setup-kamehouse/config/kamehouse-groot.toml" "${KAMEHOUSE_GROOT_CONFIG}"
+  else
+    log.info "kamehouse-groot.toml file exists. skipping"
+  fi
 }
 
 ensurePythonVenvSupport() {

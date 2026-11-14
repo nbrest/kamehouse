@@ -39,14 +39,8 @@ startKameHouseGroot() {
     return
   fi
   checkKameHouseGrootInstallation
-  log.info "Starting ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} on ${COL_PURPLE}${GROOT_BIND_IP}:${GROOT_BIND_PORT}"
+  log.info "Starting ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
   mkdir -p "${KAMEHOUSE_GROOT_LOG_DIR}" "${KAMEHOUSE_GROOT_PATH}/run"
-  export GROOT_DEPLOY_PATH="${KAMEHOUSE_GROOT_PATH}"
-  export GROOT_HOST="${GROOT_BIND_IP}"
-  export GROOT_PORT="${GROOT_BIND_PORT}"
-  export GROOT_USER_HOME="${HOME}"
-  export GROOT_SHELL_BIN="${HOME}/programs/kamehouse-shell/bin"
-  export GROOT_LOG_LEVEL="${GROOT_LOG_LEVEL:-INFO}"
 
   nohup "${KAMEHOUSE_GROOT_PYTHON}" -m kamehouse_groot > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
   local PID=$!
@@ -90,7 +84,7 @@ stopKameHouseGroot() {
 
 printKameHouseGrootStatus() {
   if isKameHouseGrootRunning; then
-    log.info "kamehouse-groot is running with pid ${COL_PURPLE}${KAMEHOUSE_GROOT_PID}${COL_DEFAULT_LOG} on ${COL_PURPLE}${GROOT_BIND_IP}:${GROOT_BIND_PORT}"
+    log.info "kamehouse-groot is running with pid ${COL_PURPLE}${KAMEHOUSE_GROOT_PID}"
   else
     log.info "kamehouse-groot is not running"
   fi

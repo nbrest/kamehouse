@@ -10,6 +10,7 @@ mainProcess() {
   mkdir -p ${HOME}/.kamehouse/config/
   cp -v -f ${HOME}/git/kamehouse/docker/setup-kamehouse/config/kamehouse.cfg ${HOME}/.kamehouse/config/
   cp -v -f ${HOME}/git/kamehouse/docker/setup-kamehouse/config/kamehouse-desktop.toml ${HOME}/.kamehouse/config/
+  cp -v -f ${HOME}/git/kamehouse/docker/setup-kamehouse/config/kamehouse-groot.toml ${HOME}/.kamehouse/config/
 
   log.info "Reinit keys"
   mkdir -p ${HOME}/.kamehouse/config/keys
