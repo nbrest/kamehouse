@@ -73,7 +73,7 @@ setupHttpd() {
   a2ensite default-ssl 
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
 
-  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-httpd
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/var/log/
   fixPermissions
 
   chmod a+rx /var/log/apache2 
