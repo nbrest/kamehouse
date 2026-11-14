@@ -55,7 +55,7 @@ All the scripts are available on the directory `${HOME}/.kamehouse/opt/kamehouse
 - Execute `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-reinit-container.sh -p dev` to sync the ssh keys and the configuration files of the host to the container using default password `gohan`
 
 - Connnect through ssh to the container using the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ssh-kamehouse.sh -p dev`. After syncing the keys it should login to the container without asking a password. Inside the container's console:
-  - Deploy your changes using `$cd {HOME}/git/kamehouse ; deploy-kamehouse.sh -c`
+  - Deploy your changes using `$cd {HOME}/.kamehouse/git/kamehouse ; deploy-kamehouse.sh -c`
   - Tail tomcat and apache httpd logs using the `tail-log.sh` script
   - Test kamehouse-shell and kamehouse-cmd inside the container (or deploy them on the host and test on the host too)
 

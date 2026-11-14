@@ -107,13 +107,13 @@ printEnv() {
 configGitDevDir() {
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
     log.info "Configuring git dev directory"
-    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git config --global --add safe.directory /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse"
+    sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/git/kamehouse ; git config --global --add safe.directory /home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/git/kamehouse"
   fi
 }
 
 pullKameHouse() {
   log.info "Pulling latest KameHouse dev branch"
-  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/git/kamehouse ; git pull origin dev"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/git/kamehouse ; git pull origin dev"
 }
 
 deployKameHouse() {

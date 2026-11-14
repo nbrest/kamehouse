@@ -8,7 +8,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 importKamehouse functions/docker/docker-functions.sh
 
 initScriptEnv() {
-  PROJECT_DIR=/home/${DOCKER_USERNAME}/git/kamehouse
+  PROJECT_DIR=/home/${DOCKER_USERNAME}/.kamehouse/git/kamehouse
   SUCCESS="SUCCESS EXECUTING INTEGRATION TESTS"
   ERROR="ERROR EXECUTING INTEGRATION TESTS"
 }
@@ -21,8 +21,8 @@ mainProcess() {
   /home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/deploy/build-kamehouse.sh -p ci -i
   BUILD_RESULT=$?
 
-  BUILD_LOG=`tail -n 150 /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
-  BUILD_LOG_OUTPUT=`cat /home/${DOCKER_USERNAME}/logs/build-kamehouse.log`
+  BUILD_LOG=`tail -n 150 /home/${DOCKER_USERNAME}/.kamehouse/var/log/build-kamehouse.log`
+  BUILD_LOG_OUTPUT=`cat /home/${DOCKER_USERNAME}/.kamehouse/var/log/build-kamehouse.log`
   # gradle prints BUILD SUCCESSFUL when the build succeeds, and BUILD FAILED when it fails
   echo -e "${BUILD_LOG}" | grep "BUILD SUCCESSFUL" > /dev/null
   BUILD_LOG_RESULT=$?

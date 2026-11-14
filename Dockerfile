@@ -39,9 +39,9 @@ COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-kamehouse /home/${KAMEHOUS
 RUN chmod a+x /home/${KAMEHOUSE_USERNAME}/docker/setup-kamehouse/scripts/*
 
 # Copy kamehouse git repo into container
-RUN mkdir -p /home/${KAMEHOUSE_USERNAME}/git
-RUN chown -R ${KAMEHOUSE_USERNAME}:users /home/${KAMEHOUSE_USERNAME}/git
-COPY --chown=${KAMEHOUSE_USERNAME}:users . /home/${KAMEHOUSE_USERNAME}/git/kamehouse
+RUN mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/git
+RUN chown -R ${KAMEHOUSE_USERNAME}:users /home/${KAMEHOUSE_USERNAME}/.kamehouse/git
+COPY --chown=${KAMEHOUSE_USERNAME}:users . /home/${KAMEHOUSE_USERNAME}/.kamehouse/git/kamehouse
 
 # Run docker-build-kamehouse.sh with -b to skip docker cache from this point onwards
 ARG BUILD_DATE_KAMEHOUSE=0000-00-00

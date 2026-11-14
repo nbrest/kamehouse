@@ -9,7 +9,7 @@
   </appender>
 
   <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
-    <File>${user.home}/logs/kamehouse-cmd.log</File>
+    <File>${user.home}/.kamehouse/var/log/kamehouse-cmd.log</File>
     <append>false</append>
     <encoder>
       <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>

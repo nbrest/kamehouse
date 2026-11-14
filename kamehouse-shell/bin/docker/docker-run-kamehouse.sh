@@ -155,9 +155,9 @@ runDockerImage() {
 
   if [ "${DOCKER_PROFILE}" == "dev" ]; then
     local HOST_USERHOME=`getHostUserHome`
-    log.info "Mounting ${HOST_USERHOME}/workspace/kamehouse to /home/${DOCKER_USERNAME}/git/kamehouse"
+    log.info "Mounting ${HOST_USERHOME}/workspace/kamehouse to /home/${DOCKER_USERNAME}/.kamehouse/git/kamehouse"
     DOCKER_COMMAND=${DOCKER_COMMAND}"\
-    -v ${HOST_USERHOME}/workspace/kamehouse:/home/${DOCKER_USERNAME}/git/kamehouse \
+    -v ${HOST_USERHOME}/workspace/kamehouse:/home/${DOCKER_USERNAME}/.kamehouse/git/kamehouse \
     "
   fi
   

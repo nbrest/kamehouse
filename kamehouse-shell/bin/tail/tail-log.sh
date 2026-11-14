@@ -57,21 +57,21 @@ setTailLogParameters() {
     addFileToLogFiles "${USER_HOME}/${APACHE_LOG_DIR}/error.log"
     ;;
   "build")
-    local BUILD_LOG=${USER_HOME}/logs/build-kamehouse.log
+    local BUILD_LOG=${USER_HOME}/.kamehouse/var/log/build-kamehouse.log
     if [ ! -f "${BUILD_LOG}" ]; then
       touch ${BUILD_LOG}
     fi
     addFileToLogFiles ${BUILD_LOG}
     ;;
   "cmd")
-    local CMD_LOG=${USER_HOME}/logs/kamehouse-cmd.log
+    local CMD_LOG=${USER_HOME}/.kamehouse/var/log/kamehouse-cmd.log
     if [ ! -f "${CMD_LOG}" ]; then
       touch ${CMD_LOG}
     fi
     addFileToLogFiles ${CMD_LOG}
     ;;  
   "deploy")
-    local DEPLOY_LOG=${USER_HOME}/logs/deploy-kamehouse.log
+    local DEPLOY_LOG=${USER_HOME}/.kamehouse/var/log/deploy-kamehouse.log
     if [ ! -f "${DEPLOY_LOG}" ]; then
       touch ${DEPLOY_LOG}
     fi
@@ -116,7 +116,7 @@ setKameHouseLogFiles() {
 }
 
 setKameHouseDesktopLogFiles() {
-  addFileToLogFiles "${USER_HOME}/logs/kamehouse-desktop-startup.log"
+  addFileToLogFiles "${USER_HOME}/.kamehouse/var/log/kamehouse-desktop-startup.log"
 }
 
 setKameHouseGrootLogFiles() {

@@ -52,18 +52,18 @@ setEnvironment() {
 
 setupKameHouseUserHome() {
   log.info "Setting up kamehouse user home"
-  chmod a+xwr /home/${KAMEHOUSE_USER}/git 
+  chmod a+xwr /home/${KAMEHOUSE_USER}/.kamehouse/git 
   chmod a+xr /home/${KAMEHOUSE_USER} 
-  mkdir -p /home/${KAMEHOUSE_USER}/logs 
-  chmod a+xr /home/${KAMEHOUSE_USER}/logs 
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/var/log 
+  chmod a+xr /home/${KAMEHOUSE_USER}/.kamehouse/var/log 
   fixPermissions
 }
 
 setupGitRepo() {
   log.info "Setting up kamehouse git repo"
-  suCmd "git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse"
-  git config --global --add safe.directory /home/${KAMEHOUSE_USER}/git/kamehouse
-  cd /home/${KAMEHOUSE_USER}/git/kamehouse 
+  suCmd "git config --global --add safe.directory /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse"
+  git config --global --add safe.directory /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse
+  cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse 
   git remote set-url origin https://github.com/nbrest/kamehouse.git
   git clean -d -x -f
   git reset --hard
@@ -79,8 +79,8 @@ setupGitRepo() {
 
 installKameHouseShell() {
   log.info "Installing kamehouse shell"
-  suCmd "chmod a+x /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/bin/shell/install-kamehouse-shell.sh"
-  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh"
+  suCmd "chmod a+x /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/bin/shell/install-kamehouse-shell.sh"
+  suCmd "cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse ; ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh"
 }
 
 setContainerDefaults() {
@@ -94,11 +94,11 @@ setContainerDefaults() {
 deployKameHouse() {
   log.info "Deploying kamehouse"
   if ${IS_OUTSIDE_DOCKERFILE}; then
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -m shell" 
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c"
+    suCmd "cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c"
   else
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker"
+    suCmd "cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker"
   fi
 }
 
@@ -127,7 +127,7 @@ clearTempFiles() {
     return
   fi
   log.info "Clearing up temp files"
-  suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; ./gradlew clean --console=plain"
+  suCmd "cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse ; ./gradlew clean --console=plain"
 }
 
 createSamplePlaylists() {
@@ -164,10 +164,10 @@ startMariadb() {
 
 setupKameHouseMariadb() {
   log.info "Setting up kamehouse mariadb initial dump"
-  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USER}/docker/setup-kamehouse/secrets/.kamehouse-secrets.cfg | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" 
-  mariadb < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql 
-  mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql
-  mariadb kamehouse < /home/${KAMEHOUSE_USER}/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
+  mariadb -e"set @kameHousePass = '`cat /home/${KAMEHOUSE_USER}/docker/setup-kamehouse/secrets/.kamehouse-secrets.cfg | grep MARIADB_PASS_KAMEHOUSE | cut -d '=' -f 2`'; `cat /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/add-kamehouse-user.sql`" 
+  mariadb < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql 
+  mariadb kamehouse < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql
+  mariadb kamehouse < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
 }
 
 fixPermissions() {
