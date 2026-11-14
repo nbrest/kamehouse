@@ -29,7 +29,7 @@ def create_base_app(
     container: ServiceContainer | None = None,
     title: str = "KameHouse GRoot",
     root_path: str = "/kame-house-groot",
-    version: str = "latest",
+    version: str = "0.0.0",
 ) -> FastAPI:
     """Create a FastAPI application with the shared service wiring.
 
