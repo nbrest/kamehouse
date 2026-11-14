@@ -71,25 +71,20 @@ sudo npm install typescript -g
 ```
 
 * Insall python [(versions)](/docs/versions/versions.md) 
+- `kamehouse-desktop` and `kamehouse-groot` install their python dependencies in isolated virtual environments during deployment, so their packages don't need to be installed globally
+
 ### Install python on windows:
 
   - Windows:
     - Install python to `%USERPROFILE%\programs\python`
     - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
 ```sh
-    pip install PyQt5
     pip install click
-    pip install coverage
     pip install google-api-python-client 
     pip install google-auth-httplib2 
     pip install google-auth-oauthlib
     pip install googleapi
     pip install loguru
-    pip install pytest 
-    pip install requests
-    pip install websocket
-    pip install websocket-client
-    pip install stomper
 ```
 
   - Linux: (when adding here also update `dockerfile-setup-container-os.sh`)
@@ -98,19 +93,12 @@ sudo npm install typescript -g
     sudo apt-get install -y picom
     sudo apt-get install -y xcompmgr
     sudo apt-get install -y python${PYTHON_VERSION}
-    sudo apt-get install -y python3-pyqt5
     sudo apt-get install -y python3-click
-    sudo apt-get install -y python3-coverage
     sudo apt-get install -y python3-google-api-python-client 
     sudo apt-get install -y python3-google-auth-httplib2 
     sudo apt-get install -y python3-google-auth-oauthlib
     sudo apt-get install -y python3-googleapi
     sudo apt-get install -y python3-loguru
-    sudo apt-get install -y python3-pytest 
-    sudo apt-get install -y python3-requests
-    sudo apt-get install -y python3-websocket
-    sudo apt-get install -y python3-websocket-client
-    sudo apt-get install -y python3-stomper
 ```
 
   - OpenWrt:
@@ -118,7 +106,7 @@ sudo npm install typescript -g
 opkg update
 opkg install python3
 opkg install python3-pip
-# then use pip install like in windows (they all install except: PyQt5)
+# then use pip install for the packages listed in the windows section
 ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows

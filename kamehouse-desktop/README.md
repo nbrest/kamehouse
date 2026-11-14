@@ -21,6 +21,9 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - Install with `deploy-kamehouse.sh -m desktop`
 - This module also depends on kamehouse-shell and kamehouse-snape being installed
+- The deployment creates an isolated python virtual environment at `${HOME}/programs/kamehouse-desktop/venv` and installs the dependencies declared in `pyproject.toml`
+- Python 3.11 or newer with the `venv` and `ensurepip` modules is required. The installer installs the OS `venv` package when it's missing on Linux
+- Reinstall the virtual environment dependencies manually with `kamehouse-shell/bin/desktop/install-kamehouse-desktop.sh -f`
 
 - Schedule `keep-alive-kamehouse-desktop.sh` script with cron to keep the kamehouse desktop running
 
@@ -57,7 +60,7 @@ Use groot server manager to:
 
 ## Unit tests
 
-The python unit tests use `pytest` and `coverage`. See [the installation docs](/docs/installation/installation.md)
+The python unit tests use `pytest` and `coverage` installed in an isolated virtual environment
 
 Run the tests and the coverage check from the `kamehouse-desktop` directory:
 
@@ -66,13 +69,15 @@ cd kamehouse-desktop
 python3 src/test/python/run_tests.py
 ```
 
-The runner executes the tests headlessly, prints the coverage report and fails if line coverage thresholds are not met
+The runner creates `.venv` if it doesn't exist, installs the dependencies declared in `pyproject.toml`, executes the tests headlessly, prints the coverage report and fails if line coverage thresholds are not met
 
-To run only the tests without the coverage thresholds:
+Use `--reinstall` to force reinstalling the virtual environment dependencies and `--no-install` to skip the dependency installation
+
+To run only the tests without the coverage thresholds, use the virtual environment python:
 
 ```sh
 cd kamehouse-desktop
-QT_QPA_PLATFORM=offscreen python3 -m pytest src/test/python
+QT_QPA_PLATFORM=offscreen .venv/bin/python -m pytest src/test/python
 ```
 
 The same tests and coverage check run automatically as part of `build-kamehouse.sh` (for a full build or with `-m desktop`).

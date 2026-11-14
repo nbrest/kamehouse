@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Run the KameHouse Desktop unit tests in an isolated virtual environment."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -10,21 +16,42 @@ MIN_LINE_COVERAGE = 80.0
 MIN_BRANCH_COVERAGE = 60.0
 
 DESKTOP_DIR = Path(__file__).resolve().parents[3]
-
-INSTALL_MESSAGE = (
-    "Python test dependencies are missing. Install them with:\n"
-    "  python3 -m pip install --user pytest coverage loguru requests websocket websocket-client stomper\n"
-    "PyQt5 must be installed separately, for example:\n"
-    "  sudo apt-get install -y python3-pyqt5\n"
-    "See kamehouse-desktop/README.md for details."
-)
+PYPROJECT = DESKTOP_DIR / "pyproject.toml"
+VENV = DESKTOP_DIR / ".venv"
+VENV_PYTHON = VENV / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+INSTALL_STAMP = VENV / ".kamehouse-desktop-installed"
 
 
-def run(command, env):
-    return subprocess.run(command, cwd=DESKTOP_DIR, env=env)
+def run(command, env=None):
+    print(f"Running: {' '.join(command)}")
+    return subprocess.run(command, cwd=DESKTOP_DIR, env=env).returncode
 
 
-def main():
+def pyproject_hash():
+    return hashlib.sha256(PYPROJECT.read_bytes()).hexdigest()
+
+
+def ensure_venv(install, reinstall):
+    if not VENV_PYTHON.exists():
+        print(f"Creating virtual environment at {VENV}")
+        subprocess.run([sys.executable, "-m", "venv", str(VENV)], check=True)
+
+    if not install:
+        return
+
+    installed_hash = INSTALL_STAMP.read_text(encoding="utf-8").strip() if INSTALL_STAMP.exists() else ""
+    current_hash = pyproject_hash()
+    if reinstall or installed_hash != current_hash:
+        result = run([str(VENV_PYTHON), "-m", "pip", "install", "--upgrade", "pip"])
+        if result != 0:
+            raise SystemExit("Failed to upgrade pip in the kamehouse-desktop virtual environment")
+        result = run([str(VENV_PYTHON), "-m", "pip", "install", "-e", f"{DESKTOP_DIR}[dev]"])
+        if result != 0:
+            raise SystemExit("Failed to install kamehouse-desktop dependencies")
+        INSTALL_STAMP.write_text(f"{current_hash}\n", encoding="utf-8")
+
+
+def run_unit_tests():
     env = os.environ.copy()
     env.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -33,40 +60,26 @@ def main():
         coverage_json = Path(temp_dir) / "coverage.json"
         env["COVERAGE_FILE"] = coverage_data
 
-        check = subprocess.run(
-            [
-                sys.executable, "-c",
-                "import PyQt5, loguru, requests, websocket, stomper, pytest, coverage",
-            ],
-            cwd=DESKTOP_DIR,
-            env=env,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
-        if check.returncode != 0:
-            print(INSTALL_MESSAGE, file=sys.stderr)
-            return 2
-
         test_result = run(
             [
-                sys.executable, "-m", "coverage", "run",
+                str(VENV_PYTHON), "-m", "coverage", "run",
                 "--branch", "--source=bin", "-m", "pytest", "src/test/python",
             ],
             env,
         )
 
-        run([sys.executable, "-m", "coverage", "report", "-m"], env)
+        run([str(VENV_PYTHON), "-m", "coverage", "report", "-m"], env)
 
-        if test_result.returncode != 0:
-            return test_result.returncode
+        if test_result != 0:
+            return test_result
 
         json_result = run(
-            [sys.executable, "-m", "coverage", "json", "-o", str(coverage_json)],
+            [str(VENV_PYTHON), "-m", "coverage", "json", "-o", str(coverage_json)],
             env,
         )
-        if json_result.returncode != 0:
+        if json_result != 0:
             print("Unable to generate the coverage report", file=sys.stderr)
-            return json_result.returncode
+            return json_result
 
         totals = json.loads(coverage_json.read_text())["totals"]
         statements = totals.get("num_statements", 0)
@@ -89,6 +102,19 @@ def main():
             print("Branch coverage is below the minimum threshold", file=sys.stderr)
             failed = True
         return 1 if failed else 0
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Run KameHouse Desktop tests")
+    parser.add_argument("--no-install", action="store_true", help="skip dependency installation")
+    parser.add_argument("--reinstall", action="store_true", help="force dependency installation")
+    return parser.parse_args()
+
+
+def main():
+    args = parse_arguments()
+    ensure_venv(install=not args.no_install, reinstall=args.reinstall)
+    return run_unit_tests()
 
 
 if __name__ == "__main__":

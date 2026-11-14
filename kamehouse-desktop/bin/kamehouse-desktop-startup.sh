@@ -21,6 +21,7 @@ mainProcess() {
     log.warn "kamehouse-desktop is already running. Exiting..."
     exitSuccessfully
   fi
+  checkKameHouseDesktopInstallation
   initDesktopBackgroundsLists
   exportAppVariables
   startKameHouseDesktop
@@ -41,7 +42,7 @@ startKameHouseDesktop() {
   ${HOME}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
   echo -ne "${COL_NORMAL}"
   cd ${HOME}/programs/kamehouse-desktop
-  python ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py >> "${PROCESS_LOG_FILE}" 2>&1 &
+  "${KAMEHOUSE_DESKTOP_PYTHON}" ${HOME}/programs/kamehouse-desktop/bin/kamehouse_desktop.py >> "${PROCESS_LOG_FILE}" 2>&1 &
 }
 
 main "$@"
