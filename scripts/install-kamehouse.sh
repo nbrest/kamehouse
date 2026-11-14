@@ -31,7 +31,6 @@ main() {
   log.info "Installing ${COL_PURPLE}kamehouse"
   gitCloneKameHouse
   checkPath
-  buildKameHouseHomeFolderDir
   installKameHouseShell
   if ${KAMEHOUSE_SHELL_ONLY}; then
     log.info "Finished installing ${COL_PURPLE}kamehouse-shell${COL_MESSAGE} standalone. Running with -s so skipping the rest"
@@ -64,23 +63,6 @@ checkPath() {
     log.error "This script needs to run from the root directory of a kamehouse git repository. Can't continue"
     exit ${EXIT_ERROR}
   fi
-}
-
-buildKameHouseHomeFolderDir() {
-  log.info "Building kamehouse home folder dirs"
-  mkdir -p ${HOME}/.kamehouse/.vscode
-  mkdir -p ${HOME}/.kamehouse/backup/db
-  mkdir -p ${HOME}/.kamehouse/backup/docker
-  mkdir -p ${HOME}/.kamehouse/backup/local  
-  mkdir -p ${HOME}/.kamehouse/conf
-  mkdir -p ${HOME}/.kamehouse/data
-  mkdir -p ${HOME}/.kamehouse/opt
-  mkdir -p ${HOME}/.kamehouse/secrets
-  mkdir -p ${HOME}/.kamehouse/var/log
-  mkdir -p ${HOME}/.kamehouse/var/tmp
-  mkdir -p ${HOME}/.kamehouse/var/www/html
-
-  cp -vr local-setup/home-kamehouse/vscode ${HOME}/.kamehouse/.vscode 
 }
 
 setupKameHouseSecrets() {

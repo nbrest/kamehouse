@@ -47,6 +47,7 @@ main() {
     exit ${EXIT_SUCCESS}
   fi
   createDirs
+  buildKameHouseHomeFolderDir
   installKameHouseShell
   updateUsername
   updateLogLevel
@@ -54,7 +55,6 @@ main() {
   generateKameHouseShellPathFile
   generateBuildInfo
   if ! ${INSTALL_SCRIPTS_ONLY}; then
-    buildKameHouseHomeFolderDir
     installKamehouseConfig
     installKameHouseSecrets
     updateBashRc
@@ -155,7 +155,7 @@ buildKameHouseHomeFolderDir() {
   mkdir -p ${HOME}/.kamehouse/var/tmp
   mkdir -p ${HOME}/.kamehouse/var/www/html
 
-  cp -vr local-setup/home-kamehouse/vscode ${HOME}/.kamehouse/.vscode 
+  cp -vr local-setup/home-kamehouse/vscode/settings.json ${HOME}/.kamehouse/.vscode/
 }
 
 installKamehouseConfig() {
