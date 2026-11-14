@@ -101,7 +101,7 @@ function matchPatterns() {
 
 # Print file headers displayed by tail when tailing multiple files
 function matchTailFileHeader(fileLine_rx_loc_) {
-  # ==> /c/Users/nbrest/programs/apache-tomcat/logs/kameHouse.log <==
+  # ==> /c/Users/nbrest/.kamehouse/opt/apache-tomcat/logs/kameHouse.log <==
   # Format '==> FILE <=='
   fileLine_rx_loc_ = "^==> .* <==";
   if ($0 ~ fileLine_rx_loc_) {
@@ -404,8 +404,8 @@ function getMessageColor(logLevel_fn_) {
 }
 
 # Undeploying context [/kame-house-media]
-# Deployment of web application archive [C:\Users\nbrest\programs\apache-tomcat\webapps\kame-house.war] has finished in [17,492] ms
-# Deploying web application archive [C:\Users\nbrest\programs\apache-tomcat\webapps\kame-house-media.war]
+# Deployment of web application archive [C:\Users\nbrest\.kamehouse\opt\apache-tomcat\webapps\kame-house.war] has finished in [17,492] ms
+# Deploying web application archive [C:\Users\nbrest\.kamehouse\opt\apache-tomcat\webapps\kame-house-media.war]
 # Server startup in [125877] milliseconds
 function getTomcatMessageColor(message_fn_, logLevel_fn_) {
   if (isLogLevelError(logLevel_fn_)) {

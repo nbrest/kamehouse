@@ -74,16 +74,16 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(extra="ignore")
 
-    config_dir: ClassVar[Path] = Path.home() / ".kamehouse" / "config"
+    config_dir: ClassVar[Path] = Path.home() / ".kamehouse" / "conf"
     config_file_name: ClassVar[str] = "kamehouse-groot.toml"
     default_config_file_name: ClassVar[str] = "default-kamehouse-groot.toml"
     config_table: ClassVar[str] = "groot"
-    default_deploy_path: ClassVar[Path] = Path.home() / "programs" / "kamehouse-groot"
+    default_deploy_path: ClassVar[Path] = Path.home() / ".kamehouse" / "opt" / "kamehouse-groot"
 
     host: str = "0.0.0.0"
     port: int = 9091
     log_level: str = "INFO"
-    deploy_path: Path = Path.home() / "programs" / "kamehouse-groot"
+    deploy_path: Path = Path.home() / ".kamehouse" / "opt" / "kamehouse-groot"
     user_home: Path = Path.home()
 
     db_host: str = "127.0.0.1"
@@ -92,7 +92,7 @@ class Settings(BaseSettings):
     db_user: str = "kamehouse"
     db_password_secret: str = "MARIADB_PASS_KAMEHOUSE"
 
-    shell_bin: Path = Path.home() / "programs" / "kamehouse-shell" / "bin"
+    shell_bin: Path = Path.home() / ".kamehouse" / "opt" / "kamehouse-shell" / "bin"
     secret_script: Path | None = None
 
     scripts_csv: str = "csv/csv-kamehouse-shell.sh"

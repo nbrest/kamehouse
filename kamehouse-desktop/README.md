@@ -125,8 +125,8 @@ vim ~/.local/share/applications/kamehouse-desktop-restart.desktop
 Version=1.0
 Name=KameHouse Desktop Restart
 Comment=Restarts the KameHouse desktop interface
-Exec=/home/USER/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh
-Icon=/home/USER/programs/kamehouse-desktop/lib/ui/img/dbz/kamesenin-logo.png
+Exec=/home/USER/.kamehouse/opt/kamehouse-shell/bin/desktop/kamehouse-desktop-restart.sh
+Icon=/home/USER/.kamehouse/opt/kamehouse-desktop/lib/ui/img/dbz/kamesenin-logo.png
 Terminal=false
 Type=Application
 Categories=Utility;

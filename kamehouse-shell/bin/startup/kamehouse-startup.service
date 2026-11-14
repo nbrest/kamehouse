@@ -3,7 +3,7 @@ After=network.service
 
 [Service]
 User=root
-ExecStart=/home/KAMEHOUSE_USER/programs/kamehouse-shell/bin/startup/kamehouse-startup-service.sh
+ExecStart=/home/KAMEHOUSE_USER/.kamehouse/opt/kamehouse-shell/bin/startup/kamehouse-startup-service.sh
 
 [Install]
 WantedBy=default.target

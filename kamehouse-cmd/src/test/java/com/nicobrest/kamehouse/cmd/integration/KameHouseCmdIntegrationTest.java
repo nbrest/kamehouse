@@ -25,9 +25,9 @@ class KameHouseCmdIntegrationTest {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
   private static final String KAMEHOUSE_CMD_WIN = PropertiesUtils.getUserHome()
-      + "\\programs\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
+      + "\\.kamehouse\\opt\\kamehouse-cmd\\bin\\kamehouse-cmd.bat";
   private static final String KAMEHOUSE_CMD_LIN = PropertiesUtils.getUserHome()
-      + "/programs/kamehouse-cmd/bin/kamehouse-cmd.sh";
+      + "/.kamehouse/opt/kamehouse-cmd/bin/kamehouse-cmd.sh";
   private static final String IN_FILE_PATH = PropertiesUtils.getUserHome()
       + "/kamehouse-cmd-integration-tests-in-file.txt";
   private static final File DECRYPTED_FILE = new File(IN_FILE_PATH);

@@ -6,7 +6,7 @@
 # KAMEHOUSE_USER gets set during install kamehouse-shell
 KAMEHOUSE_USER=""
 
-source /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+source /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 mainProcessLin() {
@@ -20,7 +20,7 @@ mainProcessLin() {
 }
 
 loadKamehouseUserCfg() {
-  source "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/conf/default-kamehouse.cfg"
+  source "/home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/conf/default-kamehouse.cfg"
   source /home/${KAMEHOUSE_USER}/.kamehouse/conf/kamehouse.cfg
   if [ "$?" != "0" ]; then
     log.error "Error importing ~/.kamehouse/conf/kamehouse.cfg" 
@@ -48,7 +48,7 @@ startTomcat() {
     return
   fi
   log.info "Starting tomcat"
-  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh
+  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-startup.sh
 }
 
 startGroot() {
@@ -57,7 +57,7 @@ startGroot() {
     return
   fi
   log.info "Starting kamehouse-groot"
-  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/groot/kamehouse-groot-startup.sh
+  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/groot/kamehouse-groot-startup.sh
 }
 
 startKameHouseDesktop() {
@@ -66,7 +66,7 @@ startKameHouseDesktop() {
     return
   fi
   log.info "Starting kamehouse desktop"
-  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/desktop/kamehouse-desktop-startup.sh
+  su - ${KAMEHOUSE_USER} -c /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/desktop/kamehouse-desktop-startup.sh
 }
 
 exitWithError() {

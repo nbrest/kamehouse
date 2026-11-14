@@ -19,7 +19,7 @@ def deep_merge(base_dict, override_dict):
 class KameHouseSnapeCfg():
     def __init__(self):
         home_dir = Path.home()
-        default_file = home_dir / 'programs/kamehouse-snape/conf/default-kamehouse-snape.toml'
+        default_file = home_dir / '.kamehouse/opt/kamehouse-snape/conf/default-kamehouse-snape.toml'
         user_file = home_dir / '.kamehouse/conf/kamehouse-snape.toml'
 
         self.config = {}

@@ -9,7 +9,7 @@ def main(filter_regex):
     listSnape(filter_regex)
 
 def listSnape(filter_regex):
-    snape_bin_path = Path.home() /"programs"/"kamehouse-snape"/"bin"
+    snape_bin_path = Path.home() /".kamehouse"/"opt"/"kamehouse-snape"/"bin"
     logger.info("kamehouse snape scripts")
     files = snape_bin_path.rglob('*.py')
     for file in files:

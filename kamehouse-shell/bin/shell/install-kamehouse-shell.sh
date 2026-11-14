@@ -236,7 +236,7 @@ updateBashRc() {
     echo "" > ${HOME}/.bashrc
     echo "source \${HOME}/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh" >> ${HOME}/.bashrc
   else 
-    cat ${HOME}/.bashrc | grep "/programs/kamehouse-shell/bin/bashrc/bashrc.sh" > /dev/null
+    cat ${HOME}/.bashrc | grep "/.kamehouse/opt/kamehouse-shell/bin/bashrc/bashrc.sh" > /dev/null
     if [ "$?" != "0" ]; then
       log.info "Adding bashrc/bashrc.sh to ${COL_PURPLE}${HOME}/.bashrc"
       echo "" >> ${HOME}/.bashrc

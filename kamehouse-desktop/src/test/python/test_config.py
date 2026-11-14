@@ -10,7 +10,7 @@ def home_with_config(monkeypatch, tmp_path):
     home = tmp_path / "home"
     config_dir = home / ".kamehouse" / "config"
     config_dir.mkdir(parents=True)
-    (home / "programs" / "kamehouse-desktop" / "conf").mkdir(parents=True)
+    (home / ".kamehouse" / "opt" / "kamehouse-desktop" / "conf").mkdir(parents=True)
     
     # Updated to valid TOML: quoted strings and lowercase booleans
     (config_dir / "kamehouse-desktop.toml").write_text(

@@ -13,7 +13,7 @@ initScriptEnv() {
   DEFAULT_LOG_LEVEL="trace"
   DEFAULT_NUM_LINES="30"
 
-  TOMCAT_LOG_DIR="programs/apache-tomcat/logs"
+  TOMCAT_LOG_DIR=".kamehouse/opt/apache-tomcat/logs"
 
   # Groot log files. Override these variables to reuse this script for other groot deployments
   GROOT_LOG_DIR="${GROOT_LOG_DIR:-${HOME}/.kamehouse/opt/kamehouse-groot/logs}"

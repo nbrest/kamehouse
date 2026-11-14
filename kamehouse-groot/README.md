@@ -221,7 +221,7 @@ curl -u seiya:ikki \
 
 ```json
 {
-  "command": "/home/kamehouse/programs/kamehouse-shell/bin/groot/exec-script.sh -s is-linux-host.sh",
+  "command": "/home/kamehouse/.kamehouse/opt/kamehouse-shell/bin/groot/exec-script.sh -s is-linux-host.sh",
   "exitCode": 0,
   "pid": -1,
   "status": "completed",

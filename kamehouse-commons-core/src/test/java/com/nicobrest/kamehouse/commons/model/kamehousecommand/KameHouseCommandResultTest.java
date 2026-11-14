@@ -35,7 +35,7 @@ class KameHouseCommandResultTest {
     return List.of(
         "\u001b[1;36m2025-03-08 11:09:59\u001b[0;39m - [\u001b[1;34mINFO\u001b[0;39m] - \u001b[0;36mexec-script.sh\u001b[0;39m - \u001b[1;32m\u001b[0;33mStarted executing script (masked args)\u001b[0;39m",
         "\u001b[1;36m2025-03-08 11:09:59\u001b[0;39m - [\u001b[1;34mINFO\u001b[0;39m] - \u001b[0;36mexec-script.sh\u001b[0;39m - \u001b[1;32mValidating command line arguments\u001b[0;39m",
-        "\u001b[1;36m2025-03-08 11:09:59\u001b[0;39m - [\u001b[1;34mINFO\u001b[0;39m] - \u001b[0;36mexec-script.sh\u001b[0;39m - \u001b[1;32mExecuting script \u001b[1;35m'/home/goku/programs/kamehouse-shell/bin/kamehouse/status-kamehouse.sh'\u001b[1;32m\u001b[0;39m",
+        "\u001b[1;36m2025-03-08 11:09:59\u001b[0;39m - [\u001b[1;34mINFO\u001b[0;39m] - \u001b[0;36mexec-script.sh\u001b[0;39m - \u001b[1;32mExecuting script \u001b[1;35m'/home/goku/.kamehouse/opt/kamehouse-shell/bin/kamehouse/status-kamehouse.sh'\u001b[1;32m\u001b[0;39m",
         "\u001b[1;36m2025-03-08 11:10:00\u001b[0;39m - [\u001b[1;34mINFO\u001b[0;39m] - \u001b[0;36mstatus-kamehouse.sh\u001b[0;39m - \u001b[1;32m\u001b[0;33mStarted executing script without args\u001b[0;39m",
         "/:running:0:ROOT",
         "/docs:running:0:docs",
@@ -62,7 +62,7 @@ class KameHouseCommandResultTest {
     return List.of(
         "<span style=\"color:cyan\">2025-03-08 11:09:59<span style=\"color:gray\"> - [<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">] - <span style=\"color:cyan\">exec-script.sh<span style=\"color:gray\"> - <span style=\"color:green\"><span style=\"color:yellow\">Started executing script (masked args)<span style=\"color:gray\">",
         "<span style=\"color:cyan\">2025-03-08 11:09:59<span style=\"color:gray\"> - [<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">] - <span style=\"color:cyan\">exec-script.sh<span style=\"color:gray\"> - <span style=\"color:green\">Validating command line arguments<span style=\"color:gray\">",
-        "<span style=\"color:cyan\">2025-03-08 11:09:59<span style=\"color:gray\"> - [<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">] - <span style=\"color:cyan\">exec-script.sh<span style=\"color:gray\"> - <span style=\"color:green\">Executing script <span style=\"color:purple\">'/home/goku/programs/kamehouse-shell/bin/kamehouse/status-kamehouse.sh'<span style=\"color:green\"><span style=\"color:gray\">",
+        "<span style=\"color:cyan\">2025-03-08 11:09:59<span style=\"color:gray\"> - [<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">] - <span style=\"color:cyan\">exec-script.sh<span style=\"color:gray\"> - <span style=\"color:green\">Executing script <span style=\"color:purple\">'/home/goku/.kamehouse/opt/kamehouse-shell/bin/kamehouse/status-kamehouse.sh'<span style=\"color:green\"><span style=\"color:gray\">",
         "<span style=\"color:cyan\">2025-03-08 11:10:00<span style=\"color:gray\"> - [<span style=\"color:#3996ff\">INFO<span style=\"color:gray\">] - <span style=\"color:cyan\">status-kamehouse.sh<span style=\"color:gray\"> - <span style=\"color:green\"><span style=\"color:yellow\">Started executing script without args<span style=\"color:gray\">",
         "/:running:0:ROOT",
         "/docs:running:0:docs",

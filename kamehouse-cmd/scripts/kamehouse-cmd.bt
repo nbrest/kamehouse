@@ -1,8 +1,8 @@
 @echo off
 
-FOR /F "tokens=* USEBACKQ" %%F IN (`DIR /W /B %HOMEDRIVE%%HOMEPATH%\programs\kamehouse-cmd\lib\kamehouse-cmd-*`) DO (
+FOR /F "tokens=* USEBACKQ" %%F IN (`DIR /W /B %HOMEDRIVE%%HOMEPATH%\.kamehouse\opt\kamehouse-cmd\lib\kamehouse-cmd-*`) DO (
   SET KAMEHOUSE_CMD_JAR=%%F
 )
 
-java -jar %HOMEDRIVE%%HOMEPATH%\programs\kamehouse-cmd\lib\%KAMEHOUSE_CMD_JAR% %*
+java -jar %HOMEDRIVE%%HOMEPATH%\.kamehouse\opt\kamehouse-cmd\lib\%KAMEHOUSE_CMD_JAR% %*
 exit

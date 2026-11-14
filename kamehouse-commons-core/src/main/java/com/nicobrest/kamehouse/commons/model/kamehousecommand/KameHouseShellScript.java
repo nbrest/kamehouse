@@ -34,7 +34,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private static final String KAMEHOUSE_SHELL_BASE = "/programs/kamehouse-shell/bin/";
+  private static final String KAMEHOUSE_SHELL_BASE = "/.kamehouse/opt/kamehouse-shell/bin/";
   private static final String WIN_BASH_BAT = "win/bat/bash.bat";
   private static final String WIN_BASH_SILENT_BAT = "win/bat/bash-silent.bat";
   private static final String WIN_BASH_SILENT_PREFIX = ". /etc/profile ; ";
@@ -72,13 +72,13 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
 
   /**
    * Get the kamehouse-shell script to execute relative
-   * to/programs/kamehouse-shell/bin.
+   * to /.kamehouse/opt/kamehouse-shell/bin.
    */
   protected abstract String getWindowsKameHouseShellScript();
 
   /**
    * Get the kamehouse-shell script to execute relative
-   * to/programs/kamehouse-shell/bin.
+   * to /.kamehouse/opt/kamehouse-shell/bin.
    */
   protected abstract String getLinuxKameHouseShellScript();
 

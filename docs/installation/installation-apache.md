@@ -30,8 +30,8 @@
 
 #### Create a shortcut in Startup:
 
-* Add a shortcut to `$HOME/programs/apache-httpd/bin/httpd.exe` in the *windows startup folder* (Currently in **windows 10** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so httpd runs when I logon
-* Edit the **windows** shortcut and in the field *Start in* change from *$HOME/programs/apache-httpd/bin* to *$HOME/programs/apache-httpd* otherwise it will create the application logs in *$HOME/programs/apache-httpd/bin/logs* instead of *$HOME/programs/apache-httpd/logs*
+* Add a shortcut to `$HOME/.kamehouse/opt/apache-httpd/bin/httpd.exe` in the *windows startup folder* (Currently in **windows 10** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so httpd runs when I logon
+* Edit the **windows** shortcut and in the field *Start in* change from *$HOME/.kamehouse/opt/apache-httpd/bin* to *$HOME/.kamehouse/opt/apache-httpd* otherwise it will create the application logs in *$HOME/.kamehouse/opt/apache-httpd/bin/logs* instead of *$HOME/.kamehouse/opt/apache-httpd/logs*
 * Make the command prompt start minimized: Edit the windows shortcut -> Run -> Minimized
 
 *********************

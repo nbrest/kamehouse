@@ -88,38 +88,38 @@ setContainerDefaults() {
     return
   fi
   log.info "Setting up container defaults"
-  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
+  suCmd "/home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
 }
 
 deployKameHouse() {
   log.info "Deploying kamehouse"
   if ${IS_OUTSIDE_DOCKERFILE}; then
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -m shell" 
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c"
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c"
   else
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
-    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker"
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker -m shell" 
+    suCmd "cd /home/${KAMEHOUSE_USER}/git/kamehouse ; /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -c -p docker"
   fi
 }
 
 setupKameHouseForRootUser() {
   log.info "Setting up kamehouse access for root user"
   chmod a+rx /home/${KAMEHOUSE_USER}
-  chmod a+rx /home/${KAMEHOUSE_USER}/programs 
-  chmod a+rx /home/${KAMEHOUSE_USER}/git/kamehouse 
+  chmod a+rx /home/${KAMEHOUSE_USER}/.kamehouse/opt 
+  chmod a+rx /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse 
 
-  rm -rf /root/programs/kamehouse-*
-  mkdir -p /root/programs
-  ln -s /home/${KAMEHOUSE_USER}/programs/kamehouse-shell /root/programs/kamehouse-shell
-  ln -s /home/${KAMEHOUSE_USER}/programs/kamehouse-snape /root/programs/kamehouse-snape
+  rm -rf /root/.kamehouse/opt/kamehouse-*
+  mkdir -p /root/.kamehouse/opt
+  ln -s /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell /root/.kamehouse/opt/kamehouse-shell
+  ln -s /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-snape /root/.kamehouse/opt/kamehouse-snape
 
   # configure kamehouse-shell for root
-  rm -rf /root/git
-  mkdir -p /root/git
-  ln -s /home/${KAMEHOUSE_USER}/git/kamehouse /root/git/kamehouse
-  cd /home/${KAMEHOUSE_USER}/git/kamehouse
+  rm -rf /root/.kamehouse/git
+  mkdir -p /root/.kamehouse/git
+  ln -s /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse /root/.kamehouse/git/kamehouse
+  cd /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse
   ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh --bashrc-only
-  rm -rf /root/git
+  rm -rf /root/.kamehouse/git
 }
 
 clearTempFiles() {
@@ -135,7 +135,7 @@ createSamplePlaylists() {
     return
   fi
   log.info "Setting up sample playlists"
-  suCmd "/home/${KAMEHOUSE_USER}/programs/kamehouse-shell/bin/media/create-sample-video-playlists.sh"
+  suCmd "/home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/media/create-sample-video-playlists.sh"
 }
 
 configureSudoers() {

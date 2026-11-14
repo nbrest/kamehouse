@@ -73,7 +73,7 @@ setupHttpd() {
   a2ensite default-ssl 
   a2enmod headers proxy proxy_http proxy_wstunnel ssl rewrite 
 
-  mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-httpd
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-httpd
   fixPermissions
 
   chmod a+rx /var/log/apache2 
@@ -98,20 +98,20 @@ setupKameHouseUserHome() {
   mkdir -p /home/${KAMEHOUSE_USER}/.config/vlc/ 
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/vlc/* /home/${KAMEHOUSE_USER}/.config/vlc/
 
-  mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/bin
-  mkdir -p /home/${KAMEHOUSE_USER}/programs/kamehouse-cmd/lib
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-cmd/bin
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-cmd/lib
   fixPermissions
 }
 
 setupTomcat() {
   log.info "Setting up tomcat"
-  sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/programs/apache-tomcat/bin/catalina.sh
-  mkdir -p /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/server.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/programs/apache-tomcat/conf/Catalina/localhost/
-  cp -r /home/${KAMEHOUSE_USER}/programs/apache-tomcat/webapps.dist/* /home/${KAMEHOUSE_USER}/programs/apache-tomcat/webapps/
+  sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/bin/catalina.sh
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/conf/Catalina/localhost
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/server.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/manager.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/conf/Catalina/localhost/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/conf/Catalina/localhost/
+  cp -r /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/webapps.dist/* /home/${KAMEHOUSE_USER}/.kamehouse/opt/apache-tomcat/webapps/
 
   fixPermissions
 }

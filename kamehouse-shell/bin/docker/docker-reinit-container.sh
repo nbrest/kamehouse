@@ -111,13 +111,13 @@ syncSshKeys() {
 
 fixSshFolderPermissions() {
   log.info "Fixing .ssh folder permissions on docker container"
-  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/docker/docker-container/docker-chmod-ssh.sh"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-chmod-ssh.sh"
   runSshCommand
 }
 
 sshFromDockerContainerToHost() {
   log.info "Attempting to connect through ssh from docker container to host..."
-  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/docker/docker-container/docker-sync-ssh-keys-with-host.sh"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-sync-ssh-keys-with-host.sh"
   runSshCommand
   log.warn "If the last command didn't display '${COL_RED}ssh from docker container to host successful${COL_DEFAULT_LOG}' then login to the container and ssh from the container to the host using \${DOCKER_HOST_IP} to add the host key to known hosts file in the container. ${COL_YELLOW}If this is not done, then the automated ssh commands won't work"
 }
@@ -125,7 +125,7 @@ sshFromDockerContainerToHost() {
 reinitKameHouseFolder() {
   log.info "${COL_RED}Reinit .kamehouse folder"
   if [ "${DATA_SOURCE}" == "docker-defaults" ]; then
-    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
     runSshCommand
     return
   fi
@@ -167,10 +167,10 @@ reinitMariadb() {
   case ${DATA_SOURCE} in
   "docker-defaults"|"docker-data"|"host-data")
     log.info "${COL_RED}Reinit mariadb kamehouse db"
-    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s"
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s"
     runSshCommand
 
-    SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/mariadb/mariadb-restore-kamehouse.sh"
+    SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/mariadb/mariadb-restore-kamehouse.sh"
     runSshCommand
     ;;
   *) 
@@ -181,7 +181,7 @@ reinitMariadb() {
 
 showContainerFolderStatus() {
   log.info "docker container folder status"
-  SSH_COMMAND="/home/${DOCKER_USERNAME}/programs/kamehouse-shell/bin/docker/docker-container/docker-kamehouse-folder-status.sh"
+  SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-kamehouse-folder-status.sh"
   runSshCommand
 }
 

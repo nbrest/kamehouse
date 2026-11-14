@@ -85,7 +85,7 @@ public abstract class AbstractKameHouseCommandTest {
    * Full windows command to expect.
    */
   protected String getExpectedWindowsCommmand() {
-    return "C:\\Users\\goku/programs/kamehouse-shell/bin/win/bat/bash.bat "
+    return "C:\\Users\\goku/.kamehouse/opt/kamehouse-shell/bin/win/bat/bash.bat "
         + "-c \"${HOME}/.kamehouse/opt/kamehouse-shell/bin/" + getWindowsShellCommand() + "\"";
   }
 
@@ -93,6 +93,6 @@ public abstract class AbstractKameHouseCommandTest {
    * Full linux command to expect.
    */
   protected String getExpectedLinuxCommmand() {
-    return "/bin/bash -c /home/goku/programs/kamehouse-shell/bin/" + getLinuxShellCommand();
+    return "/bin/bash -c /home/goku/.kamehouse/opt/kamehouse-shell/bin/" + getLinuxShellCommand();
   }
 }

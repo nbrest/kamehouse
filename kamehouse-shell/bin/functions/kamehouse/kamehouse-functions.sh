@@ -7,7 +7,7 @@ DEFAULT_KAMEHOUSE_USERNAME=""
 
 KAMEHOUSE_CFG="${HOME}/.kamehouse/conf/kamehouse.cfg"
 KAMEHOUSE_DESKTOP_CFG="${HOME}/.kamehouse/conf/kamehouse-desktop.toml"
-WIN_BASH="%USERPROFILE%/programs/kamehouse-shell/bin/win/bat/bash.bat"
+WIN_BASH="%USERPROFILE%/.kamehouse/opt/kamehouse-shell/bin/win/bat/bash.bat"
 PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/.kamehouse/git/${PROJECT}"
 DEV_PROJECT_DIR="${HOME}/workspace/${PROJECT}"
@@ -36,7 +36,7 @@ SUDO_KAMEHOUSE_COMMAND=""
 IS_DEV_ENV=false
 
 WIN_USER_HOME="C:\\Users\\${USER}"
-KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\programs\\kamehouse-shell\\bin\\win\\ps1"
+KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\.kamehouse\\opt\\kamehouse-shell\\bin\\win\\ps1"
 
 MODULES_LIST="[admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc]"
 MODULE_SHORT=""

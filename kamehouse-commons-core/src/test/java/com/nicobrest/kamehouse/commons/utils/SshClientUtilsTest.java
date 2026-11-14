@@ -122,7 +122,7 @@ class SshClientUtilsTest {
         "goku",
         new TestDaemonCommand());
 
-    assertEquals("/bin/bash -c ./programs/kamehouse-shell/bin/test-script.sh",
+    assertEquals("/bin/bash -c ./.kamehouse/opt/kamehouse-shell/bin/test-script.sh",
         kameHouseCommandResult.getCommand());
     assertEquals(KameHouseCommandStatus.COMPLETED.getStatus(), kameHouseCommandResult.getStatus());
     assertEquals(0, kameHouseCommandResult.getExitCode());
@@ -144,7 +144,7 @@ class SshClientUtilsTest {
         "goku",
         new TestDaemonCommand());
 
-    assertEquals("/bin/bash -c ./programs/kamehouse-shell/bin/test-script.sh",
+    assertEquals("/bin/bash -c ./.kamehouse/opt/kamehouse-shell/bin/test-script.sh",
         kameHouseCommandResult.getCommand());
     assertEquals(KameHouseCommandStatus.FAILED.getStatus(), kameHouseCommandResult.getStatus());
     assertEquals(1, kameHouseCommandResult.getExitCode());

@@ -118,13 +118,13 @@ pullKameHouse() {
 
 deployKameHouse() {
   log.info "Deploying latest version of KameHouse"
-  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -p docker -m shell"
-  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -p docker"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -p docker -m shell"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -p docker"
   log.info "Finished deploying latest version of KameHouse"
 }
 
 checkKameHouseWar() {
-  local KAMEHOUSE_WAR="/home/${DOCKER_CONTAINER_USERNAME}/programs/apache-tomcat/webapps/kame-house.war"
+  local KAMEHOUSE_WAR="/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt/apache-tomcat/webapps/kame-house.war"
   if [ ! -f "${KAMEHOUSE_WAR}" ]; then
     log.info "Looks like kamehouse webapps were not built at docker image creation. Deploying kamehouse before tomcat startup"
     deployKameHouse
@@ -132,7 +132,7 @@ checkKameHouseWar() {
 }
 
 startTomcat() {
-  local START_TOMCAT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/tomcat/tomcat-startup.sh"
+  local START_TOMCAT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-startup.sh"
   if ${DEBUG_MODE}; then
     log.info "Starting tomcat in debug mode"
     START_TOMCAT_CMD=${START_TOMCAT_CMD}" -d"
@@ -143,7 +143,7 @@ startTomcat() {
 }
 
 startGroot() {
-  local START_GROOT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/programs/kamehouse-shell/bin/groot/kamehouse-groot-startup.sh"
+  local START_GROOT_CMD="/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/groot/kamehouse-groot-startup.sh"
   log.info "Starting kamehouse-groot service"
   sudo su - ${DOCKER_CONTAINER_USERNAME} -c "${START_GROOT_CMD}"
 }

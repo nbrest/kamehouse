@@ -76,8 +76,8 @@ sudo npm install typescript -g
 ### Install python on windows:
 
   - Windows:
-    - Install python to `%USERPROFILE%\programs\python`
-    - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
+    - Install python to `%USERPROFILE%\.kamehouse\opt\python`
+    - Add to path on windows `%USERPROFILE%\.kamehouse\opt\python`, `%USERPROFILE%\.kamehouse\opt\python\Scripts` (Can be set during install)
 
   - Linux: (when adding here also update `dockerfile-setup-container-os.sh`)
 ```sh
