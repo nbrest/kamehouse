@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kamehouse-snape"
+version = "11.04.1"
+description = "KameHouse Snape python scripts"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "click>=8.1,<9.0",
+  "loguru>=0.7.2,<1.0",
+  "google-api-python-client>=2.150,<3.0",
+  "google-auth>=2.35,<3.0",
+  "google-auth-httplib2>=0.2,<1.0",
+  "google-auth-oauthlib>=1.2,<2.0",
+]
+
+[tool.setuptools]
+packages = []

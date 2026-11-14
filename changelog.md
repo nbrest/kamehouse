@@ -9,6 +9,7 @@
 
 - Added AGENTS.md - Turned to the dark side
 - Added kamehouse-groot.toml configuration file
+- Moved kamehouse-snape to use a shared python venv
 - Moved kamehouse-desktop to use python venv
 - Moved kamehouse-desktop.cfg to kamehouse-desktop.toml
 - Moved apache2 user back to default www-data

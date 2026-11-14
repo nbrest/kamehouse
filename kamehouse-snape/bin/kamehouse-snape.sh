@@ -3,14 +3,17 @@
 source ${HOME}/programs/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+importKamehouse functions/snape/snape-functions.sh
+
 initScriptEnv() {
   SNAPE_SCRIPT=""
   SNAPE_SCRIPT_ARGS=
 }
 
 mainProcess() {
+  checkKameHouseSnapeInstallation
   log.info "Executing snape script ${COL_PURPLE}${SNAPE_SCRIPT}${COL_DEFAULT_LOG} with args ${COL_PURPLE}${SNAPE_SCRIPT_ARGS}"
-  python ${SNAPE_PATH}/${SNAPE_SCRIPT} ${SNAPE_SCRIPT_ARGS}
+  "${KAMEHOUSE_SNAPE_PYTHON}" "${KAMEHOUSE_SNAPE_PATH}/${SNAPE_SCRIPT}" ${SNAPE_SCRIPT_ARGS}
   exitProcess $?
 }
 

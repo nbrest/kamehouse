@@ -71,21 +71,13 @@ sudo npm install typescript -g
 ```
 
 * Insall python [(versions)](/docs/versions/versions.md) 
-- `kamehouse-desktop` and `kamehouse-groot` install their python dependencies in isolated virtual environments during deployment, so their packages don't need to be installed globally
+- `kamehouse-desktop`, `kamehouse-groot` and `kamehouse-snape` install their python dependencies in isolated virtual environments during deployment, so their packages don't need to be installed globally
 
 ### Install python on windows:
 
   - Windows:
     - Install python to `%USERPROFILE%\programs\python`
     - Add to path on windows `%USERPROFILE%\programs\python`, `%USERPROFILE%\programs\python\Scripts` (Can be set during install)
-```sh
-    pip install click
-    pip install google-api-python-client 
-    pip install google-auth-httplib2 
-    pip install google-auth-oauthlib
-    pip install googleapi
-    pip install loguru
-```
 
   - Linux: (when adding here also update `dockerfile-setup-container-os.sh`)
 ```sh
@@ -93,12 +85,6 @@ sudo npm install typescript -g
     sudo apt-get install -y picom
     sudo apt-get install -y xcompmgr
     sudo apt-get install -y python${PYTHON_VERSION}
-    sudo apt-get install -y python3-click
-    sudo apt-get install -y python3-google-api-python-client 
-    sudo apt-get install -y python3-google-auth-httplib2 
-    sudo apt-get install -y python3-google-auth-oauthlib
-    sudo apt-get install -y python3-googleapi
-    sudo apt-get install -y python3-loguru
 ```
 
   - OpenWrt:
@@ -106,7 +92,6 @@ sudo npm install typescript -g
 opkg update
 opkg install python3
 opkg install python3-pip
-# then use pip install for the packages listed in the windows section
 ```
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows

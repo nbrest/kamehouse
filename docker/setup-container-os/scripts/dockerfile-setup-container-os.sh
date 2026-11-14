@@ -41,12 +41,6 @@ installBaseApps() {
   apt-get install -y openssh-server
   apt-get install -y picom
   apt-get install -y python3
-  apt-get install -y python3-click
-  apt-get install -y python3-google-api-python-client
-  apt-get install -y python3-google-auth-httplib2
-  apt-get install -y python3-google-auth-oauthlib
-  apt-get install -y python3-googleapi
-  apt-get install -y python3-loguru
   apt-get install -y pip
   apt-get install -y screen
   apt-get install -y sudo

@@ -1,5 +1,5 @@
 /*
- * KameHouse kamehouse-snape: Shell scripts, no java sources to compile.
+ * KameHouse kamehouse-snape: Python and shell scripts, no java sources to compile.
  * The maven pom.xml only declares the module (packaging pom).
  */
 plugins {

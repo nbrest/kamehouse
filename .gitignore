@@ -118,7 +118,9 @@ kamehouse-ui/coverage/
 **/coverage.json
 kamehouse-groot/.venv/
 kamehouse-desktop/.venv/
+kamehouse-snape/.venv/
 **/*.egg-info/
 kamehouse-groot/build/
 kamehouse-desktop/build/
+kamehouse-snape/build/
 

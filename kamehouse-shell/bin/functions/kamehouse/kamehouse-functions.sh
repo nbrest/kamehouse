@@ -102,8 +102,6 @@ KAMEHOUSE_ANDROID_APK_PATH=""
 LOAD_KAMEHOUSE_SECRETS=false
 KAMEHOUSE_SECRETS_LOADED=false
 
-SNAPE_PATH="${HOME}/programs/kamehouse-snape/bin"
-
 # ---------------------------
 # Common kamehouse functions
 # ---------------------------
