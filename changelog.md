@@ -9,8 +9,8 @@
 
 - Added AGENTS.md - Turned to the dark side
 - Added kamehouse-groot.toml configuration file
+- Moved kamehouse-snape.cfg to kamehouse-snape.toml
 - Moved kamehouse-snape to use a shared python venv
-- Set pyproject.toml versions to 0.0.0 and removed pyproject version updates from the release script
 - Moved kamehouse-desktop to use python venv
 - Moved kamehouse-desktop.cfg to kamehouse-desktop.toml
 - Moved apache2 user back to default www-data

@@ -116,13 +116,13 @@ generateBuildInfo() {
 }
 
 installKamehouseSnapeConfig() {
-  log.info "Installing kamehouse-snape.cfg"
-  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-snape.cfg" ]; then
-    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-snape.cfg${COL_MESSAGE} not found. Creating it from template"
+  log.info "Installing kamehouse-snape.toml"
+  if [ ! -f "${HOME}/.kamehouse/config/kamehouse-snape.toml" ]; then
+    log.info "${COL_PURPLE}${HOME}/.kamehouse/config/kamehouse-snape.toml${COL_MESSAGE} not found. Creating it from template"
     mkdir -p ${HOME}/.kamehouse/config/
-    cp docker/setup-kamehouse/config/kamehouse-snape.cfg ${HOME}/.kamehouse/config/kamehouse-snape.cfg
+    cp docker/setup-kamehouse/config/kamehouse-snape.toml ${HOME}/.kamehouse/config/kamehouse-snape.toml
   else
-    log.info "kamehouse-snape.cfg file exists. skipping"
+    log.info "kamehouse-snape.toml file exists. skipping"
   fi
 }
 
