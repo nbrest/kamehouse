@@ -19,3 +19,15 @@ This module contains most of my python scripts. Named after the best Slytherin w
 - All snape scripts are executed via the shell script `snape.sh` installed with `kamehouse-shell`
 
 - For example `snape.sh test.py -arg1 val1 -arg2 val2`
+
+## Configuration
+
+- The default values are in `snape/conf/default-kamehouse-snape.toml`
+- The user overrides are in `${HOME}/.kamehouse/config/kamehouse-snape.toml`
+- Access the config from any snape script with:
+
+```python
+from config.kamehouse_snape_cfg import kamehouse_snape_cfg
+
+value = kamehouse_snape_cfg.get('category', 'key')
+```

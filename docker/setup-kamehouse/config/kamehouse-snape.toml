@@ -1,5 +1,7 @@
 # kamehouse-snape configuration - user overrides
-# Values in this file override default-kamehouse-snape.toml.
+
+[test]
+# test_key = "test val"
 
 [upload_kamehouse_mobile_to_gdrive]
 ## target_folder_id: last string of the url when you see the folder in google drive
