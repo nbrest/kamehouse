@@ -13,6 +13,7 @@ def test_defaults() -> None:
     assert settings.port == 9091
     assert settings.db_name == "kamehouse"
     assert settings.command_timeout_seconds == 300
+    assert settings.session_max_age_seconds == 2629746
 
 
 def test_log_dir() -> None:

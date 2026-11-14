@@ -30,6 +30,7 @@ class FakeAuthService:
 
 class FakeSessionService:
     cookie_name = COOKIE_NAME
+    cookie_max_age = 2629746
 
     def __init__(self, username: str | None = None) -> None:
         self.username = username
@@ -76,6 +77,7 @@ def test_login_creates_session_and_redirects_home() -> None:
     assert response.headers["location"] == "/kame-house/groot/"
     assert session.created == ["seiya"]
     assert f"{COOKIE_NAME}=new-token" in response.headers["set-cookie"]
+    assert "Max-Age=2629746" in response.headers["set-cookie"]
 
 
 def test_login_redirects_to_groot_referrer() -> None:

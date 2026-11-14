@@ -88,6 +88,7 @@ def _set_session_cookie(
     response.set_cookie(
         session_service.cookie_name,
         token,
+        max_age=session_service.cookie_max_age,
         path="/",
         httponly=True,
         samesite="lax",

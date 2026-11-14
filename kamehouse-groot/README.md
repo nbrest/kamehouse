@@ -124,6 +124,7 @@ The service reads `GROOT_*` environment variables:
 | `GROOT_USE_SCRIPT_LOG` | `true` | Redirect daemon output to `~/logs/<script>.log` |
 | `GROOT_SESSION_COOKIE_NAME` | `kamehouse-groot-session` | Login session cookie name |
 | `GROOT_SESSION_DIR` | `${GROOT_DEPLOY_PATH}/run/sessions` | Directory where login sessions are persisted. Set it to share sessions with another web service |
+| `GROOT_SESSION_MAX_AGE_SECONDS` | `2629746` | Login session lifetime in seconds, one month by default. Set it to `0` to disable expiry |
 | `GROOT_SCRIPTS_CSV` | `csv/csv-kamehouse-shell.sh` | Script run by the `scripts` endpoint, relative to `${GROOT_SHELL_BIN}` |
 | `GROOT_SERVICE_NAME` | `kamehouse-groot` | Name used for the log files, `<service_name>.log` and `<service_name>-access.log` |
 
@@ -167,7 +168,7 @@ Password verification supports the bcrypt hash variants:
 
 The SQL queries are parameterized and the username and password are validated before querying the database.
 
-Sessions are stored in memory and persisted under `${GROOT_DEPLOY_PATH}/run/sessions` so they survive service restarts. Session tokens are validated before being used as file names. Another web service sharing the same sessions, like `kamehouse-batcave-groot`, sets `GROOT_SESSION_DIR` to this directory and reads the files on every request without the in-memory cache.
+Sessions are stored in memory and persisted under `${GROOT_DEPLOY_PATH}/run/sessions` so they survive service restarts. Sessions and their cookie expire after `GROOT_SESSION_MAX_AGE_SECONDS`, which defaults to one month. Session tokens are validated before being used as file names. Another web service sharing the same sessions, sets `GROOT_SESSION_DIR` to this directory and reads the files on every request without the in-memory cache.
 
 ### Authentication errors
 
@@ -181,7 +182,7 @@ A `WWW-Authenticate: Basic` challenge is returned with `401` responses.
 
 ## Extending kamehouse-groot
 
-Other web services can build on `kamehouse-groot` instead of duplicating its wiring. `kamehouse-batcave-groot` in the kamehouse-batcave repository extends it this way to expose the batcave shell endpoints on port `9092`:
+Other web services can build on `kamehouse-groot` instead of duplicating its wiring:
 
 * Subclass `Settings` with its own `env_prefix`, `port`, `deploy_path`, `shell_bin`, `secret_script`, `session_dir`, `scripts_csv` and `service_name`.
 * Subclass `ShellExecutionService` and override `is_forbidden_script` to use its own forbidden script list.

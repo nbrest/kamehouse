@@ -7,6 +7,8 @@ from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+DEFAULT_SESSION_MAX_AGE_SECONDS = 2629746
+
 
 class Settings(BaseSettings):
     """Settings loaded from GROOT_* environment variables."""
@@ -32,6 +34,7 @@ class Settings(BaseSettings):
 
     session_cookie_name: str = "kamehouse-groot-session"
     session_dir: Path | None = None
+    session_max_age_seconds: int = DEFAULT_SESSION_MAX_AGE_SECONDS
 
     command_timeout_seconds: int = 300
     daemon_wait_seconds: int = 5

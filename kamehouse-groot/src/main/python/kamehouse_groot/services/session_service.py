@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import secrets
 import threading
+import time
 from pathlib import Path
 
 from kamehouse_groot.config import Settings
@@ -35,7 +36,7 @@ class SessionService:
     def __init__(self, settings: Settings, cache_sessions: bool = True) -> None:
         self._settings = settings
         self._cache_sessions = cache_sessions
-        self._sessions: dict[str, str] = {}
+        self._sessions: dict[str, tuple[str, float]] = {}
         self._lock = threading.Lock()
         self._load_sessions()
 
@@ -44,12 +45,25 @@ class SessionService:
         """Name of the session cookie."""
         return self._settings.session_cookie_name
 
+    @property
+    def max_age_seconds(self) -> int:
+        """Lifetime of a login session in seconds."""
+        return self._settings.session_max_age_seconds
+
+    @property
+    def cookie_max_age(self) -> int | None:
+        """Max-Age for the session cookie, or None for a browser session cookie."""
+        if self.max_age_seconds <= 0:
+            return None
+        return self.max_age_seconds
+
     def create(self, username: str) -> str:
         """Create a session for the username and return its token."""
         token = secrets.token_urlsafe(SESSION_TOKEN_BYTES)
+        created_at = time.time()
         with self._lock:
             if self._cache_sessions:
-                self._sessions[token] = username
+                self._sessions[token] = (username, created_at)
             self._write_session(token, username)
         return token
 
@@ -58,14 +72,30 @@ class SessionService:
         if not is_valid_session_token(token):
             return None
 
+        now = time.time()
         if self._cache_sessions:
             with self._lock:
-                username = self._sessions.get(token)
-                if username is not None:
+                session = self._sessions.get(token)
+                if session is not None:
+                    username, created_at = session
+                    if self._is_expired(created_at, now):
+                        self._sessions.pop(token, None)
+                        self._unlink_session(token)
+                        return None
                     return username
 
         path = self._session_path(token)
         if not path.is_file():
+            return None
+
+        try:
+            created_at = path.stat().st_mtime
+        except OSError as exc:
+            LOGGER.warning("Could not stat session file %s: %s", path, exc)
+            return None
+
+        if self._is_expired(created_at, now):
+            self._unlink_session(token)
             return None
 
         try:
@@ -79,7 +109,7 @@ class SessionService:
 
         if self._cache_sessions:
             with self._lock:
-                self._sessions[token] = username
+                self._sessions[token] = (username, created_at)
         return username
 
     def delete(self, token: str | None) -> None:
@@ -89,13 +119,19 @@ class SessionService:
 
         with self._lock:
             self._sessions.pop(token, None)
-            try:
-                self._session_path(token).unlink(missing_ok=True)
-            except OSError as exc:
-                LOGGER.warning("Could not delete session file for %s: %s", token, exc)
+            self._unlink_session(token)
+
+    def _is_expired(self, created_at: float, now: float) -> bool:
+        return self.max_age_seconds > 0 and now - created_at >= self.max_age_seconds
 
     def _session_path(self, token: str) -> Path:
         return self._settings.resolved_session_dir / token
+
+    def _unlink_session(self, token: str) -> None:
+        try:
+            self._session_path(token).unlink(missing_ok=True)
+        except OSError as exc:
+            LOGGER.warning("Could not delete session file for %s: %s", token, exc)
 
     def _load_sessions(self) -> None:
         if not self._cache_sessions:
@@ -105,16 +141,21 @@ class SessionService:
         if not session_dir.is_dir():
             return
 
+        now = time.time()
         for path in session_dir.iterdir():
             if not path.is_file() or not is_valid_session_token(path.name):
                 continue
             try:
+                created_at = path.stat().st_mtime
+                if self._is_expired(created_at, now):
+                    self._unlink_session(path.name)
+                    continue
                 username = path.read_text(encoding="utf-8").strip()
             except OSError as exc:
                 LOGGER.warning("Could not read session file %s: %s", path, exc)
                 continue
             if username:
-                self._sessions[path.name] = username
+                self._sessions[path.name] = (username, created_at)
 
     def _write_session(self, token: str, username: str) -> None:
         try:

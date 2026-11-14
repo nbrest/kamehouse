@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+import time
 from pathlib import Path
 
 import pytest
@@ -38,6 +40,54 @@ def test_get_username_loads_lazily_from_disk(tmp_path: Path) -> None:
     token = "abcDEF123-_"
     (session_dir / token).write_text("shiryu\n", encoding="utf-8")
     assert service.get_username(token) == "shiryu"
+
+
+def test_expired_session_is_removed(tmp_path: Path) -> None:
+    settings = Settings(deploy_path=tmp_path / "deploy", session_max_age_seconds=10)
+    SessionService(settings).create("seiya")
+    session_dir = tmp_path / "deploy" / "run" / "sessions"
+    token = next(session_dir.iterdir()).name
+    path = session_dir / token
+    expired = time.time() - 11
+    os.utime(path, (expired, expired))
+
+    service = SessionService(settings, cache_sessions=False)
+    assert service.get_username(token) is None
+    assert not path.exists()
+
+
+def test_expired_sessions_are_not_loaded(tmp_path: Path) -> None:
+    settings = Settings(deploy_path=tmp_path / "deploy", session_max_age_seconds=10)
+    session_dir = tmp_path / "deploy" / "run" / "sessions"
+    session_dir.mkdir(parents=True)
+    token = "expiredToken"
+    path = session_dir / token
+    path.write_text("seiya\n", encoding="utf-8")
+    expired = time.time() - 11
+    os.utime(path, (expired, expired))
+
+    service = SessionService(settings)
+    assert service.get_username(token) is None
+    assert not path.exists()
+
+
+def test_zero_max_age_disables_expiry(tmp_path: Path) -> None:
+    settings = Settings(deploy_path=tmp_path / "deploy", session_max_age_seconds=0)
+    service = SessionService(settings)
+    token = service.create("seiya")
+    path = tmp_path / "deploy" / "run" / "sessions" / token
+    expired = time.time() - 999999
+    os.utime(path, (expired, expired))
+
+    reloaded = SessionService(settings, cache_sessions=False)
+    assert reloaded.get_username(token) == "seiya"
+    assert reloaded.cookie_max_age is None
+
+
+def test_cookie_max_age(tmp_path: Path) -> None:
+    service = SessionService(_settings(tmp_path))
+    assert service.max_age_seconds == 2629746
+    assert service.cookie_max_age == 2629746
 
 
 def test_invalid_tokens_are_rejected(tmp_path: Path) -> None:
