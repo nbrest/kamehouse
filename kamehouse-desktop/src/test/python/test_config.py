@@ -8,7 +8,7 @@ from config.kamehouse_desktop_cfg import KameHouseDesktopCfg
 @pytest.fixture
 def home_with_config(monkeypatch, tmp_path):
     home = tmp_path / "home"
-    config_dir = home / ".kamehouse" / "config"
+    config_dir = home / ".kamehouse" / "conf"
     config_dir.mkdir(parents=True)
     (home / ".kamehouse" / "opt" / "kamehouse-desktop" / "conf").mkdir(parents=True)
     
