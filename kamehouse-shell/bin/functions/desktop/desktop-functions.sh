@@ -19,6 +19,9 @@ setKameHouseDesktopPython() {
 }
 
 checkKameHouseDesktopInstallation() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   setKameHouseDesktopPython
   if [ ! -x "${KAMEHOUSE_DESKTOP_PYTHON}" ]; then
     log.error "kamehouse-desktop virtual environment not found at ${COL_PURPLE}${KAMEHOUSE_DESKTOP_VENV_PATH}"
