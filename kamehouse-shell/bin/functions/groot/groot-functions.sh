@@ -10,6 +10,14 @@ KAMEHOUSE_GROOT_STOP_TIMEOUT=20
 
 setKameHouseGrootPython() {
   if ${PYTHON_SKIP_VENVS}; then
+    local PYTHON_BIN_FILE="${KAMEHOUSE_GROOT_PATH}/conf/python-bin"
+    if [ -f "${PYTHON_BIN_FILE}" ]; then
+      KAMEHOUSE_GROOT_PYTHON=`cat "${PYTHON_BIN_FILE}"`
+    elif ${IS_WIN_HOST}; then
+      KAMEHOUSE_GROOT_PYTHON="python"
+    else
+      KAMEHOUSE_GROOT_PYTHON="python3"
+    fi
     return
   fi
   if ${IS_WIN_HOST}; then
@@ -28,7 +36,7 @@ setKameHouseGrootPid() {
       return
     fi
   fi
-  KAMEHOUSE_GROOT_PID=`ps aux | grep "python.*kamehouse_groot" | grep -v "grep" | awk '{print $2}' | head -n 1`
+  KAMEHOUSE_GROOT_PID=`ps aux | grep "python.*kamehouse[-_]groot" | grep -v "grep" | awk '{print $2}' | head -n 1`
 }
 
 isKameHouseGrootRunning() {
@@ -37,10 +45,10 @@ isKameHouseGrootRunning() {
 }
 
 checkKameHouseGrootInstallation() {
+  setKameHouseGrootPython
   if ${PYTHON_SKIP_VENVS}; then
     return
-  fi  
-  setKameHouseGrootPython
+  fi
   if [ ! -x "${KAMEHOUSE_GROOT_PYTHON}" ]; then
     log.error "kamehouse-groot virtual environment not found at ${COL_PURPLE}${KAMEHOUSE_GROOT_VENV_PATH}"
     log.error "Run ${COL_PURPLE}install-kamehouse-groot.sh${COL_DEFAULT_LOG} to install it"
@@ -58,13 +66,8 @@ startKameHouseGroot() {
   mkdir -p "${KAMEHOUSE_GROOT_LOG_DIR}" "${KAMEHOUSE_GROOT_PATH}/run"
 
   local PID=""
-  if ${PYTHON_SKIP_VENVS}; then
-    nohup "${KAMEHOUSE_GROOT_PYTHON}" ${HOME}/.kamehouse/opt/kamehouse-groot/src/main/python/kamehouse_groot/main.py > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
-    PID=$!
-  else
-    nohup "${KAMEHOUSE_GROOT_PYTHON}" -m kamehouse_groot > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
-    PID=$!
-  fi
+  nohup "${KAMEHOUSE_GROOT_PYTHON}" "${KAMEHOUSE_GROOT_PATH}/run.py" > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
+  PID=$!
   echo "${PID}" > "${KAMEHOUSE_GROOT_PID_FILE}"
 
   log.info "Waiting for kamehouse-groot to start..."

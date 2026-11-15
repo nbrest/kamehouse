@@ -40,6 +40,7 @@ installSources() {
   cp -rf "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/src" "${KAMEHOUSE_GROOT_PATH}/"
   cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/conf/default-kamehouse-groot.toml" "${KAMEHOUSE_GROOT_PATH}/conf/"
   cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/pyproject.toml" "${KAMEHOUSE_GROOT_PATH}/"
+  cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/run.py" "${KAMEHOUSE_GROOT_PATH}/"
   cp -f "${KAMEHOUSE_GROOT_SOURCE}/kamehouse-groot/README.md" "${KAMEHOUSE_GROOT_PATH}/"
 }
 
@@ -101,6 +102,7 @@ installPythonVenvPackage() {
 
 installVirtualEnvironment() {
   if ${PYTHON_SKIP_VENVS}; then
+    installSystemDependencies
     return
   fi
   setKameHouseGrootPython
@@ -131,6 +133,75 @@ installVirtualEnvironment() {
     echo "${PYPROJECT_HASH}" > "${INSTALL_STAMP}"
   else
     log.info "kamehouse-groot dependencies already installed. Skipping. Use -f to force reinstall"
+  fi
+}
+
+isPythonExternallyManaged() {
+  "${PYTHON_BIN}" -c 'import os, sysconfig; raise SystemExit(0 if os.path.exists(os.path.join(sysconfig.get_path("stdlib"), "EXTERNALLY-MANAGED")) else 1)' > /dev/null 2>&1
+}
+
+ensureSystemPythonPip() {
+  if "${PYTHON_BIN}" -m pip --version > /dev/null 2>&1; then
+    return
+  fi
+  log.warn "pip is not available for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}. Installing the python pip package"
+  installPythonPipPackage
+  if ! "${PYTHON_BIN}" -m pip --version > /dev/null 2>&1; then
+    log.error "Could not enable pip for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+    exitProcess ${EXIT_ERROR}
+  fi
+}
+
+installPythonPipPackage() {
+  if command -v apt-get > /dev/null 2>&1; then
+    setSudoKameHouseCommand "apt-get update"
+    ${SUDO_KAMEHOUSE_COMMAND}
+    checkCommandStatus "$?" "An error occurred updating the apt package lists"
+    setSudoKameHouseCommand "apt-get install -y python3-pip"
+    ${SUDO_KAMEHOUSE_COMMAND}
+    checkCommandStatus "$?" "An error occurred installing python3-pip"
+    return
+  fi
+  if command -v dnf > /dev/null 2>&1; then
+    setSudoKameHouseCommand "dnf install -y python3-pip"
+    ${SUDO_KAMEHOUSE_COMMAND}
+    checkCommandStatus "$?" "An error occurred installing python3-pip"
+    return
+  fi
+  if command -v yum > /dev/null 2>&1; then
+    setSudoKameHouseCommand "yum install -y python3-pip"
+    ${SUDO_KAMEHOUSE_COMMAND}
+    checkCommandStatus "$?" "An error occurred installing python3-pip"
+    return
+  fi
+  if command -v apk > /dev/null 2>&1; then
+    setSudoKameHouseCommand "apk add --no-cache py3-pip"
+    ${SUDO_KAMEHOUSE_COMMAND}
+    checkCommandStatus "$?" "An error occurred installing py3-pip"
+    return
+  fi
+  log.error "Could not install the python pip package. Install python3-pip (Debian/Ubuntu), python3-pip (RHEL/Fedora) or py3-pip (Alpine) and run this script again"
+  exitProcess ${EXIT_ERROR}
+}
+
+installSystemDependencies() {
+  ensureSystemPythonPip
+  command -v "${PYTHON_BIN}" > "${KAMEHOUSE_GROOT_PATH}/conf/python-bin"
+  local INSTALL_STAMP="${KAMEHOUSE_GROOT_PATH}/.kamehouse-groot-system-installed"
+  local PYPROJECT_HASH=`sha256sum "${KAMEHOUSE_GROOT_PATH}/pyproject.toml" | cut -d' ' -f1`
+  if ${FORCE_INSTALL} || [ ! -f "${INSTALL_STAMP}" ] || [ "`cat "${INSTALL_STAMP}"`" != "${PYPROJECT_HASH}" ]; then
+    log.info "Installing kamehouse-groot dependencies in the system python. This might require network access"
+    local PIP_INSTALL_PARAMS="--user"
+    if isPythonExternallyManaged; then
+      PIP_INSTALL_PARAMS="${PIP_INSTALL_PARAMS} --break-system-packages"
+    fi
+    "${PYTHON_BIN}" -m pip install ${PIP_INSTALL_PARAMS} --upgrade pip
+    checkCommandStatus "$?" "An error occurred upgrading pip for kamehouse-groot"
+    "${PYTHON_BIN}" -m pip install ${PIP_INSTALL_PARAMS} -e "${KAMEHOUSE_GROOT_PATH}"
+    checkCommandStatus "$?" "An error occurred installing kamehouse-groot dependencies"
+    echo "${PYPROJECT_HASH}" > "${INSTALL_STAMP}"
+  else
+    log.info "kamehouse-groot system dependencies already installed. Skipping. Use -f to force reinstall"
   fi
 }
 
