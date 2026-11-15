@@ -1,5 +1,6 @@
 {
   "files.exclude": {
+    "data/playlists": true,
     "git/": true,
     "opt/apache-*": true,
     "opt/kamehouse-*": true,
