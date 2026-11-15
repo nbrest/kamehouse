@@ -40,7 +40,7 @@ Authorization: Basic {{USERNAME}} {{PASSWORD}}
 const assert = require('assert');
 // TEST - Response code has the expected value
 test("Status code is as expected", () => {
-  assert.strictEqual(response.statusCode, 200);
+  assert.strictEqual(response.statusCode, 400);
 });
 
 // TEST - Response body has content
