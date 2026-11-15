@@ -292,6 +292,16 @@ deployKameHouseUiStatic() {
   fi
   log.info "Deploying ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG}"
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
+  local CURRENT_PATH="${HTTPD_CONTENT_ROOT}/kame-house"
+  while [[ "${CURRENT_PATH}" != "/home" && "${CURRENT_PATH}" != "." ]]; do
+    if [[ -L "${CURRENT_PATH}" ]]; then
+      local TARGET_PATH=$(readlink -f "${CURRENT_PATH}")
+      chmod o+rx "${TARGET_PATH}"
+    fi
+    chmod o+x "${CURRENT_PATH}"
+    CURRENT_PATH=$(dirname "${CURRENT_PATH}")
+  done
+
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house
   cp -rf ./kamehouse-ui/dist/* ${HTTPD_CONTENT_ROOT}/kame-house/
@@ -324,6 +334,7 @@ deployKameHouseUiStatic() {
     exitDeploymentSuccessfully
   fi
 }
+
 
 deployKameHouseMobileStatic() {
   if ! ${IS_DEV_ENV}; then
