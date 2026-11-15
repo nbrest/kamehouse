@@ -2856,7 +2856,7 @@
                         "exec": [
                           "// TEST - Response code has the expected value\r",
                           "pm.test(\"Status code is as expected\", function () {\r",
-                          "pm.test(\"Status code is as expected\", function () {\r\n  pm.response.to.have.status(200);\r\n});\r",
+                          "pm.test(\"Status code is as expected\", function () {\r\n  pm.response.to.have.status(400);\r\n});\r",
                           "});\r",
                           "\r",
                           "// TEST - Response body has content\r",
