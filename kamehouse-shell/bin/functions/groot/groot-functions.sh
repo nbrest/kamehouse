@@ -57,8 +57,14 @@ startKameHouseGroot() {
   log.info "Starting ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
   mkdir -p "${KAMEHOUSE_GROOT_LOG_DIR}" "${KAMEHOUSE_GROOT_PATH}/run"
 
-  nohup "${KAMEHOUSE_GROOT_PYTHON}" -m kamehouse_groot > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
-  local PID=$!
+  local PID=""
+  if ${PYTHON_SKIP_VENVS}; then
+    nohup "${KAMEHOUSE_GROOT_PYTHON}" ${HOME}/.kamehouse/opt/kamehouse-groot/src/main/python/kamehouse_groot/main.py > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
+    PID=$!
+  else
+    nohup "${KAMEHOUSE_GROOT_PYTHON}" -m kamehouse_groot > "${KAMEHOUSE_GROOT_STARTUP_LOG}" 2>&1 &
+    PID=$!
+  fi
   echo "${PID}" > "${KAMEHOUSE_GROOT_PID_FILE}"
 
   log.info "Waiting for kamehouse-groot to start..."
