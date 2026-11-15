@@ -29,10 +29,10 @@ class KameHouseCmdIntegrationTest {
   private static final String KAMEHOUSE_CMD_LIN = PropertiesUtils.getUserHome()
       + "/.kamehouse/opt/kamehouse-cmd/bin/kamehouse-cmd.sh";
   private static final String IN_FILE_PATH = PropertiesUtils.getUserHome()
-      + "/kamehouse-cmd-integration-tests-in-file.txt";
+      + "/.kamehouse/var/tmp/kamehouse-cmd-integration-tests-in-file.txt";
   private static final File DECRYPTED_FILE = new File(IN_FILE_PATH);
   private static final String OUT_FILE_PATH = PropertiesUtils.getUserHome()
-      + "/kamehouse-cmd-integration-tests-out-file.enc";
+      + "/.kamehouse/var/tmp/kamehouse-cmd-integration-tests-out-file.enc";
   private static final File ENCRYPTED_FILE = new File(OUT_FILE_PATH);
 
   /**
