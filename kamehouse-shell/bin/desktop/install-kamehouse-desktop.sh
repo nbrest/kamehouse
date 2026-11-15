@@ -172,7 +172,7 @@ installVirtualEnvironment() {
     log.info "Creating python virtual environment at ${COL_PURPLE}${KAMEHOUSE_DESKTOP_VENV_PATH}"
     rm -rf "${KAMEHOUSE_DESKTOP_VENV_PATH}"
     if ${PYTHON_ENV_USE_SYSTEM_PACKAGES}; then
-      PYTHON_VENV_PARAMS="${PYTHON_VENV_PARAMS} --system-site-packages --no-deps"
+      PYTHON_VENV_PARAMS="${PYTHON_VENV_PARAMS} --no-build-isolation"
     fi
     "${PYTHON_BIN}" -m venv ${PYTHON_VENV_PARAMS} "${KAMEHOUSE_DESKTOP_VENV_PATH}"
     checkCommandStatus "$?" "An error occurred creating the kamehouse-desktop virtual environment"
