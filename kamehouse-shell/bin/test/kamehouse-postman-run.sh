@@ -6,7 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 initScriptEnv() {
   # Run the collection from the current directory, which must be the kamehouse repo root
   USE_CURRENT_DIR=true
-  PROFILE="dev-tomcat"
+  PROFILE="localhost"
   POSTMAN_COLLECTION="postman/collections/kame-house.postman_collection.json"
   POSTMAN_ENVIRONMENT=""
   POSTMAN_GLOBALS="postman/globals/workspace.postman_globals.json"
