@@ -24,6 +24,12 @@
   - Update `${HOME}/.kamehouse/opt/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in HOME_KAMEHOUSE
   - Update `${HOME}/.kamehouse/opt/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
 
+- In an admin cmd.exe run these commands to create the httpd logs symlink to tail the logs:
+```sh
+rm "%USERPROFILE%\.kamehouse\var\log\apache2"
+mklink /D "%USERPROFILE%\.kamehouse\var\log\apache2" "%USERPROFILE%\.kamehouse\opt\apache-httpd\logs"
+```
+
 #### Run httpd through a startup script, not as a system service
 
 - Otherwise the command to start tomcat from kamehouse groot will start tomcat in the background and when I start vlc it will also start in the background. To avoid that, don't run httpd as a service. Start it up creating a shortcut in the startup directory
