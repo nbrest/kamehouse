@@ -7,14 +7,16 @@
 
 * The recommended and easiest way is to install is through docker as explained in [docker-setup.md](/docs/docker/docker-setup.md)
 
-## To install natively without docker:
+## Install natively without docker:
 
+### Java
 * Install java JDK [(versions)](/docs/versions/versions.md)
 
 * Nothing else to install the build tools. The project builds with the gradle wrapper
   (`./gradlew build`), that downloads the gradle distribution declared in
   `gradle/wrapper/gradle-wrapper.properties`
 
+### Windows Shelll
 * Install msys2 (for tmux use on windows)
   - Make sure it's installed to `C:\msys64`
 ```sh
@@ -57,10 +59,9 @@ db_home: windows
 
 * Configure intellij to use git from `C:\msys64\usr\bin\git.exe` / `C:/msys64/usr/bin/git.exe` / `C:\\msys64\\usr\\bin\\git.exe`
 
-* Cofigure source tree to use it's own git implementation
-
 * Download a compatible git version for vscode like [Git For Windows](https://git-scm.com/install/windows) and configure vs code to use it
 
+### Node
 * Install node [(versions)](/docs/versions/versions.md) 
 ```sh
 # Update dockerfile when updating node version here
@@ -70,16 +71,17 @@ sudo apt-get -y install nodejs
 sudo npm install typescript -g
 ```
 
+### Install python:
+
 * Insall python [(versions)](/docs/versions/versions.md) 
 - `kamehouse-desktop`, `kamehouse-groot` and `kamehouse-snape` install their python dependencies in isolated virtual environments during deployment, so their packages don't need to be installed globally
 
-### Install python on windows:
+#### Windows:
+- Install python to `%USERPROFILE%\.kamehouse\opt\python`
+- Add to path on windows `%USERPROFILE%\.kamehouse\opt\python`, `%USERPROFILE%\.kamehouse\opt\python\Scripts` (Can be set during install)
 
-  - Windows:
-    - Install python to `%USERPROFILE%\.kamehouse\opt\python`
-    - Add to path on windows `%USERPROFILE%\.kamehouse\opt\python`, `%USERPROFILE%\.kamehouse\opt\python\Scripts` (Can be set during install)
-
-  - Linux: (when adding here also update `dockerfile-setup-container-os.sh`)
+#### Linux: 
+- *when adding here also update `dockerfile-setup-container-os.sh`*
 ```sh
     PYTHON_VERSION=   # set value from versions.md
     sudo apt-get install -y picom
@@ -87,14 +89,24 @@ sudo npm install typescript -g
     sudo apt-get install -y python${PYTHON_VERSION}
     sudo apt-get install -y python${PYTHON_VERSION}-venv
 ```
+##### Raspberry Pi
+- Some dependencies are needed systemwide in raspberrypi even using venvs
 
-  - OpenWrt:
+```sh
+sudo apt update
+sudo apt install python3-pyqt5 -y
+python3 -m venv --system-site-packages venv
+```
+
+#### OpenWrt:
 ```sh
 opkg update
 opkg install python3
 opkg install python3-pip
 opkg install python3-venv
 ```
+
+### Mariadb
 
 * Install mariadb server [(versions)](/docs/versions/versions.md) and set a password for user root in windows
 
@@ -113,10 +125,13 @@ opkg install python3-venv
       secure-file-priv=""
       ```
 
+### Tomcat
 * Install tomcat following [installation-tomcat.md](/docs/installation/installation-tomcat.md)
 
+### Apache httpd
 * Install apache following [installation-apache.md](/docs/installation/installation-apache.md)
 
+### Kamehouse modules
 * Once the above setup is complete, download and run the script [install-kamehouse.sh](/scripts/install-kamehouse.sh) from this git repo, which will pull kamehouse from git into `${HOME}/.kamehouse/git/kamehouse` and run the deployment script that will build and deploy all kamehouse modules
 ```sh
 wget https://raw.githubusercontent.com/nbrest/kamehouse/refs/heads/dev/scripts/install-kamehouse.sh

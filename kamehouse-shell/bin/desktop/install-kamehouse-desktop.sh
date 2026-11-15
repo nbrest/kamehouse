@@ -170,7 +170,7 @@ installVirtualEnvironment() {
     ensurePythonVenvSupport
     log.info "Creating python virtual environment at ${COL_PURPLE}${KAMEHOUSE_DESKTOP_VENV_PATH}"
     rm -rf "${KAMEHOUSE_DESKTOP_VENV_PATH}"
-    "${PYTHON_BIN}" -m venv "${KAMEHOUSE_DESKTOP_VENV_PATH}"
+    "${PYTHON_BIN}" -m venv --system-site-packages "${KAMEHOUSE_DESKTOP_VENV_PATH}"
     checkCommandStatus "$?" "An error occurred creating the kamehouse-desktop virtual environment"
     if ! "${KAMEHOUSE_DESKTOP_PYTHON}" -m pip --version > /dev/null 2>&1; then
       log.info "Bootstrapping pip in the kamehouse-desktop virtual environment"
