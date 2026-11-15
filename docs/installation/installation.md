@@ -83,11 +83,10 @@ sudo npm install typescript -g
 #### Linux: 
 - *when adding here also update `dockerfile-setup-container-os.sh`*
 ```sh
-    PYTHON_VERSION=   # set value from versions.md
     sudo apt-get install -y picom
     sudo apt-get install -y xcompmgr
-    sudo apt-get install -y python${PYTHON_VERSION}
-    sudo apt-get install -y python${PYTHON_VERSION}-venv
+    sudo apt-get install -y python3
+    sudo apt-get install -y python3-venv
 ```
 ##### Raspberry Pi
 - For raspberrypi not all packages are available on venv and take forever to build or even fails, so override to use the system packages with `PYTHON_SKIP_VENVS=true` in `kamehouse.cfg`
