@@ -3,7 +3,7 @@
     "git/": true,
     "opt/apache-*": true,
     "opt/kamehouse-*": true,
-    "opt/python-*": true,
+    "opt/python": true,
     "var/log/": true
   }
 }
