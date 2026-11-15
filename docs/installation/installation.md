@@ -90,12 +90,23 @@ sudo npm install typescript -g
     sudo apt-get install -y python${PYTHON_VERSION}-venv
 ```
 ##### Raspberry Pi
-- Some dependencies are needed systemwide in raspberrypi even using venvs
+- For raspberrypi not all packages are available on venv and take forever to build or even fails, so override to use the system packages with `PYTHON_ENV_USE_SYSTEM_PACKAGES=true` in `kamehouse.cfg`
 
 ```sh
-sudo apt update
-sudo apt install python3-pyqt5 -y
-python3 -m venv --system-site-packages venv
+sudo apt-get install -y python3-click
+sudo apt-get install -y python3-coverage
+sudo apt-get install -y python3-google-api-python-client 
+sudo apt-get install -y python3-google-auth-httplib2 
+sudo apt-get install -y python3-google-auth-oauthlib    
+sudo apt-get install -y python3-google-auth-oauthlib
+sudo apt-get install -y python3-googleapi
+sudo apt-get install -y python3-loguru
+sudo apt-get install -y python3-pyqt5
+sudo apt-get install -y python3-pytest 
+sudo apt-get install -y python3-requests
+sudo apt-get install -y python3-stomper
+sudo apt-get install -y python3-websocket
+sudo apt-get install -y python3-websocket-client
 ```
 
 #### OpenWrt:

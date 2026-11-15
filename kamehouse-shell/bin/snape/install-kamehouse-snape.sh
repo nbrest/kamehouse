@@ -10,6 +10,7 @@ initScriptEnv() {
   KAMEHOUSE_SNAPE_SOURCE=`pwd`
   FORCE_INSTALL=false
   PYTHON_BIN=${PYTHON_BIN:-}
+  PYTHON_VENV_PARAMS=""
 }
 
 mainProcess() {
@@ -159,8 +160,11 @@ installVirtualEnvironment() {
   if [ ! -x "${KAMEHOUSE_SNAPE_PYTHON}" ] || ! "${KAMEHOUSE_SNAPE_PYTHON}" -m pip --version > /dev/null 2>&1; then
     ensurePythonVenvSupport
     log.info "Creating python virtual environment at ${COL_PURPLE}${KAMEHOUSE_SNAPE_VENV_PATH}"
-    rm -rf "${KAMEHOUSE_SNAPE_VENV_PATH}"
-    "${PYTHON_BIN}" -m venv "${KAMEHOUSE_SNAPE_VENV_PATH}"
+    rm -rf "${KAMEHOUSE_SNAPE_VENV_PATH}" 
+    if ${PYTHON_ENV_USE_SYSTEM_PACKAGES}; then
+      PYTHON_VENV_PARAMS="${PYTHON_VENV_PARAMS} --system-site-packages --no-deps"
+    fi
+    "${PYTHON_BIN}" -m venv ${PYTHON_VENV_PARAMS} "${KAMEHOUSE_SNAPE_VENV_PATH}"
     checkCommandStatus "$?" "An error occurred creating the kamehouse-snape virtual environment"
     if ! "${KAMEHOUSE_SNAPE_PYTHON}" -m pip --version > /dev/null 2>&1; then
       log.info "Bootstrapping pip in the kamehouse-snape virtual environment"
