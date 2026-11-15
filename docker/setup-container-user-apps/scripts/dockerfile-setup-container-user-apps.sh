@@ -61,8 +61,6 @@ setupHttpd() {
   mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/var/www/html/kamehouse-kintoun
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/conf/* /etc/apache2/conf
   cp -r /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/sites-available/* /etc/apache2/sites-available
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.crt /etc/ssl/certs/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/certs/apache-selfsigned.key /etc/ssl/private/
   cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/apache2/robots.txt /home/${KAMEHOUSE_USER}/.kamehouse/var/www/html/kamehouse-kintoun
   chown ${KAMEHOUSE_USER}:users -R /home/${KAMEHOUSE_USER}/.kamehouse/var/www/html/kamehouse-kintoun
 
