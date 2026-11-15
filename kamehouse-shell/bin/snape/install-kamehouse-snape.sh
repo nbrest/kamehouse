@@ -112,6 +112,9 @@ ensurePythonVenvSupport() {
 }
 
 installPythonVenvPackage() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   if ! ${IS_LIN_HOST}; then
     log.error "Could not install the python venv package on this host. Install a Python 3.11 or newer distribution with the venv and ensurepip modules and run this script again"
     exitProcess ${EXIT_ERROR}

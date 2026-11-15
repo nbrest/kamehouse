@@ -1,9 +1,12 @@
 KAMEHOUSE_SNAPE_INSTALL_PATH="${HOME}/.kamehouse/opt/kamehouse-snape"
 KAMEHOUSE_SNAPE_PATH="${KAMEHOUSE_SNAPE_INSTALL_PATH}/bin"
 KAMEHOUSE_SNAPE_VENV_PATH="${KAMEHOUSE_SNAPE_INSTALL_PATH}/venv"
-KAMEHOUSE_SNAPE_PYTHON=""
+KAMEHOUSE_SNAPE_PYTHON="python"
 
 setKameHouseSnapePython() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   if ${IS_WIN_HOST}; then
     KAMEHOUSE_SNAPE_PYTHON="${KAMEHOUSE_SNAPE_VENV_PATH}/Scripts/python.exe"
   else
@@ -12,6 +15,9 @@ setKameHouseSnapePython() {
 }
 
 checkKameHouseSnapeInstallation() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   setKameHouseSnapePython
   if [ ! -x "${KAMEHOUSE_SNAPE_PYTHON}" ]; then
     log.error "kamehouse-snape virtual environment not found at ${COL_PURPLE}${KAMEHOUSE_SNAPE_VENV_PATH}"

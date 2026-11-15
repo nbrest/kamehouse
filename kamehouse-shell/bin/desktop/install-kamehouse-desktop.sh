@@ -11,7 +11,6 @@ initScriptEnv() {
   KAMEHOUSE_DESKTOP_SOURCE=`pwd`
   FORCE_INSTALL=false
   PYTHON_BIN=${PYTHON_BIN:-}
-  PIP_INSTALL_PARAMS=""
 }
 
 mainProcess() {
@@ -181,11 +180,7 @@ installVirtualEnvironment() {
     log.info "Installing kamehouse-desktop dependencies. This might require network access"
     "${KAMEHOUSE_DESKTOP_PYTHON}" -m pip install --upgrade pip
     checkCommandStatus "$?" "An error occurred upgrading pip for kamehouse-desktop"
-    if ${PYTHON_ENV_USE_SYSTEM_PACKAGES}; then
-      PIP_INSTALL_PARAMS="${PIP_INSTALL_PARAMS} --no-build-isolation"
-    fi
-    log.debug "PIP_INSTALL_PARAMS=${PIP_INSTALL_PARAMS}"    
-    "${KAMEHOUSE_DESKTOP_PYTHON}" -m pip install ${PIP_INSTALL_PARAMS} -e "${KAMEHOUSE_DESKTOP_PATH}"
+    "${KAMEHOUSE_DESKTOP_PYTHON}" -m pip install -e "${KAMEHOUSE_DESKTOP_PATH}"
     checkCommandStatus "$?" "An error occurred installing kamehouse-desktop dependencies"
     echo "${PYPROJECT_HASH}" > "${INSTALL_STAMP}"
   else

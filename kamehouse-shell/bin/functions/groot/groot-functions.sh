@@ -1,6 +1,6 @@
 KAMEHOUSE_GROOT_PATH="${HOME}/.kamehouse/opt/kamehouse-groot"
 KAMEHOUSE_GROOT_VENV_PATH="${KAMEHOUSE_GROOT_PATH}/venv"
-KAMEHOUSE_GROOT_PYTHON=""
+KAMEHOUSE_GROOT_PYTHON="python"
 KAMEHOUSE_GROOT_PID_FILE="${KAMEHOUSE_GROOT_PATH}/run/kamehouse-groot.pid"
 KAMEHOUSE_GROOT_LOG_DIR="${KAMEHOUSE_GROOT_PATH}/logs"
 KAMEHOUSE_GROOT_STARTUP_LOG="${KAMEHOUSE_GROOT_LOG_DIR}/kamehouse-groot-startup.log"
@@ -9,6 +9,9 @@ KAMEHOUSE_GROOT_PID=""
 KAMEHOUSE_GROOT_STOP_TIMEOUT=20
 
 setKameHouseGrootPython() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   if ${IS_WIN_HOST}; then
     KAMEHOUSE_GROOT_PYTHON="${KAMEHOUSE_GROOT_VENV_PATH}/Scripts/python.exe"
   else
@@ -34,6 +37,9 @@ isKameHouseGrootRunning() {
 }
 
 checkKameHouseGrootInstallation() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi  
   setKameHouseGrootPython
   if [ ! -x "${KAMEHOUSE_GROOT_PYTHON}" ]; then
     log.error "kamehouse-groot virtual environment not found at ${COL_PURPLE}${KAMEHOUSE_GROOT_VENV_PATH}"

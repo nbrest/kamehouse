@@ -100,6 +100,9 @@ installPythonVenvPackage() {
 }
 
 installVirtualEnvironment() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   setKameHouseGrootPython
   if [ ! -x "${KAMEHOUSE_GROOT_PYTHON}" ] || ! "${KAMEHOUSE_GROOT_PYTHON}" -m pip --version > /dev/null 2>&1; then
     ensurePythonVenvSupport
