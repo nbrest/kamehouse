@@ -110,10 +110,7 @@ installVirtualEnvironment() {
     ensurePythonVenvSupport
     log.info "Creating python virtual environment at ${COL_PURPLE}${KAMEHOUSE_GROOT_VENV_PATH}"
     rm -rf "${KAMEHOUSE_GROOT_VENV_PATH}"
-    if ${PYTHON_ENV_USE_SYSTEM_PACKAGES}; then
-      PYTHON_VENV_PARAMS="${PYTHON_VENV_PARAMS} --system-site-packages --no-deps"
-    fi
-    "${PYTHON_BIN}" -m venv ${PYTHON_VENV_PARAMS} "${KAMEHOUSE_GROOT_VENV_PATH}"
+    "${PYTHON_BIN}" -m venv "${KAMEHOUSE_GROOT_VENV_PATH}"
     checkCommandStatus "$?" "An error occurred creating the kamehouse-groot virtual environment"
     if ! "${KAMEHOUSE_GROOT_PYTHON}" -m pip --version > /dev/null 2>&1; then
       log.info "Bootstrapping pip in the kamehouse-groot virtual environment"
