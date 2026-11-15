@@ -457,6 +457,49 @@ getHttpdContentRoot() {
   echo "${HOME}/.kamehouse/var/www/html/kamehouse-kintoun"
 }
 
+# Check if the python binary passed as argument is python 3.11 or newer
+isCompatiblePythonBin() {
+  local PYTHON_CANDIDATE=$1
+  "${PYTHON_CANDIDATE}" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' > /dev/null 2>&1
+}
+
+# Resolve the python binary to use to install the kamehouse python services.
+# It uses the PYTHON_BIN value if it's set, then the python binaries in the PATH
+# and finally the local kamehouse python installation at ${HOME}/.kamehouse/opt/python
+resolvePythonBin() {
+  if [ -n "${PYTHON_BIN}" ]; then
+    if command -v "${PYTHON_BIN}" > /dev/null 2>&1 || [ -f "${PYTHON_BIN}" ]; then
+      return
+    fi
+    log.error "Python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG} not found"
+    exitProcess ${EXIT_ERROR}
+  fi
+  local CANDIDATE
+  for CANDIDATE in python3 python; do
+    if command -v "${CANDIDATE}" > /dev/null 2>&1; then
+      if isCompatiblePythonBin "${CANDIDATE}"; then
+        PYTHON_BIN="${CANDIDATE}"
+        log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+        return
+      fi
+      log.debug "Python binary ${COL_PURPLE}${CANDIDATE}${COL_DEFAULT_LOG} found in the PATH is not python 3.11 or newer. Skipping it"
+    fi
+  done
+  local PYTHON_INSTALL_DIR="${HOME}/.kamehouse/opt/python"
+  for CANDIDATE in "${PYTHON_INSTALL_DIR}/bin/python3" "${PYTHON_INSTALL_DIR}/bin/python" "${PYTHON_INSTALL_DIR}/python3" "${PYTHON_INSTALL_DIR}/python" "${PYTHON_INSTALL_DIR}/python3.exe" "${PYTHON_INSTALL_DIR}/python.exe"; do
+    if [ -f "${CANDIDATE}" ]; then
+      if isCompatiblePythonBin "${CANDIDATE}"; then
+        PYTHON_BIN="${CANDIDATE}"
+        log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+        return
+      fi
+      log.debug "Python binary ${COL_PURPLE}${CANDIDATE}${COL_DEFAULT_LOG} is not python 3.11 or newer. Skipping it"
+    fi
+  done
+  log.error "Python 3.11 or newer is required but no compatible python binary was found in the PATH or at ${COL_PURPLE}${PYTHON_INSTALL_DIR}${COL_DEFAULT_LOG}"
+  exitProcess ${EXIT_ERROR}
+}
+
 # Trims the PATH, so the windows cmd.exe is able to search it for a command.
 # The kamehouse shell add every script directory to the PATH, and on
 # windows the PATH ends up longer than the cmd.exe limit. When that happens, cmd.exe is not able

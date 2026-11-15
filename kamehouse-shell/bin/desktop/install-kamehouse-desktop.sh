@@ -36,26 +36,6 @@ checkSourcePath() {
   fi
 }
 
-resolvePythonBin() {
-  if [ -n "${PYTHON_BIN}" ]; then
-    if command -v "${PYTHON_BIN}" > /dev/null 2>&1; then
-      return
-    fi
-    log.error "Python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG} not found"
-    exitProcess ${EXIT_ERROR}
-  fi
-  local CANDIDATE
-  for CANDIDATE in python3 python; do
-    if command -v "${CANDIDATE}" > /dev/null 2>&1; then
-      PYTHON_BIN="${CANDIDATE}"
-      log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
-      return
-    fi
-  done
-  log.error "Python 3.11 or newer is required but neither ${COL_PURPLE}python3${COL_DEFAULT_LOG} nor ${COL_PURPLE}python${COL_DEFAULT_LOG} was found"
-  exitProcess ${EXIT_ERROR}
-}
-
 checkPythonVersion() {
   if ! "${PYTHON_BIN}" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' > /dev/null 2>&1; then
     log.error "Python 3.11 or newer is required. Found ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
