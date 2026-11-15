@@ -174,6 +174,7 @@ installVirtualEnvironment() {
     if ${PYTHON_ENV_USE_SYSTEM_PACKAGES}; then
       PYTHON_VENV_PARAMS="${PYTHON_VENV_PARAMS} --no-build-isolation"
     fi
+    log.debug "PYTHON_VENV_PARAMS=${PYTHON_VENV_PARAMS}"
     "${PYTHON_BIN}" -m venv ${PYTHON_VENV_PARAMS} "${KAMEHOUSE_DESKTOP_VENV_PATH}"
     checkCommandStatus "$?" "An error occurred creating the kamehouse-desktop virtual environment"
     if ! "${KAMEHOUSE_DESKTOP_PYTHON}" -m pip --version > /dev/null 2>&1; then
