@@ -8,6 +8,8 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from kamehouse_groot.utils.shell_command import build_shell_command
+
 LOGGER = logging.getLogger(__name__)
 
 COMMAND_NOT_FOUND_EXIT_CODE = 127
@@ -48,6 +50,7 @@ class CommandExecutor:
         log_file: Path | None = None,
     ) -> ExecutedCommand:
         """Execute the command and return its raw result."""
+        command = build_shell_command(command)
         if daemon:
             return self._execute_daemon(command, log_file)
         return self._execute_foreground(command)
@@ -60,6 +63,8 @@ class CommandExecutor:
                 capture_output=True,
                 check=False,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=self._timeout_seconds,
             )
         except subprocess.TimeoutExpired as exc:

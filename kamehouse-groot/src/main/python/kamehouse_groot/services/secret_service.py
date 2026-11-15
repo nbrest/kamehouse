@@ -6,6 +6,8 @@ import logging
 import subprocess
 from pathlib import Path
 
+from kamehouse_groot.utils.shell_command import build_shell_command
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -26,7 +28,7 @@ class SecretService:
         if secret_key in self._cache:
             return self._cache[secret_key]
 
-        command = [str(self._script_path), "-s", secret_key]
+        command = build_shell_command([str(self._script_path), "-s", secret_key])
         LOGGER.debug("Retrieving kamehouse secret %s", secret_key)
         try:
             result = subprocess.run(
@@ -34,6 +36,8 @@ class SecretService:
                 capture_output=True,
                 check=False,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=self._timeout_seconds,
             )
         except (OSError, subprocess.TimeoutExpired) as exc:
