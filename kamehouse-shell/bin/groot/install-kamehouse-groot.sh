@@ -33,14 +33,6 @@ checkSourcePath() {
   fi
 }
 
-checkPythonVersion() {
-  if ! "${PYTHON_BIN}" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' > /dev/null 2>&1; then
-    log.error "Python 3.11 or newer is required. Found ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
-    exitProcess ${EXIT_ERROR}
-  fi
-  log.info "Using Python version ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
-}
-
 installSources() {
   log.info "Rebuilding kamehouse-groot install directory"
   mkdir -p "${KAMEHOUSE_GROOT_PATH}" "${KAMEHOUSE_GROOT_LOG_DIR}" "${KAMEHOUSE_GROOT_PATH}/run" "${KAMEHOUSE_GROOT_PATH}/conf"

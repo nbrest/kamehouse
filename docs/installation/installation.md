@@ -90,7 +90,7 @@ sudo npm install typescript -g
     sudo apt-get install -y python${PYTHON_VERSION}-venv
 ```
 ##### Raspberry Pi
-- For raspberrypi not all packages are available on venv and take forever to build or even fails, so override to use the system packages with `PYTHON_ENV_USE_SYSTEM_PACKAGES=true` in `kamehouse.cfg`
+- For raspberrypi not all packages are available on venv and take forever to build or even fails, so override to use the system packages with `PYTHON_SKIP_VENVS=true` in `kamehouse.cfg`
 
 ```sh
 sudo apt-get install -y python3-click

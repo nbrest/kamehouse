@@ -37,14 +37,6 @@ checkSourcePath() {
   fi
 }
 
-checkPythonVersion() {
-  if ! "${PYTHON_BIN}" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' > /dev/null 2>&1; then
-    log.error "Python 3.11 or newer is required. Found ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
-    exitProcess ${EXIT_ERROR}
-  fi
-  log.info "Using Python version ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
-}
-
 installKameHouseDesktop() {
   log.info "Rebuilding desktop install directory"
   rm -r -f ${KAMEHOUSE_DESKTOP_PATH}/bin
@@ -166,6 +158,9 @@ installPythonVenvPackage() {
 }
 
 installVirtualEnvironment() {
+  if ${PYTHON_SKIP_VENVS}; then
+    return
+  fi
   setKameHouseDesktopPython
   if [ ! -x "${KAMEHOUSE_DESKTOP_PYTHON}" ] || ! "${KAMEHOUSE_DESKTOP_PYTHON}" -m pip --version > /dev/null 2>&1; then
     ensurePythonVenvSupport
