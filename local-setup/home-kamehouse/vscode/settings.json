@@ -4,6 +4,7 @@
     "opt/apache-*": true,
     "opt/kamehouse-*": true,
     "opt/python": true,
-    "var/log/": true
+    "var/log/": true,
+    "var/www/": true
   }
 }
