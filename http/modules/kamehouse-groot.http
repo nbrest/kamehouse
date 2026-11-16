@@ -148,6 +148,7 @@ test("Redirects to login page", () => {
 }}
 
 ### kamehouse-groot / auth / authorize-page
+# @noCookieJar
 # @noRedirect
 GET {{SERVER}}/kame-house-groot/api/v1/auth/authorize-page
 
@@ -227,6 +228,7 @@ test("Status is completed", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute unauthorized
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh
 
 {{
@@ -272,6 +274,7 @@ test("Response body is a json array", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / scripts unauthorized
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts
 
 {{
@@ -301,6 +304,7 @@ test("Status is running", () => {
 }}
 
 ### kamehouse-groot / commons / session / status anonymous
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/commons/session/status
 
 {{
@@ -367,6 +371,7 @@ test("Redirects to login page", () => {
 }}
 
 ### kamehouse-groot / auth / authorize-page unauthorized
+# @noCookieJar
 # @noRedirect
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/auth/authorize-page
 

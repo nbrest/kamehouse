@@ -3137,6 +3137,9 @@
             },
             {
               "name": "authorize-page",
+              "protocolProfileBehavior": {
+                "disableCookies": true
+              },
               "event": [
                 {
                   "listen": "test",
@@ -11960,6 +11963,9 @@
         },
         {
           "name": "execute unauthorized",
+          "protocolProfileBehavior": {
+            "disableCookies": true
+          },
           "event": [
             {
               "listen": "test",
@@ -12110,6 +12116,9 @@
         },
         {
           "name": "scripts unauthorized",
+          "protocolProfileBehavior": {
+            "disableCookies": true
+          },
           "event": [
             {
               "listen": "test",
@@ -12208,6 +12217,9 @@
         },
         {
           "name": "session status anonymous",
+          "protocolProfileBehavior": {
+            "disableCookies": true
+          },
           "event": [
             {
               "listen": "test",
@@ -12395,6 +12407,9 @@
         },
         {
           "name": "authorize-page unauthorized",
+          "protocolProfileBehavior": {
+            "disableCookies": true
+          },
           "event": [
             {
               "listen": "test",
