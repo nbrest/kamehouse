@@ -114,6 +114,20 @@ opkg update
 opkg install python3
 opkg install python3-pip
 opkg install python3-venv
+opkg install python3-click
+opkg install python3-coverage
+opkg install python3-google-api-python-client 
+opkg install python3-google-auth-httplib2 
+opkg install python3-google-auth-oauthlib    
+opkg install python3-google-auth-oauthlib
+opkg install python3-googleapi
+opkg install python3-loguru
+opkg install python3-pyqt5
+opkg install python3-pytest 
+opkg install python3-requests
+opkg install python3-stomper
+opkg install python3-websocket
+opkg install python3-websocket-client
 ```
 
 ### Mariadb
