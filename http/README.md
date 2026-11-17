@@ -25,19 +25,20 @@ npm install
 [`http-client.env.json`](http-client.env.json) contains the environments that
 were previously in `.vscode/settings.json`:
 
-| Environment | `SERVER` | `TOMCAT_SERVER` |
-| --- | --- | --- |
-| `localhost` | `http://localhost:80` | `http://localhost:9090` |
-| `localhost-docker-dev` | `http://localhost:6080` | `http://localhost:6080` |
-| `localhost-docker-ci` | `http://localhost:15080` | `http://localhost:15090` |
+| Environment | `SERVER` | `TOMCAT_SERVER` | `GROOT_SERVER` |
+| --- | --- | --- | --- |
+| `localhost` | `http://localhost:80` | `http://localhost:9090` | `http://localhost:9091` |
+| `localhost-docker-dev` | `http://localhost:6080` | `http://localhost:6080` | `http://localhost:6080` |
+| `localhost-docker-ci` | `http://localhost:15080` | `http://localhost:15090` | `http://localhost:15080` |
 
 The common values (`API_VERSION`, `invalid*`, etc.) and the public test
 credentials (`seiya` / `ikki`) are duplicated in each environment because
 httpyac does not support the JetBrains `$shared` section.
 
-Both the Postman collection and these files use `{{SERVER}}` for the Groot
-requests, so the same requests work with the Tomcat, Docker, CI and production
-environments.
+The Groot requests use `{{SERVER}}` for the proxied endpoints and
+`{{GROOT_SERVER}}` for the direct endpoints. Local dev points `GROOT_SERVER` to
+Groot on `9091`; Docker dev and CI point it to Apache because their containers
+do not publish the Groot port.
 
 To override values locally, create `http-client.private.env.json`, which is
 ignored by git and is loaded on top of the public file:

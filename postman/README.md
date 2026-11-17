@@ -37,15 +37,17 @@ required. `jq` is optional, only useful to inspect the JSON files.
 
 ## Environments
 
-| Environment file | `SERVER` | Target |
-| --- | --- | --- |
-| `localhost-80.postman_environment.json` | `localhost:80` | Local dev Apache Httpd, proxied to Tomcat on `localhost:9090` |
-| `localhost-6080-docker-dev.postman_environment.json` | `localhost:6080` | Docker dev container |
-| `localhost-15080-docker-ci.postman_environment.json` | `localhost:15080` | CI Docker container |
+| Environment file | `SERVER` | `GROOT_SERVER` | Target |
+| --- | --- | --- | --- |
+| `localhost-80.postman_environment.json` | `localhost:80` | `localhost:9091` | Local dev Apache Httpd, proxied to Tomcat on `localhost:9090` |
+| `localhost-6080-docker-dev.postman_environment.json` | `localhost:6080` | `localhost:6080` | Docker dev container |
+| `localhost-15080-docker-ci.postman_environment.json` | `localhost:15080` | `localhost:15080` | CI Docker container |
 
 Each environment defines `SERVER`, `USERNAME` and `PASSWORD`. Dev defaults are `seiya` / `ikki`.
 The dev Tomcat and CI environments also define `TOMCAT_SERVER` for the one request that must
-bypass the Apache proxy (see `kamehouse-httpd` below).
+bypass the Apache proxy (see `kamehouse-httpd` below). `GROOT_SERVER` is used by the direct Groot
+folder. Local dev points it to Groot on `9091`; Docker dev and CI point it to Apache because the
+Groot port is not published by those containers.
 
 The `localhost-docker-ci` environment targets the ports published by `docker-run-kamehouse.sh -p ci`:
 Apache on `15080` and Tomcat on `15090`. It sets `RUN_DESTRUCTIVE_TESTS=false`,
