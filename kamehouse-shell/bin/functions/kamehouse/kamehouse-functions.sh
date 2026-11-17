@@ -580,7 +580,7 @@ pullLatestKameHouseChanges() {
   
   git reset --hard
 
-  git pull origin dev
+  execWithTimeout 120 git pull origin dev
   if [ "$?" != "0" ]; then
     log.error "An error occurred pulling dev changes. Continuing process anyway"
   fi
@@ -802,4 +802,162 @@ updateKameHouseDesktopConfig() {
     log.error "Verification failed of update of ${KEY} under [${SECTION}]"
     exitProcess ${EXIT_INVALID_ARG}
   fi
+}
+
+# Check if another instance of the current script is running.
+# If it is, print its process id(s) and wait up to SCRIPT_MAX_START_DELAY_WAIT seconds for it to finish
+# before starting the current process. If the wait timeout is reached and the other process is
+# still running, exit with an error and print the command to manually kill it.
+checkIfScriptIsRunning() {
+  local MAX_DELAY_WAIT="${SCRIPT_MAX_START_DELAY_WAIT:-0}"
+  if [ "${SCRIPT_MAX_START_DELAY_WAIT}" == "0" ]; then
+    log.info "Skipping check for other instances of the script already running"
+  fi
+
+  local REGEX_NUMBER='^[0-9]+$'
+  if [[ ! ${MAX_DELAY_WAIT} =~ $REGEX_NUMBER ]]; then
+    log.error "Invalid SCRIPT_MAX_START_DELAY_WAIT value '${MAX_DELAY_WAIT}'. It must be a positive number of seconds"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi
+
+  local RUNNING_PIDS=$(getRunningScriptProcessIds)
+  if [ -z "${RUNNING_PIDS}" ]; then
+    return
+  fi
+
+  local RUNNING_PIDS_LIST=`echo ${RUNNING_PIDS} | tr ' ' ','`
+  log.warn "Another process of ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} is already running with PID(s) ${COL_RED}${RUNNING_PIDS_LIST}"
+  log.info "To manually kill it, execute: ${COL_RED}kill -9 ${RUNNING_PIDS}"
+  log.info "Waiting up to ${COL_PURPLE}${MAX_DELAY_WAIT}s${COL_DEFAULT_LOG} for the other process to finish"
+  local COUNT=0
+  while [ -n "$(getRunningScriptProcessIds)" ] && [ ${COUNT} -lt ${MAX_DELAY_WAIT} ]; do
+    sleep 1
+    COUNT=$((COUNT+1))
+  done
+
+  RUNNING_PIDS=$(getRunningScriptProcessIds)
+  if [ -n "${RUNNING_PIDS}" ]; then
+    RUNNING_PIDS_LIST=`echo ${RUNNING_PIDS} | tr ' ' ','`
+    log.error "Another process of ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} is still running with PID(s) ${COL_RED}${RUNNING_PIDS_LIST}${COL_DEFAULT_LOG} after waiting ${MAX_DELAY_WAIT}s"
+    log.error "To manually kill it, execute: ${COL_RED}kill -9 ${RUNNING_PIDS}"
+    exitProcess ${EXIT_ERROR}
+  fi
+  log.info "The other process of ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} finished. Continuing with the current process"
+}
+
+# Get the process ids of the other instances of the current script that are running.
+# The current process, its ancestors (for example a wrapper script with the script name in
+# its command line) and the child processes with the same command line of each script invocation
+# (for example the subshell created to pipe the output through tee) are excluded.
+getRunningScriptProcessIds() {
+  local SCRIPT_PATTERN="(^|[/ ])${SCRIPT_NAME}([ ]|$)"
+  local MATCHING_PIDS=""
+  if command -v pgrep > /dev/null 2>&1; then
+    MATCHING_PIDS=$(pgrep -f "${SCRIPT_PATTERN}" 2>/dev/null)
+  else
+    MATCHING_PIDS=$(ps -ef 2>/dev/null | grep -E "${SCRIPT_PATTERN}" | grep -v "grep" | awk '{print $2}')
+  fi
+  if [ -z "${MATCHING_PIDS}" ]; then
+    return
+  fi
+  local RUNNING_PIDS=""
+  local PID
+  local PARENT_PID
+  for PID in ${MATCHING_PIDS}; do
+    # skip processes that already finished between the pgrep and the check
+    if ! kill -0 "${PID}" 2>/dev/null; then
+      continue
+    fi
+    local PID_COMMAND_LINE=$(getProcessCommandLine "${PID}")
+    if [ -z "${PID_COMMAND_LINE}" ]; then
+      continue
+    fi
+    if isCurrentScriptProcessTree "${PID}"; then
+      continue
+    fi
+    # keep only the top level process of each script invocation
+    PARENT_PID=$(ps -o ppid= -p "${PID}" 2>/dev/null | tr -d ' ')
+    if [ -n "${PARENT_PID}" ] && echo "${MATCHING_PIDS}" | tr ' ' '\n' | grep -q "^${PARENT_PID}$"; then
+      local PARENT_COMMAND_LINE=$(getProcessCommandLine "${PARENT_PID}")
+      if [ "${PID_COMMAND_LINE}" == "${PARENT_COMMAND_LINE}" ]; then
+        continue
+      fi
+    fi
+    RUNNING_PIDS="${RUNNING_PIDS} ${PID}"
+  done
+  echo ${RUNNING_PIDS}
+}
+
+# Check if the process id passed as argument belongs to the process tree of the current script.
+# This is used to avoid detecting the current script execution, its ancestors (for example a
+# wrapper shell with the script name in its command line) or its descendants (the subshells that
+# inherit the script command line) as another instance of the script.
+isCurrentScriptProcessTree() {
+  local TARGET_PID=$1
+  # check if the target is the current script process or one of its descendants
+  local CURRENT_PID=${TARGET_PID}
+  while [ -n "${CURRENT_PID}" ] && [ "${CURRENT_PID}" != "0" ]; do
+    if [ "${CURRENT_PID}" == "$$" ]; then
+      return 0
+    fi
+    CURRENT_PID=$(ps -o ppid= -p "${CURRENT_PID}" 2>/dev/null | tr -d ' ')
+  done
+  # check if the target is one of the ancestors of the current script process
+  CURRENT_PID=$$
+  while [ -n "${CURRENT_PID}" ] && [ "${CURRENT_PID}" != "0" ]; do
+    if [ "${CURRENT_PID}" == "${TARGET_PID}" ]; then
+      return 0
+    fi
+    CURRENT_PID=$(ps -o ppid= -p "${CURRENT_PID}" 2>/dev/null | tr -d ' ')
+  done
+  return 1
+}
+
+# Get the command line of the process id passed as argument
+getProcessCommandLine() {
+  local PID=$1
+  if [ -r "/proc/${PID}/cmdline" ]; then
+    tr '\0' ' ' < "/proc/${PID}/cmdline" 2>/dev/null
+  else
+    ps -o args= -p "${PID}" 2>/dev/null
+  fi
+}
+
+# Execute the script or command passed as argument with a maximum runtime in seconds.
+# The remaining arguments are passed to the script/command.
+# The timeout command sends SIGTERM when the maximum runtime is reached and SIGKILL 10 seconds later
+# if the process is still running, to make sure it doesn't run forever.
+# When the timeout is reached it's considered that the remote processes were already started, so
+# no error is returned.
+execWithTimeout() {
+  local MAX_RUNTIME=$1
+  local SCRIPT=$2
+  shift 2
+  local SCRIPT_ARGS=("$@")
+  local REGEX_NUMBER='^[0-9]+$'
+
+  if [ -z "${MAX_RUNTIME}" ] || [ "${MAX_RUNTIME}" == "0" ]; then
+    "${SCRIPT}" "${SCRIPT_ARGS[@]}"
+    return $?
+  fi
+  if [[ ! ${MAX_RUNTIME} =~ $REGEX_NUMBER ]]; then
+    log.error "Invalid MAX_RUNTIME value '${MAX_RUNTIME}'. It must be a positive number of seconds"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi
+  
+  local SCRIPT_PARAMS="${SCRIPT_ARGS[@]}"
+  if ! command -v timeout > /dev/null 2>&1 || ! timeout --version > /dev/null 2>&1; then
+    log.warn "The timeout command is not available. Executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_DEFAULT_LOG} without a maximum runtime"
+    "${SCRIPT}" "${SCRIPT_ARGS[@]}"
+    return $?
+  fi
+
+  log.info "Executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_DEFAULT_LOG} with a maximum runtime of ${COL_PURPLE}${MAX_RUNTIME}s"
+  timeout --kill-after=10 "${MAX_RUNTIME}" "${SCRIPT}" "${SCRIPT_ARGS[@]}"
+  local EXIT_CODE=$?
+  if [ "${EXIT_CODE}" == "124" ] || [ "${EXIT_CODE}" == "137" ]; then
+    log.warn "${COL_YELLOW}Maximum runtime of ${MAX_RUNTIME}s reached executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_DEFAULT_LOG}. Aborting script execution"
+    return ${EXIT_SUCCESS}
+  fi
+  return ${EXIT_CODE}
 }

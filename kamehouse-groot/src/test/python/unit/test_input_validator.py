@@ -49,6 +49,7 @@ def test_db_input_rejects_too_long_value() -> None:
         "secrets/edit-kamehouse-secrets.sh",
         "docker/docker-ssh-kamehouse.sh",
         "ssh/ssh.sh",
+        "deploy/exec-script-with-timeout.sh",
     ],
 )
 def test_forbidden_scripts(script: str) -> None:

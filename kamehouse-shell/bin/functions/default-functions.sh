@@ -230,6 +230,11 @@ setEnvFromArguments() {
   return
 }
 
+# Override with custom logic to determine if the script is already running and should abort
+checkIfScriptIsRunning() {
+  return
+}
+
 # Override to load the configuration files for each script before parsing arguments
 loadConfigFiles() {
   loadScriptConfigFile
@@ -291,6 +296,7 @@ mainWrapper() {
   initScriptEnv
   parseCmdArguments "$@"
   setEnvFromArguments
+  checkIfScriptIsRunning
   mainProcess "$@"
   exitSuccessfully
 }

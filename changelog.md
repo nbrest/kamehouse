@@ -8,6 +8,8 @@
 #### v11.05
 
 - Added AGENTS.md - Turned to the dark side
+- Added optional check for other instances of current script running with a max wait time
+- Added option to execute scripts with timeout to kill long running scripts
 - Added kamehouse-groot.toml configuration file
 - Moved kamehouse-snape.cfg to kamehouse-snape.toml
 - Moved kamehouse-snape to use a shared python venv
