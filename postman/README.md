@@ -7,7 +7,7 @@ Postman collection and environments to exercise the KameHouse REST APIs.
 - `collections/kame-house.postman_collection.json`: the collection. Top-level folders:
   `kamehouse-admin`, `kamehouse-auth`, `kamehouse-groot`, `kamehouse-media`,
   `kamehouse-tennisworld`, `kamehouse-testmodule`, `kamehouse-ui`, `kamehouse-vlcrc`,
-  `kamehouse-httpd`.
+  direct `kamehouse-groot`, `kamehouse-httpd`.
 - `environments/`: one environment per local deployment target.
 - `globals/workspace.postman_globals.json`: shared globals (invalid IDs, usernames, paths, etc.).
 
@@ -51,8 +51,9 @@ Groot port is not published by those containers.
 
 The `localhost-docker-ci` environment targets the ports published by `docker-run-kamehouse.sh -p ci`:
 Apache on `15080` and Tomcat on `15090`. It sets `RUN_DESTRUCTIVE_TESTS=false`,
-`RUN_SYSTEM_POWER_TESTS=false` and `RUN_SCREEN_TESTS=false` to skip reboot/shutdown, suspend
-and VNC screen requests. The CI container is headless and cannot schedule host power actions.
+`RUN_SYSTEM_POWER_TESTS=false`, `RUN_SCREEN_TESTS=false` and `RUN_DANGEROUS_TESTS=false` to skip
+reboot/shutdown, suspend, VNC screen and dangerous script/state-changing requests. The CI
+container is headless and cannot schedule host power actions or restart Apache mid-run.
 
 The collection pre-request script sets `currentDate` and `futureDate` automatically.
 
@@ -81,6 +82,13 @@ Use `-p` to select another environment:
 ```sh
 kamehouse-shell/bin/test/kamehouse-postman-run.sh -p localhost-docker-dev
 kamehouse-shell/bin/test/kamehouse-postman-run.sh -p localhost-docker-ci
+```
+
+Pass `-x` to also run the dangerous script and state-changing requests, including the Apache
+Httpd restart:
+
+```sh
+kamehouse-shell/bin/test/kamehouse-postman-run.sh -x
 ```
 
 The opencode command `kamehouse-postman-run-all` wraps that script with
@@ -134,10 +142,14 @@ Useful options:
 - `kamehouse-vlcrc`: player status, playlist and command tests expect a local VLC player with its
   HTTP interface. The `vlc-process` requests start/stop that player.
 - `kamehouse-httpd`: restarts Apache Httpd through `TOMCAT_SERVER` so stopping Apache does not kill
-  the request. It runs last and briefly makes the environment's `SERVER` port unavailable.
+  the request. It runs last and briefly makes the environment's `SERVER` port unavailable. It is
+  skipped unless `RUN_DANGEROUS_TESTS=true`.
 - The `reboot` and `shutdown` requests are skipped unless `RUN_DESTRUCTIVE_TESTS=true`. The
   `suspend` requests are skipped when `RUN_SYSTEM_POWER_TESTS=false`, and VNC screen requests are
   skipped when `RUN_SCREEN_TESTS=false`; the `docker-ci` environment sets both to `false`.
+- The Apache Httpd restart, the direct-Groot daemon execution, the desktop start/stop, the VLC
+  start/stop and the wake-on-lan requests are skipped unless `RUN_DANGEROUS_TESTS=true`; the
+  `docker-ci` environment sets it to `false`.
 
 ## Security notes
 

@@ -1618,6 +1618,19 @@
                       "name": "?mac=MAC&broadcast=BROADCAST",
                       "event": [
                         {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Sending a wake-on-lan packet can power on a remote host. Only run it when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
                           "listen": "test",
                           "script": {
                             "exec": [
@@ -1672,6 +1685,19 @@
                     {
                       "name": "?server=kamehouse-server",
                       "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "exec": [
+                              "// Sending a wake-on-lan packet can power on a remote host. Only run it when explicitly enabled.\r\n",
+                              "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                              "  pm.execution.skipRequest();\r\n",
+                              "}\r\n",
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
                         {
                           "listen": "test",
                           "script": {
@@ -2515,6 +2541,19 @@
               "name": "kamehouse-desktop / start",
               "event": [
                 {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Starting kamehouse-desktop executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
+                      "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                      "  pm.execution.skipRequest();\r\n",
+                      "}\r\n",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
                   "listen": "test",
                   "script": {
                     "exec": [
@@ -2560,6 +2599,19 @@
             {
               "name": "kamehouse-desktop / stop",
               "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "// Stopping kamehouse-desktop executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
+                      "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                      "  pm.execution.skipRequest();\r\n",
+                      "}\r\n",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
                 {
                   "listen": "test",
                   "script": {
@@ -11648,6 +11700,19 @@
                   "name": "?file=invalid-file",
                   "event": [
                     {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// Starting vlc executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
                       "listen": "test",
                       "script": {
                         "exec": [
@@ -11708,6 +11773,19 @@
                 {
                   "name": "/",
                   "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// Stopping vlc executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
                     {
                       "listen": "test",
                       "script": {
@@ -11913,70 +11991,6 @@
                 "commons",
                 "log-level",
                 "trace"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "kamehouse-httpd",
-      "item": [
-        {
-          "name": "/ restart httpd",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Code Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "pm.test(\"Status code is as expected\", function () {\r",
-                  "  pm.response.to.have.status(200);\r",
-                  "});\r",
-                  "\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// Response Body Tests\r",
-                  "// --------------------------------------------------------------------------\r",
-                  "// TEST - Response body has content\r",
-                  "pm.test(\"Response has a body\", function () {\r",
-                  "  pm.response.to.be.withBody;\r",
-                  "});\r",
-                  "\r",
-                  "// TEST - Response body contains specifed string\r",
-                  "var expectedContent = \"standardOutput\";\r",
-                  "pm.test(\"Body contains specified string\", function () {\r",
-                  "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{TOMCAT_SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd",
-              "host": [
-                "{{TOMCAT_SERVER}}"
-              ],
-              "path": [
-                "kame-house-admin",
-                "api",
-                "{{API_VERSION}}",
-                "admin",
-                "system-state",
-                "httpd"
               ]
             }
           },
@@ -12242,6 +12256,19 @@
         {
           "name": "execute isDaemon is-linux-host",
           "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Executing a shell script as a daemon can leave a process running. Only run it when explicitly enabled.\r\n",
+                  "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                  "  pm.execution.skipRequest();\r\n",
+                  "}\r\n",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
             {
               "listen": "test",
               "script": {
@@ -12572,6 +12599,83 @@
       "protocolProfileBehavior": {
         "disableCookies": true
       }
+    },
+    {
+      "name": "kamehouse-httpd",
+      "item": [
+        {
+          "name": "/ restart httpd",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Restarting apache httpd disrupts the api collection. Only run it when explicitly enabled.\r\n",
+                  "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
+                  "  pm.execution.skipRequest();\r\n",
+                  "}\r\n",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// --------------------------------------------------------------------------\r",
+                  "// Response Code Tests\r",
+                  "// --------------------------------------------------------------------------\r",
+                  "pm.test(\"Status code is as expected\", function () {\r",
+                  "  pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// --------------------------------------------------------------------------\r",
+                  "// Response Body Tests\r",
+                  "// --------------------------------------------------------------------------\r",
+                  "// TEST - Response body has content\r",
+                  "pm.test(\"Response has a body\", function () {\r",
+                  "  pm.response.to.be.withBody;\r",
+                  "});\r",
+                  "\r",
+                  "// TEST - Response body contains specifed string\r",
+                  "var expectedContent = \"standardOutput\";\r",
+                  "pm.test(\"Body contains specified string\", function () {\r",
+                  "  pm.expect(pm.response.text()).to.include(expectedContent);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{TOMCAT_SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd",
+              "host": [
+                "{{TOMCAT_SERVER}}"
+              ],
+              "path": [
+                "kame-house-admin",
+                "api",
+                "{{API_VERSION}}",
+                "admin",
+                "system-state",
+                "httpd"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {

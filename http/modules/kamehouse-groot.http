@@ -299,6 +299,13 @@ test("Error code is 401", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute isDaemon is-linux-host
+{{
+// Executing a shell script as a daemon can leave a process running. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 # @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh&isDaemon=true
 Authorization: Basic {{USERNAME}} {{PASSWORD}}

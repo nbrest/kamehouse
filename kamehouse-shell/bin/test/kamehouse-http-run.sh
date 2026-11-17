@@ -9,6 +9,7 @@ initScriptEnv() {
   HTTP_DIR="http"
   PROFILE="localhost"
   RUN_DESTRUCTIVE_TESTS=false
+  RUN_DANGEROUS_TESTS=false
 }
 
 mainProcess() {
@@ -17,7 +18,7 @@ mainProcess() {
   log.info "Running the KameHouse .http collection against profile ${COL_PURPLE}${PROFILE}"
   cd "${HTTP_DIR}"
   checkCommandStatus "$?" "Error changing to directory ${HTTP_DIR}"
-  npm run "send:${PROFILE}" -- --bail --no-color --var RUN_DESTRUCTIVE_TESTS="${RUN_DESTRUCTIVE_TESTS}"
+  npm run "send:${PROFILE}" -- --bail --no-color --var RUN_DESTRUCTIVE_TESTS="${RUN_DESTRUCTIVE_TESTS}" --var RUN_DANGEROUS_TESTS="${RUN_DANGEROUS_TESTS}"
   checkCommandStatus "$?" "Error running the KameHouse .http collection"
 }
 
@@ -45,6 +46,9 @@ parseArguments() {
       -d|--destructive)
         RUN_DESTRUCTIVE_TESTS=true
         ;;
+      -x|--dangerous)
+        RUN_DANGEROUS_TESTS=true
+        ;;
       -p|--profile)
         PROFILE="${CURRENT_OPTION_ARG}"
         ;;
@@ -57,6 +61,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-d --destructive" "also run the reboot and shutdown requests"
+  addHelpOption "-x --dangerous" "also run the dangerous script and state-changing requests"
   addHelpOption "-p --profile [localhost|localhost-docker-dev|localhost-docker-ci]" "environment to run the collection against. Default is dev-tomcat"
 }
 

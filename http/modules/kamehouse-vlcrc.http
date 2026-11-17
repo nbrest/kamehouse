@@ -647,6 +647,13 @@ test("Body contains missing file error", () => { assert.ok(response.body.include
 }}
 
 ### kamehouse-vlcrc / vlc-rc / vlc-process / ?file=invalid-file
+{{
+// Starting vlc executes shell scripts on the test host. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 POST {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process?file=%2Finvalid%2Ffile%2FVideos%2Favengers.m3u
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -659,6 +666,13 @@ test("Body contains command", () => { assert.ok(response.body.includes("command"
 }}
 
 ### kamehouse-vlcrc / vlc-rc / vlc-process / /
+{{
+// Stopping vlc executes shell scripts on the test host. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 DELETE {{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 

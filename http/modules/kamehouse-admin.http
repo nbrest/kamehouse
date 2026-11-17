@@ -771,6 +771,13 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / wol / ?mac=MAC&broadcast=BROADCAST
+{{
+// Sending a wake-on-lan packet can power on a remote host. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?mac=8C:04:BA:A6:F2:B1&broadcast=192.168.0.255
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -786,6 +793,13 @@ test("Status code is as expected", () => {
 }}
 
 ### kamehouse-admin / admin / power-management / wol / ?server=kamehouse-server
+{{
+// Sending a wake-on-lan packet can power on a remote host. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/power-management/wol?server=kamehouse-server
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
@@ -1178,6 +1192,13 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / kamehouse-desktop / start
+{{
+// Starting kamehouse-desktop executes shell scripts on the test host. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse-desktop
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -1209,6 +1230,13 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / kamehouse-desktop / stop
+{{
+// Stopping kamehouse-desktop executes shell scripts on the test host. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 DELETE {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/kamehouse-desktop
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 

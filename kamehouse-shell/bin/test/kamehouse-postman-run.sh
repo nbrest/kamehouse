@@ -10,6 +10,7 @@ initScriptEnv() {
   POSTMAN_COLLECTION="postman/collections/kame-house.postman_collection.json"
   POSTMAN_ENVIRONMENT=""
   POSTMAN_GLOBALS="postman/globals/workspace.postman_globals.json"
+  RUN_DANGEROUS_TESTS=false
 }
 
 mainProcess() {
@@ -28,6 +29,7 @@ mainProcess() {
     --bail \
     --reporters cli \
     --timeout-request 60000 \
+    --env-var "RUN_DANGEROUS_TESTS=${RUN_DANGEROUS_TESTS}" \
     --color off
   checkCommandStatus "$?" "Error running the KameHouse Postman collection"
 }
@@ -63,6 +65,9 @@ parseArguments() {
       -p|--profile)
         PROFILE="${CURRENT_OPTION_ARG}"
         ;;
+      -x|--dangerous)
+        RUN_DANGEROUS_TESTS=true
+        ;;
       -?|-??*)
         parseInvalidArgument "${CURRENT_OPTION}"
         ;;
@@ -72,6 +77,7 @@ parseArguments() {
 
 printHelpOptions() {
   addHelpOption "-p --profile [localhost|localhost-docker-dev|localhost-docker-ci]" "environment to run the collection against. Default is dev-tomcat"
+  addHelpOption "-x --dangerous" "also run the dangerous script and state-changing requests"
 }
 
 main "$@"

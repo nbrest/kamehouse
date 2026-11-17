@@ -11,6 +11,13 @@
 }}
 
 ### kamehouse-httpd / / restart httpd
+{{
+// Restarting apache httpd disrupts the api collection. Only run it when explicitly enabled.
+if (RUN_DANGEROUS_TESTS !== "true") {
+  exports.$cancel = true;
+}
+}}
+
 POST {{TOMCAT_SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/system-state/httpd
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json
