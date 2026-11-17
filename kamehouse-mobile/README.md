@@ -62,7 +62,7 @@ sudo npm install -g cordova
 
 - Install Android Studio
   - Download tar.gz install file from android studio website
-  - Extract to ${HOME}/.kamehouse/opt/android-studio
+  - Extract to ${HOME}/opt/android-studio
   - Follow install steps on android studio website for linux to install required libraries
 
 - Install SDKs:
