@@ -11,6 +11,7 @@
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / scripts
+# @noCookieJar
 GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -33,6 +34,7 @@ test("Response body is json", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute no script
+# @noCookieJar
 GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -55,6 +57,7 @@ test("Response body is json", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute httpd-status
+# @noCookieJar
 GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=httpd/httpd-status.sh
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -77,6 +80,7 @@ test("Response body is json", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute is-linux-host
+# @noCookieJar
 GET {{SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -99,6 +103,7 @@ test("Response body is json", () => {
 }}
 
 ### kamehouse-groot / auth / login
+# @noCookieJar
 # @noRedirect
 POST {{SERVER}}/kame-house-groot/api/v1/auth/login
 Content-Type: application/x-www-form-urlencoded
@@ -125,6 +130,7 @@ test("Redirects to groot home", () => {
 }}
 
 ### kamehouse-groot / auth / logout
+# @noCookieJar
 # @noRedirect
 GET {{SERVER}}/kame-house-groot/api/v1/auth/logout
 
@@ -170,6 +176,7 @@ test("Redirects to login page", () => {
 }}
 
 ### kamehouse-groot / commons / session / status
+# @noCookieJar
 GET {{SERVER}}/kame-house-groot/api/v1/commons/session/status
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -192,8 +199,8 @@ test("Response body is json", () => {
 }}
 
 ### kamehouse-groot / test / test
+# @noCookieJar
 GET {{SERVER}}/kame-house-groot/api/v1/test/test
-Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 {{
 const assert = require('assert');
@@ -209,6 +216,7 @@ test("Response has a body", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute is-linux-host
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -243,6 +251,7 @@ test("Error code is 401", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute invalid script
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh%3Brm
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -259,6 +268,7 @@ test("Error code is 400", () => {
 
 
 ### kamehouse-groot / admin / kamehouse-shell / scripts
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/scripts
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -289,6 +299,7 @@ test("Error code is 401", () => {
 }}
 
 ### kamehouse-groot / admin / kamehouse-shell / execute isDaemon is-linux-host
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/admin/kamehouse-shell/execute?script=is-linux-host.sh&isDaemon=true
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -320,6 +331,7 @@ test("Anonymous user", () => {
 }}
 
 ### kamehouse-groot / commons / session / status basic auth
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/commons/session/status
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
@@ -337,6 +349,7 @@ test("Authenticated user", () => {
 }}
 
 ### kamehouse-groot / auth / login
+# @noCookieJar
 # @noRedirect
 POST {{GROOT_SERVER}}/kame-house-groot/api/v1/auth/login
 Content-Type: application/x-www-form-urlencoded
@@ -357,6 +370,7 @@ test("Session cookie is set", () => {
 }}
 
 ### kamehouse-groot / auth / logout
+# @noCookieJar
 # @noRedirect
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/auth/logout
 
@@ -386,6 +400,7 @@ test("Redirects to login page", () => {
 }}
 
 ### kamehouse-groot / test / test
+# @noCookieJar
 GET {{GROOT_SERVER}}/kame-house-groot/api/v1/test/test
 
 {{

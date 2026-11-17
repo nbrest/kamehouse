@@ -104,15 +104,20 @@ async def require_admin(
     auth_service: AuthService = Depends(get_auth_service),
     session_service: SessionService = Depends(get_session_service),
 ) -> str:
-    """Require an admin login session or HTTP Basic credentials for ROLE_KAMISAMA."""
+    """Require HTTP Basic credentials or an admin login session for ROLE_KAMISAMA.
+
+    Basic credentials take precedence over the session cookie, so stale sessions
+    cannot override the credentials sent by the client.
+    """
+    if credentials is not None:
+        if not await auth_service.authenticate(credentials.username, credentials.password):
+            raise UnauthorizedException()
+        return credentials.username
+
     session_username = session_service.get_username(
         request.cookies.get(session_service.cookie_name)
     )
     if session_username and await auth_service.is_admin(session_username):
         return session_username
 
-    if credentials is None:
-        raise UnauthorizedException(LOGIN_AS_ADMIN_MESSAGE)
-    if not await auth_service.authenticate(credentials.username, credentials.password):
-        raise UnauthorizedException()
-    return credentials.username
+    raise UnauthorizedException(LOGIN_AS_ADMIN_MESSAGE)

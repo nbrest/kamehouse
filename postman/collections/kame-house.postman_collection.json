@@ -2843,6 +2843,21 @@
                         "kamehouse-shell",
                         "scripts"
                       ]
+                    },
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "{{PASSWORD}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "{{USERNAME}}",
+                          "type": "string"
+                        }
+                      ]
                     }
                   },
                   "response": []
@@ -2889,6 +2904,21 @@
                         "admin",
                         "kamehouse-shell",
                         "execute"
+                      ]
+                    },
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "{{PASSWORD}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "{{USERNAME}}",
+                          "type": "string"
+                        }
                       ]
                     }
                   },
@@ -2944,6 +2974,21 @@
                           "value": "httpd/httpd-status.sh"
                         }
                       ]
+                    },
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "{{PASSWORD}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "{{USERNAME}}",
+                          "type": "string"
+                        }
+                      ]
                     }
                   },
                   "response": []
@@ -2995,6 +3040,21 @@
                         {
                           "key": "script",
                           "value": "is-linux-host.sh"
+                        }
+                      ]
+                    },
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "{{PASSWORD}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "{{USERNAME}}",
+                          "type": "string"
                         }
                       ]
                     }
@@ -3232,6 +3292,21 @@
                         "session",
                         "status"
                       ]
+                    },
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "password",
+                          "value": "{{PASSWORD}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "username",
+                          "value": "{{USERNAME}}",
+                          "type": "string"
+                        }
+                      ]
                     }
                   },
                   "response": []
@@ -3281,13 +3356,22 @@
                     "test",
                     "test"
                   ]
+                },
+                "auth": {
+                  "type": "noauth"
                 }
               },
               "response": []
             }
           ]
         }
-      ]
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      }
     },
     {
       "name": "kamehouse-media",
@@ -12408,7 +12492,8 @@
         {
           "name": "authorize-page unauthorized",
           "protocolProfileBehavior": {
-            "disableCookies": true
+            "disableCookies": true,
+            "followRedirects": false
           },
           "event": [
             {
@@ -12442,10 +12527,7 @@
               "type": "noauth"
             }
           },
-          "response": [],
-          "protocolProfileBehavior": {
-            "followRedirects": false
-          }
+          "response": []
         },
         {
           "name": "test",
@@ -12483,7 +12565,13 @@
           },
           "response": []
         }
-      ]
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      }
     }
   ],
   "auth": {

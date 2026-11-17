@@ -151,6 +151,32 @@ def test_require_admin_with_non_admin_session_and_valid_credentials() -> None:
     assert result == "seiya"
 
 
+def test_require_admin_with_valid_session_and_valid_credentials_prefers_credentials() -> None:
+    credentials = HTTPBasicCredentials(username="seiya", password="ikki")
+    result = asyncio.run(
+        dependencies.require_admin(
+            _request(),
+            credentials,
+            FakeAuthService(True),
+            FakeSessionService("shiryu"),
+        )
+    )
+    assert result == "seiya"
+
+
+def test_require_admin_with_valid_session_and_invalid_credentials() -> None:
+    credentials = HTTPBasicCredentials(username="seiya", password="wrong")
+    with pytest.raises(UnauthorizedException):
+        asyncio.run(
+            dependencies.require_admin(
+                _request(),
+                credentials,
+                FakeAuthService(False),
+                FakeSessionService("seiya"),
+            )
+        )
+
+
 def test_require_admin_with_invalid_credentials() -> None:
     credentials = HTTPBasicCredentials(username="seiya", password="wrong")
     with pytest.raises(UnauthorizedException):
