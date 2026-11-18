@@ -28,7 +28,7 @@ main() {
 
 installBaseApps() {
   log.info "Installing base apps"
-  apt-get update -y && apt-get -y upgrade
+  apt-get update -y  
   apt-get install -y apache2
   apt-get install -y curl
   apt-get install -y git
@@ -56,7 +56,6 @@ installBaseApps() {
   apt-get autoclean -y
   apt-get clean -y
 
-  installNode
   setupPython
 }
 
@@ -89,19 +88,6 @@ setupPython() {
     rm -f /usr/bin/python
     ln -s /usr/bin/python3 /usr/bin/python
   fi
-}
-
-installNode() {
-  log.info "Installing node"
-  cd ~
-  curl -sL https://deb.nodesource.com/setup_20.x | sudo bash - 
-  
-  sudo apt-get install nodejs -y && \
-  apt-get autopurge -y && \
-  apt-get autoclean -y && \
-  apt-get clean -y
-
-  npm install -g typescript
 }
 
 log.info() {

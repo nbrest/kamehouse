@@ -27,6 +27,7 @@ EXIT_PROCESS_CANCELLED=4
 
 main() {
   parseArguments "$@"
+  installNode
   deleteDefaultUser
   setupKameHouseUser
   setupHttpd
@@ -36,6 +37,19 @@ main() {
   setupMockedBins
   setupRootBashRc
   fixPermissions
+}
+
+installNode() {
+  log.info "Installing node"
+  cd ~
+  curl -sL https://deb.nodesource.com/setup_20.x | sudo bash - 
+  
+  sudo apt-get install nodejs -y && \
+  apt-get autopurge -y && \
+  apt-get autoclean -y && \
+  apt-get clean -y
+
+  npm install -g typescript
 }
 
 deleteDefaultUser() {
