@@ -6,6 +6,8 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 initScriptConfig() {
   EXEC_ALL_SERVERS_TIMEOUT=300
   DOCKER_BUILD_TIMEOUT="7200"
+  RETRIES=5
+  RETRY_WAIT=60
 }
 
 initScriptEnv() {
@@ -24,8 +26,7 @@ runFullContinuousIntegrationBuild() {
   setKameHouseRootProjectDir
   gitResetBranch
 
-  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -m shell -c -l ${LOG_LEVEL}
-  checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
+  ciDeployKameHouseShell
 
   ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/build-kamehouse.sh --ci-build
   checkCommandStatus "$?" "An error occurred building kamehouse"
@@ -33,8 +34,7 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ci-integration-tests-trigger.sh
   checkCommandStatus "$?" "An error occurred running the integration and api collection tests"
 
-  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -m mobile -c
-  checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile"
+  ciDeployKameHouseMobile
 
   execWithTimeout ${DOCKER_BUILD_TIMEOUT} ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ci-rebuild-docker-image.sh -c
   checkCommandStatus "$?" "An error occurred rebuilding the docker image"
@@ -81,6 +81,40 @@ gitResetBranch() {
     git checkout dev
     checkCommandStatus "$?" "Error checking out dev branch"
   fi
+}
+
+ciDeployKameHouseShell() {
+  local NUM_RETRIES=$((RETRIES))
+  while [ ${NUM_RETRIES} -gt 0 ]; do
+    log.info "Retries left: ${COL_RED}${NUM_RETRIES}"
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -m shell -c -l ${LOG_LEVEL}
+    if [ "$?" == "0" ]; then
+      log.info "Success! No more retries needed"
+      return
+    fi
+    : $((NUM_RETRIES--))
+    if [ ${NUM_RETRIES} -gt 0 ]; then 
+      log.info "Sleeping ${RETRY_WAIT} seconds until next retry"
+      sleep ${RETRY_WAIT}
+    fi
+  done  
+}
+
+ciDeployKameHouseMobile() {
+  local NUM_RETRIES=$((RETRIES))
+  while [ ${NUM_RETRIES} -gt 0 ]; do
+    log.info "Retries left: ${COL_RED}${NUM_RETRIES}"
+    ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -m mobile -c
+    if [ "$?" == "0" ]; then
+      log.info "Success! No more retries needed"
+      return
+    fi
+    : $((NUM_RETRIES--))
+    if [ ${NUM_RETRIES} -gt 0 ]; then 
+      log.info "Sleeping ${RETRY_WAIT} seconds until next retry"
+      sleep ${RETRY_WAIT}
+    fi
+  done  
 }
 
 parseArguments() {

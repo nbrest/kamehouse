@@ -851,7 +851,7 @@ getRunningScriptProcessIds() {
   if command -v pgrep > /dev/null 2>&1; then
     MATCHING_PIDS=$(pgrep -f "${SCRIPT_PATTERN}" 2>/dev/null)
   else
-    MATCHING_PIDS=$(ps -ef 2>/dev/null | grep -E "${SCRIPT_PATTERN}" | grep -v "grep" | awk '{print $2}')
+    MATCHING_PIDS=$(psListProcesses | grep -E "${SCRIPT_PATTERN}" | grep -v "grep" | awk -v pidField="${PS_PID_FIELD}" '{print $pidField}')
   fi
   if [ -z "${MATCHING_PIDS}" ]; then
     return
@@ -882,7 +882,7 @@ getRunningScriptProcessIds() {
     fi
 
     # keep only the top level process of each script invocation
-    PARENT_PID=$(ps -o ppid= -p "${PID}" 2>/dev/null | tr -d ' ')
+    PARENT_PID=$(getParentPid "${PID}")
     if [ -n "${PARENT_PID}" ] && echo "${MATCHING_PIDS}" | tr ' ' '\n' | grep -q "^${PARENT_PID}$"; then
       local PARENT_COMMAND_LINE=$(getProcessCommandLine "${PARENT_PID}")
       if [ "${PID_COMMAND_LINE}" == "${PARENT_COMMAND_LINE}" ]; then
@@ -906,7 +906,7 @@ isCurrentScriptProcessTree() {
     if [ "${CURRENT_PID}" == "$$" ]; then
       return 0
     fi
-    CURRENT_PID=$(ps -o ppid= -p "${CURRENT_PID}" 2>/dev/null | tr -d ' ')
+    CURRENT_PID=$(getParentPid "${CURRENT_PID}")
     LOOP_COUNT=$((LOOP_COUNT+1))
   done
 
@@ -917,10 +917,21 @@ isCurrentScriptProcessTree() {
     if [ "${CURRENT_PID}" == "${TARGET_PID}" ]; then
       return 0
     fi
-    CURRENT_PID=$(ps -o ppid= -p "${CURRENT_PID}" 2>/dev/null | tr -d ' ')
+    CURRENT_PID=$(getParentPid "${CURRENT_PID}")
     LOOP_COUNT=$((LOOP_COUNT+1))
   done
   return 1
+}
+
+# Get the parent process id of the process id passed as argument
+getParentPid() {
+  local PID=$1
+  if ${IS_BUSYBOX}; then
+    # busybox ps doesn't have a ppid column, so read it from procfs
+    sed 's/^.*) //' "/proc/${PID}/stat" 2>/dev/null | awk '{print $2}'
+  else
+    ps -o ppid= -p "${PID}" 2>/dev/null | tr -d ' '
+  fi
 }
 
 # Get the command line of the process id passed as argument
@@ -928,6 +939,9 @@ getProcessCommandLine() {
   local PID=$1
   if [ -r "/proc/${PID}/cmdline" ]; then
     tr '\0' ' ' < "/proc/${PID}/cmdline" 2>/dev/null
+  elif ${IS_BUSYBOX}; then
+    # busybox ps doesn't support -p, so filter the full process list by pid
+    ps 2>/dev/null | awk -v pid="${PID}" '$1 == pid { for (i=3; i<=NF; i++) printf "%s%s", (i>3?" ":""), $i; print "" }'
   else
     ps -o args= -p "${PID}" 2>/dev/null
   fi

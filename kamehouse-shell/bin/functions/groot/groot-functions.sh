@@ -36,7 +36,7 @@ setKameHouseGrootPid() {
       return
     fi
   fi
-  KAMEHOUSE_GROOT_PID=`ps aux | grep "python.*kamehouse[-_]groot" | grep -v "grep" | awk '{print $2}' | head -n 1`
+  KAMEHOUSE_GROOT_PID=`psListProcesses | grep "python.*kamehouse[-_]groot" | grep -v "grep" | awk -v pidField="${PS_PID_FIELD}" '{print $pidField}' | head -n 1`
 }
 
 isKameHouseGrootRunning() {

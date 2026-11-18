@@ -8,7 +8,7 @@ initScriptEnv() {
 }
 
 mainProcessLin() {
-  ps aux | grep -e "shutdown\|COMMAND" | grep -v grep
+  psListProcesses | grep -e "shutdown\|COMMAND" | grep -v grep
 }
 
 mainProcessWin() {

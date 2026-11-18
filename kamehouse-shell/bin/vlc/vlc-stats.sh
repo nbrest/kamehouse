@@ -80,7 +80,7 @@ logVlcCpuUsage() {
   if ! ${IS_LIN_HOST}; then
     return
   fi
-  local VLC_PID=`ps -ef | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(${VLC_STATS_MEDIA_FILES}).*" | awk '{print $2}'`
+  local VLC_PID=`psListProcesses | grep vlc | grep -v "vlc-start.sh" | grep -E ".*(${VLC_STATS_MEDIA_FILES}).*" | awk -v pidField="${PS_PID_FIELD}" '{print $pidField}'`
   local VLC_CPU_USAGE=`top -e m -E m -p "${VLC_PID}" -n 1 -b | grep vlc | awk '{print $9}'`
   log.info "VLC cpu usage: ${COL_RED}${VLC_CPU_USAGE}%"
 }

@@ -6,6 +6,10 @@
 #export IS_WIN_HOST=true
 #export IS_MAC_HOST=false
 
+# Busybox detection is set by setBusybox and can also be overridden in .bashrc the same way as the host OS.
+#export USE_ENV_TO_DETERMINE_BUSYBOX=true
+#export IS_BUSYBOX=true
+
 # Current user
 USER=`whoami`
 
@@ -159,6 +163,10 @@ isMacHost() {
   return 1
 }
 
+# Busybox ps doesn't support the aux, -ef and -o options and its default output has the pid in the first column
+IS_BUSYBOX=false
+PS_PID_FIELD=2
+
 setHostOs() {
   if [ "${USE_ENV_TO_DETERMINE_OS}" == "true" ]; then
     log.trace "Using env to determine os"
@@ -188,6 +196,52 @@ setHostOs() {
     export IS_WIN_HOST=true
     export IS_MAC_HOST=false
     return
+  fi
+}
+
+# Detects if the ps command in the path is the busybox implementation, for example on OpenWrt
+isBusybox() {
+  local PS_PATH=`command -v ps 2>/dev/null`
+  if [ -z "${PS_PATH}" ]; then
+    return 1
+  fi
+  local PS_TARGET=`readlink -f "${PS_PATH}" 2>/dev/null`
+  if [ -z "${PS_TARGET}" ]; then
+    PS_TARGET=`readlink "${PS_PATH}" 2>/dev/null`
+  fi
+  if echo "${PS_PATH} ${PS_TARGET}" | grep -qi "busybox"; then
+    return 0
+  fi
+  local PS_VERSION=`ps --version 2>&1`
+  if echo "${PS_VERSION}" | grep -qi "busybox"; then
+    return 0
+  fi
+  return 1
+}
+
+setBusybox() {
+  if [ "${USE_ENV_TO_DETERMINE_BUSYBOX}" == "true" ]; then
+    log.trace "Using env to determine busybox"
+    log.trace "IS_BUSYBOX=${IS_BUSYBOX}"
+  elif isBusybox; then
+    export IS_BUSYBOX=true
+  else
+    export IS_BUSYBOX=false
+  fi
+
+  if ${IS_BUSYBOX}; then
+    export PS_PID_FIELD=1
+  else
+    export PS_PID_FIELD=2
+  fi
+}
+
+# List all processes with their command line. Busybox only supports plain ps
+psListProcesses() {
+  if ${IS_BUSYBOX}; then
+    ps 2>/dev/null
+  else
+    ps aux 2>/dev/null
   fi
 }
 

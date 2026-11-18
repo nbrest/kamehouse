@@ -25,7 +25,7 @@ mainProcessLin() {
     kill -9 ${VLC_PID}
   fi
   log.info "Killing remaining vlc process"
-  KILL_VLC_PID=`ps aux | grep vlc | grep -v grep | grep -v VlcProcessController | grep -v surefire | grep -v failsafe\\:integration-test | grep -v build-kamehouse\\.sh | awk '{print $2}'`
+  KILL_VLC_PID=`psListProcesses | grep vlc | grep -v grep | grep -v VlcProcessController | grep -v surefire | grep -v failsafe\\:integration-test | grep -v build-kamehouse\\.sh | awk -v pidField="${PS_PID_FIELD}" '{print $pidField}'`
   if [ -z "${KILL_VLC_PID}" ]; then
     kill -9 ${KILL_VLC_PID}
   fi

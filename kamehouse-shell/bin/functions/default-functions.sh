@@ -279,6 +279,7 @@ configureKameHouseShell() {
   setLogLevelFromEnv
   setLogColors
   setHostOs
+  setBusybox
 }
 
 # Rotate log file

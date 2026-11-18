@@ -8,7 +8,7 @@ initScriptEnv() {
 }
 
 mainProcessLin() {
-  ps aux | grep -e "vlc\|COMMAND" | grep -v grep
+  psListProcesses | grep -e "vlc\|COMMAND" | grep -v grep
 }
 
 mainProcessWin() {
