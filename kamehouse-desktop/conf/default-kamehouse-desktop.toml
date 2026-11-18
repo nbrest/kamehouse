@@ -345,8 +345,6 @@ random_src = [
   { img_src = "lib/ui/img/dbz/goku-chibi-smile-arg.png", pos_x = 210, pos_y = 650, width = 110, height = 120 },
   { img_src = "lib/ui/img/dbz/shen-long-1.png", pos_x = 220, pos_y = 660, width = 100, height = 100 },
   { img_src = "lib/ui/img/dbz/shen-long-3.png", pos_x = 220, pos_y = 660, width = 100, height = 100 },
-  { img_src = "lib/ui/img/star-wars/r2d2-2.png", pos_x = 220, pos_y = 660, width = 100, height = 100 },
-  { img_src = "lib/ui/img/star-wars/yoda.png", pos_x = 220, pos_y = 660, width = 100, height = 100 },
   { img_src = "lib/ui/img/saint-seiya/athena.png", pos_x = 210, pos_y = 640, width = 120, height = 140 },
   { img_src = "lib/ui/img/captain-tsubasa/taro-misaki.png", pos_x = 200, pos_y = 640, width = 140, height = 140 },
   { img_src = "lib/ui/img/captain-tsubasa/juan-diaz.png", pos_x = 200, pos_y = 640, width = 140, height = 140 }
