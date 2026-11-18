@@ -851,7 +851,8 @@ getRunningScriptProcessIds() {
   if command -v pgrep > /dev/null 2>&1; then
     MATCHING_PIDS=$(pgrep -f "${SCRIPT_PATTERN}" 2>/dev/null)
   else
-    MATCHING_PIDS=$(ps -ef 2>/dev/null | grep -E "${SCRIPT_PATTERN}" | grep -v "grep" | awk '{print $2}')  fi
+    MATCHING_PIDS=$(ps -ef 2>/dev/null | grep -E "${SCRIPT_PATTERN}" | grep -v "grep" | awk '{print $2}')
+  fi
   if [ -z "${MATCHING_PIDS}" ]; then
     return
   fi
