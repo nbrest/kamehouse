@@ -7,6 +7,7 @@ importKamehouse functions/keep-alive/keep-alive-functions.sh
 importKamehouse functions/docker/docker-functions.sh
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   KEEP_ALIVE_SERVICE="kamehouse-docker"
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-run-kamehouse.sh"
   DEFAULT_DOCKER_PROFILE="prod"

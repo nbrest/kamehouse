@@ -8,6 +8,10 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcessLin() {
   sudo mariadb
 }

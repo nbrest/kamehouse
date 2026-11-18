@@ -113,7 +113,7 @@ configGitDevDir() {
 
 pullKameHouse() {
   log.info "Pulling latest KameHouse dev branch"
-  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/git/kamehouse ; git pull origin dev"
+  sudo su - ${DOCKER_CONTAINER_USERNAME} -c "cd /home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/git/kamehouse ; timeout --kill-after=10 120 git pull origin dev"
 }
 
 deployKameHouse() {

@@ -8,6 +8,10 @@ initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   # Execute the latest deployed version of kamehouse-snape
   ${HOME}/.kamehouse/opt/kamehouse-snape/bin/kamehouse-snape.sh "$@"

@@ -3,6 +3,8 @@
 #######################################################################
 # Git functions to call from other scripts
 
+GIT_TIMEOUT=120
+
 # cd to git project dir and check for errors
 cdProjectDir() {
   local PROJECT_DIR=$1
@@ -24,7 +26,7 @@ gitPull() {
   checkCommandStatus "$?" "An error occurred checking out ${BRANCH} branch"
 
   log.info "Pulling from git ${COL_PURPLE}${REMOTE} ${BRANCH}"
-  git pull ${REMOTE} ${BRANCH}
+  execWithTimeout ${GIT_TIMEOUT} git pull ${REMOTE} ${BRANCH}
 }
 
 gitPullWithRetry() {
@@ -47,7 +49,7 @@ gitPush() {
   local REMOTE=$1
   local BRANCH=$2
   log.info "Pushing changes to ${COL_PURPLE}${REMOTE} ${BRANCH}"
-  git push ${REMOTE} ${BRANCH}
+  execWithTimeout ${GIT_TIMEOUT} git push ${REMOTE} ${BRANCH}
 }
 
 gitPushWithRetry() {

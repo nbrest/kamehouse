@@ -11,6 +11,7 @@ initScriptConfig() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   USE_BANNERS_DIR=false
   BANNERS_DIR=${HOME}/.kamehouse/opt/kamehouse-desktop/lib/ui/img/banners
   BACKGROUNDS=""

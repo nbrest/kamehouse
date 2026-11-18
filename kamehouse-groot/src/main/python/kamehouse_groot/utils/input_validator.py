@@ -49,7 +49,7 @@ FORBIDDEN_SCRIPT_PATTERNS = (
     "edit-kamehouse-secrets.sh",
     "docker-ssh-",
     "ssh.sh",
-    "exec-script-with-timeout.sh",
+    "exec-with-timeout.sh",
 )
 
 

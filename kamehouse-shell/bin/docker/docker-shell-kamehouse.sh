@@ -6,6 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 importKamehouse functions/docker/docker-functions.sh
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   CONTAINER=""
 }
 

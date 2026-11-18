@@ -10,6 +10,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   SCRIPT=""
   SCRIPT_ARGS=""
   SCRIPT_LOG_MESSAGE=""

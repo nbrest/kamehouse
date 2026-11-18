@@ -25,7 +25,7 @@ moveCurrentConfigToTemp() {
 resetConfigFromTemplate() {
   log.info "Resetting kamehouse config from template"
   cd ${HOME}/.kamehouse/git/kamehouse
-  git pull origin dev
+  execWithTimeout ${GIT_TIMEOUT} git pull origin dev
   checkCommandStatus "$?" "An error occurred pulling kamehouse repo"
   cp ./docker/setup-kamehouse/conf/kamehouse.cfg ${KAMEHOUSE_CFG}
   ls -lh ${KAMEHOUSE_CFG}

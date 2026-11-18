@@ -4,6 +4,7 @@ source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   SHUTDOWN_DELAY_MIN="0"
   RESTART=false
   HIBERNATE=true
@@ -33,7 +34,7 @@ shutdownProcess() {
 countdown() {
   local DELAY_MINUTES=${SHUTDOWN_DELAY_MIN}
   local mins=$((DELAY_MINUTES))
-  log.info "Scheduled shutdown in: ${COL_PURPLE}${DELAY_MINUTES}${COL_DEFAULT_LOG} minutes with action ${COL_PURPLE}${SHUTDOWN_ACTION}${COL_DEFAULT_LOG}" 
+  log.info "Scheduled shutdown in: ${COL_PURPLE}${DELAY_MINUTES}${COL_MESSAGE} minutes with action ${COL_PURPLE}${SHUTDOWN_ACTION}${COL_MESSAGE}" 
   while [ ${mins} -gt 0 ]; do
     echo -ne "`log.info "${COL_NORMAL}Shutting down in ${COL_RED}${mins}${COL_NORMAL} minutes. Press ${COL_RED}Ctrl+C${COL_NORMAL} to abort"`\033[0K\r"
     sleep 60

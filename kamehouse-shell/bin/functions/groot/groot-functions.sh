@@ -51,7 +51,7 @@ checkKameHouseGrootInstallation() {
   fi
   if [ ! -x "${KAMEHOUSE_GROOT_PYTHON}" ]; then
     log.error "kamehouse-groot virtual environment not found at ${COL_PURPLE}${KAMEHOUSE_GROOT_VENV_PATH}"
-    log.error "Run ${COL_PURPLE}install-kamehouse-groot.sh${COL_DEFAULT_LOG} to install it"
+    log.error "Run ${COL_PURPLE}install-kamehouse-groot.sh${COL_MESSAGE} to install it"
     exitProcess ${EXIT_ERROR}
   fi
 }
@@ -62,7 +62,7 @@ startKameHouseGroot() {
     return
   fi
   checkKameHouseGrootInstallation
-  log.info "Starting ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
+  log.info "Starting ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
   mkdir -p "${KAMEHOUSE_GROOT_LOG_DIR}" "${KAMEHOUSE_GROOT_PATH}/run"
 
   local PID=""

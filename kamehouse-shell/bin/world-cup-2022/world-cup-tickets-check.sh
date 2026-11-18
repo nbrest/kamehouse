@@ -105,7 +105,7 @@ processHomePage() {
       log.info "${COL_YELLOW}${MATCH_NAME}: ${SALE_TYPE}: home page: official ${SALE_TYPE} tickets MIGHT be availiable! ${COL_GREEN}set to SKIP EMAIL"
     fi
   else
-    log.info "${COL_PURPLE}${MATCH_NAME}${COL_DEFAULT_LOG}: ${SALE_TYPE}: home page: no ${COL_PURPLE}${SALE_TYPE}${COL_DEFAULT_LOG} tickets available for this match on ${SALE_TYPE} ${COL_PURPLE}home page"
+    log.info "${COL_PURPLE}${MATCH_NAME}${COL_MESSAGE}: ${SALE_TYPE}: home page: no ${COL_PURPLE}${SALE_TYPE}${COL_MESSAGE} tickets available for this match on ${SALE_TYPE} ${COL_PURPLE}home page"
   fi
 }
 
@@ -180,7 +180,7 @@ processMatchPage() {
       log.info "${COL_YELLOW}${MATCH_NAME}: ${SALE_TYPE}: match page: has official ${SALE_TYPE} tickets availiable! ${COL_GREEN}set to SKIP EMAIL ${COL_PURPLE}${AVAILABLE_CATEGORIES}"
     fi
   else
-    log.info "${COL_PURPLE}${MATCH_NAME}${COL_DEFAULT_LOG}: ${SALE_TYPE}: match page: no ${COL_PURPLE}${SALE_TYPE}${COL_DEFAULT_LOG} tickets available for this match on the ${COL_PURPLE}match page"
+    log.info "${COL_PURPLE}${MATCH_NAME}${COL_MESSAGE}: ${SALE_TYPE}: match page: no ${COL_PURPLE}${SALE_TYPE}${COL_MESSAGE} tickets available for this match on the ${COL_PURPLE}match page"
   fi
 }
 

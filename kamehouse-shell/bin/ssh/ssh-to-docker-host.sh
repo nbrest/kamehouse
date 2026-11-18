@@ -9,6 +9,10 @@ initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   ssh ${DOCKER_HOST_USERNAME}@${DOCKER_HOST_IP}
 }

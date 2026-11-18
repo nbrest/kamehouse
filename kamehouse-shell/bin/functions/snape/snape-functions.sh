@@ -21,7 +21,7 @@ checkKameHouseSnapeInstallation() {
   setKameHouseSnapePython
   if [ ! -x "${KAMEHOUSE_SNAPE_PYTHON}" ]; then
     log.error "kamehouse-snape virtual environment not found at ${COL_PURPLE}${KAMEHOUSE_SNAPE_VENV_PATH}"
-    log.error "Run ${COL_PURPLE}install-kamehouse-snape.sh${COL_DEFAULT_LOG} to install it"
+    log.error "Run ${COL_PURPLE}install-kamehouse-snape.sh${COL_MESSAGE} to install it"
     exitProcess ${EXIT_ERROR}
   fi
 }

@@ -30,7 +30,7 @@ mainProcess() {
 }
 
 buildLatestImage() {
-  log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_DEFAULT_LOG}"
+  log.info "Building docker image nbrest/kamehouse:${DOCKER_IMAGE_TAG} and ${COL_PURPLE}push it to docker hub${COL_MESSAGE}"
   runDockerBuildCommand
 }
 
@@ -66,7 +66,7 @@ setupKameHouseShellForReleaseTag() {
   log.info "Setting up kamehouse shell for release tag"
   cd ${HOME}/.kamehouse/git
   rm -r -f kamehouse-release-${DOCKER_IMAGE_TAG}
-  git clone https://github.com/nbrest/kamehouse.git kamehouse-release-${DOCKER_IMAGE_TAG}
+  execWithTimeout ${GIT_TIMEOUT} git clone https://github.com/nbrest/kamehouse.git kamehouse-release-${DOCKER_IMAGE_TAG}
   cd kamehouse-release-${DOCKER_IMAGE_TAG}
   git checkout tags/${DOCKER_IMAGE_TAG} -b ${DOCKER_IMAGE_TAG}
   log.debug "Installing kamehouse-shell from `pwd`"

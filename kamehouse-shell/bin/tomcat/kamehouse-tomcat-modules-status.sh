@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOAD_KAMEHOUSE_SECRETS=true
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   log.debug "curl http://${TOMCAT_TEXT_USER}:****@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | sort"
   curl --connect-timeout 10 http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/list 2>/dev/null | sort

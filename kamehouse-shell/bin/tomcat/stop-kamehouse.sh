@@ -8,6 +8,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   OPERATION=stop
 }
 

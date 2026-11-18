@@ -6,6 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 importKamehouse functions/keep-alive/keep-alive-functions.sh
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   PORT=9090
   KEEP_ALIVE_SERVICE="tomcat"
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/.kamehouse/opt/kamehouse-shell/bin/tomcat/tomcat-restart.sh"

@@ -10,6 +10,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   SCRIPT=""
   SCRIPT_ARGS=""
   BASE_PATH="${HOME}/.kamehouse/opt/kamehouse-shell/bin"
@@ -21,7 +22,7 @@ initScriptEnv() {
 
 mainProcess() {
   validateCommandLineArguments "$@"
-  log.info "Executing script ${COL_PURPLE}'${BASE_PATH}/${SCRIPT}'${COL_DEFAULT_LOG}"
+  log.info "Executing script ${COL_PURPLE}'${BASE_PATH}/${SCRIPT}'${COL_MESSAGE}"
   log.trace "script args ${COL_PURPLE}'${SCRIPT_ARGS}'"
   initEnv
 

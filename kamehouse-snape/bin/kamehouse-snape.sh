@@ -12,7 +12,7 @@ initScriptEnv() {
 
 mainProcess() {
   checkKameHouseSnapeInstallation
-  log.info "Executing snape script ${COL_PURPLE}${SNAPE_SCRIPT}${COL_DEFAULT_LOG} with args ${COL_PURPLE}${SNAPE_SCRIPT_ARGS}"
+  log.info "Executing snape script ${COL_PURPLE}${SNAPE_SCRIPT}${COL_MESSAGE} with args ${COL_PURPLE}${SNAPE_SCRIPT_ARGS}"
   "${KAMEHOUSE_SNAPE_PYTHON}" "${KAMEHOUSE_SNAPE_PATH}/${SNAPE_SCRIPT}" ${SNAPE_SCRIPT_ARGS}
   exitProcess $?
 }

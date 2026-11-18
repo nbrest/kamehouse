@@ -13,7 +13,7 @@ mainProcess() {
   if ${IS_DOCKER_CONTAINER}; then 
     DOCKER_DEV_PROJECT_DIR=${HOME}/.kamehouse/git/kamehouse
   fi 
-  log.info "Changing ownership of ${COL_BLUE}${DOCKER_DEV_PROJECT_DIR}${COL_DEFAULT_LOG} to ${COL_BLUE}${USER}:${USER}${COL_DEFAULT_LOG}"
+  log.info "Changing ownership of ${COL_BLUE}${DOCKER_DEV_PROJECT_DIR}${COL_MESSAGE} to ${COL_BLUE}${USER}:${USER}${COL_MESSAGE}"
   sudo chown -R ${USER}:${USER} ${DOCKER_DEV_PROJECT_DIR}
   ls -la ${DOCKER_DEV_PROJECT_DIR}
 }

@@ -70,13 +70,13 @@ requestConfirmation() {
     return
   fi
   log.warn "${COL_YELLOW}This process will reset the data in the kamehouse database"
-  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}):"
+  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_MESSAGE}/${COL_RED}No${COL_MESSAGE}):"
   read SHOULD_PROCEED
   SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`
   if [[ "${SHOULD_PROCEED}" =~ ${REQUEST_CONFIRMATION_RX} ]]; then
     log.info "Proceeding"
   else
-    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
+    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE} cancelled by the user"
     exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 }

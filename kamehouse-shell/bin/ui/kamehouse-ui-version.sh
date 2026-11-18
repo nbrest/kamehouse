@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
   local UI_VERSION_FILE="${HTTPD_CONTENT_ROOT}/kame-house/build-info.json"

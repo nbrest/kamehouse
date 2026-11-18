@@ -7,6 +7,10 @@ initScriptEnv() {
   KNOWN_KEY_TO_REMOVE=""
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   removeServerKey
 }

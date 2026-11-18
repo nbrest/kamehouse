@@ -6,7 +6,7 @@ trap ctrlC INT
 # Default function to execute when trappinc ctrl+C, SIGINT. Override to customize trapping.
 ctrlC() {
   echo ""
-  log.warn "Captured ${COL_RED}Ctrl+C${COL_DEFAULT_LOG}. Process ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} manually aborted."
+  log.warn "Captured ${COL_RED}Ctrl+C${COL_MESSAGE}. Process ${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE} manually aborted."
   exitProcess ${EXIT_PROCESS_CANCELLED}
 }
 

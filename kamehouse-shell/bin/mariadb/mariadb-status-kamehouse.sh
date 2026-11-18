@@ -8,6 +8,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   SQL_FILE=${HOME}/.kamehouse/opt/kamehouse-shell/sql/mariadb/status-kamehouse.sql
 }
 

@@ -5,7 +5,7 @@ if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; 
 
 mainProcessLin() {
   log.info "Deploying kamehouse-startup-service.sh systemd service"
-  log.warn "User running this script needs ${COL_RED}sudo chmod,cp,systemctl${COL_DEFAULT_LOG} permissions"
+  log.warn "User running this script needs ${COL_RED}sudo chmod,cp,systemctl${COL_MESSAGE} permissions"
   local USERNAME=`whoami`
   sudo chmod 744 /home/${USERNAME}/.kamehouse/opt/kamehouse-shell/bin/startup/kamehouse-startup-service.sh
   sudo cp -v /home/${USERNAME}/.kamehouse/opt/kamehouse-shell/bin/startup/kamehouse-startup.service /etc/systemd/system/kamehouse-startup.service 

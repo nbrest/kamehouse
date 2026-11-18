@@ -5,6 +5,10 @@ if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; 
 
 importKamehouse functions/desktop/desktop-functions.sh
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   setKameHouseDesktopPid
   if [ -z "${KAMEHOUSE_DESKTOP_PID}" ]; then

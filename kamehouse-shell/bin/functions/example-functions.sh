@@ -70,7 +70,7 @@ exampleRegex() {
 exampleRequestConfirmation() {
   log.info "${COL_RED}exampleRequestConfirmation"
   local REQUEST_CONFIRMATION_RX=^yes|y$
-  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
+  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_MESSAGE}/${COL_RED}No${COL_MESSAGE}): "
   read SHOULD_PROCEED
   SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`
   if [[ "$SHOULD_PROCEED" =~ ${REQUEST_CONFIRMATION_RX} ]]
@@ -123,7 +123,7 @@ exampleCountdown() {
   log.info "${COL_RED}exampleCountdown"
   NUMBER_OF_SECONDS=5
   secs=$((NUMBER_OF_SECONDS))
-  log.info "Countdown total: ${COL_PURPLE}${NUMBER_OF_SECONDS}${COL_DEFAULT_LOG} seconds" 
+  log.info "Countdown total: ${COL_PURPLE}${NUMBER_OF_SECONDS}${COL_MESSAGE} seconds" 
   while [ $secs -gt 0 ]; do
     echo -ne "`log.info "${COL_NORMAL}Counting down ${COL_RED}${secs}${COL_NORMAL} seconds"`\033[0K\r"
     sleep 1

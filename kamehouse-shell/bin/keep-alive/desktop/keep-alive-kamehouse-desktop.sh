@@ -11,6 +11,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   KEEP_ALIVE_SERVICE="kamehouse-desktop"
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/.kamehouse/opt/kamehouse-shell/bin/desktop/kamehouse-desktop-startup.sh"
 }

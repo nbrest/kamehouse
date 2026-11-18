@@ -8,6 +8,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   # Initial config
   APACHE_LOG_DIR=".kamehouse/var/log/apache2"
   DEFAULT_LOG_LEVEL="trace"
@@ -45,7 +46,7 @@ setTailLogParameters() {
     NUM_LINES=${NUM_LINES_ARG}
   else
     NUM_LINES=${DEFAULT_NUM_LINES}
-    log.info "Number of lines to tail not set. Using default value of ${COL_PURPLE}${DEFAULT_NUM_LINES}${COL_DEFAULT_LOG}"
+    log.info "Number of lines to tail not set. Using default value of ${COL_PURPLE}${DEFAULT_NUM_LINES}${COL_MESSAGE}"
   fi
 
   local LOG_DATE=$(date +%Y-%m-%d)
@@ -140,12 +141,12 @@ addFileToLogFiles() {
   if test -f "${FILE_TO_ADD}"; then
     LOG_FILES=${LOG_FILES}" ${FILE_TO_ADD}"
   else
-    log.warn "File ${COL_PURPLE}${FILE_TO_ADD}${COL_DEFAULT_LOG} doesn't exist"
+    log.warn "File ${COL_PURPLE}${FILE_TO_ADD}${COL_MESSAGE} doesn't exist"
   fi
 }
 
 tailLog() {
-  log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_DEFAULT_LOG} in ${COL_PURPLE}${KAMEHOUSE_SERVER}${COL_DEFAULT_LOG}"
+  log.info "Tailing files ${COL_PURPLE}${LOG_FILES}${COL_MESSAGE} in ${COL_PURPLE}${KAMEHOUSE_SERVER}${COL_MESSAGE}"
   log.debug "tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG} -v filterExtraLines=${FILTER_EXTRA_LINES}"
   tail ${FOLLOW} -n ${NUM_LINES} ${LOG_FILES} | ${TAIL_LOG_AWK} -v logLevel=${LOG_LEVEL_ARG} -v filterExtraLines=${FILTER_EXTRA_LINES}
   checkCommandStatus "$?" "An error occurred displaying ${LOG_FILES}"

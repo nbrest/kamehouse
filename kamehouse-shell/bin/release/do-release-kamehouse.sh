@@ -71,13 +71,13 @@ requestConfirmation() {
   log.info "Current directory: ${COL_PURPLE}`pwd`"
   log.info "Previous release version: ${COL_PURPLE}${PREVIOUS_RELEASE_VERSION}"
   log.info "Release version ${COL_PURPLE}${RELEASE_VERSION}"
-  log.info "Do you want to proceed with the release? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
+  log.info "Do you want to proceed with the release? (${COL_BLUE}Yes${COL_MESSAGE}/${COL_RED}No${COL_MESSAGE}): "
   read SHOULD_PROCEED
   SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`
   if [[ "${SHOULD_PROCEED}" =~ ${REQUEST_CONFIRMATION_RX} ]]; then
     log.info "Proceeding with the release"
   else
-    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
+    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE} cancelled by the user"
     exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 }
@@ -132,7 +132,7 @@ gitCheckoutMaster() {
   log.info "Switching to master branch"
   git checkout master
   checkCommandStatus "$?"
-  git pull all master
+  execWithTimeout ${GIT_TIMEOUT} git pull all master
   checkCommandStatus "$?"  
 }
 
@@ -144,7 +144,7 @@ gitMergeReleaseBranchToMaster() {
 
 pushMasterBranch() {
   log.info "Pushing master branch to all remotes"
-  git push all master
+  execWithTimeout ${GIT_TIMEOUT} git push all master
   checkCommandStatus "$?"
 }
 
@@ -156,7 +156,7 @@ tagRelease() {
 
 pushTag() {
   log.info "Pushing tag v${RELEASE_VERSION} to all remotes"
-  git push all v${RELEASE_VERSION}
+  execWithTimeout ${GIT_TIMEOUT} git push all v${RELEASE_VERSION}
   checkCommandStatus "$?"
 }
 
@@ -168,7 +168,7 @@ gitCheckoutReleaseBranch() {
 
 pushReleaseBranch() {
   log.info "Pushing ${RELEASE_BRANCH} branch to all remotes"
-  git push all ${RELEASE_BRANCH}
+  execWithTimeout ${GIT_TIMEOUT} git push all ${RELEASE_BRANCH}
   checkCommandStatus "$?"
 }
 

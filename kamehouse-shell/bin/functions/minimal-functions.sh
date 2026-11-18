@@ -48,6 +48,8 @@ EXIT_VAR_NOT_SET=2
 EXIT_INVALID_ARG=3
 EXIT_PROCESS_CANCELLED=4
 EXIT_INVALID_CONFIG=5
+EXIT_TIMEOUT_124=124
+EXIT_TIMEOUT_137=137
 
 # Default kamehouse-shell installation path
 KAMEHOUSE_SHELL_PATH=${HOME}/.kamehouse/opt/kamehouse-shell/bin
@@ -99,10 +101,27 @@ checkCommandStatus() {
   if [ -z "${ERROR_MESSAGE}" ]; then
     ERROR_MESSAGE="An error occurred executing last command"
   fi
-  if [ "${COMMAND_RESULT}" != "0" ]; then
+  if [ "${COMMAND_RESULT}" != "${EXIT_SUCCESS}" ]; then
     log.error "${ERROR_MESSAGE}. Return code: ${COMMAND_RESULT}"
     exitProcess ${COMMAND_RESULT}
   fi
+}
+
+# Check last command's status and exit with an error message. Commands that timeout are not considered in error
+checkTimeoutCommandStatus() {
+  local COMMAND_RESULT="$1"
+  local ERROR_MESSAGE="$2"
+  if [ -z "${ERROR_MESSAGE}" ]; then
+    ERROR_MESSAGE="An error occurred executing last command"
+  fi
+  if [ "${COMMAND_RESULT}" == "${EXIT_SUCCESS}" ]; then
+    return
+  fi
+  if [ "${COMMAND_RESULT}" == "${EXIT_TIMEOUT_124}" ] || [ "${EXIT_CODE}" == "${EXIT_TIMEOUT_137}" ]; then
+    return
+  fi  
+  log.error "${ERROR_MESSAGE}. Return code: ${COMMAND_RESULT}"
+  exitProcess ${COMMAND_RESULT}
 }
 
 # Detects a windows host, that is able to run the windows native tools.
@@ -210,4 +229,38 @@ updateScriptConfig() {
   sed -i -E "s#^${SCRIPT_CONFIG_KEY}=.*#${SCRIPT_CONFIG_KEY}=${SCRIPT_CONFIG_VALUE}#I" ${SCRIPT_CONFIG_FILE}
   log.info "Set '${SCRIPT_CONFIG_KEY}=${SCRIPT_CONFIG_VALUE}' in ${SCRIPT_CONFIG_FILENAME}"
   cat ${SCRIPT_CONFIG_FILE} | grep "${SCRIPT_CONFIG_KEY}="  
+}
+
+# Execute the script or command passed as argument with a maximum runtime in seconds
+execWithTimeout() {
+  local MAX_RUNTIME=$1
+  local SCRIPT=$2
+  shift 2
+  local SCRIPT_ARGS=("$@")
+  local REGEX_NUMBER='^[0-9]+$'
+
+  if [ -z "${MAX_RUNTIME}" ] || [ "${MAX_RUNTIME}" == "0" ]; then
+    "${SCRIPT}" "${SCRIPT_ARGS[@]}"
+    return $?
+  fi
+
+  if [[ ! ${MAX_RUNTIME} =~ $REGEX_NUMBER ]]; then
+    log.error "Invalid MAX_RUNTIME value '${MAX_RUNTIME}'. It must be a positive number of seconds"
+    exitProcess ${EXIT_INVALID_CONFIG}
+  fi
+    
+  local SCRIPT_PARAMS="${SCRIPT_ARGS[@]}"
+  if ! command -v timeout > /dev/null 2>&1 || ! timeout --version > /dev/null 2>&1; then
+    log.warn "The timeout command is not available. Executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_MESSAGE} without a maximum runtime"
+    "${SCRIPT}" "${SCRIPT_ARGS[@]}"
+    return $?
+  fi
+
+  log.info "Executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_MESSAGE} with a maximum runtime of ${COL_PURPLE}${MAX_RUNTIME}s"
+  timeout --kill-after=10 "${MAX_RUNTIME}" "${SCRIPT}" "${SCRIPT_ARGS[@]}"
+  local EXIT_CODE=$?
+  if [ "${EXIT_CODE}" == "${EXIT_TIMEOUT_124}" ] || [ "${EXIT_CODE}" == "${EXIT_TIMEOUT_137}" ]; then
+    log.warn "${COL_YELLOW}Maximum runtime of ${MAX_RUNTIME}s reached executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_MESSAGE}. Aborting script execution"
+  fi
+  return ${EXIT_CODE}
 }

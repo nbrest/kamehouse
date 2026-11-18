@@ -26,7 +26,7 @@ initScriptEnv() {
 
 mainProcess() {
   setKameHouseRootProjectDir
-  log.info "Set ${COL_YELLOW}ANDROID_SFTP_IP, ANDROID_SFTP_PORT, ANDROID_SFTP_USERNAME, ANDROID_SFTP_APK_DEST_PATH${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/conf/kamehouse.cfg"
+  log.info "Set ${COL_YELLOW}ANDROID_SFTP_IP, ANDROID_SFTP_PORT, ANDROID_SFTP_USERNAME, ANDROID_SFTP_APK_DEST_PATH${COL_MESSAGE} in ${HOME}/.kamehouse/conf/kamehouse.cfg"
   if ${SKIP_BUILD_MOBILE}; then
     log.info "Running with -s. Skipping build kamehouse-mobile"
   else
@@ -38,8 +38,8 @@ mainProcess() {
 
 uploadApkToDeviceSftp() {
   setKameHouseMobileApkPath
-  log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_DEFAULT_LOG} on the android phone before proceeding"
-  log.info "${COL_PURPLE}Uploading${COL_DEFAULT_LOG} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_DEFAULT_LOG} through sftp"
+  log.warn "${COL_PURPLE}Start SSH/SFTP Server - Terminal${COL_MESSAGE} on the android phone before proceeding"
+  log.info "${COL_PURPLE}Uploading${COL_MESSAGE} kamehouse-mobile apk ${COL_PURPLE}to android device${COL_MESSAGE} through sftp"
   log.info "Check pass in sftp server mobile app and store it in ${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg as ANDROID_SFTP_PASS=password ${COL_PURPLE}to execute without password prompt when uploading from windows"
 
   SFTP_PORT="${ANDROID_SFTP_PORT}" 

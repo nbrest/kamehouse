@@ -12,6 +12,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   BASE_DIR=${HOME}/.kamehouse/opt/kamehouse-shell/bin
 }
 

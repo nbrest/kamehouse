@@ -17,6 +17,7 @@ initScriptConfig() {
 }
 
 initScriptEnv() {
+  #ALLOW_PARALLEL_RUNS=true
   TEST_PARAM=""
 }
 
@@ -25,17 +26,17 @@ mainProcessPre() {
 }
 
 mainProcessLin() {
-  log.info "${COL_RED}LIN HOST${COL_DEFAULT_LOG}: base script: TEST_PARAM=${TEST_PARAM}"
+  log.info "${COL_RED}LIN HOST${COL_MESSAGE}: base script: TEST_PARAM=${TEST_PARAM}"
   log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
 }
 
 mainProcessWin() {
-  log.info "${COL_RED}WIN HOST${COL_DEFAULT_LOG}: base script: TEST_PARAM=${TEST_PARAM}"
+  log.info "${COL_RED}WIN HOST${COL_MESSAGE}: base script: TEST_PARAM=${TEST_PARAM}"
   log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
 }
 
 mainProcessMac() {
-  log.info "${COL_RED}MAC HOST${COL_DEFAULT_LOG}: base script: TEST_PARAM=${TEST_PARAM}"
+  log.info "${COL_RED}MAC HOST${COL_MESSAGE}: base script: TEST_PARAM=${TEST_PARAM}"
   log.info "SAMPLE_SCRIPT_CFG_VAR=${SAMPLE_SCRIPT_CFG_VAR}"
 }
 

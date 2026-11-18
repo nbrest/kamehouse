@@ -37,7 +37,7 @@ exportAppVariables() {
 }
 
 startKameHouseDesktop() {
-  log.info "Starting ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} version:"
+  log.info "Starting ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE} version:"
   echo -ne "${COL_YELLOW_STD}     "
   ${HOME}/.kamehouse/opt/kamehouse-shell/bin/desktop/kamehouse-desktop-version.sh
   echo -ne "${COL_NORMAL}"

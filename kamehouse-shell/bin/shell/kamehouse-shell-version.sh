@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   local KAMEHOUSE_SHELL_PATH=${HOME}/.kamehouse/opt/kamehouse-shell
   local KAMEHOUSE_SHELL_CONF_PATH=${KAMEHOUSE_SHELL_PATH}/conf

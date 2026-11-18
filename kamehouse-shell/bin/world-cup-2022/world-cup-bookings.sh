@@ -203,7 +203,7 @@ setScanResults() {
       log.debug "Latest run timestamp epoch: ${COL_PURPLE}${LATEST_RUN_TIMESTAMP}"
       log.debug "Current timestamp epoch:    ${COL_PURPLE}${CURRENT_TIMESTAMP}"
       local TIMESTAMP_DIFFERENCE=$((${CURRENT_TIMESTAMP}-${LATEST_RUN_TIMESTAMP}))
-      log.debug "Timestamp difference: ${COL_PURPLE}${TIMESTAMP_DIFFERENCE}${COL_DEFAULT_LOG} seconds"
+      log.debug "Timestamp difference: ${COL_PURPLE}${TIMESTAMP_DIFFERENCE}${COL_MESSAGE} seconds"
       if [[ "${TIMESTAMP_DIFFERENCE}" -ge "7200" ]]; then
         log.error "The text scans timestamp is older than 2 hours. Something is wrong. Is the iMacro still running??"
         SEND_ERROR_EMAIL=true

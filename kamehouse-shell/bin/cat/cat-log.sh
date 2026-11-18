@@ -4,6 +4,7 @@ source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   LOG_FILE_TO_CAT=""
   CAT_LOG_LEVEL=""
   CAT_LOG_AWK=${HOME}/.kamehouse/opt/kamehouse-shell/bin/awk/kamehouse/cat-log.awk

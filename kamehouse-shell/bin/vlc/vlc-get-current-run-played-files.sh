@@ -6,6 +6,7 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 importKamehouse functions/vlc/vlc-functions.sh
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   SORT_ALPHABETICALLY=false
   FILES_PLAYED=""
   QUIET_MODE=false

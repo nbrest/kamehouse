@@ -23,7 +23,7 @@ applyPatchFile() {
   log.info "git reset --hard "
   git reset --hard 
   log.info "git pull origin dev"
-  git pull origin dev  
+  execWithTimeout ${GIT_TIMEOUT} git pull origin dev  
   log.info "git apply ${PATCH_FILE}"
   git apply ${PATCH_FILE}
   if [ "$?" != "0" ]; then

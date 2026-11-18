@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcessLin() {
   TERM=xterm top -b -n 1
 }

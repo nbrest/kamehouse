@@ -3,6 +3,11 @@
 source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+initScriptConfig() {
+  EXEC_ALL_SERVERS_TIMEOUT=300
+  DOCKER_BUILD_TIMEOUT="7200"
+}
+
 initScriptEnv() {
   PROJECT_DIR=${HOME}/.kamehouse/git/jenkins/kamehouse
   LOG_LEVEL=INFO
@@ -31,20 +36,20 @@ runFullContinuousIntegrationBuild() {
   ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/deploy-kamehouse.sh -m mobile -c
   checkCommandStatus "$?" "An error occurred deploying kamehouse-mobile"
 
-  ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ci-rebuild-docker-image.sh -c
+  execWithTimeout ${DOCKER_BUILD_TIMEOUT} ${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-ci-rebuild-docker-image.sh -c
   checkCommandStatus "$?" "An error occurred rebuilding the docker image"
 
   ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/sonarcloud-run-kamehouse.sh
   checkCommandStatus "$?" "An error occurred running the sonarcloud scan"
   
-  execWithTimeout "${SCRIPT_MAX_RUNTIME}" "${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/exec-kamehouse-all-servers.sh" -s "docker/docker-upgrade-containers.sh"
-  checkCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
+  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "docker/docker-upgrade-containers.sh"
+  checkTimeoutCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
 
-  execWithTimeout "${SCRIPT_MAX_RUNTIME}" "${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh" -a "-m shell"
-  checkCommandStatus "$?" "An error occurred deploying kamehouse shell in all servers"  
+  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh" -a "-m shell"
+  checkTimeoutCommandStatus "$?" "An error occurred deploying kamehouse shell in all servers"  
 
-  execWithTimeout "${SCRIPT_MAX_RUNTIME}" "${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh"
-  checkCommandStatus "$?" "An error occurred deploying kamehouse in all servers"  
+  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh"
+  checkTimeoutCommandStatus "$?" "An error occurred deploying kamehouse in all servers"  
 
   log.info "Finished running full continuous integration build"
 }
@@ -60,7 +65,7 @@ gitCloneKameHouse() {
   log.info "Cloning kamehouse git repository into ${COL_PURPLE}${PROJECT_DIR}"
   mkdir -p ${HOME}/.kamehouse/git/jenkins
   cd ${HOME}/.kamehouse/git/jenkins
-  git clone https://github.com/nbrest/kamehouse.git
+  execWithTimeout ${GIT_TIMEOUT} git clone https://github.com/nbrest/kamehouse.git
   cd kamehouse
   checkCommandStatus "$?" "Invalid kamehouse project root directory for jenkins `pwd`"
 }
@@ -70,7 +75,7 @@ gitResetBranch() {
     log.info "Resetting dev branch"
     git reset --hard
     git checkout dev
-    git pull origin dev
+    execWithTimeout ${GIT_TIMEOUT} git pull origin dev
     checkCommandStatus "$?" "Error pulling dev branch"
   else
     git checkout dev

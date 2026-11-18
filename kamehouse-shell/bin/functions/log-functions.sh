@@ -16,8 +16,7 @@ LOG_LEVEL_NUMBER=3
 
 # Default color used in logs. Use this variable to return to default color if
 # I change the color of some words in the log entry.
-COL_DEFAULT_LOG=${COL_GREEN}
-COL_MESSAGE=${COL_DEFAULT_LOG}
+COL_MESSAGE=${COL_GREEN}
 
 # Set to false to skip logging cmd args at start and end of script execution
 # Override LOG_CMD_ARGS variable in the function initKameHouseShellEnv in the shell scripts
@@ -57,22 +56,22 @@ log() {
 
   if [ "${LEVEL}" == "INFO" ]; then
     LEVEL="${COL_BLUE}${LEVEL}${COL_NORMAL}"
-    MESSAGE="${COL_DEFAULT_LOG}${MESSAGE}${COL_NORMAL}"
+    MESSAGE="${COL_MESSAGE}${MESSAGE}${COL_NORMAL}"
   fi
 
   if [ "${LEVEL}" == "DEBUG" ]; then
     LEVEL="${COL_GREEN}${LEVEL}${COL_NORMAL}"
-    MESSAGE="${COL_DEFAULT_LOG}${MESSAGE}${COL_NORMAL}"
+    MESSAGE="${COL_MESSAGE}${MESSAGE}${COL_NORMAL}"
   fi
 
   if [ "${LEVEL}" == "TRACE" ]; then
     LEVEL="${COL_CYAN}${LEVEL}${COL_NORMAL}"
-    MESSAGE="${COL_DEFAULT_LOG}${MESSAGE}${COL_NORMAL}"
+    MESSAGE="${COL_MESSAGE}${MESSAGE}${COL_NORMAL}"
   fi
 
   if [ "${LEVEL}" == "WARN" ]; then
     LEVEL="${COL_YELLOW}${LEVEL}${COL_NORMAL}"
-    MESSAGE="${COL_DEFAULT_LOG}${MESSAGE}${COL_NORMAL}"
+    MESSAGE="${COL_MESSAGE}${MESSAGE}${COL_NORMAL}"
   fi
 
   if [ "${LEVEL}" == "ERROR" ]; then
@@ -213,5 +212,5 @@ setLogColors() {
 
 logNeedsSudoPermissions() {
   BINS="$@"
-  log.warn "User running this script needs ${COL_RED}sudo ${BINS}${COL_DEFAULT_LOG} permissions"
+  log.warn "User running this script needs ${COL_RED}sudo ${BINS}${COL_MESSAGE} permissions"
 }

@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   tmux ls
 }

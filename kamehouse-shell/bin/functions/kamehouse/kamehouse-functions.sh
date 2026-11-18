@@ -412,9 +412,9 @@ executeOperationInTomcatManager() {
   local KAMEHOUSE_MODULE=$3
 
   if [ -z "${KAMEHOUSE_MODULE}" ]; then
-    log.info "Executing ${COL_PURPLE}${OPERATION}${COL_DEFAULT_LOG} kamehouse webapps in localhost:${TOMCAT_PORT} for all modules"
+    log.info "Executing ${COL_PURPLE}${OPERATION}${COL_MESSAGE} kamehouse webapps in localhost:${TOMCAT_PORT} for all modules"
   else
-    log.info "Executing ${COL_PURPLE}${OPERATION}${COL_DEFAULT_LOG} kamehouse webapps in localhost:${TOMCAT_PORT} for module ${COL_PURPLE}${KAMEHOUSE_MODULE}${COL_DEFAULT_LOG}"
+    log.info "Executing ${COL_PURPLE}${OPERATION}${COL_MESSAGE} kamehouse webapps in localhost:${TOMCAT_PORT} for module ${COL_PURPLE}${KAMEHOUSE_MODULE}${COL_MESSAGE}"
   fi
 
   local WEBAPP=${KAMEHOUSE_MODULE}
@@ -430,7 +430,7 @@ executeOperationInTomcatManager() {
   fi
 
   echo -e "${KAMEHOUSE_WEBAPPS}" | while read KAMEHOUSE_WEBAPP; do
-    log.info "Executing ${COL_PURPLE}${OPERATION} ${KAMEHOUSE_WEBAPP}${COL_DEFAULT_LOG} in localhost:${TOMCAT_PORT}"
+    log.info "Executing ${COL_PURPLE}${OPERATION} ${KAMEHOUSE_WEBAPP}${COL_MESSAGE} in localhost:${TOMCAT_PORT}"
     local URL_OPERATION="http://${TOMCAT_TEXT_USER}:${TOMCAT_TEXT_PASS}@localhost:${TOMCAT_PORT}/manager/text/${OPERATION}?path=${KAMEHOUSE_WEBAPP}"
     local URL_OPERATION_MASKED="${URL_OPERATION}"
     URL_OPERATION_MASKED="`sed 's#://.*:.*@#://****:****@#' <<<"${URL_OPERATION_MASKED}"`"
@@ -444,7 +444,7 @@ executeOperationInTomcatManager() {
 setSudoKameHouseCommand() {
   SUDO_KAMEHOUSE_COMMAND=$1
   if ${IS_LIN_HOST}; then
-    log.info "${COL_PURPLE}'${SUDO_KAMEHOUSE_COMMAND}'${COL_DEFAULT_LOG} needs to run with ${COL_RED}sudo${COL_DEFAULT_LOG}. Running as user ${COL_RED}${USER}${COL_DEFAULT_LOG}"
+    log.info "${COL_PURPLE}'${SUDO_KAMEHOUSE_COMMAND}'${COL_MESSAGE} needs to run with ${COL_RED}sudo${COL_MESSAGE}. Running as user ${COL_RED}${USER}${COL_MESSAGE}"
     if ! ${IS_ROOT_USER}; then
       SUDO_KAMEHOUSE_COMMAND="sudo ${SUDO_KAMEHOUSE_COMMAND}"
     fi
@@ -471,7 +471,7 @@ resolvePythonBin() {
     if command -v "${PYTHON_BIN}" > /dev/null 2>&1 || [ -f "${PYTHON_BIN}" ]; then
       return
     fi
-    log.error "Python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG} not found"
+    log.error "Python binary ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE} not found"
     exitProcess ${EXIT_ERROR}
   fi
   local CANDIDATE
@@ -479,10 +479,10 @@ resolvePythonBin() {
     if command -v "${CANDIDATE}" > /dev/null 2>&1; then
       if isCompatiblePythonBin "${CANDIDATE}"; then
         PYTHON_BIN="${CANDIDATE}"
-        log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+        log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}"
         return
       fi
-      log.debug "Python binary ${COL_PURPLE}${CANDIDATE}${COL_DEFAULT_LOG} found in the PATH is not python 3.11 or newer. Skipping it"
+      log.debug "Python binary ${COL_PURPLE}${CANDIDATE}${COL_MESSAGE} found in the PATH is not python 3.11 or newer. Skipping it"
     fi
   done
   local PYTHON_INSTALL_DIR="${HOME}/.kamehouse/opt/python"
@@ -490,22 +490,22 @@ resolvePythonBin() {
     if [ -f "${CANDIDATE}" ]; then
       if isCompatiblePythonBin "${CANDIDATE}"; then
         PYTHON_BIN="${CANDIDATE}"
-        log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+        log.info "Using python binary ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}"
         return
       fi
-      log.debug "Python binary ${COL_PURPLE}${CANDIDATE}${COL_DEFAULT_LOG} is not python 3.11 or newer. Skipping it"
+      log.debug "Python binary ${COL_PURPLE}${CANDIDATE}${COL_MESSAGE} is not python 3.11 or newer. Skipping it"
     fi
   done
-  log.error "Python 3.11 or newer is required but no compatible python binary was found in the PATH or at ${COL_PURPLE}${PYTHON_INSTALL_DIR}${COL_DEFAULT_LOG}"
+  log.error "Python 3.11 or newer is required but no compatible python binary was found in the PATH or at ${COL_PURPLE}${PYTHON_INSTALL_DIR}${COL_MESSAGE}"
   exitProcess ${EXIT_ERROR}
 }
 
 checkPythonVersion() {
   if ! "${PYTHON_BIN}" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)' > /dev/null 2>&1; then
-    log.error "Python 3.11 or newer is required. Found ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
+    log.error "Python 3.11 or newer is required. Found ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_MESSAGE}"
     exitProcess ${EXIT_ERROR}
   fi
-  log.info "Using Python version ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_DEFAULT_LOG}"
+  log.info "Using Python version ${COL_PURPLE}$("${PYTHON_BIN}" --version 2>&1)${COL_MESSAGE}"
 }
 
 # Trims the PATH, so the windows cmd.exe is able to search it for a command.
@@ -572,18 +572,14 @@ pullLatestKameHouseChanges() {
     log.info "Running on a dev docker container. Skipping reset git branch"
     return
   fi
-  log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} from repository"     
+  log.info "Pulling latest version of dev branch of ${COL_PURPLE}${PROJECT}${COL_MESSAGE} from repository"     
   git checkout dev
-  if [ "$?" != "0" ]; then
-    log.error "An error occurred checking out dev branch. Continuing process anyway"
-  fi
+  checkCommandStatus "$?" "An error occurred checking out dev branch. Continuing process anyway"
   
   git reset --hard
 
-  execWithTimeout 120 git pull origin dev
-  if [ "$?" != "0" ]; then
-    log.error "An error occurred pulling dev changes. Continuing process anyway"
-  fi
+  execWithTimeout ${GIT_TIMEOUT} git pull origin dev
+  checkCommandStatus "$?" "An error occurred pulling dev changes. Continuing process anyway"
 }
 
 cleanLogsInGitRepoFolder() {
@@ -804,19 +800,20 @@ updateKameHouseDesktopConfig() {
   fi
 }
 
-# Check if another instance of the current script is running.
-# If it is, print its process id(s) and wait up to SCRIPT_MAX_START_DELAY_WAIT seconds for it to finish
-# before starting the current process. If the wait timeout is reached and the other process is
-# still running, exit with an error and print the command to manually kill it.
+# Check if another instance of the current script is running and wait a maximum time for that proces
+# to end before starting this instance. If the max wait time is reached, exit this current instance
 checkIfScriptIsRunning() {
-  local MAX_DELAY_WAIT="${SCRIPT_MAX_START_DELAY_WAIT:-0}"
-  if [ "${SCRIPT_MAX_START_DELAY_WAIT}" == "0" ]; then
-    log.info "Skipping check for other instances of the script already running"
+  if ${ALLOW_PARALLEL_RUNS}; then
+    log.debug "Script allows parallel runs"
+    return    
   fi
-
+  
+  local LOOP_STEP=5
+  local MAX_DELAY_WAIT="${START_MAX_WAIT:-0}"
   local REGEX_NUMBER='^[0-9]+$'
+  
   if [[ ! ${MAX_DELAY_WAIT} =~ $REGEX_NUMBER ]]; then
-    log.error "Invalid SCRIPT_MAX_START_DELAY_WAIT value '${MAX_DELAY_WAIT}'. It must be a positive number of seconds"
+    log.error "Invalid START_MAX_WAIT value '${MAX_DELAY_WAIT}'. It must be a positive number of seconds"
     exitProcess ${EXIT_INVALID_CONFIG}
   fi
 
@@ -826,32 +823,31 @@ checkIfScriptIsRunning() {
   fi
 
   local RUNNING_PIDS_LIST=`echo ${RUNNING_PIDS} | tr ' ' ','`
-  log.warn "Another process of ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} is already running with PID(s) ${COL_RED}${RUNNING_PIDS_LIST}"
-  log.info "To manually kill it, execute: ${COL_RED}kill -9 ${RUNNING_PIDS}"
-  log.info "Waiting up to ${COL_PURPLE}${MAX_DELAY_WAIT}s${COL_DEFAULT_LOG} for the other process to finish"
+  log.warn "Another process of ${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE} is already running with PID(s) ${COL_PURPLE}${RUNNING_PIDS_LIST}"
+  log.info "To manually kill that process, execute: ${COL_RED}kill -9 ${RUNNING_PIDS}"
+  log.info "Waiting up to ${COL_PURPLE}${MAX_DELAY_WAIT}s${COL_MESSAGE} for the other process to finish"
   local COUNT=0
   while [ -n "$(getRunningScriptProcessIds)" ] && [ ${COUNT} -lt ${MAX_DELAY_WAIT} ]; do
-    sleep 1
-    COUNT=$((COUNT+1))
+    sleep ${LOOP_STEP}
+    COUNT=$((COUNT+LOOP_STEP))
   done
 
   RUNNING_PIDS=$(getRunningScriptProcessIds)
   if [ -n "${RUNNING_PIDS}" ]; then
     RUNNING_PIDS_LIST=`echo ${RUNNING_PIDS} | tr ' ' ','`
-    log.error "Another process of ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} is still running with PID(s) ${COL_RED}${RUNNING_PIDS_LIST}${COL_DEFAULT_LOG} after waiting ${MAX_DELAY_WAIT}s"
-    log.error "To manually kill it, execute: ${COL_RED}kill -9 ${RUNNING_PIDS}"
+    log.error "The other process of ${COL_PURPLE}${SCRIPT_NAME}${COL_RED} is still running with PID(s) ${RUNNING_PIDS_LIST} after waiting the maximum time ${MAX_DELAY_WAIT}s"
+    log.error "Aborting the current run. To manually kill the other process, execute: kill -9 ${RUNNING_PIDS}"
     exitProcess ${EXIT_ERROR}
   fi
-  log.info "The other process of ${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} finished. Continuing with the current process"
+  log.info "The other process of ${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE} finished. Continuing with the current process"
 }
 
-# Get the process ids of the other instances of the current script that are running.
-# The current process, its ancestors (for example a wrapper script with the script name in
-# its command line) and the child processes with the same command line of each script invocation
-# (for example the subshell created to pipe the output through tee) are excluded.
+# Get the process ids of the other instances of the current script that are running
 getRunningScriptProcessIds() {
   local SCRIPT_PATTERN="(^|[/ ])${SCRIPT_NAME}([ ]|$)"
   local MATCHING_PIDS=""
+  local MAX_PIDS_COUNT=10
+
   if command -v pgrep > /dev/null 2>&1; then
     MATCHING_PIDS=$(pgrep -f "${SCRIPT_PATTERN}" 2>/dev/null)
   else
@@ -860,10 +856,19 @@ getRunningScriptProcessIds() {
   if [ -z "${MATCHING_PIDS}" ]; then
     return
   fi
+
+  local PID_COUNT=$(echo "${MATCHING_PIDS}" | wc -w | tr -d ' ')
+  if [ "${PID_COUNT}" -gt ${MAX_PIDS_COUNT} ]; then
+    log.warn "Found ${PID_COUNT} processes matching ${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE}. Skipping duplicate instance check to avoid extensive lookup"
+    return
+  fi
+
   local RUNNING_PIDS=""
   local PID
   local PARENT_PID
+
   for PID in ${MATCHING_PIDS}; do
+
     # skip processes that already finished between the pgrep and the check
     if ! kill -0 "${PID}" 2>/dev/null; then
       continue
@@ -875,6 +880,7 @@ getRunningScriptProcessIds() {
     if isCurrentScriptProcessTree "${PID}"; then
       continue
     fi
+
     # keep only the top level process of each script invocation
     PARENT_PID=$(ps -o ppid= -p "${PID}" 2>/dev/null | tr -d ' ')
     if [ -n "${PARENT_PID}" ] && echo "${MATCHING_PIDS}" | tr ' ' '\n' | grep -q "^${PARENT_PID}$"; then
@@ -888,27 +894,31 @@ getRunningScriptProcessIds() {
   echo ${RUNNING_PIDS}
 }
 
-# Check if the process id passed as argument belongs to the process tree of the current script.
-# This is used to avoid detecting the current script execution, its ancestors (for example a
-# wrapper shell with the script name in its command line) or its descendants (the subshells that
-# inherit the script command line) as another instance of the script.
+# Check if the process id passed as argument belongs to the process tree of the current script
 isCurrentScriptProcessTree() {
   local TARGET_PID=$1
+  local LOOP_COUNT=0
+  local MAX_LOOP_COUNT=10
+
   # check if the target is the current script process or one of its descendants
   local CURRENT_PID=${TARGET_PID}
-  while [ -n "${CURRENT_PID}" ] && [ "${CURRENT_PID}" != "0" ]; do
+  while [ -n "${CURRENT_PID}" ] && [ "${CURRENT_PID}" != "0" ] && [ ${LOOP_COUNT} -lt ${MAX_LOOP_COUNT} ]; do
     if [ "${CURRENT_PID}" == "$$" ]; then
       return 0
     fi
     CURRENT_PID=$(ps -o ppid= -p "${CURRENT_PID}" 2>/dev/null | tr -d ' ')
+    LOOP_COUNT=$((LOOP_COUNT+1))
   done
+
   # check if the target is one of the ancestors of the current script process
   CURRENT_PID=$$
-  while [ -n "${CURRENT_PID}" ] && [ "${CURRENT_PID}" != "0" ]; do
+  LOOP_COUNT=0
+  while [ -n "${CURRENT_PID}" ] && [ "${CURRENT_PID}" != "0" ] && [ ${LOOP_COUNT} -lt ${MAX_LOOP_COUNT} ]; do
     if [ "${CURRENT_PID}" == "${TARGET_PID}" ]; then
       return 0
     fi
     CURRENT_PID=$(ps -o ppid= -p "${CURRENT_PID}" 2>/dev/null | tr -d ' ')
+    LOOP_COUNT=$((LOOP_COUNT+1))
   done
   return 1
 }
@@ -921,43 +931,4 @@ getProcessCommandLine() {
   else
     ps -o args= -p "${PID}" 2>/dev/null
   fi
-}
-
-# Execute the script or command passed as argument with a maximum runtime in seconds.
-# The remaining arguments are passed to the script/command.
-# The timeout command sends SIGTERM when the maximum runtime is reached and SIGKILL 10 seconds later
-# if the process is still running, to make sure it doesn't run forever.
-# When the timeout is reached it's considered that the remote processes were already started, so
-# no error is returned.
-execWithTimeout() {
-  local MAX_RUNTIME=$1
-  local SCRIPT=$2
-  shift 2
-  local SCRIPT_ARGS=("$@")
-  local REGEX_NUMBER='^[0-9]+$'
-
-  if [ -z "${MAX_RUNTIME}" ] || [ "${MAX_RUNTIME}" == "0" ]; then
-    "${SCRIPT}" "${SCRIPT_ARGS[@]}"
-    return $?
-  fi
-  if [[ ! ${MAX_RUNTIME} =~ $REGEX_NUMBER ]]; then
-    log.error "Invalid MAX_RUNTIME value '${MAX_RUNTIME}'. It must be a positive number of seconds"
-    exitProcess ${EXIT_INVALID_CONFIG}
-  fi
-  
-  local SCRIPT_PARAMS="${SCRIPT_ARGS[@]}"
-  if ! command -v timeout > /dev/null 2>&1 || ! timeout --version > /dev/null 2>&1; then
-    log.warn "The timeout command is not available. Executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_DEFAULT_LOG} without a maximum runtime"
-    "${SCRIPT}" "${SCRIPT_ARGS[@]}"
-    return $?
-  fi
-
-  log.info "Executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_DEFAULT_LOG} with a maximum runtime of ${COL_PURPLE}${MAX_RUNTIME}s"
-  timeout --kill-after=10 "${MAX_RUNTIME}" "${SCRIPT}" "${SCRIPT_ARGS[@]}"
-  local EXIT_CODE=$?
-  if [ "${EXIT_CODE}" == "124" ] || [ "${EXIT_CODE}" == "137" ]; then
-    log.warn "${COL_YELLOW}Maximum runtime of ${MAX_RUNTIME}s reached executing ${COL_PURPLE}${SCRIPT} ${SCRIPT_PARAMS}${COL_DEFAULT_LOG}. Aborting script execution"
-    return ${EXIT_SUCCESS}
-  fi
-  return ${EXIT_CODE}
 }

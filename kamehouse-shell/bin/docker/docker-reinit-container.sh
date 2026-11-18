@@ -39,7 +39,7 @@ mainProcess() {
 }
 
 printReinitSettings() {
-  log.info "Reinit folders and data in the docker kamehouse container from host ${COL_PURPLE}${DOCKER_HOST_IP}${COL_DEFAULT_LOG} and remote user ${COL_PURPLE}${DOCKER_HOST_USERNAME}"
+  log.info "Reinit folders and data in the docker kamehouse container from host ${COL_PURPLE}${DOCKER_HOST_IP}${COL_MESSAGE} and remote user ${COL_PURPLE}${DOCKER_HOST_USERNAME}"
   log.info "This script should be executed from the host's command line. NOT inside the docker container"
 
   if ${REINIT_SSH_KEYS_ONLY}; then
@@ -69,14 +69,14 @@ printReinitSettings() {
 
 requestConfirmation() {
   echo ""
-  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_DEFAULT_LOG}/${COL_RED}No${COL_DEFAULT_LOG}): "
+  log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_MESSAGE}/${COL_RED}No${COL_MESSAGE}): "
   sleep 1
   read SHOULD_PROCEED
   SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`
   if [[ "${SHOULD_PROCEED}" =~ ${REQUEST_CONFIRMATION_RX} ]]; then
     log.info "Proceeding"
   else
-    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_DEFAULT_LOG} cancelled by the user"
+    log.warn "${COL_PURPLE}${SCRIPT_NAME}${COL_MESSAGE} cancelled by the user"
     exitProcess ${EXIT_PROCESS_CANCELLED}
   fi
 }
@@ -119,7 +119,7 @@ sshFromDockerContainerToHost() {
   log.info "Attempting to connect through ssh from docker container to host..."
   SSH_COMMAND="/home/${DOCKER_USERNAME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-sync-ssh-keys-with-host.sh"
   runSshCommand
-  log.warn "If the last command didn't display '${COL_RED}ssh from docker container to host successful${COL_DEFAULT_LOG}' then login to the container and ssh from the container to the host using \${DOCKER_HOST_IP} to add the host key to known hosts file in the container. ${COL_YELLOW}If this is not done, then the automated ssh commands won't work"
+  log.warn "If the last command didn't display '${COL_RED}ssh from docker container to host successful${COL_MESSAGE}' then login to the container and ssh from the container to the host using \${DOCKER_HOST_IP} to add the host key to known hosts file in the container. ${COL_YELLOW}If this is not done, then the automated ssh commands won't work"
 }
 
 reinitKameHouseFolder() {

@@ -9,6 +9,10 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   local BUILD_INFO_FILE="${KAMEHOUSE_GROOT_PATH}/conf/build-info.json"
   if [ -f "${BUILD_INFO_FILE}" ]; then

@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   local VERSION_FILE="${HOME}/.kamehouse/opt/kamehouse-desktop/conf/build-info.json"
   cat "${VERSION_FILE}"

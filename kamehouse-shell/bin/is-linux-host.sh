@@ -8,6 +8,10 @@ initKameHouseShellEnv() {
   LOG_PROCESS_TO_FILE=false
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 # Returns true if it's a linux host, false if it isn't.
 # It can also be infered by the return value. 
 # Returns 0 for true, 1 for false.

@@ -13,8 +13,8 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_GROOT_PATH}"
-  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_GROOT_SOURCE}${COL_DEFAULT_LOG} as the source of the service"
+  log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_GROOT_PATH}"
+  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_GROOT_SOURCE}${COL_MESSAGE} as the source of the service"
   checkSourcePath
   resolvePythonBin
   checkPythonVersion
@@ -60,10 +60,10 @@ ensurePythonVenvSupport() {
   if "${PYTHON_BIN}" -m venv --help > /dev/null 2>&1 && "${PYTHON_BIN}" -m ensurepip --version > /dev/null 2>&1; then
     return
   fi
-  log.warn "Python venv/ensurepip modules are not available for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}. Installing the python venv package"
+  log.warn "Python venv/ensurepip modules are not available for ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}. Installing the python venv package"
   installPythonVenvPackage
   if ! "${PYTHON_BIN}" -m venv --help > /dev/null 2>&1 || ! "${PYTHON_BIN}" -m ensurepip --version > /dev/null 2>&1; then
-    log.error "Could not enable the python venv/ensurepip modules for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+    log.error "Could not enable the python venv/ensurepip modules for ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}"
     exitProcess ${EXIT_ERROR}
   fi
 }
@@ -141,10 +141,10 @@ ensureSystemPythonPip() {
   if "${PYTHON_BIN}" -m pip --version > /dev/null 2>&1; then
     return
   fi
-  log.warn "pip is not available for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}. Installing the python pip package"
+  log.warn "pip is not available for ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}. Installing the python pip package"
   installPythonPipPackage
   if ! "${PYTHON_BIN}" -m pip --version > /dev/null 2>&1; then
-    log.error "Could not enable pip for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+    log.error "Could not enable pip for ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}"
     exitProcess ${EXIT_ERROR}
   fi
 }

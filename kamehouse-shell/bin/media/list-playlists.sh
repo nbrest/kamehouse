@@ -7,6 +7,10 @@ initKameHouseShellEnv() {
   LOG=DISABLED
 }
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcessLin() {
   find "${HOME}/${PLAYLISTS_PATH}" | grep -e "m3u" | sort
 }

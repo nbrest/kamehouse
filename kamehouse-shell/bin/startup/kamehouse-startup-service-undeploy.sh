@@ -5,7 +5,7 @@ if [ "$?" != "0" ]; then echo "Error importing common-functions.sh" ; exit 99 ; 
 
 mainProcessLin() {
   log.info "Undeploying kamehouse-startup-service.sh systemd service"
-  log.warn "User running this script needs ${COL_RED}sudo rm,systemctl${COL_DEFAULT_LOG} permissions"
+  log.warn "User running this script needs ${COL_RED}sudo rm,systemctl${COL_MESSAGE} permissions"
   sudo rm /etc/systemd/system/kamehouse-startup.service 
   sudo systemctl daemon-reload
   sudo systemctl disable kamehouse-startup.service

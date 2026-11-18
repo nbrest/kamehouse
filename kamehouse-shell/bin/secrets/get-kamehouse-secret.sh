@@ -10,6 +10,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   KAMEHOUSE_SECRET_NAME=""
 }
 

@@ -14,8 +14,8 @@ initScriptEnv() {
 }
 
 mainProcess() {
-  log.info "Installing ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_SNAPE_INSTALL_PATH}"
-  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SNAPE_SOURCE}${COL_DEFAULT_LOG} as the source of the scripts"
+  log.info "Installing ${COL_PURPLE}kamehouse-snape${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_SNAPE_INSTALL_PATH}"
+  log.info "Using directory ${COL_PURPLE}${KAMEHOUSE_SNAPE_SOURCE}${COL_MESSAGE} as the source of the scripts"
   checkSourcePath
   resolvePythonBin
   checkPythonVersion
@@ -103,10 +103,10 @@ ensurePythonVenvSupport() {
   if "${PYTHON_BIN}" -m venv --help > /dev/null 2>&1 && "${PYTHON_BIN}" -m ensurepip --version > /dev/null 2>&1; then
     return
   fi
-  log.warn "Python venv/ensurepip modules are not available for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}. Installing the python venv package"
+  log.warn "Python venv/ensurepip modules are not available for ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}. Installing the python venv package"
   installPythonVenvPackage
   if ! "${PYTHON_BIN}" -m venv --help > /dev/null 2>&1 || ! "${PYTHON_BIN}" -m ensurepip --version > /dev/null 2>&1; then
-    log.error "Could not enable the python venv/ensurepip modules for ${COL_PURPLE}${PYTHON_BIN}${COL_DEFAULT_LOG}"
+    log.error "Could not enable the python venv/ensurepip modules for ${COL_PURPLE}${PYTHON_BIN}${COL_MESSAGE}"
     exitProcess ${EXIT_ERROR}
   fi
 }

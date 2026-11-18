@@ -75,12 +75,12 @@ deployKameHouseShell() {
     log.warn "DEPLOY_KAMEHOUSE_SHELL is false so skip deploying kamehouse-shell"
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-shell${COL_MESSAGE}"
   chmod a+x kamehouse-shell/bin/shell/install-kamehouse-shell.sh
   ./kamehouse-shell/bin/shell/install-kamehouse-shell.sh -l ${LOG_LEVEL}
   checkCommandStatus "$?" "An error occurred deploying kamehouse-shell"
 
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-shell${COL_MESSAGE}"
 
   if [ "${MODULE_SHORT}" == "shell" ]; then
     exitDeploymentSuccessfully
@@ -95,12 +95,12 @@ deployKameHouseSnape() {
     log.warn "DEPLOY_KAMEHOUSE_SNAPE is false so skip deploying kamehouse-snape"
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-snape${COL_MESSAGE}"
   chmod a+x kamehouse-shell/bin/snape/install-kamehouse-snape.sh
   ./kamehouse-shell/bin/snape/install-kamehouse-snape.sh
   checkCommandStatus "$?" "An error occurred deploying kamehouse-snape"
 
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-snape${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-snape${COL_MESSAGE}"
 
   if [ "${MODULE_SHORT}" == "snape" ]; then
     exitDeploymentSuccessfully
@@ -115,12 +115,12 @@ deployKameHouseDesktop() {
     log.warn "DEPLOY_KAMEHOUSE_DESKTOP is false so skip deploying kamehouse-desktop"
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE}"
   chmod a+x kamehouse-shell/bin/desktop/install-kamehouse-desktop.sh
   ./kamehouse-shell/bin/desktop/install-kamehouse-desktop.sh
   checkCommandStatus "$?" "An error occurred deploying kamehouse-desktop"
 
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE}"
 
   restartKameHouseDesktop
   if [ "${MODULE_SHORT}" == "desktop" ]; then
@@ -144,13 +144,13 @@ deployKameHouseGroot() {
     log.warn "DEPLOY_KAMEHOUSE_GROOT is false so skip deploying kamehouse-groot"
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}" 
-  log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}" 
+  log.info "Installing ${COL_PURPLE}kamehouse-groot service${COL_MESSAGE}"
   ./kamehouse-shell/bin/groot/install-kamehouse-groot.sh
   checkCommandStatus "$?" "An error occurred installing the kamehouse-groot service"
   restartKameHouseGroot
 
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-groot${COL_MESSAGE}"
 
   if [ "${MODULE_SHORT}" == "groot" ]; then
     exitDeploymentSuccessfully
@@ -182,7 +182,7 @@ deployTomcatModules() {
 }
 
 deployToTomcat() {
-  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}" 
+  log.info "Deploying ${COL_PURPLE}${PROJECT}${COL_MESSAGE} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_MESSAGE}" 
 
   local KAMEHOUSE_MODULES=`ls -1 | grep kamehouse-${MODULE_SHORT}`
   echo -e "${KAMEHOUSE_MODULES}" | while read KAMEHOUSE_MODULE; do
@@ -202,8 +202,8 @@ deployToTomcat() {
   echo -ne "${COL_YELLOW_STD}     "
   cat ./kamehouse-commons-core/src/main/resources/build-info.json
   echo -ne "${COL_NORMAL}"
-  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_DEFAULT_LOG}"
-  log.info "Execute ${COL_CYAN}\`  tail-log.sh -f tomcat -n 2000  \`${COL_DEFAULT_LOG} to check tomcat startup progress"
+  log.info "Finished deploying ${COL_PURPLE}${PROJECT}${COL_MESSAGE} to ${COL_PURPLE}${DEPLOYMENT_DIR}${COL_MESSAGE}"
+  log.info "Execute ${COL_CYAN}\`  tail-log.sh -f tomcat -n 2000  \`${COL_MESSAGE} to check tomcat startup progress"
 }
 
 deployKameHouseCmd() {
@@ -214,7 +214,7 @@ deployKameHouseCmd() {
     log.warn "DEPLOY_KAMEHOUSE_CMD is false so skip deploying kamehouse-cmd"
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_DEFAULT_LOG} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_DEFAULT_LOG}" 
+  log.info "Deploying ${COL_PURPLE}kamehouse-cmd${COL_MESSAGE} to ${COL_PURPLE}${KAMEHOUSE_CMD_DEPLOY_PATH}${COL_MESSAGE}" 
   mkdir -p ${KAMEHOUSE_CMD_DEPLOY_PATH}
   rm -r -f ${KAMEHOUSE_CMD_DEPLOY_PATH}/kamehouse-cmd
   unzip -o -q kamehouse-cmd/build/distributions/kamehouse-cmd-bundle.zip -d ${KAMEHOUSE_CMD_DEPLOY_PATH}/ 
@@ -254,8 +254,8 @@ deployKameHouseMobile() {
 }
 
 uploadKameHouseMobileApkToHttpdServer() {
-  log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} app to downloads server"
-  log.info "Set ${COL_YELLOW}KAMEHOUSE_MOBILE_APP_SERVER_IP, KAMEHOUSE_MOBILE_APP_SERVER_PATH and KAMEHOUSE_MOBILE_APP_SERVER_USERNAME${COL_DEFAULT_LOG} in ${HOME}/.kamehouse/conf/kamehouse.cfg"
+  log.info "Deploying ${COL_PURPLE}kamehouse-mobile${COL_MESSAGE} app to downloads server"
+  log.info "Set ${COL_YELLOW}KAMEHOUSE_MOBILE_APP_SERVER_IP, KAMEHOUSE_MOBILE_APP_SERVER_PATH and KAMEHOUSE_MOBILE_APP_SERVER_USERNAME${COL_MESSAGE} in ${HOME}/.kamehouse/conf/kamehouse.cfg"
   SCP_SRC="${KAMEHOUSE_ANDROID_APK_PATH}"
   SCP_DEST="${KAMEHOUSE_MOBILE_APP_SERVER_USERNAME}@${KAMEHOUSE_MOBILE_APP_SERVER_IP}:${KAMEHOUSE_MOBILE_APP_SERVER_PATH}/kamehouse.apk"
   executeScpCommand
@@ -290,7 +290,7 @@ deployKameHouseUiStatic() {
   if [[ -n "${MODULE_SHORT}" && "${MODULE_SHORT}" != "ui" ]]; then
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-ui${COL_MESSAGE}"
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
   local CURRENT_PATH="${HTTPD_CONTENT_ROOT}/kame-house"
   while [[ "${CURRENT_PATH}" != "/" && "${CURRENT_PATH}" != "." ]]; do
@@ -328,7 +328,7 @@ deployKameHouseUiStatic() {
   echo -ne "${COL_YELLOW_STD}     "
   cat ${HTTPD_CONTENT_ROOT}/kame-house/build-info.json
   echo -ne "${COL_NORMAL}"
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-ui${COL_MESSAGE}"
 
   if [ "${MODULE_SHORT}" == "ui" ]; then
     exitDeploymentSuccessfully
@@ -344,7 +344,7 @@ deployKameHouseMobileStatic() {
   if [[ -n "${MODULE}" && "${MODULE}" != "kamehouse-mobile" ]]; then
     return
   fi
-  log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
+  log.info "Deploying ${COL_PURPLE}kamehouse-mobile static content${COL_MESSAGE}"
   local HTTPD_CONTENT_ROOT=`getHttpdContentRoot`
   rm -rf ${HTTPD_CONTENT_ROOT}/kame-house-mobile
   mkdir -p ${HTTPD_CONTENT_ROOT}/kame-house-mobile
@@ -373,7 +373,7 @@ deployKameHouseMobileStatic() {
   echo -ne "${COL_YELLOW_STD}     "
   cat "${HTTPD_CONTENT_ROOT}/kame-house-mobile/build-info.json"
   echo -ne "${COL_NORMAL}"
-  log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_DEFAULT_LOG}"
+  log.info "Finished deploying ${COL_PURPLE}kamehouse-mobile static content${COL_MESSAGE}"
 }
 
 checkForDeploymentErrors() {

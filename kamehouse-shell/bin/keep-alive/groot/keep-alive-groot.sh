@@ -7,6 +7,7 @@ importKamehouse functions/groot/groot-functions.sh
 importKamehouse functions/keep-alive/keep-alive-functions.sh
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   KEEP_ALIVE_SERVICE="groot"
   KEEP_ALIVE_SERVICE_STARTUP="${HOME}/.kamehouse/opt/kamehouse-shell/bin/groot/kamehouse-groot-restart.sh"
 }

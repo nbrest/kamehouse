@@ -21,7 +21,7 @@ mainProcess() {
   git checkout ${GIT_BRANCH}
   checkCommandStatus "$?"
   
-  git pull ${GIT_REMOTE} ${GIT_BRANCH}
+  execWithTimeout ${GIT_TIMEOUT} git pull ${GIT_REMOTE} ${GIT_BRANCH}
   checkCommandStatus "$?"
 }
 

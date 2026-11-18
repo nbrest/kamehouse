@@ -3,6 +3,10 @@
 source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcessLin() {
   log.info "Searching for tomcat process"
   netstat -nltp | grep ":${TOMCAT_PORT} " | grep java
@@ -10,7 +14,7 @@ mainProcessLin() {
   if [ -z "${TOMCAT_PID}" ]; then
     log.info "Tomcat is not running"
   else
-    log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${TOMCAT_PORT}"
+    log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_MESSAGE} on port ${COL_PURPLE}${TOMCAT_PORT}"
   fi
 }
 
@@ -21,7 +25,7 @@ mainProcessWin() {
   if [ -z "${TOMCAT_PID}" ]; then
     log.info "Tomcat is not running"
   else
-    log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${TOMCAT_PORT}"
+    log.info "Tomcat is currently running with pid ${COL_PURPLE}${TOMCAT_PID}${COL_MESSAGE} on port ${COL_PURPLE}${TOMCAT_PORT}"
   fi
 }
 

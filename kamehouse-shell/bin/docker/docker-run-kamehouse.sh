@@ -10,6 +10,7 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   BUILD_ON_STARTUP=false
   BUILD_ON_STARTUP_PARAM=""
   DEBUG_MODE=false

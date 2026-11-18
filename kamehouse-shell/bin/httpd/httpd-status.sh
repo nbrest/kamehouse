@@ -3,6 +3,10 @@
 source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcessLin() {
   log.info "Searching for apache httpd process"
   setSudoKameHouseCommand "netstat -nltp"
@@ -10,7 +14,7 @@ mainProcessLin() {
   if [ -z "${HTTPD_PID}" ]; then
     log.info "Apache httpd is not running"
   else
-    log.info "Apache httpd is currently running with pid ${COL_PURPLE}${HTTPD_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${HTTPD_PORT}"
+    log.info "Apache httpd is currently running with pid ${COL_PURPLE}${HTTPD_PID}${COL_MESSAGE} on port ${COL_PURPLE}${HTTPD_PORT}"
   fi
 }
 
@@ -21,7 +25,7 @@ mainProcessWin() {
   if [ -z "${HTTPD_PID}" ]; then
     log.info "Apache httpd is not running"
   else
-    log.info "Apache httpd is currently running with pid ${COL_PURPLE}${HTTPD_PID}${COL_DEFAULT_LOG} on port ${COL_PURPLE}${HTTPD_PORT}"
+    log.info "Apache httpd is currently running with pid ${COL_PURPLE}${HTTPD_PID}${COL_MESSAGE} on port ${COL_PURPLE}${HTTPD_PORT}"
   fi  
 }
 

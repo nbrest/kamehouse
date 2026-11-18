@@ -40,7 +40,7 @@ COL_YELLOW_ITA="\033[3;33m"
 
 # Remove all color from scripts
 uncolorScripts() {
-  COL_DEFAULT_LOG=""
+  COL_MESSAGE=""
 
   # bold (default)
   COL_BOLD=""

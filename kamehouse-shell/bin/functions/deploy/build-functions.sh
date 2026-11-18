@@ -74,7 +74,7 @@ buildKameHouseUiStatic() {
     return
   fi
   cdToKameHouseModule "kamehouse-ui"
-  log.info "Building ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} static code"
+  log.info "Building ${COL_PURPLE}kamehouse-ui${COL_MESSAGE} static code"
   log.debug "Cleaning up dist directory"
   if ${USE_SUDO_FOR_UI_BUILD}; then
     sudo rm -rf ./dist
@@ -107,7 +107,7 @@ buildKameHouseMobileStatic() {
     return
   fi
   cdToKameHouseModule "kamehouse-mobile"
-  log.info "Building ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} static code"
+  log.info "Building ${COL_PURPLE}kamehouse-mobile${COL_MESSAGE} static code"
   log.debug "Cleaning up kamehouse-mobile www directory js files"
   rm -rf ./www/kame-house-mobile
   rm -rf ./www/kamehouse-mobile
@@ -216,7 +216,7 @@ buildKameHouseBackend() {
     fi
   fi
   source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/deploy/set-java-home.sh --override --log
-  log.info "Building ${COL_PURPLE}${PROJECT}${COL_DEFAULT_LOG} backend with build profile ${COL_PURPLE}${BUILD_PROFILE}${COL_DEFAULT_LOG}"
+  log.info "Building ${COL_PURPLE}${PROJECT}${COL_MESSAGE} backend with build profile ${COL_PURPLE}${BUILD_PROFILE}${COL_MESSAGE}"
   exportBuildInfoToCommonsCore
   buildGradleCommand
   executeGradleCommand
@@ -310,7 +310,7 @@ runKameHouseMobileJavaTests() {
     log.debug "Running integration tests. Skipping kamehouse-mobile java unit tests"
     return
   fi
-  log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} java unit tests"
+  log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_MESSAGE} java unit tests"
   ${GRADLE_WRAPPER} :kamehouse-mobile:check --console=plain -PkamehouseProfile=${BUILD_PROFILE}
   checkCommandStatus "$?" "An error occurred running kamehouse-mobile java unit tests"
 }
@@ -325,7 +325,7 @@ runKameHouseMobileTypeScriptTests() {
     return
   fi
   cdToKameHouseModule "kamehouse-mobile"
-  log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_DEFAULT_LOG} typescript unit tests with coverage"
+  log.info "Running ${COL_PURPLE}kamehouse-mobile${COL_MESSAGE} typescript unit tests with coverage"
   local COV_LOG=$(mktemp)
   local TEST_RC=0
   if [ -f "./node_modules/.bin/vitest" ]; then
@@ -361,7 +361,7 @@ runKameHouseDesktopTests() {
     return
   fi
   cdToKameHouseModule "kamehouse-desktop"
-  log.info "Running ${COL_PURPLE}kamehouse-desktop${COL_DEFAULT_LOG} unit tests with coverage"
+  log.info "Running ${COL_PURPLE}kamehouse-desktop${COL_MESSAGE} unit tests with coverage"
   local PYTHON_COMMAND="python3"
   if ! command -v "${PYTHON_COMMAND}" > /dev/null 2>&1; then
     PYTHON_COMMAND="python"
@@ -385,13 +385,13 @@ runKameHouseGrootTests() {
     PYTHON_COMMAND="python"
   fi
   if ${INTEGRATION_TESTS}; then
-    log.info "Running ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} integration tests"
+    log.info "Running ${COL_PURPLE}kamehouse-groot${COL_MESSAGE} integration tests"
     ${PYTHON_COMMAND} src/test/python/run_tests.py --integration-only
     checkCommandStatus "$?" "An error occurred running kamehouse-groot integration tests"
     cdToRootDirFromModule "kamehouse-groot"
     return
   fi
-  log.info "Running ${COL_PURPLE}kamehouse-groot${COL_DEFAULT_LOG} unit tests with coverage"
+  log.info "Running ${COL_PURPLE}kamehouse-groot${COL_MESSAGE} unit tests with coverage"
   ${PYTHON_COMMAND} src/test/python/run_tests.py
   checkCommandStatus "$?" "An error occurred running kamehouse-groot unit tests or coverage thresholds not met"
   cdToRootDirFromModule "kamehouse-groot"
@@ -407,7 +407,7 @@ runKameHouseUiTests() {
     return
   fi
   cdToKameHouseModule "kamehouse-ui"
-  log.info "Running ${COL_PURPLE}kamehouse-ui${COL_DEFAULT_LOG} typescript unit tests with coverage"
+  log.info "Running ${COL_PURPLE}kamehouse-ui${COL_MESSAGE} typescript unit tests with coverage"
   local COV_LOG=$(mktemp)
   local TEST_RC=0
   if [ -f "./node_modules/.bin/vitest" ]; then

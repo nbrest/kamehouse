@@ -5,6 +5,10 @@ if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99
 
 importKamehouse functions/desktop/desktop-functions.sh
 
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+}
+
 mainProcess() {
   showSuccessBackgrounds
   showErrorBackgrounds
