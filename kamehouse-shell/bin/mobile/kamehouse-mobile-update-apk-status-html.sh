@@ -4,6 +4,7 @@ source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   KAMEHOUSE_APK_HTML_TEMPLATE=${HOME}/.kamehouse/opt/kamehouse-shell/conf/kamehouse-apk-status-template.html
   KAMEHOUSE_APK_HTML=kamehouse-apk-status.html
   BUILD_VERSION=""

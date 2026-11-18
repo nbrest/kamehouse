@@ -4,6 +4,7 @@ source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-
 if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
 
 initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
   USE_CURRENT_DIR=true
 }
 
