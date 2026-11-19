@@ -76,7 +76,7 @@ class ShellExecutionService:
         script_name = Path(script).name
         if script_name.endswith(".sh"):
             script_name = script_name[: -len(".sh")]
-        return self._settings.user_home / "logs" / f"{script_name}.log"
+        return self._settings.user_home / ".kamehouse" / "var" / "log" / f"{script_name}.log"
 
     def _to_result(self, executed: ExecutedCommand, daemon: bool) -> KamehouseCommandResult:
         status = self._resolve_status(executed, daemon)

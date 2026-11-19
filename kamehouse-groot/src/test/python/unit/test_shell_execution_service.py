@@ -70,7 +70,7 @@ def test_builds_full_command(tmp_path: Path) -> None:
 def test_daemon_uses_script_log(tmp_path: Path) -> None:
     service, executor = _service(tmp_path)
     service.execute("tomcat/tomcat-status.sh", daemon=True)
-    assert executor.calls[0]["log_file"] == tmp_path / "home" / "logs" / "tomcat-status.log"
+    assert executor.calls[0]["log_file"] == tmp_path / "home" / ".kamehouse" / "var" / "log" / "tomcat-status.log"
 
 
 def test_daemon_log_can_be_disabled(tmp_path: Path) -> None:
