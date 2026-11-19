@@ -37,7 +37,7 @@ revertBashRc() {
 
 deleteTomcatWebapps() {
   log.info "Deleting tomcat webapps"
-  rm -r -f ${HOME}/.kamehouse/opt-kamehouse-tomcat/webapps/kame-house*
+  rm -r -f ${HOME}/.kamehouse/opt/kamehouse-tomcat/webapps/kame-house*
 }
 
 deleteKameHouseShell() {

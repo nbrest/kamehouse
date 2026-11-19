@@ -22,7 +22,7 @@ ENV KAMEHOUSE_PASSWORD=${KAMEHOUSE_PASSWORD}
 
 # Setup tomcat
 RUN mkdir -p /home/${KAMEHOUSE_USERNAME}/.kamehouse/opt
-COPY --from=tomcat_source /usr/local/tomcat /home/${KAMEHOUSE_USERNAME}/.kamehouse/opt-kamehouse-tomcat
+COPY --from=tomcat_source /usr/local/tomcat /home/${KAMEHOUSE_USERNAME}/.kamehouse/opt/kamehouse-tomcat
 
 # Setup container os
 COPY --chown=${KAMEHOUSE_USERNAME}:users docker/setup-container-os /home/${KAMEHOUSE_USERNAME}/docker/setup-container-os

@@ -47,7 +47,7 @@ nohup setsid bash -c '
 ' _ "$LOG" "$STATUSFILE" </dev/null >/dev/null 2>&1 &
 echo $!
 ```
-Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Always wrap the integration test command with `run-with-keyboard-sink.sh`; never run it directly. Run against Docker profile in container or local Tomcat at `${HOME}/.kamehouse/opt-kamehouse-tomcat`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/.kamehouse/var/log/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts the CI container and runs integration tests plus the Postman and `.http` collections on latest committed changes only (not working tree).
+Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegrationTestFailures`). Always wrap the integration test command with `run-with-keyboard-sink.sh`; never run it directly. Run against Docker profile in container or local Tomcat at `${HOME}/.kamehouse/opt/kamehouse-tomcat`. Inspect `/tmp/kamehouse-integration.log` and `${HOME}/.kamehouse/var/log/build-kamehouse.log`. `docker-ci-integration-tests-trigger.sh` starts the CI container and runs integration tests plus the Postman and `.http` collections on latest committed changes only (not working tree).
 
 **API collections:** Native runners are `kamehouse-shell/bin/test/kamehouse-postman-run.sh` and `kamehouse-shell/bin/test/kamehouse-http-run.sh` (the latter skips reboot/shutdown unless `-d`). Both support `-p [localhost|localhost-docker-dev|localhost-docker-ci]`; CI uses `localhost-docker-ci` and sets `RUN_SYSTEM_POWER_TESTS=false`/`RUN_SCREEN_TESTS=false`/`RUN_DANGEROUS_TESTS=false` for the headless container. Dangerous script and state-changing requests (including the Apache Httpd restart) are skipped unless `RUN_DANGEROUS_TESTS=true`; the runners expose `-x`/`--dangerous` to enable them. CI installs newman and httpyac with `npm ci --prefix postman` and `npm ci --prefix http`. The opencode commands `kamehouse-postman-run-all` and `kamehouse-http-run-all` wrap the runners with `run-with-keyboard-sink.sh` because the admin screen requests inject VNC keystrokes.
 
@@ -65,7 +65,7 @@ deploy-kamehouse.sh -c              # deploy from CWD without git pull
 **Notes:** `deploy-kamehouse.sh` uses the prod build profile by default; with `IS_DEV_ENV=true` it deploys from `${HOME}/workspace/kamehouse` and also deploys mobile static content to Apache Httpd. It does a fast build - run full `build-kamehouse.sh` separately for validation. Mobile deploy builds APK and uploads to Google Drive and/or the configured dev device. `ui/groot` update Apache Httpd static content. Shell install: `install-kamehouse-shell.sh -l INFO` or `deploy-kamehouse.sh -m shell`.
 
 ## Runtimes
-**Tomcat:** `tomcat-status.sh`/`tomcat-startup.sh`/`tomcat-stop.sh`/`tomcat-restart.sh`. Installed at `${HOME}/.kamehouse/opt-kamehouse-tomcat` (HTTP 9090, JPDA 8000, `catalina.sh jpda start`). Logs: `tail-log.sh -f tomcat -n 2000` or `${HOME}/.kamehouse/opt-kamehouse-tomcat/logs/catalina.out`. Apache Httpd: `httpd-startup.sh`/`httpd-stop.sh` for native dev.
+**Tomcat:** `tomcat-status.sh`/`tomcat-startup.sh`/`tomcat-stop.sh`/`tomcat-restart.sh`. Installed at `${HOME}/.kamehouse/opt/kamehouse-tomcat` (HTTP 9090, JPDA 8000, `catalina.sh jpda start`). Logs: `tail-log.sh -f tomcat -n 2000` or `${HOME}/.kamehouse/opt/kamehouse-tomcat/logs/catalina.out`. Apache Httpd: `httpd-startup.sh`/`httpd-stop.sh` for native dev.
 
 **Mobile:** `build-kamehouse.sh -m mobile` builds; `deploy-kamehouse.sh -m mobile` with `IS_DEV_ENV=true` builds+uploads. Needs its own JDK/Gradle, Android SDK at `${HOME}/Android/Sdk`, `KAMEHOUSE_MOBILE_ENCRYPTION_KEY` in secrets, server entries from `kamehouse-mobile` in `${HOME}/.kamehouse/conf/kamehouse.cfg`. Cordova flow regenerates `platforms/`/`plugins/` (don't edit). APK: `kamehouse-mobile/platforms/android/app/build/outputs/apk/debug/app-debug.apk`. Mock: add `?mockCordova=true&logLevel=trace` (see `kamehouse-mobile/README.md`).
 
@@ -76,7 +76,7 @@ deploy-kamehouse.sh -c              # deploy from CWD without git pull
 ## References & Validation
 **Docs:** `README.md`, `docs/README.md`, `docs/dev-environment/dev-environment-setup.md`, `docs/execution/execution.md`, `docs/docker/docker-setup.md`, `docs/versions/versions.md`, module READMEs.
 
-**Logs:** Build `${HOME}/.kamehouse/var/log/build-kamehouse.log`, deploy `${HOME}/.kamehouse/var/log/deploy-kamehouse-*.log`, local Tomcat `${HOME}/.kamehouse/opt-kamehouse-tomcat/logs/catalina.out`/`kameHouse.log`, Apache `${HOME}/.kamehouse/var/log/apache2/`. Use `tail-log.sh`.
+**Logs:** Build `${HOME}/.kamehouse/var/log/build-kamehouse.log`, deploy `${HOME}/.kamehouse/var/log/deploy-kamehouse-*.log`, local Tomcat `${HOME}/.kamehouse/opt/kamehouse-tomcat/logs/catalina.out`/`kameHouse.log`, Apache `${HOME}/.kamehouse/var/log/apache2/`. Use `tail-log.sh`.
 
 **Quick validation:**
 ```sh

@@ -124,7 +124,7 @@ deployKameHouse() {
 }
 
 checkKameHouseWar() {
-  local KAMEHOUSE_WAR="/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt-kamehouse-tomcat/webapps/kame-house.war"
+  local KAMEHOUSE_WAR="/home/${DOCKER_CONTAINER_USERNAME}/.kamehouse/opt/kamehouse-tomcat/webapps/kame-house.war"
   if [ ! -f "${KAMEHOUSE_WAR}" ]; then
     log.info "Looks like kamehouse webapps were not built at docker image creation. Deploying kamehouse before tomcat startup"
     deployKameHouse

@@ -65,7 +65,7 @@ WINDOWS_CMD_EXE_PATH_LENGTH_MARGIN=512
 KAMEHOUSE_SERVER=""
 
 TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,vlcrc"
-TOMCAT_DIR="${HOME}/.kamehouse/opt-kamehouse-tomcat"
+TOMCAT_DIR="${HOME}/.kamehouse/opt/kamehouse-tomcat"
 
 DEFAULT_TOMCAT_PORT=9090
 TOMCAT_PORT=${DEFAULT_TOMCAT_PORT}

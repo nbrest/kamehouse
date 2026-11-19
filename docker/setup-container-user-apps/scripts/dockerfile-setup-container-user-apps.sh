@@ -117,13 +117,13 @@ setupKameHouseUserHome() {
 
 setupTomcat() {
   log.info "Setting up tomcat"
-  sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/bin/catalina.sh
-  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/conf/Catalina/localhost
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/server.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/conf/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/manager.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/conf/Catalina/localhost/
-  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/conf/Catalina/localhost/
-  cp -r /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/webapps.dist/* /home/${KAMEHOUSE_USER}/.kamehouse/opt-kamehouse-tomcat/webapps/
+  sed -i "s#localhost:8000#0.0.0.0:8000#g" /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/bin/catalina.sh
+  mkdir -p /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/conf/Catalina/localhost
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/server.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/tomcat-users.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/conf/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/manager.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/conf/Catalina/localhost/
+  cp /home/${KAMEHOUSE_USER}/docker/setup-container-user-apps/tomcat/host-manager.xml /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/conf/Catalina/localhost/
+  cp -r /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/webapps.dist/* /home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-tomcat/webapps/
 
   fixPermissions
 }
