@@ -32,6 +32,7 @@ main() {
   setupGitRepo
   installKameHouseShell
   setContainerDefaults
+  setPythonSkipVenvs
   deployKameHouse
   setupKameHouseForRootUser
   clearTempFiles
@@ -89,6 +90,11 @@ setContainerDefaults() {
   fi
   log.info "Setting up container defaults"
   suCmd "/home/${KAMEHOUSE_USER}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-container/docker-init-kamehouse-folder-to-defaults.sh"
+}
+
+setPythonSkipVenvs() {
+  log.info "Setting PYTHON_SKIP_VENVS=true in kamehouse.cfg"
+  suCmd "sed -i -E 's/^#?PYTHON_SKIP_VENVS=.*/PYTHON_SKIP_VENVS=true/I' /home/${KAMEHOUSE_USER}/.kamehouse/conf/kamehouse.cfg"
 }
 
 deployKameHouse() {
