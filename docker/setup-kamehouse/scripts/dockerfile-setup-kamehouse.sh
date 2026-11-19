@@ -28,6 +28,7 @@ EXIT_PROCESS_CANCELLED=4
 main() {
   parseArguments "$@"
   setEnvironment
+  installNode
   setupKameHouseUserHome
   setupGitRepo
   installKameHouseShell
@@ -49,6 +50,20 @@ setEnvironment() {
   fi  
   log.info "Setting up environment"
   suCmd "echo DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} >> /home/${KAMEHOUSE_USER}/.env"
+}
+
+# Moved to this setup script because it doesn't cache during docker build
+installNode() {
+  log.info "Installing node"
+  cd ~
+  curl -sL https://deb.nodesource.com/setup_20.x | sudo bash - 
+  
+  sudo apt-get install nodejs -y && \
+  apt-get autopurge -y && \
+  apt-get autoclean -y && \
+  apt-get clean -y
+
+  npm install -g typescript
 }
 
 setupKameHouseUserHome() {
