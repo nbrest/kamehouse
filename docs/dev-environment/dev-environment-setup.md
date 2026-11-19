@@ -24,7 +24,7 @@ All the scripts are available on the directory `${HOME}/.kamehouse/opt/kamehouse
 
 # Tomcat:
 
-* Download tomcat from apache's website and extract it to *$HOME/.kamehouse/opt/apache-tomcat*
+* Download tomcat from apache's website and extract it to *$HOME/.kamehouse/opt-kamehouse-tomcat*
 * Use the sample configuration in the folder `local-setup/tomcat` to update the tomcat port and manager users
 * Start your local tomcat with `tomcat-startup.sh`
 * Tail tomcat logs with `tail-log.sh -f tomcat`

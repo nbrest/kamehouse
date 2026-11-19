@@ -4,9 +4,9 @@ alias cd.git.kamehouse='cd ${HOME}/.kamehouse/git/kamehouse'
 alias cd.kamehouse='cd ${HOME}/workspace/kamehouse'
 alias cd.logs='cd ${HOME}/.kamehouse/var/log'
 alias cd.opt="cd ${HOME}/.kamehouse/opt"
-alias cd.tomcat="cd ${HOME}/.kamehouse/opt/apache-tomcat"
+alias cd.tomcat="cd ${HOME}/.kamehouse/opt-kamehouse-tomcat"
 alias cd.shell="cd ${HOME}/.kamehouse/opt/kamehouse-shell/bin"
-alias cd.webapps="cd ${HOME}/.kamehouse/opt/apache-tomcat/webapps"
+alias cd.webapps="cd ${HOME}/.kamehouse/opt-kamehouse-tomcat/webapps"
 alias cd.workspace="cd ${HOME}/workspace"
 
 # edit

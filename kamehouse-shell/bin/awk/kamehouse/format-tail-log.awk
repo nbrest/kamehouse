@@ -101,7 +101,7 @@ function matchPatterns() {
 
 # Print file headers displayed by tail when tailing multiple files
 function matchTailFileHeader(fileLine_rx_loc_) {
-  # ==> /c/Users/nbrest/.kamehouse/opt/apache-tomcat/logs/kameHouse.log <==
+  # ==> /c/Users/nbrest/.kamehouse/opt-kamehouse-tomcat/logs/kameHouse.log <==
   # Format '==> FILE <=='
   fileLine_rx_loc_ = "^==> .* <==";
   if ($0 ~ fileLine_rx_loc_) {
