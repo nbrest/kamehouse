@@ -17,17 +17,17 @@
 
 ### Windows:
 
-- Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/.kamehouse/opt/apache-httpd`
+- Download a precompiled version of apache httpd (Currently using https://www.apachehaus.com/) and install it to `${HOME}/.kamehouse/opt/kamehouse-httpd`
 - Update the configuration files with the ones in [/local-setup/apache](/local-setup/apache)
-  - Replace all the files in `${HOME}/.kamehouse/opt/apache-httpd/conf` with the ones from [/local-setup/apache/win/conf/](/local-setup/apache/win/conf/)
+  - Replace all the files in `${HOME}/.kamehouse/opt/kamehouse-httpd/conf` with the ones from [/local-setup/apache/win/conf/](/local-setup/apache/win/conf/)
   - All the apache modules that need to be loaded should already be uncommented in the sample `httpd.conf`
-  - Update `${HOME}/.kamehouse/opt/apache-httpd/conf/httpd.conf`. Replace `nbrest` with your username in HOME_KAMEHOUSE
-  - Update `${HOME}/.kamehouse/opt/apache-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
+  - Update `${HOME}/.kamehouse/opt/kamehouse-httpd/conf/httpd.conf`. Replace `nbrest` with your username in HOME_KAMEHOUSE
+  - Update `${HOME}/.kamehouse/opt/kamehouse-httpd/conf/kamehouse/doc-root-permissions.conf`. Replace `nbrest` with your username
 
 - In an admin cmd.exe run these commands to create the httpd logs symlink to tail the logs:
 ```sh
 rm "%USERPROFILE%\.kamehouse\var\log\apache2"
-mklink /D "%USERPROFILE%\.kamehouse\var\log\apache2" "%USERPROFILE%\.kamehouse\opt\apache-httpd\logs"
+mklink /D "%USERPROFILE%\.kamehouse\var\log\apache2" "%USERPROFILE%\.kamehouse\opt\kamehouse-httpd\logs"
 ```
 
 #### Run httpd through a startup script, not as a system service
@@ -36,8 +36,8 @@ mklink /D "%USERPROFILE%\.kamehouse\var\log\apache2" "%USERPROFILE%\.kamehouse\o
 
 #### Create a shortcut in Startup:
 
-* Add a shortcut to `$HOME/.kamehouse/opt/apache-httpd/bin/httpd.exe` in the *windows startup folder* (Currently in **windows 10** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so httpd runs when I logon
-* Edit the **windows** shortcut and in the field *Start in* change from *$HOME/.kamehouse/opt/apache-httpd/bin* to *$HOME/.kamehouse/opt/apache-httpd* otherwise it will create the application logs in *$HOME/.kamehouse/opt/apache-httpd/bin/logs* instead of *$HOME/.kamehouse/opt/apache-httpd/logs*
+* Add a shortcut to `$HOME/.kamehouse/opt/kamehouse-httpd/bin/httpd.exe` in the *windows startup folder* (Currently in **windows 10** it's *$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup*) so httpd runs when I logon
+* Edit the **windows** shortcut and in the field *Start in* change from *$HOME/.kamehouse/opt/kamehouse-httpd/bin* to *$HOME/.kamehouse/opt/kamehouse-httpd* otherwise it will create the application logs in *$HOME/.kamehouse/opt/kamehouse-httpd/bin/logs* instead of *$HOME/.kamehouse/opt/kamehouse-httpd/logs*
 * Make the command prompt start minimized: Edit the windows shortcut -> Run -> Minimized
 
 *********************
