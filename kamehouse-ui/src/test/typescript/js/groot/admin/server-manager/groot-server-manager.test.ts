@@ -310,13 +310,13 @@ describe('groot server-manager', () => {
     expect(shellCalls['deploy/undeploy-kamehouse.sh'].args).toBe('-m admin');
     serverManagerFrom(mock).setCommandNotRunning();
     deploymentManager.deployModuleAllServers('admin');
-    expect(shellCalls['exec/exec-kamehouse-all-servers.sh'].args).toBe('-s deploy/deploy-kamehouse.sh -a -m admin');
+    expect(shellCalls['exec/exec-kamehouse-all-servers.sh'].args).toBe('-s deploy/deploy-kamehouse.sh -a -m admin --pull');
     serverManagerFrom(mock).setCommandNotRunning();
     deploymentManager.deployAllModules();
     expect(shellCalls['deploy/deploy-kamehouse.sh']).toBeDefined();
     serverManagerFrom(mock).setCommandNotRunning();
     deploymentManager.deployAllModulesAllServers();
-    expect(shellCalls['exec/exec-kamehouse-all-servers.sh']).toBeDefined();
+    expect(shellCalls['exec/exec-kamehouse-all-servers.sh'].args).toBe('-s deploy/deploy-kamehouse.sh -a --pull');
   });
 
   it('uses the debug argument when restarting tomcat in debug mode', async () => {

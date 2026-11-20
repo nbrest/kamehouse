@@ -407,7 +407,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    const args = "-s deploy/deploy-kamehouse.sh -a -m " + module;
+    const args = "-s deploy/deploy-kamehouse.sh -a -m " + module + " --pull";
     kameHouse.extension.kameHouseShell.execute('exec/exec-kamehouse-all-servers.sh', args, false, false, 600, () => this.refreshServerView(), () => {});
   }
 
@@ -432,7 +432,7 @@ class DeploymentManager {
     }
     kameHouse.extension.serverManager.setCommandRunning();
     kameHouse.extension.serverManager.openExecutingCommandModal();
-    kameHouse.extension.kameHouseShell.execute('exec/exec-kamehouse-all-servers.sh', "-s deploy/deploy-kamehouse.sh", false, false, 600, () => this.refreshServerView(), () => {});
+    kameHouse.extension.kameHouseShell.execute('exec/exec-kamehouse-all-servers.sh', "-s deploy/deploy-kamehouse.sh -a --pull", false, false, 600, () => this.refreshServerView(), () => {});
   }
 
   /**
