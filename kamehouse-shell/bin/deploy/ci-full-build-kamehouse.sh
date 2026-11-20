@@ -45,10 +45,10 @@ runFullContinuousIntegrationBuild() {
   execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "docker/docker-upgrade-containers.sh"
   checkTimeoutCommandStatus "$?" "An error occurred upgrading the docker containers in all servers"
 
-  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh" -a "-m shell"
+  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh" -a "-m shell --pull"
   checkTimeoutCommandStatus "$?" "An error occurred deploying kamehouse shell in all servers"  
 
-  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh"
+  execWithTimeout ${EXEC_ALL_SERVERS_TIMEOUT} "${HOME}/.kamehouse/opt/kamehouse-shell/bin/exec/exec-kamehouse-all-servers.sh" -s "deploy/deploy-kamehouse.sh" -a "--pull"
   checkTimeoutCommandStatus "$?" "An error occurred deploying kamehouse in all servers"  
 
   log.info "Finished running full continuous integration build"

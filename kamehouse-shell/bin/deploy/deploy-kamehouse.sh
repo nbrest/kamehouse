@@ -41,6 +41,9 @@ parseArguments() {
       -c)
         USE_CURRENT_DIR=true
         ;;
+      --pull)
+        FORCE_GIT_PULL=true
+        ;;
       -l)
         LOG_LEVEL="${CURRENT_OPTION_ARG}"
         ;;
@@ -58,6 +61,7 @@ setEnvFromArguments() {
 
 printHelpOptions() {
   addHelpOption "-c" "deploy from the current directory without pulling latest git changes. Default deployment dir: ${COL_PURPLE}${PROJECT_DIR}"
+  addHelpOption "--pull" "force pulling the latest git changes even on dev environments"
   addHelpOption "-l [ERROR|WARN|INFO|DEBUG|TRACE]" "set log level for scripts. Default is INFO"
   printKameHouseModuleOption "deploy"
   printBuildProfileOption

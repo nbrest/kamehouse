@@ -12,6 +12,7 @@ PROJECT="kamehouse"
 PROJECT_DIR="${HOME}/.kamehouse/git/${PROJECT}"
 DEV_PROJECT_DIR="${HOME}/workspace/${PROJECT}"
 USE_CURRENT_DIR=false
+FORCE_GIT_PULL=false
 DEFAULT_SSH_USER=${DEFAULT_KAMEHOUSE_USERNAME}
 SSH_OPTIONS="-t -o ServerAliveInterval=10"
 SSH_PORT=22
@@ -564,11 +565,11 @@ pullLatestKameHouseChanges() {
     log.trace "Using USE_CURRENT_DIR so skipping git pull kamehouse"
     return
   fi
-  if ${IS_DEV_ENV}; then
+  if ${IS_DEV_ENV} && ! ${FORCE_GIT_PULL}; then
     log.info "Running on a dev environment. Skipping git pull kamehouse to preserve the local working copy"
     return
   fi
-  if [ "${IS_DOCKER_CONTAINER}" == "true" ] && [ "${DOCKER_PROFILE}" == "dev" ]; then
+  if [ "${IS_DOCKER_CONTAINER}" == "true" ] && [ "${DOCKER_PROFILE}" == "dev" ] && ! ${FORCE_GIT_PULL}; then
     log.info "Running on a dev docker container. Skipping reset git branch"
     return
   fi
