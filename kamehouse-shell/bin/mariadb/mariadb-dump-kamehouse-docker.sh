@@ -29,10 +29,10 @@ exportMariadbDataOnDocker() {
 
 copyDataFromContainerToHost() {
 	log.info "Exporting data from container to host"
-  mkdir -p ${HOME}/.kamehouse/conf/docker/
+  mkdir -p ${HOME}/.kamehouse/backup/docker/
   SCP_OPTIONS="-v -C -r -P ${DOCKER_PORT_SSH}"
   SCP_SRC="${DOCKER_USERNAME}@localhost:/home/${DOCKER_USERNAME}/.kamehouse/backup/db"
-  SCP_DEST="${HOME}/.kamehouse/conf/docker/mariadb"
+  SCP_DEST="${HOME}/.kamehouse/backup/docker/"
   executeScpCommand --skip-exit-code-check
 }
 
