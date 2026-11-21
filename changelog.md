@@ -37,6 +37,8 @@
 - Upgraded java version from 17 to 25
 - Fixed windows host os detection in the kamehouse shell scripts
 - Fixed the kamehouse-mobile and kamehouse-ui builds on windows
+- Updated jvncsender to version 1.10
+- Added script to update the jvncsender version in local-dependencies-repository
 
 #### v11.04
 

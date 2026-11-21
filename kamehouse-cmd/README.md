@@ -27,11 +27,11 @@
 
 ### Upgrade jvncsender version:
 
-- After installing the latest jvncsender version in my local `${HOME}/.m2` repository (check jvncsender readme to install), in the root of kamehouse project run:
+- After building the latest jvncsender version with `./scripts/build-jvncsender.sh` in the jvncsender project, in the root of kamehouse project run:
 ```sh
 export RELEASE_VERSION=X.XX
 ./scripts/update-jvncsender-version.sh -v ${RELEASE_VERSION}
 ```
-- Update jvncsender version in kamehouse gradle file
+- The script copies the jar from the jvncsender gradle build to `local-dependencies-repository` and updates the jvncsender version in the kamehouse gradle and metadata files
 
 - Then commit the changes
