@@ -48,6 +48,7 @@ def test_db_input_rejects_too_long_value() -> None:
         "secrets/decrypt-kamehouse-secrets.sh",
         "secrets/edit-kamehouse-secrets.sh",
         "docker/docker-ssh-kamehouse.sh",
+        "docker/docker-shell-kamehouse.sh",
         "ssh/ssh.sh",
         "exec/exec-with-timeout.sh",
     ],

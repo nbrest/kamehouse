@@ -47,7 +47,8 @@ FORBIDDEN_SCRIPT_PATTERNS = (
     "encrypt-kamehouse-secrets.sh",
     "decrypt-kamehouse-secrets.sh",
     "edit-kamehouse-secrets.sh",
-    "docker-ssh-",
+    "docker-ssh-kamehouse.sh",
+    "docker-shell-kamehouse.sh",
     "ssh.sh",
     "exec-with-timeout.sh",
 )
