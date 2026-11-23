@@ -280,9 +280,9 @@ getKameHouseBuildVersion() {
 
 getKameHouseReleaseVersion() {
   local GRADLE_PROJECT_VERSION=`${GRADLE_WRAPPER} --quiet --console=plain printVersion 2>/dev/null | tr -d "\r" | grep -E "^[0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT$" | head -1 | sed -e "s/-KAMEHOUSE-SNAPSHOT$//"`
-  if [ -z "${GRADLE_PROJECT_VERSION}" ] && [ -f "${PROJECT_DIR}/build.gradle" ]; then
-    log.debug "Could not read the project version from gradle. Falling back to parsing ${PROJECT_DIR}/build.gradle"
-    local BUILD_GRADLE_VERSION=`sed -n -E "s/^[[:space:]]*version[[:space:]]*=[[:space:]]*'([0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT)'[[:space:]]*$/\1/p" "${PROJECT_DIR}/build.gradle" | head -1`
+  if [ -z "${GRADLE_PROJECT_VERSION}" ] && [ -f "${KAMEHOUSE_SHELL_SOURCE}/build.gradle" ]; then
+    log.error "Could not read the project version from gradle. Falling back to parsing ${KAMEHOUSE_SHELL_SOURCE}/build.gradle"
+    local BUILD_GRADLE_VERSION=`sed -n -E "s/^[[:space:]]*version[[:space:]]*=[[:space:]]*'([0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT)'[[:space:]]*$/\1/p" "${KAMEHOUSE_SHELL_SOURCE}/build.gradle" | head -1`
     if [[ "${BUILD_GRADLE_VERSION}" =~ ^[0-9]+(\.[0-9]+)*-KAMEHOUSE-SNAPSHOT$ ]]; then
       GRADLE_PROJECT_VERSION=`echo "${BUILD_GRADLE_VERSION}" | sed -e "s/-KAMEHOUSE-SNAPSHOT$//"`
     fi
