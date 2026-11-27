@@ -49,7 +49,7 @@ import javax.net.ssl.X509TrustManager;
  * Foreground service that shows the current ZTV playing item and media controls
  * (previous, play/pause, stop, next, close ztv, close app) in an android lock screen notification.
  *
- * The service polls the kamehouse-vlcrc status api on its own so that the
+ * The service polls the kamehouse-ztvrc status api on its own so that the
  * notification keeps working while the phone is locked and the app runs in the
  * background.
  *
@@ -373,7 +373,7 @@ public class ZtvLockscreenService extends Service {
   }
 
   /**
-   * Poll the vlcrc status api and refresh the notification.
+   * Poll the ztvrc status api and refresh the notification.
    */
   private void pollStatus() {
     if (baseUrl == null || baseUrl.isEmpty()) {
@@ -391,7 +391,7 @@ public class ZtvLockscreenService extends Service {
   }
 
   /**
-   * Parse the vlcrc status json response.
+   * Parse the ztvrc status json response.
    */
   private void parseStatus(String response) {
     ZtvLockscreenHelper.ZtvStatus status = ZtvLockscreenHelper.parseStatus(response);
@@ -402,14 +402,14 @@ public class ZtvLockscreenService extends Service {
   }
 
   /**
-   * Send a vlcrc command to the backend.
+   * Send a ztvrc command to the backend.
    */
   private void sendCommand(String command) {
     sendCommandWithValue(command, null);
   }
 
   /**
-   * Send a vlcrc command with value to the backend.
+   * Send a ztvrc command with value to the backend.
    */
   private void sendCommandWithValue(String command, String value) {
     try {
@@ -423,7 +423,7 @@ public class ZtvLockscreenService extends Service {
   }
 
   /**
-   * Close the ztv player process through the vlcrc process control api.
+   * Close the ztv player process through the ztvrc process control api.
    */
   private void closeZtvProcess() {
     if (baseUrl == null || baseUrl.isEmpty()) {

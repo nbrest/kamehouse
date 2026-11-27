@@ -62,7 +62,7 @@ setKameHouseDeploymentParameters() {
      [ "${MODULE_SHORT}" == "media" ] ||
      [ "${MODULE_SHORT}" == "tennisworld" ] ||
      [ "${MODULE_SHORT}" == "testmodule" ] ||
-     [ "${MODULE_SHORT}" == "vlcrc" ]; then
+     [ "${MODULE_SHORT}" == "ztvrc" ]; then
     DEPLOY_TO_TOMCAT=true
   fi
 }

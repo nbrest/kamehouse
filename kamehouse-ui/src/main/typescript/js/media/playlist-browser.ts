@@ -1,5 +1,5 @@
 /** 
- * Represents the playlist browser component in vlc-player page.
+ * Represents the playlist browser component in ztv-player page.
  * It's used to view the content of all available playlists in the backend.
  * It doesn't control the currently active playlist.
  * 
@@ -104,12 +104,12 @@ class PlaylistBrowser {
       });
   }
 
-  /** Play selected file in the VlcPlayer */
+  /** Play selected file in the ZtvPlayer */
   playSelectedPlaylist() {
     const playlist = this.#getSelectedPlaylist();
-    kameHouse.extension.vlcPlayer.playFile(playlist);
-    kameHouse.extension.vlcPlayer.openTab('tab-playing');
-    kameHouse.extension.vlcPlayer.reloadPlaylist();
+    kameHouse.extension.ztvPlayer.playFile(playlist);
+    kameHouse.extension.ztvPlayer.openTab('tab-playing');
+    kameHouse.extension.ztvPlayer.reloadPlaylist();
   }
 
   /**
@@ -124,7 +124,7 @@ class PlaylistBrowser {
     if (this.#showPlaylist()) {
       kameHouse.logger.info("Show playlist browser content", null);
       this.#isPlaylistShown = true;
-      kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "true", null);
+      kameHouse.util.cookies.setCookie("kh-ztv-player-show-playlist-browser-checkbox", "true", null);
       kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyFilenames);
       kameHouse.util.dom.classListAddById('playlist-browser-hidden-section', "hidden-kh");
       kameHouse.util.dom.classListRemoveById('playlist-browser-controls', "hidden-kh");
@@ -133,7 +133,7 @@ class PlaylistBrowser {
     } else {
       kameHouse.logger.info("Hide playlist browser content", null);
       this.#isPlaylistShown = false;
-      kameHouse.util.cookies.setCookie("kh-vlc-player-show-playlist-browser-checkbox", "false", null);
+      kameHouse.util.cookies.setCookie("kh-ztv-player-show-playlist-browser-checkbox", "false", null);
       kameHouse.util.dom.append(playlistBrowserTable, this.#tbodyHiddenPlaylist);
       kameHouse.util.dom.classListRemoveById('playlist-browser-hidden-section', "hidden-kh");
       kameHouse.util.dom.classListAddById('playlist-browser-controls', "hidden-kh");
@@ -235,7 +235,7 @@ class PlaylistBrowser {
    * Returns true if the playlist should be rendered.
    */
   #showPlaylist() {
-    const showPlaylistBrowserCheckbox = document.getElementById("vlc-player-show-playlist-browser-checkbox") as HTMLInputElement;
+    const showPlaylistBrowserCheckbox = document.getElementById("ztv-player-show-playlist-browser-checkbox") as HTMLInputElement;
     if (kameHouse.core.isEmpty(showPlaylistBrowserCheckbox)) {
       return true;
     }
@@ -267,8 +267,8 @@ class PlaylistBrowser {
   #clickEventOnPlaylistBrowserRow(event, data) {
     const filename = data.filename;
     kameHouse.logger.info("Play selected playlist browser file : " + filename, null);
-    kameHouse.extension.vlcPlayer.playFile(filename);
-    kameHouse.extension.vlcPlayer.openTab('tab-playing');
+    kameHouse.extension.ztvPlayer.playFile(filename);
+    kameHouse.extension.ztvPlayer.openTab('tab-playing');
   }
 
   /** Toggle expand or collapse filenames in the playlist */

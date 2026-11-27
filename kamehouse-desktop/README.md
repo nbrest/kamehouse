@@ -13,7 +13,7 @@ This module contains kamehouse-desktop app built mostly with python. The idea of
 
 - The background slideshow widget can be used to display a slideshow of photos with transition effects
 
-- The ztv player widget is a view only ztv player ui that shows the current file being played on the current server. It connects to kamehouse-vlcrc webapp to get the status of vlc via websockets and http requests as fallback
+- The ztv player widget is a view only ztv player ui that shows the current file being played on the current server. It connects to kamehouse-ztvrc webapp to get the status of ztv via websockets and http requests as fallback
 
 - The weather widget gets the current weather from openweathermap api
 

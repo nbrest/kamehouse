@@ -844,6 +844,16 @@ test("Body contains specified string", () => {
 }}
 
 ### kamehouse-admin / admin / screen / /lock
+{{
+// VNC screen actions are not available in the localhost-docker-ci environment. Only run them when explicitly enabled.
+
+if (RUN_SCREEN_TESTS === "false") {
+
+  exports.$cancel = true;
+
+}
+}}
+
 POST {{SERVER}}/kame-house-admin/api/{{API_VERSION}}/admin/screen/lock
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 Content-Type: application/json

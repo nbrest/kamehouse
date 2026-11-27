@@ -12,7 +12,7 @@ Instructions for AI coding tools working on the KameHouse repository.
 - When I request `run full validation of changes` it means: run unit tests, deploy the code to local Tomcat with `IS_DEV_ENV=true`, run integration tests, run `build-kamehouse.sh` for test coverage, checkstyle and spotbuts, run mobile build with `build-kamehouse.sh -m mobile` and run sonar with `sonarcloud-run-kamehouse.sh`. If any of these fail, the code is not good enough to be committed
 
 ## Project
-**Modules:** Webapps: `admin,auth,media,tennisworld,testmodule,vlcrc` | Libs: `commons,commons-core,commons-test` | Apps: `cmd,desktop,groot,mobile,shell,snape,ui`. Backend Java/bash (+Python). Frontend plain JS/TS (no framework). Desktop PyQt5. Mobile Cordova. Versions: see `docs/versions/versions.md`.
+**Modules:** Webapps: `admin,auth,media,tennisworld,testmodule,ztvrc` | Libs: `commons,commons-core,commons-test` | Apps: `cmd,desktop,groot,mobile,shell,snape,ui`. Backend Java/bash (+Python). Frontend plain JS/TS (no framework). Desktop PyQt5. Mobile Cordova. Versions: see `docs/versions/versions.md`.
 
 ## Build & Test
 ```sh
@@ -21,7 +21,7 @@ Instructions for AI coding tools working on the KameHouse repository.
 build-kamehouse.sh  # default prod profile
 
 # Options
-build-kamehouse.sh -m <module>           # admin,auth,cmd,desktop,groot,media,mobile,shell,snape,tennisworld,testmodule,ui,vlcrc
+build-kamehouse.sh -m <module>           # admin,auth,cmd,desktop,groot,media,mobile,shell,snape,tennisworld,testmodule,ui,ztvrc
 build-kamehouse.sh -p <prod|docker|ci>  # -p = profile (not port)
 build-kamehouse.sh -f                   # fast (skip tests/checkstyle/SpotBugs/JaCoCo) - not for final validation
 build-kamehouse.sh -r -m <module>       # resume failed build
@@ -55,7 +55,7 @@ Options: `-i` only, `-c` continue on errors (passes `-PkamehouseIgnoreIntegratio
 ```sh
 # Dev (current working copy, requires IS_DEV_ENV=true)
 deploy-kamehouse.sh
-deploy-kamehouse.sh -m <module>     # admin,auth,cmd,desktop,groot,media,mobile,shell,snape,tennisworld,testmodule,ui,vlcrc
+deploy-kamehouse.sh -m <module>     # admin,auth,cmd,desktop,groot,media,mobile,shell,snape,tennisworld,testmodule,ui,ztvrc
 
 # Prod (only if explicitly requested, requires IS_DEV_ENV=false)
 deploy-kamehouse.sh

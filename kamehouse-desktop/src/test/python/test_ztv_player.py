@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QWidget
 
 from widgets import ztv_player as ztv_module
 from widgets.ztv_player import (
-    VlcPlayerFullScreenSetter,
+    ZtvPlayerFullScreenSetter,
     ZtvPlayerHttpSync,
     ZtvPlayerWebsocket,
     ZtvPlayerWidget,
@@ -114,28 +114,28 @@ def test_ztv_player_widget_hidden(app, desktop_config):
 
 def test_ztv_player_widget_post_init(widget, monkeypatch):
     calls = []
-    for method in ["initUpdateViewSync", "initSyncThreads", "setLogoRandomSrc", "resetVlcPlayerFullScreen"]:
+    for method in ["initUpdateViewSync", "initSyncThreads", "setLogoRandomSrc", "resetZtvPlayerFullScreen"]:
         monkeypatch.setattr(widget, method, lambda name=method: calls.append(name))
     widget.postInit()
-    assert calls == ["initUpdateViewSync", "initSyncThreads", "setLogoRandomSrc", "resetVlcPlayerFullScreen"]
+    assert calls == ["initUpdateViewSync", "initSyncThreads", "setLogoRandomSrc", "resetZtvPlayerFullScreen"]
 
 
 def test_init_threads(widget, monkeypatch):
     monkeypatch.setattr(ztv_module, "QThread", FakeThread)
     monkeypatch.setattr(ztv_module, "ZtvPlayerWebsocket", FakeWorker)
     monkeypatch.setattr(ztv_module, "ZtvPlayerHttpSync", FakeWorker)
-    monkeypatch.setattr(ztv_module, "VlcPlayerFullScreenSetter", FakeWorker)
+    monkeypatch.setattr(ztv_module, "ZtvPlayerFullScreenSetter", FakeWorker)
 
     widget.initWebsocket()
-    widget.initHttpVlcRcStatusSync()
-    widget.resetVlcPlayerFullScreen()
+    widget.initHttpZtvRcStatusSync()
+    widget.resetZtvPlayerFullScreen()
 
     assert widget.websocket_thread.start_called is True
     assert widget.websocket.thread is widget.websocket_thread
     assert widget.http_sync_thread.start_called is True
     assert widget.http_sync.thread is widget.http_sync_thread
-    assert widget.vlc_player_full_screen_thread.start_called is True
-    assert widget.vlc_player_full_screen.thread is widget.vlc_player_full_screen_thread
+    assert widget.ztv_player_full_screen_thread.start_called is True
+    assert widget.ztv_player_full_screen.thread is widget.ztv_player_full_screen_thread
 
 
 def test_init_update_view_sync_and_timers(widget, window, monkeypatch):
@@ -222,17 +222,17 @@ def test_update_view_invalid_statuses(widget, monkeypatch):
         {"time": 1, "length": 1, "information": {"meta": {"filename": None}}},
     ]
     for status in invalid_statuses:
-        widget.vlc_rc_status = status
+        widget.ztv_rc_status = status
         widget.updateView()
     assert hide.call_count == len(invalid_statuses)
 
     widget.log_trace = True
-    widget.vlc_rc_status = {}
+    widget.ztv_rc_status = {}
     widget.updateView()
 
 
 def test_update_view_valid_status(widget):
-    widget.vlc_rc_status = valid_status()
+    widget.ztv_rc_status = valid_status()
     widget.updateView()
     assert widget.title.text() == "Song "
     assert widget.artist.text() == "Artist"
@@ -268,7 +268,7 @@ class FakeZtvWindow:
     def __init__(self, update_time):
         self.ztv_player = SimpleNamespace(
             websocket_update_time=update_time,
-            vlc_rc_status={},
+            ztv_rc_status={},
         )
 
 
@@ -315,7 +315,7 @@ def test_http_sync_execute_request(monkeypatch):
     payload = {"time": 1}
     monkeypatch.setattr(ztv_module.requests, "get", lambda *args, **kwargs: FakeResponse(payload))
     sync.executeHttpRequest()
-    assert window.ztv_player.vlc_rc_status == payload
+    assert window.ztv_player.ztv_rc_status == payload
 
 
 def test_http_sync_execute_request_error(monkeypatch):
@@ -327,7 +327,7 @@ def test_http_sync_execute_request_error(monkeypatch):
 
     monkeypatch.setattr(ztv_module.requests, "get", fail)
     sync.executeHttpRequest()
-    assert window.ztv_player.vlc_rc_status == {}
+    assert window.ztv_player.ztv_rc_status == {}
 
 
 def test_websocket_run(monkeypatch):
@@ -381,12 +381,12 @@ def test_websocket_callbacks(monkeypatch):
     monkeypatch.setattr(ztv_module.time, "time", lambda: 123)
     monkeypatch.setattr(ztv_module.stomper, "unpack_frame", lambda message: {"cmd": "MESSAGE", "body": '{"time": 1}'})
     websocket.onMessage(None, "message")
-    assert window.ztv_player.vlc_rc_status == {"time": 1}
+    assert window.ztv_player.ztv_rc_status == {"time": 1}
     assert window.ztv_player.websocket_update_time == 123
 
     monkeypatch.setattr(ztv_module.stomper, "unpack_frame", lambda message: {"cmd": "MESSAGE", "body": None})
     websocket.onMessage(None, "message")
-    assert window.ztv_player.vlc_rc_status == {}
+    assert window.ztv_player.ztv_rc_status == {}
 
     websocket.onError(None, "error")
     websocket.onClose(None, "1000", "closed")
@@ -410,16 +410,16 @@ def test_websocket_is_empty_body():
     assert websocket.isEmptyBody({"cmd": "MESSAGE", "body": "value"}) is False
 
 
-def test_vlc_player_fullscreen_setter_run(monkeypatch):
-    setter = VlcPlayerFullScreenSetter(FakeZtvWindow(0))
+def test_ztv_player_fullscreen_setter_run(monkeypatch):
+    setter = ZtvPlayerFullScreenSetter(FakeZtvWindow(0))
     monkeypatch.setattr(setter, "executeHttpRequest", MagicMock())
     monkeypatch.setattr(ztv_module.time, "sleep", lambda _: None)
     setter.run()
     assert setter.executeHttpRequest.call_count == 2
 
 
-def test_vlc_player_fullscreen_setter_execute_request(monkeypatch):
-    setter = VlcPlayerFullScreenSetter(FakeZtvWindow(0))
+def test_ztv_player_fullscreen_setter_execute_request(monkeypatch):
+    setter = ZtvPlayerFullScreenSetter(FakeZtvWindow(0))
     posts = []
     monkeypatch.setattr(ztv_module.requests, "post", lambda *args, **kwargs: posts.append((args, kwargs)))
     setter.executeHttpRequest()
@@ -427,8 +427,8 @@ def test_vlc_player_fullscreen_setter_execute_request(monkeypatch):
     assert posts[0][1]["json"]["name"] == "fullscreen"
 
 
-def test_vlc_player_fullscreen_setter_execute_request_error(monkeypatch):
-    setter = VlcPlayerFullScreenSetter(FakeZtvWindow(0))
+def test_ztv_player_fullscreen_setter_execute_request_error(monkeypatch):
+    setter = ZtvPlayerFullScreenSetter(FakeZtvWindow(0))
 
     def fail(*args, **kwargs):
         raise requests.exceptions.RequestException("error")

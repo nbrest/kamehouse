@@ -36,7 +36,7 @@ class KameHouse {
     serverManager: null,
     tailLogManager: null,
     tomcatModuleStatusManager: null,
-    vlcPlayer: null
+    ztvPlayer: null
   };
   plugin = {
     crudManager: null,
@@ -1379,9 +1379,9 @@ class KameHouseMobileUtils {
     this.#addMobileClass("link-image-img");
     this.#addMobileClass("collapsible-kh");
     this.#addMobileClass("debug-mode-client-table-header-btn");
-    const vlcPlayerButtons = document.getElementsByClassName("vlc-player-btn");
-    for (const vlcPlayerButton of vlcPlayerButtons) {
-      kameHouse.util.dom.classListAdd(vlcPlayerButton, "img-btn-kh-mobile");
+    const ztvPlayerButtons = document.getElementsByClassName("ztv-player-btn");
+    for (const ztvPlayerButton of ztvPlayerButtons) {
+      kameHouse.util.dom.classListAdd(ztvPlayerButton, "img-btn-kh-mobile");
     } 
   }
 

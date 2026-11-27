@@ -118,7 +118,7 @@ You can then run the image as mentioned above
 ## Sync ssh keys and configuration between host and container
 
 - When running the script `docker-run-kamehouse.sh` with `-c`, the container is setup to execute certain commands in the host specified in `${HOME}/.kamehouse/conf/kamehouse.cfg` 
-- Commands such as starting and stopping vlc player, shutdown, reboot, suspend will run on the host
+- Commands such as starting and stopping ztv player, shutdown, reboot, suspend will run on the host
 - By default in most profiles, the container is setup to execute the commands within the container only
 - The commands executed on the host are done through `ssh` from the docker container to the host
 - For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container.sh` **from the host** to resync the ssh keys and configuration files to the docker container. The container needs to be up and running to execute the reinit script from the host

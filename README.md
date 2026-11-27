@@ -42,7 +42,7 @@ This application (forever under construction) contains the following modules:
 
 [ui](/kamehouse-ui/README.md)
 
-[vlcrc](/kamehouse-vlcrc/README.md)
+[ztvrc](/kamehouse-ztvrc/README.md)
 
 The main idea of this application is to keep improving and learning best practices of software development
 
@@ -111,7 +111,7 @@ certain functionality. These external dependencies are:
 - Configure the vlc player to expose it's LUA HTTP Web api so it can be accessed by kamehouse
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces: **[x]** Web
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces > Lua: Set HTTP password to
-      1 (or anything else and then update the password in the vlcplayer table in kamehouse)
+      1 (or anything else and then update the password in the vlc_player table in kamehouse)
     - Tools > Preferences > All Settings > Interfaces > Main Interfaces > Qt > Show notification popup on track change: `Never` when using kamehouse-desktop or `When minimized` when not using kamehouse-desktop
 
 ### VNC Server

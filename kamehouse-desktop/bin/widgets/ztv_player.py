@@ -21,7 +21,7 @@ from widgets.text import OutlinedTextWidget
 class ZtvPlayerWidget(QWidget):
     is_playing_media = True
     log_trace = False
-    vlc_rc_status = {}
+    ztv_rc_status = {}
     websocket_update_time = int(time.time())
     window = None
     default_title = "DBGT - Dan Dan.mp3"
@@ -50,7 +50,7 @@ class ZtvPlayerWidget(QWidget):
         self.initUpdateViewSync()
         self.initSyncThreads()
         self.setLogoRandomSrc()
-        self.resetVlcPlayerFullScreen()
+        self.resetZtvPlayerFullScreen()
 
     def setPlayerOffWidgets(self):
         self.ztv_player_off_kintoun = ImageWidget("ztv_player_off_kintoun_widget", self.window)
@@ -75,14 +75,14 @@ class ZtvPlayerWidget(QWidget):
             self.setSoundWaveAnimation()
             self.startSoundWaveAnimation()
 
-    def resetVlcPlayerFullScreen(self):
-        self.vlc_player_full_screen_thread = QThread()
-        self.vlc_player_full_screen = VlcPlayerFullScreenSetter(self.window)
-        self.vlc_player_full_screen.moveToThread(self.vlc_player_full_screen_thread)
-        self.vlc_player_full_screen_thread.started.connect(self.vlc_player_full_screen.run)
-        self.vlc_player_full_screen.finished.connect(self.vlc_player_full_screen_thread.quit)
-        self.vlc_player_full_screen_thread.finished.connect(self.vlc_player_full_screen_thread.deleteLater)
-        self.vlc_player_full_screen_thread.start()        
+    def resetZtvPlayerFullScreen(self):
+        self.ztv_player_full_screen_thread = QThread()
+        self.ztv_player_full_screen = ZtvPlayerFullScreenSetter(self.window)
+        self.ztv_player_full_screen.moveToThread(self.ztv_player_full_screen_thread)
+        self.ztv_player_full_screen_thread.started.connect(self.ztv_player_full_screen.run)
+        self.ztv_player_full_screen.finished.connect(self.ztv_player_full_screen_thread.quit)
+        self.ztv_player_full_screen_thread.finished.connect(self.ztv_player_full_screen_thread.deleteLater)
+        self.ztv_player_full_screen_thread.start()
 
     def initUpdateViewSync(self):
         timer = QTimer(self.window)
@@ -93,7 +93,7 @@ class ZtvPlayerWidget(QWidget):
         if (kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')):
             return
         self.initWebsocket()
-        self.initHttpVlcRcStatusSync()
+        self.initHttpZtvRcStatusSync()
 
     def initWebsocket(self):
         self.websocket_thread = QThread()
@@ -104,7 +104,7 @@ class ZtvPlayerWidget(QWidget):
         self.websocket_thread.finished.connect(self.websocket_thread.deleteLater)
         self.websocket_thread.start()
 
-    def initHttpVlcRcStatusSync(self):
+    def initHttpZtvRcStatusSync(self):
         self.http_sync_thread = QThread()
         self.http_sync = ZtvPlayerHttpSync(self.window)
         self.http_sync.moveToThread(self.http_sync_thread)
@@ -151,26 +151,26 @@ class ZtvPlayerWidget(QWidget):
         return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
     
     def updateView(self):
-        log_vlcrc_status = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'log_vlc_rc_status')
-        vlc_rc_status = self.vlc_rc_status
+        log_ztvrc_status = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'log_ztv_rc_status')
+        ztv_rc_status = self.ztv_rc_status
         if (self.log_trace):
             logger.trace("Updating ztv_player_widget view")
-            if (log_vlcrc_status):
-                logger.trace("vlc_rc_status: " + str(vlc_rc_status))
+            if (log_ztvrc_status):
+                logger.trace("ztv_rc_status: " + str(ztv_rc_status))
         is_ztv_player_hidden = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'hidden')
         if (is_ztv_player_hidden or
-            vlc_rc_status == {} or 
-            vlc_rc_status['time'] is None or
-            vlc_rc_status['length'] is None or
-            vlc_rc_status['information'] is None or
-            vlc_rc_status['information']['meta'] is None or
-            vlc_rc_status['information']['meta']['filename'] is None):
+            ztv_rc_status == {} or
+            ztv_rc_status['time'] is None or
+            ztv_rc_status['length'] is None or
+            ztv_rc_status['information'] is None or
+            ztv_rc_status['information']['meta'] is None or
+            ztv_rc_status['information']['meta']['filename'] is None):
             self.hideZtvPlayer()
             return
-        time = self.formatTime(vlc_rc_status['time'])
-        length = self.formatTime(vlc_rc_status['length'])
-        filename = vlc_rc_status['information']['meta']['filename']
-        artist = self.formatArtist(vlc_rc_status['information']['meta']['artist'])
+        time = self.formatTime(ztv_rc_status['time'])
+        length = self.formatTime(ztv_rc_status['length'])
+        filename = ztv_rc_status['information']['meta']['filename']
+        artist = self.formatArtist(ztv_rc_status['information']['meta']['artist'])
         self.title.setText(self.formatTitle(filename, artist))
         self.artist.setText(artist)
         self.current_time.setText(time)
@@ -309,7 +309,7 @@ class ZtvPlayerHttpSync(QObject):
 
     def run(self):
         self.runHttpSyncLoop()
-        logger.error("Something went wrong. VlcRcStatus http sync loop ended")
+        logger.error("Something went wrong. ZtvRcStatus http sync loop ended")
         self.result.emit("Exiting http sync loop thread")
         self.finished.emit()
 
@@ -320,7 +320,7 @@ class ZtvPlayerHttpSync(QObject):
             time_since_last_ws_update = (current_time - self.window.ztv_player.websocket_update_time) * 1000
             if (time_since_last_ws_update < websocket_max_sync_delay_ms):
                 if (self.log_trace):
-                    logger.trace("Websocket is connected. Skipping http vlc_rc_status sync")
+                    logger.trace("Websocket is connected. Skipping http ztv_rc_status sync")
             else:
                 self.executeHttpRequest()
             http_sync_wait_sec = kamehouse_desktop_cfg.getInt('ztv_player_widget', 'http_sync_wait_sec')
@@ -328,24 +328,24 @@ class ZtvPlayerHttpSync(QObject):
 
     def executeHttpRequest(self):
         if (self.log_trace):
-            logger.trace("Executing http vlc_rc_status sync")
+            logger.trace("Executing http ztv_rc_status sync")
         protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'http_protocol')
         hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
         port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
-        url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/status"
+        url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-ztvrc/api/v1/ztv-rc/players/localhost/status"
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         verify_ssl = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'verify_ssl')
         try:
             response = requests.get(url, verify=verify_ssl)
             response.raise_for_status() 
-            vlc_rc_status = response.json()
-            self.window.ztv_player.vlc_rc_status = vlc_rc_status
+            ztv_rc_status = response.json()
+            self.window.ztv_player.ztv_rc_status = ztv_rc_status
         except requests.exceptions.RequestException as error:
             if (self.log_trace):
-                logger.error("Error getting vlc_rc_status via http")
+                logger.error("Error getting ztv_rc_status via http")
 
 class ZtvPlayerWebsocket(QObject):
-    topic = "/topic/vlc-player/status-out"
+    topic = "/topic/ztv-player/status-out"
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
@@ -359,7 +359,7 @@ class ZtvPlayerWebsocket(QObject):
 
     def run(self):
         self.runWebsocketLoop()
-        logger.error("Something went wrong. VlcRcStatus websocket sync loop ended")
+        logger.error("Something went wrong. ZtvRcStatus websocket sync loop ended")
         self.result.emit("Exiting websocket loop thread")
         self.finished.emit()
 
@@ -368,7 +368,7 @@ class ZtvPlayerWebsocket(QObject):
             protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'ws_protocol')
             hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
             port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
-            url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-vlcrc/api/ws/vlcrc/default"
+            url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-ztvrc/api/ws/ztvrc/default"
             if (self.log_trace):
                 logger.debug("Connecting websocket to: " + url)
             try:
@@ -390,9 +390,9 @@ class ZtvPlayerWebsocket(QObject):
     def onMessage(self, ws, message):
         frame = stomper.unpack_frame(message)
         if (self.isEmptyBody(frame)):
-            self.window.ztv_player.vlc_rc_status = {}
+            self.window.ztv_player.ztv_rc_status = {}
         else:
-            self.window.ztv_player.vlc_rc_status = json.loads(frame["body"])
+            self.window.ztv_player.ztv_rc_status = json.loads(frame["body"])
         self.window.ztv_player.websocket_update_time = int(time.time())
         
     def onError(self, ws, error):
@@ -420,7 +420,7 @@ class ZtvPlayerWebsocket(QObject):
             return True
         return False
 
-class VlcPlayerFullScreenSetter(QObject):
+class ZtvPlayerFullScreenSetter(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(int)
     result = pyqtSignal(str)
@@ -429,22 +429,22 @@ class VlcPlayerFullScreenSetter(QObject):
     def __init__(self, window):
         super().__init__()
         self.window = window
-        logger.info("Initializing vlc_player_fullscreen_setter")
+        logger.info("Initializing ztv_player_fullscreen_setter")
         self.log_trace = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'trace_log_enabled')
 
     def run(self):
         self.executeHttpRequest()
         time.sleep(2)
         self.executeHttpRequest()
-        self.result.emit("Exiting vlc player fullscreen setter thread")
+        self.result.emit("Exiting ztv player fullscreen setter thread")
         self.finished.emit()
 
     def executeHttpRequest(self):
-        logger.debug("Executing vlc player fullscreen toggle request")
+        logger.debug("Executing ztv player fullscreen toggle request")
         protocol = kamehouse_desktop_cfg.get('ztv_player_widget', 'http_protocol')
         hostname = kamehouse_desktop_cfg.get('ztv_player_widget', 'hostname')
         port = kamehouse_desktop_cfg.get('ztv_player_widget', 'port')
-        url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands"
+        url = protocol + "://" + hostname + ":" + str(port) + "/kame-house-ztvrc/api/v1/ztv-rc/players/localhost/commands"
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         verify_ssl = kamehouse_desktop_cfg.getBoolean('ztv_player_widget', 'verify_ssl')
         requestBody = {
@@ -454,4 +454,4 @@ class VlcPlayerFullScreenSetter(QObject):
         try:
             requests.post(url, json=requestBody, verify=verify_ssl)
         except requests.exceptions.RequestException as error:
-            logger.error("Error sending request to toggle vlc player fullscreen")
+            logger.error("Error sending request to toggle ztv player fullscreen")

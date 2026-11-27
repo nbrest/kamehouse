@@ -25,7 +25,7 @@ class KameHouseWebSocket {
         this.#statusUrl = statusUrlParam; 
       },
       () => {
-        // It's better to also waitForModule kameHouseMobile in the caller of this function so I get a synchronous set of the statusUrl and the connect call usually done inmediately after doesn't fail. See vlc-player.js
+        // It's better to also waitForModule kameHouseMobile in the caller of this function so I get a synchronous set of the statusUrl and the connect call usually done inmediately after doesn't fail. See ztv-player.js
         if (kameHouse.util.module.isModuleLoaded("kameHouseMobile")) {
           this.#statusUrl = kameHouse.extension.mobile.core.getSelectedBackendServerUrl() + statusUrlParam;
         } else {
@@ -141,7 +141,7 @@ class KameHouseWebSocket {
 
   /** Poll for an updated from the server. */
   poll(pollBody, pollHeaders) {
-    // Setting this as trace as it executes every second in VlcPlayer 
+    // Setting this as trace as it executes every second in ZtvPlayer
     // so if I want to debug other stuff it's noisy.
     if (kameHouse.core.isEmpty(this.#pollUrl)) {
       const message = "pollUrl is not set. Can't poll";

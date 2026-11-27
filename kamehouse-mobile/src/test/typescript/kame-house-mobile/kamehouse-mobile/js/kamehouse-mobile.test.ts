@@ -496,9 +496,9 @@ describe('kamehouse-mobile', () => {
       mock.util.fetch.loadFileWithTimeout.mockResolvedValue('[{"id":1}]');
       const successCallback = vi.fn();
 
-      await core.mobileHttpRequst('GET', {}, '/kame-house-vlcrc/api/v1/vlc-rc/players', null, null, successCallback, vi.fn());
+      await core.mobileHttpRequst('GET', {}, '/kame-house-ztvrc/api/v1/ztv-rc/players', null, null, successCallback, vi.fn());
 
-      expect(mock.util.fetch.loadFileWithTimeout).toHaveBeenCalledWith('/kame-house-vlcrc/api/v1/vlc-rc/players-modified', 8000);
+      expect(mock.util.fetch.loadFileWithTimeout).toHaveBeenCalledWith('/kame-house-ztvrc/api/v1/ztv-rc/players-modified', 8000);
       expect(successCallback).toHaveBeenCalledWith([{ id: 1 }], '200', '', {});
     });
 

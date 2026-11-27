@@ -811,7 +811,7 @@ class KameHouseMobileConfigManager {
    * Init kamehouse mobile config manager.
    */
   init() {
-    // waitFor kameHouseDebugger fixed vlc player page not loading the proper credentials on mobile app
+    // waitFor kameHouseDebugger fixed ztv player page not loading the proper credentials on mobile app
     kameHouse.util.module.waitForModules(["kameHouseDebugger"], async () => {
       kameHouse.logger.info("Initializing mobile config manager", null);
       this.#initGlobalMobileConfig();
@@ -1485,7 +1485,7 @@ class MockLocalhostServer {
    */
   #isModifiedUrl(url) {
     const MODIFIED_URLS = [
-      "/kame-house-vlcrc/api/v1/vlc-rc/players",
+      "/kame-house-ztvrc/api/v1/ztv-rc/players",
     ];
     return MODIFIED_URLS.includes(url);
   }

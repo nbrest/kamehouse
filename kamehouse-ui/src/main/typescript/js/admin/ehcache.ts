@@ -107,7 +107,7 @@ class EhCacheManager {
     this.getAllCacheData('media');
     this.getAllCacheData('tennisworld');
     this.getAllCacheData('testmodule');
-    this.getAllCacheData('vlcrc');
+    this.getAllCacheData('ztvrc');
   }
 
   /**

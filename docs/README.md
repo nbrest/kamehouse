@@ -44,7 +44,7 @@
 
 [UI](/kamehouse-ui/README.md)
 
-[VlcRc](/kamehouse-vlcrc/README.md)
+[ZtvRc](/kamehouse-ztvrc/README.md)
 
 # Other sections:
 

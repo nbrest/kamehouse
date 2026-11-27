@@ -18,14 +18,14 @@ describe('media playlist-browser', () => {
       'playlist-dropdown': { value: '/media/dbz/goku.m3u', options: [] },
       'playlist-browser-table': { firstElementChild: { textContent: 'goku.mp4' } },
       'playlist-browser-table-body': { firstElementChild: { textContent: 'goku.mp4' } },
-      'vlc-player-show-playlist-browser-checkbox': { checked: true }
+      'ztv-player-show-playlist-browser-checkbox': { checked: true }
     };
   });
 
   function install() {
     return installKameHouseMock({
       extension: {
-        vlcPlayer: { playFile: vi.fn(), openTab: vi.fn(), reloadPlaylist: vi.fn() }
+        ztvPlayer: { playFile: vi.fn(), openTab: vi.fn(), reloadPlaylist: vi.fn() }
       },
       http: { get },
       plugin: { debugger: { http: { get } } },
@@ -140,12 +140,12 @@ describe('media playlist-browser', () => {
     const { mock, browser } = await importBrowser();
     get.mock.calls[0][4](playlists, 200, '', {});
     get.mockClear();
-    elements['vlc-player-show-playlist-browser-checkbox'].checked = false;
+    elements['ztv-player-show-playlist-browser-checkbox'].checked = false;
 
     browser.loadPlaylistContent();
     get.mock.calls[0][4]({ files: ['/media/dbz/goku.mp4'] }, 200, '', {});
 
-    expect(mock.util.cookies.setCookie).toHaveBeenCalledWith('kh-vlc-player-show-playlist-browser-checkbox', 'false', null);
+    expect(mock.util.cookies.setCookie).toHaveBeenCalledWith('kh-ztv-player-show-playlist-browser-checkbox', 'false', null);
     expect(mock.util.dom.classListAddById).toHaveBeenCalledWith('playlist-browser-controls', 'hidden-kh');
   });
 
@@ -159,9 +159,9 @@ describe('media playlist-browser', () => {
     const { mock, browser } = await importBrowser();
     browser.playSelectedPlaylist();
 
-    expect(mock.extension.vlcPlayer.playFile).toHaveBeenCalledWith('/media/dbz/goku.m3u');
-    expect(mock.extension.vlcPlayer.openTab).toHaveBeenCalledWith('tab-playing');
-    expect(mock.extension.vlcPlayer.reloadPlaylist).toHaveBeenCalled();
+    expect(mock.extension.ztvPlayer.playFile).toHaveBeenCalledWith('/media/dbz/goku.m3u');
+    expect(mock.extension.ztvPlayer.openTab).toHaveBeenCalledWith('tab-playing');
+    expect(mock.extension.ztvPlayer.reloadPlaylist).toHaveBeenCalled();
   });
 
   it('toggles playlist filenames between short names and absolute paths', async () => {

@@ -32,7 +32,7 @@ include(
   'kamehouse-tennisworld',
   'kamehouse-testmodule',
   'kamehouse-ui',
-  'kamehouse-vlcrc'
+  'kamehouse-ztvrc'
 )
 
 dependencyResolutionManagement {

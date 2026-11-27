@@ -1592,7 +1592,7 @@ test("Body doesn't contain specified string", () => {
 }}
 
 ### kamehouse-testmodule / commons / ehcache / ?name=invalid-cache
-DELETE {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/commons/ehcache?name=vlcPlayer
+DELETE {{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/commons/ehcache?name=ztvPlayer
 Authorization: Basic {{USERNAME}} {{PASSWORD}}
 
 {{

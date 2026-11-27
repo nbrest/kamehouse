@@ -257,7 +257,7 @@ public abstract class KameHouseShellScript implements KameHouseCommand {
   /**
    * Override in subclasses to add the cmd start prefix. This might be needed in
    * some daemon
-   * processes like starting vlc so that it starts in the UI and not in the
+   * processes like starting ztv so that it starts in the UI and not in the
    * background. However,
    * when adding the prefix, I won't get the kamehouse-shell scripts output
    * returned.

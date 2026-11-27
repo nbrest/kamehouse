@@ -4,9 +4,9 @@
   "private": true,
   "description": "Kamehouse .http requests mirroring the Postman collection",
   "scripts": {
-    "send:localhost": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost --all",
-    "send:localhost-docker-dev": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost-docker-dev --all",
-    "send:localhost-docker-ci": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-vlcrc.http modules/kamehouse-httpd.http --env localhost-docker-ci --all"
+    "send:localhost": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-ztvrc.http modules/kamehouse-httpd.http --env localhost --all",
+    "send:localhost-docker-dev": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-ztvrc.http modules/kamehouse-httpd.http --env localhost-docker-dev --all",
+    "send:localhost-docker-ci": "httpyac send modules/kamehouse-admin.http modules/kamehouse-auth.http modules/kamehouse-groot.http modules/kamehouse-media.http modules/kamehouse-tennisworld.http modules/kamehouse-testmodule.http modules/kamehouse-ui.http modules/kamehouse-ztvrc.http modules/kamehouse-httpd.http --env localhost-docker-ci --all"
   },
   "devDependencies": {
     "httpyac": "6.16.7"

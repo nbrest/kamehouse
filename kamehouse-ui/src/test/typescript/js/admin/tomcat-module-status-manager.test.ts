@@ -54,8 +54,8 @@ describe('admin tomcat-module-status-manager', () => {
 
     failure('error', 500, '', {});
 
-    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-vlcrc-build-version-val', 'Error getting data');
-    expect(mock.logger.error).toHaveBeenCalledWith(expect.stringContaining('Error retrieving module status data for vlcrc'), expect.anything());
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('mst-ztvrc-build-version-val', 'Error getting data');
+    expect(mock.logger.error).toHaveBeenCalledWith(expect.stringContaining('Error retrieving module status data for ztvrc'), expect.anything());
   });
 
   it('gets all module statuses again', async () => {

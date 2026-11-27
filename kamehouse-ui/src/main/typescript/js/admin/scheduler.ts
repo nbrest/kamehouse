@@ -45,7 +45,7 @@ class Scheduler {
     this.getAllJobs('media', false);
     this.getAllJobs('tennisworld', false);
     this.getAllJobs('testmodule', false);
-    this.getAllJobs('vlcrc', false);
+    this.getAllJobs('ztvrc', false);
   }
 
   /**

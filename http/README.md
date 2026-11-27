@@ -66,7 +66,7 @@ npm run send:localhost-docker-ci
 ```
 
 These scripts run the full collection: they create, update and delete test
-entities and send system/VLC commands. Use them against a dev environment and
+entities and send system/ZTV commands. Use them against a dev environment and
 review the requests before pointing them at production. The reboot, shutdown and
 other dangerous script/state-changing requests are skipped by default; see below
 to enable them.
@@ -125,7 +125,7 @@ The `reboot` and `shutdown` requests are skipped unless destructive tests are
 explicitly enabled. The `suspend` requests are skipped when
 `RUN_SYSTEM_POWER_TESTS=false`, and the VNC screen requests are skipped when
 `RUN_SCREEN_TESTS=false`. The Apache Httpd restart, the direct-Groot daemon
-execution, the desktop start/stop, the VLC start/stop and the wake-on-lan
+execution, the desktop start/stop, the ZTV start/stop and the wake-on-lan
 requests are skipped when `RUN_DANGEROUS_TESTS=false`. The `localhost-docker-ci`
 environment sets those variables to `false` because the CI container is headless
 and cannot schedule host power actions or restart Apache mid-run. To run

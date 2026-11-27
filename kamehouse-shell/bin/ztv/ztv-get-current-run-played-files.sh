@@ -1,0 +1,86 @@
+#!/bin/bash
+
+source ${HOME}/.kamehouse/opt/kamehouse-shell/bin/functions/kamehouse/kamehouse-functions.sh
+if [ "$?" != "0" ]; then echo "Error importing kamehouse-functions.sh" ; exit 99 ; fi
+
+importKamehouse functions/ztv/ztv-functions.sh
+
+initScriptEnv() {
+  ALLOW_PARALLEL_RUNS=true
+  SORT_ALPHABETICALLY=false
+  FILES_PLAYED=""
+  QUIET_MODE=false
+  COL_FILES_PLAYED="${COL_CYAN}"
+}
+
+mainProcess() {
+  checkRunningZtvProcess
+  getFilesPlayed
+  showFilesPlayed
+  showFilesPlayedCount
+}
+
+getFilesPlayed() {
+  checkExistingZtvLogFile
+  log.debug "Getting all files played during the current ztv playlist run"
+  local LAST_M3U_LINE=`grep -n -e "main debug:  (path:.*.m3u" ${ZTV_LOG_FILE} | cut -d ':' -f 1 | tail -n 1`
+  if [ -z "${LAST_M3U_LINE}" ]; then
+    LAST_M3U_LINE=0
+  fi
+  FILES_PLAYED=`tail -n +${LAST_M3U_LINE} ${ZTV_LOG_FILE} | grep -e "main debug:  (path: " | grep -E ".*(${ZTV_STATS_MEDIA_FILES}).*" | awk '{print $4}' | sed 's/.$//' | sed 's#\\\#/#Ig'`
+ 
+  echo -e "${FILES_PLAYED}" > "${ZTV_CURRENT_RUN_PLAYED_FILES}"
+}
+
+showFilesPlayed() {
+  if ${QUIET_MODE}; then
+    log.debug "Running in quiet mode, skip printing file contents"
+    return
+  fi
+  if ${SORT_ALPHABETICALLY}; then
+    log.info "Sorting files alphabetically"
+    FILES_PLAYED=`echo -e "${FILES_PLAYED}" | sort`
+    COL_FILES_PLAYED="${COL_YELLOW}"
+  fi
+  echo -ne "${COL_FILES_PLAYED}"
+  echo -e "${FILES_PLAYED}"
+  echo -ne "${COL_NORMAL}"
+}
+
+showFilesPlayedCount() {
+  if ${QUIET_MODE}; then
+    return
+  fi
+  local let FILES_PLAYED_COUNT=`echo -e "${FILES_PLAYED}" | wc -l`
+  FILES_PLAYED_COUNT=$((FILES_PLAYED_COUNT - 1))
+  log.info "Number of files played: ${COL_PURPLE}${FILES_PLAYED_COUNT}"
+}
+
+parseArguments() {
+  local OPTIONS=("$@")
+  for i in "${!OPTIONS[@]}"; do
+    local CURRENT_OPTION="${OPTIONS[i]}"
+    if [ "${CURRENT_OPTION:0:1}" != "-" ]; then
+      continue
+    fi
+    local CURRENT_OPTION_ARG="${OPTIONS[i+1]}"
+    case "${CURRENT_OPTION}" in
+      -a|--sort-alpha)
+        SORT_ALPHABETICALLY=true
+        ;;
+      -q|--quiet-mode)
+        QUIET_MODE=true
+        ;;
+      -?|-??*)
+        parseInvalidArgument "${CURRENT_OPTION}"
+        ;;        
+    esac
+  done    
+}
+
+printHelpOptions() {
+  addHelpOption "-a --sort-alpha" "sort alphabetically rather than playing order"
+  addHelpOption "-q --quiet-mode" "just update list files without printing the content to the console output"
+}
+
+main "$@"

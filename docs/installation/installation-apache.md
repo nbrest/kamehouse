@@ -32,7 +32,7 @@ mklink /D "%USERPROFILE%\.kamehouse\var\log\apache2" "%USERPROFILE%\.kamehouse\o
 
 #### Run httpd through a startup script, not as a system service
 
-- Otherwise the command to start tomcat from kamehouse groot will start tomcat in the background and when I start vlc it will also start in the background. To avoid that, don't run httpd as a service. Start it up creating a shortcut in the startup directory
+- Otherwise the command to start tomcat from kamehouse groot will start tomcat in the background and when I start ztv it will also start in the background. To avoid that, don't run httpd as a service. Start it up creating a shortcut in the startup directory
 
 #### Create a shortcut in Startup:
 

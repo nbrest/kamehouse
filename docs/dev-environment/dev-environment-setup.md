@@ -67,7 +67,7 @@ All the scripts are available on the directory `${HOME}/.kamehouse/opt/kamehouse
 
 - Stop the dev docker container with the script `${HOME}/.kamehouse/opt/kamehouse-shell/bin/docker/docker-stop-kamehouse.sh -p dev`
 
-- By default docker dev runs standalone without controlling the host. So it won't control vlc running on the host or all the other commands that would normally be executed on the host. To enable kamehouse running in the container to control the host, add `-c` to the `docker-run-kamehouse.sh` script
+- By default docker dev runs standalone without controlling the host. So it won't control ztv running on the host or all the other commands that would normally be executed on the host. To enable kamehouse running in the container to control the host, add `-c` to the `docker-run-kamehouse.sh` script
 
 - By default the dev container doesn't persist database or configuration files or ssh keys. To persist those in volumes between container restarts, run `docker-run-kamehouse.sh` also with -v
 

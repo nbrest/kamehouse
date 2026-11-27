@@ -1,0 +1,158 @@
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>
+<div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+  <table class="link-image-table">
+    <caption class="hidden-kh">Image-Links</caption>
+    <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+    <tbody>
+      <tr><td class="ztv-player-config-section-header" colspan="2">ZTV Player Stats</td></tr>
+      <tr>
+        <td>
+          <button class="link-image-img" data-background-img="/kame-house/img/other/combo-chart.png" onclick='kameHouse.extension.ztvPlayer.getZtvStats()'></button>
+        </td>
+        <td>
+          <div class="link-image-text">ZTV Running Stats</div>
+          <div class="link-image-desc">Get the latest stats from ZTV player
+            <br>Full report: 
+            <input id="ztv-player-get-full-report-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="debug-mode-scroll-log-checkbox"/>
+            Update stats: 
+            <input id="ztv-player-update-stats-checkbox" class="m-10-d-kh va-m-kh" type="checkbox" name="debug-mode-scroll-log-checkbox"/>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button id="ztv-stats-command-output" class="collapsible-kh collapsible-kh-btn ztv-stats-collapsible-btn" onclick="kameHouse.util.collapsibleDiv.toggle(this);">ZTV Stats Output</button>
+  <div class="collapsible-kh-content">
+    <pre class="kamehouse-shell-output ztv-stats-command-output"><div id="kamehouse-command-result">No stats loaded yet...</div></pre>
+  </div>
+</div>
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+<div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+<table class="link-image-table">
+  <caption class="hidden-kh">Image-Links</caption>
+  <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+  <tbody>
+    <tr><td class="ztv-player-config-section-header" colspan="2">Screen</td></tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn"
+          data-background-img="/kame-house/img/mplayer/expand-blue.png"
+          onclick="kameHouse.extension.ztvPlayer.mouseDoubleClick()"></button>
+      </td>
+      <td>
+        <div class="link-image-text">Full Screen</div>
+        <div class="link-image-desc">Toggle full screen mode through a double mouse click</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/key-esc-blue.png" onclick="kameHouse.extension.ztvPlayer.keyPress('ESC')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">Esc Key Press</div>
+        <div class="link-image-desc">Send an ESC key press to the server</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/key-enter-blue.png" onclick="kameHouse.extension.ztvPlayer.keyPress('ENTER')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">Enter Key Press</div>
+        <div class="link-image-desc">Send an ENTER key press to the server</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/key-alt-tab.png" onclick="kameHouse.extension.ztvPlayer.keyPress('ALT_TAB')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">ALT+TAB Key Press</div>
+        <div class="link-image-desc">Send an ALT+TAB key press to the server</div>
+      </td>
+    </tr>    
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/key-alt-f4.png" onclick="kameHouse.extension.ztvPlayer.keyPress('ALT_F4')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">ALT+F4 Key Press</div>
+        <div class="link-image-desc">Send an ALT+F4 key press to the server</div>
+      </td>
+    </tr>    
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/mouse-click-left.png" onclick='kameHouse.extension.ztvPlayer.mouseSingleClick()'></button>
+      </td>
+      <td>
+        <div class="link-image-text">Single Left Click</div>
+        <div class="link-image-desc">Send a single left click to the server's screen</div>
+      </td>
+    </tr>    
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn"
+          data-background-img="/kame-house/img/mplayer/aspect-ratio-blue.png"
+          onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('key', 'aspect-ratio')"></button>
+      </td>
+      <td>
+        <div class="link-image-text">Aspect Ratio Cycle</div>
+        <div class="link-image-desc">Loop through the screen aspect ratios</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+<div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+<table class="link-image-table">
+  <caption class="hidden-kh">Image-Links</caption>
+  <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+  <tbody>
+    <tr><td class="ztv-player-config-section-header" colspan="2">Power Management</td></tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/power-off-red-dark.png" onclick='kameHouse.extension.ztvPlayer.confirmSuspendServer()'></button>
+      </td>
+      <td>
+        <div class="link-image-text">Suspend Server</div>
+        <div class="link-image-desc">Suspend the current server running ZTV player</div>
+      </td>
+    </tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/cartoons/reboot-logo.png" onclick='kameHouse.extension.ztvPlayer.confirmRebootServer()'></button>
+      </td>
+      <td>
+        <div class="link-image-text">Reboot Server</div>
+        <div class="link-image-desc">Restart the current server running ZTV player</div>
+      </td>
+    </tr>    
+  </tbody>
+</table>
+</div>
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+<div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+<table class="link-image-table">
+  <caption class="hidden-kh">Image-Links</caption>
+  <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+  <tbody>
+    <tr><td class="ztv-player-config-section-header" colspan="2">ZTV Player Sync</td></tr>
+    <tr>
+      <td class="ztv-player-config-btn">
+        <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/other/refresh.png" onclick='kameHouse.extension.ztvPlayer.loadStateFromApi(true)'></button>
+      </td>
+      <td>
+        <div class="link-image-text">Refresh ZTV Player</div>
+        <div class="link-image-desc">Load the state of ZTV player from the API</div>
+      </td>
+    </tr> 
+  </tbody>
+</table>
+</div>
+<div class="default-layout p-15-d-kh p-15-m-kh"></div>

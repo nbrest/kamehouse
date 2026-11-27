@@ -44,7 +44,7 @@ public interface KameHouseCommand {
   /**
    * Return true if the command should execute in the docker container host when kamehouse is
    * running inside a docker container with host control enabled. Some commands need to execute
-   * remotely on the host while others need to run inside the container. For example starting vlc
+   * remotely on the host while others need to run inside the container. For example starting ztv
    * player needs to happen in the remote host, while restarting httpd would happen inside the
    * container.
    */

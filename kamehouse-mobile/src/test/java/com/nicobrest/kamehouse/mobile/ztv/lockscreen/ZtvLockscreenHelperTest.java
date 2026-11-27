@@ -120,19 +120,19 @@ class ZtvLockscreenHelperTest {
 
   @Test
   void buildStatusUrl() {
-    assertEquals("http://localhost:8080/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/status",
+    assertEquals("http://localhost:8080/kame-house-ztvrc/api/v1/ztv-rc/players/localhost/status",
         ZtvLockscreenHelper.buildStatusUrl("http://localhost:8080", "localhost"));
   }
 
   @Test
   void buildCommandsUrl() {
-    assertEquals("http://localhost:8080/kame-house-vlcrc/api/v1/vlc-rc/players/localhost/commands",
+    assertEquals("http://localhost:8080/kame-house-ztvrc/api/v1/ztv-rc/players/localhost/commands",
         ZtvLockscreenHelper.buildCommandsUrl("http://localhost:8080", "localhost"));
   }
 
   @Test
   void buildZtvProcessUrl() {
-    assertEquals("http://localhost:8080/kame-house-vlcrc/api/v1/vlc-rc/vlc-process",
+    assertEquals("http://localhost:8080/kame-house-ztvrc/api/v1/ztv-rc/ztv-process",
         ZtvLockscreenHelper.buildZtvProcessUrl("http://localhost:8080"));
   }
 

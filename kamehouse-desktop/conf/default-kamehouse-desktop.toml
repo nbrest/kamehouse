@@ -153,7 +153,7 @@ websocket_max_sync_delay_ms = 5000
 http_sync_wait_sec = 5
 websocket_reconnect_wait_sec = 7
 trace_log_enabled = true
-log_vlc_rc_status = false
+log_ztv_rc_status = false
 hidden = false
 
 [ztv_player_title_widget]

@@ -108,21 +108,21 @@ public final class ZtvLockscreenHelper {
    * Build the status api url for a ztv host.
    */
   public static String buildStatusUrl(String baseUrl, String host) {
-    return baseUrl + "/kame-house-vlcrc/api/v1/vlc-rc/players/" + host + "/status";
+    return baseUrl + "/kame-house-ztvrc/api/v1/ztv-rc/players/" + host + "/status";
   }
 
   /**
    * Build the commands api url for a ztv host.
    */
   public static String buildCommandsUrl(String baseUrl, String host) {
-    return baseUrl + "/kame-house-vlcrc/api/v1/vlc-rc/players/" + host + "/commands";
+    return baseUrl + "/kame-house-ztvrc/api/v1/ztv-rc/players/" + host + "/commands";
   }
 
   /**
    * Build the ztv process api url to close the ztv player.
    */
   public static String buildZtvProcessUrl(String baseUrl) {
-    return baseUrl + "/kame-house-vlcrc/api/v1/vlc-rc/vlc-process";
+    return baseUrl + "/kame-house-ztvrc/api/v1/ztv-rc/ztv-process";
   }
 
   /**
@@ -143,7 +143,7 @@ public final class ZtvLockscreenHelper {
   }
 
   /**
-   * Parse the vlcrc status json response. On error it returns the stopped state.
+   * Parse the ztvrc status json response. On error it returns the stopped state.
    */
   public static ZtvStatus parseStatus(String response) {
     try {

@@ -39,7 +39,7 @@ public class KameHouseCacheTestUtils extends AbstractTestUtils<KameHouseCache, O
 
   private void initTestDataList() {
     KameHouseCache kameHouseCache = new KameHouseCache();
-    kameHouseCache.setName("vlcPlayer");
+    kameHouseCache.setName("ztvPlayer");
     kameHouseCache.setStatus("ACTIVE");
     kameHouseCache.setKeys("[]");
 

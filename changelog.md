@@ -5,6 +5,13 @@
 
 # ChangeLog:
 
+#### v11.06
+
+- Renamed the kamehouse-vlcrc module to kamehouse-ztvrc
+- Renamed VLC player shell scripts and functions to ZTV
+- Renamed vlc-rc API paths to ztv-rc and the vlcPlayer cache token to ztvPlayer
+- Updated Apache, SQL, docs, Postman and http collections for the ZTV rename
+
 #### v11.05
 
 - Added AGENTS.md - Turned to the dark side

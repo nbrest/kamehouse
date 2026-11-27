@@ -135,7 +135,7 @@ function matchApacheErrorLog(errorLog_rx_loc_) {
 
 # Apache Httpd: ssl_request.log 
 function matchApacheSslRequestLog(sslRequestLog_rx_loc_) {
-  # [07/Apr/2020:22:19:38 +1000] ::1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /kame-house/api/ws/vlc-player/status/923/4cey2f5b/websocket HTTP/1.1" -
+  # [07/Apr/2020:22:19:38 +1000] ::1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /kame-house-ztvrc/api/ws/ztvrc/default/websocket HTTP/1.1" -
   # [09/Apr/2020:21:29:52 +1000] 192.168.99.100 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET / HTTP/1.1" 28544  
   # [07/Apr/2020:22:19:37 +1000] ::1 TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 "GET /kame-house/img/other/sync-btn-info.png HTTP/2.0" 1041
   # [08/Apr/2020:21:26:47 +1000] 192.168.99.100 - - "GET / HTTP/1.0" 853

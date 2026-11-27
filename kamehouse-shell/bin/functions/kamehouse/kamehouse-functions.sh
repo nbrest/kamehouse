@@ -39,7 +39,7 @@ IS_DEV_ENV=false
 WIN_USER_HOME="C:\\Users\\${USER}"
 KAMEHOUSE_SHELL_PS1_PATH="${WIN_USER_HOME}\\.kamehouse\\opt\\kamehouse-shell\\bin\\win\\ps1"
 
-MODULES_LIST="[admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|vlcrc]"
+MODULES_LIST="[admin|auth|cmd|desktop|groot|media|mobile|shell|snape|tennisworld|testmodule|ui|ztvrc]"
 MODULE_SHORT=""
 MODULE=""
 
@@ -65,7 +65,7 @@ WINDOWS_CMD_EXE_PATH_LENGTH_MARGIN=512
 
 KAMEHOUSE_SERVER=""
 
-TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,vlcrc"
+TOMCAT_MODULES="admin,auth,media,tennisworld,testmodule,ztvrc"
 TOMCAT_DIR="${HOME}/.kamehouse/opt/kamehouse-tomcat"
 
 DEFAULT_TOMCAT_PORT=9090
@@ -264,7 +264,7 @@ setEnvForKameHouseModule() {
       && [ "${MODULE_SHORT}" != "tennisworld" ] \
       && [ "${MODULE_SHORT}" != "testmodule" ] \
       && [ "${MODULE_SHORT}" != "ui" ] \
-      && [ "${MODULE_SHORT}" != "vlcrc" ]; then
+      && [ "${MODULE_SHORT}" != "ztvrc" ]; then
     log.error "Option -m module needs to be in ${MODULES_LIST}"
     printHelp
     exitProcess ${EXIT_INVALID_ARG}

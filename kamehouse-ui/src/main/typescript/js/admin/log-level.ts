@@ -101,7 +101,7 @@ class BackendLogLevelUtils {
     this.getLogLevels('media', false);
     this.getLogLevels('tennisworld', false);
     this.getLogLevels('testmodule', false);
-    this.getLogLevels('vlcrc', false);
+    this.getLogLevels('ztvrc', false);
   }
 
   /**

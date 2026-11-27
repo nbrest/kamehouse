@@ -42,7 +42,7 @@ class LogLevelManagerControllerTest extends AbstractControllerTest<List<String>,
   private List<String> logLevelMultipleElements =
       Arrays.asList(
           "com.nicobrest.kamehouse:INFO",
-          "com.nicobrest.kamehouse.vlcrc:TRACE",
+          "com.nicobrest.kamehouse.ztvrc:TRACE",
           "com.nicobrest.kamehouse.main:DEBUG");
 
   @InjectMocks

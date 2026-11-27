@@ -6,7 +6,7 @@ Postman collection and environments to exercise the KameHouse REST APIs.
 
 - `collections/kame-house.postman_collection.json`: the collection. Top-level folders:
   `kamehouse-admin`, `kamehouse-auth`, `kamehouse-groot`, `kamehouse-media`,
-  `kamehouse-tennisworld`, `kamehouse-testmodule`, `kamehouse-ui`, `kamehouse-vlcrc`,
+  `kamehouse-tennisworld`, `kamehouse-testmodule`, `kamehouse-ui`, `kamehouse-ztvrc`,
   direct `kamehouse-groot`, `kamehouse-httpd`.
 - `environments/`: one environment per local deployment target.
 - `globals/workspace.postman_globals.json`: shared globals (invalid IDs, usernames, paths, etc.).
@@ -139,15 +139,15 @@ Useful options:
 - `kamehouse-tennisworld`: CRUD folders are self-contained (they create and delete their own users,
   booking requests and responses). The `bookings` folder calls the real TennisWorld service, so it
   depends on external credentials and network access.
-- `kamehouse-vlcrc`: player status, playlist and command tests expect a local VLC player with its
-  HTTP interface. The `vlc-process` requests start/stop that player.
+- `kamehouse-ztvrc`: player status, playlist and command tests expect a local ztv player with its
+  HTTP interface. The `ztv-process` requests start/stop that player.
 - `kamehouse-httpd`: restarts Apache Httpd through `TOMCAT_SERVER` so stopping Apache does not kill
   the request. It runs last and briefly makes the environment's `SERVER` port unavailable. It is
   skipped unless `RUN_DANGEROUS_TESTS=true`.
 - The `reboot` and `shutdown` requests are skipped unless `RUN_DESTRUCTIVE_TESTS=true`. The
   `suspend` requests are skipped when `RUN_SYSTEM_POWER_TESTS=false`, and VNC screen requests are
   skipped when `RUN_SCREEN_TESTS=false`; the `docker-ci` environment sets both to `false`.
-- The Apache Httpd restart, the direct-Groot daemon execution, the desktop start/stop, the VLC
+- The Apache Httpd restart, the direct-Groot daemon execution, the desktop start/stop, the ZTV
   start/stop and the wake-on-lan requests are skipped unless `RUN_DANGEROUS_TESTS=true`; the
   `docker-ci` environment sets it to `false`.
 
@@ -159,7 +159,7 @@ Useful options:
 ## Endpoint coverage
 
 The collection covers every client-facing REST mapping in the `admin`, `auth`, `media`,
-`tennisworld`, `testmodule`, `vlcrc` and `commons` controllers, the Spring Security
+`tennisworld`, `testmodule`, `ztvrc` and `commons` controllers, the Spring Security
 `login`/`logout` endpoints, and all Groot API endpoints. Commons endpoints are exercised through the `kamehouse-testmodule`
 deployment because every webapp exposes the same commons controllers.
 

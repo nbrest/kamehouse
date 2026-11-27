@@ -72,7 +72,7 @@ class KameHouseHeader {
         "/kame-house/tennisworld" : "nav-tennisworld",
         "/kame-house/test-module" : "nav-test-module",
         "/kame-house-testmodule/jsp" : "nav-test-module",
-        "/kame-house/vlc-player" : "nav-vlc-player"
+        "/kame-house/ztv-player" : "nav-ztv-player"
       }
 
       for (const [urlSubstring, navId] of Object.entries(pages)) {

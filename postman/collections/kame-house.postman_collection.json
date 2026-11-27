@@ -1822,6 +1822,19 @@
                   "name": "/lock",
                   "event": [
                     {
+                      "listen": "prerequest",
+                      "script": {
+                        "exec": [
+                          "// VNC screen actions are not available in the localhost-docker-ci environment. Only run them when explicitly enabled.\r\n",
+                          "if (pm.environment.get(\"RUN_SCREEN_TESTS\") === \"false\") {\r\n",
+                          "  pm.execution.skipRequest();\r\n",
+                          "}\r\n",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
                       "listen": "test",
                       "script": {
                         "exec": [
@@ -9766,7 +9779,7 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/commons/ehcache?name=vlcPlayer",
+                      "raw": "{{SERVER}}/kame-house-testmodule/api/{{API_VERSION}}/commons/ehcache?name=ztvPlayer",
                       "host": [
                         "{{SERVER}}"
                       ],
@@ -9780,7 +9793,7 @@
                       "query": [
                         {
                           "key": "name",
-                          "value": "vlcPlayer"
+                          "value": "ztvPlayer"
                         }
                       ]
                     }
@@ -10380,10 +10393,10 @@
       ]
     },
     {
-      "name": "kamehouse-vlcrc",
+      "name": "kamehouse-ztvrc",
       "item": [
         {
-          "name": "vlc-rc",
+          "name": "ztv-rc",
           "item": [
             {
               "name": "players",
@@ -10432,15 +10445,15 @@
                             "method": "GET",
                             "header": [],
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/playlist",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/playlist",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "playlist"
@@ -10492,15 +10505,15 @@
                             "method": "GET",
                             "header": [],
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/status",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/status",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "status"
@@ -10547,15 +10560,15 @@
                               "raw": "{\n\t\"name\":\"fullscreen\"\n}"
                             },
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/commands",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "commands"
@@ -10601,15 +10614,15 @@
                               "raw": "{\n\t\"name\":\"pl_next\"\n}"
                             },
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/commands",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "commands"
@@ -10655,15 +10668,15 @@
                               "raw": "{\n\t\"name\":\"pl_previous\"\n}"
                             },
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/commands",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "commands"
@@ -10709,15 +10722,15 @@
                               "raw": "{\n  \"name\":\"in_play\",\n  \"input\":\"file:///C:/Invalid/Path/Avengers Endgame.mp4\"\n}"
                             },
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/commands",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "commands"
@@ -10760,15 +10773,15 @@
                               "raw": "{\n\t\"name\":\"fullscreen-INVALID\"\n}"
                             },
                             "url": {
-                              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/commands",
+                              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/commands",
                               "host": [
                                 "{{SERVER}}"
                               ],
                               "path": [
-                                "kame-house-vlcrc",
+                                "kame-house-ztvrc",
                                 "api",
                                 "{{API_VERSION}}",
-                                "vlc-rc",
+                                "ztv-rc",
                                 "players",
                                 "localhost",
                                 "commands"
@@ -10852,15 +10865,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players"
                       ]
                     }
@@ -10916,15 +10929,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/hostname/{{hostname}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/hostname/{{hostname}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "hostname",
                         "{{hostname}}"
@@ -10982,15 +10995,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{id}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "{{id}}"
                       ]
@@ -11055,15 +11068,15 @@
                       "raw": "  {\n    \"hostname\": \"{{$randomLastName}}\",\n    \"port\": {{$randomInt}},\n    \"username\": \"{{$randomUserName}}\",\n    \"password\": \"{{$randomPassword}}\"\n  }"
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players"
                       ]
                     }
@@ -11107,15 +11120,15 @@
                       "raw": "  {\n  \t\"id\": {{id}},\n    \"hostname\": \"{{$randomLastName}}\",\n    \"port\": {{$randomInt}},\n    \"username\": \"{{$randomUserName}}\",\n    \"password\": \"{{$randomPassword}}\"\n  }"
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{id}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "{{id}}"
                       ]
@@ -11176,15 +11189,15 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{id}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/{{id}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "{{id}}"
                       ]
@@ -11229,15 +11242,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/hostname/{{invalidHostname}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/hostname/{{invalidHostname}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "hostname",
                         "{{invalidHostname}}"
@@ -11285,15 +11298,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{invalidId}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/{{invalidId}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "{{invalidId}}"
                       ]
@@ -11363,15 +11376,15 @@
                       "raw": "  {\n    \"username\": \"{{$randomUserName}}\",\n    \"password\": \"{{$randomPassword}}\"\n  }"
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players"
                       ]
                     }
@@ -11424,15 +11437,15 @@
                       "raw": "  {\n  \t\"id\": {{invalidId}},\n    \"hostname\": \"{{$randomLastName}}\",\n    \"port\": {{$randomInt}},\n    \"username\": \"{{$randomUserName}}\",\n    \"password\": \"{{$randomPassword}}\"\n  }"
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{invalidId}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/{{invalidId}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "{{invalidId}}"
                       ]
@@ -11483,15 +11496,15 @@
                       "formdata": []
                     },
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/{{invalidId}}",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/{{invalidId}}",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "{{invalidId}}"
                       ]
@@ -11524,15 +11537,15 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/browse",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/browse",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
+                        "ztv-rc",
                         "players",
                         "localhost",
                         "browse"
@@ -11564,7 +11577,7 @@
               ]
             },
             {
-              "name": "vlc-process",
+              "name": "ztv-process",
               "item": [
                 {
                   "name": "/",
@@ -11625,23 +11638,23 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/ztv-process",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
-                        "vlc-process"
+                        "ztv-rc",
+                        "ztv-process"
                       ]
                     }
                   },
                   "response": []
                 },
                 {
-                  "name": "/ - Start vlc without files",
+                  "name": "/ - Start ztv without files",
                   "event": [
                     {
                       "listen": "test",
@@ -11681,16 +11694,16 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/ztv-process",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
-                        "vlc-process"
+                        "ztv-rc",
+                        "ztv-process"
                       ]
                     }
                   },
@@ -11703,7 +11716,7 @@
                       "listen": "prerequest",
                       "script": {
                         "exec": [
-                          "// Starting vlc executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
+                          "// Starting ztv executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
                           "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
                           "  pm.execution.skipRequest();\r\n",
                           "}\r\n",
@@ -11749,16 +11762,16 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process?file=%2Finvalid%2Ffile%2FVideos%2Favengers.m3u",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/ztv-process?file=%2Finvalid%2Ffile%2FVideos%2Favengers.m3u",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
-                        "vlc-process"
+                        "ztv-rc",
+                        "ztv-process"
                       ],
                       "query": [
                         {
@@ -11777,7 +11790,7 @@
                       "listen": "prerequest",
                       "script": {
                         "exec": [
-                          "// Stopping vlc executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
+                          "// Stopping ztv executes shell scripts on the test host. Only run it when explicitly enabled.\r\n",
                           "if (pm.environment.get(\"RUN_DANGEROUS_TESTS\") !== \"true\") {\r\n",
                           "  pm.execution.skipRequest();\r\n",
                           "}\r\n",
@@ -11840,16 +11853,16 @@
                     "method": "DELETE",
                     "header": [],
                     "url": {
-                      "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/vlc-process",
+                      "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/ztv-process",
                       "host": [
                         "{{SERVER}}"
                       ],
                       "path": [
-                        "kame-house-vlcrc",
+                        "kame-house-ztvrc",
                         "api",
                         "{{API_VERSION}}",
-                        "vlc-rc",
-                        "vlc-process"
+                        "ztv-rc",
+                        "ztv-process"
                       ]
                     }
                   },
@@ -11908,15 +11921,15 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/vlc-rc/players/localhost/stats",
+                  "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/ztv-rc/players/localhost/stats",
                   "host": [
                     "{{SERVER}}"
                   ],
                   "path": [
-                    "kame-house-vlcrc",
+                    "kame-house-ztvrc",
                     "api",
                     "{{API_VERSION}}",
-                    "vlc-rc",
+                    "ztv-rc",
                     "players",
                     "localhost",
                     "stats"
@@ -11980,12 +11993,12 @@
             "method": "PUT",
             "header": [],
             "url": {
-              "raw": "{{SERVER}}/kame-house-vlcrc/api/{{API_VERSION}}/commons/log-level/trace",
+              "raw": "{{SERVER}}/kame-house-ztvrc/api/{{API_VERSION}}/commons/log-level/trace",
               "host": [
                 "{{SERVER}}"
               ],
               "path": [
-                "kame-house-vlcrc",
+                "kame-house-ztvrc",
                 "api",
                 "{{API_VERSION}}",
                 "commons",

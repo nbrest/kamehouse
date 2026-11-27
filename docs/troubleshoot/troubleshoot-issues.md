@@ -158,10 +158,10 @@ audio output failed: the audio device "default" could not be used: unknown error
 
 ### VLC open file from docker on windows also opens a file explorer window
 - Using docker to control a windows host has the side effect of sometimes a file explorer window gets opened minimized after vlc player.
-- To attemp to close it automatically with the `vlc-start.sh` script, configure windows to launch folders in separate process. In File Explorer:
+- To attemp to close it automatically with the `ztv-start.sh` script, configure windows to launch folders in separate process. In File Explorer:
     - view > options > view > Check: launch folders in separate process
 
-### VLC Websockets keep reconnecting infinitely, sending data but not receiving:
+### ZTV Websockets keep reconnecting infinitely, sending data but not receiving:
 
 #### This happened several times on dev environment. 
 - Redeploying webapp and restarting tomcat several times didn't fix it

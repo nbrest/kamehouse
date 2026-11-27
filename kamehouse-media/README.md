@@ -13,7 +13,7 @@ This module handles the following functionality:
 
 - The playlists are expected to be in `.m3u` format
 
-- These playlists are used by other modules to start vlc player to play either an entire playlist or a single file within a playlist
+- These playlists are used by other modules to start ztv player to play either an entire playlist or a single file within a playlist
 
 ### Create your own playlists
 
@@ -23,7 +23,7 @@ This module handles the following functionality:
 
 - Set the value of `PLAYLISTS_PATH` in `${HOME}/.kamehouse/conf/kamehouse.cfg` with the path to the root directory that contains your playlists
 
-- **IMPORTANT**: When running kamehouse on a docker container controlling a host, the value of `PLAYLISTS_PATH` inside the docker container's `${HOME}/.kamehouse/conf/kamehouse.cfg` must match the value on the host's `${HOME}/.kamehouse/conf/kamehouse.cfg` for the playlists to be populated properly on the vlc UI running on the container
+- **IMPORTANT**: When running kamehouse on a docker container controlling a host, the value of `PLAYLISTS_PATH` inside the docker container's `${HOME}/.kamehouse/conf/kamehouse.cfg` must match the value on the host's `${HOME}/.kamehouse/conf/kamehouse.cfg` for the playlists to be populated properly on the ztv UI running on the container
 
 - This is a sample [kamehouse.cfg](/docker/setup-kamehouse/conf/kamehouse.cfg) with all the possible configurations
 
@@ -33,11 +33,11 @@ This module handles the following functionality:
 
 - In the root level of the playlists folder, there should be only subfolders. Each folder refers to a playlist **category**: like `music`, `music_videos`, `anime`, `cartoons`, `futbol`, `movies`, `series`, `tennis`
 
-- By convention, when loading playlists under the category `music`, in the subfolder `music` at the root of the playlists folder, vlc player starts minimized. It also starts minimized if the file to play is a single `mp3` file
+- By convention, when loading playlists under the category `music`, in the subfolder `music` at the root of the playlists folder, ztv player starts minimized. It also starts minimized if the file to play is a single `mp3` file
 
 - In each **category** folder, there should be a folder for each playlist, with the exact name of the playlist. For example, if you have the category `anime`, then you can **(and should!)** have a `dragonball_all` folder. Inside that `dragonball_all` folder, you would add the `dragonball_all.m3u` playlist
 
-- Then vlc player ui will render the contents of `dragonball.m3u` and allow you to play either the entire playlist or any element of the playlist individually
+- Then ztv player ui will render the contents of `dragonball.m3u` and allow you to play either the entire playlist or any element of the playlist individually
 
 - The playlists folder structure could look something like this:
 ```sh

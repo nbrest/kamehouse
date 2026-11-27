@@ -23,7 +23,7 @@ class TomcatModuleStatusManager {
     this.#getModuleStatus('media');
     this.#getModuleStatus('tennisworld');
     this.#getModuleStatus('testmodule');
-    this.#getModuleStatus('vlcrc');
+    this.#getModuleStatus('ztvrc');
   }
 
   /**

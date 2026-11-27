@@ -78,8 +78,8 @@ describe('admin scheduler', () => {
     ], 200, '', {});
 
     expect(mock.util.dom.getElementFromTemplate).toHaveBeenCalled();
-    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('scheduler-table-vlcrcjob1-name-val', 'job1');
-    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('scheduler-table-vlcrcjob1-schedule-val', 'Job not scheduled');
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('scheduler-table-ztvrcjob1-name-val', 'job1');
+    expect(mock.util.dom.setHtmlById).toHaveBeenCalledWith('scheduler-table-ztvrcjob1-schedule-val', 'Job not scheduled');
     expect(mock.util.dom.setClickById).toHaveBeenCalled();
     expect(del).toHaveBeenCalled();
     expect(mock.core.configDynamicHtml).toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe('admin scheduler', () => {
     success([{ key: { name: 'job1', group: 'grp' }, description: 'desc', jobClass: 'Class', schedules: [] }], 200, '', {});
 
     expect(del).toHaveBeenCalledTimes(1);
-    expect(del.mock.calls[0][1]).toBe('/kame-house-vlcrc/api/v1/commons/scheduler/jobs');
+    expect(del.mock.calls[0][1]).toBe('/kame-house-ztvrc/api/v1/commons/scheduler/jobs');
     expect(del.mock.calls[0][3]).toEqual({ name: 'job1', group: 'grp' });
   });
 

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="nbrest">
+<meta name="mobile-web-app-capable" content="yes">
+
+<title>KameHouse - ZTV Player</title>
+<link rel="icon" type="img/ico" href="/kame-house/img/favicon.ico" />
+<script src="/cordova.js"></script>
+<script src="/kame-house/lib/js/jquery.js"></script>
+<script src="/kame-house/lib/js/sockjs.min.js"></script>
+<script src="/kame-house/lib/js/stomp.min.js"></script> 
+<script src="/kame-house/kamehouse/js/kamehouse.js" id="kamehouse-data"></script>
+<script src="/kame-house/js/ztv-player/ztv-player.js"></script>
+<script src="/kame-house/js/media/playlist-browser.js"></script>
+<link rel="stylesheet" href="/kame-house/lib/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/kame-house/kamehouse/css/kamehouse.css" />
+<link rel="stylesheet" href="/kame-house/css/ztv-player.css" />
+</head>
+<body class="ztv-player">
+  <div class="main-body">
+    <div class="ztv-player-tabs bg-lighter-0-kh">
+    <div class="default-layout">
+      <button id="tab-playing-link" class="ztv-player-tab-link"
+        onclick="kameHouse.extension.ztvPlayer.openTab('tab-playing')">
+        <img class="ztv-player-tab-img" src="/kame-house/img/mplayer/play-gray-dark.png" alt="Playing"/>
+      </button>
+      <button id="tab-playlist-link" class="ztv-player-tab-link"
+        onclick="kameHouse.extension.ztvPlayer.openTab('tab-playlist')">
+        <img class="ztv-player-tab-img" src="/kame-house/img/mplayer/playlist-gray-dark.png" alt="Playlist"/>
+      </button>
+      <button id="tab-playlist-browser-link"  class="ztv-player-tab-link"
+        onclick="kameHouse.extension.ztvPlayer.openTab('tab-playlist-browser')">
+        <img class="ztv-player-tab-img" src="/kame-house/img/other/search-folder-gray-dark.png" alt="Playlist Browser"/>
+      </button>
+      <button id="tab-config-link"  class="ztv-player-tab-link"
+        onclick="kameHouse.extension.ztvPlayer.openTab('tab-config')">
+        <img class="ztv-player-tab-img" src="/kame-house/img/pc/settings-gray-dark.png" alt="Config"/>
+      </button>
+    </div>
+    </div> <!-- ztv-player-tabs -->
+  
+    <div id="tab-playing" class="ztv-player-tab-content">
+      <div id="ztv-player-main" class="bg-lighter-0-kh">
+      <div id="media-info">
+        <div id="media-title" class="bold-kh">No media loaded</div>
+        <div id="media-time">
+          <table>
+          <caption class="hidden-kh">Main display</caption>
+          <tr class="hidden-kh"><th scope="row">Main display</th></tr>
+          <tr>
+          <td>
+            <span id="current-time" class="bold-kh fl-l-d-kh fl-l-m-kh">--:--:--</span>
+          </td>
+          <td>
+            <span id="total-time" class="bold-kh fl-r-d-kh fl-r-m-kh">--:--:--</span>
+          </td>
+          </tr>
+          </table>
+          <table>
+          <caption class="hidden-kh">Time Slider</caption>
+          <tr class="hidden-kh"><th scope="row">Time Slider</th></tr>
+          <tr>
+          <td>
+            <div id="time-slider-wrapper"><input type="range" min="0" max="1000" value="500" id="time-slider" 
+              oninput="kameHouse.extension.ztvPlayer.updateCurrentTimeView(this.value)"
+              onmouseup="kameHouse.extension.ztvPlayer.seek(this.value)"
+              ontouchend="kameHouse.extension.ztvPlayer.seek(this.value)"></div>
+          </td>
+          </tr>
+          </table>
+        </div> <!-- ztv-player/media-time -->
+      </div>
+      <div id="media-buttons">
+  
+      <table id="media-play-control-buttons" class="table-mplayer-btns-kh">
+        <caption class="hidden-kh">Main control buttons</caption>
+        <tr class="hidden-kh"><th scope="row">Main control buttons</th></tr>
+        <tr>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/rewind.png" class="img-btn-kh"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('seek', '-1m')"></button>
+          </td>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/rewind-10.png" class="img-btn-kh"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('seek', '-10s')"></button>
+          </td>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/resume.png" class="img-btn-kh" 
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_pause')"></button>
+          </td>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/fast-forward-10.png" class="img-btn-kh" 
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('seek', '+10s')"></button>
+          </td>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/fast-forward.png" class="img-btn-kh" 
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('seek', '+1m')"></button>
+          </td>
+        </tr>
+      </table>
+  
+      <table id="audio-controls" class="table-mplayer-btns-kh"> 
+        <caption class="hidden-kh">Audio controls</caption>
+        <tr class="hidden-kh"><th scope="row">Audio controls</th></tr>
+        <tr>
+        <td> 
+          <button id="media-btn-mute" class="img-btn-kh btn-audio"
+            data-background-img="/kame-house/img/mplayer/mute-gray-dark.png"
+            onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('volume', '0')"></button>
+        </td>
+        <td>
+          <button class="img-btn-kh btn-audio"
+            data-background-img="/kame-house/img/mplayer/audio-down-gray-dark.png"
+            onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('volume', '-15')"></button>
+        </td> 
+        <td>  
+          <div id="volume-slider-wrapper"><input type="range" min="0" max="512" value="256" id="volume-slider" 
+            oninput="kameHouse.extension.ztvPlayer.updateVolumeView(this.value)"
+            onmouseup="kameHouse.extension.ztvPlayer.setVolume(this.value)"
+            ontouchend="kameHouse.extension.ztvPlayer.setVolume(this.value)"></div>
+        </td>
+        <td> 
+          <button class="img-btn-kh btn-audio"
+            data-background-img="/kame-house/img/mplayer/audio-up-gray-dark.png"
+            onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('volume', '+15')"></button>
+        </td>
+        <td>  
+          <div id="current-volume" class="bold-kh">N/A</div>
+        </td>
+        </tr> 
+      </table>
+  
+      <table id="media-flow-buttons" class="table-mplayer-btns-kh">
+        <caption class="hidden-kh">Media flow buttons</caption>
+        <tr class="hidden-kh"><th scope="row">Media flow buttons</th></tr>
+        <tr> 
+          <td> 
+            <button id="media-btn-shuffle" class="img-btn-kh"
+              data-background-img="/kame-house/img/mplayer/shuffle-green.png"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_random')"></button>
+          </td>
+          <td>    
+            <button data-background-img="/kame-house/img/mplayer/previous-green.png" class="img-btn-kh"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_previous')"></button>
+          </td>
+          <td> 
+            <button data-background-img="/kame-house/img/mplayer/next-green.png" class="img-btn-kh" 
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_next')"></button>
+          </td>
+          <td> 
+            <button id="media-btn-stop" data-background-img="/kame-house/img/mplayer/stop-green.png" class="img-btn-kh"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_stop')"></button>
+          </td>
+        </tr>
+      </table>
+
+      <table id="admin-buttons" class="table-mplayer-btns-kh">
+        <caption class="hidden-kh">Admin buttons</caption>
+        <tr class="hidden-kh"><th scope="row">Admin buttons</th></tr>
+        <tr> 
+          <td> 
+            <button class="img-btn-kh"
+              data-background-img="/kame-house/img/mplayer/audio-wave-blue.png"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('key', 'audio-track')"></button>
+          </td>
+          <td>
+            <button class="img-btn-kh" id="media-btn-fullscreen"
+              data-background-img="/kame-house/img/mplayer/expand-blue.png"
+              onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('fullscreen')"></button>
+          </td>
+          <td> 
+            <button class="img-btn-kh"
+              data-background-img="/kame-house/img/pc/shutdown-blue.png"
+              onclick="kameHouse.extension.ztvPlayer.close()"></button>
+          </td>
+        </tr>
+      </table>
+            
+      </div> <!-- ztv-player-main/media-buttons -->
+      </div> <!-- ztv-player-main -->
+
+    </div> <!--tab-playing -->
+  
+    <div id="tab-playlist" class="ztv-player-tab-content">
+      <div class="default-layout playlist-tab-content-wrapper bg-lighter-0-kh">
+        <table id="playlist-controls" class="playlist-controls-table">
+          <caption class="hidden-kh">Playlist Controls</caption>
+          <colgroup>
+            <col class="w-90-pc-kh" />
+            <col class="w-10-pc-kh" />
+          </colgroup>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Playlist Controls</th>
+          </tr>
+          <tr>
+            <td>
+              <input class="table-kh-filter-input" id="playlist-filter-input"
+                type="text" placeholder="Search..."
+                onkeyup="kameHouse.extension.ztvPlayer.filterPlaylistRows()" />
+            </td>
+            <td class="playlist-ctrl-btns-wrapper">
+              <button id="toggle-playlist-filenames-btn" class="va-m-kh"></button>
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh"
+                onclick="kameHouse.extension.ztvPlayer.scrollToCurrentlyPlaying()"
+                data-background-img="/kame-house/img/other/selected-item.png"></button>
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh"
+                onclick="kameHouse.core.scrollToTopOfDivById('playlist-table-wrapper')"
+                data-background-img="/kame-house/img/other/back-to-top-blue.png"></button>
+            </td>
+          </tr>
+        </table>
+        <div id="playlist-table-wrapper" class="playlist-wrapper">
+          <table id="playlist-table" class="playlist-table">
+            <caption class="hidden-kh">Playlist</caption>
+            <tr class="hidden-kh"><th scope="row" class="hidden-kh">Playlist</th></tr>
+            <tbody id="playlist-table-body">
+              <tr><td>No playlist loaded. まだ まだ だね</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="playlist-size-wrapper" class="playlist-size-wrapper hidden-kh">
+          <span>Playing item </span>
+          <span id="playlist-current-position-val">--</span>
+          <span> of </span>
+          <span id="playlist-size-val">--</span>
+        </div>
+      </div>
+
+      <div id="playlist-hidden-section" class="default-layout tab-config-image-header-wrapper playlist-hidden-section hidden-kh">
+        <table class="image-header-table">
+          <caption class="hidden-kh">Image-Header</caption>
+          <thead class="hidden-kh"><tr><th>Image-Header</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="image-header-img">
+                <img src="/kame-house/img/dbz/kamisama-temple.jpg" alt="info img"/>
+              </td>
+              <td>
+                <div class="image-header-title">隠れた</div>
+                <div class="image-header-subtitle">Playlist content is hidden</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>   
+      </div>
+
+    </div> <!--tab-playlist -->
+  
+    <div id="tab-playlist-browser" class="ztv-player-tab-content">
+      <div class="default-layout bg-lighter-0-kh playlist-browser-dropdowns-wrapper">
+        <div class="playlist-selector"> 
+          <select class="select-kh-dark ztv-player-select" id="playlist-category-dropdown" name="playlist-category"
+            onchange="kameHouse.extension.playlistBrowser.populatePlaylists()"></select>
+          <select class="select-kh-dark ztv-player-select" id="playlist-dropdown" name="playlist"
+            onchange="kameHouse.extension.playlistBrowser.loadPlaylistContent()"></select>
+          <button class="img-btn-kh va-m-kh btn-load-playlist"       
+            onclick="kameHouse.extension.playlistBrowser.playSelectedPlaylist()"
+            data-background-img="/kame-house/img/dbz/db-4-star2.png"></button> 
+        </div>
+      </div> 
+      <div class="default-layout p-7-d-kh p-7-m-kh"></div>
+      <div class="default-layout bg-lighter-0-kh playlist-browser-wrapper">
+        <table id="playlist-browser-controls" class="playlist-controls-table">
+          <caption class="hidden-kh">Playlist Browser Controls</caption>
+          <colgroup>
+            <col class="w-90-pc-kh" />
+            <col class="w-10-pc-kh" />
+          </colgroup>
+          <tr class="hidden-kh">
+            <th scope="row" class="hidden-kh">Playlist Browser Controls</th>
+          </tr>
+          <tr>
+            <td>
+              <input class="table-kh-filter-input" id="playlist-browser-filter-input"
+                type="text" placeholder="Search..."
+                onkeyup="kameHouse.extension.playlistBrowser.filterPlaylistRows()" />
+            </td>
+            <td class="playlist-browser-ctrl-btns-wrapper va-m-kh">
+              <button id="toggle-playlist-browser-filenames-btn" class="va-m-kh"></button>
+              <button class="img-btn-kh img-btn-s-kh btn-playlist-controls va-m-kh"
+                onclick="kameHouse.core.scrollToTopOfDivById('playlist-browser-table-wrapper')"
+                data-background-img="/kame-house/img/other/back-to-top-blue.png"></button>
+            </td>
+          </tr> 
+        </table>
+        <div id="playlist-browser-table-wrapper" class="playlist-wrapper">
+          <table id="playlist-browser-table" class="playlist-table">
+            <caption class="hidden-kh">Playlist Browser</caption>
+            <tr class="hidden-kh">
+              <th scope="row">Playlist Browser</th>
+            </tr>
+            <tbody id="playlist-browser-table-body">
+              <tr>
+                <td>No playlist to browse loaded. まだ まだ だね</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="playlist-browser-size-wrapper" class="playlist-browser-size-wrapper hidden-kh">
+          <span>Playlist size: </span>
+          <span id="playlist-browser-size">0</span>
+        </div>
+      </div>
+
+      <div id="playlist-browser-hidden-section" class="default-layout tab-config-image-header-wrapper playlist-hidden-section hidden-kh">
+        <table class="image-header-table">
+          <caption class="hidden-kh">Image-Header</caption>
+          <thead class="hidden-kh"><tr><th>Image-Header</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="image-header-img">
+                <img src="/kame-house/img/dbz/hohoho-goku.jpg" alt="info img"/>
+              </td>
+              <td>
+                <div class="image-header-title">隠れた</div>
+                <div class="image-header-subtitle">Playlist browser content is hidden</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>   
+      </div>
+
+    </div> <!--tab-playlist-browser -->
+  
+    <div id="tab-config" class="ztv-player-tab-content">
+
+      <div class="default-layout tab-config-image-header-wrapper">
+        <table class="image-header-table">
+          <caption class="hidden-kh">Image-Header</caption>
+          <thead class="hidden-kh"><tr><th>Image-Header</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="image-header-img">
+                <img src="/kame-house/img/banners/dragonball/banner-z-senshi.jpg" alt="info img"/>
+              </td>
+              <td>
+                <div class="image-header-title">
+                  かめはうす
+                </div>
+                <div class="image-header-subtitle">
+                  Settings
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>   
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr><td class="ztv-player-config-section-header" colspan="2">Flow</td></tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button id="media-btn-repeat" class="link-image-img ztv-player-btn va-m-kh"
+                  data-background-img="/kame-house/img/mplayer/repeat-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_loop')"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Repeat All</div>
+                <div class="link-image-desc">Repeat all items on the playlist indefinitely</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button id="media-btn-repeat-1" class="link-image-img ztv-player-btn va-m-kh"
+                  data-background-img="/kame-house/img/mplayer/repeat-1-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('pl_repeat')"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Repeat One</div>
+                <div class="link-image-desc">Repeat one item on the playlist indefinitely</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr><td class="ztv-player-config-section-header" colspan="2">Subtitles</td></tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="link-image-img ztv-player-btn va-m-kh"
+                  data-background-img="/kame-house/img/mplayer/closed-captions-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('key', 'subtitle-track')"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Track Cycle</div>
+                <div class="link-image-desc">Loop through subtitle tracks</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn"></td>
+              <td>
+                <div class="m-15-d-t-kh">
+                  <div class="link-image-text">Tracks List</div>
+                  <div class="link-image-desc">Choose a specific subtitle language</div>
+                  <div class="subtitle-track-dropdown-wrapper">
+                    <select id="subtitle-track-dropdown" class="select-kh-dark ztv-player-select subtitle-track-dropdown"
+                        onclick="kameHouse.extension.ztvPlayer.updateSubtitleTrack()"
+                        onchange="kameHouse.extension.ztvPlayer.updateSubtitleTrack()"
+                        onkeydown="kameHouse.extension.ztvPlayer.updateSubtitleTrack()" tabindex="0">
+                      <option value="" selected>Subtitle Track</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="img-btn-kh subtitle-delay-btn va-m-kh"
+                  data-background-img="/kame-house/img/other/double-left-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.updateSubtitleDelay('-1')"></button>
+                <span class="subtitle-delay-value"><span id="subtitle-delay-value">0</span>s</span>
+                <button class="img-btn-kh subtitle-delay-btn va-m-kh"
+                  data-background-img="/kame-house/img/other/double-right-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.updateSubtitleDelay('+1')"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Delay</div>
+                <div class="link-image-desc">Set the subtitle delay</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr><td class="ztv-player-config-section-header" colspan="2">Audio</td></tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="link-image-img ztv-player-btn va-m-kh"
+                  data-background-img="/kame-house/img/mplayer/audio-wave-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.execZtvRcCommand('key', 'audio-track')"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Track Cycle</div>
+                <div class="link-image-desc">Loop through audio tracks</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn"></td>
+              <td>
+                <div class="m-15-d-t-kh">
+                  <div class="link-image-text">Tracks List</div>
+                  <div class="link-image-desc">Choose a specific audio track</div>
+                  <div class="audio-track-dropdown-wrapper">
+                    <select id="audio-track-dropdown" class="select-kh-dark ztv-player-select audio-track-dropdown"
+                        onclick="kameHouse.extension.ztvPlayer.updateAudioTrack()"
+                        onchange="kameHouse.extension.ztvPlayer.updateAudioTrack()"
+                        onkeydown="kameHouse.extension.ztvPlayer.updateAudioTrack()" tabindex="0">
+                      <option value="" selected>Audio Track</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr><td class="ztv-player-config-section-header" colspan="2">ZTV Desktop</td></tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/mplayer/play-filled-blue.png" onclick='kameHouse.extension.ztvPlayer.startKameHouseDesktop()'></button>
+              </td>
+              <td>
+                <div class="link-image-text">Startup</div>
+                <div class="link-image-desc">Start the KameHouse Desktop application</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/mplayer/stop-filled-blue-dark.png" onclick='kameHouse.extension.ztvPlayer.stopKameHouseDesktop()'></button>
+              </td>
+              <td>
+                <div class="link-image-text">Stop</div>
+                <div class="link-image-desc">Stop the KameHouse Desktop application</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr><td class="ztv-player-config-section-header" colspan="2">Screen</td></tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="link-image-img ztv-player-btn va-m-kh"
+                  data-background-img="/kame-house/img/pc/unlock-round-blue.png"
+                  onclick="kameHouse.extension.ztvPlayer.unlockScreen()"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Unlock</div>
+                <div class="link-image-desc">Send an unlock screen command to the server</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <select id="aspect-ratio-dropdown" class="select-kh-dark aspect-ratio-dropdown va-m-kh"
+                    onclick="kameHouse.extension.ztvPlayer.updateAspectRatio()"
+                    onchange="kameHouse.extension.ztvPlayer.updateAspectRatio()"
+                    onkeydown="kameHouse.extension.ztvPlayer.updateAspectRatio()" tabindex="0">
+                  <option value="" selected>--</option>
+                  <option value="235:100">2.35:1</option>
+                  <option value="16:9">16:9</option>
+                  <option value="4:3">4:3</option>
+                  <option value="1:1">1:1</option>
+                  <option value="3:4">3:4</option>
+                  <option value="9:16">9:16</option>
+                </select>
+              </td>
+              <td>
+                <div class="link-image-text">Aspect Ratio</div>
+                <div class="link-image-desc">Set aspect ratio from the dropdown</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <button class="link-image-img ztv-player-btn" data-background-img="/kame-house/img/pc/key-esc-blue.png" onclick="kameHouse.extension.ztvPlayer.keyPress('ESC')"></button>
+              </td>
+              <td>
+                <div class="link-image-text">Esc Key Press</div>
+                <div class="link-image-desc">Send an ESC key press to the server to close error popups</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="default-layout p-15-d-kh p-15-m-kh"></div>
+
+      <div class="default-layout bg-lighter-0-kh ztv-player-config-wrapper">
+        <table class="link-image-table">
+          <caption class="hidden-kh">Image-Links</caption>
+          <thead class="hidden-kh"><tr><th>Image-Links</th></tr></thead>
+          <tbody>
+            <tr><td class="ztv-player-config-section-header" colspan="2">Advanced</td></tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <input id="ztv-player-show-playlist-checkbox" class="ztv-player-config-checkbox" type="checkbox" name="ztv-player-show-playlist-checkbox" onchange="kameHouse.extension.ztvPlayer.renderPlaylist()" checked/>
+              </td>
+              <td>
+                <div class="link-image-text ztv-player-show-playlist">Show Playlist</div>
+                <div class="link-image-desc">Toggle playlist content view. For large playlists, hiding the playlist content on mobile devices will reduce the lag in the view</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <input id="ztv-player-show-playlist-browser-checkbox" class="ztv-player-config-checkbox" type="checkbox" name="ztv-player-show-playlist-browser-checkbox" onchange="kameHouse.extension.playlistBrowser.renderPlaylist()" checked/>
+              </td>
+              <td>
+                <div class="link-image-text ztv-player-show-playlist">Show Playlist Browser</div>
+                <div class="link-image-desc">Toggle playlist browser content view</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="ztv-player-config-btn">
+                <input id="ztv-player-status-sync-checkbox" class="ztv-player-config-checkbox" type="checkbox" name="ztv-player-status-sync-checkbox" checked/>
+              </td>
+              <td>
+                <div class="link-image-text">ZTV Player Status Sync</div>
+                <div class="link-image-desc">Toggle background sync loops to synchronize ZTV with the backend automatically</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div> <!--tab-config -->
+    
+    <span id="debug-mode-wrapper"></span>
+  </div> <!-- main-body -->
+  <script src="/kame-house/kamehouse/js/plugin/kamehouse-command.js"></script>
+</body>
+</html>

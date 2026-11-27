@@ -153,7 +153,7 @@
 # http_sync_wait_sec = 0
 # websocket_reconnect_wait_sec = 0
 # trace_log_enabled = false
-# log_vlc_rc_status = true
+# log_ztv_rc_status = true
 # hidden = true
 
 [ztv_player_title_widget]

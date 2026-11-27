@@ -87,7 +87,7 @@ public class PropertiesUtils {
 
   /**
    * Gets the current module name (ej: admin, media, tennisworld, testmodule, ui,
-   * vlcrc) as defined
+   * ztvrc) as defined
    * in kamehouse.properties.
    */
   public static String getModuleName() {

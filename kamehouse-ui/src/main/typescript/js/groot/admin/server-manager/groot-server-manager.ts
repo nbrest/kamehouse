@@ -616,7 +616,7 @@ class DeploymentManager {
     this.#resetModuleStatus("tennisworld");
     this.#resetModuleStatus("testmodule");
     this.#resetModuleStatus("ui");
-    this.#resetModuleStatus("vlcrc");
+    this.#resetModuleStatus("ztvrc");
   }
 
   /**

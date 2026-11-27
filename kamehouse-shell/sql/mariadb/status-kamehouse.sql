@@ -7,7 +7,7 @@ select count(*) as total from kamehouse_user;
 select 'KameHouse roles' as '';
 select distinct(name) from kamehouse_role;
 
-select 'VLC Players' as '';
+select 'ZTV Players' as '';
 select id, hostname, port, username from vlc_player order by id desc limit 30;
 select count(*) as total from vlc_player;
 

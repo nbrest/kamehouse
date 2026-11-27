@@ -3184,7 +3184,7 @@ avcodec-skiploopfilter=4
 file-logging=1
 
 # Log filename (string)
-logfile=/home/goku/.kamehouse/var/log/vlc.log
+logfile=/home/goku/.kamehouse/var/log/ztv.log
 
 # Log format (string)
 #logmode=text
