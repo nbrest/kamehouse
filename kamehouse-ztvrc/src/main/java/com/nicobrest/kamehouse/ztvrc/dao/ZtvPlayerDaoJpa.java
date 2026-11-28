@@ -6,6 +6,7 @@ import com.nicobrest.kamehouse.ztvrc.model.ZtvPlayer;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,8 @@ public class ZtvPlayerDaoJpa implements ZtvPlayerDao {
 
   private final ZtvPlayerEntityCrudDao ztvPlayerCrudDao;
 
-  public ZtvPlayerDaoJpa(EntityManagerFactory entityManagerFactory) {
+  public ZtvPlayerDaoJpa(
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     ztvPlayerCrudDao = new ZtvPlayerEntityCrudDao(entityManagerFactory);
   }
 

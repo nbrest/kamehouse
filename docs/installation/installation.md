@@ -175,7 +175,7 @@ chmod a+x ./install-kamehouse.sh ; ./install-kamehouse.sh -s
 
 * [optional] Update kamehouse mariadb password `MARIADB_PASS_KAMEHOUSE` in `${HOME}/.kamehouse/secrets/.kamehouse-secrets.cfg`. See below section how to configure kamehouse secrets 
 
-* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/.kamehouse/opt/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and init mariadb database for kamehouse
+* Open a new terminal where `KameHouse Shell` should be in the `PATH` already and run `${HOME}/.kamehouse/opt/kamehouse-shell/bin/mariadb/mariadb-setup-kamehouse.sh -s -d` to configure and initialize the KameHouse MariaDB schemas (`kamehouse`, `kamehouse_tennisworld`, `kamehouse_ztvrc`, `kamehouse_testmodule`) and load initial dump data. For an existing single-schema install where data must be preserved, run `mariadb-migrate-kamehouse-schemas.sh` instead of the reset setup script
 
 * Then start both tomcat and apache to access kamehouse at http://localhost/kame-house or https://localhost/kame-house
 
@@ -236,7 +236,10 @@ chmod a+x uninstall-kamehouse.sh ; ./uninstall-kamehouse.sh
 - Run with -s to uninstall only kamehouse-shell
 - This script doesn't remove the database contents. To do that, login to mariadb and execute 
 ```sql
-DROP SCHEMA IF EXISTS kameHouse;
+DROP SCHEMA IF EXISTS kamehouse;
+DROP SCHEMA IF EXISTS kamehouse_tennisworld;
+DROP SCHEMA IF EXISTS kamehouse_ztvrc;
+DROP SCHEMA IF EXISTS kamehouse_testmodule;
 ```
 
 ### Linux:

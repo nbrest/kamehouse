@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingResponseTestUtils;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Unit tests for the BookingResponseDaoJpa class.
@@ -23,7 +24,7 @@ class BookingResponseDaoJpaTest
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public BookingResponseDaoJpaTest(CrudDao<BookingResponse> bookingResponseDaoJpa,
-      EntityManagerFactory entityManagerFactory) {
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
     this.bookingResponseDaoJpa = bookingResponseDaoJpa;
   }

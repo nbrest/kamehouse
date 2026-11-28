@@ -15,6 +15,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Unit tests for the ZtvPlayerDaoJpa class.
@@ -28,7 +29,7 @@ class ZtvPlayerDaoJpaTest extends AbstractCrudDaoJpaTest<ZtvPlayer, ZtvPlayerDto
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public ZtvPlayerDaoJpaTest(ZtvPlayerDao ztvPlayerDaoJpa,
-      EntityManagerFactory entityManagerFactory) {
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
     this.ztvPlayerDaoJpa = ztvPlayerDaoJpa;
   }

@@ -1,3 +1,5 @@
+USE kamehouse_tennisworld;
+
 -- Start transaction
 SELECT 'Starting transaction' as '';
 SET autocommit = OFF;

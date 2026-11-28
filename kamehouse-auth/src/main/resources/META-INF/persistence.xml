@@ -8,5 +8,6 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <class>com.nicobrest.kamehouse.commons.model.KameHouseUser</class>
     <class>com.nicobrest.kamehouse.commons.model.KameHouseRole</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
   </persistence-unit>
 </persistence>

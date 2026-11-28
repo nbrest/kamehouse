@@ -25,6 +25,7 @@ mainProcess() {
   log.info "Reinit mariadb dump data"
   mkdir -p ${HOME}/.kamehouse/backup/db/dump/old
   cp -v -f ${HOME}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql ${HOME}/.kamehouse/backup/db/dump
+  cp -v -f ${HOME}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse-ztvrc.sql ${HOME}/.kamehouse/backup/db/dump
 
   log.info "Reinit other .kamehouse dirs"
   mkdir -p ${HOME}/.kamehouse/conf

@@ -98,7 +98,7 @@ kamehouse-groot/
 
 * Python 3.11 or newer. The development environment is tested with Python 3.12.
 * Network access on the first install to download the Python dependencies into the virtual environment.
-* MariaDB with the KameHouse database and users.
+* MariaDB with the KameHouse identity schema (`kamehouse`) and users; the full app also needs `kamehouse_tennisworld`, `kamehouse_ztvrc`, and `kamehouse_testmodule`.
 * `kamehouse-shell` installed at `${HOME}/.kamehouse/opt/kamehouse-shell`.
 * Encrypted KameHouse secrets, in particular `MARIADB_PASS_KAMEHOUSE`.
 
@@ -122,7 +122,7 @@ The TOML keys are the lower-case setting names under the `[groot]` table:
 | `user_home` | `${HOME}` | Home directory used to resolve `${HOME}/.kamehouse/var/log/<script>.log` |
 | `db_host` | `127.0.0.1` | MariaDB host |
 | `db_port` | `3306` | MariaDB port |
-| `db_name` | `kamehouse` | MariaDB database |
+| `db_name` | `kamehouse` | MariaDB identity schema used by groot's user/role queries |
 | `db_user` | `kamehouse` | MariaDB user |
 | `db_password_secret` | `MARIADB_PASS_KAMEHOUSE` | Secret key used to retrieve the database password |
 | `shell_bin` | `${HOME}/.kamehouse/opt/kamehouse-shell/bin` | kamehouse-shell bin directory |

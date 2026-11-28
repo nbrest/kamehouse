@@ -3,6 +3,7 @@ package com.nicobrest.kamehouse.tennisworld.dao;
 import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.tennisworld.model.BookingRequest;
 import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BookingRequestDaoJpa extends AbstractCrudDaoJpa<BookingRequest> {
 
-  public BookingRequestDaoJpa(EntityManagerFactory entityManagerFactory) {
+  public BookingRequestDaoJpa(
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
   }
 

@@ -13,6 +13,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Unit tests for the DragonBallUserDaoJpa class.
@@ -27,7 +28,7 @@ class DragonBallUserDaoJpaTest
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public DragonBallUserDaoJpaTest(DragonBallUserDao dragonBallUserDaoJpa,
-      EntityManagerFactory entityManagerFactory) {
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
     this.dragonBallUserDaoJpa = dragonBallUserDaoJpa;
   }

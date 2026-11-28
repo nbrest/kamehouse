@@ -4,6 +4,7 @@ import com.nicobrest.kamehouse.commons.dao.AbstractCrudDaoJpa;
 import com.nicobrest.kamehouse.testmodule.model.DragonBallUser;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,8 @@ public class DragonBallUserDaoJpa extends AbstractCrudDaoJpa<DragonBallUser>
   private static final String DRAGONBALL_USER_BY_USERNAME_CACHE = "dragonBallUserByUsername";
   private static final String DRAGONBALL_USER_BY_EMAIL_CACHE = "dragonBallUserByEmail";
 
-  public DragonBallUserDaoJpa(EntityManagerFactory entityManagerFactory) {
+  public DragonBallUserDaoJpa(
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
   }
 

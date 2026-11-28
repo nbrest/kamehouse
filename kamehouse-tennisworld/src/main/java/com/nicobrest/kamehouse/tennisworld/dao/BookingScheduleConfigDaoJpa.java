@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,7 +20,8 @@ public class BookingScheduleConfigDaoJpa extends AbstractCrudDaoJpa<BookingSched
 
   public static final String DEFAULT_BOOKING_DATE_STR = "1984-10-15";
 
-  public BookingScheduleConfigDaoJpa(EntityManagerFactory entityManagerFactory) {
+  public BookingScheduleConfigDaoJpa(
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
   }
 

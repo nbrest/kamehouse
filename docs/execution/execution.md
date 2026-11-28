@@ -46,8 +46,8 @@ Use the kamehouse-shell script `kamehouse-cmd.sh` to run kamehouse CMD module
 
 ## Mariadb:
 
-- Use `mariadb-status-kamehouse.sh` to have a quick overview of the status of the database
-- Use `mariadb-dump-kamehouse.sh` and `mariadb-restore-kamehouse.sh` scripts to backup and restore the database
+- Use `mariadb-status-kamehouse.sh` to have a quick overview of the status of the KameHouse databases: `kamehouse`, `kamehouse_tennisworld`, `kamehouse_ztvrc`, and `kamehouse_testmodule`
+- Use `mariadb-dump-kamehouse.sh` and `mariadb-restore-kamehouse.sh` scripts to back up and restore all four KameHouse schemas, using one dump file per schema
  
 ## Versions:
 

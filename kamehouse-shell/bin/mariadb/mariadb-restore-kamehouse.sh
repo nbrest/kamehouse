@@ -8,22 +8,27 @@ initKameHouseShellEnv() {
 }
 
 initScriptEnv() {
-  MARIADB_DUMP_FILE=${HOME}/.kamehouse/backup/db/dump/dump-kamehouse.sql
+  PATH_DUMP_FILE=${HOME}/.kamehouse/backup/db/dump
+  SCHEMAS=(kamehouse kamehouse_tennisworld kamehouse_ztvrc kamehouse_testmodule)
+  DUMP_FILENAMES=(dump-kamehouse.sql dump-kamehouse-tennisworld.sql dump-kamehouse-ztvrc.sql dump-kamehouse-testmodule.sql)
 }
 
 mainProcess() {
-  if [ -f "${MARIADB_DUMP_FILE}" ]; then
-    log.info "Restoring kamehouse database from ${MARIADB_DUMP_FILE}"
-    mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} kamehouse < ${MARIADB_DUMP_FILE}
-    checkCommandStatus "$?" "Error loading dump-kamehouse.sql"
-    log.info "mariadb restore command completed successfully"
-  else
-    log.error "${MARIADB_DUMP_FILE} doesn't exist."
-    exitProcess ${EXIT_ERROR}
-  fi
+  for i in "${!SCHEMAS[@]}"; do
+    SCHEMA=${SCHEMAS[i]}
+    MARIADB_DUMP_FILE=${PATH_DUMP_FILE}/${DUMP_FILENAMES[i]}
+    if [ -f "${MARIADB_DUMP_FILE}" ]; then
+      log.info "Restoring ${SCHEMA} from ${MARIADB_DUMP_FILE}"
+      mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} ${SCHEMA} < ${MARIADB_DUMP_FILE}
+      checkCommandStatus "$?" "Error restoring ${SCHEMA} from ${DUMP_FILENAMES[i]}"
+    elif [ "${i}" -eq 0 ]; then
+      log.error "${MARIADB_DUMP_FILE} doesn't exist."
+      exitProcess ${EXIT_ERROR}
+    else
+      log.warn "${MARIADB_DUMP_FILE} doesn't exist. Skipping ${SCHEMA}."
+    fi
+  done
+  log.info "mariadb restore commands completed successfully"
 }
 
 main "$@"
-
-
-

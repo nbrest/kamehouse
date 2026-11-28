@@ -40,8 +40,11 @@ mainProcessLin() {
 
   if ${ADD_DUMP_DATA}; then
     log.info "Executing dump-kamehouse.sql"
-    ${SUDO_KAMEHOUSE_COMMAND} kamehouse < ${PATH_SQL}/dump-kamehouse.sql 
+    ${SUDO_KAMEHOUSE_COMMAND} kamehouse < ${PATH_SQL}/dump-kamehouse.sql
     checkCommandStatus "$?" "Error running dump-kamehouse.sql"
+    log.info "Executing dump-kamehouse-ztvrc.sql"
+    ${SUDO_KAMEHOUSE_COMMAND} kamehouse_ztvrc < ${PATH_SQL}/dump-kamehouse-ztvrc.sql
+    checkCommandStatus "$?" "Error running dump-kamehouse-ztvrc.sql"
   fi
 }
 
@@ -60,8 +63,11 @@ mainProcessWin() {
 
   if ${ADD_DUMP_DATA}; then
     log.info "Executing dump-kamehouse.sql"
-    mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} -v kamehouse < ${PATH_SQL}/dump-kamehouse.sql 
+    mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} -v kamehouse < ${PATH_SQL}/dump-kamehouse.sql
     checkCommandStatus "$?" "Error running dump-kamehouse.sql"
+    log.info "Executing dump-kamehouse-ztvrc.sql"
+    mariadb -u kamehouse -p${MARIADB_PASS_KAMEHOUSE} -v kamehouse_ztvrc < ${PATH_SQL}/dump-kamehouse-ztvrc.sql
+    checkCommandStatus "$?" "Error running dump-kamehouse-ztvrc.sql"
   fi
 }
 
@@ -69,7 +75,7 @@ requestConfirmation() {
   if ${SKIP_CONFIRMATION}; then
     return
   fi
-  log.warn "${COL_YELLOW}This process will reset the data in the kamehouse database"
+  log.warn "${COL_YELLOW}This process will reset the data in the kamehouse databases"
   log.info "Do you want to proceed? (${COL_BLUE}Yes${COL_MESSAGE}/${COL_RED}No${COL_MESSAGE}):"
   read SHOULD_PROCEED
   SHOULD_PROCEED=`echo "${SHOULD_PROCEED}" | tr '[:upper:]' '[:lower:]'`

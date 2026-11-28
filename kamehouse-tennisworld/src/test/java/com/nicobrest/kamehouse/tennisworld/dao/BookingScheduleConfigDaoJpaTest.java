@@ -9,6 +9,7 @@ import com.nicobrest.kamehouse.tennisworld.testutils.BookingScheduleConfigTestUt
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Unit tests for the BookingScheduleConfigDaoJpa class.
@@ -23,7 +24,7 @@ class BookingScheduleConfigDaoJpaTest
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public BookingScheduleConfigDaoJpaTest(CrudDao<BookingScheduleConfig> bookingScheduleConfigDaoJpa,
-      EntityManagerFactory entityManagerFactory) {
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
     this.bookingScheduleConfigDaoJpa = bookingScheduleConfigDaoJpa;
   }

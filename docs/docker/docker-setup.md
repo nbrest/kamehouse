@@ -121,7 +121,7 @@ You can then run the image as mentioned above
 - Commands such as starting and stopping ztv player, shutdown, reboot, suspend will run on the host
 - By default in most profiles, the container is setup to execute the commands within the container only
 - The commands executed on the host are done through `ssh` from the docker container to the host
-- For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container.sh` **from the host** to resync the ssh keys and configuration files to the docker container. The container needs to be up and running to execute the reinit script from the host
+- For those commands to be executed successfully, the ssh keys need to be synchronized between the host and the container. To do that, execute the script `docker-reinit-container.sh` **from the host** to resync the ssh keys and configuration files to the docker container and reinitialize/restore MariaDB data for all four KameHouse schemas. The container needs to be up and running to execute the reinit script from the host
 - When running the reinit script, the console will show some sftp debugging messages and wait for the input of the docker container user password. Type `gohan` as the password to continue with the sftp sync
 - After resyninc the ssh keys and configuration files, ssh to the docker container and re deploy kamehouse with `deploy-kamehouse.sh`. Then the docker container will be able to control the remote host
 
@@ -149,4 +149,4 @@ This will revert the ownership of files back to the host user
 - `docker-cleanup-kamehouse.sh` cleans up old untagged kamehouse images
 - `docker-server-key-remove.sh` removes an outdated key from the known hosts file so the ssh command doesn't fail next time
 - `docker-ci-integration-tests-trigger.sh` starts a ci docker container, installs the API collection tools and runs all integration tests plus the Postman and `.http` collections against it
-- `docker-reinit-container.sh` re initializes the container data from the host or resets to inital docker setup. Also synchronizes ssh keys between host and container which is necessary to execute passwordless ssh commands on the host from the webapps in the container when using the docker container to control a remote host
+- `docker-reinit-container.sh` reinitializes container data from the host or resets to the initial Docker setup, including MariaDB data for all four KameHouse schemas. It also synchronizes ssh keys between host and container, which is necessary to execute passwordless ssh commands on the host from the webapps in the container when using the docker container to control a remote host

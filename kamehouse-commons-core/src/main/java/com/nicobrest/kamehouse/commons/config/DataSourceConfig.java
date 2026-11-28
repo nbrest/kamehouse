@@ -2,10 +2,11 @@ package com.nicobrest.kamehouse.commons.config;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManagerFactory;
-import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -29,9 +30,10 @@ public class DataSourceConfig {
   }
 
   /**
-   * Default DataSource.
+   * Default identity DataSource. Spring Session binds to this bean.
    */
   @Bean
+  @Primary
   public DriverManagerDataSource dataSource() {
     DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
     driverManagerDataSource.setDriverClassName(getProperty("jdbc.driverClassName"));
@@ -42,39 +44,16 @@ public class DataSourceConfig {
   }
 
   /**
-   * Default entityManagerFactory.
+   * Default identity entityManagerFactory.
    */
   @Bean
+  @Primary
   public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-      DriverManagerDataSource dataSource) {
+      @Qualifier("dataSource") DriverManagerDataSource dataSource) {
     LocalContainerEntityManagerFactoryBean entityManagerFactory =
         new LocalContainerEntityManagerFactoryBean();
     entityManagerFactory.setDataSource(dataSource);
-    Properties jpaProperties = new Properties();
-    jpaProperties.setProperty("hibernate.dialect", getProperty("hibernate.dialect"));
-    jpaProperties.setProperty("hibernate.show_sql", getProperty("hibernate.show_sql"));
-    jpaProperties.setProperty("hibernate.format_sql", getProperty("hibernate.format_sql"));
-    jpaProperties.setProperty(
-        "hibernate.generate_statistics", getProperty("hibernate.generate_statistics"));
-    jpaProperties.setProperty("hibernate.hbm2ddl.auto", getProperty("hibernate.hbm2ddl.auto"));
-    jpaProperties.setProperty("connection.provider_class",
-        getProperty("connection.provider_class"));
-    jpaProperties.setProperty("hibernate.c3p0.acquire_increment",
-        getProperty("hibernate.c3p0.acquire_increment"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.idle_test_period", getProperty("hibernate.c3p0.idle_test_period"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.min_size", getProperty("hibernate.c3p0.min_size"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.max_size", getProperty("hibernate.c3p0.max_size"));
-    jpaProperties.setProperty(
-        "hibernate.c3p0.max_statements", getProperty("hibernate.c3p0.max_statements"));
-    jpaProperties.setProperty("hibernate.c3p0.timeout", getProperty("hibernate.c3p0.timeout"));
-    jpaProperties.setProperty("hibernate.c3p0.acquireRetryAttempts",
-        getProperty("hibernate.c3p0.acquireRetryAttempts"));
-    jpaProperties.setProperty("hibernate.c3p0.acquireRetryDelay",
-        getProperty("hibernate.c3p0.acquireRetryDelay"));
-    entityManagerFactory.setJpaProperties(jpaProperties);
+    entityManagerFactory.setJpaProperties(JpaPropertiesUtils.build(env));
     return entityManagerFactory;
   }
 
@@ -86,10 +65,12 @@ public class DataSourceConfig {
   }
 
   /**
-   * Default transactionManager.
+   * Default identity transactionManager.
    */
   @Bean
-  public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+  @Primary
+  public JpaTransactionManager transactionManager(
+      @Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
     JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
     jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
     return jpaTransactionManager;

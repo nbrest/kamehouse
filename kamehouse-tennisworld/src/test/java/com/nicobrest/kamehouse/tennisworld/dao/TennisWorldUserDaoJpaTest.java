@@ -13,6 +13,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Unit tests for the TennisWorldUserDaoJpa class.
@@ -27,7 +28,7 @@ class TennisWorldUserDaoJpaTest
   @Autowired
   @SuppressFBWarnings(value = "EI_EXPOSE_REP2")
   public TennisWorldUserDaoJpaTest(TennisWorldUserDao tennisWorldUserDaoJpa,
-      EntityManagerFactory entityManagerFactory) {
+      @Qualifier("domainEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     super(entityManagerFactory);
     this.tennisWorldUserDaoJpa = tennisWorldUserDaoJpa;
   }

@@ -189,6 +189,7 @@ setupKameHouseMariadb() {
   mariadb < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/create-kamehouse-schema.sql 
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/spring-session.sql
   mariadb kamehouse < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse.sql
+  mariadb kamehouse_ztvrc < /home/${KAMEHOUSE_USER}/.kamehouse/git/kamehouse/kamehouse-shell/sql/mariadb/dump-kamehouse-ztvrc.sql
 }
 
 fixPermissions() {
